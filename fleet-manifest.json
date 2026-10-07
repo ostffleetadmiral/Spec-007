@@ -1,7 +1,8 @@
 {
   "payload": {
     "spec": "FLEETMANIFESTv1",
-    "ts": "2026-10-07T09:55:34.675Z",
+    "ts": "2026-10-07T09:59:57.648Z",
+    "genesis_sha256": "d5f7a36bd3851722b16c902c70d6057cdd3d0dcf8efd731d6a14191512b2ddd5",
     "members": {
       "digit": {
         "role": "edge-gateway",
@@ -25,6 +26,6 @@
       }
     }
   },
-  "sig_ed25519": "vCpzAxQxKjfKz2zbrQUUTjFJn2Hf9mJTA7Pl03VC7TzjzGVhBKOyAdXZBMbdTj1de-0y4viAt0DeigkyB3clCA",
+  "sig_ed25519": "NOCN2fN8Yyv9z4ImXweXI9GM_LB-Tj9JiR5Wj9ne5BID_ANmhNQ_ycAlUVpaQbuS-NfRTxTtnnOgBjYjpiMnBQ",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

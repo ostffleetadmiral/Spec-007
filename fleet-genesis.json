@@ -1,0 +1,28 @@
+{
+  "payload": {
+    "spec": "FLEETGENESISv1",
+    "fleet": "qstar-sovereign-mesh",
+    "created": "2026-10-07T09:58:12.808Z",
+    "dialect_sha256": "d875e4bec83fdf7e6e55a3a5065bc9ee77dc803530a5078420757404b7d3bf1d",
+    "baseline_sha256": "bcb81b78ebeab9e3762a806788a0c4c1bd3bbd1e8a7b9339030037efab6367b4",
+    "quorum": "2-of-2 genesis roots",
+    "members": [
+      {
+        "name": "digit",
+        "role": "genesis-root",
+        "pubkey_hint": "sha256:43b4429513e53ba9",
+        "pubkey_pem_b64": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQUxyUlFtUHdJU0JJUy9WOG0xU1Jrd0dhczgvSXEyb1FLZlJLaGt0aVk0enc9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
+      },
+      {
+        "name": "sheraton",
+        "role": "genesis-root",
+        "pubkey_hint": "sha256:c09e3f95f634d1d3",
+        "pubkey_pem_b64": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVdXRXIxOW5oZ0Iya2hNa0tlRkVPbVFpVmJBektvRlYvNnNXbDYrWUtHb0U9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
+      }
+    ]
+  },
+  "sigs": {
+    "digit": "x4ODkZZzpTGq3GJBukLlkICO7uJRQKxM3Q8ka-CDsXP_JWy3lUQ0Qmhk6o-gTowxstLxrYvJ_VInrHmtQ560AA",
+    "sheraton": "EfV6Kq5Rz74MFMWMXMcq7gdj9xmH9Diw7Q-xUD53Rr9CWznJXCFYfVYTKsnQK02uEVrHlCmgx3LB7cYaDrxfAA"
+  }
+}

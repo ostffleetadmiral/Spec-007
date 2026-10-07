@@ -11,37 +11,80 @@
 #
 # Env: FLEET_PUBKEY  (default ~/.config/fleet/ed25519.pub.pem)
 #      FLEET_MANIFEST_URL (default raw.githubusercontent canonical)
-import json, sys, os, time, base64, urllib.request, argparse
+import json, sys, os, time, base64, urllib.request, argparse, hashlib
 
-URL = os.environ.get("FLEET_MANIFEST_URL",
-  "https://raw.githubusercontent.com/ostffleetadmiral/Spec-007/main/fleet-manifest.json")
+BASE = os.environ.get("FLEET_BULLETIN",
+  "https://raw.githubusercontent.com/ostffleetadmiral/Spec-007/main")
+URL  = os.environ.get("FLEET_MANIFEST_URL", BASE + "/fleet-manifest.json")
+GEN_URL = BASE + "/fleet-genesis.json"
 PUB = os.environ.get("FLEET_PUBKEY",
   os.path.expanduser("~/.config/fleet/ed25519.pub.pem"))
+GEN_PIN = os.path.expanduser("~/.config/fleet/genesis.json")
 
 def b64url_decode(s):
     return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
+
+def canon(payload):
+    # canonical re-serialize — must byte-match JS JSON.stringify(…, null, 2)
+    return json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8")
+
+def fetch(url):
+    req = urllib.request.Request(url, headers={"Cache-Control": "no-cache"})
+    return json.loads(urllib.request.urlopen(req, timeout=15).read())
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--print", dest="dry", action="store_true")
     a = ap.parse_args()
 
-    if not os.path.exists(PUB):
-        sys.exit(f"no pinned pubkey at {PUB} — fleet trust anchor missing")
-    from cryptography.hazmat.primitives.serialization import load_pem_public_key
-    pk = load_pem_public_key(open(PUB, "rb").read())
+    from cryptography.hazmat.primitives.serialization import (
+        load_pem_public_key, load_der_public_key)
 
-    req = urllib.request.Request(URL, headers={"Cache-Control": "no-cache"})
-    manifest = json.loads(urllib.request.urlopen(req, timeout=15).read())
+    # --- 1. genesis: fetch, self-verify member sigs, TOFU-pin ---
+    gen = fetch(GEN_URL)
+    gbody = canon(gen["payload"])
+    ghash = hashlib.sha256(gbody).hexdigest()
+    members = {}
+    for m in gen["payload"]["members"]:
+        members[m["name"]] = (m["pubkey_hint"],
+                              load_der_public_key(base64.b64decode(
+                                  m["pubkey_pem_b64"])))
+    for name, sig in gen["sigs"].items():
+        try:
+            members[name][1].verify(b64url_decode(sig), gbody)
+        except Exception as e:
+            sys.exit(f"GENESIS REJECTED — bad signature from {name}: {e}")
+    # TOFU pin: first-seen genesis becomes the local trust anchor
+    if os.path.exists(GEN_PIN):
+        pin = json.load(open(GEN_PIN))
+        if pin.get("genesis_sha256") != ghash:
+            sys.exit(f"GENESIS CONFLICT — pinned {pin['genesis_sha256'][:16]} "
+                     f"vs fetched {ghash[:16]} — possible board tampering")
+        print(f"genesis pinned ({ghash[:16]}…), "
+              f"{len(gen['sigs'])}/{len(members)} sigs verified", flush=True)
+    else:
+        os.makedirs(os.path.dirname(GEN_PIN), exist_ok=True)
+        json.dump({"genesis_sha256": ghash, "firstSeen": time.time()},
+                  open(GEN_PIN, "w"))
+        print(f"genesis TOFU-pinned ({ghash[:16]}…), "
+              f"{len(gen['sigs'])}/{len(members)} sigs verified", flush=True)
 
+    # --- 2. manifest: signer must be a genesis member + cite genesis ---
+    manifest = fetch(URL)
     payload = manifest["payload"]
-    # canonical re-serialize — must byte-match JS JSON.stringify(…, null, 2)
-    body = json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8")
+    if payload.get("genesis_sha256") != ghash:
+        sys.exit("manifest does not descend from pinned genesis")
+    hint = manifest.get("pubkey_hint", "")
+    signer = next((n for n, (h, _) in members.items()
+                   if hint.endswith(h.split(":")[-1])), None)
+    if not signer:
+        sys.exit(f"manifest signer {hint} is not a genesis member")
+    body = canon(payload)
     try:
-        pk.verify(b64url_decode(manifest["sig_ed25519"]), body)
+        members[signer][1].verify(b64url_decode(manifest["sig_ed25519"]), body)
     except Exception as e:
         sys.exit(f"SIGNATURE REJECTED — bulletin untrusted: {e}")
-    print(f"manifest verified (pubkey {manifest.get('pubkey_hint','?')}, "
+    print(f"manifest verified (signer {signer}, genesis {ghash[:16]}…, "
           f"ts {payload['ts']})", flush=True)
 
     for name, m in payload.get("members", {}).items():

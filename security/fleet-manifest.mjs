@@ -60,10 +60,21 @@ const peers = {};
 try { Object.assign(peers, JSON.parse(fs.readFileSync(
   path.join(HERE, "out", "rendezvous.json"), "utf8"))); } catch {}
 
+/* genesis anchor: the manifest must cite the fleet's trust root so
+   bootstrap can reject manifests that don't descend from genesis */
+let genesis_sha256 = null;
+try {
+  const g = JSON.parse(fs.readFileSync(
+    path.join(ROOT, "fleet-genesis.json"), "utf8"));
+  genesis_sha256 = crypto.createHash("sha256")
+    .update(JSON.stringify(g.payload, null, 2)).digest("hex");
+} catch {}
+
 const addrs = selfAddrs();
 const payload = {
   spec: "FLEETMANIFESTv1",
   ts: new Date().toISOString(),
+  genesis_sha256,
   members: {
     digit: {
       role: "edge-gateway",
