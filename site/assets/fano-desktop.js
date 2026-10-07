@@ -269,6 +269,24 @@
     }, 3400);
   }
 
+  /* OS clipboard — Electron bridge first (system clipboard), then the
+     web API; last resort is a hidden field + execCommand */
+  function copyText(t, okMsg) {
+    function done(ok) { toast(ok ? (okMsg || "copied to clipboard") : "copy failed — select and Ctrl+C", "sys"); }
+    if (window.ADMIRALTY_DESK && ADMIRALTY_DESK.clipboard) {
+      ADMIRALTY_DESK.clipboard.write(t).then(done, function () { done(false); }); return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(false); }); return;
+    }
+    try {
+      var f = document.createElement("textarea");
+      f.value = t; f.style.position = "fixed"; f.style.opacity = "0";
+      document.body.appendChild(f); f.select();
+      done(document.execCommand("copy")); f.remove();
+    } catch (e) { done(false); }
+  }
+
   var ACHIEVEMENTS = {
     first_contact: "First Contact — opened a dossier file",
     archivist: "Archivist — read the whole File (L2)",
@@ -1046,19 +1064,19 @@
     var aRow = document.createElement("div"); aRow.className = "cmd-row";
     aRow.appendChild(btn("ISSUE / REFRESH", function () {
       var c = A.issueCredential(null, 365);
-      if (c && !c.error) { aTok.value = A.exportCredential() || ""; toast("authenticator minted — FANO-ROOT-v1", "sys"); }
+      if (c && !c.error) { aTok.value = A.exportCredential() || ""; copyText(aTok.value, "authenticator minted + on clipboard — FANO-ROOT-v1"); }
       else toast(c && c.error === "not_flag_seat" ? "this desk does not hold the flag seat" : "mint refused", "sys");
     }));
     aRow.appendChild(btn("ROAMING PAPER", function () {
       var c = A.issueRoaming(30);
       if (c && !c.error) {
         aTok.value = c;
-        toast("roaming paper minted — unbound, 30 days. Paste it as the grant token at any desk's covenant.", "sys");
+        copyText(c, "roaming paper on clipboard — unbound, 30 days. Paste it as the grant token at any desk's covenant.");
       } else toast("mint refused", "sys");
     }));
     aRow.appendChild(btn("EXPORT", function () {
       var t = A.exportCredential();
-      if (t) { aTok.value = t; toast("authenticator exported — verify it anywhere", "sys"); }
+      if (t) { aTok.value = t; copyText(t, "authenticator exported + on clipboard"); }
       else toast("no authenticator on file — issue one first", "sys");
     }));
     au.appendChild(aRow); au.appendChild(aTok);
@@ -1323,6 +1341,9 @@
     var gs = sec("GENESIS SEAT — countersignature");
     if (flag) {
       gs.appendChild(row("flag key (ed25519 pk): " + rec.pk));
+      gs.appendChild(btn("COPY PK", function () {
+        copyText(rec.pk, "flag pk on the clipboard — hand it to the ledger officer");
+      }));
       gs.appendChild(row("relay this pk to the ledger officer to stage your seat."));
       fetch("pending-genesis.json").then(function (r) {
         if (!r.ok) { gs.appendChild(row("no pending genesis staged — the ledger officer stages the payload first.")); return null; }
@@ -1715,6 +1736,7 @@
       case "export-desk":
         if (!FANO_AUTH.session.sk) return "export-desk: unlock first — the desk signs its own transfer";
         var dtok = FANO_AUTH.exportDesk();
+        if (dtok) copyText(dtok, "desk token on the clipboard");
         return dtok ? dtok + "\n— FANO-DESK-v1 · the keystore stays wrapped; 'import-desk <token>' on an unfounded desk"
                     : "export-desk: refused — no record to carry";
       case "import-desk":

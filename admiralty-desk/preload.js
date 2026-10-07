@@ -12,4 +12,9 @@ contextBridge.exposeInMainWorld("ADMIRALTY_DESK", {
   quit: () => ipcRenderer.invoke("desk:quit"),
   minimize: () => ipcRenderer.invoke("desk:minimize"),
   toggleFullscreen: () => ipcRenderer.invoke("desk:fullscreen"),
+  /* system clipboard — tokens and keys travel by clipboard, not by hand */
+  clipboard: {
+    write: (t) => ipcRenderer.invoke("desk:clip-write", t),
+    read: () => ipcRenderer.invoke("desk:clip-read"),
+  },
 });

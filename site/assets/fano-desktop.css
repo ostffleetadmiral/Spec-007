@@ -22,6 +22,7 @@
   --console-bg: #0a0f15;
   --win-paper: #f4f1e8;
   --stamp: #c03a3a;
+  --desk-line: rgba(140,190,220,.16);
 }
 
 html, body { height: 100%; }
@@ -141,7 +142,7 @@ body.desk::after { /* vignette — the room is always darker at the edges */
   transition: all .12s;
 }
 .win-btn:hover { color: var(--desk-bg); background: var(--acc); border-color: var(--acc); }
-.win-body { flex: 1; overflow: auto; background: var(--win-paper); color: #1a1a1a; }
+.win-body { flex: 1; overflow: auto; background: var(--win-paper); color: #1a1a1a; user-select: text; cursor: auto; }
 .win-grip {
   position: absolute; right: 0; bottom: 0; width: 14px; height: 14px;
   cursor: nwse-resize;
@@ -489,8 +490,9 @@ body.booted .wall, body.booted .wall-caption { visibility: visible; }
 .qp-facts td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; line-height: 1.55; }
 .qp-facts td:first-child { width: 7.5rem; color: var(--acc-hi); letter-spacing: .08em; font-size: .6rem; padding-top: .55rem; }
 
-/* 7q command suite — flag-rank only */
-.cmdsuite { font-family: inherit; font-size: .72rem; color: var(--desk-ink); overflow-y: auto; height: 100%; padding: .4rem; }
+/* 7q command suite — flag-rank only. Ops-dark pane: the dossier paper
+   is for dossier pages; the suite's inks are phosphor-on-void. */
+.cmdsuite { font-family: inherit; font-size: .72rem; color: var(--desk-ink); overflow-y: auto; height: 100%; padding: .4rem; background: var(--console-bg); }
 .cmd-sec { border: 1px solid var(--desk-line); margin: .5rem 0; padding: .5rem .7rem; }
 .cmd-sec-t { color: var(--acc-hi); letter-spacing: .15em; font-size: .62rem; margin-bottom: .45rem; }
 .cmd-row { padding: .25rem 0; line-height: 1.5; word-break: break-all; }

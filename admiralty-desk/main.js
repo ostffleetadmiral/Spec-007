@@ -17,7 +17,7 @@
      the same untrusted-by-default surface as the browser desk. */
 
 "use strict";
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, Menu, MenuItem, clipboard, session } = require("electron");
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -93,6 +93,24 @@ else {
         "Port " + PORT + " is occupied. Another desk server may be running.\n\n" + e.message);
       app.quit();
     });
+    /* a real OS clipboard: the Edit menu's roles install the standard
+       accelerators (Ctrl+C/X/V/A) app-wide — autoHideMenuBar keeps the
+       chrome invisible while the shortcuts stay live */
+    Menu.setApplicationMenu(Menu.buildFromTemplate([{
+      label: "Desk",
+      submenu: [
+        { role: "cut" }, { role: "copy" }, { role: "paste" },
+        { role: "selectAll" }, { type: "separator" },
+        { role: "reload" }, { role: "togglefullscreen" },
+        { role: "minimize" }, { role: "quit" },
+      ],
+    }]));
+    /* pointer-lock (mouse capture) — games and sandboxes may grab the
+       cursor; only our own origin, everything else denied */
+    session.defaultSession.setPermissionRequestHandler((wc, perm, cb) => {
+      const own = wc.getURL().startsWith(`http://${HOST}:${PORT}/`);
+      cb(own && (perm === "pointerLock" || perm === "clipboard-sanitized-write"));
+    });
     server.listen(PORT, HOST, () => {
       win = new BrowserWindow({
         fullscreen: true,
@@ -110,6 +128,28 @@ else {
         },
       });
       win.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+      /* right-click — the OS-native edit menu, only where it applies:
+         editable fields get cut/copy/paste/select-all; a selection on
+         plain glass gets copy */
+      win.webContents.on("context-menu", (e, p) => {
+        const m = new Menu();
+        if (p.isEditable) {
+          m.append(new MenuItem({ role: "cut", enabled: p.editFlags.canCut }));
+          m.append(new MenuItem({ role: "copy", enabled: p.editFlags.canCopy }));
+          m.append(new MenuItem({ role: "paste", enabled: p.editFlags.canPaste }));
+          m.append(new MenuItem({ type: "separator" }));
+          m.append(new MenuItem({ role: "selectAll" }));
+        } else if (p.selectionText && p.selectionText.length) {
+          m.append(new MenuItem({ role: "copy" }));
+        }
+        if (m.items.length) m.popup({ window: win });
+      });
+      /* clipboard bridge — the desk UI writes tokens straight to the
+         system clipboard via ADMIRALTY_DESK.clipboard */
+      ipcMain.handle("desk:clip-write", (e, t) => {
+        clipboard.writeText(String(t)); return true;
+      });
+      ipcMain.handle("desk:clip-read", () => clipboard.readText());
       win.webContents.on("will-navigate", (e, url) => {
         if (!url.startsWith(`http://${HOST}:${PORT}/`)) e.preventDefault();
       });
