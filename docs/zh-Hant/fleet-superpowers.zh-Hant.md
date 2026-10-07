@@ -1,6 +1,6 @@
 # 艦隊超能力 — 安全團隊能力總帳
 
-日期:2026-10-07 · 稽核器:`security/superpowers-audit.mjs`(即時驗證)· 結果:**27/28 已證實、1 項待決、9 項誠實限制**
+日期:2026-10-07 · 稽核器:`security/superpowers-audit.mjs`(即時驗證)· 結果:**28/28 已證實、0 項待決、8 項誠實限制** — 旗艦席位 `sha256:c7bf5aac9378d199` 已納入創世(digit + sheraton 雙重簽章);漫遊錨點已於全艦隊生效。
 
 下列每一條目於稽核日皆對其證據錨點驗證 — 檔案存在與程式碼標記,並對創世簽章執行即時 Ed25519 驗證。本總帳無任何無探測支持之主張。
 
@@ -11,7 +11,7 @@
 | ed25519 身分,PBKDF2 + AES-256-GCM 密鑰庫封裝 | `fano-auth.js` | 私鑰僅於解鎖時存在於會話記憶體 |
 | TOTP 第二因子(Google Authenticator 級) | `fano-auth.js` + 誓約流程 | 時鐘綁定;設定於登入時揭示 |
 | 名冊守衛之授權與角色憑證 | `verifyGrant`/`grantBytes` | 名冊為桌本地;艦隊授權需錨點 |
-| **漫遊旗艦簽到** — 於他人創始之外桌以 FLEET-ADMIRAL 註冊而不奪其創始 | `bindFleetFlag` + DESK-01 探測 | **待決**:需已發布創世之 `admiral` 成員(`fleet-genesis-update.mjs --pk <hex>`) |
+| **漫遊旗艦簽到** — 於他人創始之外桌以 FLEET-ADMIRAL 註冊而不奪其創始 | `bindFleetFlag` + DESK-01 探測 | **生效中**:`admiral` 成員已錨定於已發布創世 |
 | 桌轉移 — `FANO-DESK-v1`,密鑰庫全程封裝 | DESK-03/04/05 | DOM 匯入路徑(Electron 相容) |
 | 解鎖節流 — 持續性指數退避 | `fano1.auth.fail` | 深度而非城牆:本機攻擊者可清 localStorage |
 
@@ -67,7 +67,6 @@
 6. **外部 IPv6 入站** 至 WAN 邊緣未驗證;IPv4 入站受 CGNAT 阻擋。
 7. **136 位元組酬載尾部** 為未驗證之暫存區 — 接收方必須遵守 `plen`。
 8. **`capacity()`** 傳輸依賴之註冊槽回傳常數,非位元組容量。
-9. **海軍上將成員待決** — 漫遊簽到已建成並通過探測;俟旗艦公鑰進入 `fleet-genesis.json` 即錨定。
 
 ## 重現
 

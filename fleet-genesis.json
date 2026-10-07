@@ -18,11 +18,17 @@
         "role": "genesis-root",
         "pubkey_hint": "sha256:c09e3f95f634d1d3",
         "pubkey_pem_b64": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVdXRXIxOW5oZ0Iya2hNa0tlRkVPbVFpVmJBektvRlYvNnNXbDYrWUtHb0U9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
+      },
+      {
+        "name": "admiral",
+        "role": "flag-seat",
+        "pubkey_hint": "sha256:c7bf5aac9378d199",
+        "pubkey_pem_b64": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQXAvUzgxRURYWk5ZYlhHcDJsQVlmMWdURnBkRFB5YjRXSndNLzE5UUpCMjg9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
       }
     ]
   },
   "sigs": {
-    "digit": "x4ODkZZzpTGq3GJBukLlkICO7uJRQKxM3Q8ka-CDsXP_JWy3lUQ0Qmhk6o-gTowxstLxrYvJ_VInrHmtQ560AA",
-    "sheraton": "EfV6Kq5Rz74MFMWMXMcq7gdj9xmH9Diw7Q-xUD53Rr9CWznJXCFYfVYTKsnQK02uEVrHlCmgx3LB7cYaDrxfAA"
+    "digit": "S96hifQ2X-z8OINZ984lAS4vqXWSU8mPrPppm9cUHG2sj6PMS3n9gPktIOxQ5ulJLkIeURwWWUt8b7_2tPkwDQ",
+    "sheraton": "oN_u9ALhPsR4AGIDN0iLaaG6OoaRVDP_XKt0xX1hru7HA9l1k8fnAlq5TbhURWxwMuj5YMN-nVdgEk4X9kmXBQ"
   }
 }

@@ -79,7 +79,11 @@ if (process.argv.includes("--dry")) {
   console.error(`genesis_sha256: ${ghash}`);
 } else {
   fs.writeFileSync(GEN, JSON.stringify(out, null, 2) + "\n");
-  console.error(`wrote fleet-genesis.json — genesis_sha256 ${ghash}`);
+  /* the desk fetches the site copy — publish BOTH or the fleet anchor
+     silently rots (root is canon, site/ is what actually ships) */
+  fs.writeFileSync(path.join(ROOT, "site/fleet-genesis.json"),
+    JSON.stringify(out, null, 2) + "\n");
+  console.error(`wrote fleet-genesis.json + site/fleet-genesis.json — genesis_sha256 ${ghash}`);
   console.error("NOTE: fleet bootstrap TOFU pins first-seen genesis on every");
   console.error("desk — an amended genesis is a NEW anchor. desks that already");
   console.error("pinned must re-pin (documented: GENESIS CONFLICT → re-pin path).");

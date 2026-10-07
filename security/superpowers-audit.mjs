@@ -122,6 +122,7 @@ probe("CM", "detached-worktree deploy — shared-tree class eliminated",
   "drawer + serve.py cwd no longer at risk");
 
 console.log("═══ LIVE GENESIS VERIFICATION ═══");
+let ADM_PENDING = false;
 {
   const gen = JSON.parse(read("fleet-genesis.json"));
   const body = Buffer.from(canon(gen.payload));
@@ -141,6 +142,7 @@ console.log("═══ LIVE GENESIS VERIFICATION ═══");
   probe("LIVE", "admiral member present — roaming anchor live", !!adm,
     adm ? `flag-seat pk hint ${adm.pubkey_hint}` :
       "PENDING — needs the flag pk (fleet-genesis-update.mjs --pk <hex>)");
+  if (!adm) ADM_PENDING = true;
 }
 
 console.log("═══ HONEST LIMITS (the things we cannot do — recorded) ═══");
@@ -153,8 +155,9 @@ const LIMITS = [
   "external IPv6 inbound to the WAN edge is UNVERIFIED; IPv4 inbound is CGNAT-blocked",
   "136-B envelope payload tail is unauthenticated scratch — receivers MUST honor plen",
   "capacity() in transport deps is a registry slot, not a byte count",
-  "admiral member not yet in genesis — roaming sign-in is built and probed but cannot anchor until the flag pk lands",
 ];
+if (ADM_PENDING)
+  LIMITS.push("admiral member not yet in genesis — roaming sign-in is built and probed but cannot anchor until the flag pk lands");
 for (const l of LIMITS) console.log(`  [LIMIT  ] ${l}`);
 
 const n = R.filter(r => r.ok).length;

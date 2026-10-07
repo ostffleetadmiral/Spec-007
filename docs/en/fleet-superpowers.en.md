@@ -1,6 +1,6 @@
 # Fleet Superpowers — Security Team Capability Ledger
 
-Date: 2026-10-07 · Auditor: `security/superpowers-audit.mjs` (live-verified) · Result: **27/28 proven, 1 pending, 9 honest limits**
+Date: 2026-10-07 · Auditor: `security/superpowers-audit.mjs` (live-verified) · Result: **28/28 proven, 0 pending, 8 honest limits** — flag seat `sha256:c7bf5aac9378d199` admitted to genesis (dual-signed by digit + sheraton); the roaming anchor is live fleet-wide.
 
 Every entry below was verified against its evidence anchor on audit day — file presence plus code markers, with live Ed25519 verification of the genesis signatures. Nothing in this ledger is asserted without a probe behind it.
 
@@ -11,7 +11,7 @@ Every entry below was verified against its evidence anchor on audit day — file
 | ed25519 identity, PBKDF2 + AES-256-GCM keystore wrap | `fano-auth.js` | secret key exists only in session memory while unlocked |
 | TOTP second factor (Google Authenticator class) | `fano-auth.js` + covenant flow | clock-bound; setup revealed at sign-in |
 | Roster-gated grants + role certificates | `verifyGrant`/`grantBytes` | roster is desk-local; fleet auth needs the anchor |
-| **Roaming flag sign-in** — FLEET-ADMIRAL on a foreign founded desk without claiming it | `bindFleetFlag` + DESK-01 probe | **PENDING**: needs `admiral` member in published genesis (`fleet-genesis-update.mjs --pk <hex>`) |
+| **Roaming flag sign-in** — FLEET-ADMIRAL on a foreign founded desk without claiming it | `bindFleetFlag` + DESK-01 probe | **LIVE**: `admiral` member anchors in published genesis |
 | Desk transfer — `FANO-DESK-v1`, keystore stays wrapped end-to-end | DESK-03/04/05 | DOM import path (Electron-safe) |
 | Unlock throttle — persisted exponential backoff | `fano1.auth.fail` | depth, not wall: local attacker can clear localStorage |
 
@@ -67,7 +67,6 @@ Every entry below was verified against its evidence anchor on audit day — file
 6. **External IPv6 inbound** to the WAN edge UNVERIFIED; IPv4 inbound is CGNAT-blocked.
 7. **136-B payload tail** is unauthenticated scratch — receivers MUST honor `plen`.
 8. **`capacity()`** registry slots in transport deps return constants, not byte counts.
-9. **Admiral member pending** — roaming sign-in is built and probed; it anchors the moment the flag pk lands in `fleet-genesis.json`.
 
 ## Reproduce
 

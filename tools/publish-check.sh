@@ -42,6 +42,10 @@ echo "== wasm continuity"
 ( cd site/apps/rations && sha256sum -c rations.wasm.sha256 >/dev/null 2>&1 ) \
   && say " PASS" "rations.wasm sha256" || { say " FAIL" "rations.wasm sha256"; FAIL=1; }
 
+echo "== genesis canon (published copy must match the signed root)"
+cmp -s fleet-genesis.json site/fleet-genesis.json \
+  && say " PASS" "genesis canon" || { say " FAIL" "genesis canon"; FAIL=1; }
+
 echo "== js syntax"
 for j in site/assets/fano-*.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }
