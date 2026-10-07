@@ -55,6 +55,17 @@
 - **TOTP 共享節流。** 六位數錯碼與錯誤口令同計一數 — 五錯即鎖(AUTH-05)。
 - **鎖定即滅密。** `lock()` 先將解封種子填零再清會話;`burn()` 先鎖而後重置節流計數,以迎新生(AUTH-07)。密鑰庫仍為 PBKDF2×100k + AES-GCM — 無改。
 
+### 3b. 線路內部 — comms.os 驗證何事(第三波逆向稽核)
+
+`fano-comms.js` 同經拆解;以下不變式現已成立並受探測(WIRE-01..07):
+
+- **回報長度皆受箝制。** 每處 WASM 輸出讀取之 `n` 以目標緩衝為上限 — 超量之 `n` 不得再將毗鄰堆積拉入解碼字串(WIRE-01)。
+- **撥號僅限 ws/wss。** `connect` 於觸及 WASM 前即拒絕其他 scheme 與短/非 hex 之對端 id;同一 `pkOf` 六十四 hex 門檻守護 `addContact`、`sendMsg` 與邀請之 network id(WIRE-02、WIRE-06)。
+- **邀請曾死 — 現已校準。** 舊呼叫將幻影 `network_id_len` 傳入 `rations_invite_create`,使後續引數悉數錯位(`u64` 效期又以 Number 傳入 — WASM ABI 需 BigInt)。簽名現已更正;角色欄為網路列舉 `0=admin 1=moderator 2=user`,非桌面層級:簽發需 STATION-CHIEF+,admin 邀請屬旗艦席位專屬(WIRE-03)。
+- **在線不得借階。** 未簽名之在線文本若屬釘定或受限呼號,不再充當聯絡名 — 自稱「fleet admiral」之對端顯示為 `peer-<id>`(WIRE-04)。
+- **Shamir 設界。** k/n/密文/份數之上限於 GF(256) 運算前即拒絕荒謬配置(WIRE-05)。
+- **全檔無 `prompt()`。** MSG 改為行內撰寫 — Electron 桌面無原生對話框可擲(WIRE-07)。
+
 ## 4. 桌面轉移 — FANO-DESK-v1
 
 誓約終端之 `export-desk` / `import-desk`,或轉移畫面之 DOM 匯入路徑(Electron 相容 — 身分路徑全程無 `prompt()`)。套件攜帶封裝之密鑰庫記錄與創始狀態,由匯出桌之金鑰簽署。私鑰素材全程封裝;匯入桌拒絕覆於已創始之桌,亦拒絕外來創始之偽造。雙向通行:瀏覽器↔Electron 任意方向。具橋接之處(§6),鑄造/匯出之權杖自動推送至系統剪貼簿。
@@ -165,7 +176,7 @@ docker compose -f security/docker-compose.wan.yml down
 
 1. `session.sk` 於解鎖期間存於頁面記憶體 — 重載即重解;已解鎖會話遭頁面層入侵即為金鑰外洩。
 2. 名冊注入乃桌本地之戲劇 — 改變爾之螢幕所見,非艦隊所信(已發布創世閘守一切)。
-3. `fano-comms.js` 仍用 `prompt()` — Electron 下靜默失敗(composer 重建中)。身分/轉移路徑已無 prompt。
+3. 線路重放/去重屬 WASM 端 — JS 收件匣所見即電話層佇列;中繼器重放封包屬核心議題,非介面之事。
 4. WAN 邊界之外來 IPv6 入站未驗 — IPv4 受 CGNAT 阻擋,AAAA/紀錄端驗證待決。
 5. TOFU 冷啟:桌之首取創世於具備帶外錨定前,仍可能被供予自洽之攻擊者盤面。
 6. stega/carriage 依賴之 `capacity()` 回傳註冊表槽位,非位元組計數 — 以實測往返為準,勿依之規劃預算。

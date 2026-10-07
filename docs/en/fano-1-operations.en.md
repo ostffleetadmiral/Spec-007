@@ -139,6 +139,33 @@ invariants now hold and are probed (AUTH-01..09):
   before clearing the session; `burn()` locks first, then resets the
   throttle counter for the next life (AUTH-07). Keystore stays
   PBKDF2×100k + AES-GCM — no change.
+
+### 3b. Wire internals — what comms.os verifies (wave-3 retro-pass)
+
+`fano-comms.js` got the same unwind; these invariants now hold and are
+probed (WIRE-01..07):
+
+- **Reported lengths are clamped.** Every WASM output read caps `n`
+  at the buffer it fills — an oversized `n` can no longer pull
+  adjacent heap into a decoded string (WIRE-01).
+- **The dialer is ws/wss only.** `connect` refuses every other scheme
+  plus short/non-hex peer ids before WASM is touched; the same
+  `pkOf` 64-hex gate fronts `addContact`, `sendMsg`, and the invite
+  network id (WIRE-02, WIRE-06).
+- **Invites were dead — now they're realigned.** The old call passed
+  a phantom `network_id_len` into `rations_invite_create`, shifting
+  every later argument (and passing `u64` expiry as a Number — the
+  WASM ABI wants BigInt). The signature is correct now, and the role
+  field is the network enum `0=admin 1=moderator 2=user`, not desk
+  clearance: issuance needs STATION-CHIEF+, and admin invites are
+  flag-seat only (WIRE-03).
+- **Presence can't borrow a rank.** Unsigned presence text stops
+  being a contact name when it's pinned or restricted — a peer
+  calling itself "fleet admiral" renders as `peer-<id>` (WIRE-04).
+- **Shamir bounds exist.** k/n/secret/share-set caps refuse absurd
+  allocations before the GF(256) work starts (WIRE-05).
+- **No `prompt()` anywhere.** MSG composes inline — the Electron desk
+  has no native dialogs to throw (WIRE-07).
 Thirty days is the leash.
 
 ## 4. Desk transfer — FANO-DESK-v1
@@ -321,8 +348,8 @@ Recorded, not excused:
    a page-level compromise of an unlocked session is a key compromise.
 2. Roster injection is desk-local theater — it changes what your screen
    shows, not what the fleet trusts (published genesis gates everything).
-3. `fano-comms.js` still uses `prompt()` — silent failure under Electron
-   (composer rebuild pending). The auth/transfer paths are prompt-free.
+3. Wire replay/dedup is WASM-side — the JS inbox shows the phone layer's
+   queue; a relay that replays envelopes is a core question, not a UI one.
 4. External IPv6 inbound to the WAN edge is unverified — IPv4 is CGNAT-
    blocked, AAAA/record-side verification pending.
 5. TOFU cold-boot: a desk's first genesis fetch can still be served a

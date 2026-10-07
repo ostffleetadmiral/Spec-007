@@ -460,7 +460,16 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     vm.runInContext(
       fs.readFileSync(path.join(SITE, "assets/fano-auth.js"), "utf8"),
       sandbox);
-    return { A: sandbox.FANO_AUTH, store };
+    return { A: sandbox.FANO_AUTH, store, ctx: sandbox };
+  }
+  /* comms module rides the same sandbox — FANO_AUTH resolves through
+     window (= the sandbox itself) */
+  function loadComms(opts = {}) {
+    const d = loadAuth(opts);
+    vm.runInContext(
+      fs.readFileSync(path.join(SITE, "assets/fano-comms.js"), "utf8"),
+      d.ctx);
+    return { A: d.A, C: d.ctx.FANO_COMMS, store: d.store, ctx: d.ctx };
   }
   /* DESK-01/02: roaming authenticator — valid fleet-anchored sign-in
      and forgery refusal, end-to-end through real enroll() */
@@ -974,6 +983,137 @@ console.log("\nAUTH — cert/trust retro-pass (wave 2)");
           "32 malformed-token inputs across 4 import paths — all refused cleanly, zero throws, zero stores")
       : open_("AUTH", "import-fuzz",
           `threw=${threw} accepted=${accepted}`);
+  }
+}
+
+console.log("\nWIRE — comms retro-pass (wave 3)");
+/* ================= WIRE — comms retro-pass =================
+   Wave-3 reverse-engineering findings on fano-comms.js, fixed and
+   held by probe: wasm-reported lengths were never clamped to their
+     output buffers (adjacent-heap read into JS strings); hex inputs
+     reached wasm unvalidated (short buffers + hardcoded lengths);
+     inviteCreate had no internal tier gate and no role clamp; any URL
+     scheme reached the dialer; presence text was trusted as a contact
+     name (restricted-callsign impersonation); prompt() broke MSG under
+     Electron; shamir allocation was unbounded. */
+{
+  const commsSrc = fs.readFileSync(path.join(SITE, "assets/fano-comms.js"), "utf8");
+
+  /* WIRE-01: a wasm function reporting n > cap must be clamped —
+     otherwise it reads adjacent heap into the decoded string */
+  {
+    const d = loadComms(); await d.A.load();
+    d.A.enroll("marcus", "w-pass");
+    const fn = (op, cap, lp) => {
+      new Uint8Array(d.A.memory().buffer, op, cap).fill(65);
+      new Uint32Array(d.A.memory().buffer, lp, 1)[0] = cap + 4096;
+      return true; };
+    const s = d.C.jread(fn, 16);
+    s && s.length === 16 && s === "A".repeat(16)
+      ? held("WIRE", "out-read-clamped",
+          "wasm reported n=cap+4096 — jread decoded exactly cap bytes, adjacent heap never surfaced")
+      : open_("WIRE", "out-read-clamped", `len=${s && s.length}`);
+  }
+
+  /* WIRE-02: the dialer refuses non-ws schemes and malformed peer ids */
+  {
+    const d = loadComms(); await d.A.load();
+    d.A.enroll("marcus", "w-pass");
+    const pk = "aa".repeat(32);
+    const bad = [d.C.connect("javascript:alert(1)", pk),
+      d.C.connect("http://relay", pk), d.C.connect("file:///x", pk),
+      d.C.connect("ws://relay", "deadbeef"),
+      d.C.connect("ws://relay", "zz".repeat(32)),
+      d.C.connect("", pk), d.C.connect(null, pk)];
+    bad.every(v => v === null)
+      ? held("WIRE", "dial-validated",
+          "javascript:/http:/file: schemes and short/non-hex peer ids all refused before wasm")
+      : open_("WIRE", "dial-validated", `bad=[${bad}]`);
+  }
+
+  /* WIRE-03: invites are tier-bound + enum-bound — cadet refused,
+     out-of-enum roles refused, admin invites are flag-seat only,
+     a chief-tier session mints user/moderator */
+  {
+    const c = loadComms(); await c.A.load();
+    c.A.enroll("marcus", "c-pass");
+    const cadet = c.C.inviteCreate("aa".repeat(32), "ws://r", 2, 30);
+    c.A.session.role = 3;               /* chief-tier session (in-memory gate probe) */
+    const chiefAdmin = c.C.inviteCreate("aa".repeat(32), "ws://r", 0, 30);
+    const chiefUser = c.C.inviteCreate("aa".repeat(32), "ws://r", 2, 30);
+    const f = loadComms(); await f.A.load();
+    f.A.enroll("ramsey 006", "f-pass");
+    const over = f.C.inviteCreate("aa".repeat(32), "ws://r", 3, 30);
+    const badNet = f.C.inviteCreate("deadbeef", "ws://r", 2, 30);
+    const good = f.C.inviteCreate("aa".repeat(32), "ws://r", 0, 30);
+    cadet === null && chiefAdmin === null && over === null &&
+    badNet === null && good instanceof Uint8Array && good.length > 0 &&
+    chiefUser instanceof Uint8Array && chiefUser.length > 0
+      ? held("WIRE", "invite-tier-bound",
+          "cadet refused · chief can't mint admin · out-of-enum + bad net id refused · flag admin + chief user mints — ABI realigned to rations_invite_create")
+      : open_("WIRE", "invite-tier-bound",
+          `cadet=${cadet} cAdmin=${chiefAdmin} cUser=${chiefUser && chiefUser.length} over=${over} net=${badNet} good=${good && good.length}`);
+  }
+
+  /* WIRE-04: presence labels can't impersonate — pinned/restricted
+     callsigns in unsigned presence text render as the peer id */
+  {
+    const d = loadComms(); await d.A.load();
+    d.A.enroll("marcus", "w-pass");
+    const pid = "aa".repeat(32);
+    const cases = [
+      d.C.peerLabel("fleet admiral", pid) === "peer-aaaaaaaa",
+      d.C.peerLabel("ramsey 006", pid) === "peer-aaaaaaaa",
+      d.C.peerLabel("chief warrant officer", pid) === "peer-aaaaaaaa",
+      d.C.peerLabel("moneypenny", pid) === "peer-aaaaaaaa",
+      d.C.peerLabel("marcus", pid) === "marcus",
+      d.C.peerLabel("", pid) === "peer-aaaaaaaa"];
+    cases.every(Boolean)
+      ? held("WIRE", "presence-sanitized",
+          "4 restricted/pinned presence names render as peer-aaaaaaaa — unsigned wire text can't borrow a rank; 'marcus' passes")
+      : open_("WIRE", "presence-sanitized", `cases=[${cases}]`);
+  }
+
+  /* WIRE-05: shamir inputs are bounded — bad k/n, empty or oversized
+     secrets, oversized share sets all refuse; the valid path roundtrips */
+  {
+    const d = loadComms(); await d.A.load();
+    d.A.enroll("marcus", "w-pass");
+    const refuse = [d.C.shamirSplit("s", 3, 2), d.C.shamirSplit("s", 2, 300),
+      d.C.shamirSplit("", 2, 3), d.C.shamirSplit("x".repeat(70000), 2, 3),
+      d.C.shamirSplit("s", 1, 3),
+      d.C.shamirJoin(new Array(251).fill(new Uint8Array(4)))];
+    const shares = d.C.shamirSplit("codeword", 2, 3);
+    const back = shares && d.C.shamirJoin(shares.slice(0, 2));
+    refuse.every(v => v === null) && back === "codeword"
+      ? held("WIRE", "shamir-bounded",
+          "5 bad split/join inputs refused · 2-of-3 roundtrip recovers 'codeword' — bounds hold, math intact")
+      : open_("WIRE", "shamir-bounded",
+          `refuse=[${refuse}] back=${back}`);
+  }
+
+  /* WIRE-06: hex gates — malformed pid/pk refused before wasm;
+     well-formed inputs reach the phone layer */
+  {
+    const d = loadComms(); await d.A.load();
+    d.A.enroll("marcus", "w-pass");
+    const bad = [d.C.addContact("zz", "aa".repeat(32)),
+      d.C.addContact("aa".repeat(32), "short"),
+      d.C.sendMsg("short", "hi"), d.C.sendMsg("aa".repeat(32), "")];
+    const ok = d.C.addContact("aa".repeat(32), "bb".repeat(32));
+    bad.every(v => v === false) && ok === true
+      ? held("WIRE", "hex-gates",
+          "3 malformed contact/msg inputs refused at the gate · well-formed pair files into the phone layer")
+      : open_("WIRE", "hex-gates", `bad=[${bad}] ok=${ok}`);
+  }
+
+  /* WIRE-07: no prompt() — the Electron desk can't open one; MSG
+     composes inline */
+  {
+    !/\bprompt\s*\(/.test(commsSrc)
+      ? held("WIRE", "no-prompt",
+          "fano-comms.js is prompt()-free — MSG composes inline, Electron-compatible")
+      : open_("WIRE", "no-prompt", "prompt() still present");
   }
 }
 

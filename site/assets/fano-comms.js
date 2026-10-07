@@ -23,13 +23,23 @@ window.FANO_COMMS = (function () {
   function saveRoster(r) { try { localStorage.setItem(ROSTER_KEY, JSON.stringify(r)); } catch (e) {} }
 
   /* ---------- wasm wrappers ---------- */
+  /* every wasm-reported length is clamped to the buffer it claims to
+     fill — an oversized n would otherwise read adjacent wasm heap
+     into JS strings */
+  function u32at(p) { return new Uint32Array(A().memory().buffer, p, 1)[0]; }
   function jread(fn, cap) {
     var op = A().outBuf(cap), lp = A().outBuf(4);
     var ok = fn(op, cap, lp);
-    var n = new Uint32Array(A().memory().buffer, lp, 1)[0];
+    var n = Math.min(u32at(lp), cap);
     var out = ok && n ? dec.decode(A().mem(op, n)) : null;
     X().rations_free(op); X().rations_free(lp);
     return out;
+  }
+  /* inbound hex must actually BE hex of the right shape — unhex() on
+     garbage yields short/zero buffers, and callers hand wasm a fixed
+     length that would read past the allocation */
+  function pkOf(h) {
+    return (typeof h === "string" && /^[0-9a-fA-F]{64}$/.test(h)) ? A().unhex(h) : null;
   }
   function peerCount() { return X().rations_p2p_peer_count(); }
   function peersJson() { return jread(function (o, c, l) { return X().rations_p2p_peers_json(o, c, l); }, 8192); }
@@ -40,9 +50,15 @@ window.FANO_COMMS = (function () {
      learns in the academy, it does not speak on the fleet's net */
   function containedNow() { return A().isContained && A().isContained(); }
 
+  /* the wire dials ws/wss only — no other scheme reaches the dialer,
+     and the far-side peer id must be a real 32-byte key */
+  var RELAY_RE = /^wss?:\/\/[^\s]{1,256}$/;
   function connect(url, pkHex) {
     if (containedNow()) return null;
-    var up = A().wr(str(url)), pp = A().wr(A().unhex(pkHex));
+    if (!RELAY_RE.test(String(url || ""))) return null;
+    var pkb = pkOf(pkHex);
+    if (!pkb) return null;
+    var up = A().wr(str(url)), pp = A().wr(pkb);
     var id = X().rations_p2p_connect(up, url.length, pp, 32);
     X().rations_free(up); X().rations_free(pp);
     return id;
@@ -56,6 +72,15 @@ window.FANO_COMMS = (function () {
     var txt = str(A().session.user || "cadet");
     var p = A().wr(txt);
     return X().rations_phone_presence_publish(status || 1, p, txt.length);
+  }
+  /* presence text is unsigned wire metadata — a peer can publish any
+     callsign it likes. Restricted/pinned names can't be impersonated
+     in the roster: they render as their peer id instead. */
+  function peerLabel(text, pid) {
+    var nm = String(text || "");
+    if (nm && !A().isPinned(A().normalizeCallsign(nm)) &&
+        A().checkCallsign(nm, pid).ok) return nm;
+    return "peer-" + pid.slice(0, 8);
   }
   /* merge the WASM presence table into the desk roster. Auto-learned
      entries carry auto:true — the phone key itself is already filed
@@ -73,9 +98,9 @@ window.FANO_COMMS = (function () {
       var pid = s.peer;
       if (!pid || pid === A().hex(peerId())) return;
       var cur = byPid[pid];
-      if (cur) { cur.status = s.status; cur.seen = now; if (s.text && cur.auto) cur.name = s.text; }
+      if (cur) { cur.status = s.status; cur.seen = now; if (s.text && cur.auto) cur.name = peerLabel(s.text, pid); }
       else {
-        var c2 = { name: s.text || "peer-" + pid.slice(0, 8), pid: pid, pk: null,
+        var c2 = { name: peerLabel(s.text, pid), pid: pid, pk: null,
           auto: true, status: s.status, seen: now };
         rs.push(c2); byPid[pid] = c2; added++;
       }
@@ -84,13 +109,18 @@ window.FANO_COMMS = (function () {
     return added;
   }
   function addContact(pidHex, pkHex) {
-    var ip = A().wr(A().unhex(pidHex)), kp = A().wr(A().unhex(pkHex));
+    var ib = pkOf(pidHex), kb = pkOf(pkHex);
+    if (!ib || !kb) return false;
+    var ip = A().wr(ib), kp = A().wr(kb);
     X().rations_phone_add_contact(ip, kp);
     X().rations_free(ip); X().rations_free(kp);
+    return true;
   }
   function sendMsg(pidHex, body) {
     if (containedNow()) return false;
-    var tp = A().wr(A().unhex(pidHex)), bp = A().wr(str(body));
+    var tb = pkOf(pidHex);
+    if (!tb || !body) return false;
+    var tp = A().wr(tb), bp = A().wr(str(body));
     var ok = X().rations_phone_send(tp, 0, bp, body.length);
     X().rations_free(tp); X().rations_free(bp);
     return ok;
@@ -103,14 +133,14 @@ window.FANO_COMMS = (function () {
     var dp = A().wr(str(text)), op = A().outBuf(65536), sp = A().outBuf(2);
     var ver = X().rations_qr_generate_auto(dp, str(text).length, ecc, op, sp);
     var size = new Uint16Array(A().memory().buffer, sp, 1)[0];
-    var bmp = ver ? A().mem(op, size * size).slice() : null;
+    var bmp = ver && size * size <= 65536 ? A().mem(op, size * size).slice() : null;
     X().rations_free(dp); X().rations_free(op); X().rations_free(sp);
     return bmp ? { bmp: bmp, size: size, version: ver } : null;
   }
   function qrDec(gray, w, h) {
     var ip = A().wr(gray), op = A().outBuf(8192), lp = A().outBuf(4), vp = A().outBuf(1);
     var r = X().rations_qr_decode(ip, w, h, op, 8192, lp, vp);
-    var n = new Uint32Array(A().memory().buffer, lp, 1)[0];
+    var n = Math.min(u32at(lp), 8192);
     var out = r === 1 ? dec.decode(A().mem(op, n)) : null;
     X().rations_free(ip); X().rations_free(op); X().rations_free(lp); X().rations_free(vp);
     return r === 1 ? { text: out } : { err: r & 0x7f };
@@ -128,14 +158,18 @@ window.FANO_COMMS = (function () {
     var ip = A().wr(png), pp = A().wr(str(pw));
     var dp = A().outBuf(1048576), dl_ = A().outBuf(4), fp = A().outBuf(256), fl = A().outBuf(4);
     var ok = X().rations_stega_extract(ip, png.length, pp, pw.length, dp, 1048576, dl_, fp, 256, fl);
-    var dn = new Uint32Array(A().memory().buffer, dl_, 1)[0];
-    var fn2 = new Uint32Array(A().memory().buffer, fl, 1)[0];
+    var dn = Math.min(u32at(dl_), 1048576);
+    var fn2 = Math.min(u32at(fl), 256);
     var out = ok ? { data: A().mem(dp, dn).slice(), name: dec.decode(A().mem(fp, fn2)) } : null;
     [ip, pp, dp, dl_, fp, fl].forEach(function (p) { X().rations_free(p); });
     return out;
   }
   function shamirSplit(secret, k, n) {
-    var sb = str(secret), sp = A().wr(sb), op = A().outBuf(n * (1 + sb.length));
+    k = Math.floor(Number(k)); n = Math.floor(Number(n));
+    var sb = str(secret);
+    /* bounded allocation: n ≤ 250 shares of a ≤64 KiB secret */
+    if (!(k >= 2 && k <= n && n <= 250) || !sb.length || sb.length > 65536) return null;
+    var sp = A().wr(sb), op = A().outBuf(n * (1 + sb.length));
     var ok = X().rations_shamir_split(sp, sb.length, k, n, op);
     var out = ok ? A().mem(op, n * (1 + sb.length)).slice() : null;
     X().rations_free(sp); X().rations_free(op);
@@ -145,8 +179,10 @@ window.FANO_COMMS = (function () {
     return shares;
   }
   function shamirJoin(shares) {
-    if (!shares.length) return null;
-    var sl = shares[0].length, all = new Uint8Array(sl * shares.length);
+    if (!shares.length || shares.length > 250) return null;
+    var sl = shares[0].length;
+    if (!sl || sl > 65537) return null;
+    var all = new Uint8Array(sl * shares.length);
     for (var i = 0; i < shares.length; i++) { if (shares[i].length !== sl) return null; all.set(shares[i], i * sl); }
     var sp = A().wr(all), op = A().outBuf(sl - 1);
     var ok = X().rations_shamir_reconstruct(sp, sl, shares.length, op, sl - 1);
@@ -157,7 +193,7 @@ window.FANO_COMMS = (function () {
   function carrierEnc(data, fmt) {
     var dp = A().wr(data), op = A().outBuf(data.length + 1048576), lp = A().outBuf(4);
     var st = X().rations_carrier_encode(dp, data.length, fmt, op, data.length + 1048576, lp);
-    var n = new Uint32Array(A().memory().buffer, lp, 1)[0];
+    var n = Math.min(u32at(lp), data.length + 1048576);
     var out = st === 0 || st === 1 ? A().mem(op, n).slice() : null;
     X().rations_free(dp); X().rations_free(op); X().rations_free(lp);
     return out === null || st & 0x80 ? { err: st & 0x7f } : { bytes: out };
@@ -165,18 +201,28 @@ window.FANO_COMMS = (function () {
   function carrierDec(data, fmt) {
     var dp = A().wr(data), op = A().outBuf(data.length + 1048576), lp = A().outBuf(4);
     var st = X().rations_carrier_decode(dp, data.length, fmt, op, data.length + 1048576, lp);
-    var n = new Uint32Array(A().memory().buffer, lp, 1)[0];
+    var n = Math.min(u32at(lp), data.length + 1048576);
     var out = st === 0 || st === 1 ? A().mem(op, n).slice() : null;
     X().rations_free(dp); X().rations_free(op); X().rations_free(lp);
     return out === null || st & 0x80 ? { err: st & 0x7f } : { bytes: out };
   }
+  /* invite roles are NETWORK roles — 0=admin 1=moderator 2=user per
+     the Rations Role enum — not desk clearance. Issuing is
+     STATION-CHIEF+; an admin invite is flag-seat business. expiry is
+     u64 — the wasm ABI takes BigInt. */
   function inviteCreate(netId, endpoint, role, days) {
     if (containedNow()) return null;
     var s = A().session.sk; if (!s) return null;
-    var np = A().wr(A().unhex(netId)), ep = A().wr(str(endpoint)), sp = A().wr(s);
+    var rl = Math.floor(Number(role));
+    if (A().session.role < 3 || !(rl >= 0 && rl <= 2)) return null;
+    if (rl === 0 && A().session.role < A().ROLES.fleet_admiral) return null;
+    var nb = pkOf(netId);
+    if (!nb || !endpoint || !(days > 0)) return null;
+    var np = A().wr(nb), ep = A().wr(str(endpoint)), sp = A().wr(s);
     var op = A().outBuf(4096), lp = A().outBuf(4);
-    var ok = X().rations_invite_create(np, 32, ep, endpoint.length, sp, 32, role, Math.floor(Date.now() / 1000) + days * 86400, op, lp);
-    var n = new Uint32Array(A().memory().buffer, lp, 1)[0];
+    var ok = X().rations_invite_create(np, ep, endpoint.length, sp, 32, rl,
+      BigInt(Math.floor(Date.now() / 1000) + days * 86400), op, lp);
+    var n = Math.min(u32at(lp), 4096);
     var out = ok ? A().mem(op, n).slice() : null;
     [np, ep, sp, op, lp].forEach(function (p) { X().rations_free(p); });
     return out;
@@ -308,7 +354,7 @@ window.FANO_COMMS = (function () {
         if (can) {
           var netIn = el('<input class="term-in" placeholder="network id (64 hex)" style="width:100%;margin:2px 0" spellcheck="false">');
           var epIn = el('<input class="term-in" placeholder="endpoint (ws://…)" style="width:100%;margin:2px 0" spellcheck="false">');
-          var roleIn = el('<input class="term-in" placeholder="role 0-3" style="width:8rem;margin:2px 0" spellcheck="false">');
+          var roleIn = el('<input class="term-in" placeholder="role: 0=admin 1=mod 2=user" style="width:14rem;margin:2px 0" spellcheck="false">');
           var go = el('<button class="btn">ISSUE</button>');
           var out = el('<pre style="word-break:break-all;white-space:pre-wrap;color:var(--acc)"></pre>');
           go.onclick = function () {
@@ -347,10 +393,22 @@ window.FANO_COMMS = (function () {
           var row = el('<div style="display:flex;gap:6px;margin:3px 0;align-items:center"><span style="flex:1">' + esc(c.name) + ' · ' + esc(c.pid.slice(0, 12)) + '…' + badge + '</span></div>');
           var s = el('<button class="btn">MSG</button>');
           s.onclick = function () {
-            var m = prompt("message to " + c.name + ":");
-            if (!m) return;
-            var ok = sendMsg(c.pid, m);
-            FANO.toast(ok ? "sealed → " + c.name : "NoRoute — relay down or peer unknown");
+            /* native dialogs throw under Electron — inline compose */
+            var box = el('<div style="display:flex;gap:6px;margin:2px 0 6px"></div>');
+            var mi = el('<input class="term-in" style="flex:1" spellcheck="false">');
+            mi.placeholder = "message to " + c.name;
+            var go = el('<button class="btn">SEND</button>');
+            var send = function () {
+              var m = mi.value; if (!m) return;
+              var ok = sendMsg(c.pid, m);
+              FANO.toast(ok ? "sealed → " + c.name : "NoRoute — relay down or peer unknown");
+              box.remove();
+            };
+            go.onclick = send;
+            mi.onkeydown = function (e) { if (e.key === "Enter") send(); };
+            box.appendChild(mi); box.appendChild(go);
+            rl.insertBefore(box, row.nextSibling);
+            mi.focus();
           };
           var del = el('<button class="btn">✕</button>');
           del.onclick = function () { rs.splice(i, 1); saveRoster(rs); renderPane(); };
@@ -530,5 +588,14 @@ window.FANO_COMMS = (function () {
     A().onWs(function () { if (cur === "wire") renderPane(); });
   }
 
-  return { open: open };
+  /* internals are exported for the sweep harness — they carry the
+     same gates as the UI path */
+  return { open: open, connect: connect, sendMsg: sendMsg,
+    addContact: addContact, syncContacts: syncContacts,
+    peerLabel: peerLabel, jread: jread,
+    inviteCreate: inviteCreate, inviteVerify: inviteVerify,
+    qrGen: qrGen, qrDec: qrDec, shamirSplit: shamirSplit,
+    shamirJoin: shamirJoin, carrierEnc: carrierEnc,
+    carrierDec: carrierDec, stegaEmbed: stegaEmbed,
+    stegaExtract: stegaExtract, roster: roster, peersJson: peersJson };
 })();
