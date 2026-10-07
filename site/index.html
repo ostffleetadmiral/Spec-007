@@ -133,19 +133,36 @@ On an unfounded desk, the first signature writes the genesis record — sha256 o
 </div>
 
 <script src="assets/fano-auth.js"></script>
+<script src="assets/fano-reset.js"></script>
 <script>
 try {
   if (localStorage.getItem('fano1.lang') === 'zh') window.location.replace('index-zh.html');
 } catch (e) {}
 document.getElementById('factory-reset').addEventListener('click', function (e) {
   e.preventDefault();
-  if (!confirm('Burn this desk\'s identity, founding, roster, and state? Lab reset — irreversible.')) return;
-  ['fano1.identity','fano1.genesis','fano1.issuers','fano1.callsigns','fano1.lives',
-   'fano1.comms.contacts','fano1.comms.relay','fano1.desk.state'].forEach(function (k) {
-    localStorage.removeItem(k);
+  FANO_RESET.guard().then(function (g) {
+    if (g.mode === 'vote') {
+      /* off-cluster flag desk — the founding is a fleet object; the
+         Admiralty burns it unanimously or not at all */
+      var tok = prompt('FLAG DESK on a foreign origin.\n\nThe Fleet Admiral\'s credentials do not burn ' +
+        'without a unanimous Admiralty vote.\nPaste a FANO-RESET-v1 token signed by every genesis member:');
+      if (!tok) return;
+      FANO_RESET.verifyVote(tok).then(function (ok) {
+        if (!ok) { alert('Vote refused — the token did not carry every genesis member\'s signature.'); return; }
+        var b = FANO_RESET.execute();
+        alert('Unanimous vote verified — founding burned (' + b.length + ' records).');
+        location.reload();
+      });
+      return;
+    }
+    var what = g.mode === 'cluster'
+      ? 'FLAG DESK on the sovereign cluster — unilateral burn authorized by origin.'
+      : 'Burn this desk\'s identity, founding, roster, and state? Lab reset — irreversible.';
+    if (!confirm(what)) return;
+    var burned = FANO_RESET.execute();
+    alert('Desk unfounded — ' + burned.length + ' records destroyed. The next signature founds it.');
+    location.reload();
   });
-  alert('Desk unfounded — the next signature founds it.');
-  location.reload();
 });
 var langBtn = document.createElement('span');
 langBtn.id = 'idx-lang';

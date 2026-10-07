@@ -10,29 +10,55 @@
         display:inline-block;padding:.4rem 1rem;transform:rotate(-3deg);
         font-weight:700;letter-spacing:.1em}
   a{color:#7fd4ff}
+  #votebox{display:none;margin:1rem 0}
+  #votebox textarea{width:100%;min-height:8rem;font-family:monospace}
+  button{padding:.5rem 1rem;background:#0d141b;color:#cfe3f4;
+        border:1px solid #2a3a48;border-radius:4px;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="dossier">
-  <div class="stamp">DESK RESET — LAB USE</div>
-  <h1>Founding cleared</h1>
-  <p>The following desk records were destroyed on this device only:</p>
-  <pre id="log">…</pre>
-  <p>The desk is unfounded. The next enrollment founds it — the first
-     signature claims the pinned callsign and the flag seat.</p>
+  <div class="stamp">DESK RESET — ADMIRALTY DOCTRINE</div>
+  <h1 id="title">Inspecting the desk…</h1>
+  <div id="verdict"></div>
+  <div id="votebox">
+    <p>This desk holds the <strong>flag founding</strong> on a foreign
+       origin. The Fleet Admiral's credentials burn only under a
+       <strong>unanimous Admiralty vote</strong> — paste a
+       FANO-RESET-v1 token signed by every genesis member:</p>
+    <textarea id="token" placeholder='{"body":{...},"sigs":{...}}'></textarea>
+    <p><button id="vote-btn">VERIFY VOTE &amp; BURN</button></p>
+  </div>
+  <pre id="log"></pre>
   <p><a href="index.html">→ proceed to the covenant</a></p>
 </div>
+<script src="assets/fano-reset.js"></script>
 <script>
-var KEYS = ["fano1.identity", "fano1.genesis", "fano1.issuers",
-            "fano1.callsigns", "fano1.lives", "fano1.comms.contacts",
-            "fano1.comms.relay", "fano1.desk.state"];
-var out = [];
-KEYS.forEach(function (k) {
-  var had = localStorage.getItem(k) !== null;
-  localStorage.removeItem(k);
-  out.push((had ? "destroyed  " : "absent     ") + k);
+var t = document.getElementById("title"), v = document.getElementById("verdict"),
+    log = document.getElementById("log");
+function burn(tag) {
+  var b = FANO_RESET.execute();
+  t.textContent = "Founding cleared — " + tag;
+  log.textContent = b.map(function (k) { return "destroyed  " + k; }).join("\n");
+}
+FANO_RESET.guard().then(function (g) {
+  if (g.mode === "vote") {
+    t.textContent = "Flag desk — vote required";
+    v.innerHTML = "<p>Founding callsign <code>" + (g.callsign || "?") +
+      "</code> is the Fleet Admiral's seat. A unanimous vote of the " +
+      "Admiralty is required to burn it on this origin.</p>";
+    document.getElementById("votebox").style.display = "block";
+    return;
+  }
+  burn(g.mode === "cluster" ? "sovereign cluster, unilateral" : "ordinary desk");
 });
-document.getElementById("log").textContent = out.join("\n");
+document.getElementById("vote-btn").addEventListener("click", function () {
+  FANO_RESET.verifyVote(document.getElementById("token").value).then(function (ok) {
+    if (ok) burn("unanimous vote verified");
+    else { t.textContent = "Vote refused"; v.innerHTML =
+      "<p>The token did not carry every genesis member's valid signature.</p>"; }
+  });
+});
 </script>
 </body>
 </html>
