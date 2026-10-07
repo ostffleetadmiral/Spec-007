@@ -573,6 +573,31 @@ console.log("\nDESK — identity, transfer, roaming");
           : open_("DESK", "transfer-foreign-genesis", JSON.stringify(r3v));
     }
   }
+
+  /* DESK-06/07: founding ≠ flag rank — a non-pinned first enrollment
+     founds the desk as FIELD-AGENT (2026-10-07: "marcus" on the public
+     deployment self-anointed FLEET-ADMIRAL before this was closed) */
+  {
+    const d4 = loadAuth(); await d4.A.load();
+    const r4 = d4.A.enroll("marcus", "marcus-pass-1");
+    const founded = !!d4.A.genesis();
+    const noIssue = !d4.A.grantCallsign("q", null, 90);
+    r4 && !r4.error && r4.cert && r4.cert.role === 0 &&
+    d4.A.session.role === 0 && founded && noIssue
+      ? held("DESK", "founding-not-flag",
+          "non-pinned first enrollment founds the desk as FIELD-AGENT — grant issuance refused below STATION-CHIEF")
+      : open_("DESK", "founding-not-flag",
+          `role=${r4 && r4.cert && r4.cert.role} session=${d4.A.session.role} founded=${founded} grant=${!noIssue}`);
+
+    const d5 = loadAuth(); await d5.A.load();
+    const r5 = d5.A.enroll("ramsey 006", "flag-pass-1");
+    r5 && !r5.error && r5.cert && r5.cert.role === 5 &&
+    d5.A.session.role === 5 && d5.A.genesis()
+      ? held("DESK", "pinned-founding-flag",
+          "pinned callsign still claims genesis as FLEET-ADMIRAL — flag-seat founding intact")
+      : open_("DESK", "pinned-founding-flag",
+          `role=${r5 && r5.cert && r5.cert.role} session=${d5.A.session.role} genesis=${!!d5.A.genesis()}`);
+  }
 }
 
 console.log("\nSPEC004 — classification drawer");

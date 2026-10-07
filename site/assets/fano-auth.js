@@ -681,11 +681,15 @@ window.FANO_AUTH = (function () {
        callsign to the founding public key. The pinned callsign is no
        shortcut: it only claims genesis on an unfounded desk. */
     var isGenesis = !loadRecord() && !genesis();
-    /* roaming flag: a fleet-anchored grant on the pinned callsign
-       signs in as FLEET-ADMIRAL without claiming this desk's founding */
-    var role = isGenesis ? ROLES.fleet_admiral :
-      (chk.grant && chk.grant._fleet && isPinned(norm)
-        ? ROLES.fleet_admiral : ROLES.field_agent);
+    /* founding ≠ flag rank. FLEET-ADMIRAL comes only from the pinned
+       callsign — claiming genesis on an unfounded desk, or enrolling
+       under a fleet-anchored grant (roaming). Any other first
+       enrollment founds the desk as a FIELD-AGENT: a fresh desk is an
+       operative, not an admiralty. Elevation enters only by grant
+       from an already-rostered STATION-CHIEF+ issuer or the fleet
+       anchor — never by being first through the door. */
+    var role = isPinned(norm) && (isGenesis || (chk.grant && chk.grant._fleet))
+      ? ROLES.fleet_admiral : ROLES.field_agent;
     var cert = issueCert(id.pk, norm, role, covHash, id.pk, id.sk, 365 * 5);
     if (chk.grant) claimGrant(chk.grant, hex(id.pk));
     var salt = randBytes(16), nonce = randBytes(12);

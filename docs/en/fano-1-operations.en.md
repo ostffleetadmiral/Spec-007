@@ -21,6 +21,16 @@
   wipe localStorage; the throttle defends the honest path.
 - **Covenant:** enrollment proves pk continuity and signs the founding
   covenant; the desk's founding is a hash-committed fact, not a UI label.
+- **Founding ≠ flag rank.** The first enrollment on an unfounded desk
+  writes the genesis record — but FLEET-ADMIRAL comes only from the
+  pinned callsign (`ramsey 006`) claiming genesis, or a fleet-anchored
+  grant (roaming). Any other first enrollment founds the desk as a
+  FIELD-AGENT — a fresh desk is an operative, not an admiralty. Before
+  2026-10-07 any first enrollment self-anointed FLEET-ADMIRAL
+  (found-and-fixed defect: a `marcus` signup on the public deployment
+  took the flag seat; DESK-06/07 now hold the boundary). Elevation
+  enters only by grant from a rostered STATION-CHIEF+ issuer or the
+  fleet anchor — never by being first through the door.
 
 ## 2. Origins
 
