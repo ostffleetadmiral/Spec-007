@@ -283,21 +283,31 @@ console.log("\nBLACK — supply chain");
     ok ? held("BLACK", "artifact-pins-live", `${Object.keys(arts).length} pins verify against live files`)
        : open_("BLACK", "artifact-pins-live", `mismatch: ${bad}`);
   }
-  /* BLK-03: gh-pages tree == site/ tree, file-for-file */
+  /* BLK-03: every site/ file deployed bit-identically + no stray files
+     on gh-pages beyond the deploy allowlist */
   {
+    const ALLOWED_EXTRA = new Set([".gitignore", "CNAME", ".nojekyll"]);
+    const local = [];
+    const walk = d => { for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      const p = path.join(d, e.name);
+      e.isDirectory() ? walk(p) : local.push(path.relative(SITE, p)); } };
+    walk(SITE);
     const remote = execSync("git ls-tree -r gh-pages --name-only",
       { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
+    const remoteSet = new Set(remote);
     let bad = null, checked = 0;
-    for (const f2 of remote) {
-      const loc = path.join(SITE, f2);
-      if (!fs.existsSync(loc)) { bad = `missing ${f2}`; break; }
+    for (const f2 of local) {
+      if (!remoteSet.has(f2)) { bad = `undeployed ${f2}`; break; }
       const r = spawnSync("git", ["show", `gh-pages:${f2}`],
         { cwd: ROOT, encoding: "buffer", maxBuffer: 30_000_000 });
-      if (r.status !== 0 || !Buffer.from(r.stdout).equals(fs.readFileSync(loc))) {
+      if (r.status !== 0 || !Buffer.from(r.stdout).equals(fs.readFileSync(path.join(SITE, f2)))) {
         bad = `differs ${f2}`; break; }
       checked++;
     }
-    !bad ? held("BLACK", "ghpages-parity", `${checked}/${remote.length} files bit-identical`)
+    const stray = remote.filter(f2 => !local.includes(f2) && !ALLOWED_EXTRA.has(f2));
+    if (!bad && stray.length) bad = `stray on gh-pages: ${stray.slice(0, 3)}`;
+    !bad ? held("BLACK", "ghpages-parity",
+           `${checked}/${local.length} site files bit-identical; ${stray.length} stray`)
          : open_("BLACK", "ghpages-parity", bad);
   }
   /* BLK-04: git-history secret scan across ALL commits */
@@ -456,9 +466,9 @@ console.log("\nSPEC004 — classification drawer");
   {
     const regInDrawer = fs.existsSync(
       path.join(DRAWER, "SPEC-004-REGISTRY.md"));
-    const regPublic = execSync(
-      "git ls-tree -r HEAD --name-only | grep -i 'SPEC-004'",
-      { cwd: ROOT, encoding: "utf8" }).trim();
+    const regPublic = (() => { try { return execSync(
+      "git ls-tree -r HEAD --name-only | grep -i 'SPEC-004' || true",
+      { cwd: ROOT, encoding: "utf8" }).trim(); } catch { return ""; } })();
     regInDrawer && !regPublic
       ? held("SPEC004", "registry-sealed", "SPEC-004-REGISTRY exists only inside the drawer")
       : open_("SPEC004", "registry-sealed",
