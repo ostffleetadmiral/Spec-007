@@ -1,0 +1,260 @@
+# FANO-1 Operations Manual — Workstation & Fleet Canon
+
+**Status:** IN EFFECT · **Date:** 2026-10-07
+**Scope:** everything the desk does that is not written down anywhere else — identity, roaming, transfer, reset, the Electron workstation, fleet canon, and the sweep runbook. Where this doc and a sweep disagree, the sweep wins; file the doc patch, not an excuse.
+
+---
+
+## 1. Identity
+
+- **Keypair:** Ed25519, expanded from a 32-byte seed. `sha256(pk)` is your
+  fingerprint everywhere — genesis hints, roster entries, covenant lines.
+- **Keystore:** the seed is wrapped by AES-256-GCM under a key derived from
+  your passphrase via PBKDF2. The unwrapped `session.sk` exists only in page
+  memory for the duration of the unlocked session — reload = re-unlock by
+  design (see Limits).
+- **TOTP:** RFC6238 second factor (Google-Authenticator-class). Optional at
+  enrollment; once set, required. Clock-bound; the secret is shown exactly
+  once during setup.
+- **Unlock throttle:** persisted exponential backoff
+  (`fano1.auth.fail`) across reloads. Depth, not a wall — a local attacker can
+  wipe localStorage; the throttle defends the honest path.
+- **Covenant:** enrollment proves pk continuity and signs the founding
+  covenant; the desk's founding is a hash-committed fact, not a UI label.
+
+## 2. Origins
+
+One origin = one device under the doctrine. `localhost` and `::1` bounce to
+`127.0.0.1` — the canonical host — so a store can never silently fork across
+loopback spellings.
+
+| Origin | Desk |
+|---|---|
+| `http://127.0.0.1:8080` | Browser desk (served by `tools/serve.py`) |
+| `http://127.0.0.1:8901` | Electron Admiralty Desk (embedded server, `persist:admiralty` partition) |
+| `http://127.0.0.1:8902` | Hardened test desk used by the KALI surface probes |
+
+The browser desk and the Electron desk are **different devices** even on the
+same machine. Records do not sync; they move by desk transfer (§4) or are
+re-enrolled.
+
+## 3. Roaming — FANO-ROOT-v1
+
+Two instruments, signed `FANO-ROOT-v1` grants verified against an issuer key:
+
+| Instrument | `sub` | Lifetime | Use |
+|---|---|---|---|
+| **Bound authenticator** | your pk hex | 365 days | A second desk you own — only *your* key can claim it |
+| **ROAMING PAPER** | `null` (unbound) | 30 days | Any desk on the fleet — enroll as you without founding it |
+
+Roaming paper is minted at `7q` → FLAG AUTHENTICATOR → **ROAMING PAPER** by
+the pinned flag seat only (`fleet_admiral` role required). To enroll on a
+foreign desk: covenant → enroll `ramsey 006` → paste the paper into the
+**grant token** field. The desk calls `bindFleetFlag`, resolves the
+`admiral`/`flag-seat` member in published `fleet-genesis.json`, and verifies
+the grant signature against that public key. You land as FLEET-ADMIRAL; the
+host desk's founding is untouched.
+
+**Bearer-instrument warning — read this once:** `sub:null` means whoever
+holds the paper holds the seat. A roaming paper in an inbox, a screenshot, a
+clipboard history is a flag seat with legs. Mint it, use it, let it die.
+Thirty days is the leash.
+
+## 4. Desk transfer — FANO-DESK-v1
+
+`export-desk` / `import-desk` in the covenant terminal, or the DOM import
+path on the transfer screen (Electron-safe — no `prompt()` anywhere in the
+auth path). The bundle carries the wrapped keystore record + founding state,
+signed by the exporting desk's key. Private key material is wrapped for the
+entire trip; the importing desk refuses bundles onto already-founded desks
+and refuses foreign-founding forgeries. Both directions work:
+browser↔Electron either way. On mint/export the token is pushed to the
+system clipboard automatically where a bridge exists (§6).
+
+## 5. Reset doctrine
+
+`reset.html` is the burn path. It shows a **census first** — callsign, pk
+fingerprint, genesis-flag status, TOTP-required, fail counter, desk-state
+presence — then burns the record and sweeps the sibling loopback origins'
+records in the same chain (one decision, all stores).
+
+Guard modes, proven in team-sweep-2 RED/GRAY:
+
+- **Ordinary desk** — resets freely. Your desk, your call; no false lockout.
+- **Flag desk on its cluster origin** — unilateral. The sovereign cluster is
+  the doctrine's own exception.
+- **Flag desk on a foreign origin** — requires a `FANO-RESET-v1` token
+  carrying **every genesis member's** Ed25519 signature over the canonical
+  body; bound to the founding callsign, 24-hour decay window. Forged,
+  partial, stale, or callsign-tampered tokens are all refused.
+  `security/admiralty-reset-token.mjs` mints the dual-signed token (digit
+  local + sheraton via ssh — private keys never travel).
+
+## 6. Electron Admiralty Desk — the workstation
+
+Launch: `admiralty-desk/desk.sh` (it strips `ELECTRON_RUN_AS_NODE`, which the
+dev shell leaks). The app embeds the site at `http://127.0.0.1:8901`, sandboxed
+renderer (`contextIsolation`, `sandbox`, `nodeIntegration: false`), identity
+in the `persist:admiralty` partition — Electron nuking or reinstall never
+touches the browser desk and vice versa.
+
+**Window controls** (`before-input-event`, window-scoped):
+
+| Key | Action |
+|---|---|
+| F11 | Toggle full-screen |
+| Esc | Exit full-screen (the desk UI doesn't bind Esc) |
+| Ctrl+M | Minimize |
+| Ctrl+Shift+Q | Quit the workstation |
+| Alt+F4 | Native quit |
+
+The Start menu carries the same shell items via the `ADMIRALTY_DESK` IPC
+bridge (`desk:quit` / `desk:minimize` / `desk:fullscreen`).
+
+**OS input stack** — the desk behaves like a real OS surface:
+
+- **Edit accelerators** — a hidden native Edit menu provides real roles:
+  Ctrl+C/X/V/A work in every field on every page.
+- **Right-click menu** — native context menu: cut/copy/paste/select-all on
+  editable fields, copy on any selection.
+- **Clipboard bridge** — `ADMIRALTY_DESK.clipboard.{write,read}` → system
+  clipboard via IPC. `copyText()` in `desk.js` prefers the bridge and falls
+  back to `navigator.clipboard`, so it also works in the browser desk.
+- **Auto-copy** — `export-desk`, authenticator mint/refresh/export, and
+  roaming-paper mint all push the token straight to the system clipboard.
+  GENESIS SEAT carries a **COPY PK** button (the full 64-hex public key,
+  not the 16-hex fingerprint — the fingerprint is for humans, the key is
+  for genesis).
+- **Mouse capture** — `pointerLock` permission granted to the desk origin
+  only; games and sandboxes can grab the cursor, everything else is denied.
+- **Selectable content** — `.win-body` contents are text-selectable like a
+  real OS; window chrome (titlebars, icons, taskbar) stays locked.
+
+**Suite theming** — `.cmdsuite` renders on the ops-dark console palette
+(`--console-bg`, phosphor inks). It lives *inside* `.win-body`, which paints
+`--win-paper` (cream) for dossier pages — the dark-on-light wash that made
+the suite unreadable was the suite inheriting paper paper. Fixed; the split
+is intentional: suites are consoles, dossier pages are paper.
+
+## 7. Fleet canon — genesis, manifest, rendezvous
+
+### Genesis (`fleet-genesis.json`)
+
+The fleet's trust root: canonical JSON, Ed25519-signed by the genesis roots
+(`digit`, `sheraton`). Members are endorsed, not signers — the `admiral`
+flag-seat member is *in* genesis but does not sign it. Current shape:
+3 members, payload `sha256:95f5b05a…`.
+
+**Amending:** `security/fleet-genesis-update.mjs --pk <64-hex>` admits a
+member, re-canonicalizes, re-signs through both roots (digit local,
+sheraton over ssh), and writes **both** `fleet-genesis.json` and
+`site/fleet-genesis.json`. publish-check gates the two copies byte-for-byte
+so they cannot drift again.
+
+**TOFU re-pin:** desks pin the first genesis they fetch. A deliberate
+amendment therefore surfaces as **GENESIS CONFLICT** on pinned desks — that
+is the guard working, not a bug. The re-pin path is deliberate and manual:
+verify the new payload's member sigs (the bootstrap already does this before
+reporting the conflict), then retire the stale pin
+(`~/.config/fleet/genesis.json` on Linux desks). Never auto-overwrite a
+conflict.
+
+### Manifest (`fleet-manifest.json` + `fleet_bootstrap.py`)
+
+The bulletin board: an ed25519-signed manifest published via git push,
+fetched by peers over `raw.githubusercontent.com`. `fleet-manifest.mjs
+--emit` regenerates it citing the current genesis hash and writes both the
+root and `site/` copies (same canon gate). `fleet_bootstrap.py` verifies the
+pinned genesis, requires the manifest to cite that exact genesis hash AND be
+signed by a genesis member, then populates rendezvous. Board tampering →
+GENESIS CONFLICT or signer rejection, fail-loud. Note:
+raw.githubusercontent CDN serves stale copies for minutes after a push —
+bootstrap retries staleness before judging.
+
+### Rendezvous (`fleet-map.mjs`)
+
+Probe-measured address book, not asserted names: digit's v6 edge, sheraton
+v4+v6, mesh node AP/STA bindings. Identity is the seal; location is
+measured. Unreachable hosts are reported, not smoothed over (HTTP timeout
+handling patched 2026-10-07 — dead mesh IPs defer fast instead of hanging).
+
+### Seed drops (`seed-drop.mjs`)
+
+One-time-pad seed drops for desk pairs. The minted plan creates **one drop
+per pair** — sibling coverage is a mint-time redundancy decision, not an
+assumption the verifier should make (RAT-07 documents this boundary;
+`rations-stress.mjs` now stages a real sibling for the single-expiry case).
+`--audit` reads a plan without minting.
+
+## 8. Sweep runbook
+
+Order matters — several suites consume artifacts or ports that earlier
+steps produce:
+
+```sh
+# 1. Generate the lattice artifact gov-stress consumes
+node security/lattice-probe.mjs          # writes out/ivector-lattice.json
+node security/gov-stress.mjs
+
+# 2. Mint drops, then stress them
+node security/seed-drop.mjs
+node security/rations-stress.mjs
+
+# 3. The consolidated team sweep (RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004)
+node security/team-sweep-2.mjs
+
+# 4. Point-in-time audits
+node security/sentinel-sweep.mjs
+node security/superpowers-audit.mjs      # live-verifies genesis sigs
+node security/capstone-audit.mjs
+
+# 5. KALI surface — needs the docker lab + a desk target
+export HYDRA_TOKEN=… WAN_TOKEN=…         # compose refuses ungated start
+docker compose -f security/docker-compose.wan.yml up -d
+python3 tools/serve.py --port 8902 &     # hardened desk target
+node security/kali-sweep.mjs             # absent services → NOTED, not crash
+RELAY_URL=ws://localhost:18081/ws RELAY_HTTP=http://localhost:18081 \
+    node security/suite.mjs
+docker compose -f security/docker-compose.wan.yml down
+
+# 6. Canon + deploy gate (surname tripwire, genesis/manifest parity, tests)
+./tools/publish-check.sh
+```
+
+Or let `comms-suite.mjs` stand the lab up for you: it generates per-run
+tokens and passes them to compose — **but pass `--keep`** (an argv flag;
+`KEEP=1` env is ignored) or it tears the lab down on exit.
+
+**Verdict vocabulary:** `HELD`/`HARDENED` = tested and resisted;
+`NOTED`/`BOUNDARY` = observed or architecturally limited (documented);
+`OPEN`/`EXPLOITED`/`FRACTURE` = a real hole — do not ship.
+
+**`out/findings.json` is generated** — rewritten on every suite run. It's
+evidence, not source: exempt from gh-pages byte-parity, never hand-edited.
+
+## 9. Honest limits
+
+Recorded, not excused:
+
+1. `session.sk` lives in page memory while unlocked — reload = re-unlock;
+   a page-level compromise of an unlocked session is a key compromise.
+2. Roster injection is desk-local theater — it changes what your screen
+   shows, not what the fleet trusts (published genesis gates everything).
+3. `fano-comms.js` still uses `prompt()` — silent failure under Electron
+   (composer rebuild pending). The auth/transfer paths are prompt-free.
+4. External IPv6 inbound to the WAN edge is unverified — IPv4 is CGNAT-
+   blocked, AAAA/record-side verification pending.
+5. TOFU cold-boot: a desk's first genesis fetch can still be served a
+   self-consistent attacker board until an out-of-band pin exists.
+6. `capacity()` in the stega/carriage deps returns registry slots, not byte
+   counts — round-trip empirically, don't budget from it.
+7. ESP32 mesh nodes report unreachable when unpowered — that's the probe
+   telling the truth, not a fault.
+8. The 136-byte envelope's payload tail is unauthenticated scratch —
+   receivers must honor `plen`.
+
+---
+
+*Twins: `docs/zh-Hant/fano-1-operations.zh-Hant.md`. Ledger rows this doc
+summarizes live in `spec-008-ipv6-tensor` and `fleet-superpowers`; capability
+claims live in `fleet-superpowers` (28/28 live-verified).*

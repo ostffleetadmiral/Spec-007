@@ -116,6 +116,17 @@ Observed flake (not in the green run but measured separately): `test_web_expande
 | FA-07 | theplatform | BOUNDARY | Suite requires Zig 0.16.0; host-default 0.13.0 cannot build it — toolchain-gated verification |
 | FA-08 | theplatform | BOUNDARY | 9 rand/timestamp files; static-scan ingestion flags reviewed → idiomatic optional-file reads |
 
+### Resolution — FA-01 REPAIRED (2026-10-07)
+
+The single FRACTURE was repaired in the giant's own loop, per rule 5:
+`eu_version_z/rag/chunker.py` `load_chunks` now catches
+`(OSError, UnicodeDecodeError)` and skips malformed files with the same
+contract as unreadable ones. Regression test `test_load_chunks_skips_binary_md`
+added in `tests/test_coverage_rag.py` — 59 related tests green. Giant commit
+`3153cfd` (local to the euz repo at audit time). Tally after repair:
+`HELD ×11 · BOUNDARY ×7 · FRACTURE ×0` — the BOUNDARY items stand as recorded;
+each is an honest envelope, not a defect.
+
 ## 5. Standing rules for external audits
 
 1. **Their contracts, not ours** — a giant is judged against its own AGENTS.md/manifest. Canonical-core laws (integer-purity, descent closure) apply only where the giant claims them.

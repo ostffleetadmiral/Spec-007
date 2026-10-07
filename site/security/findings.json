@@ -1,195 +1,7 @@
 {
-  "generated": "2026-10-07T20:37:06.645Z",
+  "generated": "2026-10-07T21:52:07.748Z",
+  "relay": "ws://localhost:18081/ws",
   "findings": [
-    {
-      "id": "SENT-01",
-      "team": "SENTINEL",
-      "name": "cold-boot-hostile-board",
-      "verdict": "NOTED",
-      "severity": "info",
-      "detail": "TOFU accepted a self-consistent ATTACKER genesis on first contact — correct behavior for trust-on-first-use, and the honest limit: first-boot trust is whoever the board serves. Defense = out-of-band pin distribution (ship ~/.config/fleet/genesis.json with the node image)",
-      "ts": "2026-10-07T19:50:30.212Z"
-    },
-    {
-      "id": "SENT-02",
-      "team": "SENTINEL",
-      "name": "pinned-genesis-conflict",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "GENESIS CONFLICT — foreign-but-valid genesis refused against pin: GENESIS CONFLICT — pinned 95f5b05aaacf2d99 vs fetched 61cf4a69bfc5b077 — possible board tampering",
-      "ts": "2026-10-07T19:50:30.343Z"
-    },
-    {
-      "id": "SENT-03",
-      "team": "SENTINEL",
-      "name": "foreign-signer-rejected",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "non-genesis signer refused: manifest signer sha256:b1ffb8b363b9ca25 is not a genesis member",
-      "ts": "2026-10-07T19:50:30.471Z"
-    },
-    {
-      "id": "SENT-04",
-      "team": "SENTINEL",
-      "name": "manifest-replay-window",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "rejected rc=1",
-      "ts": "2026-10-07T19:50:30.596Z"
-    },
-    {
-      "id": "SENT-05",
-      "team": "SENTINEL",
-      "name": "gateway-flood-siege",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "206 forged/malformed dropped; every forwarded datagram seal-verifies (31 in: covered-forgeries leaked=false); gateway alive",
-      "ts": "2026-10-07T19:50:32.621Z"
-    },
-    {
-      "id": "SENT-06",
-      "team": "SENTINEL",
-      "name": "canon-parity-adversarial",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "unicode/escapes/nested — JS canon byte-matches Python canon (cross-impl signature domain intact, 158B)",
-      "ts": "2026-10-07T19:50:32.663Z"
-    },
-    {
-      "id": "SENT-07",
-      "team": "SENTINEL",
-      "name": "no-private-keys-committed",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "committed tree carries zero PEM private keys",
-      "ts": "2026-10-07T19:50:32.728Z"
-    },
-    {
-      "id": "SENT-08",
-      "team": "SENTINEL",
-      "name": "artifact-pins-signed",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "5 artifacts hashed inside the signed manifest — board-served tamper fails closed at verify time",
-      "ts": "2026-10-07T19:50:32.729Z"
-    },
-    {
-      "id": "SENT-09",
-      "team": "SENTINEL",
-      "name": "ghpages-artifact-identity",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "deployed fano.wasm bit-identical to the audited artifact",
-      "ts": "2026-10-07T19:50:32.735Z"
-    },
-    {
-      "id": "SENT-10",
-      "team": "SENTINEL",
-      "name": "stale-manifest-rejected",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "non-descending manifest retried then refused (20s, staleness-aware)",
-      "ts": "2026-10-07T19:50:52.885Z"
-    },
-    {
-      "id": "DESK-01",
-      "team": "DESK",
-      "name": "roaming-flag-signin",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "fleet-anchored authenticator enrolls ramsey 006 as FLEET-ADMIRAL on a foreign founded desk — no founding claimed",
-      "ts": "2026-10-07T19:57:03.929Z"
-    },
-    {
-      "id": "DESK-02",
-      "team": "DESK",
-      "name": "roaming-forgery",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "attacker-issued authenticator refused — iss is not the fleet flag",
-      "ts": "2026-10-07T19:57:04.290Z"
-    },
-    {
-      "id": "DESK-03",
-      "team": "DESK",
-      "name": "transfer-roundtrip",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "export→import carries record + founding; credential unwraps on the new desk",
-      "ts": "2026-10-07T19:57:04.999Z"
-    },
-    {
-      "id": "DESK-04",
-      "team": "DESK",
-      "name": "transfer-tamper",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "post-sign mutation → sig_invalid",
-      "ts": "2026-10-07T19:57:05.026Z"
-    },
-    {
-      "id": "DESK-05",
-      "team": "DESK",
-      "name": "transfer-foreign-genesis",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "tampered genesis also invalidates the signature — refused earlier, still safe",
-      "ts": "2026-10-07T19:57:05.046Z"
-    },
-    {
-      "id": "SPEC004-01",
-      "team": "SPEC004",
-      "name": "drawer-never-shipped",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "HEAD + gh-pages + full history: zero drawer paths",
-      "ts": "2026-10-07T19:57:05.094Z"
-    },
-    {
-      "id": "SPEC004-02",
-      "team": "SPEC004",
-      "name": "ghpages-tripwire",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "133 deployed files surname-clean",
-      "ts": "2026-10-07T19:57:05.169Z"
-    },
-    {
-      "id": "SPEC004-03",
-      "team": "SPEC004",
-      "name": "registry-sealed",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "SPEC-004-REGISTRY exists only inside the drawer",
-      "ts": "2026-10-07T19:57:05.181Z"
-    },
-    {
-      "id": "SPEC004-04",
-      "team": "SPEC004",
-      "name": "declassified-clean",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "4 declassified copies, surname-clean",
-      "ts": "2026-10-07T19:57:05.183Z"
-    },
-    {
-      "id": "SPEC004-05",
-      "team": "SPEC004",
-      "name": "drawer-restored",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "drawer restored intact from archive after git-clean incident; gitignore holds",
-      "ts": "2026-10-07T19:57:05.183Z"
-    },
-    {
-      "id": "SPEC004-06",
-      "team": "SPEC004",
-      "name": "generated-excluded",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "security/out + zig-out absent from tree",
-      "ts": "2026-10-07T19:57:05.195Z"
-    },
     {
       "id": "FURN-01",
       "team": "FURNACE",
@@ -389,366 +201,6 @@
       "ts": "2026-10-07T20:02:25.656Z"
     },
     {
-      "id": "GOV-01",
-      "team": "GOV",
-      "name": "malformed-corpus",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "5 hostile files indexed; re-run byte-identical — the index doesn't parse, it measures",
-      "ts": "2026-10-07T20:02:58.949Z"
-    },
-    {
-      "id": "GOV-02",
-      "team": "GOV",
-      "name": "unreadable-dir",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "sealed dir skipped with recorded error (EACCES), open dir indexed — graceful degradation",
-      "ts": "2026-10-07T20:02:59.020Z"
-    },
-    {
-      "id": "GOV-03",
-      "team": "GOV",
-      "name": "deep-nesting",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "822-level tree (4094 chars) walked without crash — recursion survives to the path wall",
-      "ts": "2026-10-07T20:02:59.326Z"
-    },
-    {
-      "id": "GOV-04",
-      "team": "GOV",
-      "name": "exclusion-semantics",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "dot-prefixed excluded; bare \"archive\"/\"Archive\" indexed — the contract is literal: only .-prefix hides",
-      "ts": "2026-10-07T20:02:59.401Z"
-    },
-    {
-      "id": "GOV-05",
-      "team": "GOV",
-      "name": "tripwire-evasion-classes",
-      "verdict": "NOTED",
-      "severity": "medium",
-      "detail": "tripwire catches exact-case words only — EVADES: lowercase, uppercase, mixed, leetspeak, spaced, fullwidth, zerowidth, fused, fused-prefix, entity, url-encoded. Scope: accident-catcher, not adversary filter; the real boundary is architectural (classified stays bridge-side)",
-      "ts": "2026-10-07T20:02:59.489Z"
-    },
-    {
-      "id": "GOV-06",
-      "team": "GOV",
-      "name": "churn-determinism",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "docs 2→3→2, names sorted [b.md,c.md] — the index tracks the corpus exactly",
-      "ts": "2026-10-07T20:02:59.710Z"
-    },
-    {
-      "id": "GOV-07",
-      "team": "GOV",
-      "name": "lattice-data-ceiling",
-      "verdict": "NOTED",
-      "severity": "info",
-      "detail": "8.1 KiB artifact, 3375 cells: JSON.parse 0.3ms, 15³ grid build 0.4ms — data path trivial; DOM paint (3375 nodes) deferred to a browser environment (no Chromium on host)",
-      "ts": "2026-10-07T20:02:59.710Z"
-    },
-    {
-      "id": "COMM-01",
-      "team": "COMM",
-      "name": "hydra-ledger-id",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "e1:3f961edf e2:4882eac4 w1:37c8fbe9 w2:8bfda3a6 bridge:8fe27f6b",
-      "ts": "2026-10-07T20:03:28.917Z"
-    },
-    {
-      "id": "COMM-02",
-      "team": "COMM",
-      "name": "distinct-peer-ids",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "5 unique",
-      "ts": "2026-10-07T20:03:28.918Z"
-    },
-    {
-      "id": "COMM-03",
-      "team": "COMM",
-      "name": "auto-contact-same-segment",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "e2 learned e1 from presence beacon",
-      "ts": "2026-10-07T20:03:37.618Z"
-    },
-    {
-      "id": "COMM-04",
-      "team": "COMM",
-      "name": "sealed-send-lan",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "1569ms, sealed=true",
-      "ts": "2026-10-07T20:03:39.187Z"
-    },
-    {
-      "id": "COMM-05",
-      "team": "COMM",
-      "name": "auto-contact-cross-segment",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "w1 learned e1 through wan edge (relay_route presence)",
-      "ts": "2026-10-07T20:03:40.698Z"
-    },
-    {
-      "id": "COMM-06",
-      "team": "COMM",
-      "name": "sealed-send-wan",
-      "verdict": "NOTED",
-      "severity": "info",
-      "detail": "delivered but UNSEALED — contact key not yet exchanged; plaintext crossed the impaired edge",
-      "ts": "2026-10-07T20:03:41.309Z"
-    },
-    {
-      "id": "COMM-07",
-      "team": "COMM",
-      "name": "wan-delivery-under-jitter",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "10/10 arrived (app-layer resend over lossy edge)",
-      "ts": "2026-10-07T20:03:48.354Z"
-    },
-    {
-      "id": "COMM-08",
-      "team": "COMM",
-      "name": "consensus-votes",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "3 verified, forged sig rejected",
-      "ts": "2026-10-07T20:03:48.396Z"
-    },
-    {
-      "id": "COMM-09",
-      "team": "COMM",
-      "name": "per-node-ledgers",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "5/5 mined+verified, 5 distinct tips (own ledger each)",
-      "ts": "2026-10-07T20:03:48.513Z"
-    },
-    {
-      "id": "COMM-10",
-      "team": "COMM",
-      "name": "heavy-impairment-delivery",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "300ms+150j/8%loss/15%reorder edge → delivered in ~809ms",
-      "ts": "2026-10-07T20:03:49.533Z"
-    },
-    {
-      "id": "COMM-11",
-      "team": "COMM",
-      "name": "impairment-accounting",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "proxy saw traffic — rx=170 tx=154 dropped=9 duped=3 delayed=161",
-      "ts": "2026-10-07T20:03:49.621Z"
-    },
-    {
-      "id": "COMM-12",
-      "team": "COMM",
-      "name": "partition-honest",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "killed edge → no cross-segment leak",
-      "ts": "2026-10-07T20:03:53.746Z"
-    },
-    {
-      "id": "COMM-13",
-      "team": "COMM",
-      "name": "dual-homed-bypass",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "WAN edge dead — dual-homed bridge relay still delivered",
-      "ts": "2026-10-07T20:03:57.022Z"
-    },
-    {
-      "id": "COMM-14",
-      "team": "COMM",
-      "name": "node-churn-stop",
-      "verdict": "NOTED",
-      "severity": "info",
-      "detail": "w2 stopped — send routed=true (route may still exist; delivery is what matters)",
-      "ts": "2026-10-07T20:04:10.886Z"
-    },
-    {
-      "id": "COMM-15",
-      "team": "COMM",
-      "name": "node-churn-recover",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "w2 restarted, re-dialed, re-learned e1 via presence",
-      "ts": "2026-10-07T20:04:21.369Z"
-    },
-    {
-      "id": "COMM-16",
-      "team": "COMM",
-      "name": "callsign-restricted",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "12/12 restricted names refused",
-      "ts": "2026-10-07T20:04:21.435Z"
-    },
-    {
-      "id": "COMM-17",
-      "team": "COMM",
-      "name": "callsign-pinned-genesis",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "ramsey 006 → FLEET-ADMIRAL · genesis record bound to founding pk",
-      "ts": "2026-10-07T20:04:21.800Z"
-    },
-    {
-      "id": "COMM-18",
-      "team": "COMM",
-      "name": "callsign-genesis-bound",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "post-genesis ramsey 006 → claimed; founding key holds it",
-      "ts": "2026-10-07T20:04:21.803Z"
-    },
-    {
-      "id": "COMM-19",
-      "team": "COMM",
-      "name": "callsign-genesis-grant",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "admiral grant moves the pinned callsign to its bound pk only",
-      "ts": "2026-10-07T20:04:21.812Z"
-    },
-    {
-      "id": "COMM-20",
-      "team": "COMM",
-      "name": "callsign-grant-lifecycle",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "FIELD-AGENT refused · ADMIRAL issued · one-shot claim bound to pk · reuse refused",
-      "ts": "2026-10-07T20:04:22.124Z"
-    },
-    {
-      "id": "COMM-21",
-      "team": "COMM",
-      "name": "callsign-grant-bound",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "admiral-issued grant bound to another pk → rejected",
-      "ts": "2026-10-07T20:04:22.125Z"
-    },
-    {
-      "id": "COMM-22",
-      "team": "COMM",
-      "name": "branch-request-sign",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "request signed by requester pk · verifies · exports as token",
-      "ts": "2026-10-07T20:04:22.130Z"
-    },
-    {
-      "id": "COMM-23",
-      "team": "COMM",
-      "name": "branch-request-tamper",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "tampered request token refused on import",
-      "ts": "2026-10-07T20:04:22.131Z"
-    },
-    {
-      "id": "COMM-24",
-      "team": "COMM",
-      "name": "branch-admiral-only",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "FIELD-AGENT and STATION-CHIEF both refused — flag rank only",
-      "ts": "2026-10-07T20:04:22.131Z"
-    },
-    {
-      "id": "COMM-25",
-      "team": "COMM",
-      "name": "branch-roster-enforced",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "non-rostered signature fails verification; rostered issuer's verifies",
-      "ts": "2026-10-07T20:04:22.136Z"
-    },
-    {
-      "id": "COMM-26",
-      "team": "COMM",
-      "name": "flag-credential-seat",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "non-flag desk refused the mint — authenticators are flag-seat only",
-      "ts": "2026-10-07T20:04:22.137Z"
-    },
-    {
-      "id": "COMM-27",
-      "team": "COMM",
-      "name": "flag-credential-mint",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "FANO-ROOT-v1 issued — self-rooted, sub-bound, grant embedded, verifies",
-      "ts": "2026-10-07T20:04:22.483Z"
-    },
-    {
-      "id": "COMM-28",
-      "team": "COMM",
-      "name": "flag-credential-wire",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "foreign desk verifies the flag's paper — signature + roster, not local state",
-      "ts": "2026-10-07T20:04:22.486Z"
-    },
-    {
-      "id": "COMM-29",
-      "team": "COMM",
-      "name": "flag-credential-forgery",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "role-downgrade and forged gen-anchor both refused",
-      "ts": "2026-10-07T20:04:22.487Z"
-    },
-    {
-      "id": "COMM-30",
-      "team": "COMM",
-      "name": "grant-still-coupon",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "non-flag grants remain FANO-CALLSIGN-v1 coupons — authenticators are flag-only",
-      "ts": "2026-10-07T20:04:22.490Z"
-    },
-    {
-      "id": "COMM-31",
-      "team": "COMM",
-      "name": "totp-encrypted-setup",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "QStar.net seed generated + otpauth URI; plaintext absent, AES-GCM ciphertext stored",
-      "ts": "2026-10-07T20:04:22.491Z"
-    },
-    {
-      "id": "COMM-32",
-      "team": "COMM",
-      "name": "totp-rfc6238-code",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "six-digit 30s TOTP verifies; invalid code refused",
-      "ts": "2026-10-07T20:04:22.493Z"
-    },
-    {
-      "id": "COMM-33",
-      "team": "COMM",
-      "name": "totp-relock-gate",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "credential unlock leaves session pending until TOTP second factor",
-      "ts": "2026-10-07T20:04:22.821Z"
-    },
-    {
       "id": "PHILOTIC-01",
       "team": "PHILOTIC",
       "name": "instant-correlation-zero-wire",
@@ -911,501 +363,6 @@
       "ts": "2026-10-07T20:26:09.324Z"
     },
     {
-      "id": "SEC-01",
-      "team": "RED",
-      "name": "forged-covenant-sig",
-      "verdict": "HARDENED",
-      "severity": "critical",
-      "detail": "random 64B signature over covenant → verify=false",
-      "ts": "2026-10-07T20:30:52.547Z"
-    },
-    {
-      "id": "SEC-02",
-      "team": "RED",
-      "name": "keystore-ct-tamper",
-      "verdict": "HARDENED",
-      "severity": "critical",
-      "detail": "flipped ct byte → unlock=rejected",
-      "ts": "2026-10-07T20:30:53.339Z"
-    },
-    {
-      "id": "SEC-03",
-      "team": "RED",
-      "name": "keystore-pk-substitution",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "swapped pk → continuity check rejected",
-      "ts": "2026-10-07T20:30:54.022Z"
-    },
-    {
-      "id": "SEC-04",
-      "team": "RED",
-      "name": "covenant-sig-swap",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "sig by foreign key → unlock=rejected",
-      "ts": "2026-10-07T20:30:54.696Z"
-    },
-    {
-      "id": "SEC-05",
-      "team": "RED",
-      "name": "qr-decode-garbage",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "uniform noise 10x10 → rc=129",
-      "ts": "2026-10-07T20:30:54.701Z"
-    },
-    {
-      "id": "SEC-06",
-      "team": "RED",
-      "name": "qr-decode-len-lie",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "dims claim 10000px, buffer is 4B — clean error",
-      "ts": "2026-10-07T20:30:54.704Z"
-    },
-    {
-      "id": "SEC-07",
-      "team": "RED",
-      "name": "stega-garbage-input",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "fake PNG → extract=false",
-      "ts": "2026-10-07T20:30:54.705Z"
-    },
-    {
-      "id": "SEC-08",
-      "team": "RED",
-      "name": "carrier-garbage-input",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "non-carrier blob → status=0x82",
-      "ts": "2026-10-07T20:30:54.706Z"
-    },
-    {
-      "id": "SEC-09",
-      "team": "RED",
-      "name": "shamir-bad-params",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "k>n → reject; k=0 → reject",
-      "ts": "2026-10-07T20:30:54.708Z"
-    },
-    {
-      "id": "SEC-10",
-      "team": "RED",
-      "name": "relay-origin-abuse",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "Origin: evil.example → 1133",
-      "ts": "2026-10-07T20:30:54.863Z"
-    },
-    {
-      "id": "SEC-11",
-      "team": "RED",
-      "name": "relay-no-origin",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "no Origin header → closed",
-      "ts": "2026-10-07T20:30:54.873Z"
-    },
-    {
-      "id": "SEC-12",
-      "team": "RED",
-      "name": "relay-oversize-payload",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "4MiB+1 frame → closed:03f1",
-      "ts": "2026-10-07T20:30:54.926Z"
-    },
-    {
-      "id": "SEC-13",
-      "team": "RED",
-      "name": "relay-msg-flood",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "300 msgs burst → closed:03f0",
-      "ts": "2026-10-07T20:30:54.993Z"
-    },
-    {
-      "id": "SEC-14",
-      "team": "RED",
-      "name": "relay-bad-opcode",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "opcode 0xB → closed:03ea",
-      "ts": "2026-10-07T20:30:55.001Z"
-    },
-    {
-      "id": "SEC-15",
-      "team": "RED",
-      "name": "channel-replay",
-      "verdict": "HARDENED",
-      "severity": "low",
-      "detail": "ready=1/1 seal=1 first=\"replay-me\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\" replay=\"n/a\" — ",
-      "ts": "2026-10-07T20:30:55.206Z"
-    },
-    {
-      "id": "SEC-16",
-      "team": "BLUE",
-      "name": "wasm-sha256-continuity",
-      "verdict": "HARDENED",
-      "severity": "critical",
-      "detail": "bbdca54672a9f713… vs sidecar bbdca54672a9f713…",
-      "ts": "2026-10-07T20:30:55.212Z"
-    },
-    {
-      "id": "SEC-17",
-      "team": "BLUE",
-      "name": "quine-csp-no-eval",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "CSP present=true bare unsafe-eval=false (wasm-unsafe-eval allowed)",
-      "ts": "2026-10-07T20:30:55.217Z"
-    },
-    {
-      "id": "SEC-18",
-      "team": "BLUE",
-      "name": "relay-debug-gate",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "/__probe → HTTP 404 (RATIONS_DEBUG unset)",
-      "ts": "2026-10-07T20:30:55.241Z"
-    },
-    {
-      "id": "SEC-19",
-      "team": "BLUE",
-      "name": "relay-http-headers",
-      "verdict": "HARDENED",
-      "severity": "low",
-      "detail": "COOP=same-origin",
-      "ts": "2026-10-07T20:30:55.258Z"
-    },
-    {
-      "id": "SEC-20",
-      "team": "BLUE",
-      "name": "aes-gcm-tag-check",
-      "verdict": "HARDENED",
-      "severity": "critical",
-      "detail": "flipped tag bit → decrypt=false",
-      "ts": "2026-10-07T20:30:55.259Z"
-    },
-    {
-      "id": "SEC-21",
-      "team": "BLUE",
-      "name": "unlock-lockout",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "5 wrong → locked=true remain=15s, correct-pass-while-locked rejected=true. Note: local attacker can clear storage — relay-side throttle is the real wall",
-      "ts": "2026-10-07T20:30:57.288Z"
-    },
-    {
-      "id": "SEC-22",
-      "team": "BLACK",
-      "name": "offline-crack-cost",
-      "verdict": "NOTED",
-      "severity": "medium",
-      "detail": "PBKDF2(100k) ≈ 321ms/try → ~3 tries/s → 8-char [a-z0-9] space ≈ 3.0e+4 yrs single-core. Weak passphrases remain the weakest link; min-length is 8",
-      "ts": "2026-10-07T20:30:57.979Z"
-    },
-    {
-      "id": "SEC-23",
-      "team": "BLACK",
-      "name": "keystore-stego-exfil",
-      "verdict": "NOTED",
-      "severity": "low",
-      "detail": "stega_embed available — keystore JSON (811B) fits typical LSB capacity; transported blob remains AES-GCM ciphertext, so exfil of the record ≠ key recovery",
-      "ts": "2026-10-07T20:30:57.979Z"
-    },
-    {
-      "id": "SEC-24",
-      "team": "BLACK",
-      "name": "shamir-recovery",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "3-of-5 → recon=true; 2 shares recover=false",
-      "ts": "2026-10-07T20:30:57.981Z"
-    },
-    {
-      "id": "SEC-25",
-      "team": "BLACK",
-      "name": "burn-irrecoverable",
-      "verdict": "HARDENED",
-      "severity": "low",
-      "detail": "record gone=true session zeroed=true — WASM memory still holds seed until reload (JS-layer finding)",
-      "ts": "2026-10-07T20:30:58.337Z"
-    },
-    {
-      "id": "SEC-26",
-      "team": "BLACK",
-      "name": "storage-plaintext-scan",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "record 870B — plaintext seed present=false (seed only lives inside AES-GCM ct)",
-      "ts": "2026-10-07T20:30:58.682Z"
-    },
-    {
-      "id": "SEC-27",
-      "team": "GRAY",
-      "name": "field-agent-qbranch-gate",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "unlocked role=0 → hasRole(Q-BRANCH)=false",
-      "ts": "2026-10-07T20:31:00.008Z"
-    },
-    {
-      "id": "SEC-28",
-      "team": "GRAY",
-      "name": "forged-role-cert",
-      "verdict": "HARDENED",
-      "severity": "critical",
-      "detail": "self-signed role-5 cert → verifyCert=false — elevated role requires rostered issuer",
-      "ts": "2026-10-07T20:31:00.029Z"
-    },
-    {
-      "id": "SEC-29",
-      "team": "GRAY",
-      "name": "cert-transplant",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "foreign-issuer cert on ghost record → verifyCert=false",
-      "ts": "2026-10-07T20:31:00.055Z"
-    },
-    {
-      "id": "SEC-30",
-      "team": "GRAY",
-      "name": "cert-role-tamper",
-      "verdict": "HARDENED",
-      "severity": "high",
-      "detail": "role 0→5 edit, stale sig → verifyCert=false",
-      "ts": "2026-10-07T20:31:00.080Z"
-    },
-    {
-      "id": "SEC-31",
-      "team": "GRAY",
-      "name": "cert-expiry",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "expired cert → verifyCert=false",
-      "ts": "2026-10-07T20:31:00.095Z"
-    },
-    {
-      "id": "SEC-32",
-      "team": "BLUE",
-      "name": "compute-wasm-abi",
-      "verdict": "HARDENED",
-      "severity": "medium",
-      "detail": "spec007.wasm 623B exports=14 missing=[]",
-      "ts": "2026-10-07T20:31:00.098Z"
-    },
-    {
-      "id": "SEC-33",
-      "team": "BLUE",
-      "name": "science-inventory-ladder",
-      "verdict": "HARDENED",
-      "severity": "low",
-      "detail": "terms=654 counted=654 off-ladder=0",
-      "ts": "2026-10-07T20:31:00.107Z"
-    },
-    {
-      "id": "KALI-01",
-      "team": "KALI",
-      "name": "node-control-token-gate",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "/id without token -> 401",
-      "ts": "2026-10-07T20:31:00.411Z"
-    },
-    {
-      "id": "KALI-02",
-      "team": "KALI",
-      "name": "node-control-token-auth",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "/id with token -> 200 + peer_id",
-      "ts": "2026-10-07T20:31:00.419Z"
-    },
-    {
-      "id": "KALI-03",
-      "team": "KALI",
-      "name": "wan-control-token-gate",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "/stats without token -> 401 (kill/heal/impair closed to the wire)",
-      "ts": "2026-10-07T20:31:00.465Z"
-    },
-    {
-      "id": "KALI-04",
-      "team": "KALI",
-      "name": "relay-origin-enforcement",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "disallowed origin -> 101 open close=4403",
-      "ts": "2026-10-07T20:31:03.970Z"
-    },
-    {
-      "id": "KALI-05",
-      "team": "KALI",
-      "name": "relay-origin-allowed",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "desk.local -> 101 open close=null",
-      "ts": "2026-10-07T20:31:07.475Z"
-    },
-    {
-      "id": "KALI-06",
-      "team": "KALI",
-      "name": "desk-no-server-banner",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "no Server header — version fingerprint surface removed",
-      "ts": "2026-10-07T20:31:07.513Z"
-    },
-    {
-      "id": "KALI-07",
-      "team": "KALI",
-      "name": "desk-security-headers",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "x-content-type-options, x-frame-options, referrer-policy, content-security-policy all present",
-      "ts": "2026-10-07T20:31:07.514Z"
-    },
-    {
-      "id": "KALI-08",
-      "team": "KALI",
-      "name": "desk-no-dir-listing",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "/assets/ -> 403 (listing not issued)",
-      "ts": "2026-10-07T20:31:07.532Z"
-    },
-    {
-      "id": "KALI-09",
-      "team": "KALI",
-      "name": "desk-no-traversal",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "../../etc/passwd -> 404",
-      "ts": "2026-10-07T20:31:07.539Z"
-    },
-    {
-      "id": "KALI-10",
-      "team": "KALI",
-      "name": "desk-method-surface",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "PUT=501 DELETE=501 TRACE=501 OPTIONS=501 PROPFIND=501 CONNECT=501",
-      "ts": "2026-10-07T20:31:07.553Z"
-    },
-    {
-      "id": "KALI-11",
-      "team": "KALI",
-      "name": "KALI-11 — relay-headers deferred",
-      "verdict": "NOTED",
-      "severity": "info",
-      "detail": "no service at http://localhost:8091 (lab down)",
-      "ts": "2026-10-07T20:31:07.561Z"
-    },
-    {
-      "id": "KALI-12",
-      "team": "KALI",
-      "name": "desk-wasm-artifact",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "spec007.wasm served: 623B, wasm magic present",
-      "ts": "2026-10-07T20:31:07.567Z"
-    },
-    {
-      "id": "KALI-13",
-      "team": "KALI",
-      "name": "desk-component-map",
-      "verdict": "HARDENED",
-      "severity": "info",
-      "detail": "L2 component map published to the desk",
-      "ts": "2026-10-07T20:31:07.573Z"
-    },
-    {
-      "id": "KALI-14",
-      "team": "KALI",
-      "name": "wire-ciphertext-proof",
-      "verdict": "NOTED",
-      "severity": "info",
-      "detail": "marker delivered to inbox; 0 plaintext hits in 136 captured WAN frames (tcpdump inside wan-west) — sealed on the wire",
-      "ts": "2026-10-07T20:31:07.573Z"
-    },
-    {
-      "id": "RAT-01",
-      "team": "RATIONS",
-      "name": "baseline-clean",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "untouched ledger+payloads → seed-coverage: pairs=4 covered=4 verified=4/4",
-      "ts": "2026-10-07T20:34:20.180Z"
-    },
-    {
-      "id": "RAT-02",
-      "team": "RATIONS",
-      "name": "signature-wound",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "sig byte flipped → audit flags corrupt, refuses coverage: seed-coverage: pairs=4 covered=4 verified=3/4 corrupt=[373fdb4fea7c8d53]",
-      "ts": "2026-10-07T20:34:20.248Z"
-    },
-    {
-      "id": "RAT-03",
-      "team": "RATIONS",
-      "name": "shard-wound-anchor",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "unsigned shard mutated — sig still valid, but seedHash mismatch halts: seed-coverage: pairs=4 covered=4 verified=3/4 corrupt=[373fdb4fea7c8d53]",
-      "ts": "2026-10-07T20:34:20.308Z"
-    },
-    {
-      "id": "RAT-04",
-      "team": "RATIONS",
-      "name": "cross-drop-dissociation",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "shards swapped — both sigs valid, both seedHashes desync, audit halts: seed-coverage: pairs=4 covered=4 verified=2/4 corrupt=[373fdb4fea7c8d53,20c0cbd43849e25c]",
-      "ts": "2026-10-07T20:34:20.385Z"
-    },
-    {
-      "id": "RAT-05",
-      "team": "RATIONS",
-      "name": "foreign-signer",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "valid signature under foreign key → tokenHash desync halts: seed-coverage: pairs=4 covered=4 verified=3/4 corrupt=[373fdb4fea7c8d53]",
-      "ts": "2026-10-07T20:34:20.459Z"
-    },
-    {
-      "id": "RAT-06",
-      "team": "RATIONS",
-      "name": "ledger-side-desync",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "pristine token vs tampered seedHash entry → audit halts: seed-coverage: pairs=4 covered=4 verified=3/4 corrupt=[373fdb4fea7c8d53]",
-      "ts": "2026-10-07T20:34:20.537Z"
-    },
-    {
-      "id": "RAT-07",
-      "team": "RATIONS",
-      "name": "expiry-boundary",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "single-expiry covered by sibling (legal); all-expired pair reported expired: seed-coverage: pairs=4 covered=3 verified=3/4 expired=[e1↔w1]",
-      "ts": "2026-10-07T20:34:20.659Z"
-    },
-    {
-      "id": "RAT-08",
-      "team": "RATIONS",
-      "name": "lost-paper",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "payload artifact gone → audit flags corrupt, halts: seed-coverage: pairs=4 covered=4 verified=3/4 corrupt=[373fdb4fea7c8d53]",
-      "ts": "2026-10-07T20:34:20.730Z"
-    },
-    {
       "id": "EMRG-01",
       "team": "EMERGENT",
       "name": "philotic-dividend",
@@ -1512,6 +469,780 @@
       "severity": "info",
       "detail": "science_limits.zig battery: 10 PHYSICAL bounds swept (no-signal, CHSH<=2, E_B<E_A, unitary echo, measurement arrow, mobius, alcubierre rho<0, Planck floor, light-time, QET wire leg) + 5 STRUCTURAL (421=(3375-7)/8, 7 Fano lines, 8=2^3 channels, 16/15 shell, ladder doubling) + 5 ARTIFICIAL (MAX_NODES=8, 64 buckets, 2-qubit register, slab consts, tc impairments) — the lab knobs are provably the artificial class",
       "ts": "2026-10-07T20:37:06.644Z"
+    },
+    {
+      "id": "GOV-01",
+      "team": "GOV",
+      "name": "malformed-corpus",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "5 hostile files indexed; re-run byte-identical — the index doesn't parse, it measures",
+      "ts": "2026-10-07T21:50:47.300Z"
+    },
+    {
+      "id": "GOV-02",
+      "team": "GOV",
+      "name": "unreadable-dir",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "sealed dir skipped with recorded error (EACCES), open dir indexed — graceful degradation",
+      "ts": "2026-10-07T21:50:47.362Z"
+    },
+    {
+      "id": "GOV-03",
+      "team": "GOV",
+      "name": "deep-nesting",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "822-level tree (4094 chars) walked without crash — recursion survives to the path wall",
+      "ts": "2026-10-07T21:50:47.599Z"
+    },
+    {
+      "id": "GOV-04",
+      "team": "GOV",
+      "name": "exclusion-semantics",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "dot-prefixed excluded; bare \"archive\"/\"Archive\" indexed — the contract is literal: only .-prefix hides",
+      "ts": "2026-10-07T21:50:47.668Z"
+    },
+    {
+      "id": "GOV-05",
+      "team": "GOV",
+      "name": "tripwire-evasion-classes",
+      "verdict": "NOTED",
+      "severity": "medium",
+      "detail": "tripwire catches exact-case words only — EVADES: lowercase, uppercase, mixed, leetspeak, spaced, fullwidth, zerowidth, fused, fused-prefix, entity, url-encoded. Scope: accident-catcher, not adversary filter; the real boundary is architectural (classified stays bridge-side)",
+      "ts": "2026-10-07T21:50:47.734Z"
+    },
+    {
+      "id": "GOV-06",
+      "team": "GOV",
+      "name": "churn-determinism",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "docs 2→3→2, names sorted [b.md,c.md] — the index tracks the corpus exactly",
+      "ts": "2026-10-07T21:50:47.907Z"
+    },
+    {
+      "id": "GOV-07",
+      "team": "GOV",
+      "name": "lattice-data-ceiling",
+      "verdict": "NOTED",
+      "severity": "info",
+      "detail": "8.1 KiB artifact, 3375 cells: JSON.parse 0.2ms, 15³ grid build 0.2ms — data path trivial; DOM paint (3375 nodes) deferred to a browser environment (no Chromium on host)",
+      "ts": "2026-10-07T21:50:47.908Z"
+    },
+    {
+      "id": "RAT-01",
+      "team": "RATIONS",
+      "name": "baseline-clean",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "untouched ledger+payloads → seed-coverage: pairs=4 covered=4 verified=8/8",
+      "ts": "2026-10-07T21:50:48.225Z"
+    },
+    {
+      "id": "RAT-02",
+      "team": "RATIONS",
+      "name": "signature-wound",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "sig byte flipped → audit flags corrupt, refuses coverage: seed-coverage: pairs=4 covered=4 verified=7/8 corrupt=[373fdb4fea7c8d53]",
+      "ts": "2026-10-07T21:50:48.282Z"
+    },
+    {
+      "id": "RAT-03",
+      "team": "RATIONS",
+      "name": "shard-wound-anchor",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "unsigned shard mutated — sig still valid, but seedHash mismatch halts: seed-coverage: pairs=4 covered=4 verified=7/8 corrupt=[373fdb4fea7c8d53]",
+      "ts": "2026-10-07T21:50:48.342Z"
+    },
+    {
+      "id": "RAT-04",
+      "team": "RATIONS",
+      "name": "cross-drop-dissociation",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "shards swapped — both sigs valid, both seedHashes desync, audit halts: seed-coverage: pairs=4 covered=4 verified=6/8 corrupt=[373fdb4fea7c8d53,20c0cbd43849e25c]",
+      "ts": "2026-10-07T21:50:48.400Z"
+    },
+    {
+      "id": "RAT-05",
+      "team": "RATIONS",
+      "name": "foreign-signer",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "valid signature under foreign key → tokenHash desync halts: seed-coverage: pairs=4 covered=4 verified=7/8 corrupt=[373fdb4fea7c8d53]",
+      "ts": "2026-10-07T21:50:48.462Z"
+    },
+    {
+      "id": "RAT-06",
+      "team": "RATIONS",
+      "name": "ledger-side-desync",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "pristine token vs tampered seedHash entry → audit halts: seed-coverage: pairs=4 covered=4 verified=7/8 corrupt=[373fdb4fea7c8d53]",
+      "ts": "2026-10-07T21:50:48.515Z"
+    },
+    {
+      "id": "RAT-07",
+      "team": "RATIONS",
+      "name": "expiry-boundary",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "single-expiry covered by sibling (legal); all-expired pair reported expired: seed-coverage: pairs=4 covered=3 verified=6/8 expired=[e1↔w1]",
+      "ts": "2026-10-07T21:50:48.613Z"
+    },
+    {
+      "id": "RAT-08",
+      "team": "RATIONS",
+      "name": "lost-paper",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "payload artifact gone → audit flags corrupt, halts: seed-coverage: pairs=4 covered=4 verified=7/8 corrupt=[373fdb4fea7c8d53]",
+      "ts": "2026-10-07T21:50:48.666Z"
+    },
+    {
+      "id": "COMM-01",
+      "team": "COMM",
+      "name": "envelope-integrity",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "valid seals pass; covered-flip/oversize/short all drop (Python twin)",
+      "ts": "2026-10-07T21:50:51.984Z"
+    },
+    {
+      "id": "COMM-02",
+      "team": "COMM",
+      "name": "js-verify-post-hardening",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "valid wire verifies under strict len==136",
+      "ts": "2026-10-07T21:50:51.986Z"
+    },
+    {
+      "id": "COMM-03",
+      "team": "COMM",
+      "name": "vote-canon-parity",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "token canon byte-identical JS↔Python",
+      "ts": "2026-10-07T21:50:52.028Z"
+    },
+    {
+      "id": "DESK-01",
+      "team": "DESK",
+      "name": "roaming-flag-signin",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "fleet-anchored authenticator enrolls ramsey 006 as FLEET-ADMIRAL on a foreign founded desk — no founding claimed",
+      "ts": "2026-10-07T21:50:52.904Z"
+    },
+    {
+      "id": "DESK-02",
+      "team": "DESK",
+      "name": "roaming-forgery",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "attacker-issued authenticator refused — iss is not the fleet flag",
+      "ts": "2026-10-07T21:50:53.173Z"
+    },
+    {
+      "id": "DESK-03",
+      "team": "DESK",
+      "name": "transfer-roundtrip",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "export→import carries record + founding; credential unwraps on the new desk",
+      "ts": "2026-10-07T21:50:53.713Z"
+    },
+    {
+      "id": "DESK-04",
+      "team": "DESK",
+      "name": "transfer-tamper",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "post-sign mutation → sig_invalid",
+      "ts": "2026-10-07T21:50:53.737Z"
+    },
+    {
+      "id": "DESK-05",
+      "team": "DESK",
+      "name": "transfer-foreign-genesis",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "tampered genesis also invalidates the signature — refused earlier, still safe",
+      "ts": "2026-10-07T21:50:53.754Z"
+    },
+    {
+      "id": "SPEC004-01",
+      "team": "SPEC004",
+      "name": "drawer-never-shipped",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "HEAD + gh-pages + full history: zero drawer paths",
+      "ts": "2026-10-07T21:50:53.792Z"
+    },
+    {
+      "id": "SPEC004-02",
+      "team": "SPEC004",
+      "name": "ghpages-tripwire",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "133 deployed files surname-clean",
+      "ts": "2026-10-07T21:50:53.856Z"
+    },
+    {
+      "id": "SPEC004-03",
+      "team": "SPEC004",
+      "name": "registry-sealed",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "SPEC-004-REGISTRY exists only inside the drawer",
+      "ts": "2026-10-07T21:50:53.866Z"
+    },
+    {
+      "id": "SPEC004-04",
+      "team": "SPEC004",
+      "name": "declassified-clean",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "4 declassified copies, surname-clean",
+      "ts": "2026-10-07T21:50:53.868Z"
+    },
+    {
+      "id": "SPEC004-05",
+      "team": "SPEC004",
+      "name": "drawer-restored",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "drawer restored intact from archive after git-clean incident; gitignore holds",
+      "ts": "2026-10-07T21:50:53.868Z"
+    },
+    {
+      "id": "SPEC004-06",
+      "team": "SPEC004",
+      "name": "generated-excluded",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "security/out + zig-out absent from tree",
+      "ts": "2026-10-07T21:50:53.878Z"
+    },
+    {
+      "id": "SENT-01",
+      "team": "SENTINEL",
+      "name": "cold-boot-hostile-board",
+      "verdict": "NOTED",
+      "severity": "info",
+      "detail": "TOFU accepted a self-consistent ATTACKER genesis on first contact — correct behavior for trust-on-first-use, and the honest limit: first-boot trust is whoever the board serves. Defense = out-of-band pin distribution (ship ~/.config/fleet/genesis.json with the node image)",
+      "ts": "2026-10-07T21:51:03.440Z"
+    },
+    {
+      "id": "SENT-02",
+      "team": "SENTINEL",
+      "name": "pinned-genesis-conflict",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "GENESIS CONFLICT — foreign-but-valid genesis refused against pin: GENESIS CONFLICT — pinned 95f5b05aaacf2d99 vs fetched 3f767788b5020cf8 — possible board tampering",
+      "ts": "2026-10-07T21:51:03.607Z"
+    },
+    {
+      "id": "SENT-03",
+      "team": "SENTINEL",
+      "name": "foreign-signer-rejected",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "non-genesis signer refused: manifest signer sha256:3e661bb66f162ff7 is not a genesis member",
+      "ts": "2026-10-07T21:51:03.767Z"
+    },
+    {
+      "id": "SENT-04",
+      "team": "SENTINEL",
+      "name": "manifest-replay-window",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "rejected rc=1",
+      "ts": "2026-10-07T21:51:03.942Z"
+    },
+    {
+      "id": "SENT-05",
+      "team": "SENTINEL",
+      "name": "gateway-flood-siege",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "206 forged/malformed dropped; every forwarded datagram seal-verifies (31 in: covered-forgeries leaked=false); gateway alive",
+      "ts": "2026-10-07T21:51:05.970Z"
+    },
+    {
+      "id": "SENT-06",
+      "team": "SENTINEL",
+      "name": "canon-parity-adversarial",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "unicode/escapes/nested — JS canon byte-matches Python canon (cross-impl signature domain intact, 158B)",
+      "ts": "2026-10-07T21:51:06.013Z"
+    },
+    {
+      "id": "SENT-07",
+      "team": "SENTINEL",
+      "name": "no-private-keys-committed",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "committed tree carries zero PEM private keys",
+      "ts": "2026-10-07T21:51:06.084Z"
+    },
+    {
+      "id": "SENT-08",
+      "team": "SENTINEL",
+      "name": "artifact-pins-signed",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "5 artifacts hashed inside the signed manifest — board-served tamper fails closed at verify time",
+      "ts": "2026-10-07T21:51:06.085Z"
+    },
+    {
+      "id": "SENT-09",
+      "team": "SENTINEL",
+      "name": "ghpages-artifact-identity",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "deployed fano.wasm bit-identical to the audited artifact",
+      "ts": "2026-10-07T21:51:06.090Z"
+    },
+    {
+      "id": "SENT-10",
+      "team": "SENTINEL",
+      "name": "stale-manifest-rejected",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "non-descending manifest retried then refused (20s, staleness-aware)",
+      "ts": "2026-10-07T21:51:26.239Z"
+    },
+    {
+      "id": "KALI-01",
+      "team": "KALI",
+      "name": "node-control-token-gate",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "/id without token -> 401",
+      "ts": "2026-10-07T21:51:52.007Z"
+    },
+    {
+      "id": "KALI-02",
+      "team": "KALI",
+      "name": "node-control-token-auth",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "/id with token -> 200 + peer_id",
+      "ts": "2026-10-07T21:51:52.012Z"
+    },
+    {
+      "id": "KALI-03",
+      "team": "KALI",
+      "name": "wan-control-token-gate",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "/stats without token -> 401 (kill/heal/impair closed to the wire)",
+      "ts": "2026-10-07T21:51:52.038Z"
+    },
+    {
+      "id": "KALI-04",
+      "team": "KALI",
+      "name": "relay-origin-enforcement",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "disallowed origin -> 101 open close=4403",
+      "ts": "2026-10-07T21:51:55.540Z"
+    },
+    {
+      "id": "KALI-05",
+      "team": "KALI",
+      "name": "relay-origin-allowed",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "desk.local -> 101 open close=null",
+      "ts": "2026-10-07T21:51:59.041Z"
+    },
+    {
+      "id": "KALI-06",
+      "team": "KALI",
+      "name": "desk-no-server-banner",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "no Server header — version fingerprint surface removed",
+      "ts": "2026-10-07T21:51:59.052Z"
+    },
+    {
+      "id": "KALI-07",
+      "team": "KALI",
+      "name": "desk-security-headers",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "x-content-type-options, x-frame-options, referrer-policy, content-security-policy all present",
+      "ts": "2026-10-07T21:51:59.052Z"
+    },
+    {
+      "id": "KALI-08",
+      "team": "KALI",
+      "name": "desk-no-dir-listing",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "/assets/ -> 403 (listing not issued)",
+      "ts": "2026-10-07T21:51:59.056Z"
+    },
+    {
+      "id": "KALI-09",
+      "team": "KALI",
+      "name": "desk-no-traversal",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "../../etc/passwd -> 404",
+      "ts": "2026-10-07T21:51:59.062Z"
+    },
+    {
+      "id": "KALI-10",
+      "team": "KALI",
+      "name": "desk-method-surface",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "PUT=501 DELETE=501 TRACE=501 OPTIONS=501 PROPFIND=501 CONNECT=501",
+      "ts": "2026-10-07T21:51:59.071Z"
+    },
+    {
+      "id": "KALI-11",
+      "team": "KALI",
+      "name": "KALI-11 — relay-headers deferred",
+      "verdict": "NOTED",
+      "severity": "info",
+      "detail": "no service at http://localhost:8091 (lab down)",
+      "ts": "2026-10-07T21:51:59.075Z"
+    },
+    {
+      "id": "KALI-12",
+      "team": "KALI",
+      "name": "desk-wasm-artifact",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "spec007.wasm served: 623B, wasm magic present",
+      "ts": "2026-10-07T21:51:59.078Z"
+    },
+    {
+      "id": "KALI-13",
+      "team": "KALI",
+      "name": "desk-component-map",
+      "verdict": "HARDENED",
+      "severity": "info",
+      "detail": "L2 component map published to the desk",
+      "ts": "2026-10-07T21:51:59.082Z"
+    },
+    {
+      "id": "KALI-14",
+      "team": "KALI",
+      "name": "wire-ciphertext-proof",
+      "verdict": "NOTED",
+      "severity": "info",
+      "detail": "marker delivered to inbox; 0 plaintext hits in 136 captured WAN frames (tcpdump inside wan-west) — sealed on the wire",
+      "ts": "2026-10-07T21:51:59.082Z"
+    },
+    {
+      "id": "SEC-01",
+      "team": "RED",
+      "name": "forged-covenant-sig",
+      "verdict": "HARDENED",
+      "severity": "critical",
+      "detail": "random 64B signature over covenant → verify=false",
+      "ts": "2026-10-07T21:52:02.262Z"
+    },
+    {
+      "id": "SEC-02",
+      "team": "RED",
+      "name": "keystore-ct-tamper",
+      "verdict": "HARDENED",
+      "severity": "critical",
+      "detail": "flipped ct byte → unlock=rejected",
+      "ts": "2026-10-07T21:52:02.857Z"
+    },
+    {
+      "id": "SEC-03",
+      "team": "RED",
+      "name": "keystore-pk-substitution",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "swapped pk → continuity check rejected",
+      "ts": "2026-10-07T21:52:03.337Z"
+    },
+    {
+      "id": "SEC-04",
+      "team": "RED",
+      "name": "covenant-sig-swap",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "sig by foreign key → unlock=rejected",
+      "ts": "2026-10-07T21:52:03.865Z"
+    },
+    {
+      "id": "SEC-05",
+      "team": "RED",
+      "name": "qr-decode-garbage",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "uniform noise 10x10 → rc=129",
+      "ts": "2026-10-07T21:52:03.870Z"
+    },
+    {
+      "id": "SEC-06",
+      "team": "RED",
+      "name": "qr-decode-len-lie",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "dims claim 10000px, buffer is 4B — clean error",
+      "ts": "2026-10-07T21:52:03.872Z"
+    },
+    {
+      "id": "SEC-07",
+      "team": "RED",
+      "name": "stega-garbage-input",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "fake PNG → extract=false",
+      "ts": "2026-10-07T21:52:03.874Z"
+    },
+    {
+      "id": "SEC-08",
+      "team": "RED",
+      "name": "carrier-garbage-input",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "non-carrier blob → status=0x82",
+      "ts": "2026-10-07T21:52:03.874Z"
+    },
+    {
+      "id": "SEC-09",
+      "team": "RED",
+      "name": "shamir-bad-params",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "k>n → reject; k=0 → reject",
+      "ts": "2026-10-07T21:52:03.876Z"
+    },
+    {
+      "id": "SEC-10",
+      "team": "RED",
+      "name": "relay-origin-abuse",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "Origin: evil.example → 1133",
+      "ts": "2026-10-07T21:52:03.942Z"
+    },
+    {
+      "id": "SEC-11",
+      "team": "RED",
+      "name": "relay-no-origin",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "no Origin header → closed",
+      "ts": "2026-10-07T21:52:03.948Z"
+    },
+    {
+      "id": "SEC-12",
+      "team": "RED",
+      "name": "relay-oversize-payload",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "4MiB+1 frame → closed:03f1",
+      "ts": "2026-10-07T21:52:03.982Z"
+    },
+    {
+      "id": "SEC-13",
+      "team": "RED",
+      "name": "relay-msg-flood",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "300 msgs burst → closed:03f0",
+      "ts": "2026-10-07T21:52:04.044Z"
+    },
+    {
+      "id": "SEC-14",
+      "team": "RED",
+      "name": "relay-bad-opcode",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "opcode 0xB → closed:03ea",
+      "ts": "2026-10-07T21:52:04.051Z"
+    },
+    {
+      "id": "SEC-15",
+      "team": "RED",
+      "name": "channel-replay",
+      "verdict": "HARDENED",
+      "severity": "low",
+      "detail": "ready=1/1 seal=1 first=\"replay-me\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\\u0000\" replay=\"n/a\" — ",
+      "ts": "2026-10-07T21:52:04.187Z"
+    },
+    {
+      "id": "SEC-16",
+      "team": "BLUE",
+      "name": "wasm-sha256-continuity",
+      "verdict": "HARDENED",
+      "severity": "critical",
+      "detail": "bbdca54672a9f713… vs sidecar bbdca54672a9f713…",
+      "ts": "2026-10-07T21:52:04.192Z"
+    },
+    {
+      "id": "SEC-17",
+      "team": "BLUE",
+      "name": "quine-csp-no-eval",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "CSP present=true bare unsafe-eval=false (wasm-unsafe-eval allowed)",
+      "ts": "2026-10-07T21:52:04.195Z"
+    },
+    {
+      "id": "SEC-18",
+      "team": "BLUE",
+      "name": "relay-debug-gate",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "/__probe → HTTP 404 (RATIONS_DEBUG unset)",
+      "ts": "2026-10-07T21:52:04.210Z"
+    },
+    {
+      "id": "SEC-19",
+      "team": "BLUE",
+      "name": "relay-http-headers",
+      "verdict": "HARDENED",
+      "severity": "low",
+      "detail": "COOP=same-origin",
+      "ts": "2026-10-07T21:52:04.219Z"
+    },
+    {
+      "id": "SEC-20",
+      "team": "BLUE",
+      "name": "aes-gcm-tag-check",
+      "verdict": "HARDENED",
+      "severity": "critical",
+      "detail": "flipped tag bit → decrypt=false",
+      "ts": "2026-10-07T21:52:04.220Z"
+    },
+    {
+      "id": "SEC-21",
+      "team": "BLUE",
+      "name": "unlock-lockout",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "5 wrong → locked=true remain=15s, correct-pass-while-locked rejected=true. Note: local attacker can clear storage — relay-side throttle is the real wall",
+      "ts": "2026-10-07T21:52:06.006Z"
+    },
+    {
+      "id": "SEC-22",
+      "team": "BLACK",
+      "name": "offline-crack-cost",
+      "verdict": "NOTED",
+      "severity": "medium",
+      "detail": "PBKDF2(100k) ≈ 224ms/try → ~4 tries/s → 8-char [a-z0-9] space ≈ 2.2e+4 yrs single-core. Weak passphrases remain the weakest link; min-length is 8",
+      "ts": "2026-10-07T21:52:06.490Z"
+    },
+    {
+      "id": "SEC-23",
+      "team": "BLACK",
+      "name": "keystore-stego-exfil",
+      "verdict": "NOTED",
+      "severity": "low",
+      "detail": "stega_embed available — keystore JSON (811B) fits typical LSB capacity; transported blob remains AES-GCM ciphertext, so exfil of the record ≠ key recovery",
+      "ts": "2026-10-07T21:52:06.491Z"
+    },
+    {
+      "id": "SEC-24",
+      "team": "BLACK",
+      "name": "shamir-recovery",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "3-of-5 → recon=true; 2 shares recover=false",
+      "ts": "2026-10-07T21:52:06.491Z"
+    },
+    {
+      "id": "SEC-25",
+      "team": "BLACK",
+      "name": "burn-irrecoverable",
+      "verdict": "HARDENED",
+      "severity": "low",
+      "detail": "record gone=true session zeroed=true — WASM memory still holds seed until reload (JS-layer finding)",
+      "ts": "2026-10-07T21:52:06.737Z"
+    },
+    {
+      "id": "SEC-26",
+      "team": "BLACK",
+      "name": "storage-plaintext-scan",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "record 870B — plaintext seed present=false (seed only lives inside AES-GCM ct)",
+      "ts": "2026-10-07T21:52:06.981Z"
+    },
+    {
+      "id": "SEC-27",
+      "team": "GRAY",
+      "name": "field-agent-qbranch-gate",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "unlocked role=0 → hasRole(Q-BRANCH)=false",
+      "ts": "2026-10-07T21:52:07.722Z"
+    },
+    {
+      "id": "SEC-28",
+      "team": "GRAY",
+      "name": "forged-role-cert",
+      "verdict": "HARDENED",
+      "severity": "critical",
+      "detail": "self-signed role-5 cert → verifyCert=false — elevated role requires rostered issuer",
+      "ts": "2026-10-07T21:52:07.728Z"
+    },
+    {
+      "id": "SEC-29",
+      "team": "GRAY",
+      "name": "cert-transplant",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "foreign-issuer cert on ghost record → verifyCert=false",
+      "ts": "2026-10-07T21:52:07.734Z"
+    },
+    {
+      "id": "SEC-30",
+      "team": "GRAY",
+      "name": "cert-role-tamper",
+      "verdict": "HARDENED",
+      "severity": "high",
+      "detail": "role 0→5 edit, stale sig → verifyCert=false",
+      "ts": "2026-10-07T21:52:07.741Z"
+    },
+    {
+      "id": "SEC-31",
+      "team": "GRAY",
+      "name": "cert-expiry",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "expired cert → verifyCert=false",
+      "ts": "2026-10-07T21:52:07.745Z"
+    },
+    {
+      "id": "SEC-32",
+      "team": "BLUE",
+      "name": "compute-wasm-abi",
+      "verdict": "HARDENED",
+      "severity": "medium",
+      "detail": "spec007.wasm 623B exports=14 missing=[]",
+      "ts": "2026-10-07T21:52:07.746Z"
+    },
+    {
+      "id": "SEC-33",
+      "team": "BLUE",
+      "name": "science-inventory-ladder",
+      "verdict": "HARDENED",
+      "severity": "low",
+      "detail": "terms=654 counted=654 off-ladder=0",
+      "ts": "2026-10-07T21:52:07.747Z"
     }
   ]
 }

@@ -14,10 +14,41 @@ routing identity is the node's `peer_id`; ledger identity is
 | `hydra-node.mjs` | Node daemon: WASM core, presence loop, per-node ledger, control API (`:9090`), embedded relay (`:8080`), auto-redial |
 | `wan-bridge.mjs` | Deterministic impairment proxy: delay/jitter/drop/dup/reorder/rate/directional/dead — all runtime-adjustable via `/impair` |
 | `comms-suite.mjs` | COMM team — 33 probes in canonical docker mode (COMM-01..33; `--local` runs the 27 single-host subset), emits `out/findings.json` |
-| `suite.mjs` | RED/BLUE/BLACK/GRAY — 31 probes against WASM + relay + auth |
-| `kali-sweep.mjs` | KALI team — 12 probes replaying the Kali-tooling assertions (token gates, origin policy, header/method/traversal surface, wire-ciphertext record) |
+| `suite.mjs` | RED/BLUE/BLACK/GRAY — 33 probes against WASM + relay + auth (relay-touching probes honor `RELAY_URL`/`RELAY_HTTP`) |
+| `kali-sweep.mjs` | KALI team — 14 probes replaying the Kali-tooling assertions (token gates, origin policy, header/method/traversal surface, wire-ciphertext record); absent services → NOTED, not crash |
+| `team-sweep-2.mjs` | Consolidated sweep — 34 probes: RED/BLUE/BLACK/GRAY/COMM/DESK/**SPEC004** (drawer-shipping, surname tripwire, registry seal, declassified copies, drawer restore, generated-exclusion) |
+| `sentinel-sweep.mjs` | 10 probes — auth surface point checks |
+| `superpowers-audit.mjs` | 28-entry capability ledger — live-verifies every claim incl. genesis Ed25519 sigs on the wire |
+| `capstone-audit.mjs` | 25 checks — envelope forgery battery, canon parity, manifest lineage |
+| `chaos-hammer.mjs` | 6 fault-injection probes on the wire layer |
+| `fabric-stress.mjs` / `fabric-bridge.mjs` | Descent-closure stress + bridge probes (9/9, findings ledger) |
+| `gov-stress.mjs` | 7 governance probes — needs `out/ivector-lattice.json` (run `lattice-probe.mjs` first) |
+| `k3-stress.mjs` / `k3-probe.mjs` | K3 engine stress + probe |
+| `lattice-probe.mjs` | Emits `out/ivector-lattice.json` — run before `gov-stress` |
+| `rations-stress.mjs` | 8 seed-drop stress probes — needs `out/seed-pairs.json` (run `seed-drop.mjs` first) |
+| `seed-drop.mjs` | Mints one-time-pad seed drops per desk pair (`--audit` reads a plan without minting) |
+| `philotic-cluster.mjs` / `philotic-probe.mjs` | Local lab topology sweeps (needs docker lab ports free — run after `compose down`) |
+| `emergence-watch.mjs` | Macro-state bounds probes on the local lab |
+| `nosignal-break.mjs` | 8 signal-breakdown attacks on the no-signal theorem |
+| `spec008-wire.mjs` | SPEC-008 S8W1 datagram wire gate |
+| `staleness-detect.mjs` | Route staleness detection gate |
+| `route-o1.mjs` | O(1) route decision gate |
+| `fano-mesh-bridge.mjs` | Location↔tensor coordinate bridge (136-B envelope canon lives here) |
+| `fano-wan-gateway.mjs` | UDP WAN edge — FNV-256 seal verify → mesh forward |
+| `carrier-flight.mjs` | Carrier/NAT traversal physics probes |
+| `fleet-map.mjs` | Probe-measured fleet address book → `out/rendezvous.json` |
+| `fleet-manifest.mjs` | Emits `fleet-manifest.json` + `site/` copy (genesis-citing, signed bulletin board) |
+| `fleet-genesis-update.mjs` | Genesis amendment tool — `--pk <64-hex>` admits a member, dual-signs via roots, writes both copies |
+| `fleet_bootstrap.py` | Python canon verifier — genesis TOFU pin + manifest lineage + rendezvous |
+| `fleet-audit.mjs` | External anvil audit of the fleet giants (euz/downbeat/theplatform) |
+| `admiralty-reset-token.mjs` | Mints `FANO-RESET-v1` dual-signed flag-reset tokens |
+| `rf-field-probe.mjs` | RF edge probe — needs radio hardware (wlan1 + powered ESP32s), defers honestly without it |
+| `ddns-update.mjs` | DDNS write path (external side effect — excluded from unattended sweeps) |
 | `docker-compose.wan.yml` | The WAN topology |
 | `docker-compose.sec.yml` | Isolated RED/BLUE rig (internal net, production-posture relay) |
+
+`out/findings.json` is **generated** — rewritten on every suite run. It is
+evidence, not source: exempt from gh-pages byte-parity, never hand-edited.
 
 ## Control-plane security (post-Kali sweep)
 
@@ -124,10 +155,22 @@ Run against the lab + desk from a Kali host:
 node comms-suite.mjs --local     # MIN comp — no docker needed
 node comms-suite.mjs             # MAX comp — docker, ~4 min; generates
                                  #   per-run HYDRA_TOKEN/WAN_TOKEN
-KEEP=1 node comms-suite.mjs      # leave the lab running afterwards
+node comms-suite.mjs --keep      # leave the lab running afterwards —
+                                 #   argv flag, NOT an env var (KEEP=1
+                                 #   is silently ignored; the lab dies)
 HYDRA_TOKEN=… WAN_TOKEN=… node kali-sweep.mjs   # tool-assertion replay
 python3 ../tools/serve.py --port 8902           # hardened desk server
+RELAY_URL=ws://localhost:18081/ws RELAY_HTTP=http://localhost:18081 \
+    node suite.mjs                              # against the lab relay
 ```
 
 Manual `docker compose` runs must export `HYDRA_TOKEN`/`WAN_TOKEN`
 first — the compose file refuses to start the control planes ungated.
+
+Absent services are a valid verdict, not a crash: refused connections
+resolve `NOTED` and the probe defers. Dependency order that matters:
+`lattice-probe` before `gov-stress`; `seed-drop` before `rations-stress`;
+the lab up before `kali-sweep`/relay-touching `suite` probes; `compose
+down` before the localhost-topology sweeps (`philotic-cluster`,
+`emergence-watch`) that need those same ports. The full ordered runbook
+lives in `docs/en/fano-1-operations.en.md` §8.

@@ -116,6 +116,16 @@
 | FA-07 | theplatform | BOUNDARY | 套件需 Zig 0.16.0;宿主預設 0.13.0 無法建置 — 工具鏈閘控之驗證 |
 | FA-08 | theplatform | BOUNDARY | 9 個 rand/timestamp 檔案;靜態掃描之引入標記經複審 → 慣用選配檔案讀取 |
 
+### 解決 — FA-01 已修復(2026-10-07)
+
+唯一之 FRACTURE 已依規則 5 於巨人自身之 retro-dev 迴圈中修復:
+`eu_version_z/rag/chunker.py` 之 `load_chunks` 現捕獲
+`(OSError, UnicodeDecodeError)`,對畸形檔案與不可讀檔案採同一契約跳過。
+回歸測試 `test_load_chunks_skips_binary_md` 已加入 `tests/test_coverage_rag.py`
+— 59 個相關測試全綠。巨人提交 `3153cfd`(審計時存於 euz 儲存庫本機)。
+修復後總帳:`HELD ×11 · BOUNDARY ×7 · FRACTURE ×0` — 諸 BOUNDARY 條目照錄;
+各為誠實之適用範圍,非缺陷。
+
 ## 5. 外部審計常設規則
 
 1. **依彼等契約,非依我等之法** — 巨人以其自身 AGENTS.md/manifest 受審。正典核心律(整數純粹、降階閉合)僅適用於巨人宣稱之處。

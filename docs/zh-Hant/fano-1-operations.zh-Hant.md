@@ -1,0 +1,160 @@
+# FANO-1 作業手冊 — 工作站與艦隊正典
+
+**狀態:** 生效中 · **日期:** 2026-10-07
+**範圍:** 桌面所有未曾成文之運作 — 身分、漫遊、轉移、重置、Electron 工作站、艦隊正典、以及掃蕩作業手冊。本檔與掃蕩結果相左時,以掃蕩為準 — 修正文件,勿找藉口。
+
+---
+
+## 1. 身分
+
+- **金鑰對:** Ed25519,自 32 位元組種子展開。`sha256(pk)` 即為指紋 — 創世提示、名冊條目、誓約欄位皆同。
+- **密鑰庫:** 種子以 AES-256-GCM 封裝,金鑰由通行語經 PBKDF2 導出。解封之 `session.sk` 僅存於解鎖期間之頁面記憶體 — 重載即重新解鎖,此乃設計(見「誠實限制」)。
+- **TOTP:** RFC6238 第二因子(Google-Authenticator 等級)。註冊時選配;一旦啟用即為必要。時鐘綁定;秘密僅於設定時揭示一次。
+- **解鎖節流:** 跨重載之持續性指數退避(`fano1.auth.fail`)。深度而非城牆 — 本機攻擊者可清除 localStorage;節流守護誠實路徑。
+- **誓約:** 註冊證明 pk 連續性並簽署創始誓約;桌之創始為雜湊提交之事實,非介面標籤。
+
+## 2. 起源
+
+一個起源即一台裝置。`localhost` 與 `::1` 皆彈跳至 `127.0.0.1` — 正典主機名 — 使儲存庫絕不因迴路拼法而悄然分裂。
+
+| 起源 | 桌面 |
+|---|---|
+| `http://127.0.0.1:8080` | 瀏覽器桌面(由 `tools/serve.py` 供應) |
+| `http://127.0.0.1:8901` | Electron 海軍部桌面(內嵌伺服器,`persist:admiralty` 分割區) |
+| `http://127.0.0.1:8902` | KALI 表面探測所用之硬化測試桌面 |
+
+瀏覽器桌面與 Electron 桌面即便同機,亦為**不同裝置**。記錄不同步 — 須以桌面轉移搬運(§4)或重新註冊。
+
+## 3. 漫遊 — FANO-ROOT-v1
+
+兩種憑證,皆為對發行者金鑰驗證之 `FANO-ROOT-v1` 簽署授權:
+
+| 憑證 | `sub` | 效期 | 用途 |
+|---|---|---|---|
+| **綁定驗證器** | 自身 pk 十六進位 | 365 日 | 自有之第二桌 — 唯己鑰可領 |
+| **漫遊紙本(ROAMING PAPER)** | `null`(未綁定) | 30 日 | 艦隊任何桌 — 不奪創始即可註冊 |
+
+漫遊紙本由 `7q` → FLAG AUTHENTICATOR → **ROAMING PAPER** 鑄造,唯創始旗艦席位可鑄(需 `fleet_admiral` 角色)。於外桌註冊:誓約 → 註冊 `ramsey 006` → 將紙本貼入 **grant token** 欄位。桌面呼叫 `bindFleetFlag`,於已發布之 `fleet-genesis.json` 中解析 `admiral`/`flag-seat` 成員,並以其公鑰驗證授權簽名。爾即以 FLEET-ADMIRAL 入座;宿主桌之創始分毫不動。
+
+**持票憑證警告 — 讀一次:** `sub:null` 意即持紙者持席位。存於收件匣、截圖、剪貼簿歷史之漫遊紙本,即為行走之旗艦席位。鑄之、用之、任其亡。三十日即繮繩。
+
+## 4. 桌面轉移 — FANO-DESK-v1
+
+誓約終端之 `export-desk` / `import-desk`,或轉移畫面之 DOM 匯入路徑(Electron 相容 — 身分路徑全程無 `prompt()`)。套件攜帶封裝之密鑰庫記錄與創始狀態,由匯出桌之金鑰簽署。私鑰素材全程封裝;匯入桌拒絕覆於已創始之桌,亦拒絕外來創始之偽造。雙向通行:瀏覽器↔Electron 任意方向。具橋接之處(§6),鑄造/匯出之權杖自動推送至系統剪貼簿。
+
+## 5. 重置教範
+
+`reset.html` 為焚毀路徑。先示**普查** — 呼號、pk 指紋、創世旗艦狀態、TOTP 需求、失敗計數、桌態存在 — 而後焚記錄,並於同一鏈中清掃兄弟迴路起源之記錄(一次裁決,掃盡諸庫)。
+
+守衛模式,經 team-sweep-2 RED/GRAY 實證:
+
+- **常桌** — 自由重置。爾之桌,爾之裁;無誤鎖。
+- **旗艦桌於其群集起源** — 單方重置。主權群集即教範自設之例外。
+- **旗艦桌於外來起源** — 須 `FANO-RESET-v1` 權杖,攜**全體創世成員**對正典本體之 Ed25519 簽名;綁定創始呼號,24 小時衰減窗。偽造、部分、過期、竄改呼號之權杖皆拒。
+  `security/admiralty-reset-token.mjs` 鑄造雙簽權杖(digit 本機 + sheraton 經 ssh — 私鑰絕不遠行)。
+
+## 6. Electron 海軍部桌面 — 工作站
+
+啟動:`admiralty-desk/desk.sh`(剝除 dev shell 洩漏之 `ELECTRON_RUN_AS_NODE`)。應用於 `http://127.0.0.1:8901` 內嵌站台,渲染器沙箱化(`contextIsolation`、`sandbox`、`nodeIntegration: false`),身分存於 `persist:admiralty` 分割區 — Electron 之摧毀或重裝絕不及瀏覽器桌,反之亦然。
+
+**視窗控制**(`before-input-event`,視窗範圍):
+
+| 按鍵 | 動作 |
+|---|---|
+| F11 | 切換全螢幕 |
+| Esc | 退出全螢幕(桌面介面不綁 Esc) |
+| Ctrl+M | 最小化 |
+| Ctrl+Shift+Q | 關閉工作站 |
+| Alt+F4 | 原生關閉 |
+
+開始選單經 `ADMIRALTY_DESK` IPC 橋提供相同殼層項目(`desk:quit` / `desk:minimize` / `desk:fullscreen`)。
+
+**作業系統輸入層** — 桌面行為如真實作業系統表面:
+
+- **編輯快捷鍵** — 隱藏之原生編輯選單提供真實角色:Ctrl+C/X/V/A 於每頁每欄可用。
+- **右鍵選單** — 原生內容選單:可編欄位之剪下/複製/貼上/全選,選取處之複製。
+- **剪貼簿橋** — `ADMIRALTY_DESK.clipboard.{write,read}` → 經 IPC 達系統剪貼簿。`desk.js` 之 `copyText()` 優先使用橋接,退回 `navigator.clipboard` — 瀏覽器桌面亦可用。
+- **自動複製** — `export-desk`、驗證器鑄造/更新/匯出、漫遊紙本鑄造,皆將權杖逕推系統剪貼簿。GENESIS SEAT 備 **COPY PK** 鈕(完整 64 十六進位公鑰,非 16 字元指紋 — 指紋供人讀,公鑰供創世)。
+- **滑鼠捕獲** — `pointerLock` 權限僅授桌面起源;遊戲與沙箱可捕游標,其餘皆拒。
+- **可選取內容** — `.win-body` 內容如真實作業系統可選取;視窗外框(標題列、圖示、工作列)維持鎖定。
+
+**套件配色** — `.cmdsuite` 以作戰暗色主控台配色渲染(`--console-bg`,磷光墨色)。其居於 `.win-body` 之內,而 `.win-body` 為卷宗頁面上 `--win-paper`(米白) — 套件昔日因承襲紙色而致暗字於亮底、不可卒讀。已修;分野乃有意為之:套件為主控台,卷宗頁面為紙。
+
+## 7. 艦隊正典 — 創世、宣言、會合
+
+### 創世(`fleet-genesis.json`)
+
+艦隊信任之根:正典 JSON,由創世之根(`digit`、`sheraton`)以 Ed25519 簽署。成員受背書而非簽署者 — `admiral` 旗艦席位**列於**創世而不簽之。現行形態:3 成員,酬載 `sha256:95f5b05a…`。
+
+**修訂:** `security/fleet-genesis-update.mjs --pk <64-hex>` 納入成員、重新正典化、經雙根重新簽署(digit 本機、sheraton 經 ssh),並同寫 `fleet-genesis.json` 與 `site/fleet-genesis.json` 兩份。publish-check 以位元逐一閘守兩副本,使漂移不再復發。
+
+**TOFU 重新錨定:** 桌面錨定其首取之創世。刻意之修訂於已錨桌顯現為 **GENESIS CONFLICT** — 此乃守衛運作,非故障。重新錨定之路徑為刻意且手動:驗證新酬載之成員簽名(bootstrap 於報告衝突前已行之),而後退役舊錨(Linux 桌面為 `~/.config/fleet/genesis.json`)。絕不自動覆寫衝突。
+
+### 宣言(`fleet-manifest.json` + `fleet_bootstrap.py`)
+
+佈告欄:ed25519 簽署之宣言經 git push 發布,同儕經 `raw.githubusercontent.com` 取閱。`fleet-manifest.mjs --emit` 依現行創世雜湊重新生成,並同寫根目錄與 `site/` 兩份(同一正典閘)。`fleet_bootstrap.py` 驗證已錨創世,要求宣言引證該確切創世雜湊**且**由創世成員簽署,而後充填會合。佈告欄遭竄改 → GENESIS CONFLICT 或簽署者拒絕,高聲示警。注意:push 後 raw.githubusercontent CDN 續供舊版數分鐘 — bootstrap 於裁決前先重試時滯。
+
+### 會合(`fleet-map.mjs`)
+
+探測實測之通訊錄,非斷言之名稱:digit 之 v6 邊界、sheraton v4+v6、mesh 節點 AP/STA 綁定。身分即封印;位置由量測得之。不可及之主機如實呈報,不加粉飾(HTTP 逾時處理於 2026-10-07 修補 — 死 mesh IP 迅即延遲而非掛起)。
+
+### 種子空投(`seed-drop.mjs`)
+
+桌對桌一次性密碼本之種子空投。鑄造計畫產生**每對一投** — 兄弟覆蓋屬鑄造時之冗餘裁決,非驗證器應有之假定(RAT-07 記錄此邊界;`rations-stress.mjs` 現於單一過期案例中佈建真實兄弟)。`--audit` 唯讀計畫而不鑄造。
+
+## 8. 掃蕩作業手冊
+
+順序攸關 — 若干套件消費先行步驟產出之構件或埠:
+
+```sh
+# 1. 生成 gov-stress 所需之格點構件
+node security/lattice-probe.mjs          # 寫出 out/ivector-lattice.json
+node security/gov-stress.mjs
+
+# 2. 鑄造空投,而後壓力測試
+node security/seed-drop.mjs
+node security/rations-stress.mjs
+
+# 3. 綜合團隊掃蕩(RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004)
+node security/team-sweep-2.mjs
+
+# 4. 時點稽核
+node security/sentinel-sweep.mjs
+node security/superpowers-audit.mjs      # 即時驗證創世簽名
+node security/capstone-audit.mjs
+
+# 5. KALI 表面 — 需 docker 實驗室 + 桌面目標
+export HYDRA_TOKEN=… WAN_TOKEN=…         # compose 拒絕無閘啟動
+docker compose -f security/docker-compose.wan.yml up -d
+python3 tools/serve.py --port 8902 &     # 硬化桌面目標
+node security/kali-sweep.mjs             # 缺席服務 → NOTED,非崩潰
+RELAY_URL=ws://localhost:18081/ws RELAY_HTTP=http://localhost:18081 \
+    node security/suite.mjs
+docker compose -f security/docker-compose.wan.yml down
+
+# 6. 正典 + 部署閘(姓氏絆線、創世/宣言對等、測試)
+./tools/publish-check.sh
+```
+
+或由 `comms-suite.mjs` 代為架設實驗室:其生成逐次權杖並傳予 compose — **惟須傳 `--keep`**(argv 旗標;`KEEP=1` 環境變數無效),否則退出即拆。
+
+**裁決詞彙:** `HELD`/`HARDENED` = 經測而抗之;`NOTED`/`BOUNDARY` = 觀測或架構所囿(已記錄);`OPEN`/`EXPLOITED`/`FRACTURE` = 真實破口 — 不得出貨。
+
+**`out/findings.json` 為生成物** — 每次套件運行皆覆寫。其為證據,非源碼:豁免 gh-pages 位元對等,絕不手編。
+
+## 9. 誠實限制
+
+記錄之,非豁免之:
+
+1. `session.sk` 於解鎖期間存於頁面記憶體 — 重載即重解;已解鎖會話遭頁面層入侵即為金鑰外洩。
+2. 名冊注入乃桌本地之戲劇 — 改變爾之螢幕所見,非艦隊所信(已發布創世閘守一切)。
+3. `fano-comms.js` 仍用 `prompt()` — Electron 下靜默失敗(composer 重建中)。身分/轉移路徑已無 prompt。
+4. WAN 邊界之外來 IPv6 入站未驗 — IPv4 受 CGNAT 阻擋,AAAA/紀錄端驗證待決。
+5. TOFU 冷啟:桌之首取創世於具備帶外錨定前,仍可能被供予自洽之攻擊者盤面。
+6. stega/carriage 依賴之 `capacity()` 回傳註冊表槽位,非位元組計數 — 以實測往返為準,勿依之規劃預算。
+7. ESP32 mesh 節點未供電時呈報不可及 — 此乃探測如實以告,非故障。
+8. 136 位元組封套之酬載尾端為未鑑別之草稿區 — 接收方必須遵 `plen`。
+
+---
+
+*孿生檔:`docs/en/fano-1-operations.en.md`。本檔所綜述之總帳列見 `spec-008-ipv6-tensor` 與 `fleet-superpowers`;能力主張見 `fleet-superpowers`(28/28 即時驗證)。*
