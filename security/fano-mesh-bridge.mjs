@@ -142,7 +142,8 @@ export function seal(wire) {
   for (let i = 0; i < 32; i++) out[i] = Number((h >> BigInt(8*i)) & 0xffn);
   return out;
 }
-export const verify = wire => seal(wire).equals(wire.subarray(104, 136));
+export const verify = wire =>
+  wire.length === FANO_WIRE && seal(wire).equals(wire.subarray(104, 136));
 
 export function build(sx, sy, sz, dx, dy, dz, seq, payload) {
   const wire = Buffer.alloc(FANO_WIRE);

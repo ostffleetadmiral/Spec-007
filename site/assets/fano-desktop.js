@@ -84,6 +84,13 @@
         ["006.html", "SPEC-006 (partial)", "the brother file — 006 observes"],
       ],
     },
+    "MESH_SOVEREIGN": {
+      label: "MESH — sovereign wire", glyph: "▦",
+      items: [
+        ["fleet.html", "The Sovereign Mesh", "genesis root + manifest, verified in-browser"],
+        ["apps/fano/index.html", "The Quine", "the dialect artifact verifies itself"],
+      ],
+    },
   };
 
   var COVENANT = [
