@@ -10,9 +10,11 @@ WT="$(mktemp -d /tmp/gh-pages.XXXXXX)"
 trap 'git worktree remove "$WT" --force 2>/dev/null || rm -rf "$WT"' EXIT
 
 # fresh orphan state in the worktree — never the shared index
+STAGE="_pages_stage_$$"
+trap 'git worktree remove "$WT" --force 2>/dev/null || rm -rf "$WT"; git branch -D "$STAGE" 2>/dev/null || true' EXIT
 git worktree add "$WT" --detach HEAD -q
 cd "$WT"
-git checkout -q --orphan _pages_stage
+git checkout -q --orphan "$STAGE"
 git rm -rf . -q 2>/dev/null || true
 
 cp -r "$OLDPWD/site/." .
