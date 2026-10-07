@@ -55,14 +55,46 @@ function next() {
   location.replace("http://" + twin + ":" + location.port + "/reset.html?hop=1");
 }
 
+function census() {
+  /* read-only readout — what this desk ACTUALLY holds, before the burn.
+     Answers "why won't my credential work": whose keystore is wrapped here,
+     who founded it, and whether the fail counter is cooling. */
+  var rows = ["HOST  " + location.host, ""];
+  try {
+    var rec = JSON.parse(localStorage.getItem("fano1.identity") || "null");
+    if (rec) {
+      rows.push("RECORD " + (rec.user || "?") + "  ·  " +
+        ((rec.cert && rec.cert.role) || "?") +
+        "  ·  enrolled " + (rec.created || "?"));
+      rows.push("KEY    pk " + String(rec.pk || "").slice(0, 24) + "…" +
+        "  ·  covenant " + String(rec.covenant_sha256 || "").slice(0, 16) + "…");
+    } else rows.push("RECORD (none — no keystore on this origin)");
+    var gen = JSON.parse(localStorage.getItem("fano1.genesis") || "null");
+    rows.push(gen
+      ? "GENESIS founded by " + (gen.callsign || "?") +
+        "  ·  pk_sha256 " + String(gen.pk_sha256 || "").slice(0, 16) + "…"
+      : "GENESIS (none — desk unfounded)");
+    var iss = JSON.parse(localStorage.getItem("fano1.issuers") || "[]");
+    rows.push("ISSUERS " + iss.length + " rostered");
+    var f = JSON.parse(localStorage.getItem("fano1.auth.fail") || "null");
+    var cool = f && f.until > Date.now() ? Math.ceil((f.until - Date.now()) / 1000) : 0;
+    rows.push("FAILS  " + (f ? f.n : 0) + " misses" +
+      (cool ? "  ·  COOLING " + cool + "s — unlock is refused while hot" : ""));
+    rows.push("LIVES  " + (localStorage.getItem("fano1.lives") || "0") +
+      " enrollments on this desk");
+  } catch (e) { rows.push("census error: " + e.message); }
+  return rows;
+}
+
 function burn(tag) {
+  var seen = census();
   var had = scorch();
   t.textContent = "Desk razed — " + tag;
-  log.textContent = (had.length
+  log.textContent = seen.join("\n") + "\n\n" + (had.length
     ? had.map(function (k) { return "destroyed  " + k; }).join("\n")
     : "store already empty") +
     "\n\nsweeping the twin origin, then returning to the covenant…";
-  setTimeout(next, 1200);
+  setTimeout(next, 2600);
 }
 
 FANO_RESET.guard().then(function (g) {
