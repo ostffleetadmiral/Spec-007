@@ -21,6 +21,9 @@ zig test src/spec007_fixedpoint_prototype.zig >/dev/null 2>&1 && say " PASS" "sr
 zig test src/fixed_point_q128.zig >/dev/null 2>&1 && say " PASS" "src/fixed_point_q128.zig" || { say " FAIL" "fixed_point_q128"; FAIL=1; }
 zig test src/spec007_compute.zig >/dev/null 2>&1 && say " PASS" "src/spec007_compute.zig" || { say " FAIL" "compute"; FAIL=1; }
 
+echo "== qstar dep suites + spec008 harnesses (zig build test)"
+zig build test >/dev/null 2>&1 && say " PASS" "zig build test (deps + spec008 harnesses)" || { say " FAIL" "zig build test"; FAIL=1; }
+
 echo "== site build + twins"
 ( cd site && python3 build.py >/dev/null 2>&1 ) && say " PASS" "build.py" || { say " FAIL" "build.py"; FAIL=1; }
 for slug in public verified dossier claims input-audit registry proposal-record economics red-team expanded governance terminology covert declassified object-006 component-map; do
