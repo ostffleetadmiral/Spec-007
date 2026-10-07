@@ -162,7 +162,7 @@
     var d = document.createElement("div");
     d.className = "win-body console";
     d.innerHTML = "<pre style='margin:0;white-space:pre-wrap'>" +
-      "agent:   " + ident.user + "\n" +
+      "agent:   " + esc(ident.user) + "\n" +
       "key fp:  " + ident.pk.slice(0, 8).toUpperCase() + "…\n" +
       "role:    " + (FANO_AUTH.ROLE_LABEL[ident.cert.role] || "CADET") + "\n" +
       "covenant: " + ident.covenant_sig.slice(0, 24) + "… ✓\n\n" +
@@ -751,7 +751,7 @@
     var bar = document.createElement("div");
     bar.className = "win-titlebar";
     bar.innerHTML =
-      '<span class="win-title">' + title + "</span>" +
+      '<span class="win-title">' + esc(title) + "</span>" +
       '<span class="win-btn win-min" title="shelve it">−</span>' +
       '<span class="win-btn win-max" title="fill the desk">□</span>' +
       '<span class="win-btn win-close" title="file it">×</span>';
@@ -957,8 +957,8 @@
       var row = document.createElement("div");
       row.className = "dir-row";
       row.innerHTML =
-        '<span class="g">≡</span><span class="n">' + it[1] +
-        '</span><span class="d">' + it[2] + " · " + it[0] + "</span>";
+        '<span class="g">≡</span><span class="n">' + esc(it[1]) +
+        '</span><span class="d">' + esc(it[2]) + " · " + esc(it[0]) + "</span>";
       row.addEventListener("dblclick", function () { openDoc(it[0], it[1]); });
       row.addEventListener("click", function () { openDoc(it[0], it[1]); });
       list.appendChild(row);
@@ -1194,10 +1194,17 @@
           }
           renderCommand(root);
         }));
-        rr.appendChild(btn("BURN", function () {
+        var burnBtn = btn("BURN", function () {
+          /* two clicks — the first arms, the second burns */
+          if (burnBtn.dataset.armed !== "1") {
+            burnBtn.dataset.armed = "1";
+            burnBtn.textContent = "CONFIRM?";
+            return;
+          }
           A.burnContained(pk) ? toast("identity burned — " + pk.slice(0, 12), "sys") : toast("burn refused", "sys");
           renderCommand(root);
-        }));
+        });
+        rr.appendChild(burnBtn);
       }
       ct.appendChild(rr);
     });
@@ -1621,8 +1628,13 @@
     box.innerHTML = "<p><strong>ACADEMY.OS</strong> <small>— source-linked public curriculum</small></p><p><small>Ollama may tutor, but competencies and credentials remain deterministic and human-reviewed.</small></p>";
     var list = document.createElement("div"), detail = document.createElement("pre"); list.className="academy-list"; detail.style.whiteSpace="pre-wrap"; box.appendChild(list); box.appendChild(detail); makeWindow(title, box);
     fetch("assets/academy-manifest.json").then(function(r){return r.json();}).then(function(m){
-      detail.textContent = m.lesson_count + " lessons filed — choose a lesson.";
-      m.lessons.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\\n\\n"+lesson.outcome+"\\n\\nevidence: "+lesson.evidence+"\\nassessment: "+lesson.assessment+"\\nsource: "+lesson.source; }); list.appendChild(b); });
+      /* integrity: the count must match the lessons actually filed */
+      var real = m && Array.isArray(m.lessons) ? m.lessons : [];
+      var claimed = m && m.lesson_count;
+      detail.textContent = real.length + " lessons filed" +
+        (claimed === real.length ? "" : " — MANIFEST COUNT MISMATCH (claims " + claimed + ")") +
+        " — choose a lesson.";
+      real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\nevidence: "+lesson.evidence+"\nassessment: "+lesson.assessment+"\nsource: "+lesson.source; }); list.appendChild(b); });
     }).catch(function(e){ detail.textContent="academy manifest unavailable — "+e; });
   }
 
@@ -2182,9 +2194,9 @@
     el.dataset.key = ic.label; /* canonical id — display text may localize */
     el.dataset.tip = t("tip." + ic.label) !== "tip." + ic.label ? t("tip." + ic.label) : (ic.sub || "");
     el.innerHTML =
-      '<span class="glyph">' + ic.glyph + "</span>" +
-      '<span class="label">' + t("ic." + ic.label) + "</span>" +
-      '<span class="sub">' + t("sub." + (ic.sub || "")) + "</span>";
+      '<span class="glyph">' + esc(ic.glyph) + "</span>" +
+      '<span class="label">' + esc(t("ic." + ic.label)) + "</span>" +
+      '<span class="sub">' + esc(t("sub." + (ic.sub || ""))) + "</span>";
     iconRefs[ic.label] = el;
     function fire() {
       if (ic.kind === "folder") openFolder(ic.key);
@@ -2813,6 +2825,14 @@
   }
 
   /* ---------- i18n: the desk speaks two languages (EN ⇄ 繁體中文) ---------- */
+
+  /* every string that reaches innerHTML passes here first — the desk
+     renders entities, not markup, from anything it didn't typeset */
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
 
   function t(k, a1, a2) {
     var dict = window.FANO_I18N || {}; /* read live — icons build before this line runs */

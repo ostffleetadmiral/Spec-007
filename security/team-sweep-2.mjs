@@ -648,6 +648,97 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
           `tok=${!!tok} role=${r9 && r9.cert && r9.cert.role} re=${again && again.error}`);
   }
 
+  /* DESK-10..15: desktop/DOM retro-pass (wave 4) — the desk renders
+     entities, not markup; the reset sweeps the whole ledger; the
+     twins stay in key-parity; the academy count is honest */
+  {
+    const dsrc = fs.readFileSync(path.join(SITE, "assets/fano-desktop.js"), "utf8");
+    const rsrc = fs.readFileSync(path.join(SITE, "assets/fano-reset.js"), "utf8");
+
+    /* DESK-10: user-controlled strings reach innerHTML only through
+       esc() — title chokepoint, ident block, folder rows, icon labels */
+    {
+      const sinks = [
+        /win-title">' \+ esc\(title\)/,
+        /esc\(ident\.user\)/,
+        /esc\(it\[1\]\)/, /esc\(it\[2\]\)/,
+        /esc\(ic\.glyph\)/, /esc\(t\("ic\./,
+        /function esc\(s\)/];
+      const hits = sinks.filter(re => re.test(dsrc)).length;
+      hits === sinks.length && !/win-title">' \+ title \+/.test(dsrc)
+        ? held("DESK", "xss-escaped",
+            "esc() fronts every dynamic innerHTML sink — callsign markup renders as text, not tags")
+        : open_("DESK", "xss-escaped", `${hits}/${sinks.length} sinks escaped`);
+    }
+
+    /* DESK-11: the reset census sweeps every fano1.* key the assets
+       actually write — no orphaned ledgers survive a burn */
+    {
+      const keyRe = /["']fano1\.[a-z0-9._]+["']/g;
+      const written = new Set();
+      for (const f of fs.readdirSync(path.join(SITE, "assets"))) {
+        if (!f.endsWith(".js")) continue;
+        const src = fs.readFileSync(path.join(SITE, "assets", f), "utf8");
+        (src.match(keyRe) || []).forEach(k => written.add(k.slice(1, -1)));
+      }
+      const swept = new Set((rsrc.match(/"fano1\.[a-z0-9._]+"/g) || []).map(k => k.slice(1, -1)));
+      const orphans = [...written].filter(k => !swept.has(k));
+      orphans.length === 0
+        ? held("DESK", "reset-census-complete",
+            `${swept.size} keys swept — every ledger the desk writes dies on adjudication (incl. legacy desk.state)`)
+        : open_("DESK", "reset-census-complete", `orphans=[${orphans}]`);
+    }
+
+    /* DESK-12: i18n exact parity — every EN key has a zh twin and
+       vice versa, none empty */
+    {
+      const sb = { window: {} }; sb.window = sb; vm.createContext(sb);
+      vm.runInContext(fs.readFileSync(path.join(SITE, "assets/fano-i18n.js"), "utf8"), sb);
+      const { en, zh } = sb.FANO_I18N;
+      const enOnly = Object.keys(en).filter(k => !(k in zh));
+      const zhOnly = Object.keys(zh).filter(k => !(k in en));
+      const empty = [...Object.keys(en).filter(k => !en[k]),
+                     ...Object.keys(zh).filter(k => !zh[k])];
+      !enOnly.length && !zhOnly.length && !empty.length
+        ? held("DESK", "i18n-parity",
+            `${Object.keys(en).length} keys each side, zero drift, zero empty — the twins are exact`)
+        : open_("DESK", "i18n-parity",
+            `enOnly=[${enOnly}] zhOnly=[${zhOnly}] empty=[${empty}]`);
+    }
+
+    /* DESK-13: academy manifest integrity — the claimed count is the
+       real count and every lesson is fully formed */
+    {
+      const m = JSON.parse(fs.readFileSync(path.join(SITE, "assets/academy-manifest.json"), "utf8"));
+      const incomplete = m.lessons.filter(l => !l.topic || !l.title ||
+        !l.outcome || !l.evidence || !l.assessment || !l.source);
+      m.lesson_count === m.lessons.length && !incomplete.length
+        ? held("DESK", "academy-integrity",
+            `${m.lesson_count} lessons claimed = ${m.lessons.length} filed, all fully formed — the curriculum is honest`)
+        : open_("DESK", "academy-integrity",
+            `claimed=${m.lesson_count} actual=${m.lessons.length} incomplete=${incomplete.length}`);
+    }
+
+    /* DESK-14: destructive verdicts arm before they fire — BURN is
+       a two-click act, not a misclick */
+    {
+      /dataset\.armed/.test(dsrc) && /CONFIRM\?/.test(dsrc)
+        ? held("DESK", "burn-confirmed",
+            "containment BURN arms on first click, fires on second — no one-shot annihilation")
+        : open_("DESK", "burn-confirmed", "one-click burn still live");
+    }
+
+    /* DESK-15: no native dialogs anywhere on the desk — prompt/alert/
+       confirm all throw under Electron */
+    {
+      !/\b(prompt|alert|confirm)\s*\(/.test(dsrc) &&
+      !/\b(prompt|alert|confirm)\s*\(/.test(rsrc)
+        ? held("DESK", "no-native-dialogs",
+            "fano-desktop + fano-reset carry zero native dialogs — every prompt is a DOM widget")
+        : open_("DESK", "no-native-dialogs", "native dialog call present");
+    }
+  }
+
 console.log("\nBOT — containment doctrine");
 /* ================= BOT — containment =================
    Any bot-shaped activity is a cadet in containment: pinned to role 0,

@@ -121,9 +121,14 @@ window.FANO_RESET = (function () {
     });
   }
 
+  /* the full ledger census — every key the desk writes, swept by one
+     adjudication. Legacy keys stay on the list (sweeping is cheap). */
   var KEYS = ["fano1.identity", "fano1.genesis", "fano1.issuers",
               "fano1.callsigns", "fano1.lives", "fano1.comms.contacts",
-              "fano1.comms.relay", "fano1.desk.state"];
+              "fano1.comms.relay", "fano1.desk.state", "fano1.desk.v1",
+              "fano1.directives", "fano1.containment", "fano1.revoked",
+              "fano1.branchreqs", "fano1.branches", "fano1.auth.fail",
+              "fano1.lang"];
   function execute() {
     var burned = [];
     KEYS.forEach(function (k) {

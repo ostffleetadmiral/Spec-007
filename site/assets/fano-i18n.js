@@ -267,7 +267,7 @@ window.FANO_I18N = {
     "term.watchlist": "該名在觀察名單上。即便是雙零特工也需要公文——'grant' 不會自己簽名。",
     "term.namesbond": "……詹姆士·龐德。該名已有人持有——選個檔案未曾蓋過章的呼號。",
     "term.selfdestruct": "簡報已經燒過一次了。它不做安可。",
-    "term.goldeneye.locked": "",
+
     "qp.games": "遊戲", "qp.sandbox": "沙盒", "qp.family": "家族", "qp.viz": "渲染",
     "qp.note.games": "每個遊戲都是家族的真實部件。不許假數學。",
     "qp.note.family": "姊妹專案——每個數字皆引自其自身 README。家族檔案,非行銷文案。",

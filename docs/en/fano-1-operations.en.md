@@ -166,6 +166,28 @@ probed (WIRE-01..07):
   allocations before the GF(256) work starts (WIRE-05).
 - **No `prompt()` anywhere.** MSG composes inline — the Electron desk
   has no native dialogs to throw (WIRE-07).
+
+### 3c. Desk internals — what the glass renders (wave-4 retro-pass)
+
+`fano-desktop.js`/`fano-reset.js`/`fano-i18n.js` unwound the same way
+(DESK-10..15):
+
+- **The desk renders entities, not markup.** Every dynamic string
+  reaching `innerHTML` passes `esc()` — window titles, the unlock
+  ident block, folder rows, icon labels. A callsign carrying tags
+  displays as text (DESK-10).
+- **The burn sweeps the whole ledger.** The reset census covers all
+  16 `fano1.*` keys the desk writes — containment, revocations,
+  branch ledgers, the throttle counter, directives, desk save, lang
+  pref. One adjudication, no orphans (DESK-11).
+- **The twins are exact.** 160 i18n keys each side, probe-enforced —
+  a dead key is a merge fault, not a translation (DESK-12).
+- **The academy count is honest.** 530 claimed = 530 filed, every
+  lesson fully formed; the pane verifies the count against the array
+  and says so when they disagree (DESK-13).
+- **Verdicts arm before they fire.** Containment BURN is a two-click
+  act (DESK-14); the whole desk carries zero native dialogs — every
+  confirmation is a DOM widget (DESK-15).
 Thirty days is the leash.
 
 ## 4. Desk transfer — FANO-DESK-v1
