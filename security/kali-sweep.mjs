@@ -33,10 +33,18 @@ const bad = (name, d) => f(name, "EXPLOITED", d, "high");
 const noted = (name, d) => f(name, "NOTED", d, "info");
 
 async function req(url, opts = {}) {
-  const r = await fetch(url, opts);
-  const headers = {}; r.headers.forEach((v, k) => headers[k] = v);
-  return { status: r.status, headers, body: await r.text() };
+  try {
+    const r = await fetch(url, opts);
+    const headers = {}; r.headers.forEach((v, k) => headers[k] = v);
+    return { status: r.status, headers, body: await r.text() };
+  } catch { return { status: 0, headers: {}, body: "" }; }
 }
+/* a lab service that isn't up is a deferred probe, not an exploit —
+   mark the block NOTED instead of crashing the whole sweep */
+function absent(team, name, target) {
+  return noted(`${team} — ${name} deferred`, `no service at ${target} (lab down)`);
+}
+async function up(url) { return (await req(url)).status !== 0; }
 async function wsDial(url, origin) {
   /* minimal RFC6455 probe — a refused origin gets 101 then a close frame
      carrying 4403, so watch for the close after upgrade */
@@ -67,13 +75,16 @@ async function wsDial(url, origin) {
         buf = buf.subarray(2 + len);
       }
     });
+    sock.on("error", () => resolve("refused: connect error"));
     sock.on("close", () => resolve(upgraded ? `101 then close:${closeCode}` : "tcp closed pre-upgrade"));
     setTimeout(() => { sock.destroy(); resolve(upgraded ? `101 open close=${closeCode}` : "timeout"); }, 3500);
   });
 }
 
 /* ---------- KALI-01/02: node control plane is token-gated ---------- */
-{
+if (!(await up(`${NODE}/id`))) {
+  absent("KALI-01/02", "node-control", NODE);
+} else {
   const open = await req(`${NODE}/id`);
   open.status === 401
     ? ok("node-control-token-gate", "/id without token -> 401")
@@ -85,7 +96,9 @@ async function wsDial(url, origin) {
 }
 
 /* ---------- KALI-03: wan-bridge control gated (remote link-kill closed) ---------- */
-{
+if (!(await up(`${WAN}/stats`))) {
+  absent("KALI-03", "wan-control", WAN);
+} else {
   const open = await req(`${WAN}/stats`, { method: "POST", body: "{}", headers: { "content-type": "application/json" } });
   open.status === 401
     ? ok("wan-control-token-gate", "/stats without token -> 401 (kill/heal/impair closed to the wire)")
@@ -95,17 +108,23 @@ async function wsDial(url, origin) {
 /* ---------- KALI-04/05: WS origin policy on lab relays ---------- */
 {
   const evil = await wsDial("ws://localhost:18081/ws", "http://evil.example");
-  /close=4403|refused|closed/.test(evil)
-    ? ok("relay-origin-enforcement", `disallowed origin -> ${evil}`)
-    : bad("relay-origin-enforcement", `evil origin stayed open: ${evil}`);
-  const good = await wsDial("ws://localhost:18081/ws", "http://desk.local");
-  /101 open close=null/.test(good)
-    ? ok("relay-origin-allowed", `desk.local -> ${good}`)
-    : f("relay-origin-allowed", "OPEN", `configured origin refused: ${good}`, "high");
+  if (evil === "refused: connect error") {
+    absent("KALI-04/05", "relay-origin-policy", "ws://localhost:18081");
+  } else {
+    /close=4403|refused|closed/.test(evil)
+      ? ok("relay-origin-enforcement", `disallowed origin -> ${evil}`)
+      : bad("relay-origin-enforcement", `evil origin stayed open: ${evil}`);
+    const good = await wsDial("ws://localhost:18081/ws", "http://desk.local");
+    /101 open close=null/.test(good)
+      ? ok("relay-origin-allowed", `desk.local -> ${good}`)
+      : f("relay-origin-allowed", "OPEN", `configured origin refused: ${good}`, "high");
+  }
 }
 
 /* ---------- KALI-06/07/08/09: hardened desk server ---------- */
-{
+const DESK_UP = await up(`${DESK}/`);
+if (!DESK_UP) absent("KALI-06..10/12", "desk-surface", DESK);
+if (DESK_UP) {
   const root = await req(`${DESK}/`);
   const h = root.headers;
   !h["server"]
@@ -141,7 +160,7 @@ async function rawMethod(method) {
     setTimeout(() => { sock.destroy(); resolve(buf ? buf.split(" ")[1] : "0"); }, 3000);
   });
 }
-{
+if (DESK_UP) {
   const results = [];
   for (const m of ["PUT", "DELETE", "TRACE", "OPTIONS", "PROPFIND", "CONNECT"]) {
     results.push(`${m}=${await rawMethod(m)}`);
@@ -152,7 +171,9 @@ async function rawMethod(method) {
 }
 
 /* ---------- KALI-11: relay hardened headers + no debug leak ---------- */
-{
+if (!(await up(`${RELAY}/api/health`))) {
+  absent("KALI-11", "relay-headers", RELAY);
+} else {
   const r = await req(`${RELAY}/api/health`);
   const h = r.headers;
   const missing = ["x-content-type-options", "x-frame-options", "referrer-policy"].filter((k) => !h[k]);
@@ -162,7 +183,7 @@ async function rawMethod(method) {
 }
 
 /* ---------- KALI-12: dossier artifacts served intact ---------- */
-{
+if (DESK_UP) {
   const res = await fetch(`${DESK}/assets/spec007.wasm`);
   const body = new Uint8Array(await res.arrayBuffer());
   const magic = body.length >= 4 && body[0] === 0x00 && body[1] === 0x61 && body[2] === 0x73 && body[3] === 0x6d;
@@ -170,7 +191,7 @@ async function rawMethod(method) {
     ? ok("desk-wasm-artifact", `spec007.wasm served: ${body.length}B, wasm magic present`)
     : f("desk-wasm-artifact", "OPEN", `status=${res.status} bytes=${body.length} magic=${magic}`, "med");
 }
-{
+if (DESK_UP) {
   const r = await req(`${DESK}/component-map.html`);
   const txt = (r.body || "").toString();
   r.status === 200 && txt.includes("Component Map")

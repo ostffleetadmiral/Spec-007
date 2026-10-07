@@ -119,7 +119,10 @@ const manifest = { payload: JSON.parse(body), sig_ed25519: sig,
                    pubkey_hint: "sha256:" + crypto.createHash("sha256")
                      .update(fs.readFileSync(PUB)).digest("hex").slice(0, 16) };
 fs.writeFileSync(OUT, JSON.stringify(manifest, null, 2));
-console.log(`manifest → ${OUT} (sig ${sig.slice(0, 24)}…)`);
+/* published copy too — publish-check's canon gate gates the pair */
+fs.writeFileSync(path.join(ROOT, "site", "fleet-manifest.json"),
+  JSON.stringify(manifest, null, 2));
+console.log(`manifest → ${OUT} + site/ (sig ${sig.slice(0, 24)}…)`);
 
 if (process.argv.includes("--push")) {
   const { stdout } = await run("git", ["-C", ROOT, "add", "fleet-manifest.json"]);

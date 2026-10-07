@@ -72,10 +72,15 @@ function atobDer(pem) {
   return Buffer.from(pem.replace(/-----[^-]+-----|\s/g, ""), "base64");
 }
 /* synthetic genesis carrying an admiral member — the flag seat's pk is
-   a fresh keypair; the flag desk's localStorage genesis matches its hash */
+   a fresh keypair; the flag desk's localStorage genesis matches its hash.
+   REPLACE any real admiral member — since the seat landed in canon, a
+   blind push would leave two flag-seats and the guard anchors to the
+   first match, not ours */
 const admiralKp = generateKeyPairSync("ed25519");
 const admiralPem = admiralKp.publicKey.export({ type: "spki", format: "pem" });
 const genWithAdmiral = JSON.parse(JSON.stringify(realGen));
+genWithAdmiral.payload.members = genWithAdmiral.payload.members
+  .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
 genWithAdmiral.payload.members.push({
   name: "admiral", role: "flag-seat",
   pubkey_hint: "sha256:" + createHash("sha256").update(admiralPem).digest("hex").slice(0, 16),
@@ -295,8 +300,12 @@ console.log("\nBLACK — supply chain");
     const remote = execSync("git ls-tree -r gh-pages --name-only",
       { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
     const remoteSet = new Set(remote);
+    /* generated sweep reports mutate every run — parity on them is
+       undefined by design; they are evidence output, not content */
+    const VOLATILE = new Set(["security/findings.json"]);
     let bad = null, checked = 0;
     for (const f2 of local) {
+      if (VOLATILE.has(f2)) continue;
       if (!remoteSet.has(f2)) { bad = `undeployed ${f2}`; break; }
       const r = spawnSync("git", ["show", `gh-pages:${f2}`],
         { cwd: ROOT, encoding: "buffer", maxBuffer: 30_000_000 });

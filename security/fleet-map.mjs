@@ -24,10 +24,15 @@ const OUT  = path.join(HERE, "out", "fleet-map.json");
 const SHERATON = process.env.SHERATON_SSH ?? "admpaul@192.168.12.210";
 
 const getJson = (url, timeout = 4000) => new Promise((res) => {
-  http.get(url, { timeout }, (r) => {
-    let b = ""; r.on("data", c => b += c);
-    r.on("end", () => { try { res(JSON.parse(b)); } catch { res(null); } });
-  }).on("error", () => res(null));
+  /* 'timeout' needs an explicit handler — without it the socket just
+     hangs on unreachable mesh IPs (no error event, promise never
+     resolves) */
+  const r = http.get(url, (r2) => {
+    let b = ""; r2.on("data", c => b += c);
+    r2.on("end", () => { try { res(JSON.parse(b)); } catch { res(null); } });
+  });
+  r.setTimeout(timeout, () => r.destroy());
+  r.on("error", () => res(null));
 });
 
 /* --- self --- */

@@ -1,8 +1,8 @@
 {
   "payload": {
     "spec": "FLEETMANIFESTv1",
-    "ts": "2026-10-07T10:23:25.464Z",
-    "genesis_sha256": "d5f7a36bd3851722b16c902c70d6057cdd3d0dcf8efd731d6a14191512b2ddd5",
+    "ts": "2026-10-07T20:15:08.020Z",
+    "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "artifacts": {
       "apps/fano/fano.wasm": "sha256:86e45cbf086a019fb01f3494bc5fdc4893e8c6f3d7727cd3f9254592f6945181",
       "downloads/fano_beacon.py": "sha256:9acb5b6dea35faa76597d415dbfcabbef9bf27021bd1f3ffb1970903092f2742",
@@ -23,6 +23,6 @@
       }
     }
   },
-  "sig_ed25519": "1fADd0y9dHGPM0-0dWWGsL7BY8wYpggWVaXy-dfel5EIFhKhwjX_vdi-J0EIRThcb_8kJmav-fjiXqoSpuWgDw",
+  "sig_ed25519": "DaKWzdWuftRhmax4yl2RbPBxqI_s3x-XAApmLkDEeIxQ-GRU2AMNesmBP7zqXkIKITrZAh5YxL7AP-IqjwHnAQ",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

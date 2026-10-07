@@ -176,13 +176,20 @@ console.log(`RATIONS stress — ${liveDrops.length} live drops, staged tamper wo
 /* RAT-06 expiry boundary (two cases):
    a) expire ONE drop of a pair — its sibling still covers. The pair
       stays covered: correct by design, expired drops leave the live set.
+      NOTE: the fleet plan mints ONE drop per pair, so the sibling must
+      be staged — a live second drop (fresh dropId, same paper bytes).
    b) expire ALL drops of a pair — the pair must report `expired`,
       never `covered`. A dead seed is not a valid correlation. */
 {
   const pair = liveDrops[0].pair.map(String).sort().join("↔");
-  const stA = stage((led) => {
+  const stA = stage((led, pl) => {
     const ds = led.drops.filter(d => d.pair.map(String).sort().join("↔") === pair);
-    ds[0].expiry = 1; // first sibling only
+    /* stage the redundant sibling — same signed paper, new ledger entry */
+    const sib = { ...ds[0], dropId: ds[0].dropId + "-sib" };
+    fs.copyFileSync(path.join(pl, ds[0].dropId + ".txt"),
+                    path.join(pl, sib.dropId + ".txt"));
+    led.drops.push(sib);
+    ds[0].expiry = 1; // expire the original only
   });
   const rA = audit(stA);
   const stB = stage((led) => {
