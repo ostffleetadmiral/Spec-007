@@ -1,0 +1,31 @@
+{
+  "payload": {
+    "spec": "FLEETMANIFESTv1",
+    "ts": "2026-10-07T09:59:57.648Z",
+    "genesis_sha256": "d5f7a36bd3851722b16c902c70d6057cdd3d0dcf8efd731d6a14191512b2ddd5",
+    "members": {
+      "digit": {
+        "role": "edge-gateway",
+        "v6_global": [
+          "2607:fb91:3a11:bafb::aa7",
+          "2607:fb91:3a11:bafb:3e3b:adff:fef9:b1a"
+        ],
+        "gateway_udp6": "[2607:fb91:3a11:bafb::aa7]:9779",
+        "relay_ws": "ws://<lan-or-hub>:8100/ws",
+        "note": "inbound filtered by carrier — beacon or relay preferred"
+      },
+      "digit-local": {
+        "role": "fleet-peer",
+        "lastSeen": "2026-10-07T09:07:27.103Z",
+        "addr": "[2607:fb91:3a11:bafb::a1c]:44977"
+      },
+      "sheraton": {
+        "role": "fleet-peer",
+        "lastSeen": "2026-10-07T09:07:36.658Z",
+        "addr": "[2607:fb91:3a11:bafb::e2b7]:37952"
+      }
+    }
+  },
+  "sig_ed25519": "NOCN2fN8Yyv9z4ImXweXI9GM_LB-Tj9JiR5Wj9ne5BID_ANmhNQ_ycAlUVpaQbuS-NfRTxTtnnOgBjYjpiMnBQ",
+  "pubkey_hint": "sha256:43b4429513e53ba9"
+}
