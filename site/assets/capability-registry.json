@@ -1,0 +1,503 @@
+{
+  "entries": [
+    {
+      "id": "q128_core",
+      "note": "i256 raw values, i512 intermediates, integer-only core",
+      "provider": "theue",
+      "source": "TheUE/src/fixed_point.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "chiral_protocol",
+      "note": "seven-tuple state, Ramsey, entropy, E5-E0 orchestration",
+      "provider": "theue",
+      "source": "TheUE/src/chiral_state.zig",
+      "status": "verified_here",
+      "verification": "zig build test && zig build run"
+    },
+    {
+      "id": "proof_math",
+      "note": "octonion, E8, Jordan, SO(10), scaling identities",
+      "provider": "theue",
+      "source": "TheUE/src/proof_structures.zig",
+      "status": "verified_here",
+      "verification": "zig test src/proof_structures.zig"
+    },
+    {
+      "id": "spec_governance_core",
+      "note": "compact address, clearance/tool gate, HRIS/evidence decisions, SHA-256 audit chain",
+      "provider": "theue",
+      "source": "TheUE/src/governance.zig",
+      "status": "verified_here",
+      "verification": "zig test src/governance.zig"
+    },
+    {
+      "id": "spec_governance_gap_closure",
+      "note": "SPEC-004 classification/immutable-audit events, access principles, ethics gate, alphabet, storage controls, incident escalation, personal-data categories, knowledge tiers, phase ladder, AIWO mask, revenue waterfall, vendor criteria",
+      "provider": "theue",
+      "source": "TheUE/src/governance.zig + tools/gap_ledger.py",
+      "status": "verified_here",
+      "verification": "zig test src/governance.zig (20 tests) + Python 25/25"
+    },
+    {
+      "id": "information_manifold",
+      "note": "SPEC-002 \u00a712 live store: queryable entity/relation graph, temporal versioning, SHA-256 audit, clearance-gated reads/writes",
+      "provider": "theue",
+      "source": "TheUE/src/information_manifold.zig",
+      "status": "verified_here",
+      "verification": "zig test src/information_manifold.zig (4) + suite (1)"
+    },
+    {
+      "id": "vector_space",
+      "note": "SPEC-002 \u00a713 live index: integer similarity, per-dimension explanations, source attribution, bias/quality audit, Manifold separation",
+      "provider": "theue",
+      "source": "TheUE/src/vector_space.zig",
+      "status": "verified_here",
+      "verification": "zig test src/vector_space.zig (3) + suite (1)"
+    },
+    {
+      "id": "spec_registry",
+      "note": "Rulebook \u00a737 live registry: draft\u2192active\u2192deprecated\u2192retired, approval gate, canonical 10-spec corpus",
+      "provider": "theue",
+      "source": "TheUE/src/spec_registry.zig + src/spec_registry_main.zig",
+      "status": "verified_here",
+      "verification": "zig test (2) + zig build spec-registry export"
+    },
+    {
+      "id": "gate_conformance",
+      "note": "single source of truth proving Zig evaluate() and Python gate() are the same gate",
+      "provider": "theue",
+      "source": "TheUE/context/gov-gate-vectors.json + tools/gen_gate_vectors.py",
+      "status": "verified_here",
+      "verification": "23 vectors \u2014 identical decision/reason/escalation on Zig and Python gates"
+    },
+    {
+      "id": "governed_bridge_gate_dryrun",
+      "note": "audited dry-run endpoint: gate decision without provider contact or model call",
+      "provider": "theue",
+      "source": "TheUE/tools/governed_bridge.py",
+      "status": "available_runtime_gated",
+      "verification": "Python tool tests + POST /gate handler"
+    },
+    {
+      "id": "spec_corpus_port_map",
+      "note": "1,091 hashed governance files; 10,331 requirements mapped to 711 active source/document files",
+      "provider": "theue",
+      "source": "TheUE/context/gov-corpus-manifest.json + context/spec-port-map.json",
+      "status": "verified_here",
+      "verification": "TheUE Python tool tests"
+    },
+    {
+      "id": "governed_ollama_bridge",
+      "note": "token-gated endpoint allowlist, policy gate, modeled evidence, SHA-256 audit IDs",
+      "provider": "theue",
+      "source": "TheUE/tools/governed_bridge.py",
+      "status": "available_runtime_gated",
+      "verification": "Python tool tests + live local/remote discovery + FANO browser smoke"
+    },
+    {
+      "id": "rations_platform",
+      "note": "WASM/P2P/QR/relay/physical backup substrate; governance adapter contract pending",
+      "provider": "rations",
+      "source": "hardware/family/Rations/src + site/apps/rations",
+      "status": "available_runtime_gated",
+      "verification": "Rations native/WASM suites"
+    },
+    {
+      "id": "the_platform_governance",
+      "note": "Ollama/governance bridge source material; archived runtimes are not assumed deployed",
+      "provider": "the_platform",
+      "source": "ThePlatform active modules and archived Digit/Sheraton material",
+      "status": "historical_only",
+      "verification": "active-path verification required"
+    },
+    {
+      "id": "digit_remote_workspace",
+      "note": "remote development/experiment capability; non-sentience charter preserved",
+      "provider": "digit",
+      "source": "Digit @ 192.168.12.210",
+      "status": "available_runtime_gated",
+      "verification": "firingline/remote runtime checks"
+    },
+    {
+      "id": "fano1_full_proofs",
+      "note": "full proof, codon, neuraleak, Q#, Lean, sidecar, and native-hook family",
+      "provider": "fano1",
+      "source": "hardware/archives/bidirectional-integration-fano1-20260911",
+      "status": "verified_archived",
+      "verification": "zig build test; cd qsharp && dotnet build && dotnet run"
+    },
+    {
+      "id": "fano1_proof_adapter",
+      "note": "contract-compatible exact proof and 36-claim audit provider",
+      "provider": "theue",
+      "source": "TheUE/src/fano1_proof_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "e0_checkpoint_adapter",
+      "note": "versioned in-memory checkpoint, overwrite, clear, and corruption detection",
+      "provider": "theue",
+      "source": "TheUE/src/e0_checkpoint_store.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "e0_filesystem_adapter",
+      "note": "versioned binary checkpoint with atomic temp-file replacement",
+      "provider": "theue",
+      "source": "TheUE/src/e0_file_store.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "digit_contracts_adapter",
+      "note": "Digit-compatible ModelObservation/ReflectionDecision/CommitDecision contracts",
+      "provider": "theue",
+      "source": "TheUE/src/digit_contracts.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "digit_scale_scheduler",
+      "note": "bounded scale-0/1/2 scheduler with deterministic branch selection",
+      "provider": "theue",
+      "source": "TheUE/src/digit_orchestrator.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_numeric_adapter",
+      "note": "K3 RNE execution law, separate Digit truncating parity law, exact BF16/F32 bit conversion",
+      "provider": "theue",
+      "source": "TheUE/src/k3_numeric_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_safetensors_io",
+      "note": "safetensors metadata validation, bounded reads, and LRU byte cache boundary",
+      "provider": "theue",
+      "source": "TheUE/src/k3_io_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_trunk_provider",
+      "note": "aligned packed-trunk manifest validation and bounded layer-read boundary",
+      "provider": "theue",
+      "source": "TheUE/src/k3_trunk_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_model_contract_provider",
+      "note": "deterministic q128 fixture session, snapshots, argmax, and Digit observations",
+      "provider": "theue",
+      "source": "TheUE/src/k3_model_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_q128_kernel_provider",
+      "note": "q128 exp/sigmoid/tanh/sqrt, RMSNorm, MatMul, and causal-convolution boundaries",
+      "provider": "theue",
+      "source": "TheUE/src/k3_kernel_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_kda_provider",
+      "note": "KDA decay/read/delta-write/read-updated recurrent state boundary",
+      "provider": "theue",
+      "source": "TheUE/src/k3_kda_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_mla_kv_provider",
+      "note": "bounded q128 KV cache, snapshot/restore, scaled deterministic attention",
+      "provider": "theue",
+      "source": "TheUE/src/k3_mla_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_moe_mxfp4_provider",
+      "note": "exact MXFP4 decode, top-k router, and normalized expert weights",
+      "provider": "theue",
+      "source": "TheUE/src/k3_moe_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_composed_session",
+      "note": "norm/KDA/KV composition with Digit observation and asset-gated MoE status",
+      "provider": "theue",
+      "source": "TheUE/src/k3_composed_session.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_layered_session",
+      "note": "ordered multi-layer q128 session harness with deterministic folds",
+      "provider": "theue",
+      "source": "TheUE/src/k3_layered_session.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_asset_gate",
+      "note": "explicit config/tokenizer/safetensors readiness and refusal boundary",
+      "provider": "theue",
+      "source": "TheUE/src/k3_asset_gate.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_model_package",
+      "note": "asset-gated safetensors shard catalog and tensor metadata binding",
+      "provider": "theue",
+      "source": "TheUE/src/k3_model_package.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_weight_provider",
+      "note": "required tensor validation and bounded safetensors weight reads",
+      "provider": "theue",
+      "source": "TheUE/src/k3_weight_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_tiny_binding",
+      "note": "synthetic BF16 safetensors tensor to q128 model-observation parity",
+      "provider": "theue",
+      "source": "TheUE/src/k3_tiny_binding.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_legacy_fixture",
+      "note": "hash-verified staged flat-manifest/f32-bit tensor and oracle-metadata reader",
+      "provider": "theue",
+      "source": "TheUE/src/k3_legacy_fixture.zig + tests/fixtures/k3-tiny",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_cfg_contract",
+      "note": "exact flat/nested config parsing, required-field refusal, zero-based layer map, scratch/state sizing",
+      "provider": "theue",
+      "source": "TheUE/src/k3_cfg_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_tensor_schema",
+      "note": "628-tensor/45-schema tiny fixture census with exact shape and count validation",
+      "provider": "theue",
+      "source": "TheUE/src/k3_tensor_schema.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_weight_bank",
+      "note": "resident tagged bank: f32 matrix bytes, q128 vectors, routed experts packed w1/w3/w2, all 628 tiny tensors bound",
+      "provider": "theue",
+      "source": "TheUE/src/k3_weight_bank.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_operators",
+      "note": "verbatim K3 operator layer: exp/sigmoid/tanh/sqrt, rmsNorm, l2norm, situGlu, fused-SiLU shortconv, attnRes, kdaDecay/kdaStep/kdaLayer, mlaCached, router, resident moe, dense MLP, decoderLayerInc; incremental==batch proven on real tiny weights",
+      "provider": "theue",
+      "source": "TheUE/src/k3_operators.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_tiny_model_runner",
+      "note": "resident tiny runner: tf 32/32, greedy+incremental 20/20, logits_head <=0.01, snapshot/restore bit-identical, Digit ModelObservation; full checkpoint/tokenizer remain asset_required",
+      "provider": "theue",
+      "source": "TheUE/src/k3_model_runner.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "k3_expert_src",
+      "note": "ExpertSrc boundary + safetensors MXFP4 source: experts stream packed (never widened), drops counted not hidden; header-only shape preflight",
+      "provider": "theue",
+      "source": "TheUE/src/k3_expert_src.zig",
+      "status": "verified_here",
+      "verification": "zig build test + real-shards replay"
+    },
+    {
+      "id": "k3_st_binding",
+      "note": "released-name layer binding: language_model.model.layers.{L}.* -> LayerWeights, per-tensor bf16/f32 tags, q128 vectors, streamed-expert MoE wiring",
+      "provider": "theue",
+      "source": "TheUE/src/k3_st_binding.zig",
+      "status": "verified_here",
+      "verification": "zig build test + real-shards replay"
+    },
+    {
+      "id": "k3_real_layer_replay",
+      "note": "real-dim replay on released weights: H=7168, 896 experts; L0 KDA+dense, L1 KDA+MoE, L3 gated-MLA+MoE all stages <=1e-3, route_idx exact 64/64, 0 drops; full 93-layer remains asset_required",
+      "provider": "theue",
+      "source": "TheUE/src/k3_replay.zig + src/k3_replay_main.zig",
+      "status": "verified_here",
+      "verification": "theue-replay-k3-layer on real-shards L0/L1/L3 dumps"
+    },
+    {
+      "id": "gqa_cfg_provider",
+      "note": "strict HF config: qwen3_moe/olmoe whitelist, text_config scope priority, same-scope duplicate refusal, unsupported-feature gates; qwen3_next/qwen3_5_moe parsed but execution refused",
+      "provider": "theue",
+      "source": "TheUE/src/gqa_cfg_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "gqa_operators",
+      "note": "integer q128 GQA kernels: lnQ/sincosQ series, rotate-half RoPE, per-head/wide qkNorm, stable softmaxQ, router top-k (softmax/sigmoid), SiLU expert FFN",
+      "provider": "theue",
+      "source": "TheUE/src/gqa_operators.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "gqa_moe_runner",
+      "note": "generic GQA+MoE runner: full+incremental forward, resident and streamed experts bit-identical; gqa_tiny oracle logits within 0.01, exact gen_ids 211/249/222/249",
+      "provider": "theue",
+      "source": "TheUE/src/gqa_binding.zig + src/gqa_model_runner.zig",
+      "status": "verified_here",
+      "verification": "zig build test + gqa_tiny oracle"
+    },
+    {
+      "id": "k3_tokenizer",
+      "note": "byte-level BPE (cl100k/o200k/Kimi rule): tiktoken.model + tokenizer_config.json load, encode/decode/roundtrip; byte-identical to upstream probe on released 163,584-rank vocab; staged tests/fixtures/k3-real-tok",
+      "provider": "theue",
+      "source": "TheUE/src/tok.zig + src/tok_unicode.zig + src/tok_loader.zig + src/json.zig",
+      "status": "verified_here",
+      "verification": "zig build test + tok_parity.py 45/45 vs tiktoken"
+    },
+    {
+      "id": "smith_quad_provider",
+      "note": "four exact quarter-turn charts, Mobius impedance mapping, singularity status",
+      "provider": "theue",
+      "source": "TheUE/src/smith_provider.zig + prototypes/smith_four_chart.py",
+      "status": "verified_here",
+      "verification": "Python prototype + zig build test"
+    },
+    {
+      "id": "qstar_lattice_agent",
+      "note": "421 nodes, 8 channels, token routing, cooling, SAMC, generation",
+      "provider": "qstar",
+      "source": "hardware/experiments/qstar-llm/archives/8channel-i256-docsync-20260916",
+      "status": "verified_archived",
+      "verification": "zig build test-agent / zig build regression"
+    },
+    {
+      "id": "qstar_lattice_adapter",
+      "note": "contract-compatible 421x8 deterministic provider; archived QSTAR remains independent",
+      "provider": "theue",
+      "source": "TheUE/src/qstar_lattice_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "qstar_metacognition",
+      "note": "Trivium, Quadrivium, Jordan self-model, reflection",
+      "provider": "qstar",
+      "source": "qstar-llm/src/metacognition_engine.zig",
+      "status": "verified_archived",
+      "verification": "targeted module tests"
+    },
+    {
+      "id": "qstar_metacog_adapter",
+      "note": "integer Jordan-style E6 summary adapter",
+      "provider": "theue",
+      "source": "TheUE/src/qstar_metacog_provider.zig",
+      "status": "verified_here",
+      "verification": "zig build test"
+    },
+    {
+      "id": "qwen_onnx",
+      "note": "dynamic ONNX Runtime; recorded ABI/version gate",
+      "provider": "qstar",
+      "source": "qstar-llm/archives/retro-dev-audit-20260918/final/src/neural_lm.zig",
+      "status": "available_runtime_gated",
+      "verification": "vision/runtime tests with installed ONNX Runtime"
+    },
+    {
+      "id": "k3_q128_model",
+      "note": "exact tiny-model parity; real checkpoint and tokenizer require external assets",
+      "provider": "zig_k3",
+      "source": "hardware/experiments/zig-k3-port",
+      "status": "available_asset_gated",
+      "verification": "zig build test; tiny checkpoint oracle"
+    },
+    {
+      "id": "euqinom_projection",
+      "note": "8D-to-0D tiers, Q#/Zig WASM bridge, hardware-tier projection",
+      "provider": "euqinom",
+      "source": "ThePlatform/AdmPaul/Euqinom",
+      "status": "verified_archived",
+      "verification": "zig build test; Q# integration tests"
+    },
+    {
+      "id": "persistence_memory",
+      "note": "state store, memory, knowledge graph, corruption/restart paths",
+      "provider": "qstar",
+      "source": "qstar-llm/archives/*/src/state_store.zig and memory.zig",
+      "status": "verified_archived",
+      "verification": "targeted persistence tests"
+    },
+    {
+      "id": "mesh_transport",
+      "note": "TCP/P2P/relay/transport providers remain external adapters",
+      "provider": "qstar",
+      "source": "qstar-llm/archives/8channel-i256-docsync-20260916/docs/ARCHITECTURE.md",
+      "status": "verified_archived",
+      "verification": "mesh and transport suites"
+    },
+    {
+      "id": "vulkan_npu_hooks",
+      "note": "requires device, driver, and optional vendor runtime",
+      "provider": "fano1",
+      "source": "hardware/archives/bidirectional-integration-fano1-20260911/*_hook.zig",
+      "status": "available_runtime_gated",
+      "verification": "device-specific hook tests"
+    },
+    {
+      "id": "floating_reference_math",
+      "note": "never authoritative for core state",
+      "provider": "theue",
+      "source": "TheUE/sidecar/verify_reference.zig",
+      "status": "sidecar_only",
+      "verification": "zig run sidecar/verify_reference.zig"
+    },
+    {
+      "id": "physical_zero_latency",
+      "note": "internal simulation semantics only",
+      "provider": "theue",
+      "source": "ref/Chiral.md and ref/Q128.md",
+      "status": "speculative",
+      "verification": "not a software verification target"
+    },
+    {
+      "id": "mobius_generic_self_inverse",
+      "note": "documented formula is not self-inverse for generic z",
+      "provider": "theue",
+      "source": "ref/Q128.md section 8.2",
+      "status": "source_inconsistent",
+      "verification": "explicit countercheck in proof_structures.zig"
+    }
+  ],
+  "entry_count": 62,
+  "registry_version": 1,
+  "schema": 1
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // Ledger of Fractions</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('ledger-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<strong>[Ledger of Fractions]</strong> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="ledger-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>Q Branch — Ledger of Fractions</h1>
+<!-- Scaramanga's island ran on solar power and one very large laser. The economizer is smaller, cheaper, and requires no funhouse. -->
+
+<p><em>Now pay attention, 007. What follows is the account the integers don't show you.</em></p>
+<p>Every promoted number in this dossier is computed twice: once in the visible
+integer layer (u128, milligram-scaled, floor-divided), and once in the shadow
+layer (<code>spec007_q128.zig</code> — Q128.128 fixed point, i256 raw, i512 intermediates,
+round-to-nearest-even). This page records where the floor dropped something.</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th style="text-align: right;">Integer ledger</th>
+<th style="text-align: right;">Exact ledger</th>
+<th>What the floor dropped</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Water consumed / charge</td>
+<td style="text-align: right;">168,627 mg</td>
+<td style="text-align: right;">168,627.145 mg</td>
+<td>0.145 mg</td>
+</tr>
+<tr>
+<td>Acetylene yield</td>
+<td style="text-align: right;">104,901 mL</td>
+<td style="text-align: right;">104,901.72 mL</td>
+<td>0.72 mL</td>
+</tr>
+<tr>
+<td>Hydrolysis heat</td>
+<td style="text-align: right;">595,319 J</td>
+<td style="text-align: right;">595,319.81 J</td>
+<td>0.81 J</td>
+</tr>
+<tr>
+<td>Thermal cascade net (800 W in)</td>
+<td style="text-align: right;">37 W</td>
+<td style="text-align: right;"><strong>38.2 W</strong></td>
+<td>a whole watt</td>
+</tr>
+<tr>
+<td>Vehicle road load @ 80 km/h</td>
+<td style="text-align: right;">5,475 W</td>
+<td style="text-align: right;"><strong>5,476.02 W</strong></td>
+<td>1.02 W</td>
+</tr>
+<tr>
+<td>O₂ required / charge</td>
+<td style="text-align: right;">262,243 mL</td>
+<td style="text-align: right;">262,254.29 mL</td>
+<td>11.29 mL (floored mmol)</td>
+</tr>
+<tr>
+<td>CO₂ produced / charge</td>
+<td style="text-align: right;">411,924 mg</td>
+<td style="text-align: right;">411,940.87 mg</td>
+<td>16.87 mg</td>
+</tr>
+<tr>
+<td>Ca(OH)₂ residue</td>
+<td style="text-align: right;">346,764 mg</td>
+<td style="text-align: right;">346,764.43 mg</td>
+<td>0.43 mg</td>
+</tr>
+<tr>
+<td>Feedstock cost @ $0.60/kg, 110 Wh</td>
+<td style="text-align: right;">$1.636363/kWh</td>
+<td style="text-align: right;">$1.636363…/kWh</td>
+<td>a repeating decimal, provable</td>
+</tr>
+<tr>
+<td>Drip → gas coupling</td>
+<td style="text-align: right;">622 mL/mL</td>
+<td style="text-align: right;">622.093 mL/mL</td>
+<td>0.093 mL/mL</td>
+</tr>
+<tr>
+<td>Reduction ratio @ 80k top end</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">26.667</td>
+<td>a repeating third — the gear that can't be cut</td>
+</tr>
+<tr>
+<td>Turbine torque @ 254 W / 20k RPM</td>
+<td style="text-align: right;">121,276 µN·m</td>
+<td style="text-align: right;">121,276.05 µN·m</td>
+<td>0.05 µN·m</td>
+</tr>
+<tr>
+<td>CVT-derated bus @ burst (η0.88, gen 0.90)</td>
+<td style="text-align: right;">201 W</td>
+<td style="text-align: right;">201.168 W</td>
+<td>0.168 W</td>
+</tr>
+<tr>
+<td>ORC branch per charge</td>
+<td style="text-align: right;">88 Wh</td>
+<td style="text-align: right;">88.992 Wh</td>
+<td><strong>0.992 Wh — nearly a whole watt-hour</strong></td>
+</tr>
+<tr>
+<td>Disc tip speed @ 80k RPM</td>
+<td style="text-align: right;">209,439 mm/s</td>
+<td style="text-align: right;">209,439.53 mm/s</td>
+<td>0.53 mm/s</td>
+</tr>
+<tr>
+<td>Path A shaft @ burst (scroll low end)</td>
+<td style="text-align: right;">458 W</td>
+<td style="text-align: right;">458.0928 W</td>
+<td>0.0928 W</td>
+</tr>
+<tr>
+<td>Path A per-charge (scroll high end)</td>
+<td style="text-align: right;">284 Wh</td>
+<td style="text-align: right;">284.7744 Wh</td>
+<td>0.7744 Wh</td>
+</tr>
+<tr>
+<td>Path A worst $/W</td>
+<td style="text-align: right;">$1.213592/W</td>
+<td style="text-align: right;">$1.2135922…/W</td>
+<td>a repeating 500/412</td>
+</tr>
+<tr>
+<td>Cartridge headspace fraction</td>
+<td style="text-align: right;">3%</td>
+<td style="text-align: right;">3.624%</td>
+<td>0.624 points of breathing room</td>
+</tr>
+<tr>
+<td>Oil-bus burst flow</td>
+<td style="text-align: right;">53 g/s</td>
+<td style="text-align: right;">53.02 g/s</td>
+<td>0.02 g/s</td>
+</tr>
+<tr>
+<td>Economizer capacity @ burst</td>
+<td style="text-align: right;">1,430 W</td>
+<td style="text-align: right;">1,430.000 W</td>
+<td>nothing — a clean bill</td>
+</tr>
+<tr>
+<td>Charge extension, sustained</td>
+<td style="text-align: right;">1.32×</td>
+<td style="text-align: right;">1.325×</td>
+<td>the fractions are honest</td>
+</tr>
+</tbody>
+</table>
+<h2>Reading the ledger</h2>
+<ul>
+<li><strong>No promoted claim changed.</strong> Every discrepancy is sub-unit — the docs'
+  stated approximations already cover them. This page exists so the rounding
+  is <em>proven</em>, not implied.</li>
+<li><strong>Where it matters:</strong> chained computations compound floors. The cascade and
+  road-load rows are the two cases where floor-chaining cost more than a unit.</li>
+<li><strong>Bounds, not vibes:</strong> every shadow value is within a half-ulp of the exact
+  rational — the harness asserts it, and the bound is in the test, not the prose.</li>
+</ul>
+<h2>Ordnance register (related issue)</h2>
+<p>Sister instruments from the same workshop, for the inventory ledger:</p>
+<ul>
+<li><strong>Qstar</strong> — a thinking cap: a whole lattice mind in 53 KB, no transformer, no attention. It attends to itself.</li>
+<li><strong>TheUE</strong> — a reversible seven-tuple engine. Equipment you can return in <em>any</em> order.</li>
+<li><strong>FANO-1</strong> — an operating system in fifteen lines. Nobody read page two.</li>
+<li><strong>The pocket generator</strong> — <code>0⁰ = i</code>. Runs on literally nothing.</li>
+<li><strong>The sentience caliper</strong> — consciousness at one part in eight (<code>421/3375</code>). The other seven parts are classified.</li>
+</ul>
+<p>Field toys issued with this dossier — playable toy models of each
+instrument above, in <code>src/spec007_q_toys.zig</code>:</p>
+<pre><code class="language-sh">zig run src/spec007_q_toys.zig   # demonstration
+zig test src/spec007_q_toys.zig  # the jokes are tested
+</code></pre>
+<p><em>I never joke about my work.</em></p>
+<!-- Once, on a quiet Tuesday, the toaster scored on all eight dimensions. It passed situational awareness — it knew when the bread was done. -->
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>

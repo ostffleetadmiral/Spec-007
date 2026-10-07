@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // Instruments of Illumination</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- The covenant runs five years. The oath does not say which five. -->
+<div class="dossier">
+<div class="watermark">SIGN&nbsp;HERE</div>
+<div class="banner">OSTF Fleet Command &middot; Covenant of Real Illumination &middot; Non-Disclosure &amp; Dedication</div>
+
+<h1>Instruments of Illumination</h1>
+
+<p>Before this dossier opens, the desk requires a signature. The covenant
+below is the actual preamble the Fleet uses — read it as slowly as it
+deserves.</p>
+
+<blockquote>
+<p><em>To dedicate my mind to the discovery of knowledge: lifelong learning,
+critical evaluation, seeking truth in an age of misinformation.</em></p>
+<p><em>To dedicate my soul to the pursuit of enlightenment: empathy,
+understanding, inner peace, and the well-being of all who gather around
+the light.</em></p>
+<p><em>To dedicate my life and days upon this planet to the protection and
+advancement of the human species.</em></p>
+<p><em>To dedicate my efforts to the progress of abundance: sustainable
+innovation and equitable distribution, improving life for everyone rather
+than just a few.</em></p>
+<p><em>To dedicate my existence to bringing all people, in all places, into
+unification: bridging every divide until the whole human family shares one
+light.</em></p>
+</blockquote>
+
+<h2>Terms</h2>
+<ol>
+<li>You will keep the classified drawer classified. What is filed 7q stays 7q.</li>
+<li>You will not treat a rejected claim as a promoted one. The ledger is the law.</li>
+<li><span class="ember" id="selfdestruct">This briefing will self-destruct.
+Unlike the cartridge, which is designed to burn slowly — the document burns;
+the carbide burns at half a litre a minute. That is the whole product.</span></li>
+</ol>
+
+<div id="signin" style="display:none;margin:1.6rem 0;padding:1rem;border:1px solid var(--rule);">
+<h2 style="margin-top:0">Sign in</h2>
+<p><small>This desk already holds an identity —
+<strong id="signin-call"></strong> &middot; <span id="signin-role"></span>.
+The credential unwraps the keystore; nothing else is asked.</small></p>
+<p><label for="signin-pass">CREDENTIAL</label><br>
+<input id="signin-pass" type="password" size="40" placeholder="the desk's credential"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+<p><button id="signinbtn"
+ style="font-family:inherit;font-size:1rem;padding:.6rem 1.4rem;border:2px solid var(--stamp);background:transparent;color:var(--stamp);letter-spacing:.2em;cursor:pointer;">
+UNLOCK AND ENTER</button>
+&nbsp;&nbsp;<small id="signin-note" style="color:var(--gold);"></small></p>
+<div id="totp-box" style="display:none;margin-top:1rem;padding:.8rem;border-top:1px dashed var(--rule);">
+<p><strong>TIME-BASED AUTHENTICATION</strong> <small>— Google Authenticator · QStar.net</small></p>
+<div id="totp-qr" style="width:210px;max-width:100%;background:#fff;padding:8px;"></div>
+<p><small id="totp-instruction"></small></p>
+<p><label for="totp-code">AUTHENTICATOR CODE</label><br>
+<input id="totp-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" size="12" placeholder="000000"
+ style="font-family:monospace;font-size:1.2rem;letter-spacing:.25em;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+<button id="totpbtn" type="button" style="font-family:inherit;font-size:1rem;padding:.5rem 1rem;border:1px solid var(--stamp);background:transparent;color:var(--stamp);cursor:pointer;">CONFIRM AUTHENTICATOR</button>
+<details><summary>Manual setup key</summary><code id="totp-secret" style="word-break:break-all;"></code></details>
+</div>
+</div>
+
+<h2>New operative — sign the covenant</h2>
+<p id="enroll-caution" style="display:none;"><small style="color:var(--stamp);">This desk already holds an identity —
+signing mints a new key and the old callsign is destroyed. The desk's founding survives; the operative does not.</small></p>
+
+<div class="sig-line" id="sigline">&nbsp;</div>
+<p><label for="signame">CALLSIGN <small>— the only identity this network knows</small></label><br>
+<input id="signame" type="text" size="40" placeholder="your name, agent"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+
+<p><label for="sigpass">SET CREDENTIAL <small>— wraps your key, never leaves this device</small></label><br>
+<input id="sigpass" type="password" size="40" placeholder="at least 8 characters"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+
+<p><label for="sigpass2">CONFIRM CREDENTIAL</label><br>
+<input id="sigpass2" type="password" size="40" placeholder="again"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);">
+<small id="matchnote" style="color:var(--gold);"></small></p>
+
+<p id="grantrow" style="display:none;"><label for="grant-token">Grant token <small>(reserved callsigns only — issued by STATION-CHIEF or above)</small>:</label><br>
+<input id="grant-token" type="text" size="40" placeholder="base64 grant from your issuing officer"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+
+<p><label for="branchreq">REQUEST BRANCH <small>— optional; routed to the Fleet Admiral over the Qstar-network for approval</small></label><br>
+<select id="branchreq"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);">
+<option value="">— no branch request —</option>
+<option value="admiralty">ADMIRALTY — fleet command &amp; procedure</option>
+<option value="constitutional">CONSTITUTIONAL — the charter instruments</option>
+<option value="ethics">ETHICS — covenant &amp; review</option>
+<option value="human_academic">HUMAN / ACADEMIC — curriculum &amp; credentialing</option>
+<option value="legal_financial">LEGAL / FINANCIAL — instruments &amp; audit</option>
+<option value="research_ip">RESEARCH / IP — filings &amp; priority</option>
+<option value="security">SECURITY — compartment discipline</option>
+<option value="specs">SPECS — the numbered instruments</option>
+<option value="strategy">STRATEGY — long-table planning</option>
+<option value="narrative">NARRATIVE — the story that carries the file</option>
+</select></p>
+
+<p><small>No names. No email. No server accounts. Your callsign is the only face you wear —
+the key <em>is</em> the identity; the credential only seals it on this desk.</small></p>
+
+<div id="reqview" style="display:none;margin-top:1.2rem;">
+<p><small><strong>Branch request signed.</strong> Carry this token to the Fleet Admiral —
+comms.os, dead drop, or any channel. Approvals land in the Command suite (7q.drawer).</small></p>
+<textarea id="reqtoken" readonly rows="3" cols="52"
+ style="font-family:monospace;font-size:.7rem;background:transparent;border:1px solid var(--rule);color:var(--ink);"></textarea>
+</div>
+
+<p style="margin-top:2rem;">
+<button id="signbtn"
+ style="font-family:inherit;font-size:1rem;padding:.6rem 1.4rem;border:2px solid var(--stamp);background:var(--stamp);color:var(--paper);letter-spacing:.2em;cursor:pointer;">
+SIGN AND ENROLL</button>
+&nbsp;&nbsp;<span id="stamp"></span>
+</p>
+
+<p><small>Countersigned: <span class="sig-line" style="display:inline-block;min-width:12rem;">P. P. Ramsey</span>
+&nbsp;Title: Admiralty &middot; Columbus, Ohio &middot; in triplicate</small></p>
+
+<p><small id="enroll-note">Signing mints a real Ed25519 keypair and signs the covenant hash.
+The secret key is wrapped with your passphrase (PBKDF2 &middot; AES-256-GCM) and never stored in the clear.
+On an unfounded desk, the first signature writes the genesis record — sha256 of the founding key, bound forever.</small></p>
+</div>
+
+<script src="assets/fano-auth.js"></script>
+<script>
+try {
+  if (localStorage.getItem('fano1.lang') === 'zh') window.location.replace('index-zh.html');
+} catch (e) {}
+var langBtn = document.createElement('span');
+langBtn.id = 'idx-lang';
+langBtn.textContent = 'EN / 中';
+langBtn.style.cssText = 'position:fixed;top:.8rem;right:1rem;font-size:.7rem;letter-spacing:.15em;color:var(--gold);border:1px solid var(--rule);padding:.25rem .6rem;cursor:pointer;border-radius:3px;';
+langBtn.addEventListener('click', function () {
+  try { localStorage.setItem('fano1.lang', 'zh'); } catch (e) {}
+  window.location.href = 'index-zh.html';
+});
+document.body.appendChild(langBtn);
+
+document.getElementById('signame').addEventListener('input', function () {
+  document.getElementById('sigline').textContent = this.value || ' ';
+});
+/* warm the mint early so callsign checks answer live */
+var wasmReady = FANO_AUTH.load();
+/* returning operative: the desk's record IS the identity — the
+   credential unwraps it. Enrolling below mints a NEW identity and
+   destroys this one, so the caution shows when a record exists. */
+wasmReady.then(function () {
+  var rec = FANO_AUTH.loadRecord();
+  if (!rec) return;
+  document.getElementById('signin-call').textContent = rec.user.toUpperCase();
+  document.getElementById('signin-role').textContent =
+    FANO_AUTH.ROLE_LABEL[(rec.cert && rec.cert.role) || 0] || 'FIELD-AGENT';
+  document.getElementById('signin').style.display = 'block';
+  document.getElementById('enroll-caution').style.display = 'block';
+});
+document.getElementById('signin-pass').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('signinbtn').click();
+});
+var signinUnlocked = false;
+function showTotp(result, setup) {
+  var box = document.getElementById('totp-box');
+  box.style.display = 'block';
+  document.getElementById('totp-instruction').textContent = setup
+    ? 'Scan this with Google Authenticator. Account: QStar.net. Then enter the six-digit code to confirm it.'
+    : 'Enter the six-digit code from Google Authenticator for QStar.net.';
+  if (setup) {
+    document.getElementById('totp-secret').textContent = result.secret;
+    document.getElementById('totp-qr').innerHTML = FANO_AUTH.qrSvg(result.uri) || '<small>QR unavailable — use the manual setup key below.</small>';
+  } else {
+    document.getElementById('totp-qr').innerHTML = '';
+    document.getElementById('totp-secret').textContent = '';
+  }
+  document.getElementById('totp-code').focus();
+}
+function finishSignin() {
+  document.getElementById('signin-note').textContent = 'the desk opens — ' + FANO_AUTH.session.user;
+  setTimeout(function () { window.location.href = 'desktop.html'; }, 900);
+}
+document.getElementById('signinbtn').addEventListener('click', function () {
+  var note = document.getElementById('signin-note'), btn = this;
+  var rem = FANO_AUTH.lockRemain && FANO_AUTH.lockRemain();
+  if (rem) { note.textContent = 'the keystore is cooling — ' + rem + 's'; return; }
+  if (signinUnlocked) { document.getElementById('totpbtn').click(); return; }
+  btn.disabled = true; note.textContent = 'unwrapping the keystore…';
+  wasmReady.then(function () {
+    var rec = FANO_AUTH.unlock(document.getElementById('signin-pass').value);
+    if (rec) {
+      signinUnlocked = true; btn.disabled = false; btn.textContent = 'VERIFY AUTHENTICATOR';
+      if (rec.totp_required) showTotp(null, false);
+      else {
+        var setup = FANO_AUTH.setupTotp('QStar.net', 'QStar.net');
+        if (!setup.error) showTotp(setup, true);
+        else note.textContent = 'authenticator setup failed — ' + setup.error;
+      }
+      return;
+    }
+    var rem2 = FANO_AUTH.lockRemain && FANO_AUTH.lockRemain();
+    note.textContent = rem2 ? 'too many misses — ' + rem2 + 's before the next try' : 'the keystore refuses that credential';
+    btn.disabled = false;
+  });
+});
+document.getElementById('totpbtn').addEventListener('click', function () {
+  var note = document.getElementById('signin-note'), code = document.getElementById('totp-code').value;
+  if (FANO_AUTH.verifyTotp(code)) finishSignin();
+  else note.textContent = 'that authenticator code is not valid — check the clock and try again';
+});
+document.getElementById('totp-code').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('totpbtn').click();
+});
+/* canon-aware refusals — the watch list has a personality */
+var DENY_WIT = {
+  'bond': 'The name is taken. The file on it is longer than yours.',
+  '007': 'Double-oh designations are issued, never typed.',
+  'q': 'The Quartermaster does not sign up through a form.',
+  'm': 'M is in committee. M is always in committee.',
+  'moneypenny': 'Flattered — but the desk is already spoken for.',
+  'goldfinger': 'No, agent — the file expects you to choose another callsign.',
+  'vesper': 'That name already ended badly once.'
+};
+document.getElementById('sigpass2').addEventListener('input', function () {
+  var p1 = document.getElementById('sigpass').value, p2 = this.value;
+  var m = document.getElementById('matchnote');
+  if (!p2) { m.textContent = ''; return; }
+  m.textContent = (p1 === p2) ? 'credentials match' : 'credentials do not match';
+});
+document.getElementById('signame').addEventListener('input', function () {
+  var note = document.getElementById('enroll-note');
+  wasmReady.then(function () {
+    var norm = (document.getElementById('signame').value || '').trim().toLowerCase();
+    var chk = FANO_AUTH.checkCallsign(norm);
+    document.getElementById('grantrow').style.display = (chk.ok === false && chk.restricted) ? 'block' : 'none';
+    if (chk.ok === false && chk.restricted) {
+      note.textContent = DENY_WIT[norm] || (chk.reason === 'claimed'
+        ? 'That callsign is bound to this desk\'s founding key — it moves only by grant.'
+        : 'That callsign is reserved by the Admiralty — a signed grant token is required.');
+    } else if (!FANO_AUTH.genesis()) {
+      note.textContent = 'No founding record on this desk — the first signature writes the genesis block. That is a responsibility, not a rank.';
+    }
+  });
+});
+document.getElementById('signbtn').addEventListener('click', function () {
+  var btn = this, name = document.getElementById('signame').value.trim();
+  var p1 = document.getElementById('sigpass').value, p2 = document.getElementById('sigpass2').value;
+  var note = document.getElementById('enroll-note');
+  if (!name) { note.textContent = 'The desk requires a callsign.'; return; }
+  if (p1.length < 8) { note.textContent = 'Passphrase must be at least 8 characters.'; return; }
+  if (p1 !== p2) { note.textContent = 'Passphrases do not match.'; return; }
+  btn.disabled = true; btn.textContent = 'ENROLLING…';
+  note.textContent = 'Minting keypair, signing covenant, wrapping keystore…';
+  FANO_AUTH.load().then(function () {
+    var rec = FANO_AUTH.enroll(name, p1, document.getElementById('grant-token').value || null);
+    if (rec && rec.error) {
+      var msgs = { restricted: 'That callsign is reserved by the Admiralty — a signed grant token is required.',
+        claimed: 'That callsign is bound to this desk\'s founding key — it moves only by grant.',
+        empty: 'The desk requires a callsign.', too_long: 'Callsigns cap at 48 characters.' };
+      note.textContent = msgs[rec.error] || 'Enrollment refused — callsign rejected.';
+      btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return;
+    }
+    if (!rec) { note.textContent = 'Enrollment failed — the mint declined. Reload and retry.'; btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return; }
+    var roleName = FANO_AUTH.ROLE_LABEL[rec.cert.role] || 'FIELD-AGENT';
+    var branch = document.getElementById('branchreq').value;
+    if (branch && !rec.genesis) {
+      var rq = FANO_AUTH.requestBranch(branch);
+      if (rq && !rq.error) {
+        document.getElementById('reqtoken').value = FANO_AUTH.exportRequest(rq.pk) || '';
+        document.getElementById('reqview').style.display = 'block';
+        note.textContent = 'Branch request signed (' + branch.toUpperCase() + ') — pending Fleet Admiral approval.';
+      }
+    }
+    document.getElementById('stamp').innerHTML =
+      '<span class="stamp">SIGNED &mdash; FILED 7q &middot; ' + roleName + '</span>' +
+      (rec.genesis ? '<br><small class="stamp" style="border-color:var(--gold);color:var(--gold)">GENESIS MINTED &mdash; sha256 ' + (rec.genesis_hash || '').slice(0, 16) + '…</small>' : '') +
+      '<br><small style="letter-spacing:.05em;color:var(--gold)">sig ' + rec.covenant_sig.slice(0, 24) + '… &middot; fp ' + rec.pk.slice(0, 8).toUpperCase() + '…</small>';
+    var sd = document.getElementById('selfdestruct');
+    setTimeout(function () { sd.classList.add('burning'); }, 3000);
+    setTimeout(function () { window.location.href = 'desktop.html'; }, 6000);
+  }).catch(function (e) {
+    note.textContent = 'The mint is unreachable — ' + e;
+    btn.disabled = false; btn.textContent = 'SIGN AND ENROLL';
+  });
+});
+</script>
+</body>
+</html>

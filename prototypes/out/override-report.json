@@ -1,0 +1,26 @@
+{
+  "generated": "2026-10-07T05:48:40.328Z",
+  "results": [
+    {
+      "id": "OVR-01",
+      "name": "routed-seeding",
+      "verdict": "SEAL CONFIRMED",
+      "detail": "address-derived state agrees 100.0% — but Eve replays it at 100.0%: public determinism is not correlation. Only the secret drop yields a private stream",
+      "ts": "2026-10-07T05:48:40.311Z"
+    },
+    {
+      "id": "OVR-02",
+      "name": "lattice-one-datagram",
+      "verdict": "SEAL BROKEN",
+      "detail": "raw u3-packed=1266B, entropy floor≈1266B, deflate=299B, brotli=267B — compressed to 267B ≤ 1232B — the seal must be reopened",
+      "ts": "2026-10-07T05:48:40.317Z"
+    },
+    {
+      "id": "OVR-03",
+      "name": "weights-hash-tripwire",
+      "verdict": "BOUNDARY CLOSED",
+      "detail": "mantissa-LSB wound: argmax-invisible (K3B-03) but weights-hash drifted 729a36103238…→407b1e69d9cc… — structural attestation now exists",
+      "ts": "2026-10-07T05:48:40.328Z"
+    }
+  ]
+}

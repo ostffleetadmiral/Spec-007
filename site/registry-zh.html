@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // SPEC 登錄表</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('registry.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="registry.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC 登錄表 — SPEC-007 檔案</h1>
+<p><strong>狀態：</strong> 依 OSTF SPEC 治理規則手冊<strong>第九條</strong>（SPEC 登錄表：狀態、版本、編輯者、核准紀錄）建立之現行登錄表。歸屬權威層級 <strong>L2</strong> — 稽核／追蹤資料，非晉升主張。</p>
+<p><strong>範圍：</strong> 每個文件<em>成品</em>一列（語言雙本共用一列）。不可變基線依設計豁免版本管理。</p>
+<h2>登錄表</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>層級</th>
+<th>狀態</th>
+<th>版本</th>
+<th>編輯者</th>
+<th>核准紀錄</th>
+<th>上次審查</th>
+<th>下次審查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec-007.md</code>（基線）</td>
+<td>L0</td>
+<td>不可變 — 豁免版本管理</td>
+<td>n/a</td>
+<td>艦隊司令（擁有者）</td>
+<td>接受為歷史記錄，SHA-256 鎖定</td>
+<td>2026-10-05</td>
+<td>永不（L0 規則）</td>
+</tr>
+<tr>
+<td><code>spec-007.en/zh-Hant</code>（忠實譯本）</td>
+<td>L0</td>
+<td>不可變衍生</td>
+<td>n/a</td>
+<td>SPEC 理事會指定人</td>
+<td>基線之忠實性確認譯本</td>
+<td>2026-10-05</td>
+<td>永不</td>
+</tr>
+<tr>
+<td><code>spec-007-terminology</code></td>
+<td>L0</td>
+<td>現行 — 逐字保留之詞彙</td>
+<td>n/a</td>
+<td>SPEC 理事會指定人</td>
+<td>隨基線接受</td>
+<td>2026-10-05</td>
+<td>隨基線</td>
+</tr>
+<tr>
+<td><code>spec-007-verified</code></td>
+<td>L1</td>
+<td>現行 — 管轄所有數字</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>經 L4 台架閘門晉升</td>
+<td>2026-10-05</td>
+<td>2027-10-05（年度＋觸發）</td>
+</tr>
+<tr>
+<td><code>spec-007-research-dossier</code></td>
+<td>L2</td>
+<td>現行 — 證據軌跡含危害登錄</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>接受為證據層</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-claim-verification</code></td>
+<td>L2</td>
+<td>現行 — 主張分級與駁回</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>接受為證據層</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-design-input-audit</code></td>
+<td>L2</td>
+<td>現行 — 來源稽核</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>接受為證據層</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-proposal-record</code></td>
+<td>L2</td>
+<td>現行 — 追溯性第四條紀錄</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>接受（本登錄週期）</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-registry</code>（本檔）</td>
+<td>L2</td>
+<td>現行 — 規則手冊第九條成品</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>自我登錄條目</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-economic-assessment</code></td>
+<td>L3</td>
+<td>現行 — 衍生分析</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>數字必須與 L1 一致</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-engineering-revision</code></td>
+<td>L3</td>
+<td>現行 — 衍生分析</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>數字必須與 L1 一致</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-expanded-engineering-spec</code></td>
+<td>L3</td>
+<td>現行 — 衍生分析</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>數字必須與 L1 一致</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-governance-gap-analysis</code></td>
+<td>L3</td>
+<td>現行 — 衍生分析</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>數字必須與 L1 一致</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>spec-007-component-map</code></td>
+<td>L2</td>
+<td>現行 — 逆向工程基線</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>列必須與 publish-check 覆蓋一致</td>
+<td>2026-10-06</td>
+<td>隨 L4 測試框架</td>
+</tr>
+<tr>
+<td><code>spec-007-public</code></td>
+<td>L3</td>
+<td>現行 — 公開門面</td>
+<td>1.0.0</td>
+<td>SPEC 理事會指定人</td>
+<td>L1/L2 之消毒投影</td>
+<td>2026-10-05</td>
+<td>隨 L1</td>
+</tr>
+<tr>
+<td><code>src/spec007_*.zig</code> 台架</td>
+<td>L4</td>
+<td>現行 — 可執行閘門</td>
+<td>n/a（由測試鎖定）</td>
+<td>SPEC 理事會指定人</td>
+<td>依 publish-check 全數通過</td>
+<td>2026-10-05</td>
+<td>持續</td>
+</tr>
+<tr>
+<td><code>thoughts&amp;convos/</code> 抽屜</td>
+<td>L5</td>
+<td>機密 — 引用而不列明</td>
+<td>n/a</td>
+<td>艦隊司令（擁有者）</td>
+<td>依 SPEC-004「7q」登錄表（另冊）</td>
+<td>2026-10-05</td>
+<td>依 SPEC-004</td>
+</tr>
+</tbody>
+</table>
+<h2>登錄規則</h2>
+<ul>
+<li>條目<strong>隨里程碑</strong>更新，不追溯重建。</li>
+<li>文件 <code>狀態</code> 依 <code>draft → active → superseded → retired</code> 推移；退役須有引用替代文件之承繼列。</li>
+<li>AI 系統持有<strong>零工程權限</strong>（規則手冊第三條）：可登錄，不得核准。核准紀錄記載人類角色，不記代理人。</li>
+<li><code>thoughts&amp;convos/</code> 抽屜登錄表位於 <code>thoughts&amp;convos/SPEC-004-REGISTRY.md</code>，依其自身僅可附加規則運作 — 屬機密，此處不予複製。</li>
+</ul>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

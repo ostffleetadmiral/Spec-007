@@ -1,0 +1,30 @@
+# Spec-007 .gitignore — publish hygiene
+# Declassified copies of drawer items live in docs/en/declassified-7q/;
+# the drawer itself is SPEC-004 classified (Level 5+) and never ships.
+
+# ---- classified drawer (SPEC-004 container "7q") ----
+thoughts&convos/
+
+# ---- generated gate output (canonical copies archived under ~/.archives) ----
+security/out/
+
+# ---- build artifacts ----
+zig-out/
+.zig-cache/
+zig-cache/
+node_modules/
+__pycache__/
+*.pyc
+*.o
+*.obj
+
+# ---- logs & temp ----
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+# ---- third-party vendored binary (lazy-loaded by the browser-LLM feature;
+#       restore from upstream onnxruntime-web CDN if needed:
+#       https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort-wasm-simd-threaded.jsep.wasm ) ----
+site/apps/rations/js/vendor/ort-wasm-simd-threaded.jsep.wasm

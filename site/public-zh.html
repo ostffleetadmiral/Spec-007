@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 簡報</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('public.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<strong>[簡報]</strong> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="public.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC-007 — 模組化化學熱電卡匣</h1>
+<h2>中國製造拯救世界 (Made in China Saves the World)</h2>
+<p><strong>代號：</strong>「冰淇淋管」(Ice Cream Tube) · 鈣卡匣 ("Calcium Cartridge")
+<strong>分類：</strong> 開源能源基礎設施 — 研究候選
+<strong>授權：</strong> CC0 公眾領域 — 無權利保留
+<strong>主管：</strong> OSTF 艦隊司令部 — 艦隊上將 Paul P. Ramsey
+<strong>頒布依據：</strong> 真光照誓約；OSTF 臨時創始治理憲章；SPEC 治理規則書（本地實作）
+<strong>版本：</strong> 1.4.0 · 2026-10-05</p>
+<blockquote>
+<p><strong>常駐聲明。</strong> 本文件為研究級規格。它不是製造、運輸或部署的授權。所有晉升數字皆專屬於已驗證主張層（<code>spec-007-verified.en.md</code>），由可重現的整數測試台架與機構來源強制執行。未通過量測閘門的設計目標標示為目標，絕不標示為規格。</p>
+</blockquote>
+<hr>
+<h2>前言 — 真光照</h2>
+<p>本規格受真光照誓約框定：知識服務於豐裕、統一，以及人類物種的保護與進步。能源應是<em>可持有的</em>、<em>可替換的</em>、<em>有韌性的</em>——而非架構造出的稀缺。</p>
+<p>本文件即使在真相不便之處也說真話：當前概念是<em>研究候選</em>，真實的矛盾在公開中更正。</p>
+<hr>
+<h2>第一條 — 目的與命名</h2>
+<p><strong>SPEC-007</strong> 定義一種模組化化學熱電卡匣（「刀片」）概念：一支密封的電石反應管，意圖透過標準機械介面輸出熱、TEG 低功率電力、以及受控的乙炔氣路。</p>
+<p><strong>設計意圖：</strong> 供緊急電力、遠端服務與工業熱研究使用的現場可替換能源模組。</p>
+<p><strong>它不是什麼：</strong> 它不是電池、不是認證產品、目前對公開部署不安全。它也不是早期設計輸入中討論的「自充電車」動力裝置；那些主張僅以閘控研究目標的身分存續。</p>
+<hr>
+<h2>第二條 — 已驗證物理基線</h2>
+<p>源反應（水解）：</p>
+<pre><code>CaC₂ + 2 H₂O → C₂H₂ + Ca(OH)₂ + 熱（ΔH ≈ −127.2 kJ/mol 模型）
+</code></pre>
+<h3>A. 純充裝模型（300 g CaC₂，化學計量）</h3>
+<table>
+<thead>
+<tr>
+<th>量</th>
+<th style="text-align: right;">已驗證值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CaC₂ 量</td>
+<td style="text-align: right;">4.680 mol</td>
+</tr>
+<tr>
+<td>耗水</td>
+<td style="text-align: right;">168.6 g</td>
+</tr>
+<tr>
+<td>產乙炔</td>
+<td style="text-align: right;">121.9 g ≈ 104.9 L（STP 模型）</td>
+</tr>
+<tr>
+<td>反應熱</td>
+<td style="text-align: right;">≈595 kJ（165 Wh）</td>
+</tr>
+<tr>
+<td>乙炔化學能</td>
+<td style="text-align: right;">≈1.689 kWh（49.9 MJ/kg LHV）</td>
+</tr>
+</tbody>
+</table>
+<h3>B. 商用級模型（GB 10665-2004 乙炔級）</h3>
+<table>
+<thead>
+<tr>
+<th>量</th>
+<th style="text-align: right;">已驗證值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標定產氣率</td>
+<td style="text-align: right;">20 °C、101 kPa 下 285–305 L/kg</td>
+</tr>
+<tr>
+<td>300 g 充裝產出</td>
+<td style="text-align: right;"><strong>85.5–91.5 L</strong></td>
+</tr>
+<tr>
+<td>隱含有效電石</td>
+<td style="text-align: right;"><strong>≈75.9–81.2%</strong></td>
+</tr>
+<tr>
+<td>能量密度（商用級）</td>
+<td style="text-align: right;"><strong>≈4.7–5.0 kWh/kg</strong></td>
+</tr>
+<tr>
+<td>5 L/min 下時長</td>
+<td style="text-align: right;"><strong>≈17–18 min</strong>（純模型 21 min）</td>
+</tr>
+</tbody>
+</table>
+<h3>C. 能量密度（已驗證，已更正）</h3>
+<p><strong>每公斤純電石 ≈6.2 kWh</strong>（5.63 kWh 化學能＋0.55 kWh 反應熱）。較早的「≈12 kWh/kg」數字已<strong>排除</strong>。</p>
+<h3>D. 流量耦合（已驗證）</h3>
+<p>產氣與進水物理耦合：每 mL/min 水產 <strong>0.622 L/min</strong> 乙炔。所述 0.1–0.5 mL/min 泵浦包絡故產 <strong>0.062–0.311 L/min</strong> 氣。5 L/min 產氣目標需 ~<strong>8 mL/min</strong> 水，並將在 ≈<strong>21 分鐘</strong>內耗盡 300 g 充裝（純模型；商用 ≈17–18 min）。</p>
+<h3>E. 燃燒模式上限（已驗證熱界，非輸出主張）</h3>
+<p>若乙炔在<em>合格</em>燃燒器中燃燒——一個獨立的未證明子系統——每刀片熱上限在最大 5 L/min 速率下為 ≈<strong>5.3 kW 純／4.9 kW 商用</strong>，每充裝 ≈<strong>17–21 分鐘</strong>（≈1.5–1.9 kWh 熱）。速率是旋鈕：自 0.5 L/min 的 ≈<strong>0.53 kW／~3.5 h</strong> 至 5 L/min 的 ≈<strong>5.3 kW／~21 min</strong>——每充裝總能量守恆。篩算轉換階梯將其化為每充裝約 <strong>0.1 kWh</strong> 電能的爆發輸出，低速率下寄生耗損主導故更少。分散式 TEG 可另回收強制熱流，受放置 ΔT 限制：排氣邊界支持模組額定級 ΔT（~5% 點效率），而 ~3.99 kW 冷凝器排熱流在務實 ~30–60 K ΔT 下僅回收 ~<strong>20–44 W</strong>（~119 W 數字假設冷凝器無法提供的 270 K 額定 ΔT）。注意邊界規則：TEG 只在熱<em>必經</em>處採收——在絕熱表面上 TEG 模組部分地製造了它採收的漏熱——且由 TEG 輸出供電的 TEC 是寄生迴路，永遠無法滿足 ~5 kW 爆發排熱需求（~42 m² 被動輻射面積或強制對流散熱器）。全速燃燒空氣需求 ~60 L/min 連續（每充裝 ~412 g CO₂）。燃燒器、排氣、回火、通風與排放路徑是強制證據閘門；此模式排除於純 TEG 包絡之外。</p>
+<h3>F. 傳動篩算（已驗證機械鏈）</h3>
+<p>燃燒／ORC 路徑上的機械鏈現為<strong>雙路徑</strong>規格，因為曾經看似必須的傳動，只是為了撮合兩個失配的端點。<strong>路徑 A（旗艦）：</strong> 渦卷膨脹機——量測最多的小型 ORC 膨脹機類，在我們的 120–140 °C 帶上 45–80% 等熵（Sanden TRS090 ~45% @ ~650 W 軸功；半密閉 E15H 級 ~80%）——於 2–6k RPM 直驅軸向磁通發電機：篩算峰值母線 <strong>~412–732 W</strong>，每充裝 <strong>~155–266 Wh</strong>，開放硬體 BOM ~$250–500（~$0.34–1.21/W），密閉渦卷殼體可完全免除旋轉密封。<strong>路徑 B（車庫製造）：</strong> 特斯拉渦輪直驅套筒式高速永磁發電機——50 mm 磁體轉子在 30k RPM 承受 ~46 MPa 環向應力，在 ~800 MPa 碳纖維套筒篩算內（150 mm 轉子達 ~416 MPa，強制套筒）：篩算母線 ~215–228 W、每充裝 ~85 Wh、~$400–900（~$1.75–4.19/W)——所有零件皆平面或圓柱，代價是轉子爆裂圍阻。<strong>路徑 C（已取代）：</strong> 特斯拉＋傳動鏈（母線 ~182–224 W、~74–90 Wh）保留為存檔基線——其 3:1–10:1 變比窗口、ρv² 應力界（50 mm 碟片 @30k ~49 MPa／@80k ~351 MPa）與損失熱導流分析仍然成立。路徑 A 的最差情形在每爆發瓦成本上勝過路徑 B 的最佳情形，且每充裝輸出能量為其三倍——付費電石上原料底線自 ~$2.05–2.43/kWh（路徑 C）改善至 ~$0.68–1.16/kWh（路徑 A）。</p>
+<hr>
+<h2>第三條 — 包絡與材料（設計目標）</h2>
+<p>待量測整合——以下為目標，非最終尺寸：</p>
+<table>
+<thead>
+<tr>
+<th>目標</th>
+<th>值</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>卡匣包絡</td>
+<td>50 mm Ø × 200 mm 長，2 mm 壁（316L）</td>
+<td>幾何已驗證；材料適用性未證明</td>
+</tr>
+<tr>
+<td>內部圓筒體積</td>
+<td>≈332 cm³</td>
+<td>已驗證幾何</td>
+</tr>
+<tr>
+<td>示例殼體質量</td>
+<td>8.0 g/cm³ 下 ≈483 g</td>
+<td>已驗證幾何基線</td>
+</tr>
+<tr>
+<td>工質存量</td>
+<td>待定——必須納入質量／體積預算</td>
+<td>待定</td>
+</tr>
+<tr>
+<td>TEG 陣列</td>
+<td>8–12 × 40×40 mm Bi₂Te₃ 級模組</td>
+<td>代表性模組數據已知（下）</td>
+</tr>
+</tbody>
+</table>
+<p>代表性高溫模組行為：300 °C 熱側／30 °C 冷側下匹配負載 ≈<strong>9.8 W</strong>，流經模組熱流 ≈<strong>188 W</strong>（~<strong>5%</strong> 點效率）。研究級 Bi₂Te₃ 在受控 ΔT 下已演示至 <strong>8%</strong>。</p>
+<p>工質溫度頂端 <strong>300–450 °C</strong> <strong>未</strong>經驗證：礦物油與標準 Bi₂Te₃ 模組的連續額定值更低，且任何 Novec-649 ORC 迴路受 <strong>169 °C 臨界溫度</strong>限制。工質選擇是待決工程閘門。</p>
+<p>加壓 Novec 蒸汽發生器在該閘門內是合法架構：蒸氣壓隨溫度陡升（模型估計 90–150 °C 下 ~0.4–1.2 MPa），緻密的高分子量蒸氣適合緊湊膨脹機。潛熱向臨界點坍縮，故務實蒸發器帶約為 <strong>90–150 °C</strong>——非 300 °C。</p>
+<hr>
+<h2>第四條 — 安全閘門（阻擋發布）</h2>
+<p>在每道閘門關閉前，實體建造不得越過設計審查：</p>
+<ol>
+<li><strong>進水圍阻</strong>——對遇水反應（UN 1402，4.3 類）充裝的濕氣排除、偵測、隔離與圍阻。</li>
+<li><strong>氣體處理</strong>——受控乙炔路徑，具燃燒／火炬資格、回火防護、洩壓，及可阻斷支出的安全態；禁止外部排放。</li>
+<li><strong>關斷獨立性</strong>——安全態不得依賴渦輪、單一膜片或單一感測器。</li>
+<li><strong>次級淬火驗證</strong>——50 g CaO（「安全監獄」）概念與 &lt;3 s 固化為<strong>未驗證目標</strong>；無論如何需要獨立圍阻層。</li>
+<li><strong>運輸</strong>——4.3 類包裝組 II 合規僅為分類入口；成品組件需要因轄區而異的包裝證據。</li>
+<li><strong>貨架壽命</strong>——5+ 年密封儲存為未驗證目標。</li>
+</ol>
+<hr>
+<h2>第五條 — 介面與宿主配置（已更正規模）</h2>
+<p><strong>介面目標</strong>——刀片機械滑軌、導熱板、乾式無氣盲插接頭為宜、2 針電力＋身分／狀態針、全向插入目標。</p>
+<p><strong>宿主縮放是算術，不是行銷：</strong></p>
+<table>
+<thead>
+<tr>
+<th>宿主</th>
+<th style="text-align: right;">每已驗證 10–20 W 純 TEG 包絡</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>公事包（1 刀片）</td>
+<td style="text-align: right;"><strong>10–20 W</strong></td>
+</tr>
+<tr>
+<td>車輛機架（16 刀片）</td>
+<td style="text-align: right;"><strong>160–320 W</strong></td>
+</tr>
+<tr>
+<td>建築機架（64 刀片）</td>
+<td style="text-align: right;"><strong>640–1,280 W</strong></td>
+</tr>
+</tbody>
+</table>
+<p>更高輸出需要獨立驗證的燃燒／ORC 轉換級；該架構是研究目標（可選燃燒器→熱迴路→膨脹機→發電機），<strong>不屬於</strong>已驗證包絡。</p>
+<hr>
+<h2>第六條 — 回收迴路（已驗證工業化學）</h2>
+<pre><code>廢殘渣（Ca(OH)₂＋未反應 CaC₂＋雜質）
+  → 收集 → 煅燒（~900 °C 級）
+  → 碳熱還原（CaO + 3C → CaC₂ + CO，~2,000–2,100 °C，電弧爐）
+  → 再製造
+</code></pre>
+<p>已驗證工業基礎：EPA AP-42 電石製造、IPCC 電石排放因子（≈1.8 t CO₂/t 生產＋≈1.1 t CO₂/t 使用階段）。經生物炭的「碳中和」為條件成立，<strong>不予晉升</strong>。</p>
+<hr>
+<h2>第七條 — 製造背景（已驗證，非宣傳）</h2>
+<ul>
+<li>中國佔全球電石產能 ~80%，年產 ~38–40 Mt，集中於西北省份，生產能耗 ~3,000–4,000 kWh/t（行業來源）。</li>
+<li>世界 IEA 數據：中國累計光伏 2025 年底 ≈1,464 GW（約年新增 60%）；風電 2024 年底 ≈561.5 GW（約 2024 全球新增 70%）；關鍵太陽能製造環節 &gt;80%。</li>
+<li>這些背景事實確立電石成本／再生能源過剩條件最強之處；它們<strong>不</strong>使任何 SPEC-007 成本主張（<code>&lt;$50/刀片</code>／零售數字）獲得驗證。本文件所有成本數字均以目標身分排除。</li>
+</ul>
+<hr>
+<h2>第八條 — 使命（敘事 使命）</h2>
+<blockquote>
+<p>刀片是一顆種子。當儲存的陽光能裝在密封管中從窯爐旅行到村莊，電網就成了選項，而非許可證。能源的天命歸還人民——大同。</p>
+</blockquote>
+<p>使命語言框定意圖。上述物理劃定邊界。</p>
+<hr>
+<h2>第九條 — 排除項</h2>
+<p>下列早期主張自本發布中<strong>排除</strong>（完整記錄見證據鏈文件）：</p>
+<ul>
+<li>400–800 W（16 刀片）與 2–5 kW（64 刀片）數字；「~12 kWh/kg」；未驗證的 5.5 kg 系統重量；3 秒固化；5+ 年貨架壽命；30,000–80,000 RPM 作為安全運行主張；「$50/刀片」與任何毛利模型；「全球部署已授權」；所有戰略／政治／敘事內容（依 SPEC-004 列密，僅保留於機密設計輸入）。</li>
+</ul>
+<hr>
+<h2>第十條 — 驗證與審計</h2>
+<table>
+<thead>
+<tr>
+<th>台架</th>
+<th style="text-align: right;">測試數</th>
+<th>範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec007_calculations.zig</code></td>
+<td style="text-align: right;">8</td>
+<td>化學計量、流量耦合、機架算術、包絡幾何、Q128.128 影子物料平衡、影子滴速鏈</td>
+</tr>
+<tr>
+<td><code>spec007_expanded_calculations.zig</code></td>
+<td style="text-align: right;">18</td>
+<td>PDRC 面積、熱階梯、Novec 閘門、能量分配、碳篩算、載具功率、原料成本、硬體攤提、冷凝路徑 TEG 回收、TEG ΔT 縮放、峰值排熱面積、TEC 寄生迴路、太陽能光熱界、低速率廣面積燃燒、單調性、Q128.128 影子階梯／TEG 鏈／道路負載檢驗</td>
+</tr>
+<tr>
+<td><code>spec007_verified_calculations.zig</code></td>
+<td style="text-align: right;">15</td>
+<td>商用產率、隱含純度（標定基準）、更正能量密度、TEG 點、線性機架、包絡一致性、燃燒峰值上限、商用縮放、速率—時長守恆、殘渣質量、燃燒空氣／排氣、質量底線、Q128.128 影子能量密度／燃燒／殘渣檢驗</td>
+</tr>
+<tr>
+<td><code>spec007_drivetrain_calculations.zig</code></td>
+<td style="text-align: right;">21</td>
+<td>變比窗口、CVT 掃掠覆蓋、扭矩／功率守恆、轉子尖端應力界、傳動降額鏈、每循環降額、損失熱回收界、共享排熱預算、付費對免費熱經濟、雙路徑動力系統（渦卷對特斯拉帶、路徑 A/B 母線＋每循環＋$/W 篩算、套筒轉子界）、Q128.128 影子檢驗</td>
+</tr>
+<tr>
+<td><code>spec007_manifold_calculations.zig</code></td>
+<td style="text-align: right;">12</td>
+<td>卡匣體積／質量預算（袋裝架構、~14% 電石渣增長）、ESP32-S3 控制器寄生包絡與冗餘界、油母線流量與溫度堆疊、Novec 省煤器容量與循環延時額度、三母線歧管守恆、單調性、Q128.128 影子檢驗</td>
+</tr>
+<tr>
+<td><code>spec007_q128.zig</code></td>
+<td style="text-align: right;">—</td>
+<td>為影子測試服務的精簡 Q128.128 定點引擎（i256 原碼、i512 中間值）；自身無測試——經其服務的台架驗證。Q 部門配發品：軍需官管分數</td>
+</tr>
+</tbody>
+</table>
+<p>所有里程碑皆存檔；原始概念記錄不可變（SHA-256 <code>bcb81b78…</code>）。</p>
+<hr>
+<h2>第十一條 — 修訂與版本化</h2>
+<p>版本依 SPEC 治理規則書採 <strong>MAJOR.MINOR.PATCH</strong>：</p>
+<ul>
+<li><strong>PATCH：</strong> 僅編輯性——編輯核准。</li>
+<li><strong>MINOR：</strong> 相容增補——標準審查。</li>
+<li><strong>MAJOR：</strong> 任何晉升數字的變更在合併前<strong>必須</strong>附台架測試或機構引用。</li>
+</ul>
+<p><strong>觸發審查：</strong> 當 (a) 引用數據表或標準變更、(b) 取得供應商報價或分析證書、(c) 合格實驗室量測到來、或 (d) UN 1402／GB 10665／相關法規文本變更時，本文件必須重新審查。</p>
+<p><strong>版本歷史</strong></p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>變更</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.0</td>
+<td>2026-10-04</td>
+<td>初版公開發布，建於已驗證主張層之上。</td>
+</tr>
+<tr>
+<td>1.1.0</td>
+<td>2026-10-04</td>
+<td>深度審計更正：隱含有效電石更正至 20 °C 標定基準（≈75.9–81.3%），硬體攤提算術更正並由台架強制，新增商用級能量密度與爆發時長。新已驗證節：燃燒模式熱上限（每充裝 ≈5 kW 級、≈17–21 min），附明確燃燒器／安全閘門。擴充台架現 9 項測試；驗證台架現 8 項。</td>
+</tr>
+<tr>
+<td>1.1.1</td>
+<td>2026-10-04</td>
+<td>釐清爆發時長為可選速率而非定值：新增已驗證速率↔功率↔時長表（≈0.53 kW/3.5 h 至 ≈5.3 kW/21 min）與守恆測試。新增低壓蒸發工作點註記（蒸發器壓力界住渦輪功；169 °C 閘門不動）。驗證台架現 9 項測試。</td>
+</tr>
+<tr>
+<td>1.1.2</td>
+<td>2026-10-04</td>
+<td>精煉蒸發器壓力指引涵蓋全設計旋鈕：確認加壓 Novec 蒸汽發生為合法架構；務實蒸發器帶定為 ~90–150 °C（潛熱向 169 °C 臨界點坍縮）；記錄緻密高分子量蒸氣利於緊湊邊界層膨脹機。</td>
+</tr>
+<tr>
+<td>1.1.3</td>
+<td>2026-10-04</td>
+<td>新增分散式 TEG 回收界：爆發速率下自強制 ~3.99 kW 冷凝器排熱流可回收 ~119 W（篩算，~3% 模組點），將篩算電輸出推向 ~0.13 kWh/充裝；記錄邊界規則——TEG 只採收必經熱流，在絕熱面上 TEG 部分製造了它採收的漏熱。擴充台架現 10 項測試。</td>
+</tr>
+<tr>
+<td>1.2.0</td>
+<td>2026-10-04</td>
+<td>二十迭代審計批。ΔT 更正的冷凝器 TEG 回收（務實 ~20–44 W；~119 W 為理想化界）；明確熱帳慣例；峰值排熱量化（~42 m² 被動或強制對流）；燃燒空氣／排氣量化（~60 L/min 空氣、每充裝 ~412 g CO₂）；新增殘渣（~347 g）、攜帶水（~169 g）與 ~951 g 卡匣質量底線；篩算 TEC 寄生迴路與太陽能光熱輸入（~1.6 kW 車頂界）；隱含純度對齊台架底線（75.9–81.2%）；經濟學重建於已驗證 ~0.10–0.13 kWh 輸出，158 Wh 情形降為附註界。台架現 6＋14＋12 項測試。</td>
+</tr>
+<tr>
+<td>1.2.1</td>
+<td>2026-10-04</td>
+<td>新增已驗證低速率廣面積工作點：0.5 L/min 下 ~530 W 熱 ≈3.5 h，或 0.1 L/min 下 ~106 W ≈17.5 h，~0.2 m² 板上 ~2.65 kW/m²；記錄乙炔自分解上限（~1.5–2 bar）使低壓運行成為硬性安全區間。擴充台架現 15 項測試。</td>
+</tr>
+<tr>
+<td>1.2.2</td>
+<td>2026-10-04</td>
+<td>README 改寫為任務檔案簡報（v1.2.2 登記冊）；無數值或台架變更。</td>
+</tr>
+<tr>
+<td>1.2.3</td>
+<td>2026-10-04</td>
+<td>三個台架之下新增 Q128.128 影子層（<code>spec007_q128.zig</code>，精簡 FANO-1 引擎移植）：8 項影子測試以精確有理數與半 ulp 捨入界重新驗證每個晉升整數。浮現兩項記錄於測試內的取整鏈更正：階梯淨值恰為 38.2 W（取整鏈 37 W），道路負載總計恰為 5,476.02 W（取整鏈 5,475 W）；O₂/CO₂ 精確值較取整 mmol 中間值高 ~11 mL／~17 mg。無晉升主張改變。台架現 8＋18＋15＝41 項測試。</td>
+</tr>
+<tr>
+<td>1.2.4</td>
+<td>2026-10-04</td>
+<td>新增靜態檔案站（<code>site/</code>）：python3+markdown 構建器產出已提交的 HTML，含檔案封面、權限等級導覽、上鎖 L5 抽屜頁、未連結的 SPEC-006 洩漏頁，以及列舉精確對取整值的 Q 部門「分數帳本」。忠實副本中的隱藏註解層擴充（演員／名冊增補）；所有註解存活於提供頁面源碼中。無數值變更。</td>
+</tr>
+<tr>
+<td>1.3.0</td>
+<td>2026-10-05</td>
+<td>傳動整合。新台架 <code>spec007_drivetrain_calculations.zig</code>（15 項測試）篩算膨脹機→發電機機械橋：15–30k RPM 帶所需變比 3:1–10:1（L0 80k 頂端 ~26.7:1——超出任何單級 CVT）；ρv² 應力界使渦輪留在低帶，並要求發電機降速或套筒轉子；已驗證 254 W 峰值軸上牽引 CVT 降額（母線 ~182–201 W）對帶／齒輪（~217–224 W）對套筒直驅（~228 W）；含傳動每充裝篩算 ≈0.07–0.09 kWh 對僅階梯 ~0.09–0.11；CVT 損失熱為強制流路徑，回收 &lt;1 W 但為排熱預算 +~1%；付費熱支路原料底線升至 ~$2.05–2.43/kWh，免費熱下損失可忍。新增 §2b 已驗證傳動篩算；擴充規格增 §4.5；審計與主張驗證對所有對話輸入項目評級。台架總計現 8＋18＋15＋15＝56 項測試。</td>
+</tr>
+</tbody>
+</table>
+<!-- Carver 的隱形艦對雷達隱形。CVT 以同樣方式隱形——悄悄地，經由設計審查。 -->
+<p>| 1.4.0 | 2026-10-05 | convo3 願景整合——雙路徑動力系統＋三母線歧管。傳動被解散：<strong>路徑 A</strong>（渦卷膨脹機 45–80% 實測等熵＋直驅 AFPM）篩算母線 ~412–732 W、每充裝 ~155–266 Wh、~$0.34–1.21/W、密閉密封選項；<strong>路徑 B</strong>（特斯拉＋套筒高速永磁發電機，50 mm 轉子 @30k ~46 MPa）篩算母線 ~215–228 W、~$1.75–4.19/W、車庫製造平板零件；路徑 C 保留為已取代基線。新 <code>spec007_manifold_calculations.zig</code>（12 項測試）：卡匣袋裝架構體積預算（332 mL 內部對 ~320 mL 內容物 → ~12 mL 頂部空間、~14% 電石渣增長、~1.18 kg 質量底線）、ESP32-S3 控制器寄生界（工作循環 &lt;0.2%；工作循環強制）、油母線流量（~5/53 g/s）、三級歧管（熱 ~150–250 °C／溫省煤器 ~40–90 °C／冷 ~30–40 °C）含省煤器容量峰值 ~1.43 kW／持續 ~0.13 kW 與循環延時 ~1.10–1.32×，外加輸入擴大排熱。傳動台架現 21 項測試；總計 8＋18＋15＋21＋12＝74 項測試。擴充規格增 §4.6 歧管＋§10.1 控制器硬體；紅隊記錄路徑 B 爆裂級別；路徑 A 上原料底線改善至 ~$0.68–1.16/kWh。 |</p>
+<hr>
+<h2>採用記錄</h2>
+<p>草擬於研究中，審查於公開。尚未採用為製造規格。</p>
+<p><strong>編製：</strong> OSTF SPEC-007 工作記錄
+<strong>狀態：</strong> 研究候選——公開研究發布</p>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

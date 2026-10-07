@@ -1,0 +1,215 @@
+# SPEC-007 research dossier
+
+**Baseline preserved:** `spec-007.md`  
+**Governance:** This dossier is the evidence trail. Promoted numeric claims live exclusively in `spec-007-verified.en.md`; rejected items are retained here only as rejected.  
+
+<!-- Silva was the agent the service burned — he still knew every name. The rejected rows below are our burned agents: out of the field, still on the books, still owed the truth about why. -->  
+**Purpose:** Source-backed claim inventory, calculations, contradiction log, and validation plan.  
+**Evidence policy:** Search results are leads; final decisions should use the cited primary or institutional source under its stated conditions.  
+**Evidence layer:** `spec-007-claim-verification.en.md` grades design-input claims with primary sources.
+
+## 1. Executive finding
+
+The concept is an interesting open-infrastructure thought experiment, but the source document is not yet a coherent manufacturing specification. The largest immediately demonstrable contradiction is the water-feed/gas-output pair. The 300 g ideal charge yields approximately 104.9 L acetylene; the stated 0.1–0.5 mL/min water feed yields approximately 0.062–0.311 L/min, while 5 L/min would require approximately 8.0 mL/min water under ideal stoichiometry. At the maximum stated gas rate, the ideal charge lasts about 21 minutes.
+
+The 300–450 °C oil/TEG range, 3-second quench, high-speed turbine, transport claim, and carbon-neutral claim are not validated by the source document. They are treated as blocked or unverified until appropriate engineering evidence exists.
+
+## 2. Claim inventory by source section
+
+| ID | Source section / claim | Type | Status | Evidence needed |
+|---|---|---|---|---|
+| C01 | 50 mm × 200 mm envelope | Geometry | Calculated envelope only | Complete CAD volume/mass budget |
+| C02 | 316L body, 2 mm wall | Materials | Design target | Pressure, thermal, corrosion, weld/joint review |
+| C03 | Nickel-plated copper cold plate | Materials | Plausible, unverified | Coating, galvanic, thermal-cycle compatibility |
+| C04 | 300 g CaC₂ pellet bed | Chemistry/material | Hazardous design input | CoA, impurity profile, water-ingress containment |
+| C05 | 0.1–0.5 mL/min piezo pump | Flow | Contradicts C07 range | Calibrated flow/gas-yield test in qualified facility |
+| C06 | 50 g CaO safety chamber | Safety | Unverified | Quench kinetics, capacity, thermal/pressure response |
+| C07 | 0–5 L/min acetylene | Gas output | Contradicted by C05 under ideal model | Reconcile feed, pressure, purity, duration |
+| C08 | 300–450 °C thermal output | Thermal | Ambiguous/blocked | Define location and transient/continuous limits |
+| C09 | 10–20 W continuous TEG output | Electrical | Unverified | System-level thermal/electrical test |
+| C10 | 200 mL mineral oil/synthetic ester jacket | Thermal fluid | Blocked | Fluid rating, fire, pressure, compatibility |
+| C11 | 8–12 Bi₂Te₃ modules | Electrical | Plausible hardware count | Datasheets, derating, thermal resistance |
+| C12 | 50 mm discs, 0.3 mm gap, 12–16 | Rotor geometry | Design target | Rotor dynamics, CFD/experiment, containment |
+| C13 | 30,000–80,000 RPM | Rotor performance | Blocked/unverified | Overspeed, bearings, balance, measured efficiency |
+| C14 | 50 W thermal connection | Interface | Ambiguous | Clarify heat capacity versus heat transfer |
+| C15 | Omnidirectional insertion | Mechanical | Unverified | Latch, seal, drain, orientation, fault analysis |
+| C16 | 16 blades → 400–800 W | Scaling | Contradicted by stated single range | Additional conversion/source must be specified |
+| C17 | 64 blades → 2–5 kW | Scaling | Contradicted by stated single range | Additional conversion/source must be specified |
+| C18 | >5G crush trigger | Safety | Unverified | Vehicle/crash profile, false negatives/positives |
+| C19 | CaO hydration stops generation | Chemistry/safety | Incomplete | Isolation, kinetics, heat, gas already present |
+| C20 | 3-second solidification | Safety | Unverified, safety-critical | Full-scale response test and independent protection |
+| C21 | 5+ year shelf life | Storage | Unverified | Seal aging, moisture ingress, material compatibility |
+| C22 | UN 1402 compliance | Regulation | Incomplete | Jurisdiction/mode-specific dangerous-goods package |
+| C23 | 900 °C calcination | Recycling | Plausible process target | Feed chemistry, kinetics, energy and CO₂ balance |
+| C24 | CaO + 3C → CaC₂ + CO | Chemistry | Balanced reaction | Industrial process and emissions controls |
+| C25 | Biochar makes cycle carbon-neutral | Lifecycle | Conditional/unproven | Full LCA with electricity, heat, transport, yield |
+| C26 | Inner Mongolia stranded solar source | Supply | Unverified | Supplier and renewable-electricity evidence |
+| C27 | ISO 1940 G2.5 turbine balance | Manufacturing | Incomplete | Correct rotor standard/application and acceptance test |
+| C28 | Five-hour prototype / Dongguan scale | Manufacturing | Unverified | Supplier process evidence and QA plan |
+| C34 | ~65 W / ~260 Wh per 1 kg over 4 h (design-input simulation) | System output | Unverified estimate | Requires ~6.6% end-to-end; consistent with but not proven by the ~5–6% screened cascade; measured output required |
+| C35 | 0.158 kWh/charge favorable service case | Economic basis | Upper bound only | Requires ~8.5–9.4% end-to-end conversion; exceeds hydrolysis-heat budget for TEG-only operation; verified screened output is ~0.10–0.13 kWh |
+| C29 | <$50 blade | Economics | Unverified | Bottom-up cost including safety and reverse logistics |
+| C30 | 18-hour technician protocol | Training | Design target | Competency and hazard qualification review |
+| C31 | One million technicians by 2028 | Program | Aspirational | Funding, curriculum, capacity, certification data |
+| C32 | Ownable/swappable/un-meterable energy | Mission | Rhetorical/product goal | Product, legal, and market definition |
+| C33 | Global deployment authorized | Regulatory | Rejected | Independent certifications and site approvals |
+| C36 | Axial-flux PM machine as generator | Electrical | Verified practice | AFPMSG literature is direct-drive wind/regen standard; specific machine needs an efficiency map |
+| C37 | Generator safe window 3–5k RPM | Rotor performance | Screening bound | ρv² screen passes ~12 MPa at 5k on 150 mm rotor; fails ~185 MPa at 20k un-sleeved (harness) |
+| C38 | 4:1–6:1 step-down bridges turbine/generator | Mechanical | Conditionally correct | Covers convo band with full 3–5k generator sweep; fixed 4k setpoint needs 3.75–7.5:1; L0 80k needs ~26.7:1 — beyond single-stage CVT (harness) |
+| C39 | Planetary traction CVT η ~80–88% | Mechanical | Sourced range | Traction-drive creep/spin literature; cooling mandatory at sustained high input speed |
+| C40 | T_out = T_in·R·η across the bridge | Mechanics | Verified | Harness-enforced conservation minus transmission loss |
+| C41 | Drivetrain loss heat routes to shared TEG/PDRC/PV rejection | Thermal routing | Bounded recovery | Mandatory-flow legal; ~0.3–0.7 W recovered of ~30–50 W loss at ~50–80 K casing ΔT; +~1% rejection budget (harness) |
+| C42 | "20% drivetrain loss is economically viable" | Economics | Conditional | True only on free-heat input; on paid carbide feedstock floor rises ~$1.64 → ~$2.05–2.43/kWh (harness) |
+| C43 | CVT ratio sweep relieves turbine startup torque | Transient behavior | Unverified | Boundary-layer stall model required; not computed in this harness |
+| C44 | L0 30–80k RPM turbine band | Rotor performance | Partially contradicted | Thin-ring ρv² bound reaches ~351 MPa at 80k (>205 MPa annealed-304 yield); solid-disc bound ~145 MPa leaves bore-concentration margin unresolved (harness) |
+| C45 | ~1 kg cartridge holding CaC₂ + water + CaO pouches | Packaging | Conditional | Mass floor ~1.18 kg incl. closures/sensors; interior ~332 mL vs ~320 mL contents → ~12 mL headspace (<4%) plus ~14% solids growth — volume is the binding constraint (harness) |
+| C46 | ESP32-S3 "life support" controller, possibly multiple | Control | Verified practice, bounded | Duty-cycled ULP ~10–50 mW (<0.2% of 30 W bus; ≤3 units in a 0.5% budget); always-on ~300 mW = ~5.7% at low duty → duty cycling mandatory. Independent hardware shutdown required — same-die redundancy shares failure modes (harness) |
+| C47 | Briefcase slab burner at low gas rates | Thermal input | Verified duty point | Matches promoted ~530 W / ~2.65 kW/m² broad-area screen; slab ≤~300 °C (TEG rating) vs Novec ≤150 °C gate |
+| C48 | Transformer-oil loop between burner and Novec | Thermal transport | Verified-with-correction | Oil is a hot bus at fluid-rating ceiling (~150–250 °C), not a temperature gearbox; evaporator draw cools it; 300–450 °C oil remains excluded. Flow ~5 g/s sustained / ~53 g/s burst; ~0.5 L loop → ~8 s burst residence (harness) |
+| C49 | Three-grade manifold accepts external heat (PC cooling) | Thermal architecture | Verified architecture, bounded | Hot ~150–250 °C / warm economizer ~40–90 °C / cold ~30–40 °C buses; low-grade sources enter at the economizer only — capacity ~1.43 kW burst / ~0.13 kW sustained; charge extension ~1.1× burst / ~1.3× sustained; additive input enlarges rejection (harness) |
+| C50 | Path A: scroll expander + direct-drive AFPM | Powertrain | Verified comparison — flagship | Scroll measured 45–80% isentropic at our band (Sanden TRS090 ~45% @650 W; E15H ~80% @120–140 °C) → ~458–814 W shaft → ~412–732 W bus; ~155–266 Wh/charge; ~$0.34–1.21/W; hermetic option removes rotating seals (harness) |
+| C51 | Path B: Tesla + sleeved high-speed PM generator | Powertrain | Sourced, conditional | ~215–228 W bus; ~85 Wh/charge; ~$1.75–4.19/W; compact 50 mm rotor → ~46 MPa hoop @30k RPM, but CF sleeve + containment mandatory — rotor-burst hazard class (harness) |
+| C52 | Path C: Tesla + transmission chain | Powertrain | Superseded | ~182–224 W bus; retained in harness/archive as historical record — the transmission married mismatched endpoints |
+| C53 | Rations air-gap platform joins the fleet under `family/Rations` | Systems integration | Verified | Full source/runtime tree vendored (excl. `originals/`, model weights, build artifacts per upstream charter); production WASM sha256-verified against sidecar `bbdca546…3f19` (2,704,688 B); quine boots in a bounded FANO-1 window with all 169 WASM exports live; FANO shell ↔ Rations runtime share no globals — iframe boundary only. Provenance in `family/Rations/VENDORED.md`, mapping in `family/FAMILY-MAP.md` |
+| C54 | FANO-1 covenant enrollment is cryptographic, not ceremonial | Identity & access | Verified | `fano-auth.js` mints a real Ed25519 keypair at the pledge, signs the canonical covenant bytes, and wraps the seed PBKDF2(100k)→AES-256-GCM; unlock enforces tamper rejection, pk-continuity, and persisted lockout. RBAC certs are signed records; elevated roles require a rostered issuer (`fano1.issuers` seeded at genesis). Verified under `security/suite.mjs` — see `verdict.html` |
+| C55 | The FANO-1 surface survived a four-team adversarial sweep | Security | Verified, with noted limits | Docker-isolated relay + sweeper (`security/docker-compose.sec.yml`, internal bridge): 31 executable probes across RED/BLUE/BLACK/GRAY → 29 HARDENED, 2 NOTED (offline-crack cost; covert-channel exfil capability), 0 EXPLOITED/OPEN after remediation of SEC-28 (cert issuer pinning). Findings: `site/security/findings.json`; adjudication: `verdict.html`; honest limits in `veracity.html` |
+
+## 3. Reproducible baseline calculations
+
+The calculation harness in `spec007_calculations.zig` uses integer/rational arithmetic for the deterministic baseline. It uses nominal molar masses rounded to the nearest 1 mg/mol and a stated molar volume of 22,414 mL/mol at STP for an illustrative comparison; real output depends on temperature, pressure, purity, water excess, and impurities.
+
+### 3.1 Ideal material balance
+
+For:
+
+`CaC₂ + 2 H₂O → C₂H₂ + Ca(OH)₂`
+
+with 300 g CaC₂:
+
+- CaC₂ amount: approximately 4.680 mol.
+- Water required: approximately 168.6 g.
+- Acetylene mass: approximately 121.9 g.
+- Acetylene volume at the model STP condition: approximately 104.9 L.
+- Hydrolysis heat using 127.2 kJ/mol as a model input: approximately 595 kJ.
+- Ca(OH)₂ residue: approximately 347 g (verified-harness stoichiometry; return-logistics and residue-management relevance).
+- Water that must be carried: approximately 168.6 g; chemical-plus-shell mass floor ≈951 g before closures, TEGs, fluid, and controls.
+
+Historical corroboration: drip-fed carbide lamps sustained ~2–5 hours per charge, consistent with the verified low-throttle regime (0.5 L/min → ≈3.5 h per 300 g pure charge).
+
+### 3.2 Flow contradiction
+
+Ideal gas production per water feed is approximately 0.622 L/min per mL/min water:
+
+- 0.1 mL/min water → approximately 0.062 L/min acetylene.
+- 0.5 mL/min water → approximately 0.311 L/min acetylene.
+- 5 L/min acetylene → approximately 8.0 mL/min water.
+- 300 g charge at 5 L/min → approximately 21.0 minutes before ideal depletion.
+
+These are conservation calculations, not safe operating recommendations.
+
+### 3.3 Rack arithmetic contradiction
+
+Using only the source's 10–20 W per-blade claim:
+
+- 16 blades → 160–320 W, not 400–800 W.
+- 64 blades → 640–1,280 W, not 2–5 kW.
+
+The higher rack outputs require an additional validated source or a revised single-blade output.
+
+### 3.4 Geometry sanity check
+
+For a 50 mm outside diameter, 46 mm inside diameter, 200 mm cylindrical shell:
+
+- Internal cylindrical volume: approximately 332 cm³.
+- Shell material volume: approximately 60.3 cm³.
+- Shell mass at an illustrative 8.0 g/cm³: approximately 483 g.
+
+This leaves no defensible conclusion about the 200 mL jacket or 300 g pellet-bed fit without pellet bulk density, void fraction, end closures, and the actual layered geometry.
+
+## 4. Source review
+
+- **NOAA CAMEO Chemicals, Calcium Carbide:** identifies calcium carbide as water-reactive and notes that reaction with water generates flammable acetylene and heat. https://cameochemicals.noaa.gov/report?key=CH2769
+- **MIT OpenCourseWare, CaC₂ reactor design note:** presents the calcium-carbide hydrolysis and acetylene combustion reactions as a process-design problem, including the need to manage reaction heat and oxygen/air. https://ocw.mit.edu/courses/22-033-nuclear-systems-design-project-fall-2011/4a2d1059fade1cce993afc566d35e42d_MIT22_033F11_lec07_note.pdf
+- **UNECE Model Regulations / ADR materials:** dangerous-goods packaging must withstand normal transport shocks, vibration, temperature, humidity, and pressure changes; UN identification does not itself certify an assembled consumer product. https://unece.org/sites/default/files/2023-08/ST-SG-AC10-1r23e_Vol2_track_WEB.pdf
+- **ADR-tool UN 1402 listing:** reports calcium carbide as Class 4.3, Packing Group II in the displayed ADR data; the applicable jurisdiction and edition must be checked before relying on it. https://adr-tool.com/770/un-1402
+- **EPA AP-42 calcium carbide manufacturing:** describes industrial production around 2000–2100 °C and the CaO/carbon reaction, with industrial raw-material and emissions context. https://www.epa.gov/sites/default/files/2020-10/documents/c11s04.pdf
+- **SINTEF Bi₂Te₃ high-temperature module study:** reports potential use up to about 300 °C and identifies higher-temperature alternatives; this does not validate continuous 450 °C operation for generic modules. https://www.sintef.no/en/publications/publication/0198cc56a1ca-4206e2fc-7575-48bf-b39b-0ed38c3a9f89/
+- **Hi-Z HZ-2 datasheet:** gives a representative Bi₂Te₃ module's recommended hot-side and continuous/intermittent limits; exact current parts must be selected and rechecked. https://hi-z.com/wp-content/uploads/2016/08/HZ-2-data-sheet.pdf
+- **ISO 1940-1 listing:** defines balance-quality requirements and residual-unbalance verification for rigid rotors; it is not a complete rotor-containment design standard. https://www.iso.org/standard/27092.html
+- **Small Tesla-turbine literature:** experimental studies report strong dependence on geometry, pressure, speed, leakage, and scale, with experimental efficiencies often below idealized simulation results. https://www.e3s-conferences.org/articles/e3sconf/pdf/2019/39/e3sconf_supehr18_03015.pdf
+- **Hoya & Guha Tesla disc turbine test rig (IMechE Part A, 2009):** measured ~25% peak efficiency at 25,000 RPM and 140 W maximum power on a laboratory disc turbine; the strongest primary anchor for the 15–30k RPM operating band. https://facweb.iitkgp.ac.in/~aguha/research/Hoya_Guha_IMechE_PartA_2009_Tesla_Turbine.pdf
+- **Planetary traction-drive CVT model (IFAC/ScienceDirect):** steady-state efficiency formulation covering slip and spin losses at the traction contacts; supports the ~80–88% screening band and the active-cooling requirement at sustained high input speed. https://www.sciencedirect.com/science/article/pii/S2405896319306883
+- **Axial-flux PM generator literature:** direct-drive AFPMG designs for wind applications demonstrate the machine class as generator (e.g., 3 kW-class at ~240 RPM); supports the generator-selection claim while leaving machine-specific efficiency maps as a required input. https://www.iaras.org/journals/caijps/design-and-analysis-of-axial-flux-permanent-magnet-generator-for-direct-driven-wind-turbines
+
+## 5. Hazard register
+
+| Hazard | Initiating event | Consequence | Required independent barrier |
+|---|---|---|---|
+| Water ingress | Seal failure, impact, condensation | Rapid acetylene generation, heat, pressure | Moisture exclusion, detection, isolation, containment |
+| Blocked outlet | Frozen valve, debris, failed turbine | Pressure rise and leak/rupture | Rated relief and independent high-pressure shutdown |
+| Ignition/flashback | Hot surface, static, electrical fault | Fire or deflagration | Classified equipment, isolation, flashback protection, ventilation |
+| CaO quench | Diaphragm rupture or water release | Heat and caustic slurry; existing gas remains | Independent containment and thermal/chemical assessment |
+| Hot fluid | Thermal runaway or seal failure | Fire, burn, pressure hazard | Fluid-specific fire/pressure design and leak detection |
+| Rotor burst | Overspeed, imbalance, bearing failure | High-energy fragments | Rated containment, overspeed trip, vibration monitoring |
+| False crush trigger | Shock or sensor fault | Loss of service or unsafe state | Redundant sensing and fail-safe state machine |
+| Transport exposure | Packaging damage or moisture | Flammable gas release | Jurisdiction-specific dangerous-goods package |
+| Recycling residue | Unreacted CaC₂ or contaminants | Worker exposure and gas release | Controlled industrial return and residue assay |
+| Transmission failure | Traction-fluid breakdown, belt fatigue, or ratio-control fault at 15k+ RPM input | Rotor overspeed/backdrive, loss of generation, hot fluid release | Overspeed trip on both shafts, flexible coupling, independent generator-side braking, cooling monitoring |
+| High-speed generator burst (Path B) | Sleeve fatigue, bearing failure, overspeed at 15–30k RPM | High-energy fragments from magnet rotor | Carbon/Inconel sleeve with rated margin, containment housing, dual overspeed trip, balance spec ISO 1940-class |
+| Manifold back-feed | Check-valve failure or external source fault at a plug-in port | Hot bus contamination, back-pressure into a low-grade loop, scalding at the port | Per-port check + isolation valves, thermal fuse, port-rated pressure class, no low-grade connection to the hot bus |
+| Oil-bus thermal excursion | Slab overfire or evaporator blockage | Bulk oil over-temperature, oxidation, fire risk | Bulk-temperature trip, refractory block decoupling, oil volume derating, fire-resistant fluid selection |
+| Controller loss | Firmware fault, brownout, common-mode MCU failure | Loss of drip control and monitoring | Hardware supervisor + watchdog on a different technology, thermal fuse, mechanical relief, CaO quench — the quench does not care what the firmware thinks |
+<!-- Mr. Hinx never needed a plan B; he was the plan B. The quench needs no firmware — it is the independent barrier. -->
+
+
+## 6. Simulation work packages
+
+1. **Stoichiometric sweep:** purity, charge mass, water rate, gas yield, duration, and reaction heat.
+2. **Thermal model:** lumped heat capacity/resistance model with explicit property assumptions and uncertainty ranges; no acceptance of 450 °C until fluid and material ratings close.
+3. **TEG model:** datasheet curves, hot/cold temperatures, thermal contact resistance, module derating, and system parasitics.
+4. **Mechanical budget:** mass, volume, thermal expansion, interface tolerances, and shock states.
+5. **Rotor screening:** dimensionless/first-order checks only until a qualified turbomachinery model and containment plan exists. **Done (first-order):** `spec007_drivetrain_calculations.zig` now screens tip speed and ρv² stress bounds for the 50 mm discs (49 MPa at 30k RPM; ~351 MPa thin-ring / ~145 MPa solid-disc bound at 80k), the generator rotor (~12 MPa at 5k; ~185 MPa at 20k un-sleeved; ~46 MPa at 30k on a 50 mm Path-B rotor / ~416 MPa at 150 mm inside the sleeve screen), plus the full ratio-window, torque-conservation, transmission-derate, loss-heat-recovery, and the Path A/B dual-powertrain comparison. `spec007_manifold_calculations.zig` adds cartridge volume/mass budget, controller parasitics, oil-bus flow, three-bus manifold conservation, and economizer capacity.
+6. **Safety state model:** normal, detected ingress, blocked outlet, over-temperature, impact, power loss, and recovery states.
+7. **Lifecycle model:** CaC₂/Ca(OH)₂/CaO/carbon flows, energy input, CO/CO₂ output, transport, yield, and carbon accounting.
+8. **Cost sensitivity:** safety hardware, sensors, testing, packaging, reverse logistics, and scale assumptions. **Extended:** the drivetrain harness adds the transmission-efficiency sensitivity to the feedstock floor (~$1.64 → ~$2.05–2.43/kWh on the paid-heat branch).
+
+## 7. Required physical validation, if ever authorized
+
+Only a qualified laboratory should define and execute physical tests. The sequence should begin with inert thermal/interface coupons and non-energetic flow surrogates, then separately qualify containment, sensing, materials, thermal cycling, electrical conversion, and rotor safety before any integrated chemical test. No physical test is implied by this dossier, and no open-shop construction procedure is provided.
+
+## 8. Decision log
+
+| Decision | Rationale |
+|---|---|
+| Preserve original document | It is the user-provided baseline and must not be silently rewritten. |
+| Separate faithful copies from engineering revision | Translation must not conceal technical changes. |
+| Reject global-deployment wording in engineering revision | No jurisdiction-independent authorization exists. |
+| Treat turbine as optional | It is not a valid safety barrier and adds high-speed rotating risk. |
+| Mark carbon neutrality conditional | Biochar alone does not establish system-level carbon neutrality. |
+| Use integer baseline arithmetic | Matches workspace precision rules and makes conservation tests reproducible. |
+
+## 9. Open questions
+
+- What exact fluid, pressure, thermal boundary, and cold-side environment are intended?
+- Is acetylene meant to be burned, expanded, or merely routed through a turbine? Each is a different hazard and energy model.
+- What legal jurisdiction, transport mode, installation class, and user population are in scope?
+- What is the intended operating duration and replacement/return state of one cartridge?
+- Which independent organization will own the safety case and certification?
+| C56 | Callsigns are policy-enforced: restricted names need a signed grant | Identity & access | Verified | `fano-auth.js` pins `Ramsey 006` (sha256-pinned) as FLEET-ADMIRAL genesis; `Q`, all `00x` designations, canon character names, and reserved titles refuse self-enroll (12/12 refused in COMM-16). Restricted calls are issuable only by STATION-CHIEF+; grants are Ed25519-signed, bound to the recipient pk, one-shot, expiry-enforced — reuse and wrong-subject claim rejected (COMM-18/19) |
+| C57 | Hydra WAN lab: multi-segment comms over impaired/partitioned links | Networking | Verified | `security/docker-compose.wan.yml` runs two isolated segments + dual-homed bypass node; `wan-bridge.mjs` stacks in-process delay/jitter/loss/dup/reorder over kernel `tc netem`. 21 COMM probes: sealed send LAN+WAN, 10/10 under jitter, honest partition (no leak), bypass restores, churn re-learns, heavy impairment (300ms/8%/15%) delivers — 19 HARDENED, 2 NOTED (first WAN send unsealed pending key exchange; route outlives churn), 0 OPEN/EXPLOITED (`security/README.md`, `site/security/findings.json`) |
+| C58 | The WAN lab caught a real upstream DoS — `peer_discover` ping-pong | Security | Verified | A `count=0` discovery response is wire-identical to a request; two fresh peers looped replies until the relay rate-limited both conns. Fixed in `family/Rations/src/p2p/node.zig` (empty responses never sent) + in-file regression test; full upstream suite green; production WASM re-pinned `bbdca546…3f19` |
+| C59 | Cross-host Hydra leg over the firingline cluster | Networking | Verified | Relay on `sheraton` (ssh host, Docker 29); two digit nodes dialed `ws://sheraton:18080/ws` — identity announce, presence→auto-contact, sealed payload delivered (`sealed: true`), both nodes mined+verified independent ledgers (`ledger_id = sha256(pk)`, distinct) |
+| C60 | Genesis is a real key-binding, not a name check | Identity & access | Verified | `fano-auth.js` writes `fano1.genesis` = `{callsign, pk, pk_sha256}` at the first enrollment (retro-seeded from pre-existing records on unlock). Pinned `ramsey 006` claims genesis only on an unfounded desk; post-founding it is `claimed` and moves only by admiral-signed grant bound to a recipient pk (COMM-20/21). Genesis survives `burn`; `burn genesis` is the documented desk reset |
+| C61 | Economics reframed for non-capitalist deployment | Economics | Reframed | `spec-007-economic-assessment.*` rewritten under a provisioning-economics lens (China-model: direct allocation, near-free solar). Two-part verdict: **fails as generation under any economy** (solar delivers the same product near-free; carbide chain returns ~10–25% of stored energy) — **defensible as a state-provisioned availability/storage reserve** (carbide is arc-furnace produced → furnaces are dispatchable load for curtailed solar; the sealed charge is banked surplus with multi-year shelf life and zero self-discharge, competing against batteries and fuel stockpiles, not generators). All numbers unchanged; currency figures retained as accounting units |
+| C62 | Canon watch list + cover-story egg layer expanded | Identity & canon | Verified | `RESTRICTED_NAMES` now ~60 designations across both canons — MI6 staff/posts, allies, assets, villains, orgs (SPECTRE/SMERSH/Quantum), OSTF designations (WO-x, Sigma, AIWO, Day Zero, the Meter) plus zh/fullwidth forms (`龐德`, `００７`); all refused in live checks. Desk gains the film roll (25 EON titles + zh titles), ~17 new egg triggers (quote exchanges, `goldeneye` hidden livery, `licence to kill`→burn, second-life), rotating denial cover stories. The Bond layer is openly declared as the front office for the classified structure — `veracity.*` grades it "theater as cover — canon-consistent" |
+| C63 | Classified drawer reorganized | Archive | Verified | `thoughts&convos/` restructured: `convos/` (primary threads), `originals/` (pre-port filing — byte-identical to `gov/` canonical copies, superseded, retained), `gov/` (canonical corpus), `SPEC-004-REGISTRY.md`, `CANON-INDEX.md` (dedupe manifest updated), `README.md` (drawer layout). Nothing deleted; redundancy removed |
+| C64 | OSTF EIN assignment declassified under 7q | Archive | Verified | `thoughts&convos/(EIN).pdf` — genuine IRS EIN assignment (42-4931851, OPENSENTIENCE TECHNOLOGY FOUNDATION dba SALLIRREUGTECH, non-profit, Franklin Co. OH, Oct 2026) — copied byte-identical to `site/assets/declassified/OSTF-EIN-42-4931851.pdf` (sha256 `f19b5904…f9775d`) and exhibited as `declassified.html`/`declassified-zh.html` with a particulars table and 7q declassification stamp. Responsible-party SSN masked at source; EINs of non-profits are public record |
+| C65 | Kali-tooling sweep → Qstar-Network hardening | Security | Verified | nmap/ZAP/msf/tcpdump sweep from the Kali host found: unauthenticated node & wan-bridge control planes (live `/dial`+`/stats` abuse demonstrated), wildcard CORS on lab relays, and desk version-leak/missing headers on `http.server`. Fixed: `HYDRA_TOKEN`/`WAN_TOKEN` bearer gates (per-run tokens via suite env, `:?`-guarded in compose), `RATIONS_ALLOWED_ORIGINS` on all lab relays + `RATIONS_DIAL_ORIGIN` on every client leg (4403 close for bad origins), relay `nosniff`/frame/referrer headers (both Rations trees), `tools/serve.py` hardened desk server (no Server banner, no listing, GET/HEAD-only, CSP). Post-fix: KALI suite 11 HARDENED/1 NOTED, COMM 19/2-NOTED, SEC 29/2-NOTED; tcpdump on the WAN edge: marker delivered, 0 plaintext in 136 frames |
+| C66 | Four-paper Zenodo transmission declassified + SCP-006 continuity adopted | Archive & canon | Verified | Zenodo record `10.5281/zenodo.22715355` (concept `…22715354`) — "A Computational Framework for Octonion Physics", Ramsey/OSTF, published 2026-09-11, CC BY-NC-SA 4.0. Four volumes (octonionic framework math-ph; Q128.128 math.NA; codon routing q-bio; neuraleak cs.AI) exhibited as D-2 on `declassified.*`; `papers/x/` copies md5-verified byte-identical to the record. `object-006.*` adopts SCP document format as labeled continuity theater: 006-A true briefing, 006-B/C cover briefings (Universal Exports analog), 006-Xi-12→`burn`, Fountain→abundance paradigm (`economics.*`), Butcher→capitalism's end; decode chain `006→scp-006→scp-006-fr` resolves «Из России с любовью» (the -FR suffix reads "From Russia"). Veracity page grades: papers REAL, SCP format adopted-theater, symbolism declared |
+| C67 | Family shelf: sibling projects showcased under Q | Site & canon | Verified | quplink gains a FAMILY tab with cited fact sheets for three sibling repos: **Qstar-LLM** (`experiments/qstar-llm` — lattice-native inference, 421×8 nodes, 53,888-byte state, ~1,460× vs Qwen1.5-0.5B, 2,610+ tests, 0 core deps), **zig-k3-port** (`experiments/zig-k3-port` — Zig 0.13 port of kimi-k3-in-c, 2.78T-param MoE in GBs RAM, token-identical to C, bit-identical on released weights, 45/45 tokenizer parity, K3P1–P5 fabric), **Digit v0.0.0.1** (firingline host 192.168.12.210 — E5/E6 wrapper, 145-row triad audit, ideatree evidence report, explicit non-sentience honesty charter). All figures cited verbatim from each tree's own README/AGENTS; terminal gains `family`/`fleet` + canon words (`qstar-llm`, `k3`, `digit`) |
+| C73 | Adoption-first family adapters and Academy projection | Governance, AI & education | Verified | Shared `OSTF-GOV-v1` envelope plus dependency-light adapters now cover ThePlatform clearance/authority/A2A metadata, Qstar compatible-server metadata, Rations signed-skill/RAG/physical-channel events, and 56 capability registry entries. Academy manifest projects 530 source-linked public lessons from `human_academic` + active SPEC documents; FANO `academy` opens the curriculum with evidence/assessment labels. Runtime-dependent services remain explicitly runtime-gated; existing native suites remain adopted authorities rather than duplicated |
+| C72 | SPEC-driven governed Ollama bridge and port map | Governance & AI | Verified | TheUE now owns a freestanding deterministic governance boundary (`src/governance.zig`) with compact address labels, clearance/tool-class checks, HRIS/evidence decisions, and SHA-256 audit chaining. Python Phase-0 tools hash/classify all 1,091 governance/canon files and reverse-engineer 10,331 section requirements into 10,191 mapped candidates and 140 explicit gaps across 711 active source/document files. `tools/governed_bridge.py` exposes token-gated `/health`, `/models`, and `/ask`; only local `127.0.0.1:11434` and remote `192.168.12.210:11434` are allowed. FANO `ask` now routes through the bridge, labels responses `modeled`, and prints audit IDs; the browser provider panel discovers models and stores the bridge token only in memory. Local and remote discovery plus a live browser ask succeeded; publish gate green |
+| C71 | QStar.net time-based authentication | Identity & access | Verified | Google Authenticator-compatible RFC 6238 TOTP is now instantiated for the desk. Setup generates a 160-bit local secret, encrypts it inside `fano1.identity` under the unlocked Ed25519 seed, and presents an `otpauth://totp/QStar.net:QStar.net` QR plus manual Base32 key only in the local setup view. SHA-1/HMAC, 6 digits, 30-second period, ±1-step clock window; setup confirmation must verify the current code. Returning sign-in now requires credential unlock **and** the six-digit QStar.net code. Desktop re-unlock follows the same two-step gate. No secret is sent to a server or placed in plaintext localStorage; live browser verified QR generation, Google-compatible HMAC output, encrypted record, and code verification |
+| C70 | Sign-in / sign-up split on the covenant page | Identity & access | Verified | `index.html`/`index-zh.html` now carry two mechanisms on one page: **SIGN IN** (shown when the desk holds a record — credential unwraps the keystore via `FANO_AUTH.unlock`, lockout countdown surfaced, wrong credentials refused) and **SIGN UP** (the enroll path — new keypair, covenant signature, optional grant token + branch request). When a record exists the enroll block carries a caution: re-enrolling mints a new key and destroys the desk identity (founding survives, the operative does not). Fixes a real gap — a returning operative previously had no way back in; re-submitting the form could only mint a fresh key or refuse `claimed` |
+| C69 | Flag authenticator: FANO-ROOT-v1 credential for the pinned seat | Identity & access | Verified | The flag seat's grant is now a real authenticator, not a coupon: `issueCredential` mints a signed FANO-ROOT-v1 artifact — self-rooted (`gen = sha256(iss_pk)`, provable on any desk), subject-bound, grant-embedded. `authenticate` verifies signature + rostered issuer + pinned callsign + admiral role + expiry on any desk with no shared state; a foreign desk verifies the paper by rostering the issuer. Forgery refused: role downgrade, forged gen-anchor, non-rostered issuer, non-flag-seat minting all rejected. Everyone else's callsigns keep FANO-CALLSIGN-v1 one-shot coupons. Command suite gains FLAG AUTHENTICATOR panel (issue/refresh, export, authenticate-a-token); terminal gains `credential` / `credential verify <token>`; `whoami` prints the verified-authenticator line. COMM-20..24 HARDENED |
+| C68 | 7q drawer → Command suite; branch assignments over the wire | Identity & access | Verified | For FLEET-ADMIRAL sessions the 7q drawer opens the Command suite (flag registry, branch-request approvals, callsign-grant issuance, issuer roster); all other ranks still get ACCESS DENIED, icon sub flips SEALED→COMMAND under the flag. Branch flow: signup/`request-branch` signs a FANO-BRANCH-REQ-v1 token with the requester's own key → exported b64 token travels any channel (comms/dead drop) → admiral imports in the suite (signature verified on import; tampered refused) → approval issues a signed FANO-BRANCH-v1 cert; `branchOf` verifies signature + rostered issuer + expiry — a forged role-5 session signs but fails verification until the issuer is rostered. FIELD-AGENT and STATION-CHIEF both refused at assign/deny (admiral-only). New COMM probes: request-sign, tamper-refusal, admiral-only, roster-enforced — all HARDENED |

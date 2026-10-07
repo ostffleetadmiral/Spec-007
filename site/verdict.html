@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FANO-1 // SECURITY ADJUDICATION</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+.v-badge { display:inline-block; padding:.15em .5em; border:2px solid; font-weight:bold; font-size:.8em; letter-spacing:.05em; }
+.v-HARDENED { color:#1a6b2a; border-color:#1a6b2a; }
+.v-EXPLOITED { color:var(--stamp); border-color:var(--stamp); background:rgba(139,26,26,.08); }
+.v-OPEN { color:var(--gold); border-color:var(--gold); }
+.v-NOTED { color:var(--faded); border-color:var(--faded); }
+.v-ERROR { color:#666; border-color:#666; border-style:dashed; }
+.team-head { background:var(--dark); color:var(--dark-ink); padding:.4rem .8rem; margin-top:1.6rem; font-weight:bold; letter-spacing:.1em; }
+.sev-critical { color:var(--stamp); font-weight:bold; }
+.sev-high { color:#8b4513; font-weight:bold; }
+.sev-medium { color:var(--gold); }
+.sev-low { color:var(--faded); }
+td.det { font-size:.8rem; color:var(--faded); }
+.summary-row { display:flex; gap:1.4rem; flex-wrap:wrap; margin:1rem 0; }
+.summary-box { border:1px solid var(--rule); padding:.6rem 1rem; min-width:7rem; text-align:center; }
+.summary-box b { display:block; font-size:1.6rem; }
+</style>
+</head>
+<body>
+<div class="dossier">
+<div class="banner">FANO-1 &middot; SECURITY ADJUDICATION &middot; SEC RECORD</div>
+
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="veracity.html">Veracity Audit</a>
+</nav>
+
+<h1>Verdict of Record</h1>
+
+<p><em>Every finding below was produced by execution, not inspection. The
+sweep ran the shipped <code>rations.wasm</code> artifact and the live relay
+inside an isolated Docker network (<code>security/docker-compose.sec.yml</code>),
+with the relay in production posture: origin allowlist, payload caps, rate
+limits, debug probe gated.</em></p>
+
+<p>Rules of adjudication: a control that defeated its probe is
+<strong>HARDENED</strong>; a probe that landed is <strong>EXPLOITED</strong>
+(remediate or document); a limitation that is real but defended in depth is
+<strong>NOTED</strong> with its rationale; an unchecked surface is
+<strong>OPEN</strong>.</p>
+
+<div id="summary" class="summary-row"></div>
+
+<div id="ledger"></div>
+
+<h2>Standing notes</h2>
+<p><strong>Local storage is advisory.</strong> An attacker with write access to
+this origin's localStorage can clear the fail-counter or rewrite the record —
+the same is true of any client credential. The wall is network-side: peers
+verify covenant signatures and role certificates before channels open, and
+elevated roles require an issuer present in the persisted
+<code>fano1.issuers</code> roster seeded at genesis.</p>
+<p><strong>Key material.</strong> The Ed25519 seed exists plaintext only inside
+WASM memory during a warm session; at rest it is AES-256-GCM under a
+PBKDF2-derived key (100k iterations). <code>burn</code> clears the record and
+session; a reload clears the WASM heap.</p>
+<p><strong>Passphrases.</strong> Offline crack cost scales with entropy, not
+iterations — see SEC-22. Minimum length is 8; choose a passphrase, not a
+password.</p>
+
+<p class="foot">Generated from <code>security/findings.json</code> — run
+<code>node security/suite.mjs</code> or the Docker rig to re-adjudicate.</p>
+</div>
+
+<script>
+fetch("security/findings.json").then(function(r){return r.json();}).then(function(d){
+  var order = ["RED","BLUE","BLACK","GRAY"];
+  var counts = {};
+  d.findings.forEach(function(f){ counts[f.verdict]=(counts[f.verdict]||0)+1; });
+  var s = document.getElementById("summary");
+  s.innerHTML = "<div class='summary-box'><b>"+d.findings.length+"</b>probes</div>" +
+    ["HARDENED","EXPLOITED","OPEN","NOTED","ERROR"].filter(function(k){return counts[k];})
+    .map(function(k){ return "<div class='summary-box'><b class='v-badge v-"+k+"'>"+(counts[k]||0)+"</b>"+k+"</div>"; }).join("") +
+    "<div class='summary-box'><b style='font-size:.9rem'>"+new Date(d.generated).toLocaleString()+"</b>adjudicated</div>";
+  var l = document.getElementById("ledger");
+  var html = "";
+  order.forEach(function(t){
+    var items = d.findings.filter(function(f){return f.team===t;});
+    if (!items.length) return;
+    html += "<div class='team-head'>"+t+" TEAM</div><table><tr><th>ID</th><th>Probe</th><th>Sev</th><th>Verdict</th></tr>";
+    items.forEach(function(f){
+      html += "<tr><td>"+f.id+"</td><td>"+f.name+"<br><span class='det' style='font-size:.8rem;color:var(--faded)'>"+f.detail+"</span></td>"+
+        "<td class='sev-"+f.severity+"'>"+f.severity+"</td><td><span class='v-badge v-"+f.verdict+"'>"+f.verdict+"</span></td></tr>";
+    });
+    html += "</table>";
+  });
+  l.innerHTML = html;
+}).catch(function(e){
+  document.getElementById("ledger").innerHTML = "<p><b>findings.json unavailable:</b> "+e+"</p>";
+});
+</script>
+</body>
+</html>

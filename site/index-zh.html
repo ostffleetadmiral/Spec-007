@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 照明之器</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- 誓約為期五年。誓言沒有說是哪五年。 -->
+<div class="dossier">
+<div class="watermark">在此簽署</div>
+<div class="banner">OSTF 艦隊司令部 &middot; 真光照誓約 &middot; 保密與奉獻</div>
+
+<h1>照明之器</h1>
+
+<p>本檔案開啟之前，工作台需要一份簽名。下方誓約是艦隊實際使用的
+前言——請以它值得的速度細讀。</p>
+
+<blockquote>
+<p><em>奉獻我的心智於知識之發現：終身學習、批判性評估、
+在錯假訊息的時代追尋真理。</em></p>
+<p><em>奉獻我的靈魂於啟蒙之追尋：同理、理解、內在平靜，
+以及所有聚集於光旁之人的福祉。</em></p>
+<p><em>奉獻我的生命與在此星球上的日子，於人類物種的
+保護與進步。</em></p>
+<p><em>奉獻我的努力於豐裕之進步：永續創新與公平分配，
+改善所有人的生活，而非僅僅少數人。</em></p>
+<p><em>奉獻我的存在於將所有地方的所有人民帶入
+合一：跨越每道鴻溝，直到整個人類家庭共享同一道光。</em></p>
+</blockquote>
+
+<h2>條款</h2>
+<ol>
+<li>你將保持機密抽屜的機密。歸檔為 7q 的，永遠是 7q。</li>
+<li>你不得將被駁回的主張當作已晉升的主張。帳本就是法律。</li>
+<li><span class="ember" id="selfdestruct">本簡報將自我銷毀。
+與卡匣不同——卡匣被設計為緩慢燃燒——文件燃燒；
+電石以每分鐘半公升燃燒。那就是整個產品。</span></li>
+</ol>
+
+<div id="signin" style="display:none;margin:1.6rem 0;padding:1rem;border:1px solid var(--rule);">
+<h2 style="margin-top:0">登入</h2>
+<p><small>本桌已持有身分——
+<strong id="signin-call"></strong> &middot; <span id="signin-role"></span>。
+憑證解封金鑰庫；別無所求。</small></p>
+<p><label for="signin-pass">憑證</label><br>
+<input id="signin-pass" type="password" size="40" placeholder="本桌憑證"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+<p><button id="signinbtn"
+ style="font-family:inherit;font-size:1rem;padding:.6rem 1.4rem;border:2px solid var(--stamp);background:transparent;color:var(--stamp);letter-spacing:.2em;cursor:pointer;">
+解鎖並進入</button>
+&nbsp;&nbsp;<small id="signin-note" style="color:var(--gold);"></small></p>
+<div id="totp-box" style="display:none;margin-top:1rem;padding:.8rem;border-top:1px dashed var(--rule);">
+<p><strong>時間型驗證</strong> <small>—— Google Authenticator · QStar.net</small></p>
+<div id="totp-qr" style="width:210px;max-width:100%;background:#fff;padding:8px;"></div>
+<p><small id="totp-instruction"></small></p>
+<p><label for="totp-code">驗證器代碼</label><br>
+<input id="totp-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" size="12" placeholder="000000"
+ style="font-family:monospace;font-size:1.2rem;letter-spacing:.25em;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+<button id="totpbtn" type="button" style="font-family:inherit;font-size:1rem;padding:.5rem 1rem;border:1px solid var(--stamp);background:transparent;color:var(--stamp);cursor:pointer;">確認驗證器</button>
+<details><summary>手動設定金鑰</summary><code id="totp-secret" style="word-break:break-all;"></code></details>
+</div>
+</div>
+
+<h2>新特工 —— 簽署誓約</h2>
+<p id="enroll-caution" style="display:none;"><small style="color:var(--stamp);">本桌已持有身分——
+再次簽署將鑄造新金鑰，舊呼號隨之滅失。本桌之創世存續；特工不存。</small></p>
+
+<div class="sig-line" id="sigline">&nbsp;</div>
+<p><label for="signame">呼號<small>——本網路所知的唯一身分</small></label><br>
+<input id="signame" type="text" size="40" placeholder="你的名字，特工"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+
+<p><label for="sigpass">設定憑證<small>——包裹你的金鑰，永不離開本裝置</small></label><br>
+<input id="sigpass" type="password" size="40" placeholder="至少 8 個字元"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+
+<p><label for="sigpass2">確認憑證</label><br>
+<input id="sigpass2" type="password" size="40" placeholder="再次輸入"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);">
+<small id="matchnote" style="color:var(--gold);"></small></p>
+
+<p id="grantrow" style="display:none;"><label for="grant-token">授權憑證<small>（僅保留呼號需要——由 STATION-CHIEF 或以上簽發）</small>：</label><br>
+<input id="grant-token" type="text" size="40" placeholder="來自簽發官的 base64 授權"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);"></p>
+
+<p><label for="branchreq">申請分部 <small>——選填；經 Qstar 網路送呈艦隊司令核准</small></label><br>
+<select id="branchreq"
+ style="font-family:inherit;font-size:1rem;background:transparent;border:none;border-bottom:1px dashed var(--rule);color:var(--ink);">
+<option value="">— 不申請分部 —</option>
+<option value="admiralty">海軍部 — 艦隊指揮與程序</option>
+<option value="constitutional">憲章部 — 憲章文件</option>
+<option value="ethics">倫理部 — 誓約與審查</option>
+<option value="human_academic">人文／學術部 — 課程與授證</option>
+<option value="legal_financial">法務／財務部 — 文件與稽核</option>
+<option value="research_ip">研究／智財部 — 申請與優先權</option>
+<option value="security">安全部 — 隔離紀律</option>
+<option value="specs">規格部 — 編號文件</option>
+<option value="strategy">戰略部 — 長桌規劃</option>
+<option value="narrative">敘事部 — 承載檔案的故事</option>
+</select></p>
+
+<p><small>無姓名。無電郵。無伺服器帳號。你的呼號是你唯一的面孔——
+金鑰<em>即</em>身分；憑證只是將它封存於本桌。</small></p>
+
+<div id="reqview" style="display:none;margin-top:1.2rem;">
+<p><small><strong>分部申請已簽署。</strong>請將此憑證送呈艦隊司令——
+comms.os、死信箱或任何通道皆可。核准於指揮套件（7q.drawer）執行。</small></p>
+<textarea id="reqtoken" readonly rows="3" cols="52"
+ style="font-family:monospace;font-size:.7rem;background:transparent;border:1px solid var(--rule);color:var(--ink);"></textarea>
+</div>
+
+<p style="margin-top:2rem;">
+<button id="signbtn"
+ style="font-family:inherit;font-size:1rem;padding:.6rem 1.4rem;border:2px solid var(--stamp);background:var(--stamp);color:var(--paper);letter-spacing:.2em;cursor:pointer;">
+簽署並註冊</button>
+&nbsp;&nbsp;<span id="stamp"></span>
+</p>
+
+<p><small>副署：<span class="sig-line" style="display:inline-block;min-width:12rem;">P. P. Ramsey</span>
+&nbsp;職銜：海軍部 &middot; 俄亥俄州哥倫布 &middot; 一式三份</small></p>
+
+<p><small id="enroll-note">簽署將鑄造真實的 Ed25519 金鑰對並簽署誓約雜湊。
+密鑰以你的密語包裹（PBKDF2 &middot; AES-256-GCM），絕不以明文儲存。
+在未奠基之本桌，第一個簽署寫入創世記錄——創世金鑰之 sha256，永久綁定。</small></p>
+</div>
+
+<script src="assets/fano-auth.js"></script>
+<script>
+try {
+  if (localStorage.getItem('fano1.lang') === 'en') window.location.replace('index.html');
+} catch (e) {}
+var langBtn = document.createElement('span');
+langBtn.id = 'idx-lang';
+langBtn.textContent = '中 / EN';
+langBtn.style.cssText = 'position:fixed;top:.8rem;right:1rem;font-size:.7rem;letter-spacing:.15em;color:var(--gold);border:1px solid var(--rule);padding:.25rem .6rem;cursor:pointer;border-radius:3px;';
+langBtn.addEventListener('click', function () {
+  try { localStorage.setItem('fano1.lang', 'en'); } catch (e) {}
+  window.location.href = 'index.html';
+});
+document.body.appendChild(langBtn);
+
+var wasmReady = FANO_AUTH.load();
+/* 重返之特工：本桌記錄即身分——憑證解封之。
+   下方註冊將鑄造全新身分並滅失本桌之身分，故有記錄時顯示警示。 */
+wasmReady.then(function () {
+  var rec = FANO_AUTH.loadRecord();
+  if (!rec) return;
+  document.getElementById('signin-call').textContent = rec.user.toUpperCase();
+  document.getElementById('signin-role').textContent =
+    FANO_AUTH.ROLE_LABEL[(rec.cert && rec.cert.role) || 0] || 'FIELD-AGENT';
+  document.getElementById('signin').style.display = 'block';
+  document.getElementById('enroll-caution').style.display = 'block';
+});
+document.getElementById('signin-pass').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('signinbtn').click();
+});
+var signinUnlocked = false;
+function showTotp(result, setup) {
+  document.getElementById('totp-box').style.display = 'block';
+  document.getElementById('totp-instruction').textContent = setup
+    ? '請用 Google Authenticator 掃描。帳戶：QStar.net。然後輸入六位數代碼確認。'
+    : '請輸入 Google Authenticator 的 QStar.net 六位數代碼。';
+  if (setup) {
+    document.getElementById('totp-secret').textContent = result.secret;
+    document.getElementById('totp-qr').innerHTML = FANO_AUTH.qrSvg(result.uri) || '<small>QR 無法使用——請用下方手動金鑰。</small>';
+  } else { document.getElementById('totp-qr').innerHTML = ''; document.getElementById('totp-secret').textContent = ''; }
+  document.getElementById('totp-code').focus();
+}
+function finishSignin() {
+  document.getElementById('signin-note').textContent = '本桌已開啟——' + FANO_AUTH.session.user;
+  setTimeout(function () { window.location.href = 'desktop.html'; }, 900);
+}
+document.getElementById('signinbtn').addEventListener('click', function () {
+  var note = document.getElementById('signin-note'), btn = this;
+  var rem = FANO_AUTH.lockRemain && FANO_AUTH.lockRemain();
+  if (rem) { note.textContent = '金鑰庫冷卻中——尚餘 ' + rem + ' 秒'; return; }
+  if (signinUnlocked) { document.getElementById('totpbtn').click(); return; }
+  btn.disabled = true; note.textContent = '正在解封金鑰庫…';
+  wasmReady.then(function () {
+    var rec = FANO_AUTH.unlock(document.getElementById('signin-pass').value);
+    if (rec) {
+      signinUnlocked = true; btn.disabled = false; btn.textContent = '驗證驗證器';
+      if (rec.totp_required) showTotp(null, false);
+      else {
+        var setup = FANO_AUTH.setupTotp('QStar.net', 'QStar.net');
+        if (!setup.error) showTotp(setup, true); else note.textContent = '驗證器設定失敗——' + setup.error;
+      }
+      return;
+    }
+    var rem2 = FANO_AUTH.lockRemain && FANO_AUTH.lockRemain();
+    note.textContent = rem2 ? '錯誤次數過多——' + rem2 + ' 秒後再試' : '金鑰庫拒絕該憑證';
+    btn.disabled = false;
+  });
+});
+document.getElementById('totpbtn').addEventListener('click', function () {
+  var note = document.getElementById('signin-note');
+  if (FANO_AUTH.verifyTotp(document.getElementById('totp-code').value)) finishSignin();
+  else note.textContent = '驗證器代碼無效——請檢查時鐘後重試';
+});
+document.getElementById('totp-code').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('totpbtn').click();
+});
+/* 正典式拒絕——觀察名單也是有個性的 */
+var DENY_WIT = {
+  'bond': '該名已有人持有。相關檔案比你的還長。',
+  '007': '雙零代號由派發，不由自行填寫。',
+  'q': '軍需官不透過表格註冊。',
+  'm': 'M 在委員會裡。M 永遠都在委員會裡。',
+  'moneypenny': '深感榮幸——但本桌已有歸屬。',
+  'goldfinger': '不，特工——本檔案要求你另擇呼號。',
+  'vesper': '那個名字的下場已經夠糟一次了。',
+  '龐德': '該名已有人持有。相關檔案比你的還長。'
+};
+document.getElementById('sigpass2').addEventListener('input', function () {
+  var p1 = document.getElementById('sigpass').value, p2 = this.value;
+  var m = document.getElementById('matchnote');
+  if (!p2) { m.textContent = ''; return; }
+  m.textContent = (p1 === p2) ? '憑證相符' : '憑證不相符';
+});
+document.getElementById('signame').addEventListener('input', function () {
+  document.getElementById('sigline').textContent = this.value || ' ';
+  var note = document.getElementById('enroll-note');
+  wasmReady.then(function () {
+    var norm = (this.value || '').trim().toLowerCase();
+    var chk = FANO_AUTH.checkCallsign(norm);
+    document.getElementById('grantrow').style.display = (chk.ok === false && chk.restricted) ? 'block' : 'none';
+    if (chk.ok === false && chk.restricted) {
+      note.textContent = DENY_WIT[norm] || (chk.reason === 'claimed'
+        ? '該呼號綁定於本桌創世金鑰——僅得由授權移轉。'
+        : '該呼號由海軍部保留——需要已簽署的授權憑證。');
+    } else if (!FANO_AUTH.genesis()) {
+      note.textContent = '本桌尚無創世記錄——第一個簽署將寫入創世區塊。這是責任，不是階級。';
+    }
+  }.bind(this));
+});
+document.getElementById('signbtn').addEventListener('click', function () {
+  var btn = this, name = document.getElementById('signame').value.trim();
+  var p1 = document.getElementById('sigpass').value, p2 = document.getElementById('sigpass2').value;
+  var note = document.getElementById('enroll-note');
+  if (!name) { note.textContent = '工作台需要一個呼號。'; return; }
+  if (p1.length < 8) { note.textContent = '密語至少需要 8 個字元。'; return; }
+  if (p1 !== p2) { note.textContent = '兩次密語不一致。'; return; }
+  btn.disabled = true; btn.textContent = '註冊中…';
+  note.textContent = '正在鑄造金鑰對、簽署誓約、包裹金鑰庫…';
+  FANO_AUTH.load().then(function () {
+    var rec = FANO_AUTH.enroll(name, p1, document.getElementById('grant-token').value || null);
+    if (rec && rec.error) {
+      var msgs = { restricted: '該呼號由海軍部保留——需要已簽署的授權憑證。',
+        claimed: '該呼號綁定於本桌創世金鑰——僅得由授權移轉。',
+        empty: '工作台需要一個呼號。', too_long: '呼號上限為 48 個字元。' };
+      note.textContent = msgs[rec.error] || '註冊被拒——呼號未獲核准。';
+      btn.disabled = false; btn.textContent = '簽署並註冊'; return;
+    }
+    if (!rec) { note.textContent = '註冊失敗——鑄幣廠拒絕了。重新載入並重試。'; btn.disabled = false; btn.textContent = '簽署並註冊'; return; }
+    var roleName = FANO_AUTH.ROLE_LABEL[rec.cert.role] || 'FIELD-AGENT';
+    var branch = document.getElementById('branchreq').value;
+    if (branch && !rec.genesis) {
+      var rq = FANO_AUTH.requestBranch(branch);
+      if (rq && !rq.error) {
+        document.getElementById('reqtoken').value = FANO_AUTH.exportRequest(rq.pk) || '';
+        document.getElementById('reqview').style.display = 'block';
+        note.textContent = '分部申請已簽署（' + branch.toUpperCase() + '）——待艦隊司令核准。';
+      }
+    }
+    document.getElementById('stamp').innerHTML =
+      '<span class="stamp">已簽署 &mdash; 歸檔 7q &middot; ' + roleName + '</span>' +
+      (rec.genesis ? '<br><small class="stamp" style="border-color:var(--gold);color:var(--gold)">創世已鑄 &mdash; sha256 ' + (rec.genesis_hash || '').slice(0, 16) + '…</small>' : '') +
+      '<br><small style="letter-spacing:.05em;color:var(--gold)">sig ' + rec.covenant_sig.slice(0, 24) + '… &middot; fp ' + rec.pk.slice(0, 8).toUpperCase() + '…</small>';
+    var sd = document.getElementById('selfdestruct');
+    setTimeout(function () { sd.classList.add('burning'); }, 3000);
+    setTimeout(function () { window.location.href = 'desktop.html'; }, 6000);
+  }).catch(function (e) {
+    note.textContent = '鑄幣廠無法連線——' + e;
+    btn.disabled = false; btn.textContent = '簽署並註冊';
+  });
+});
+</script>
+</body>
+</html>

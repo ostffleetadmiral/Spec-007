@@ -1,0 +1,26 @@
+{
+  "generated": "2026-10-07T06:07:28.561Z",
+  "results": [
+    {
+      "id": "OVR-Q1",
+      "name": "superluminal-signaling",
+      "verdict": "SEAL CONFIRMED",
+      "detail": "Bob's guess 50.00% ≈ 50% over 4096 trials — Alice's sampling choice is invisible in his stream. Basis choice carries zero information: no-signaling holds",
+      "ts": "2026-10-07T06:07:28.536Z"
+    },
+    {
+      "id": "OVR-Q2",
+      "name": "teleportation-classical-cost",
+      "verdict": "SEAL CONFIRMED",
+      "detail": "unassisted fidelity 50.05% ≈ coin-flip; assisted 100.00% at exactly 1 wire-bit/teleport. The correlated pair alone transmits nothing — teleportation's cost IS the classical channel, our paper drop",
+      "ts": "2026-10-07T06:07:28.539Z"
+    },
+    {
+      "id": "OVR-Q3",
+      "name": "chsh-local-bound",
+      "verdict": "SEAL CONFIRMED",
+      "detail": "max |S| = 2.0000 ≤ 2 over all 16 deterministic local strategies — our seed correlation is a local hidden variable: it gives correlation, never nonlocal power. 2√2 stays quantum's; the paper drop stays the price of correlation",
+      "ts": "2026-10-07T06:07:28.561Z"
+    }
+  ]
+}

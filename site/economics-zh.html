@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 帳本</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('economics.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<strong>[經濟]</strong> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="economics.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC-007 經濟與技術合理性評估</h1>
+<p>**
+<strong>版本：</strong> 1.0.0狀態：<strong> 桌面評估；非商業論證、安全核准或投資建議。
+</strong>最後同步：<strong> 2026-10-05，對齊 <code>spec007_expanded_calculations.zig</code>、<code>spec007_verified_calculations.zig</code>、<code>spec007_drivetrain_calculations.zig</code> 與 <code>spec-007-verified.en.md</code>。
+</strong>已驗證數字：<strong> 晉升主張集為 <code>spec-007-verified.en.md</code>；本評估的算術與該層一致。
+</strong>原件保留：** <code>spec-007.md</code> 未變更。</p>
+<h2>執行結論</h2>
+<p><strong>技術合理性：</strong> 僅在狹義界定、受控的化學熱源或緊急低功率演示器範圍內部分成立。按原文作為通用模組化能源基礎設施標準則不成立。</p>
+<p><strong>經濟可行性：</strong> 本評估針對非資本主義的部署情境——計畫型或公共配給經濟，採中國模式：國家直接配置資源，太陽能電力在邊際上近乎免費。在此情境下，市場價格問題（「能否低於電網電價？」）是錯誤的檢驗；正確的檢驗是：相較於其他方案，此配置能否掙得其材料、工時與物流份額。裁決分為兩半。<strong>作為發電資產，於任何經濟體制下皆不成立：</strong> 太陽能本就近乎零邊際成本地交付電與熱，而電石鏈僅將約 10–25% 的儲存化學能轉為電——凡以發電為目的，皆為不划算之交易。<strong>作為儲能與可用性資產，帳本改變形狀。</strong> 一支電石充裝即是以貨架穩定、不自放電、可運輸之化學形態儲存的過剩電力——而電石本就由電弧爐生產，爐體本身即為可吸收棄光之可調度重負載。以其真正競爭對手——電池與燃料儲備，而非發電機——衡量，其真實優勢（多年貨架壽命、零自放電、無電網調度）在保證可用性優於效率之處，可抵銷往返效率之代價。本設計作為國家配給之戰略／緊急儲備儀器仍站得住腳——僅配發於可用性重於效率之處——惟危險氣路須移除或獨立圍阻，且完整生命週期資源成本須公開量測與公布。</p>
+<p>通用主張之所以不成立，主要原因不是電石價格，而是化學輸入、所述流量／輸出、低電能轉換率，以及一支含熱流體與可選高速旋轉機械的遇水反應、易燃氣體卡匣所負擔的安全／物流成本之間的失配——此負擔存在於任何經濟體制之下，因其為物理性質而非財務性質。</p>
+<h2>配給經濟學的再詮釋</h2>
+<p>原經濟分析隱含採用常規商業目標：回收資本、覆蓋風險、產生利潤。本檔案的部署情境並不假設該目標——本資產面向的是一個正在遠離資本主義的國家，或一個從未以市場組織供給的經濟體。國家、公共事業、合作社或開放製造網絡本就可以依定義以零毛利分發設備。但移除利潤並不能移除物理。在配給目標下，帳目的形狀改變，方向不變：</p>
+<ul>
+<li><strong>資本毛利本即無關：</strong> 設備可由國家配發、合作社製造或依開放設計生產。剩下的問題是：配置這些工廠工時是否站得住腳。</li>
+<li><strong>內含能源取決於爐源，而非化學：</strong> 電石生產耗能極高——以每噸 CaC₂ 約 4,000 kWh 的工業篩算值計，一支 300 g 充裝在運輸與轉換之前已內含約 1.2 kWh——相對於約 0.10–0.13 kWh 的已驗證篩算電輸出。此為逆差與否取決於電源：電石由電弧爐生產——本身就是可調度重負載。若以棄光或過剩太陽能驅動（本部署情境之前提即近乎免費之太陽能），內含之千瓦時是被<em>儲存的過剩</em>，而非被消耗的稀缺——充裝即儲能介質，約 10% 之往返效率是保管它的代價。若以稀缺或化石電力驅動，則為約一個數量級的淨能耗逆差，配置檢驗直接不通過。故配給問題不是「化學效率為何」，而是「此負載能否對接過剩？」——在所述情境下，可以。</li>
+<li><strong>誠實的對手是儲能而非發電：</strong> 密封電石充裝是一顆化學電池。鋰電池在貨架上自放電、衰減，且需要充電基建；燃料儲備會變質且需處理；密封充裝可待十年、以固態運輸、在無任何電網之處即取即用。以 ~10% 往返效率計，它是昂貴的<em>發電</em>方式——卻是在別無他物能如此久候而無損之處，站得住腳的<em>保管</em>能源方式。</li>
+<li><strong>經常性投入仍在：</strong> 在已驗證篩算輸出下，僅 CaC₂ 一項即約 $1.4–$2.4／交付 kWh 的會計數字——無論單位是出售、配發或贈送，資源負擔相同。</li>
+<li><strong>安全與物流仍在：</strong> 危險品分類、圍阻、監控、維修與回收物流不會因設備改為配發而消失——在公共配給下由國家直接吸收，這使誠實記帳更為迫切，而非更輕。</li>
+<li><strong>製造吞吐量仍在：</strong> 開源圖紙降低智財門檻，但不會憑空造出不鏽鋼、TEG、合格壓力件、認證運輸包件或受訓技師。在計畫經濟中這些都是配置決策，每一筆配置都有以「這些投入本可成為何物」衡量的機會成本。</li>
+<li><strong>本文檔中的貨幣數字為會計單位，而非價格訊號。</strong> 它們以共同分母衡量資源負擔；在公共配給下回答的是「這花了集體多少」，而非「市場能承受多少」。</li>
+</ul>
+<p>因此本框架或可作為<strong>國家配給之可用性儲備成立</strong>——戰略儲能，僅配發於保證可用性優於效率、且替代方案（衰減電池、燃料儲備、無電網）更差之處——但不成立為發電資產或通用公共事業標準。配給論證需要更低風險的架構、公開公布的生命週期記帳，以及每個配發單位所創造的韌性或有用服務超過其完整資源負擔的證據。</p>
+<h2>1. 技術合理性</h2>
+<h3>物理上可辯護的部分</h3>
+<p>核心水解反應是真實的：</p>
+<p><code>CaC₂ + 2 H₂O → C₂H₂ + Ca(OH)₂</code></p>
+<p>所述 300 g 充裝的理想物料平衡約為：</p>
+<ul>
+<li>4.680 mol CaC₂。</li>
+<li>168.6 g 耗水。</li>
+<li>121.9 g 乙炔生成。</li>
+<li>檔案示例 STP 條件下 104.9 L 乙炔。</li>
+<li>以 127.2 kJ/mol 為模型輸入時 595 kJ 水解熱。</li>
+</ul>
+<p>這些計算支持研究受控化學熱源。它們<strong>不</strong>支持完整卡匣架構。</p>
+<h3>目前規格不支持的部分</h3>
+<ol>
+<li><strong>流量矛盾：</strong> 0.1–0.5 mL/min 水在理想下產約 0.062–0.311 L/min 乙炔，非 0–5 L/min。5 L/min 需約 8.0 mL/min 水，並在約 21 分鐘內耗盡理想充裝。</li>
+<li><strong>熱／電含糊：</strong> 低流量範圍在理想模型下僅供約 5.9–29.4 W 水解熱。10–20 W 電輸出因此幾乎沒有熱損失、泵浦、控制與冷側排熱的餘地。0.1 mL/min 時，10 W 電輸出已與理想熱輸入不一致。</li>
+<li><strong>氣體到渦輪的斷層：</strong> 乙炔化學能豐富，但特斯拉渦輪不會僅因氣體通過就取得該化學能。回收燃燒能需要受控氧化，並構成截然不同的燃燒、排放、壓力與回火系統。來源未定義該系統。</li>
+<li><strong>溫度含糊：</strong> 「300–450 °C 經油夾套」未指明是反應溫度、工質溫度、模組熱側溫度還是暫態壁溫。通用礦物油、合成酯、密封件、TEG 模組與電子件不能假定共享該包絡。</li>
+<li><strong>安全監獄主張：</strong> CaO 水合可消耗水並產生固態氫氧化物，但來源無證據表明它隔離主反應、吸收釋放熱、處理已存在的乙炔，或於三秒內達到安全態。</li>
+<li><strong>機架算術：</strong> 16 × 10–20 W 是 160–320 W，非 400–800 W。64 × 10–20 W 是 640–1,280 W，非 2–5 kW。</li>
+<li><strong>環境主張：</strong> 工業電石生產耗能高且排放製程 CO₂。再生電力可降低電力相關排放，但不自動使整個卡匣循環碳中和。</li>
+</ol>
+<h2>2. 經濟模型</h2>
+<h3>輸入與來源</h3>
+<p>模型採用以下透明假設：</p>
+<ul>
+<li>充裝：0.300 kg CaC₂。</li>
+<li><strong>已驗證篩算輸出基礎：</strong> 每充裝交付電能 ~0.10–0.13 kWh（80% 熱分配至 6% ORC＋20% 分配至 3% TEG − 寄生耗損，加務實冷凝路徑回收；依已驗證層與台架）。此為下文主要基礎。</li>
+<li>歷史有利情形（附註界，<strong>未晉升</strong>）：每充裝 0.158 kWh——例如 ~15.8 h 的 10 W。該輸出需 1.85 kWh 充裝的 ~8.5–9.4% 端到端轉換，高於篩算 ~5–6% 階梯，且僅靠水解熱物理上不可能（165 Wh 熱 × ~5% TEG ≈ 8 Wh）。僅保留為上限情境。</li>
+<li>最大產氣情形：5 L/min 約 0.350 小時，若 TEG 為唯一電源，10 W 下僅產 3.50 Wh、20 W 下 6.99 Wh。</li>
+<li>CaC₂ 價格敏感度：$0.60–$0.80/kg，基於 2025 年市場報導，非具約束力的供應商報價。</li>
+<li>不計熱、乙炔銷售、CO/CO₂ 副產品或回收材料的任何抵扣。</li>
+<li>所有輸出數字採純模型基線；GB 10665-2004 商用充裝於 ≈75.9–81.2% 有效電石（≈4.7–5.0 kWh/kg）下將按比例抬高每個 $/kWh 數字（×~1.23–1.32）。</li>
+<li>硬體、認證、包裝、人工、維護、損耗、回收物流與循環利用排除於僅原料下限之外，隨後另行分析。</li>
+</ul>
+<h3>僅原料下限</h3>
+<p>$0.60–$0.80/kg 時，300 g 充裝成本約 $0.18–$0.24。</p>
+<p>已驗證輸出情形（每充裝 0.10–0.13 kWh）：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: right;">結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CaC₂ 充裝成本</td>
+<td style="text-align: right;">每充裝 $0.18–$0.24</td>
+</tr>
+<tr>
+<td>每充裝已驗證篩算電能</td>
+<td style="text-align: right;">~0.10–0.13 kWh</td>
+</tr>
+<tr>
+<td>僅 CaC₂ 成本</td>
+<td style="text-align: right;">~$1.4–$2.4/kWh</td>
+</tr>
+<tr>
+<td>水成本</td>
+<td style="text-align: right;">相對充裝成本可忽略</td>
+</tr>
+<tr>
+<td>卡匣、安全、人工、物流</td>
+<td style="text-align: right;">未計</td>
+</tr>
+</tbody>
+</table>
+<p>附註上限情形（0.158 kWh，未驗證）下，僅原料為 ~$1.14–$1.52/kWh。</p>
+<p>在計入任何硬體或合規成本前，此值已高於普通工業電價，也高於商用電池儲能的概略均化成本。</p>
+<p>5 L/min 情形下，同一充裝在所述 10–20 W 電輸出僅產 3.50–6.99 Wh。僅原料約 $26–$69/kWh。除非氣體經另一條已驗證能量路徑轉換，否則該工作點在經濟上無法辯護。</p>
+<h3>資本成本敏感度</h3>
+<p>採用來源的 $50/刀片目標作為樂觀硬體數字——非已驗證成本——與已驗證 ~0.11 kWh/充裝中點：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">可重用循環</th>
+<th style="text-align: right;">硬體攤提</th>
+<th style="text-align: right;">原料＋硬體，未含其他成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">~$454.55/kWh</td>
+<td style="text-align: right;">~$456.19–$456.73/kWh</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">~$45.45/kWh</td>
+<td style="text-align: right;">~$47.09–$47.63/kWh</td>
+</tr>
+<tr>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">~$4.55/kWh</td>
+<td style="text-align: right;">~$6.19–$6.73/kWh</td>
+</tr>
+<tr>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">~$0.91/kWh</td>
+<td style="text-align: right;">~$2.55–$3.09/kWh</td>
+</tr>
+</tbody>
+</table>
+<p>因此 $50 目標不能使概念廉價，除非卡匣本體能存活數百次循環——而來源同時將該件描述為耗盡後送回再製造的刀片。若刀片為拋棄式，經濟立刻崩潰；若可重用，濕電石殘渣、密封件、膜片、污染與檢驗負擔成為核心成本驅動因素。</p>
+<h3>零毛利豐裕情境</h3>
+<p>這些情境移除利潤，並假設設備獲捐贈或公共融資。它們不主張硬體真能按所述資本成本製造。</p>
+<table>
+<thead>
+<tr>
+<th>情境</th>
+<th style="text-align: right;">硬體分攤</th>
+<th style="text-align: right;">CaC₂ 底線</th>
+<th style="text-align: right;">服務成本前合計底線</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>捐贈設備，~110 Wh/充裝（已驗證基礎）</td>
+<td style="text-align: right;">$0/kWh</td>
+<td style="text-align: right;">~$1.64–$2.18/kWh</td>
+<td style="text-align: right;">~$1.64–$2.18/kWh</td>
+</tr>
+<tr>
+<td>捐贈設備，158 Wh/充裝（附註上限）</td>
+<td style="text-align: right;">$0/kWh</td>
+<td style="text-align: right;">$1.14–$1.52/kWh</td>
+<td style="text-align: right;">$1.14–$1.52/kWh</td>
+</tr>
+<tr>
+<td>$50 設備，500 循環</td>
+<td style="text-align: right;">~$0.91/kWh</td>
+<td style="text-align: right;">~$1.64–$2.18/kWh</td>
+<td style="text-align: right;">~$2.55–$3.09/kWh</td>
+</tr>
+<tr>
+<td>$50 設備，1,000 循環</td>
+<td style="text-align: right;">~$0.45/kWh</td>
+<td style="text-align: right;">~$1.64–$2.18/kWh</td>
+<td style="text-align: right;">~$2.09–$2.63/kWh</td>
+</tr>
+<tr>
+<td>國家配發設備與配給電石</td>
+<td style="text-align: right;">不定</td>
+<td style="text-align: right;">僅由直接配置而低於資源成本</td>
+<td style="text-align: right;">必須計入全部公共資源成本</td>
+</tr>
+</tbody>
+</table>
+<p>配給詮釋使前兩個情境在行政上可能，但不自給。公共計畫可以有理由為災害韌性、偏遠醫療設備、通訊或水系統吸收這些成本——在那些領域，停電的代價遠高於卡匣的資源成本。那是可用性論證，而非本裝置產出豐裕能源的證明。</p>
+<p>真正面向豐裕的設計應公布<strong>總服務成本</strong>帳本：內含能、材料質量、人工工時、安全事故、運輸距離、回收率、殘渣回收、排放與每交付 kWh 的公共補貼。沒有那本帳的零零售價會掩蓋而非消除稀缺。</p>
+<h3>計劃經濟與太陽能豐裕情境</h3>
+<p>一個主宰電石生產（全球產出 ≈80–85% 為中國、多為煤電）並將太陽能電力視為邊際近免費的國家，可以按與資源成本脫鉤的名目價格部署本系統——計劃經濟可以吸收虧損，正如它以低於市價吸收戰略糧食或礦產儲備。兩項誠實的限定：</p>
+<ul>
+<li><strong>豐裕的太陽能使<em>裝置</em>更不具競爭力，而非更有競爭力。</strong> SPEC-007 的產出是電與熱——正是免費太陽能已提供的產品。卡匣交付的每 kWh 都在與近零邊際成本的替代品競爭，抬高而非降低了上述損益兩平門檻。補貼改變誰支付 ~$1.6–$2.4+/kWh 原料底線；它不改變底線本身。</li>
+<li><strong>可行的戰略框架是儲存與可用性，而非發電。</strong> 電石是耐儲存、可運輸、可調度的化學能——國家儲備的理由是「能在架上存放十年、夜間室內離網可用的儲能」，而非「更便宜的電」。該利基對手是電池與儲備燃料，電石的缺點（危險品處理、殘渣物流、對內含生產能 ~10× 的能量虧損）必須與真實優點權衡：多年貨架壽命與零自放電。</li>
+</ul>
+<p>在該框架下，反應器最可辯護的角色正是擴充規格所記錄的：<strong>太陽能／光熱表面承擔白天負載，電石充裝是備援與突波來源</strong>——在計劃經濟或緊急計畫下因其可用性而估值，而非因擊敗電力市價。傳動分析強化同一論點：~12–20% 傳動損失僅在免費熱支路可忍；在付費電石上它將每交付 kWh 重新定價上調 ~25–50%。</p>
+<h3>損益兩平門檻</h3>
+<p>已驗證 ~0.11 kWh 情形下，欲追平：</p>
+<ul>
+<li><strong>$0.10/kWh：</strong> 每充裝總耗材成本須 ≤$0.011。僅所述 300 g 電石充裝即超出一個數量級以上。</li>
+<li><strong>$0.30/kWh：</strong> 每充裝總耗材成本須 ≤$0.033。僅電石充裝即高出約 5–7 倍。</li>
+<li><strong>$1.00/kWh：</strong> 每充裝總耗材成本須 ≤$0.11。即使低電石價情形，在計入水、處理、包裝與回收之前也已超出。</li>
+</ul>
+<p>這意味本系統無法在能源價格上競爭。它只能在可用性或物流價值高到足以合理化危險品處理時競爭。</p>
+<h2>3. 能源與碳比較</h2>
+<p>121.9 g 理想乙炔輸出以示例 49.9 MJ/kg 低熱值輸入計含約 1.69 kWh 化學能。已驗證篩算電輸出為每充裝 ~0.10–0.13 kWh（約為合計 ~1.85 kWh 熱池的 ~5–7%，與篩算階梯一致）。歷史 0.158 kWh 有利情形需化學能的 ~9.4%——高於篩算階梯——並超過 0.165 kWh 水解熱總預算，故僅靠反應器熱上的 TEG 無法達成；僅在實測階梯數據到來前保留為附註上限。</p>
+<p>已發表的 Bi₂Te₃ 研究演示高性能模組可在受控溫差下達到個位數轉換效率，而代表性商用模組規定有限的連續與間歇熱側限值。SPEC-007 堆疊因此必須回報實測熱側熱流、冷側溫度、模組降額與寄生耗損，而非由反應溫度推斷電功率。</p>
+<p>檔案所引 IPCC 預設因子顯示每噸 CaC₂ 生產排放約 1.8 噸 CO₂、使用階段約 1.1 噸 CO₂，受系統邊界與製程假設影響。每充裝 0.300 kg 對應指示性每充裝 0.87 kg CO₂，未計任何已驗證捕集或回收抵扣。除以已驗證 ~0.10–0.13 kWh 輸出，在該邊界上約為 <strong>6.7–8.7 kg CO₂/kWh</strong>（5.5 kg/kWh 僅在未驗證 158 Wh 界上;該邊界假設當前以煤為主之生產——以太陽能驅動電弧爐可縮減其電力部分,但製程排放仍在）。此數字是篩算訊號而非最終 LCA,但它直接擊倒未加限定的「碳中和」主張。<!-- Dominic Greene 一邊囤水一邊賣生態。穿綠色外衣的主張仍得亮出它的帳本。 --></p>
+<h3>擴充架構檢查</h3>
+<p>擴充計算台架新增的約束強化而非逆轉經濟結論：</p>
+<ul>
+<li>200–300 cm² PDRC 表面在樂觀 120 W/m² 下僅排熱約 2–3 W。以該通量排 800 W 需約 6.67 m² 有效輻射面積，外加應對天候與對流損失的常規排熱。</li>
+<li>示例 800 W 熱階梯將 80% 熱分配至 6% ORC、20% 至 3% TEG，扣 5 W 寄生，淨輸出僅約 37 W。此為篩算示例，非保證輸出。</li>
+<li>Novec 649 約 169 °C 的臨界溫度是運行閘門。180–300 °C 工質迴路不能當作普通亞臨界 Novec ORC 處理。</li>
+<li>700 kg、全尺寸足跡車輛在 80 km/h、示例 CdA 0.60 m² 與滾阻係數 0.010 下，僅氣動與滾動阻力即需約 5.475 kW，未計坡度、加速、附件、馬達／逆變器損失或熱負載。</li>
+<li>膨脹機→發電機傳動是早期階梯隱含的強制損失級（<code>spec007_drivetrain_calculations.zig</code>）。在 6% ORC 數字的保守熱→軸解讀下，254 W 爆發軸功經牽引 CVT（η 0.80–0.88）至母線 ~182–201 W、經帶／定比齒輪（η 0.95–0.98）~217–224 W，或經套筒直驅發電機 ~228 W。每充裝 ~89 Wh 軸功支路化為 ~63–79 Wh 電能，含傳動篩算總計 ~74–90 Wh 對 ~90–110 Wh 僅階梯界。</li>
+<li>僅原料成本隨交付輸出縮放：降額 ~74–88 Wh 帶下底線 ~$2.05–$2.43/kWh，對 110 Wh 基礎的 ~$1.64——CVT 的變比彈性使每 kWh 原料成本比定比路徑高出約 40–50%。</li>
+</ul>
+<!-- DB10 進了粉碎機因為 Bond 沒有它的權限。路徑 C 進了存檔因為算術沒有量產的權限。 -->
+<ul>
+<li><strong>convo3 雙路徑更新（取代 CVT 帶）：</strong> 傳動之所以強制只因端點失配。路徑 A（渦卷膨脹機 45–80% 等熵＋直驅 AFPM）將爆發母線提升至 ~412–732 W、每充裝電能至 ~155–266 Wh——把付費電石原料底線壓向 ~$0.68–1.16/kWh（300 g @ $0.60/kg 攤 155–266 Wh），約為路徑 C 帶的三分之一，未計渦卷自身成本／磨損。路徑 B（特斯拉＋套筒高速發電機）落在 ~215–228 W 與 ~85 Wh/充裝、~$2.1/kWh——僅略優於路徑 C。開放硬體 BOM 篩算：~$250–500（A）對 ~$400–900（B）；每爆發瓦 ~$0.34–1.21 對 ~$1.75–4.19——路徑 A 最差情形勝過路徑 B 最佳情形。</li>
+<li><strong>省煤器經濟（convo3）：</strong> 任何注入溫母線的免費低品位熱（~40–90 °C 源如電子散熱）在容量內逐瓦削減燃燒器負載（~1.43 kW 峰值／~0.13 kW 持續），分別延長充裝時長 ~1.10×／~1.32×——付費電石支路上歧管熱整合是直接的原料節省，免費熱支路上它把底盤轉化為已認定為可辯護後繼產品的廢熱平台。</li>
+</ul>
+<p>這些結果使先前的車輛與機架商業論證更受約束，而非更有利潤。</p>
+<h2>4. 基準比較</h2>
+<ul>
+<li>內蒙古工業電價列表顯示 2025 年代表性商業／工業電價在部分電壓／時段約 0.44–0.55 人民幣/kWh，未計客戶確切電價與需量費。</li>
+<li>NREL 2024 商用電池儲能基準列出約 $164–$215/kWh 的裝置能源系統成本（依時長而異）；Lazard 2024 商業／工業儲能 LCOS 範圍遠高於電網電價，但仍實質低於 SPEC-007 拋棄式卡匣情境。</li>
+<li>一款商用 10 W 爐頂 TEG 產品定價約 $249，證明小型熱發電機存在市場，但不證明危險 CaC₂ 卡匣能與電池或普通發電機競爭。</li>
+<li>工業乙炔通常經專用溶解氣瓶與受管制物流供應。僅以乙炔零售能源價格比較卡匣是無效的，因為氣瓶、充裝、運輸、氧氣、設備與安全控制都是交付服務的一部分。</li>
+</ul>
+<h2>5. 按用途的可行性</h2>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>評估</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>併網建築發電</td>
+<td>不可行</td>
+<td>併網認證、低輸出密度、安全系統與高耗材成本主導。</td>
+</tr>
+<tr>
+<td>車輛 16 刀片機架</td>
+<td>不合理</td>
+<td>機架算術失敗，且氣體／轉子／撞擊危害與車輛極不匹配。</td>
+</tr>
+<tr>
+<td>住宅備援</td>
+<td>按原文不可行</td>
+<td>電池、太陽能＋儲能與認證發電機有更簡單的安全與維修模式。</td>
+</tr>
+<tr>
+<td>偏遠緊急電子</td>
+<td>可能作為利基成立，但未證明</td>
+<td>可用性的高價值或可超過能源成本；質量、貨架壽命、回收物流與圍阻必須演示。</td>
+</tr>
+<tr>
+<td>工業廢熱 TEG</td>
+<td>主概念錯誤</td>
+<td>熱本為廢熱時 TEG 合理；專為餵低效率 TEG 而製造危險化學熱通常不具吸引力。</td>
+</tr>
+<tr>
+<td>教育／研究演示</td>
+<td>重新設計後可成立</td>
+<td>先用惰性或非含能子系統演示；無公開危險建造授權。</td>
+</tr>
+<tr>
+<td>公共緊急／韌性服務</td>
+<td>直接配給下或許成立</td>
+<td>零毛利配發可能，但經常性化學品、安全、運輸、維修與回收負擔仍在——由國家以實物吸收，而非以價格吸收。</td>
+</tr>
+</tbody>
+</table>
+<h2>6. 如何使其經濟上可辯護</h2>
+<p>一個可信的後繼者需要將價值主張從「廉價通用能源」改為下列較窄命題之一：</p>
+<ol>
+<li><strong>認證緊急熱／電模組</strong>，用於不間斷低功率運行具有高貨幣價值之處。</li>
+<li><strong>工業化學熱卡匣</strong>，依託工業營運者已具備的製程與圍阻系統。</li>
+<li><strong>廢熱 TEG 平台</strong>，採收已在場的熱，避免 CaC₂ 原料與危險氣體產生。</li>
+<li><strong>可重用密封反應器服務</strong>，附專業回收、檢驗與再充裝；仍需完整安全論證，且不是消費級熱插拔產品。</li>
+</ol>
+<p>首選技術方向是從首個產品移除特斯拉渦輪與乙炔能量轉換路徑。若目標是 10–20 W 電力，在加入反應性化學品與 30,000–80,000 RPM 轉子之前，先直接比較認證電池、燃料電池、熱電廢熱機組或小型發電機。</p>
+<h2>7. 決定</h2>
+<p><strong>作為研究概念是否合理：</strong> 是，前提是範圍明確為對電石熱卡匣及其安全／經濟極限的紅隊調查。</p>
+<p><strong>今天作為製造標準是否合理：</strong> 否。</p>
+<p><strong>在任何配置模式下作為低成本發電是否可行：</strong> 否——既非市場能源，亦非配給能源；當太陽能近乎免費地交付電力，凡以發電為目的，將儲存化學能以 ~10% 轉換皆為不划算之交易。</p>
+<p><strong>作為國家配給之可用性／儲能儲備是否可能成立：</strong> 或許——這是留存下來最強的論證。密封電石充裝是以零自放電存放數年的過剩電力；配發為替代方案僅有衰減電池、燃料物流或無電網之處的緊急／野戰儀器，它可能掙得其配置。惟需重新設計、獨立安全認證、實測系統效率、透明生命週期核算，以及明知並以實物承擔經常性化學品與安全成本——材料、運輸與技師工時——的配給決策。</p>
+<p><strong>自身是否為豐裕一次能源：</strong> 否。移除利潤可改善可及性，以太陽能驅動電弧爐可令充裝成為誠實的儲能——但兩者皆不足以使轉換鏈高效到可稱其為能源。</p>
+<h2>來源</h2>
+<ul>
+<li>電石價格線索：SunSirs 2025 回顧，https://www.sunsirs.com/commodity-news/petail-29439.html</li>
+<li>電石生產能耗：ScienceDirect，<em>Energy and exergy analysis of a new calcium carbide production process</em>，https://www.sciencedirect.com/science/article/abs/pii/S0378382021003490</li>
+<li>電石排放：IPCC Guidelines，https://www.ipcc-nggip.iges.or.jp/public/gl/guidelin/ch2ref2.pdf</li>
+<li>電石排放申報：US eCFR Subpart XX，https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-98/subpart-XX</li>
+<li>電石危害與 UN 1402：NOAA CAMEO，https://cameochemicals.noaa.gov/unna/1402</li>
+<li>Bi₂Te₃ 模組效率：https://pmc.ncbi.nlm.nih.gov/articles/PMC7369584/</li>
+<li>代表性高溫 TEG 模組：https://www.tegmart.com/datasheets/TGPR-10W4V-40S.pdf</li>
+<li>商用電池基準：NREL ATB 2024b，https://atb.nrel.gov/electricity/2024b/commercial_battery_storage</li>
+<li>儲能 LCOS 基準：Lazard LCOE+ 2024，https://lazard.com/media/gjyffoqd/lazards-lcoeplus-june-2024.pdf</li>
+<li>內蒙古電價示例：https://energydc.cn/policy/nmx/2025-06/e3b00592-efb5-11f0-8f05-46a1f660a16e</li>
+<li>10 W TEG 零售示例：https://thermoelectric-generator.com/product/teg10w-stove-top-teg-generator/</li>
+<li>Novec 649 技術資料：https://multimedia.3m.com/mws/media/569865O/3m-novec-engineered-fluid-649.pdf</li>
+<li>3M PFAS 製造退出：https://pfas.3m.com/exit-information</li>
+<li>PDRC 冷卻功率回顧：https://par.nsf.gov/servlets/purl/10334493</li>
+<li>輪轂馬達回顧：https://www.mdpi.com/1996-1073/18/6/1521</li>
+<li>L7 四輪車功能安全法規：https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32014R0003</li>
+<li>擴充計算台架：<code>spec007_expanded_calculations.zig</code></li>
+</ul>
+<h2>版本歷史</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>變更</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.0</td>
+<td>2026-10-05</td>
+<td>依 OSTF 規則手冊第六條追溯登錄初始版本；內容自檔案接受以來未變。升版規則：主版＝晉升主張／數字變更，次版＝新增分析，修訂＝編輯／翻譯修正。</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

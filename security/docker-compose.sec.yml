@@ -1,0 +1,36 @@
+# FANO-1 security rig — isolated relay + sweeper.
+# Usage: docker compose -f docker-compose.sec.yml up --abort-on-container-exit
+services:
+  relay:
+    image: node:22-alpine
+    working_dir: /rations
+    volumes:
+      - ../../../family/Rations:/rations:ro
+    environment:
+      RATIONS_PORT: "8080"
+      RATIONS_STATIC_ROOT: "/rations/src"
+      RATIONS_ALLOWED_ORIGINS: "http://desk.local"
+      RATIONS_MAX_PEERS: "64"
+      # RATIONS_DEBUG deliberately unset — production posture under test
+    command: ["node", "src/relay/server.js"]
+    networks: [secnet]
+
+  sweeper:
+    image: node:22-alpine
+    working_dir: /spec007
+    volumes:
+      - ../:/spec007:ro
+      - ../../../family/Rations:/rations:ro
+      - ./out:/spec007/site/security
+    environment:
+      RELAY_URL: "ws://relay:8080/ws"
+      RELAY_HTTP: "http://relay:8080"
+      ALLOWED_ORIGIN: "http://desk.local"
+    depends_on: [relay]
+    command: ["node", "security/suite.mjs"]
+    networks: [secnet]
+
+networks:
+  secnet:
+    driver: bridge
+    internal: true

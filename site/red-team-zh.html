@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 紅隊</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('red-team.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="red-team.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC-007 工程修訂（紅隊草案）</h1>
+<p>**
+<strong>版本：</strong> 1.0.0狀態：<strong> 桌面可行性與安全審查草案——</strong>未核准建造或部署<strong>
+</strong>基線：<strong> <code>spec-007.md</code>（原樣保留）
+</strong>已驗證數字：<strong> 所有晉升數值主張必須符合 <code>spec-007-verified.en.md</code>；本文件中任何其他內容皆為證據鏈，非晉升主張。
+</strong>相關忠實副本：** <code>spec-007.en.md</code>、<code>spec-007.zh-Hant.md</code></p>
+<h2>1. 目的與證據規則</h2>
+<p>本文件將概念轉化為可審查的工程目標，但不主張該概念目前可行或安全。它刻意與忠實譯本分離。</p>
+<p>每一項分類為：</p>
+<ul>
+<li><strong>已計算（Calculated）：</strong> 由聲明數值與成文模型推得。</li>
+<li><strong>有來源（Sourced）：</strong> 在所述條件下獲權威標準、製造商數據表、政府出版物或同儕審查來源支持。</li>
+<li><strong>設計目標（Design target）：</strong> 需工程驗證的提議值。</li>
+<li><strong>待定（TBD）：</strong> 資訊不足以得出可辯護的數值。</li>
+<li><strong>封鎖（Blocked）：</strong> 在合格安全審查解決前不安全或自相矛盾。</li>
+<li><strong>修辭（Rhetorical）：</strong> 文化、政治、虛構或使命語言，而非物理需求。</li>
+</ul>
+<p>本文件中任何狀態均不構成壓力容器核准、危險材料授權、電氣認證、併網核准或製造許可。</p>
+<h2>2. 紅隊處置摘要</h2>
+<table>
+<thead>
+<tr>
+<th>來源主張</th>
+<th>審查結果</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>300 g CaC₂ 充裝</td>
+<td>可計算但危險</td>
+<td>遇水反應材料；純度、顆粒尺寸、雜質與圍阻均未指明。</td>
+</tr>
+<tr>
+<td>0.1–0.5 mL/min 進水</td>
+<td>與所述 0–5 L/min 氣體範圍矛盾</td>
+<td>理想化學計量產約 0.062–0.311 L/min 乙炔。</td>
+</tr>
+<tr>
+<td>5 L/min 乙炔</td>
+<td>僅為設計目標</td>
+<td>將在約 21 分鐘內耗盡理想 300 g 充裝，且需要大幅更高的進水。</td>
+</tr>
+<tr>
+<td>300–450 °C 油夾套</td>
+<td>封鎖</td>
+<td>工質、壓力、閃點／起火、密封與材料限值均未確立。</td>
+</tr>
+<tr>
+<td>8–12 個 Bi₂Te₃ 模組輸出 10–20 W</td>
+<td>僅作為熱流設計假設時合理</td>
+<td>需要熱側／冷側溫度、降額、接觸電阻與排熱證據。</td>
+</tr>
+<tr>
+<td>30,000–80,000 RPM 特斯拉渦輪</td>
+<td>封鎖</td>
+<td>缺轉子圍阻、超速行為、軸承、氣體品質、噴嘴條件與實測效率。</td>
+</tr>
+<tr>
+<td>3 秒固化</td>
+<td>未驗證且安全關鍵</td>
+<td>無質傳、熱傳、感測延遲或全尺度測試證據。</td>
+</tr>
+<tr>
+<td>UN 1402 合規</td>
+<td>不完整主張</td>
+<td>UN 1402 是危險品識別／分類途徑，非完整產品認證。</td>
+</tr>
+<tr>
+<td>碳中和回收</td>
+<td>未證明的條件主張</td>
+<td>需要完整電力、碳原料、熱、運輸、產率與 CO/CO₂ 核算。</td>
+</tr>
+<tr>
+<td>每刀片 &lt;$50</td>
+<td>未驗證</td>
+<td>未含危險品包裝、圍阻、感測器、認證、測試、逆向物流或回收。</td>
+</tr>
+<tr>
+<td>全球部署已授權</td>
+<td>本次修訂駁回</td>
+<td>不存在轄區認證與獨立安全審查。</td>
+</tr>
+</tbody>
+</table>
+<h2>3. 安全系統邊界</h2>
+<p>桌面模型涵蓋化學計量、守恆檢查、非危險參數掃掠、縮放算術與證據分類。它<strong>不</strong>開立開放工坊乙炔發生器、燃燒系統、壓力容器、高速轉子或測試程序。</p>
+<p>任何實體工作至少需要：</p>
+<ol>
+<li>合格的化學製程與旋轉機械設計審查。</li>
+<li>正式 HAZOP/FMEA 與獨立壓力／圍阻評估。</li>
+<li>具氣體偵測、通風、點火控制、遠端操作與應急響應的受控實驗室。</li>
+<li>因轄區而異的危險品、機械、電氣、EMC 與安裝核准。</li>
+<li>自惰性替代物與非含能試片開始的分階段測試計畫。</li>
+</ol>
+<h2>4. 修訂後系統需求與閘門</h2>
+<h3>4.1 卡匣</h3>
+<ul>
+<li>50 mm × 200 mm 包絡是<strong>設計包絡</strong>，非已驗證包裝體積。</li>
+<li>質量／體積預算應含殼體、端部封閉、乾電石、孔隙率、儲水、二次圍阻、熱介面、絕熱、感測器、標籤與連接器。</li>
+<li>CaC₂ 純度與雜質剖面應以分析證書規定。儲存與運輸中的進水應視為可信起始事件。</li>
+<li>卡匣應具備定義明確的安全態，不得僅依賴擠壓感測器、破裂膜片或渦輪消耗。</li>
+</ul>
+<h3>4.2 氣體與壓力邊界</h3>
+<ul>
+<li>氣路必須視為易燃氣體系統，具逆流、點火、回火、堵塞與洩漏危害。</li>
+<li>壓力、洩壓、溫度、氣體組成與允許滯留時間在合格製程設計完成前為<strong>待定</strong>。</li>
+<li>「被渦輪立即消耗」不是安全功能。需要獨立隔離與偵測。</li>
+<li>6 mm 埠口與乾式接頭需要在所選轄區標準下進行相容性、壓力、流量、洩漏與點火源測試。</li>
+</ul>
+<h3>4.3 熱系統</h3>
+<ul>
+<li>「300–450 °C」必須拆分為反應溫度、夾套液溫、熱側介面溫度、冷側溫度、外表面溫度與暫態最大值。</li>
+<li>礦物油與合成酯不可憑名互換。每個候選需要基於數據表的溫度、燃點、氧化、相容性、壓力與老化評估。</li>
+<li>無製造商額定運行包絡與獨立熱循環證據，任何工質或 TEG 皆不接受 300–450 °C 連續運行。</li>
+</ul>
+<h3>4.4 電氣系統</h3>
+<ul>
+<li>10–20 W 輸出為設計目標，待完整熱阻與排熱模型。</li>
+<li>50 W 熱介面主張不等於 50 W 電輸出。</li>
+<li>串／並聯拓撲、輸出電壓、短路行為、隔離、過溫保護、連接器降額與 USB-C PD 轉換為待定。</li>
+<li>16 卡匣機架將所述單卡匣範圍縮放至 160–320 W，非 400–800 W，除非指認額外來源或更高已驗證卡匣輸出。64 卡匣機架在同一所述範圍下縮放至 640–1,280 W，非 2–5 kW。</li>
+</ul>
+<h3>4.5 旋轉機械</h3>
+<ul>
+<li>宿主特斯拉渦輪為可選，且不得作為必要安全屏障。</li>
+<li>轉子轉速僅為設計目標。超速圍阻、平衡、臨界轉速、軸承負載、疲勞、密封性能、發電機耦合與碎片防護需要分析與測試。</li>
+<li>ISO 1940-1 描述剛性轉子的平衡品質要求；引用 G2.5 本身不為本組件確立安全轉子設計或驗收測試。</li>
+<li>在接受可攜或建築產品中的高速渦輪前，應先評估被動、非旋轉的氣體能量轉換路徑。</li>
+<li><strong>量化界（傳動台架）：</strong> 50 mm 碟盤組在所述 80,000 RPM 頂端達薄環 ρv² 應力 ~351 MPa——高於 ~205 MPa 退火 304 屈服點（實心碟界 ~145 MPa，孔口環向集中未解）。在合格轉子動力學論證完成前，低帶（~30k RPM、~49 MPa）是可辯護運行區域。</li>
+<li><strong>轉速橋是選擇，非命令：</strong> 無套筒軸向磁通發電機轉子在 5,000 RPM 篩算 ~12 MPa，但 150 mm 轉子在 20,000 RPM 達 ~185 MPa——這<em>不是</em>強制傳動，<strong>就是</strong>定義現已篩算的兩條直驅路徑：<strong>路徑 A</strong> 更換膨脹機（2–6k RPM 渦卷，於本帶實測 45–80% 等熵，母線 ~412–732 W），<strong>路徑 B</strong> 為發電機加套筒（50 mm 磁體轉子 → 30k RPM 環向 ~46 MPa，在 ~800 MPa 碳纖維套筒篩算內；母線 ~215–228 W）。特斯拉＋傳動鏈（~182–224 W）已取代。<code>spec007_drivetrain_calculations.zig</code> 強制三者。</li>
+<li><strong>路徑 B 轉移了危害，而非消除：</strong> 套筒 15–30k RPM 磁體轉子是轉子爆裂圍阻問題——額定碳纖維／Inconel 套筒裕度、圍阻殼體、ISO 1940 級平衡與雙超速跳脫為強制。4k RPM 渦卷咬死（路徑 A）是重建；轉子爆裂是破片事件。</li>
+<li><strong>傳動故障是新危害路徑：</strong> 變比控制失效或帶／牽引損失可反拖或超速任一轉子；需要雙軸獨立超速跳脫與發電機側制動。</li>
+</ul>
+<h2>5. 安全閘門矩陣</h2>
+<table>
+<thead>
+<tr>
+<th>閘門</th>
+<th>所需證據</th>
+<th>目前狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>化學</td>
+<td>已驗證反應、雜質剖面、熱／氣產率界</td>
+<td>部分已計算；需來源與雜質審查</td>
+</tr>
+<tr>
+<td>一次圍阻</td>
+<td>附獨立審查的壓力／熱／機械設計</td>
+<td>封鎖</td>
+</tr>
+<tr>
+<td>二次圍阻</td>
+<td>對進水、撞擊與出口堵塞的已演示響應</td>
+<td>封鎖</td>
+</tr>
+<tr>
+<td>關斷</td>
+<td>獨立偵測與隔離；不依賴渦輪</td>
+<td>未定義</td>
+</tr>
+<tr>
+<td>熱</td>
+<td>暫態模型、材料相容性、起火分析、循環測試</td>
+<td>封鎖</td>
+</tr>
+<tr>
+<td>TEG</td>
+<td>現行數據表與實測系統級輸出</td>
+<td>未驗證</td>
+</tr>
+<tr>
+<td>轉子</td>
+<td>轉子動力學、圍阻、超速、平衡驗證</td>
+<td>封鎖</td>
+</tr>
+<tr>
+<td>運輸</td>
+<td>組裝成品的因轄區而異包裝與標籤</td>
+<td>不完整</td>
+</tr>
+<tr>
+<td>回收</td>
+<td>質量／能量／碳平衡與受控工業製程</td>
+<td>未驗證</td>
+</tr>
+<tr>
+<td>製造</td>
+<td>製程能力、檢驗、追溯性、不合格品計畫</td>
+<td>未驗證</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>獨立認證與場址核准</td>
+<td>於目前證據層級駁回</td>
+</tr>
+</tbody>
+</table>
+<h2>6. 任何未來合格測試計畫所需的儀表</h2>
+<p>以下為量測需求，非建造指示：所有熱邊界的標定溫度感測；壓力量測與獨立高高關斷；氣體組成與洩漏偵測；流量量測；電壓／電流／功率；振動與轉速監控；圍阻狀態記錄；同步數據擷取；應急狀態記錄。感測器範圍、取樣率、危險區域額定與標定間隔必須由負責實驗室選定。</p>
+<h2>7. 實體測試前必須定義的驗收準則</h2>
+<ul>
+<li>CaC₂、水、乙炔、Ca(OH)₂ 與雜質的質量守恆。</li>
+<li>正常、出口堵塞、進水、撞擊、熱失控或斷電情境下無失控氣體釋放。</li>
+<li>定義最大壓力與溫度，附獨立防護層。</li>
+<li>在指定熱／冷溫度下及熱循環後量測 TEG 輸出。</li>
+<li>若保留轉子，於額定圍阻內演示運行，附超速保護與振動限值。</li>
+<li>安全儲存、運輸、回收、殘渣處理與事故應變程序。</li>
+<li>每支卡匣的可追溯檢驗與失效回報。</li>
+</ul>
+<h2>8. 工程決定</h2>
+<p><strong>SPEC-007 按原文尚未就緒進入製造或全球部署。</strong> 當下技術上可辯護的交付物是研究與驗證計畫。最強的首個重新設計方向是將化學卡匣、危險氣體處理、熱電轉換器與宿主電力電子拆分為可獨立審查的子系統，然後重新考慮高速特斯拉渦輪是否全然必要。</p>
+<h2>版本歷史</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>變更</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.0</td>
+<td>2026-10-05</td>
+<td>依 OSTF 規則手冊第六條追溯登錄初始版本；內容自檔案接受以來未變。升版規則：主版＝晉升主張／數字變更，次版＝新增分析，修訂＝編輯／翻譯修正。</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

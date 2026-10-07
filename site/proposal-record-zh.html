@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 提案紀錄</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('proposal-record.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="proposal-record.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC-007 追溯性提案紀錄</h1>
+<p><strong>狀態：</strong> 依 OSTF SPEC 治理規則手冊<strong>第四條</strong>（提案文件、倫理／安全評估、重複檢查）補建之追溯性創建紀錄。歸屬權威層級 <strong>L2</strong> — 來源／稽核資料。</p>
+<p><strong>說明：</strong> SPEC-007 以使用者提供之概念進入語料庫，其後才取得檔案與驗證層。本文件<em>追溯性</em>記錄規則手冊於創建時本應要求之提案成品。</p>
+<h2>1. 問題陳述</h2>
+<p>熱卡匣概念（「冰棒筒」）：一種密封耗材，藉固態吸熱反應產生冷能，設計為可替換之冷卻／動力單元。工程問題：消費級卡匣能否產生熱力學上足夠的冷卻量——其主張能否化約為可稽核算術？</p>
+<h2>2. 重複檢查</h2>
+<p>於接受時對照既有 OSTF 語料庫查核：</p>
+<ul>
+<li><strong>SPEC-001..006</strong> — 無衝突；SPEC-007 為首件熱能成品。（SPEC-003 處理碼空間／多語言尋址；SPEC-004 處理密級管理；主題無重疊。）</li>
+<li><strong>檔案內部</strong> — <code>spec-007-design-input-audit.en.md</code> 追溯每項設計輸入至其會談來源；無重複主張清冊。</li>
+</ul>
+<h2>3. 安全與倫理評估</h2>
+<p>危害登錄位於 <code>spec-007-research-dossier.md</code>（L2）。評估風險摘要：</p>
+<ul>
+<li><strong>電石＋水 → 乙炔</strong> — 消費成品內產生可燃氣體；緩解措施經 L1 台架評估（Novec 抑制閘門、燃燒速率上限、包絡幾何）。</li>
+<li><strong>濫用面</strong> — 卡匣作為便攜式乙炔源；由密封架構與公開門面遮蔽政策處理。</li>
+<li><strong>法規</strong> — 電石運輸／儲存屬危險品分類；基線狀態註明「未核准建造、運輸或部署」。</li>
+<li><strong>倫理</strong> — 除乙炔面外無人體試驗或軍民兩用擴散；L5 抽屜將會談輸入列為機密，但賦予其<strong>零工程權限</strong>。</li>
+</ul>
+<h2>4. 決議與核准紀錄</h2>
+<ul>
+<li><strong>提案人：</strong> 艦隊司令（擁有者）— 概念提交，2026-10-04。</li>
+<li><strong>評估人：</strong> SPEC 理事會指定人（Devin — 僅草擬；<strong>AI 持有零工程權限</strong>；核准屬司令）。</li>
+<li><strong>處置：</strong> <strong>有條件</strong>接受入語料庫 — 狀態「研究 — 未核准建造、運輸或部署」；所有數字須經 L4 台架晉升閘門。</li>
+<li><strong>紀錄：</strong> 本檔與 L2 證據軌跡構成追溯性提案；不可變基線 <code>spec-007.md</code>（SHA-256 <code>bcb81b78…</code>）為提交成品。</li>
+</ul>
+<h2>版本歷史</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>變更</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.0</td>
+<td>2026-10-05</td>
+<td>追溯性初始紀錄（規則手冊對齊）；此前無內容。</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

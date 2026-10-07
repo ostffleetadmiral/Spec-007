@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // The Protocol</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('protocol-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="protocol-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>SPEC-007 Protocol Specification</h1>
+<p><strong>Status:</strong> Draft 1 — conformance-bound
+<strong>Scope:</strong> The interface contract between the integer-pure core and any
+external module, runtime, or hardware node. This document is the boundary;
+it specifies <em>what may cross</em>, <em>what it must cost</em>, and <em>how conformance is
+proven</em>.</p>
+<p>Normative terms (MUST/SHOULD/MAY) carry their RFC-2119 senses.</p>
+<hr>
+<h2>1. The Bifurcation Invariant</h2>
+<p>The protocol exists to keep two channels strictly separate:</p>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Cost</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Correlation</strong></td>
+<td>0 wire bytes</td>
+<td>Pre-shared state derived from pairwise seeds. Locally computed, never transmitted.</td>
+</tr>
+<tr>
+<td><strong>Signal</strong></td>
+<td>≥1 wire byte, ≥d/c flight</td>
+<td>Any bit that was not already determined by shared seed state.</td>
+</tr>
+</tbody>
+</table>
+<p>A conforming implementation MUST NOT deliver a signal bit without a wire
+transmission. Any observation of <code>bits_moved &gt; 0 ∧ wire_bytes == 0</code> is a
+FRACTURE — a defect in the implementation, never a feature.</p>
+<h2>2. Pairwise Seeding</h2>
+<ol>
+<li>Seeding is the ONLY operation permitted to establish shared state.</li>
+<li>A seed exchange between nodes A and B is a one-time wire event per pair.
+   For N fully-paired nodes the wire cost is O(N) drops while the resulting
+   correlated channels are N(N−1)/2 — the philotic dividend
+   (<code>webDividendMilli</code>). The dividend is an <em>unforced consequence</em> of
+   pairwise sharing, not a channel.</li>
+<li>Seed material MUST be treated as secret-bearing: seed-derived streams
+   are deterministic, so any party holding the seed reproduces the stream.</li>
+<li>An unseeded pair MUST behave as uncorrelated noise (~50% agreement on
+   binary slots). Correlation appearing between unseeded parties is a leak
+   and MUST be reported as a fracture.</li>
+</ol>
+<h2>3. The α-Bit Discipline</h2>
+<p>Extraction of value from correlated state requires a classical payload
+(the α-bit) on the wire. Ordering is normative:</p>
+<pre><code>measure_ns &lt;= alpha_sent_ns &lt;= extract_ns      (qetSequenceOk)
+</code></pre>
+<ul>
+<li>An α-bit arriving <em>before</em> the sender's measurement MUST be rejected.</li>
+<li>An extraction occurring <em>before</em> α arrival MUST be rejected.</li>
+<li>Causal inversion is not a protocol violation of style; it is a physical
+  violation and MUST be treated as a fracture.</li>
+</ul>
+<h2>4. Wire Accounting</h2>
+<p>Every conforming node MUST maintain a ledger satisfying:</p>
+<pre><code>∀ delivered payload: Σ received bytes ≥ Σ logged sends
+</code></pre>
+<ul>
+<li>Phantom deliveries (bytes received that were never sent) are fractures.</li>
+<li>Packet reordering, duplication, and impairment do not excuse accounting
+  drift; the invariant holds at the byte level.</li>
+<li>An established carrier (a steady, already-lit stream) encodes <strong>zero
+  bits</strong> (<code>dcCarrierBits = 0</code>). Information lives only in transitions, and
+  every transition pays <code>transitionFloorNs = d/c</code>.</li>
+</ul>
+<h2>5. Hydrogen-Clock Slotting</h2>
+<p>Slot coordination derives from the universal 21-cm line
+(1,420,405,751,768 µHz). Conforming nodes MUST:</p>
+<ul>
+<li>Derive slot indices deterministically from the shared constant and a
+  locally measured elapsed time (<code>h1SlotBit</code>).</li>
+<li>Tolerate jitter up to the slack boundary: agreement survives jitter ≤
+  slack and MUST break at slack + 1 (<code>h1JitterSafe</code>). At <code>elapsed=500</code>,
+  <code>slot=1000</code>: slack = 500; jitter 500 holds, 501 dies.</li>
+<li>Require zero handshake rounds for slot agreement.</li>
+</ul>
+<h2>6. Determinism Vectors (Interop Contract)</h2>
+<p><code>theue-golden-vectors</code> emits the canonical vector set: 153 operation
+lines + 1 digest line, covering the Q128.128 floor (fromInt/fromRatio/
+add/sub/mul/div/pow/cmp/toInt), the transcendental boundary (expFp, railed
+at |x| ≥ 88), furnace-hardened corners (T=0, f=0, u64-saturation), philotic
+predicates, astro boundaries, and the i-vector census.</p>
+<p>Conformance requires <strong>byte-identical reproduction</strong> of:</p>
+<pre><code>digest|sha256|538237e6fb7060e899cdcada370ae13d34d3aacc5dee4f4c5f5e1307e26c920f
+</code></pre>
+<p>including the per-line results, error markers (<code>!DivisionByZero</code>), and
+<code>null</code> horizons. Verified across architectures:</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x86_64-linux-gnu (ReleaseSafe)</td>
+<td>byte-identical (reference)</td>
+</tr>
+<tr>
+<td>wasm32-wasi (Debug, Node WASI)</td>
+<td>byte-identical</td>
+</tr>
+<tr>
+<td>aarch64-linux-gnu (ReleaseSafe)</td>
+<td>compiles; runtime check pending silicon/qemu</td>
+</tr>
+<tr>
+<td>riscv64-linux-gnu (ReleaseSafe)</td>
+<td>compiles; runtime check pending</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Known boundary:</strong> wasm32-wasi fails under all Release modes in Zig 0.13
+(<code>LLVM ERROR: Unsupported library call operation!</code> — optimizer-exposed
+wide-int lowering gap). Debug builds are bit-identical. Recorded as a
+toolchain limitation, not a spec deviation.</p>
+<h2>7. Serialization &amp; Endianness</h2>
+<ul>
+<li>All integer serialization MUST use explicit byte order: <code>.little</code> for
+  stored data and hash preimages, <code>.big</code> for wire/network-order headers
+  (<code>science_address</code> u112/u128 headers).</li>
+<li>Hash preimages MUST NOT embed native-layout integers (no <code>asBytes</code> on
+  ints). <em>Fixed 2026-10-06:</em> <code>AuditChain.append</code> sequence and
+  <code>shadowCommit</code>/<code>shadowCommitAt</code> nonce/coord preimages now encode
+  little-endian explicitly — audit chains and position-bound shadows
+  verify identically on big- and little-endian hosts.</li>
+<li>f32/bf16/f64 appear only at <strong>format boundaries</strong> (GGUF decode, JSON
+  parse, dtype tags, accessor read-outs, test fixtures feeding decoders).
+  The core arithmetic is integer-only; this is enforced by the descent
+  audit's purity scan (84 boundary sites, 0 violations).</li>
+</ul>
+<h2>8. Conformance Gates</h2>
+<p>An external module interfaces with the lattice only after passing, in
+order:</p>
+<ol>
+<li><code>zig build test</code> — full module suite.</li>
+<li><code>tools/descent_audit.py</code> — CLOSED (no cycles, no float-arithmetic
+   violations, no orphans).</li>
+<li><code>tools/cross_target_check.sh</code> — compile matrix + byte-identical digest.</li>
+<li>Furnace (<code>science_fuzz</code> + <code>chaos-hammer.mjs</code>) — all probes HELD.</li>
+<li><code>emergence-watch.mjs</code> — no forbidden emergence; wire accounting closed.</li>
+<li><code>tools/continuity_audit.py</code> and <code>tools/twenty_re_audit.py</code> — green.</li>
+<li><code>tools/publish-check.sh</code> — all gates green.</li>
+</ol>
+<h2>9. Rejected Behaviors (Non-Negotiable)</h2>
+<ul>
+<li>Information without wire cost — FRACTURE, never emergence.</li>
+<li>α-bit reordering or retro-causal extraction.</li>
+<li>Phantom delivery, invented bytes, or ledger drift.</li>
+<li>Correlation between unseeded parties above chance.</li>
+<li>Floating-point arithmetic in core logic.</li>
+<li>Silent overflow/wrap in fixed-point paths (rail or error, never wrap).</li>
+</ul>
+<hr>
+<p><em>This specification describes implemented, tested machinery. The physics
+interpretations retain their model/verified/speculative labels in the
+findings corpus; the contract here governs the engineering boundary only.</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>

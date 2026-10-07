@@ -1,0 +1,142 @@
+# Hydra WAN lab — every node is client+server+ledger.
+#   net-east / net-west : isolated LAN segments (no route between them)
+#   wan-east / wan-west : dual-homed impairment proxies — the WAN edge
+#   node-bridge         : dual-homed host on both segments (the bypass node)
+# Suite runs on the host against published control ports.
+name: fano1-hydra-wan
+
+networks:
+  east: { driver: bridge, internal: false }
+  west: { driver: bridge, internal: false }
+
+volumes:
+  hydra-ids:
+
+x-rations-mount: &rations-mount
+  - ../../../family/Rations:/rations:ro
+  - ../site/apps/rations/rations.wasm:/wasm/rations.wasm:ro
+  - .:/sec:ro
+  - hydra-ids:/run/hydra
+
+x-node-env: &node-env
+  RATIONS_DIR: /rations
+  WASM: /wasm/rations.wasm
+  ID_DIR: /run/hydra
+  PRESENCE_MS: "3000"
+  CONTROL_PORT: "9090"
+  RELAY_PORT: "8080"
+  # control-plane token (comms-suite generates one per run; manual runs
+  # must export HYDRA_TOKEN) + production-posture origin allowlist on the
+  # embedded relays, with the matching dial origin for client legs
+  HYDRA_TOKEN: ${HYDRA_TOKEN:?export HYDRA_TOKEN or run via comms-suite.mjs}
+  RATIONS_ALLOWED_ORIGINS: "http://desk.local"
+  RATIONS_DIAL_ORIGIN: "http://desk.local"
+
+services:
+  # ---------- segment relays (clean LAN legs) ----------
+  relay-east:
+    image: node:22-alpine
+    command: node /rations/src/relay/server.js
+    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local" }
+    volumes: [ "../../../family/Rations:/rations:ro" ]
+    networks: [ east ]
+
+  relay-west:
+    image: node:22-alpine
+    command: node /rations/src/relay/server.js
+    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local" }
+    volumes: [ "../../../family/Rations:/rations:ro" ]
+    networks: [ west ]
+
+  # ---------- WAN edge: impairment proxies ----------
+  wan-east:
+    image: node:22-alpine
+    # kernel-level impairment first (tc netem on the WAN-side iface),
+    # then the in-process proxy adds its own deterministic profile —
+    # two independent impairment layers stacked like a real WAN edge
+    command: >
+      sh -c "apk add --no-cache iproute2 >/dev/null 2>&1 &&
+             tc qdisc replace dev eth1 root netem delay 60ms 25ms loss 0.5% &&
+             echo '[wan-east] tc netem applied on eth1' ||
+             echo '[wan-east] tc unavailable — in-process impairment only';
+             exec node /sec/wan-bridge.mjs"
+    environment:
+      LISTEN_PORT: "9100"
+      UPSTREAM: ws://relay-east:8080
+      RATIONS_DIR: /rations
+      WAN_TOKEN: ${WAN_TOKEN:?export WAN_TOKEN or run via comms-suite.mjs}
+      RATIONS_DIAL_ORIGIN: "http://desk.local"
+      DELAY_MS: "80"
+      JITTER_MS: "40"
+      DROP_PCT: "1"
+      SEED: "7"
+    volumes: [ "../../../family/Rations:/rations:ro", ".:/sec:ro" ]
+    networks: [ east, west ]
+    cap_add: [ NET_ADMIN ]
+    ports: [ "19100:9100" ]
+
+  wan-west:
+    image: node:22-alpine
+    command: >
+      sh -c "apk add --no-cache iproute2 >/dev/null 2>&1 &&
+             tc qdisc replace dev eth1 root netem delay 90ms 35ms loss 1% &&
+             echo '[wan-west] tc netem applied on eth1' ||
+             echo '[wan-west] tc unavailable — in-process impairment only';
+             exec node /sec/wan-bridge.mjs"
+    environment:
+      LISTEN_PORT: "9100"
+      UPSTREAM: ws://relay-west:8080
+      RATIONS_DIR: /rations
+      WAN_TOKEN: ${WAN_TOKEN:?export WAN_TOKEN or run via comms-suite.mjs}
+      RATIONS_DIAL_ORIGIN: "http://desk.local"
+      DELAY_MS: "120"
+      JITTER_MS: "60"
+      DROP_PCT: "2"
+      DUP_PCT: "1"
+      SEED: "11"
+    volumes: [ "../../../family/Rations:/rations:ro", ".:/sec:ro" ]
+    networks: [ east, west ]
+    cap_add: [ NET_ADMIN ]
+    ports: [ "19101:9100" ]
+
+  # ---------- hydra nodes: relay (server) + wasm (client) + chain (ledger) ----------
+  node-e1:
+    image: node:22-alpine
+    command: node /sec/hydra-node.mjs
+    environment: { <<: *node-env, NAME: e1 }
+    volumes: *rations-mount
+    networks: [ east ]
+    ports: [ "19301:9090", "18081:8080" ]
+
+  node-e2:
+    image: node:22-alpine
+    command: node /sec/hydra-node.mjs
+    environment: { <<: *node-env, NAME: e2 }
+    volumes: *rations-mount
+    networks: [ east ]
+    ports: [ "19302:9090" ]
+
+  node-w1:
+    image: node:22-alpine
+    command: node /sec/hydra-node.mjs
+    environment: { <<: *node-env, NAME: w1 }
+    volumes: *rations-mount
+    networks: [ west ]
+    ports: [ "19401:9090", "18401:8080" ]
+
+  node-w2:
+    image: node:22-alpine
+    command: node /sec/hydra-node.mjs
+    environment: { <<: *node-env, NAME: w2 }
+    volumes: *rations-mount
+    networks: [ west ]
+    ports: [ "19402:9090" ]
+
+  # dual-homed bypass host: its relay is reachable from BOTH segments
+  node-bridge:
+    image: node:22-alpine
+    command: node /sec/hydra-node.mjs
+    environment: { <<: *node-env, NAME: bridge }
+    volumes: *rations-mount
+    networks: [ east, west ]
+    ports: [ "19500:9090", "18500:8080" ]
