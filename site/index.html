@@ -322,7 +322,12 @@ document.getElementById('signbtn').addEventListener('click', function () {
   btn.disabled = true; btn.textContent = 'ENROLLING…';
   note.textContent = 'Minting keypair, signing covenant, wrapping keystore…';
   FANO_AUTH.load().then(function () {
-    var rec = FANO_AUTH.enroll(name, p1, document.getElementById('grant-token').value || null);
+    var grantTok = document.getElementById('grant-token').value || null;
+    /* roaming flag: a FANO-ROOT-v1 authenticator verifies against the
+       fleet anchor, not this desk's roster — bind it before the call */
+    var anchored = grantTok ? FANO_AUTH.bindFleetFlag() : Promise.resolve(null);
+    return anchored.then(function () {
+      var rec = FANO_AUTH.enroll(name, p1, grantTok);
     if (rec && rec.error) {
       var msgs = { restricted: 'That callsign is reserved by the Admiralty — a signed grant token is required.',
         claimed: 'That callsign is bound to this desk\'s founding key — it moves only by grant.',
@@ -348,6 +353,7 @@ document.getElementById('signbtn').addEventListener('click', function () {
     var sd = document.getElementById('selfdestruct');
     setTimeout(function () { sd.classList.add('burning'); }, 3000);
     setTimeout(function () { window.location.href = 'desktop.html'; }, 6000);
+    });
   }).catch(function (e) {
     note.textContent = 'The mint is unreachable — ' + e;
     btn.disabled = false; btn.textContent = 'SIGN AND ENROLL';

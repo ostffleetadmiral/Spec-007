@@ -1049,6 +1049,13 @@
       if (c && !c.error) { aTok.value = A.exportCredential() || ""; toast("authenticator minted — FANO-ROOT-v1", "sys"); }
       else toast(c && c.error === "not_flag_seat" ? "this desk does not hold the flag seat" : "mint refused", "sys");
     }));
+    aRow.appendChild(btn("ROAMING PAPER", function () {
+      var c = A.issueRoaming(30);
+      if (c && !c.error) {
+        aTok.value = c;
+        toast("roaming paper minted — unbound, 30 days. Paste it as the grant token at any desk's covenant.", "sys");
+      } else toast("mint refused", "sys");
+    }));
     aRow.appendChild(btn("EXPORT", function () {
       var t = A.exportCredential();
       if (t) { aTok.value = t; toast("authenticator exported — verify it anywhere", "sys"); }

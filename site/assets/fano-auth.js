@@ -429,12 +429,46 @@ window.FANO_AUTH = (function () {
   function grantBytes(callsign, subPkHex, issPkHex, exp) {
     return enc.encode("FANO-CALLSIGN-v1\n" + callsign + "\n" + (subPkHex || "-") + "\n" + issPkHex + "\n" + exp);
   }
+  /* ---------- fleet flag anchor ----------
+     The roster is desk-local; the flag seat is fleet-public. The
+     published fleet-genesis.json names the admiral member — its
+     pubkey anchors the Admiral's paper on ANY desk, founded or not.
+     bindFleetFlag() fetches and binds it; flagAnchored() is consulted
+     wherever the roster is, never instead of signature checks. */
+  var fleetFlagPk = null;
+  function bindFleetFlag(gen) {
+    var done = function (g) {
+      var ms = (g && g.payload && g.payload.members) || [];
+      var adm = null;
+      for (var i = 0; i < ms.length; i++)
+        if (ms[i].name === "admiral" || ms[i].role === "flag-seat") adm = ms[i];
+      if (!adm || !adm.pubkey_pem_b64) { fleetFlagPk = null; return null; }
+      /* atob unwraps b64→pem, strip armor, atob again b64→der */
+      var b64 = atob(adm.pubkey_pem_b64).replace(/-----[^-]+-----|\s/g, "");
+      var der = Uint8Array.from(atob(b64),
+        function (c) { return c.charCodeAt(0); });
+      var raw = der.length === 44 ? der.slice(-32) : der;
+      fleetFlagPk = hex(raw);
+      return fleetFlagPk;
+    };
+    return gen !== undefined
+      ? Promise.resolve(done(gen))
+      : fetch("fleet-genesis.json").then(function (r) {
+          return r.ok ? r.json() : null;
+        }).then(done).catch(function () { fleetFlagPk = null; return null; });
+  }
+  function flagAnchored(issHex) { return !!fleetFlagPk && issHex === fleetFlagPk; }
+
   function verifyGrant(g, forPkHex) {
     if (!g || !g.callsign || !g.iss || !g.sig) return false;
     if (g.exp < Math.floor(Date.now() / 1000)) return false;
-    if (roster().indexOf(g.iss) === -1) return false;
+    var rostered = roster().indexOf(g.iss) !== -1;
+    var fleet = !rostered && flagAnchored(g.iss);
+    if (!rostered && !fleet) return false;
     if (g.sub && g.sub !== forPkHex) return false;
-    return verify(grantBytes(g.callsign, g.sub, g.iss, g.exp), unhex(g.sig), unhex(g.iss));
+    var ok = verify(grantBytes(g.callsign, g.sub, g.iss, g.exp), unhex(g.sig), unhex(g.iss));
+    if (ok && fleet) g._fleet = true;   /* grant anchored by the fleet board, not this desk */
+    return ok;
   }
   /* ---------- flag authenticator ----------
      The pinned callsign is the only seat that gets a FANO-ROOT-v1
@@ -469,7 +503,7 @@ window.FANO_AUTH = (function () {
     if (!isPinned(c.callsign)) return null;             /* root creds exist only for the flag seat */
     if (c.role !== ROLES.fleet_admiral) return null;
     if (c.exp < Math.floor(Date.now() / 1000)) return null;
-    if (roster().indexOf(c.iss) === -1) return null;
+    if (roster().indexOf(c.iss) === -1 && !flagAnchored(c.iss)) return null;
     if (c.gen !== hex(sha256(unhex(c.iss)))) return null; /* founding must be the signing key itself */
     if (!verify(credBytes(c.callsign, c.sub, c.role, c.iss, c.gen, c.exp), unhex(c.sig), unhex(c.iss)))
       return null;
@@ -495,6 +529,27 @@ window.FANO_AUTH = (function () {
     if (!cred) return null;
     var all = grants(); g.root = cred; all[rec.user] = g; saveGrants(all);
     return cred;
+  }
+  /* roaming paper: an UNBOUND flag authenticator — sub:null, so any
+     keypair may enroll the pinned callsign where a desk trusts the
+     fleet anchor. Bearer instrument: whoever holds it holds the seat.
+     It is intentionally not filed as a desk-local grant — it exists
+     to travel, minted fresh each call, short-dated by default. */
+  function issueRoaming(expiryDays) {
+    if (!session.sk || session.role < ROLES.fleet_admiral) return null;
+    var rec = loadRecord();
+    if (!rec || !isPinned(rec.user)) return { error: "not_flag_seat" };
+    var kp = expandSeed(session.sk);
+    if (!kp) return null;
+    var issHex = hex(kp.pk);
+    var exp = Math.floor(Date.now() / 1000) + (expiryDays || 30) * 86400;
+    var sig = sign(grantBytes(rec.user, null, issHex, exp), session.sk);
+    if (!sig) return null;
+    var g = { callsign: rec.user, sub: null, iss: issHex, sig: hex(sig), exp: exp };
+    var cred = mintCredential(rec.user, null, issHex, exp, session.sk);
+    if (!cred) return null;
+    cred.grant = g;
+    return btoa(JSON.stringify(cred));
   }
   function exportCredential() {
     var rec = loadRecord();
@@ -600,8 +655,14 @@ window.FANO_AUTH = (function () {
     var body = certBytes(unhex(record.pk), record.user, c.role, unhex(record.covenant_sha256), unhex(c.iss), c.exp);
     if (c.exp < Math.floor(Date.now() / 1000)) return false;
     if (!verify(body, unhex(c.sig), unhex(c.iss))) return false;
-    /* roles above FIELD-AGENT must trace to a rostered issuer */
-    if (c.role > ROLES.field_agent && roster().indexOf(c.iss) === -1) return false;
+    /* roles above FIELD-AGENT must trace to a rostered issuer — or,
+       for the flag seat alone, to a fleet-anchored roaming grant the
+       desk holds: the Admiral's paper outranks a local roster */
+    if (c.role > ROLES.field_agent && roster().indexOf(c.iss) === -1) {
+      var fl = fleetFlagPk && isPinned(record.user) &&
+        (grants()[record.user] || {})._fleet;
+      if (!fl) return false;
+    }
     return true;
   }
 
@@ -620,7 +681,11 @@ window.FANO_AUTH = (function () {
        callsign to the founding public key. The pinned callsign is no
        shortcut: it only claims genesis on an unfounded desk. */
     var isGenesis = !loadRecord() && !genesis();
-    var role = isGenesis ? ROLES.fleet_admiral : ROLES.field_agent;
+    /* roaming flag: a fleet-anchored grant on the pinned callsign
+       signs in as FLEET-ADMIRAL without claiming this desk's founding */
+    var role = isGenesis ? ROLES.fleet_admiral :
+      (chk.grant && chk.grant._fleet && isPinned(norm)
+        ? ROLES.fleet_admiral : ROLES.field_agent);
     var cert = issueCert(id.pk, norm, role, covHash, id.pk, id.sk, 365 * 5);
     if (chk.grant) claimGrant(chk.grant, hex(id.pk));
     var salt = randBytes(16), nonce = randBytes(12);
@@ -862,8 +927,10 @@ window.FANO_AUTH = (function () {
     branchOf: branchOf,
     credBytes: credBytes, issueCredential: issueCredential,
     verifyCredential: verifyCredential, exportCredential: exportCredential,
+    issueRoaming: issueRoaming,
     authenticate: authenticate, isPinned: isPinned,
     exportDesk: exportDesk, importDesk: importDesk,
+    bindFleetFlag: bindFleetFlag, flagAnchored: flagAnchored,
     setupTotp: setupTotp, verifyTotp: verifyTotp, totpRequired: totpRequired,
     totpStatus: totpStatus, totpCode: totpCode, qrSvg: qrSvg,
     TOTP_ISSUER: TOTP_ISSUER, TOTP_ACCOUNT: TOTP_ACCOUNT,

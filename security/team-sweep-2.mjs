@@ -420,6 +420,152 @@ console.log("\nCOMM — communications");
   }
 }
 
+console.log("\nDESK — identity, transfer, roaming");
+/* ================= DESK — identity surface ================= */
+{
+  /* sandboxed fano-auth: real WASM, real signing, mocked storage+fetch */
+  const wasmBuf = fs.readFileSync(path.join(SITE, "apps/rations/rations.wasm"));
+  function loadAuth({ genesisDoc = null } = {}) {
+    const store = new Map();
+    const sandbox = {
+      console, TextEncoder, TextDecoder, WebAssembly, JSON, Math, Date,
+      Promise, Uint8Array, Uint32Array, ArrayBuffer, BigInt, setTimeout,
+      atob: s => Buffer.from(s, "base64").toString("binary"),
+      btoa: s => Buffer.from(s, "binary").toString("base64"),
+      crypto: crypto.webcrypto,
+      localStorage: {
+        getItem: k => store.has(k) ? store.get(k) : null,
+        setItem: (k, v) => store.set(k, String(v)),
+        removeItem: k => store.delete(k) },
+      WebSocket: function () {},
+      location: { hostname: "127.0.0.1" },
+      fetch: async (url) => url.includes("fleet-genesis")
+        ? { ok: !!genesisDoc, json: async () => genesisDoc }
+        : { ok: true, arrayBuffer: async () =>
+            wasmBuf.buffer.slice(wasmBuf.byteOffset, wasmBuf.byteOffset + wasmBuf.length) },
+    };
+    sandbox.window = sandbox;
+    vm.createContext(sandbox);
+    vm.runInContext(
+      fs.readFileSync(path.join(SITE, "assets/fano-auth.js"), "utf8"),
+      sandbox);
+    return { A: sandbox.FANO_AUTH, store };
+  }
+  /* DESK-01/02: roaming authenticator — valid fleet-anchored sign-in
+     and forgery refusal, end-to-end through real enroll() */
+
+  /* DESK-01/02: roaming authenticator — valid fleet-anchored sign-in
+     and forgery refusal, end-to-end through real enroll() */
+  {
+    const flag = loadAuth();                 /* the flagship desk */
+    await flag.A.load();
+    const frec = flag.A.enroll("ramsey 006", "flag-credential-1");
+    const roaming = flag.A.issueRoaming(30); /* unbound paper */
+    if (!frec || frec.error || !roaming) {
+      open_("DESK", "roaming-mint", "flag desk could not mint roaming paper");
+    } else {
+      /* foreign desk founded by someone else; fleet anchor = flag's pk */
+      const g2 = JSON.parse(JSON.stringify(realGen));
+      g2.payload.members.push({ name: "admiral", role: "flag-seat",
+        pubkey_pem_b64: Buffer.from("-----BEGIN PUBLIC KEY-----\n" +
+          "xxx\n-----END PUBLIC KEY-----\n").toString("base64") });
+      /* the admiral member must carry the flag's REAL pubkey so
+         flagAnchored(iss) resolves — derive the pem wrapper */
+      const rawPk = Buffer.from(frec.pk, "hex");
+      const der = Buffer.concat([
+        Buffer.from("302a300506032b6570032100", "hex"), rawPk]);
+      const pem = "-----BEGIN PUBLIC KEY-----\n" +
+        der.toString("base64") + "\n-----END PUBLIC KEY-----\n";
+      g2.payload.members[g2.payload.members.length - 1].pubkey_pem_b64 =
+        Buffer.from(pem).toString("base64");
+
+      const desk2 = loadAuth({ genesisDoc: g2 });
+      await desk2.A.load();
+      desk2.A.enroll("wanderer", "other-credential-1");   /* desk founded by another */
+      await desk2.A.bindFleetFlag();
+      /* sign out — roaming enrolls a NEW record; burn the wanderer first
+         (import/enroll refuse onto founded+recorded desks) */
+      const r2 = desk2.A.enroll("ramsey 006", "roam-pass-1234", roaming);
+      const ok = r2 && !r2.error && r2.cert && r2.cert.role === 5 &&
+                 desk2.A.session.role === 5;
+      ok ? held("DESK", "roaming-flag-signin",
+           "fleet-anchored authenticator enrolls ramsey 006 as FLEET-ADMIRAL on a foreign founded desk — no founding claimed")
+         : open_("DESK", "roaming-flag-signin",
+           `rec=${JSON.stringify(r2 && r2.error || (r2 && r2.cert && r2.cert.role))} session=${desk2.A.session.role}`);
+
+      /* forgery: attacker-signed authenticator on the same desk */
+      const atkKp = generateKeyPairSync("ed25519");
+      const atkPub = atkKp.publicKey
+        .export({ type: "spki", format: "der" }).slice(-32);
+      const hx = b => Buffer.from(b).toString("hex");
+      const atkIss = hx(atkPub);
+      const now = Math.floor(Date.now() / 1000) + 30 * 86400;
+      const enc2 = new TextEncoder();
+      const gb = enc2.encode("FANO-CALLSIGN-v1\nramsey 006\n-\n" + atkIss + "\n" + now);
+      const gsig = cryptoSign(null, gb, atkKp.privateKey);
+      const cb = enc2.encode("FANO-ROOT-v1\nramsey 006\n-\n5\n" + atkIss + "\n" +
+        hx(createHash("sha256").update(Buffer.from(atkPub)).digest()) + "\n" + now);
+      const csig = cryptoSign(null, cb, atkKp.privateKey);
+      const forgedFixed = Buffer.from(JSON.stringify({ v: "FANO-ROOT-v1",
+        callsign: "ramsey 006", sub: null, role: 5, iss: atkIss,
+        gen: hx(createHash("sha256").update(Buffer.from(atkPub)).digest()),
+        exp: now, sig: hx(csig),
+        grant: { callsign: "ramsey 006", sub: null, iss: atkIss,
+          sig: hx(gsig), exp: now } })).toString("base64");
+      const desk3 = loadAuth({ genesisDoc: g2 });
+      await desk3.A.load();
+      desk3.A.enroll("wanderer", "other-credential-1");
+      await desk3.A.bindFleetFlag();
+      const r3 = desk3.A.enroll("ramsey 006", "x-pass-1234", forgedFixed);
+      (!r3 || r3.error || (r3.cert && r3.cert.role !== 5))
+        ? held("DESK", "roaming-forgery",
+            "attacker-issued authenticator refused — iss is not the fleet flag")
+        : open_("DESK", "roaming-forgery",
+            "forged authenticator enrolled as flag!");
+    }
+  }
+
+  /* DESK-03/04/05: desk transfer roundtrip, tamper, foreign founding */
+  {
+    const src = loadAuth(); await src.A.load();
+    const rec = src.A.enroll("traveler 9", "carry-credential-9");
+    const tok = src.A.exportDesk();
+    if (!tok) open_("DESK", "transfer-mint", "export refused on warm session");
+    else {
+      const dst = loadAuth(); await dst.A.load();
+      const r = dst.A.importDesk(tok);
+      const un = r.ok && dst.A.unlock("carry-credential-9");
+      r.ok && un && un.user === "traveler 9"
+        ? held("DESK", "transfer-roundtrip",
+            "export→import carries record + founding; credential unwraps on the new desk")
+        : open_("DESK", "transfer-roundtrip", JSON.stringify(r));
+
+      const bad = JSON.parse(Buffer.from(tok, "base64").toString());
+      bad.issuers = ["ff".repeat(32)];           /* post-sign tamper */
+      const badTok = Buffer.from(JSON.stringify(bad)).toString("base64");
+      const dst2 = loadAuth(); await dst2.A.load();
+      const r2v = dst2.A.importDesk(badTok);
+      r2v.error === "sig_invalid"
+        ? held("DESK", "transfer-tamper", "post-sign mutation → sig_invalid")
+        : open_("DESK", "transfer-tamper", `accepted: ${JSON.stringify(r2v)}`);
+
+      const fg = JSON.parse(Buffer.from(tok, "base64").toString());
+      fg.genesis = { callsign: "mallory", pk: "11".repeat(32),
+        pk_sha256: "22".repeat(32), ts: Date.now() };
+      const fgTok = Buffer.from(JSON.stringify(fg)).toString("base64");
+      const dst3 = loadAuth(); await dst3.A.load();
+      const r3v = dst3.A.importDesk(fgTok);
+      r3v.ok && r3v.founded === false
+        ? held("DESK", "transfer-foreign-genesis",
+            "token claiming another key's founding imports unfounded — forgery of state refused")
+        : r3v.error === "sig_invalid"
+          ? held("DESK", "transfer-foreign-genesis",
+              "tampered genesis also invalidates the signature — refused earlier, still safe")
+          : open_("DESK", "transfer-foreign-genesis", JSON.stringify(r3v));
+    }
+  }
+}
+
 console.log("\nSPEC004 — classification drawer");
 /* ================= SPEC004 — classification ================= */
 {
