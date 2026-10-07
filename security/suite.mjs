@@ -424,7 +424,7 @@ console.log("\n-- BLACK --");
 /* ================= GRAY — insider with valid creds ================= */
 console.log("\n-- GRAY --");
 
-// FIELD-AGENT session attempts Q-BRANCH-gated op — real enroll + unlock path
+// CADET session attempts Q-BRANCH-gated op — real enroll + unlock path
 {
   localStorage.clear();
   auth.enroll("genesis", "g".repeat(12));              // first identity → admiral
@@ -432,7 +432,7 @@ console.log("\n-- GRAY --");
   auth.unlock("i".repeat(12));
   const role = auth.session.role;
   const denied = !auth.hasRole(auth.ROLES.q_branch);
-  f("GRAY", "field-agent-qbranch-gate", denied && role === 0 ? "HARDENED" : "EXPLOITED",
+  f("GRAY", "cadet-qbranch-gate", denied && role === 0 ? "HARDENED" : "EXPLOITED",
     `unlocked role=${role} → hasRole(Q-BRANCH)=${!denied}`, "high");
 }
 

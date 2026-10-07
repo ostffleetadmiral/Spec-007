@@ -25,12 +25,30 @@
   writes the genesis record — but FLEET-ADMIRAL comes only from the
   pinned callsign (`ramsey 006`) claiming genesis, or a fleet-anchored
   grant (roaming). Any other first enrollment founds the desk as a
-  FIELD-AGENT — a fresh desk is an operative, not an admiralty. Before
-  2026-10-07 any first enrollment self-anointed FLEET-ADMIRAL
-  (found-and-fixed defect: a `marcus` signup on the public deployment
-  took the flag seat; DESK-06/07 now hold the boundary). Elevation
-  enters only by grant from a rostered STATION-CHIEF+ issuer or the
-  fleet anchor — never by being first through the door.
+  **CADET** (the base tier — what the code still calls `field_agent`).
+  A fresh desk is a recruit, not an admiralty. Before 2026-10-07 any
+  first enrollment self-anointed FLEET-ADMIRAL (found-and-fixed defect:
+  a `marcus` signup on the public deployment took the flag seat;
+  DESK-06/07 now hold the boundary). Elevation enters only by grant
+  from a rostered STATION-CHIEF+ issuer or the fleet anchor — never by
+  being first through the door.
+- **OSTF offices are posts, not names.** The Strategic Command seats —
+  council titles (vice/rear admiral offices, commodore of ethics and
+  equity, admiral of financial operations), advisory authorities
+  (lead technical systems architect, lead security and fabrication
+  officer, chief warrant officer, research lead), chief-of offices, and
+  every rank-prefixed callsign (`admiral <name>`, `captain <name>`,
+  `commander …`) — sit on the watch list: enrollment refuses them
+  without a grant token from a STATION-CHIEF+ issuer. A granted office
+  still lands as a CADET — **a title is a name, not a clearance**
+  (DESK-08/09 hold both sides; the grant claims the seat once).
+- **Positions are applied for, not claimed.** Duty inside the OSTF
+  goes through the branch chain: `request-branch <division>` signs a
+  FANO-BRANCH-REQ-v1 with the applicant's own key → the token travels
+  any channel → the Fleet Admiral approves or denies in the Command
+  suite → approval mints a signed FANO-BRANCH-v1 cert. `branchOf`
+  verifies signature + rostered issuer + expiry. Callsign grants name
+  the officer; branch certs seat the office.
 
 ## 2. Origins
 

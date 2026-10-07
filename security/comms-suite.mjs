@@ -357,7 +357,7 @@ if (MODE !== "local") {
   const gEnroll = auth.enroll("Q", "passphrase9");
   const reused = auth.enroll("Q", "passphrase9");
   !denied && g && gEnroll && !gEnroll.error && gEnroll.user === "q" && (reused || {}).error === "restricted"
-    ? ok("callsign-grant-lifecycle", "FIELD-AGENT refused · ADMIRAL issued · one-shot claim bound to pk · reuse refused")
+    ? ok("callsign-grant-lifecycle", "CADET refused · ADMIRAL issued · one-shot claim bound to pk · reuse refused")
     : bad("callsign-grant-lifecycle", `denied=${!!denied} g=${!!g} enroll=${gEnroll && gEnroll.error} reuse=${reused && reused.error}`);
 
   const wrongSub = auth.enroll("M", "passphrase9");
@@ -384,7 +384,7 @@ if (MODE !== "local") {
   auth.session.role = 3;
   const sc = auth.assignBranch(brq.pk, "research_ip") === null;
   fa && sc
-    ? ok("branch-admiral-only", "FIELD-AGENT and STATION-CHIEF both refused — flag rank only")
+    ? ok("branch-admiral-only", "CADET and STATION-CHIEF both refused — flag rank only")
     : bad("branch-admiral-only", `fa=${fa} sc=${sc}`);
 
   auth.session.role = 5; /* forged rank still can't mint a verifiable cert — issuer must be rostered */

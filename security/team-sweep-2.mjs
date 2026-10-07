@@ -575,7 +575,7 @@ console.log("\nDESK — identity, transfer, roaming");
   }
 
   /* DESK-06/07: founding ≠ flag rank — a non-pinned first enrollment
-     founds the desk as FIELD-AGENT (2026-10-07: "marcus" on the public
+     founds the desk as a CADET (2026-10-07: "marcus" on the public
      deployment self-anointed FLEET-ADMIRAL before this was closed) */
   {
     const d4 = loadAuth(); await d4.A.load();
@@ -585,7 +585,7 @@ console.log("\nDESK — identity, transfer, roaming");
     r4 && !r4.error && r4.cert && r4.cert.role === 0 &&
     d4.A.session.role === 0 && founded && noIssue
       ? held("DESK", "founding-not-flag",
-          "non-pinned first enrollment founds the desk as FIELD-AGENT — grant issuance refused below STATION-CHIEF")
+          "non-pinned first enrollment founds the desk as a CADET — grant issuance refused below STATION-CHIEF")
       : open_("DESK", "founding-not-flag",
           `role=${r4 && r4.cert && r4.cert.role} session=${d4.A.session.role} founded=${founded} grant=${!noIssue}`);
 
@@ -597,6 +597,44 @@ console.log("\nDESK — identity, transfer, roaming");
           "pinned callsign still claims genesis as FLEET-ADMIRAL — flag-seat founding intact")
       : open_("DESK", "pinned-founding-flag",
           `role=${r5 && r5.cert && r5.cert.role} session=${d5.A.session.role} genesis=${!!d5.A.genesis()}`);
+  }
+
+  /* DESK-08/09: OSTF offices are watch-list posts. The Strategic
+     Command seats (council + advisory titles) and rank-prefixed
+     callsigns refuse without a grant; a STATION-CHIEF+-issued grant
+     admits the office once — and the holder still lands as a CADET,
+     because a title is a name, not a clearance. Positions inside the
+     OSTF are applied for through the branch-request chain. */
+  {
+    const offices = ["vice admiral of stem initiatives",
+      "commodore of ethics and equity", "chief warrant officer",
+      "fleet admiral marcus", "captain kirk", "chief of staff"];
+    let refused = 0; const leaked = [];
+    for (const name of offices) {
+      const d = loadAuth(); await d.A.load();
+      const r = d.A.enroll(name, "office-pass");
+      if (r && r.error) refused++; else leaked.push(name);
+    }
+    const dc = loadAuth(); await dc.A.load();
+    const rc = dc.A.enroll("marcus", "control-pass");
+    refused === offices.length && !leaked.length &&
+    rc && !rc.error && rc.cert && rc.cert.role === 0
+      ? held("DESK", "ostf-offices-reserved",
+          `${offices.length} office/rank callsigns refused without grant — control "marcus" enrolls as CADET`)
+      : open_("DESK", "ostf-offices-reserved",
+          `refused=${refused}/${offices.length} leaked=[${leaked}] control=${rc && rc.error}`);
+
+    const d7 = loadAuth(); await d7.A.load();
+    d7.A.enroll("ramsey 006", "flag-pass");
+    const tok = d7.A.grantCallsign("chief warrant officer", null, 90);
+    const r9 = tok && d7.A.enroll("chief warrant officer", "w-pass", tok);
+    const again = r9 && !r9.error && d7.A.enroll("chief warrant officer", "w-pass-2");
+    tok && r9 && !r9.error && r9.cert && r9.cert.role === 0 &&
+    r9.user === "chief warrant officer" && again && again.error
+      ? held("DESK", "office-grant-cadet",
+          "granted office enrolls once as CADET (role 0) — title ≠ clearance; second claim refused")
+      : open_("DESK", "office-grant-cadet",
+          `tok=${!!tok} role=${r9 && r9.cert && r9.cert.role} re=${again && again.error}`);
   }
 }
 

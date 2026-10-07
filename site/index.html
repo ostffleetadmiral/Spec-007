@@ -223,7 +223,7 @@ wasmReady.then(function () {
   if (!rec) return;
   document.getElementById('signin-call').textContent = rec.user.toUpperCase();
   document.getElementById('signin-role').textContent =
-    FANO_AUTH.ROLE_LABEL[(rec.cert && rec.cert.role) || 0] || 'FIELD-AGENT';
+    FANO_AUTH.ROLE_LABEL[(rec.cert && rec.cert.role) || 0] || 'CADET';
   document.getElementById('signin').style.display = 'block';
   document.getElementById('enroll-caution').style.display = 'block';
 });
@@ -336,7 +336,7 @@ document.getElementById('signbtn').addEventListener('click', function () {
       btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return;
     }
     if (!rec) { note.textContent = 'Enrollment failed — the mint declined. Reload and retry.'; btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return; }
-    var roleName = FANO_AUTH.ROLE_LABEL[rec.cert.role] || 'FIELD-AGENT';
+    var roleName = FANO_AUTH.ROLE_LABEL[rec.cert.role] || 'CADET';
     var branch = document.getElementById('branchreq').value;
     if (branch && !rec.genesis) {
       var rq = FANO_AUTH.requestBranch(branch);

@@ -42,7 +42,7 @@ window.FANO_AUTH = (function () {
 
   /* ---------- roles (RBAC) ---------- */
   var ROLES = { field_agent: 0, operator: 1, q_branch: 2, station_chief: 3, fleet_admiral: 5 };
-  var ROLE_LABEL = ["FIELD-AGENT", "OPERATOR", "Q-BRANCH", "STATION-CHIEF", "-", "FLEET-ADMIRAL"];
+  var ROLE_LABEL = ["CADET", "OPERATOR", "Q-BRANCH", "STATION-CHIEF", "-", "FLEET-ADMIRAL"];
 
   /* ---------- wasm loader (lean — the desk does not borrow the quine) ---------- */
   function mem(ptr, len) { return new Uint8Array(memory.buffer, ptr, len); }
@@ -399,6 +399,24 @@ window.FANO_AUTH = (function () {
     "fleet admiral": 1, "the fleet admiral": 1, admiral: 1, commodore: 1,
     captain: 1, ramsey: 1, "the meter": 1, meter: 1, sigma: 1, aiwo: 1,
     "the admiralty": 1, "day zero": 1, "axiomatic baseline": 1,
+    /* OSTF offices — Strategic Command posts are issued by grant, not picked:
+       the Council seats, advisory technical authorities, and the rank
+       titles themselves. Positions inside the OSTF are applied for through
+       the branch-request chain; a granted title still lands as a CADET —
+       the office is a name, the clearance is a different key. */
+    "vice admiral": 1, "rear admiral": 1,
+    "vice admiral of stem initiatives": 1,
+    "rear admiral of entrepreneurship": 1,
+    "admiral of financial operations": 1,
+    "commodore of ethics and equity": 1,
+    "lead technical systems architect": 1,
+    "lead security and fabrication officer": 1,
+    "chief warrant officer": 1, "warrant officer": 1, "research lead": 1,
+    "chief of staff": 1, "chief of lifesupport": 1,
+    commander: 1, lieutenant: 1, ensign: 1, midshipman: 1,
+    ostf: 1, "open sentience technology foundation": 1,
+    sallirreugtech: 1, "sallirreug tech": 1, "sallirreugtech academy": 1,
+    "sallirreug academy": 1,
     /* zh faces of the same watch list */
     "龐德": 1, "詹姆斯龐德": 1, "詹姆斯·龐德": 1, "情報員": 1, "軍需官": 1,
     "錢班霓": 1, "金手指": 1, "布洛菲": 1, "魔鬼黨": 1, "海軍上將": 1,
@@ -409,6 +427,11 @@ window.FANO_AUTH = (function () {
     /^０*００[０-９]/,               /* fullwidth 00x — the zh desk types the same watch list */
     /^wo-[0-9]+$/,                     /* officer designations WO-0…WO-9 */
     /^(?:the\s+)?admiralty$/,          /* the body itself is not a person */
+    /^(?:(?:vice|rear|fleet)\s+)?admiral\b/, /* any admiral-prefixed callsign */
+    /^(?:commodore|captain)\b/,         /* naval posts carry the title forward */
+    /^(?:chief\s+)?warrant\s+officer\b/,
+    /^(?:commander|lieutenant|ensign|midshipman)\b/,
+    /^chief\s+of\b/,                    /* chief of staff / lifesupport / anything */
   ];
 
   function normalizeCallsign(s) { return String(s || "").trim().toLowerCase().replace(/\s+/g, " "); }
@@ -655,7 +678,7 @@ window.FANO_AUTH = (function () {
     var body = certBytes(unhex(record.pk), record.user, c.role, unhex(record.covenant_sha256), unhex(c.iss), c.exp);
     if (c.exp < Math.floor(Date.now() / 1000)) return false;
     if (!verify(body, unhex(c.sig), unhex(c.iss))) return false;
-    /* roles above FIELD-AGENT must trace to a rostered issuer — or,
+    /* roles above CADET must trace to a rostered issuer — or,
        for the flag seat alone, to a fleet-anchored roaming grant the
        desk holds: the Admiral's paper outranks a local roster */
     if (c.role > ROLES.field_agent && roster().indexOf(c.iss) === -1) {
@@ -684,8 +707,8 @@ window.FANO_AUTH = (function () {
     /* founding ≠ flag rank. FLEET-ADMIRAL comes only from the pinned
        callsign — claiming genesis on an unfounded desk, or enrolling
        under a fleet-anchored grant (roaming). Any other first
-       enrollment founds the desk as a FIELD-AGENT: a fresh desk is an
-       operative, not an admiralty. Elevation enters only by grant
+       enrollment founds the desk as a CADET: a fresh desk is a
+       recruit, not an admiralty. Elevation enters only by grant
        from an already-rostered STATION-CHIEF+ issuer or the fleet
        anchor — never by being first through the door. */
     var role = isPinned(norm) && (isGenesis || (chk.grant && chk.grant._fleet))

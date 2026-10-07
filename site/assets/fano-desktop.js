@@ -164,7 +164,7 @@
     d.innerHTML = "<pre style='margin:0;white-space:pre-wrap'>" +
       "agent:   " + ident.user + "\n" +
       "key fp:  " + ident.pk.slice(0, 8).toUpperCase() + "…\n" +
-      "role:    " + (FANO_AUTH.ROLE_LABEL[ident.cert.role] || "FIELD-AGENT") + "\n" +
+      "role:    " + (FANO_AUTH.ROLE_LABEL[ident.cert.role] || "CADET") + "\n" +
       "covenant: " + ident.covenant_sig.slice(0, 24) + "… ✓\n\n" +
       "passphrase unlocks the keystore. comms stay cold without it.</pre>";
     var inp = document.createElement("input");
@@ -198,7 +198,7 @@
         delete openWins[title];
         var t = document.querySelector('.task-item[data-wid="' + win.dataset.wid + '"]');
         if (t) t.remove();
-        toast("keystore warm — " + (FANO_AUTH.ROLE_LABEL[FANO_AUTH.session.role] || "FIELD-AGENT") + " " + rec.user + " on duty");
+        toast("keystore warm — " + (FANO_AUTH.ROLE_LABEL[FANO_AUTH.session.role] || "CADET") + " " + rec.user + " on duty");
         paintClearance();
       } else if (rec && rec.totp_required) {
         if (FANO_AUTH.verifyTotp(inp.value)) {
@@ -1717,7 +1717,7 @@
             "  key fp:   " + FANO_AUTH.fingerprint() + "\n" +
             "  sig:      " + rec.covenant_sig.slice(0, 48) + "…\n" +
             "  sha256:   " + rec.covenant_sha256.slice(0, 32) + "…\n" +
-            "  role:     " + (FANO_AUTH.ROLE_LABEL[rec.cert.role] || "FIELD-AGENT") +
+            "  role:     " + (FANO_AUTH.ROLE_LABEL[rec.cert.role] || "CADET") +
             " · expires " + new Date(rec.cert.exp * 1000).toISOString().slice(0, 10) +
             (g0c ? "\n  genesis:  " + (g0c.pk_sha256 || "").slice(0, 32) + "…" +
               (g0c.pk === rec.pk ? " ← this key founded the desk" : "") : "");
@@ -1932,7 +1932,7 @@
         var req = parseInt(parts[2] || "0", 10) || 0;
         govFetch("/gate", {
           method: "POST",
-          body: JSON.stringify({ actor: FANO_AUTH.session.user || "field-agent", target: "ask", context: "fano-1", held_clearance: FANO_AUTH.session.role || 0, required_clearance: req, tool_class: tool, risk: risk, evidence: "verified", covenant_aligned: !!(FANO_AUTH.loadRecord() && FANO_AUTH.loadRecord().covenant_sig), provenance_auditable: true })
+          body: JSON.stringify({ actor: FANO_AUTH.session.user || "cadet", target: "ask", context: "fano-1", held_clearance: FANO_AUTH.session.role || 0, required_clearance: req, tool_class: tool, risk: risk, evidence: "verified", covenant_aligned: !!(FANO_AUTH.loadRecord() && FANO_AUTH.loadRecord().covenant_sig), provenance_auditable: true })
         })
           .then(function (r) { return r.json(); })
           .then(function (j) {
@@ -1948,7 +1948,7 @@
         print("fano:~$ ask " + arg + "\n[governed bridge → " + GOV_CFG.provider + " → " + GOV_CFG.model + "]");
         govFetch("/ask", {
           method: "POST",
-          body: JSON.stringify({ actor: FANO_AUTH.session.user || "field-agent", target: "ask", context: "fano-1", held_clearance: FANO_AUTH.session.role || 0, required_clearance: 0, tool_class: 1, risk: "low", evidence: "verified", covenant_aligned: !!(FANO_AUTH.loadRecord() && FANO_AUTH.loadRecord().covenant_sig), provenance_auditable: true, provider: GOV_CFG.provider, model: GOV_CFG.model, prompt: "You are the SPEC-007 dossier — an integer-only evidence ledger. Answer terse and factual, label uncertainty. Question: " + arg })
+          body: JSON.stringify({ actor: FANO_AUTH.session.user || "cadet", target: "ask", context: "fano-1", held_clearance: FANO_AUTH.session.role || 0, required_clearance: 0, tool_class: 1, risk: "low", evidence: "verified", covenant_aligned: !!(FANO_AUTH.loadRecord() && FANO_AUTH.loadRecord().covenant_sig), provenance_auditable: true, provider: GOV_CFG.provider, model: GOV_CFG.model, prompt: "You are the SPEC-007 dossier — an integer-only evidence ledger. Answer terse and factual, label uncertainty. Question: " + arg })
         })
           .then(function (r) { return r.json(); })
           .then(function (j) {
