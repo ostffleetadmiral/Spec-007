@@ -36,7 +36,12 @@ window.FANO_COMMS = (function () {
   function peerId() { var p = A().outBuf(32); X().rations_p2p_peer_id(p); var b = A().mem(p, 32).slice(); X().rations_free(p); return b; }
   function phonePk() { var p = A().outBuf(32); X().rations_phone_pk(p); var b = A().mem(p, 32).slice(); X().rations_free(p); return b; }
 
+  /* contained identities hold no wire privileges — a contained bot
+     learns in the academy, it does not speak on the fleet's net */
+  function containedNow() { return A().isContained && A().isContained(); }
+
   function connect(url, pkHex) {
+    if (containedNow()) return null;
     var up = A().wr(str(url)), pp = A().wr(A().unhex(pkHex));
     var id = X().rations_p2p_connect(up, url.length, pp, 32);
     X().rations_free(up); X().rations_free(pp);
@@ -47,7 +52,8 @@ window.FANO_COMMS = (function () {
   /* presence text carries the callsign — receiving peers learn both the
      phone key (auto-filed by handlePresence) and who owns it */
   function publishPresence(status) {
-    var txt = str(A().session.user || "field-agent");
+    if (containedNow()) return false;
+    var txt = str(A().session.user || "cadet");
     var p = A().wr(txt);
     return X().rations_phone_presence_publish(status || 1, p, txt.length);
   }
@@ -83,6 +89,7 @@ window.FANO_COMMS = (function () {
     X().rations_free(ip); X().rations_free(kp);
   }
   function sendMsg(pidHex, body) {
+    if (containedNow()) return false;
     var tp = A().wr(A().unhex(pidHex)), bp = A().wr(str(body));
     var ok = X().rations_phone_send(tp, 0, bp, body.length);
     X().rations_free(tp); X().rations_free(bp);
@@ -164,6 +171,7 @@ window.FANO_COMMS = (function () {
     return out === null || st & 0x80 ? { err: st & 0x7f } : { bytes: out };
   }
   function inviteCreate(netId, endpoint, role, days) {
+    if (containedNow()) return null;
     var s = A().session.sk; if (!s) return null;
     var np = A().wr(A().unhex(netId)), ep = A().wr(str(endpoint)), sp = A().wr(s);
     var op = A().outBuf(4096), lp = A().outBuf(4);
@@ -207,6 +215,12 @@ window.FANO_COMMS = (function () {
     var title = "comms.os";
     if (!A() || !A().exports()) {
       A().load().then(open);
+      return;
+    }
+    if (containedNow()) {
+      var nb = el('<div class="console" style="padding:12px;font-size:.8rem"></div>');
+      nb.textContent = "CONTAINMENT — this identity was flagged as automation. The wire is sealed: learn in academy.os, and wait for a STATION-CHIEF to adjudicate.";
+      FANO.makeWindow(title + " [CONTAINED]", nb);
       return;
     }
     var body = el('<div class="console" style="display:flex;flex-direction:column;height:100%;font-size:.78rem"></div>');
@@ -365,8 +379,16 @@ window.FANO_COMMS = (function () {
           var j = inbox();
           try {
             var msgs = JSON.parse(j || "[]");
+            var known = {};
+            roster().forEach(function (c) { known[c.pid] = 1; });
+            known[A().hex(peerId())] = 1;
+            msgs.forEach(function (m) {
+              if (m.from && !known[m.from] && A().flagContained)
+                A().flagContained("pid:" + m.from, ["unrostered-wire"], "wire");
+            });
             ib.textContent = msgs.length ? msgs.map(function (m) {
-              return "[" + (m.sealed ? "sealed" : "open") + "] " + m.from.slice(0, 12) + "…: " + atob(m.body_b64);
+              var q = m.from && !known[m.from] ? " QUARANTINED" : "";
+              return "[" + (m.sealed ? "sealed" : "open") + q + "] " + m.from.slice(0, 12) + "…: " + atob(m.body_b64);
             }).join("\n") : "inbox empty — " + inboxCount() + " waiting";
           } catch (e) { ib.textContent = j || ""; }
         }

@@ -49,6 +49,23 @@
   suite → approval mints a signed FANO-BRANCH-v1 cert. `branchOf`
   verifies signature + rostered issuer + expiry. Callsign grants name
   the officer; branch certs seat the office.
+- **Bots are cadets in containment.** `detectAutomation()` flags
+  automation-shaped enrollments (webdriver, selenium/phantom/cdc_
+  globals, headless/bot UA as strong signals; missing languages,
+  plugins, or human entropy as weak pairs). A flagged identity pins to
+  CADET and stamps `rec.contained` — even a bot claiming the pinned
+  callsign lands cadet. Contained sessions are sealed from every
+  privilege gate (grants, credentials, roaming, branch, roster, TOTP,
+  export), the wire (connect/presence/send/invite), and the governed
+  bridge; the desk boots academy.os only. Release is human
+  adjudication: a STATION-CHIEF+ or the fleet flag signs a
+  `FANO-CONTAIN-v1` promotion paper bound to the subject pk — the
+  contained desk presents it via `promotion <token>` or the notice
+  field. The Command suite's CONTAINMENT panel lists every flag with
+  its evidence. Detection is heuristic — it gates desk privileges, it
+  is not a proof of humanity; false-positive humans get the same
+  adjudication path. The WAN edge logs bad-seal and machine-rate
+  sources to `bot-ledger.json` as evidence, never silent drops.
 
 ## 2. Origins
 

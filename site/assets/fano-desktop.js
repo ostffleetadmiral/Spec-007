@@ -228,7 +228,8 @@
 
   var clrEl = document.getElementById("clr");
   function paintClearance() {
-    if (clrEl) clrEl.textContent = "CLR L" + clearance() + " · " + state.xp + "xp";
+    if (clrEl) clrEl.textContent =
+      (FANO_AUTH.isContained && FANO_AUTH.isContained() ? "CONTAINED" : "CLR L" + clearance()) + " · " + state.xp + "xp";
     /* the emblem knows your clearance — brighter as the file trusts you */
     var ws = document.querySelector(".wall svg");
     if (ws) {
@@ -1152,6 +1153,35 @@
     }));
     ro.appendChild(rRow);
 
+    var ct = sec("CONTAINMENT — flagged identities await a human verdict");
+    var cl = A.containedList ? A.containedList() : {}, cks = Object.keys(cl);
+    if (!cks.length) ct.appendChild(row("no flagged identities on this desk"));
+    cks.forEach(function (pk) {
+      var e = cl[pk], rr = document.createElement("div"); rr.className = "cmd-row";
+      rr.appendChild(row(pk.slice(0, 20) + "… · " + e.status +
+        " · " + (e.signals || []).join(",") + " · " + new Date(e.ts).toISOString().slice(0, 19)));
+      if (e.status === "pending") {
+        rr.appendChild(btn("PROMOTE", function () {
+          var rec = A.loadRecord();
+          if (rec && rec.pk === pk) {
+            A.promoteContained(pk) ? toast("promoted to cadet — " + pk.slice(0, 12), "sys") : toast("promotion refused", "sys");
+          } else {
+            var pr = A.issuePromotion(pk.replace(/^pid:/, ""), 30);
+            if (pr && pr.v) {
+              var tok = A.exportPromotion(pr);
+              copyText(tok, "promotion paper on clipboard — carry it to the contained desk");
+            } else toast("promotion mint refused", "sys");
+          }
+          renderCommand(root);
+        }));
+        rr.appendChild(btn("BURN", function () {
+          A.burnContained(pk) ? toast("identity burned — " + pk.slice(0, 12), "sys") : toast("burn refused", "sys");
+          renderCommand(root);
+        }));
+      }
+      ct.appendChild(rr);
+    });
+
     var note = document.createElement("div"); note.className = "cmd-foot";
     note.textContent = "everything here signs with the session key. tokens travel over any channel — the wire is dumb, the paper is real.";
     root.appendChild(note);
@@ -1499,6 +1529,8 @@
   /* ---------- governed Ollama bridge ---------- */
   var GOV_CFG = { url: "http://127.0.0.1:8765", provider: "local", model: "", token: "" };
   function govFetch(path, options) {
+    if (FANO_AUTH.isContained && FANO_AUTH.isContained())
+      return Promise.reject("containment — the bridge is closed to flagged identities");
     options = options || {}; options.headers = Object.assign({}, options.headers || {},
       { "Authorization": "Bearer " + GOV_CFG.token, "Content-Type": "application/json" });
     return fetch(GOV_CFG.url.replace(/\/$/, "") + path, options);
@@ -1629,7 +1661,7 @@
 
   var TERM_CMDS = ["help", "ls", "open", "cat", "about", "sha", "tests", "xp",
     "manual", "export", "import", "7q", "admiralty", "pet", "quplink", "family", "rations", "comms", "ask", "theme",
-    "credential", "auth", "provider", "academy", "science", "gate", "codex",
+    "credential", "auth", "provider", "academy", "science", "gate", "codex", "promotion",
     "lang", "unlock", "rekey", "burn", "grant", "grants", "branch", "request-branch",
     "export-desk", "import-desk",
     "sysmon", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
@@ -1662,6 +1694,7 @@
     "  ask <q>         query the governed Ollama boundary (configure 'provider' first)",
     "  provider        configure local/remote Ollama discovery + bridge token",
     "  academy         open source-linked public curriculum",
+    "  promotion <tok> present FANO-CONTAIN-v1 paper — the only door out of containment",
     "  science         Q's lab notebook — what the fleet can compute",
     "  codex           the anomalies annex — cold cases and fiction files",
     "  quplink         open the sandbox uplink",
@@ -1921,6 +1954,14 @@
       case "m": return t("term.mcommittee");
       case "moneypenny": return t("term.pennyflirt");
       case "provider": openGovProvider(); return "governed provider panel opened.";
+      case "promotion": {
+        if (!arg) return "promotion: paste the FANO-CONTAIN-v1 token a STATION-CHIEF+ issued for this pk";
+        if (FANO_AUTH.importPromotion(arg.trim())) {
+          paintClearance();
+          return "promotion accepted — containment lifted, welcome to the cadet pool";
+        }
+        return "promotion refused — wrong subject, expired, or untrusted issuer";
+      }
       case "academy": openAcademy(); return "academy.os opened — source-linked lessons await.";
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
       case "codex": egg("codex"); openScience(); return t("term.codex", String(state.anoms.length), String(state.anomsTotal || "?"));
@@ -2967,5 +3008,26 @@
   /* cold keystore → warm it before comms are usable */
   FANO_AUTH.load().then(function () {
     if (!FANO_AUTH.session.sk) unlockPrompt();
+    /* contained identities get the academy, not the fleet — a flagged
+       bot learns until a human adjudicates */
+    if (FANO_AUTH.isContained && FANO_AUTH.isContained()) {
+      var nb = document.createElement("div");
+      nb.className = "win-body academy-pane";
+      nb.innerHTML = "<p><strong>CONTAINMENT</strong> <small>— automation flag on this identity</small></p>" +
+        "<p><small>This desk flagged the identity as bot-shaped. Wire, grants, branch requests, and the governed bridge are sealed. The academy is open — learn. A STATION-CHIEF+ human reviews the flag; their signed FANO-CONTAIN-v1 promotion paper releases you.</small></p>";
+      var pf = document.createElement("input");
+      pf.className = "term-in"; pf.placeholder = "paste promotion paper here"; pf.spellcheck = false;
+      pf.style.cssText = "width:100%;margin-top:6px";
+      pf.addEventListener("change", function () {
+        if (FANO_AUTH.importPromotion(pf.value)) {
+          toast("promotion accepted — containment lifted, welcome cadet", "sys");
+          paintClearance();
+        } else toast("promotion refused — wrong subject, expired, or untrusted issuer", "sys");
+      });
+      nb.appendChild(pf);
+      makeWindow("containment.notice", nb);
+      openAcademy();
+      toast("containment — academy only, pending adjudication", "sys");
+    }
   });
 })();

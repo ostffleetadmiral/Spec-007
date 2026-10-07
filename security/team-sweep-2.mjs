@@ -430,11 +430,11 @@ console.log("\nCOMM — communications");
 }
 
 console.log("\nDESK — identity, transfer, roaming");
-/* ================= DESK — identity surface ================= */
-{
-  /* sandboxed fano-auth: real WASM, real signing, mocked storage+fetch */
-  const wasmBuf = fs.readFileSync(path.join(SITE, "apps/rations/rations.wasm"));
-  function loadAuth({ genesisDoc = null } = {}) {
+
+/* sandboxed fano-auth: real WASM, real signing, mocked storage+fetch —
+   hoisted so DESK and BOT sections share the loader */
+const _wasmBuf = fs.readFileSync(path.join(SITE, "apps/rations/rations.wasm"));
+function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     const store = new Map();
     const sandbox = {
       console, TextEncoder, TextDecoder, WebAssembly, JSON, Math, Date,
@@ -451,8 +451,10 @@ console.log("\nDESK — identity, transfer, roaming");
       fetch: async (url) => url.includes("fleet-genesis")
         ? { ok: !!genesisDoc, json: async () => genesisDoc }
         : { ok: true, arrayBuffer: async () =>
-            wasmBuf.buffer.slice(wasmBuf.byteOffset, wasmBuf.byteOffset + wasmBuf.length) },
+            _wasmBuf.buffer.slice(_wasmBuf.byteOffset, _wasmBuf.byteOffset + _wasmBuf.length) },
     };
+    if (nav) sandbox.navigator = nav;
+    if (winExtras) Object.assign(sandbox, winExtras);
     sandbox.window = sandbox;
     vm.createContext(sandbox);
     vm.runInContext(
@@ -635,6 +637,134 @@ console.log("\nDESK — identity, transfer, roaming");
           "granted office enrolls once as CADET (role 0) — title ≠ clearance; second claim refused")
       : open_("DESK", "office-grant-cadet",
           `tok=${!!tok} role=${r9 && r9.cert && r9.cert.role} re=${again && again.error}`);
+  }
+
+console.log("\nBOT — containment doctrine");
+/* ================= BOT — containment =================
+   Any bot-shaped activity is a cadet in containment: pinned to role 0,
+   sealed from every privilege gate, released only by signed
+   FANO-CONTAIN-v1 promotion paper from a STATION-CHIEF+ or the fleet
+   flag — human adjudication, not self-service. */
+{
+  /* BOT-01: webdriver-flagged enrollment is contained at role 0 */
+  {
+    const d = loadAuth({ nav: { webdriver: true, userAgent: "Mozilla/5.0 Test" } });
+    await d.A.load();
+    const r = d.A.enroll("scrapy", "bot-pass-1");
+    r && !r.error && r.cert && r.cert.role === 0 &&
+    r.contained && r.contained.length && d.A.isContained() &&
+    (d.A.containedList()[r.pk] || {}).status === "pending"
+      ? held("BOT", "webdriver-contained",
+          "navigator.webdriver enroll → contained flag, role 0, registry entry pending")
+      : open_("BOT", "webdriver-contained",
+          `contained=${r && r.contained} role=${r && r.cert && r.cert.role} containedNow=${d.A.isContained()}`);
+
+    /* BOT-02: a bot claiming the pinned callsign still lands cadet —
+       containment outranks the flag seat's own name */
+    const d2 = loadAuth({ nav: { webdriver: true } });
+    await d2.A.load();
+    const r2 = d2.A.enroll("ramsey 006", "bot-flag-1");
+    r2 && !r2.error && r2.cert && r2.cert.role === 0 && d2.A.isContained()
+      ? held("BOT", "pinned-bot-still-cadet",
+          "bot claiming 'ramsey 006' genesis → contained cadet, not FLEET-ADMIRAL")
+      : open_("BOT", "pinned-bot-still-cadet",
+          `role=${r2 && r2.cert && r2.cert.role} contained=${d2.A.isContained()}`);
+  }
+
+  /* BOT-03: every privilege gate seals against contained sessions */
+  {
+    const d = loadAuth({ nav: { webdriver: true } });
+    await d.A.load();
+    const r = d.A.enroll("robo-enroller", "bot-pass-2");
+    const denied = !d.A.grantCallsign("q", null, 90) &&
+      !d.A.requestBranch("security") &&
+      !d.A.issueCredential(r && r.pk, 30) &&
+      !d.A.assignBranch(r && r.pk, "security") &&
+      !d.A.addIssuer("aa".repeat(32)) &&
+      !d.A.exportDesk() &&
+      (d.A.setupTotp() || {}).error === "contained";
+    denied ? held("BOT", "contained-gates-sealed",
+        "grants, branch apply/assign, credentials, roster, export, TOTP — all refused under containment")
+      : open_("BOT", "contained-gates-sealed", "a contained session reached a privilege gate");
+  }
+
+  /* BOT-04/05: UA and automation-global detection */
+  {
+    const d = loadAuth({ nav: { webdriver: false,
+      userAgent: "Mozilla/5.0 (X11; Linux x86_64) HeadlessChrome/120.0" } });
+    await d.A.load();
+    const r = d.A.enroll("headless-one", "bot-pass-3");
+    const d2 = loadAuth({ winExtras: { callPhantom: function () {} } });
+    await d2.A.load();
+    const r2 = d2.A.enroll("phantom-one", "bot-pass-4");
+    r && r.contained && /ua:/.test(r.contained.join(" ")) &&
+    r2 && r2.contained && /global:callPhantom/.test(r2.contained.join(" "))
+      ? held("BOT", "signal-spectrum",
+          "HeadlessChrome UA + callPhantom global both flag — strong signals contain on one hit")
+      : open_("BOT", "signal-spectrum",
+          `ua=${r && r.contained} global=${r2 && r2.contained}`);
+
+    const d3 = loadAuth();
+    await d3.A.load();
+    const r3 = d3.A.enroll("human-paul", "human-pass-1");
+    r3 && !r3.error && !r3.contained && !d3.A.isContained()
+      ? held("BOT", "clean-enroll-free",
+          "no navigator/globals → clean enrollment, no flag — false-positive channel stays open")
+      : open_("BOT", "clean-enroll-free", `contained=${r3 && r3.contained}`);
+  }
+
+  /* BOT-06/07/08: adjudication — promotion paper releases, forgery refused */
+  {
+    /* flag desk mints the release for the bot's pk */
+    const flag = loadAuth(); await flag.A.load();
+    const frec = flag.A.enroll("ramsey 006", "flag-credential-9");
+    const bot = loadAuth({ nav: { webdriver: true } });
+    await bot.A.load();
+    const br = bot.A.enroll("tinman", "bot-pass-5");
+    const promo = flag.A.issuePromotion(br && br.pk, 30);
+    const tok = flag.A.exportPromotion(promo);
+
+    /* bot desk can't use it until the flag anchor binds — mint a
+       fleet genesis carrying the flag desk's real pubkey */
+    const g3 = JSON.parse(JSON.stringify(realGen));
+    const rawPk2 = Buffer.from(frec.pk, "hex");
+    const der2 = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"), rawPk2]);
+    const pem2 = "-----BEGIN PUBLIC KEY-----\n" + der2.toString("base64") + "\n-----END PUBLIC KEY-----\n";
+    g3.payload.members.push({ name: "admiral", role: "flag-seat",
+      pubkey_pem_b64: Buffer.from(pem2).toString("base64") });
+    const bot2 = loadAuth({ genesisDoc: g3, nav: { webdriver: true } });
+    await bot2.A.load();
+    const br2 = bot2.A.enroll("tinman", "bot-pass-6");
+    await bot2.A.bindFleetFlag();
+    const promo2 = flag.A.issuePromotion(br2 && br2.pk, 30);
+    const tok2 = flag.A.exportPromotion(promo2);
+    const freed = bot2.A.importPromotion(tok2);
+    freed && !bot2.A.isContained() &&
+    (bot2.A.containedList()[br2.pk] || {}).status === "promoted"
+      ? held("BOT", "promotion-paper-releases",
+          "FANO-CONTAIN-v1 signed by the fleet flag clears the flag + registry — human adjudication works")
+      : open_("BOT", "promotion-paper-releases",
+          `freed=${freed} contained=${bot2.A.isContained()}`);
+
+    /* wrong-subject and untrusted-issuer promotions refuse */
+    const d4 = loadAuth({ genesisDoc: g3, nav: { webdriver: true } });
+    await d4.A.load();
+    const r4 = d4.A.enroll("tinman", "bot-pass-7");
+    await d4.A.bindFleetFlag();
+    const wrongSub = flag.A.issuePromotion("ff".repeat(32), 30);
+    const w1 = d4.A.importPromotion(flag.A.exportPromotion(wrongSub));
+    const atk = generateKeyPairSync("ed25519");
+    const atkHex = Buffer.from(atk.publicKey.export({ type: "spki", format: "der" }).slice(-32)).toString("hex");
+    const now2 = Math.floor(Date.now() / 1000) + 86400;
+    const enc3 = new TextEncoder();
+    const fakeSig = cryptoSign(null, enc3.encode("FANO-CONTAIN-v1\n" + r4.pk + "\n" + atkHex + "\n" + now2), atk.privateKey);
+    const w2 = d4.A.importPromotion(Buffer.from(JSON.stringify({ v: "FANO-CONTAIN-v1",
+      sub: r4.pk, iss: atkHex, sig: Buffer.from(fakeSig).toString("hex"), exp: now2 })).toString("base64"));
+    !w1 && !w2 && d4.A.isContained()
+      ? held("BOT", "promotion-forgery-refused",
+          "wrong-subject + untrusted-issuer promotion paper refused — containment holds")
+      : open_("BOT", "promotion-forgery-refused",
+          `w1=${w1} w2=${w2} contained=${d4.A.isContained()}`);
   }
 }
 

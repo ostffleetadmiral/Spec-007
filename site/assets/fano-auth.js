@@ -252,6 +252,7 @@ window.FANO_AUTH = (function () {
       "&issuer=" + encodeURIComponent(iss) + "&algorithm=SHA1&digits=6&period=30";
   }
   function setupTotp(issuer, account) {
+    if (isContained()) return { error: "contained" };
     if (!session.sk || !loadRecord()) return { error: "locked" };
     var secretBytes = randBytes(20), secret = b32(secretBytes), key = totpWrapKey(), nonce = randBytes(12), wrapped = aesEnc(secretBytes, key, nonce);
     if (!wrapped) return { error: "wrap_failed" };
@@ -303,7 +304,7 @@ window.FANO_AUTH = (function () {
   function randBytes(n) { var b = new Uint8Array(n); crypto.getRandomValues(b); return b; }
 
   /* ---------- enrollment ---------- */
-  var session = { sk: null, user: null, role: 0, totp: false };
+  var session = { sk: null, user: null, role: 0, totp: false, contained: false };
 
   function covenantBytes() { return enc.encode(COVENANT); }
   function covenantHash() { return sha256(covenantBytes()); }
@@ -330,6 +331,7 @@ window.FANO_AUTH = (function () {
     try { return JSON.parse(localStorage.getItem(ROSTER_KEY)) || []; } catch (e) { return []; }
   }
   function addIssuer(pkHex) {
+    if (isContained()) return false;
     var r = roster();
     if (r.indexOf(pkHex) === -1) { r.push(pkHex); try { localStorage.setItem(ROSTER_KEY, JSON.stringify(r)); } catch (e) {} }
   }
@@ -435,6 +437,156 @@ window.FANO_AUTH = (function () {
   ];
 
   function normalizeCallsign(s) { return String(s || "").trim().toLowerCase().replace(/\s+/g, " "); }
+
+  /* ---------- bot containment ----------
+     Any bot-shaped activity is treated like a cadet: forced to learn
+     in containment, cut off from the main network's privileges, and
+     released only by human adjudication — a STATION-CHIEF+ reviews the
+     evidence and promotes or burns. Detection is heuristic: it gates
+     desk privileges; it is not a proof of humanity. navigator and
+     document may be absent (harness VMs, Electron preload contexts),
+     so every signal is guarded and injectable.
+
+     Strong signals contain on a single hit — they are automation
+     scaffolding, not browser features. Weak signals need two hits;
+     a privacy-hardened human trips at most one. */
+  var CONTAIN_KEY = "fano1.containment";
+  var BOT_GLOBALS = ["callPhantom", "_phantom", "__nightmare",
+    "domAutomation", "domAutomationController", "$cdc_",
+    "$chrome_asyncScriptInfo", "__webdriver_evaluate",
+    "__selenium_evaluate", "__driver_evaluate",
+    "__webdriver_script_fn", "__fxdriver_evaluate"];
+  var BOT_UA_STRONG = /headless|phantomjs|selenium|webdriver|puppeteer|playwright|slimerjs|nightmare/i;
+  var BOT_UA_WEAK = /\bbot\b|crawler|spider|scrapy|curl|wget|python-requests|httpclient|node\b/i;
+  var _entropy = { keys: 0, moves: 0, t0: 0 };
+  if (typeof document !== "undefined" && document && document.addEventListener) {
+    _entropy.t0 = Date.now();
+    document.addEventListener("keydown", function () { _entropy.keys++; }, true);
+    document.addEventListener("pointermove", function () { _entropy.moves++; }, true);
+    document.addEventListener("pointerdown", function () { _entropy.moves++; }, true);
+  }
+  function detectAutomation(now) {
+    var strong = [], weak = [];
+    var nav = (typeof navigator !== "undefined") ? navigator : null;
+    if (nav) {
+      var ua = nav.userAgent || "";
+      if (nav.webdriver) strong.push("webdriver");
+      if (BOT_UA_STRONG.test(ua)) strong.push("ua:" + ua.slice(0, 48));
+      if (BOT_UA_WEAK.test(ua)) weak.push("ua-weak");
+      if (nav.languages && nav.languages.length === 0) weak.push("no-languages");
+      if (nav.plugins && nav.plugins.length === 0 &&
+          !/mobile|android|iphone|ipad/i.test(ua)) weak.push("no-plugins");
+    }
+    var win = (typeof window !== "undefined") ? window : null;
+    if (win) {
+      for (var i = 0; i < BOT_GLOBALS.length; i++)
+        if (typeof win[BOT_GLOBALS[i]] !== "undefined")
+          strong.push("global:" + BOT_GLOBALS[i]);
+      if (/^cdc_/.test(Object.keys(win).join(" "))) strong.push("global:cdc_*");
+    }
+    if (typeof document !== "undefined") {
+      var age = ((typeof now === "number" ? now : Date.now())) - _entropy.t0;
+      if (age < 3000 && _entropy.keys === 0 && _entropy.moves === 0)
+        weak.push("no-entropy");
+    }
+    return strong.length ? strong
+      : (weak.length >= 2 ? weak : []);
+  }
+
+  /* the containment registry: pks this desk has flagged, with the
+     evidence and the adjudication status. Additive, never silent —
+     a flag is an allegation with receipts, not a verdict. */
+  function contained() {
+    try { return JSON.parse(localStorage.getItem(CONTAIN_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function saveContained(c) { try { localStorage.setItem(CONTAIN_KEY, JSON.stringify(c)); } catch (e) {} }
+  function flagContained(pkHex, signals, origin) {
+    if (!pkHex) return;
+    var c = contained();
+    if (!c[pkHex] || c[pkHex].status !== "burned") {
+      c[pkHex] = { signals: signals || [], ts: Date.now(),
+        status: (c[pkHex] && c[pkHex].status) || "pending",
+        origin: origin || (c[pkHex] && c[pkHex].origin) || "enroll" };
+      saveContained(c);
+    }
+  }
+  /* the session's containment state — record flag wins, so a flagged
+     identity stays contained across unlocks until a human promotes it */
+  function isContained() {
+    if (session.contained) return true;
+    var rec = loadRecord();
+    if (rec && rec.contained && rec.contained.length) return true;
+    if (rec && rec.pk) {
+      var c = contained()[rec.pk];
+      if (c && c.status === "pending") return true;
+    }
+    return false;
+  }
+  /* adjudication — STATION-CHIEF+ only. promote clears the flag and
+     the record's containment; burn erases the record outright. */
+  function promoteContained(pkHex) {
+    if (!session.sk || session.role < ROLES.station_chief) return false;
+    var c = contained();
+    if (!c[pkHex]) return false;
+    c[pkHex].status = "promoted"; saveContained(c);
+    var rec = loadRecord();
+    if (rec && rec.pk === pkHex) {
+      delete rec.contained;
+      localStorage.setItem(STORE_KEY, JSON.stringify(rec));
+      session.contained = false;
+    }
+    return true;
+  }
+  function burnContained(pkHex) {
+    if (!session.sk || session.role < ROLES.station_chief) return false;
+    var c = contained();
+    if (!c[pkHex]) return false;
+    c[pkHex].status = "burned"; saveContained(c);
+    var rec = loadRecord();
+    if (rec && rec.pk === pkHex) burn();
+    return true;
+  }
+  /* promotion paper — a contained desk holds no chief session (its only
+     record is the contained one), so adjudication travels as a signed
+     FANO-CONTAIN-v1 token: minted by STATION-CHIEF+ or the fleet flag,
+     bound to the subject pk, presented at the contained desk, verified
+     against the same trust roots as grants. The bot learns in the
+     academy until a human signs its release. */
+  function promoBytes(subPkHex, issHex, exp) {
+    return enc.encode("FANO-CONTAIN-v1\n" + subPkHex + "\n" + issHex + "\n" + exp);
+  }
+  function issuePromotion(targetPkHex, expiryDays) {
+    if (!session.sk || session.role < ROLES.station_chief) return null;
+    if (!/^[0-9a-f]{64}$/i.test(targetPkHex || "")) return { error: "bad_pk" };
+    var kp = expandSeed(session.sk);
+    if (!kp) return null;
+    var issHex = hex(kp.pk);
+    var exp = Math.floor(Date.now() / 1000) + (expiryDays || 30) * 86400;
+    var sig = sign(promoBytes(targetPkHex.toLowerCase(), issHex, exp), session.sk);
+    if (!sig) return null;
+    return { v: "FANO-CONTAIN-v1", sub: targetPkHex.toLowerCase(),
+      iss: issHex, sig: hex(sig), exp: exp };
+  }
+  function exportPromotion(p) { return p ? btoa(JSON.stringify(p)) : null; }
+  function importPromotion(token) {
+    try {
+      var p = JSON.parse(atob(token.trim()));
+      if (!p || p.v !== "FANO-CONTAIN-v1" || !p.sub || !p.iss || !p.sig) return false;
+      var rec = loadRecord();
+      if (!rec || rec.pk !== p.sub) return false;          /* wrong subject */
+      if (p.exp < Math.floor(Date.now() / 1000)) return false;
+      var trusted = roster().indexOf(p.iss) !== -1 || flagAnchored(p.iss);
+      if (!trusted) return false;
+      if (!verify(promoBytes(p.sub, p.iss, p.exp), unhex(p.sig), unhex(p.iss))) return false;
+      delete rec.contained;
+      localStorage.setItem(STORE_KEY, JSON.stringify(rec));
+      session.contained = false;
+      var c = contained();
+      if (c[p.sub]) { c[p.sub].status = "promoted"; saveContained(c); }
+      else { c[p.sub] = { signals: ["adjudicated"], ts: Date.now(), status: "promoted", origin: "promotion" }; saveContained(c); }
+      return true;
+    } catch (e) { return false; }
+  }
   function isRestricted(norm) {
     if (RESTRICTED_NAMES[norm]) return true;
     for (var i = 0; i < RESTRICTED_RE.length; i++) if (RESTRICTED_RE[i].test(norm)) return true;
@@ -537,6 +689,7 @@ window.FANO_AUTH = (function () {
       same_founding: !!(g && g.pk === c.iss), tofu: !g };
   }
   function issueCredential(targetPkHex, expiryDays) {
+    if (isContained()) return null;
     if (!session.sk || session.role < ROLES.fleet_admiral) return null;
     var rec = loadRecord();
     if (!rec || !isPinned(rec.user)) return { error: "not_flag_seat" };
@@ -559,6 +712,7 @@ window.FANO_AUTH = (function () {
      It is intentionally not filed as a desk-local grant — it exists
      to travel, minted fresh each call, short-dated by default. */
   function issueRoaming(expiryDays) {
+    if (isContained()) return null;
     if (!session.sk || session.role < ROLES.fleet_admiral) return null;
     var rec = loadRecord();
     if (!rec || !isPinned(rec.user)) return { error: "not_flag_seat" };
@@ -599,6 +753,7 @@ window.FANO_AUTH = (function () {
   }
 
   function grantCallsign(callsign, targetPkHex, expiryDays) {
+    if (isContained()) return null;
     if (!session.sk || session.role < ROLES.station_chief) return null;
     var norm = normalizeCallsign(callsign);
     if (!isRestricted(norm) && !isPinned(norm)) return { error: "not_restricted" };
@@ -713,6 +868,12 @@ window.FANO_AUTH = (function () {
        anchor — never by being first through the door. */
     var role = isPinned(norm) && (isGenesis || (chk.grant && chk.grant._fleet))
       ? ROLES.fleet_admiral : ROLES.field_agent;
+    /* bot-shaped activity goes to containment before anything else:
+       automation hits pin the role to cadet and flag the record —
+       even a pinned callsign claimed by a bot stays a cadet until a
+       human adjudicates. The flag outranks the callsign. */
+    var botHits = detectAutomation();
+    if (botHits.length) role = ROLES.field_agent;
     var cert = issueCert(id.pk, norm, role, covHash, id.pk, id.sk, 365 * 5);
     if (chk.grant) claimGrant(chk.grant, hex(id.pk));
     var salt = randBytes(16), nonce = randBytes(12);
@@ -727,7 +888,9 @@ window.FANO_AUTH = (function () {
       keystore: { salt: hex(salt), nonce: hex(nonce), ct: hex(wrapped.ct), tag: hex(wrapped.tag) },
       created: new Date().toISOString(),
     };
+    if (botHits.length) rec.contained = botHits;
     localStorage.setItem(STORE_KEY, JSON.stringify(rec));
+    if (botHits.length) flagContained(hex(id.pk), botHits, "enroll");
     /* every enrollment is a life — the desk counts them */
     try {
       localStorage.setItem("fano1.lives",
@@ -741,6 +904,7 @@ window.FANO_AUTH = (function () {
     rec.genesis = isGenesis;
     rec.genesis_hash = (genesis() || {}).pk_sha256 || null;
     session.sk = id.sk; session.user = norm; session.role = role; session.totp = true;
+    session.contained = !!botHits.length;
     setIdentity(id.sk);
     return rec;
   }
@@ -785,6 +949,8 @@ window.FANO_AUTH = (function () {
     }
     session.sk = sk; session.user = rec.user; session.totp = !rec.totp;
     session.role = verifyCert(rec) ? rec.cert.role : 0;
+    session.contained = !!(rec.contained && rec.contained.length);
+    if (session.contained) session.role = ROLES.field_agent; /* flagged — cadet until adjudicated */
     setIdentity(sk);
     rec.totp_required = !!rec.totp;
     return rec;
@@ -818,6 +984,7 @@ window.FANO_AUTH = (function () {
   function saveBranchAssigns(b) { try { localStorage.setItem(BRANCHES_KEY, JSON.stringify(b)); } catch (e) {} }
 
   function requestBranch(branch) {
+    if (isContained()) return null;
     if (!session.sk || !session.user) return null;
     if (BRANCHES.indexOf(branch) < 0) return { error: "unknown_branch" };
     var kp = expandSeed(session.sk);
@@ -849,6 +1016,7 @@ window.FANO_AUTH = (function () {
   }
   /* Fleet Admiral only — "over the network" approvals land here. */
   function assignBranch(subPkHex, branch) {
+    if (isContained()) return null;
     if (!session.sk || session.role < ROLES.fleet_admiral) return null;
     if (BRANCHES.indexOf(branch) < 0) return { error: "unknown_branch" };
     var kp = expandSeed(session.sk);
@@ -864,6 +1032,7 @@ window.FANO_AUTH = (function () {
     return a;
   }
   function denyBranch(subPkHex) {
+    if (isContained()) return false;
     if (!session.sk || session.role < ROLES.fleet_admiral) return false;
     var all = branchReqs();
     if (!all[subPkHex]) return false;
@@ -884,7 +1053,7 @@ window.FANO_AUTH = (function () {
      reset, reachable only by deliberately asking for it. */
   function burn(scope) {
     localStorage.removeItem(STORE_KEY);
-    session.sk = null; session.user = null; session.role = 0; session.totp = false;
+    session.sk = null; session.user = null; session.role = 0; session.totp = false; session.contained = false;
     if (scope === "genesis") burnGenesis();
   }
   function fingerprint() {
@@ -904,6 +1073,7 @@ window.FANO_AUTH = (function () {
   }
   function canonJson(o) { return JSON.stringify(o, null, 2); }
   function exportDesk() {
+    if (isContained()) return null;
     if (!session.sk) return null;
     var rec = loadRecord();
     if (!rec) return null;
@@ -945,6 +1115,11 @@ window.FANO_AUTH = (function () {
     issueCert: issueCert, certBytes: certBytes, fingerprint: fingerprint,
     roster: roster, addIssuer: addIssuer, ROSTER_KEY: ROSTER_KEY,
     checkCallsign: checkCallsign, grantCallsign: grantCallsign,
+    detectAutomation: detectAutomation, isContained: isContained,
+    containedList: contained, flagContained: flagContained,
+    promoteContained: promoteContained, burnContained: burnContained,
+    issuePromotion: issuePromotion, exportPromotion: exportPromotion,
+    importPromotion: importPromotion,
     verifyGrant: verifyGrant, exportGrant: exportGrant, importGrant: importGrant,
     grants: grants, GRANTS_KEY: GRANTS_KEY, normalizeCallsign: normalizeCallsign,
     hasRole: hasRole, ROLES: ROLES, ROLE_LABEL: ROLE_LABEL, lockRemain: lockRemain,
