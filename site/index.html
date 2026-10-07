@@ -129,6 +129,7 @@ SIGN AND ENROLL</button>
 <p><small id="enroll-note">Signing mints a real Ed25519 keypair and signs the covenant hash.
 The secret key is wrapped with your passphrase (PBKDF2 &middot; AES-256-GCM) and never stored in the clear.
 On an unfounded desk, the first signature writes the genesis record — sha256 of the founding key, bound forever.</small></p>
+<p style="margin-top:1rem;"><small><a href="#" id="factory-reset" style="color:var(--rule);">desk compromised? — factory reset</a></small></p>
 </div>
 
 <script src="assets/fano-auth.js"></script>
@@ -136,6 +137,16 @@ On an unfounded desk, the first signature writes the genesis record — sha256 o
 try {
   if (localStorage.getItem('fano1.lang') === 'zh') window.location.replace('index-zh.html');
 } catch (e) {}
+document.getElementById('factory-reset').addEventListener('click', function (e) {
+  e.preventDefault();
+  if (!confirm('Burn this desk\'s identity, founding, roster, and state? Lab reset — irreversible.')) return;
+  ['fano1.identity','fano1.genesis','fano1.issuers','fano1.callsigns','fano1.lives',
+   'fano1.comms.contacts','fano1.comms.relay','fano1.desk.state'].forEach(function (k) {
+    localStorage.removeItem(k);
+  });
+  alert('Desk unfounded — the next signature founds it.');
+  location.reload();
+});
 var langBtn = document.createElement('span');
 langBtn.id = 'idx-lang';
 langBtn.textContent = 'EN / 中';

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FANO-1 // desk reset</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<style>
+  .dossier{max-width:40rem;margin:4rem auto}
+  .stamp{border:2px solid var(--stamp,#b33);color:var(--stamp,#b33);
+        display:inline-block;padding:.4rem 1rem;transform:rotate(-3deg);
+        font-weight:700;letter-spacing:.1em}
+  a{color:#7fd4ff}
+</style>
+</head>
+<body>
+<div class="dossier">
+  <div class="stamp">DESK RESET — LAB USE</div>
+  <h1>Founding cleared</h1>
+  <p>The following desk records were destroyed on this device only:</p>
+  <pre id="log">…</pre>
+  <p>The desk is unfounded. The next enrollment founds it — the first
+     signature claims the pinned callsign and the flag seat.</p>
+  <p><a href="index.html">→ proceed to the covenant</a></p>
+</div>
+<script>
+var KEYS = ["fano1.identity", "fano1.genesis", "fano1.issuers",
+            "fano1.callsigns", "fano1.lives", "fano1.comms.contacts",
+            "fano1.comms.relay", "fano1.desk.state"];
+var out = [];
+KEYS.forEach(function (k) {
+  var had = localStorage.getItem(k) !== null;
+  localStorage.removeItem(k);
+  out.push((had ? "destroyed  " : "absent     ") + k);
+});
+document.getElementById("log").textContent = out.join("\n");
+</script>
+</body>
+</html>

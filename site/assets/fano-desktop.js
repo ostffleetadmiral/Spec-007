@@ -1307,6 +1307,41 @@
       dr.appendChild(row("the ink is dry — directives issue from the flag seat only."));
     }
 
+    /* ---------- GENESIS SEAT — the third signature ----------
+       The fleet's trust root is a signed artifact on the bulletin
+       board. The flag seat's enrolled key can countersign a staged
+       genesis payload: the canonical bytes are signed here, on the
+       desk, and the signature travels back by hand — like every
+       proper countersignature. */
+    var gs = sec("GENESIS SEAT — countersignature");
+    if (flag) {
+      gs.appendChild(row("flag key (ed25519 pk): " + rec.pk));
+      gs.appendChild(row("relay this pk to the ledger officer to stage your seat."));
+      fetch("pending-genesis.json").then(function (r) {
+        if (!r.ok) { gs.appendChild(row("no pending genesis staged — the ledger officer stages the payload first.")); return null; }
+        return r.json();
+      }).then(function (pg) {
+        if (!pg || !pg.payload) return;
+        var body = new TextEncoder().encode(JSON.stringify(pg.payload, null, 2));
+        gs.appendChild(row("pending payload staged — " + pg.payload.members.length +
+          " members · quorum " + pg.payload.quorum + " · spec " + pg.payload.spec));
+        gs.appendChild(btn("COUNTERSIGN GENESIS", function () {
+          var sg = A.sign(body, A.session.sk);
+          if (!sg) { toast("signature refused", "sys"); return; }
+          var w = makeWindow("genesis countersignature — relay to the ledger", (function () {
+            var t = document.createElement("textarea"); t.className = "cmd-in"; t.rows = 8;
+            t.readOnly = true;
+            t.value = JSON.stringify({ name: "admiral", sig: A.hex(sg) });
+            return t;
+          })());
+          w.style.width = "34rem"; w.style.height = "16rem";
+          toast("genesis countersigned — relay the block to the ledger officer", "sys");
+        }));
+      }).catch(function () {});
+    } else {
+      gs.appendChild(row("the genesis seat posts to the flag seat only."));
+    }
+
     var note = document.createElement("div"); note.className = "cmd-foot";
     note.textContent = "the board posts for all personnel — transparency is doctrine. " +
       "only the flag seat signs; the suite remembers every signature it is shown.";
