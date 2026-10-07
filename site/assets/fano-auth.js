@@ -268,10 +268,15 @@ window.FANO_AUTH = (function () {
     return raw && raw.length === 20 ? raw : null;
   }
   function verifyTotp(code, at) {
+    /* the six-digit gate shares the unlock throttle — a passphrase
+       that's already warm must not make TOTP a free guessing space */
+    if (lockRemain()) return false;
     var secret = totpSecret(), value = String(code || "").replace(/\s/g, "");
     if (!secret || !/^\d{6}$/.test(value)) return false;
     var now = Math.floor((at || Date.now()) / 1000 / TOTP_STEP);
-    for (var d = -TOTP_WINDOW; d <= TOTP_WINDOW; d++) if (hotp(secret, now + d) === value) { session.totp = true; return true; }
+    for (var d = -TOTP_WINDOW; d <= TOTP_WINDOW; d++)
+      if (hotp(secret, now + d) === value) { failReset(); session.totp = true; return true; }
+    failBump();
     return false;
   }
   function totpRequired() { var r = loadRecord(); return !!(r && r.totp); }
@@ -330,10 +335,32 @@ window.FANO_AUTH = (function () {
   function roster() {
     try { return JSON.parse(localStorage.getItem(ROSTER_KEY)) || []; } catch (e) { return []; }
   }
-  function addIssuer(pkHex) {
-    if (isContained()) return false;
+  function addIssuerRaw(pkHex) {
     var r = roster();
     if (r.indexOf(pkHex) === -1) { r.push(pkHex); try { localStorage.setItem(ROSTER_KEY, JSON.stringify(r)); } catch (e) {} }
+    return true;
+  }
+  /* roster mutation is privileged: a rostered key certifies elevated
+     roles and anchors grants, so adding one needs STATION-CHIEF+.
+     Internal paths (genesis seeding, legacy unlock, desk import) use
+     addIssuerRaw; the exported addIssuer enforces the session gate. */
+  function addIssuer(pkHex) {
+    if (isContained()) return false;
+    if (!session.sk || session.role < ROLES.station_chief) return false;
+    return addIssuerRaw(pkHex);
+  }
+  /* removeIssuer: same privilege gate. The desk's founding key is its
+     trust anchor — removing it would orphan the roster, so it refuses. */
+  function removeIssuer(pkHex) {
+    if (isContained()) return false;
+    if (!session.sk || session.role < ROLES.station_chief) return false;
+    var g = genesis();
+    if (g && g.pk === pkHex) return { error: "founding_key" };
+    var r = roster(), i = r.indexOf(pkHex);
+    if (i === -1) return false;
+    r.splice(i, 1);
+    try { localStorage.setItem(ROSTER_KEY, JSON.stringify(r)); } catch (e) {}
+    return true;
   }
 
   /* ---------- callsign registry ----------
@@ -598,11 +625,44 @@ window.FANO_AUTH = (function () {
      Unclaimed grants (sub:null) are claimable once — first enrollment
      binds them. Claimed grants only enroll the bound pk. */
   function grants() {
-    try { return JSON.parse(localStorage.getItem(GRANTS_KEY)) || {}; } catch (e) { return {}; }
+    var g;
+    try { g = JSON.parse(localStorage.getItem(GRANTS_KEY)) || {}; } catch (e) { return {}; }
+    /* expired paper is dead paper — lapsed grants are swept on read so
+       nothing downstream can quietly resurrect them. A roaming flag
+       grant lapses the same way: the paper's expiry is the leash. */
+    var now = Math.floor(Date.now() / 1000), dirty = false;
+    for (var k in g)
+      if (g[k] && typeof g[k].exp === "number" && g[k].exp < now) {
+        delete g[k]; dirty = true;
+      }
+    if (dirty) saveGrants(g);
+    return g;
   }
   function saveGrants(g) { try { localStorage.setItem(GRANTS_KEY, JSON.stringify(g)); } catch (e) {} }
   function grantBytes(callsign, subPkHex, issPkHex, exp) {
     return enc.encode("FANO-CALLSIGN-v1\n" + callsign + "\n" + (subPkHex || "-") + "\n" + issPkHex + "\n" + exp);
+  }
+  /* ---------- revocation ----------
+     A callsign grant can be rescinded: the desk records the revocation
+     and verifyGrant refuses the callsign thereafter, even while the
+     signed paper still sits in the ledger (kept as evidence). Scope is
+     desk-local and permanent — a dead office stays dead here; only a
+     fresh desk never heard the news. STATION-CHIEF+ only. */
+  var REVOKED_KEY = "fano1.revoked";
+  function revoked() {
+    try { return JSON.parse(localStorage.getItem(REVOKED_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function revokeCallsign(callsign) {
+    if (isContained()) return false;
+    if (!session.sk || session.role < ROLES.station_chief) return false;
+    var norm = normalizeCallsign(callsign);
+    if (!norm) return false;
+    var kp = expandSeed(session.sk);
+    if (!kp) return false;
+    var r = revoked();
+    r[norm] = { iss: hex(kp.pk), ts: Date.now() };
+    try { localStorage.setItem(REVOKED_KEY, JSON.stringify(r)); } catch (e) {}
+    return true;
   }
   /* ---------- fleet flag anchor ----------
      The roster is desk-local; the flag seat is fleet-public. The
@@ -637,13 +697,25 @@ window.FANO_AUTH = (function () {
   function verifyGrant(g, forPkHex) {
     if (!g || !g.callsign || !g.iss || !g.sig) return false;
     if (g.exp < Math.floor(Date.now() / 1000)) return false;
+    if (revoked()[g.callsign]) return false;   /* rescinded — filed as evidence, dead as paper */
     var rostered = roster().indexOf(g.iss) !== -1;
     var fleet = !rostered && flagAnchored(g.iss);
     if (!rostered && !fleet) return false;
-    if (g.sub && g.sub !== forPkHex) return false;
+    /* claim binding: an unbound (roaming) grant is claimed to the first
+       pk that enrolls with it. Newer ledgers keep the signed `sub` and
+       record `claimed`; pre-C82 ledgers rewrote `sub` at claim time,
+       which broke the signature — detect those by re-verifying against
+       the unbound body. Either way the claimant binding must match. */
     var ok = verify(grantBytes(g.callsign, g.sub, g.iss, g.exp), unhex(g.sig), unhex(g.iss));
-    if (ok && fleet) g._fleet = true;   /* grant anchored by the fleet board, not this desk */
-    return ok;
+    var bound = g.sub || g.claimed || null;
+    if (!ok && g.sub) {
+      ok = verify(grantBytes(g.callsign, null, g.iss, g.exp), unhex(g.sig), unhex(g.iss));
+      bound = ok ? g.sub : bound;   /* legacy claim: sub was the claim, not the signed binding */
+    }
+    if (!ok) return false;
+    if (bound && bound !== forPkHex) return false;
+    if (fleet) g._fleet = true;   /* grant anchored by the fleet board, not this desk */
+    return true;
   }
   /* ---------- flag authenticator ----------
      The pinned callsign is the only seat that gets a FANO-ROOT-v1
@@ -819,10 +891,12 @@ window.FANO_AUTH = (function () {
     }
     return { ok: true };
   }
-  /* consume a grant: claim it to a pk so the token can't enroll twice */
+  /* consume a grant: claim it to a pk so the token can't enroll twice.
+     `claimed` records the claimant without touching the signed body —
+     rewriting `sub` used to invalidate roaming-grant signatures. */
   function claimGrant(g, pkHex) {
     var all = grants();
-    if (!g.sub) { g.sub = pkHex; all[g.callsign] = g; saveGrants(all); }
+    if (!g.sub && !g.claimed) { g.claimed = pkHex; all[g.callsign] = g; saveGrants(all); }
   }
 
   function verifyCert(record) {
@@ -830,16 +904,19 @@ window.FANO_AUTH = (function () {
     if (!c) return false;
     /* the cert must be bound to this record's subject key */
     if (c.iss !== record.pk) return false;
+    /* the role field is bound too — ranks don't exist past the flag */
+    if (typeof c.role !== "number" || c.role !== Math.floor(c.role) ||
+        c.role < ROLES.field_agent || c.role > ROLES.fleet_admiral) return false;
     var body = certBytes(unhex(record.pk), record.user, c.role, unhex(record.covenant_sha256), unhex(c.iss), c.exp);
     if (c.exp < Math.floor(Date.now() / 1000)) return false;
     if (!verify(body, unhex(c.sig), unhex(c.iss))) return false;
-    /* roles above CADET must trace to a rostered issuer — or,
-       for the flag seat alone, to a fleet-anchored roaming grant the
-       desk holds: the Admiral's paper outranks a local roster */
+    /* roles above CADET must trace to a rostered issuer — or, for the
+       flag seat alone, to the Admiral's paper: the stored grant must
+       still verify on its own terms (roster-or-fleet issuer, live
+       expiry, unrevoked), not just carry a flag it was once given */
     if (c.role > ROLES.field_agent && roster().indexOf(c.iss) === -1) {
-      var fl = fleetFlagPk && isPinned(record.user) &&
-        (grants()[record.user] || {})._fleet;
-      if (!fl) return false;
+      var g = isPinned(record.user) ? grants()[record.user] : null;
+      if (!(g && verifyGrant(g, record.pk))) return false;
     }
     return true;
   }
@@ -899,7 +976,7 @@ window.FANO_AUTH = (function () {
     if (isGenesis) {
       saveGenesis({ callsign: norm, pk: hex(id.pk),
         pk_sha256: hex(sha256(id.pk)), ts: Date.now() });
-      addIssuer(hex(id.pk));
+      addIssuerRaw(hex(id.pk));
     }
     rec.genesis = isGenesis;
     rec.genesis_hash = (genesis() || {}).pk_sha256 || null;
@@ -939,7 +1016,7 @@ window.FANO_AUTH = (function () {
     /* legacy desk: records enrolled before the roster existed carry a
        self-issued cert — seed the roster from the record once the seed
        itself proved pk-continuity above. */
-    if (roster().length === 0 && rec.cert && rec.cert.iss === rec.pk) addIssuer(rec.pk);
+    if (roster().length === 0 && rec.cert && rec.cert.iss === rec.pk) addIssuerRaw(rec.pk);
     /* retroactive founding: a record that predates the genesis record
        claims it — the first real login sets the real genesis hash. */
     if (!genesis()) {
@@ -1051,9 +1128,18 @@ window.FANO_AUTH = (function () {
   /* burn(): the identity dies; the desk remembers its founding.
      burn("genesis") additionally erases the founding record — the lab
      reset, reachable only by deliberately asking for it. */
+  /* fold the session: zero the unwrapped secret bytes before dropping
+     the reference. The WASM side keeps its identity copy (it must
+     sign); a full wipe is burn(). */
+  function lock() {
+    if (session.sk && session.sk.fill) { try { session.sk.fill(0); } catch (e) {} }
+    session.sk = null; session.user = null; session.role = 0;
+    session.totp = false; session.contained = false;
+  }
   function burn(scope) {
     localStorage.removeItem(STORE_KEY);
-    session.sk = null; session.user = null; session.role = 0; session.totp = false; session.contained = false;
+    lock();
+    localStorage.removeItem(FAIL_KEY);   /* a deliberate burn resets the throttle */
     if (scope === "genesis") burnGenesis();
   }
   function fingerprint() {
@@ -1078,7 +1164,8 @@ window.FANO_AUTH = (function () {
     var rec = loadRecord();
     if (!rec) return null;
     var bundle = { v: "FANO-DESK-v1", ts: new Date().toISOString(),
-      record: rec, genesis: genesis(), issuers: roster(), grants: grants() };
+      record: rec, genesis: genesis(), issuers: roster(), grants: grants(),
+      revoked: revoked() };
     var sig = sign(deskBytes(bundle), session.sk);
     if (!sig) return null;
     bundle.sig = hex(sig);
@@ -1100,20 +1187,25 @@ window.FANO_AUTH = (function () {
     localStorage.setItem(STORE_KEY, JSON.stringify(b.record));
     if (g) saveGenesis(g);
     (b.issuers || []).forEach(function (p) {
-      if (/^[0-9a-f]{64}$/i.test(p)) addIssuer(p.toLowerCase()); });
+      if (/^[0-9a-f]{64}$/i.test(p)) addIssuerRaw(p.toLowerCase()); });
     if (b.grants && typeof b.grants === "object") saveGrants(b.grants);
+    if (b.revoked && typeof b.revoked === "object") {
+      try { localStorage.setItem(REVOKED_KEY, JSON.stringify(b.revoked)); } catch (e) {}
+    }
     return { ok: true, user: b.record.user,
              founded: !!(g && g.pk === b.record.pk) };
   }
 
   return {
-    load: load, enroll: enroll, unlock: unlock, burn: burn,
+    load: load, enroll: enroll, unlock: unlock, burn: burn, lock: lock,
     genesis: genesis, burnGenesis: burnGenesis, GENESIS_KEY: GENESIS_KEY,
     loadRecord: loadRecord, verifyCert: verifyCert, verify: verify, sign: sign,
     sha256: sha256, covenantBytes: covenantBytes, covenantHash: covenantHash,
     genIdentity: genIdentity, setIdentity: setIdentity,
     issueCert: issueCert, certBytes: certBytes, fingerprint: fingerprint,
-    roster: roster, addIssuer: addIssuer, ROSTER_KEY: ROSTER_KEY,
+    roster: roster, addIssuer: addIssuer, removeIssuer: removeIssuer,
+    revokeCallsign: revokeCallsign, revoked: revoked,
+    ROSTER_KEY: ROSTER_KEY,
     checkCallsign: checkCallsign, grantCallsign: grantCallsign,
     detectAutomation: detectAutomation, isContained: isContained,
     containedList: contained, flagContained: flagContained,

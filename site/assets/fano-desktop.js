@@ -1140,9 +1140,29 @@
       } else toast(gg && gg.error === "not_restricted" ? "not a reserved callsign" : "grant refused", "sys");
     }));
     gr.appendChild(gRow); gr.appendChild(gOut);
+    var rv = document.createElement("div"); rv.className = "cmd-row";
+    var rvIn = inp("callsign to rescind — revocation is permanent on this desk");
+    rv.appendChild(rvIn);
+    rv.appendChild(btn("REVOKE", function () {
+      toast(A.revokeCallsign(rvIn.value) ? "callsign rescinded — its paper is dead here" : "revocation refused", "sys");
+      rvIn.value = ""; renderCommand(root);
+    }));
+    gr.appendChild(rv);
+    Object.keys(A.revoked()).forEach(function (nm) {
+      gr.appendChild(row("revoked: " + nm + " — " + new Date(A.revoked()[nm].ts).toISOString().slice(0, 10)));
+    });
 
     var ro = sec("ISSUER ROSTER — keys trusted to certify elevated roles");
-    A.roster().forEach(function (fp) { ro.appendChild(row("fp " + fp.slice(0, 12).toUpperCase() + "…")); });
+    A.roster().forEach(function (fp) {
+      var ir = document.createElement("div"); ir.className = "cmd-row";
+      ir.appendChild(row("fp " + fp.slice(0, 12).toUpperCase() + "…"));
+      ir.appendChild(btn("REMOVE", function () {
+        var rm = A.removeIssuer(fp);
+        toast(rm === true ? "issuer removed" : (rm && rm.error === "founding_key" ? "founding key is the anchor" : "removal refused"), "sys");
+        renderCommand(root);
+      }));
+      ro.appendChild(ir);
+    });
     var rRow = document.createElement("div"); rRow.className = "cmd-row";
     var rIn = inp("issuer public key hex — adds to the roster");
     rRow.appendChild(rIn);

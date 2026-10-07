@@ -103,6 +103,42 @@ host desk's founding is untouched.
 **Bearer-instrument warning — read this once:** `sub:null` means whoever
 holds the paper holds the seat. A roaming paper in an inbox, a screenshot, a
 clipboard history is a flag seat with legs. Mint it, use it, let it die.
+
+### 3a. Trust internals — what the desk verifies (wave-2 retro-pass)
+
+The cert and grant machinery was unwound component-by-component; these
+invariants now hold and are probed (AUTH-01..09):
+
+- **Role bound.** `verifyCert` refuses any cert whose role isn't an
+  integer in `0..5` — a perfectly signed `role:99` dies at the bound,
+  signature notwithstanding (AUTH-02).
+- **Flag trust derives, it isn't stored.** An elevated cert on the
+  pinned callsign requires the stored grant to *re-verify* at unlock —
+  roster-or-fleet issuer, live expiry, unrevoked. The old code trusted a
+  persisted `_fleet` marker that the `importGrant` path never wrote
+  (AUTH-08).
+- **Claims don't touch the signature.** `claimGrant` records
+  `g.claimed` instead of rewriting `g.sub` — the old rewrite
+  invalidated roaming-grant signatures post-claim. `verifyGrant`
+  accepts the legacy representation by re-verifying the unbound body
+  (AUTH-08 proves the new path; COMM-19/20/21 hold the lifecycle).
+- **Roster mutation is privileged.** `addIssuer`/`removeIssuer`
+  require a STATION-CHIEF+ session — the ungated API path let any
+  session roster a self-minted cert's issuer. The founding key can't be
+  removed (AUTH-01, AUTH-06). Genesis seeding, legacy unlock, and desk
+  import use the internal raw path.
+- **Dead paper sweeps itself.** `grants()` prunes expired entries on
+  read — a lapsed roaming paper lapses the seat it anchored (AUTH-03).
+- **Revocation exists.** `revokeCallsign` (STATION-CHIEF+, Command
+  suite REVOKE) records the rescission; the grant stays filed as
+  evidence but `verifyGrant`/`checkCallsign` refuse it. Desk-local and
+  permanent (AUTH-04).
+- **TOTP shares the throttle.** Wrong six-digit codes bump the same
+  counter as bad passphrases — five misses lock (AUTH-05).
+- **Secrets die at lock.** `lock()` zero-fills the unwrapped seed
+  before clearing the session; `burn()` locks first, then resets the
+  throttle counter for the next life (AUTH-07). Keystore stays
+  PBKDF2×100k + AES-GCM — no change.
 Thirty days is the leash.
 
 ## 4. Desk transfer — FANO-DESK-v1

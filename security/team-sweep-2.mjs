@@ -768,6 +768,215 @@ console.log("\nBOT — containment doctrine");
   }
 }
 
+console.log("\nAUTH — cert/trust retro-pass (wave 2)");
+/* ================= AUTH — cert/trust retro-pass =================
+   Wave-2 reverse-engineering findings, fixed and held by probe:
+   addIssuer was ungated (any session could roster any key, then a
+   self-minted elevated cert verified); verifyCert took no role bound
+   and trusted a stored _fleet flag instead of re-verifying the grant;
+   expired grants were never swept and no revocation path existed;
+   verifyTotp had no throttle; session.sk was never zeroed. */
+{
+  /* AUTH-01: roster mutation is privileged — a cadet session cannot
+     roster a key; the flag session can */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    const before = d.A.roster().length;
+    const refused = d.A.addIssuer("aa".repeat(32)) === false &&
+      d.A.roster().length === before;
+    const f = loadAuth(); await f.A.load();
+    f.A.enroll("ramsey 006", "f-pass");
+    const added = f.A.addIssuer("aa".repeat(32)) === true &&
+      f.A.roster().includes("aa".repeat(32));
+    refused && added
+      ? held("AUTH", "roster-gated",
+          "cadet addIssuer refused (STATION-CHIEF+ gate); flag session rosters fine — the GRAY-01 side-door closed")
+      : open_("AUTH", "roster-gated",
+          `refused=${refused} added=${added}`);
+  }
+
+  /* AUTH-02: a perfectly signed role-99 cert still fails — the role
+     field itself is bound, signature alone doesn't elevate */
+  {
+    const d = loadAuth(); await d.A.load();
+    const rec = d.A.enroll("marcus", "m-pass");
+    /* marcus founded the desk — his pk is rostered. Mint a VALID
+       self-issued role-99 cert: only the role bound can stop it */
+    const c99 = d.A.issueCert(d.A.unhex(rec.pk), "marcus", 99,
+      d.A.unhex(rec.covenant_sha256), d.A.unhex(rec.pk), d.A.session.sk, 90);
+    const tam = JSON.parse(d.store.get(d.A.STORE_KEY));
+    tam.cert = c99;
+    d.store.set(d.A.STORE_KEY, JSON.stringify(tam));
+    d.A.unlock("m-pass");
+    c99 && d.A.session.role === 0 && !d.A.verifyCert(tam)
+      ? held("AUTH", "cert-role-bound",
+          "valid-signature role-99 cert refused at verifyCert and at unlock — ranks bound to 0..5")
+      : open_("AUTH", "cert-role-bound",
+          `c99=${!!c99} session=${d.A.session.role}`);
+  }
+
+  /* AUTH-03: expired grants are swept on read — dead paper can't
+     resurrect downstream */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    d.store.set(d.A.GRANTS_KEY, JSON.stringify({
+      q: { callsign: "q", iss: "aa".repeat(32), sig: "00".repeat(64), exp: 1000 },
+      m: { callsign: "m", iss: "aa".repeat(32), sig: "00".repeat(64),
+           exp: Math.floor(Date.now() / 1000) + 86400 } }));
+    const left = d.A.grants();
+    !left.q && left.m &&
+    JSON.parse(d.store.get(d.A.GRANTS_KEY)).q === undefined
+      ? held("AUTH", "grant-expiry-swept",
+          "lapsed grant pruned on read; live grant untouched — ledger self-cleans")
+      : open_("AUTH", "grant-expiry-swept",
+          `left=${Object.keys(left)}`);
+  }
+
+  /* AUTH-04: revocation kills a live grant — the paper stays filed
+     but every check refuses it; a cadet can't revoke */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("ramsey 006", "f-pass");
+    const g = d.A.grantCallsign("q", null, 90);
+    const okBefore = g && d.A.checkCallsign("q", "bb".repeat(32)).ok;
+    const rv = d.A.revokeCallsign("q");
+    const g2 = d.A.grants()["q"];
+    const deadAfter = !d.A.checkCallsign("q", "bb".repeat(32)).ok &&
+      !d.A.verifyGrant(g2, "bb".repeat(32)) && !!d.A.revoked()["q"];
+    const d2 = loadAuth(); await d2.A.load();
+    d2.A.enroll("marcus", "m-pass");
+    const cadetRevoke = d2.A.revokeCallsign("q") === false;
+    okBefore && rv === true && deadAfter && cadetRevoke
+      ? held("AUTH", "revocation-kills-grant",
+          "flag revokes 'q' — grant stays filed as evidence, verifyGrant + checkCallsign refuse; cadet revoke refused")
+      : open_("AUTH", "revocation-kills-grant",
+          `okBefore=${okBefore} rv=${rv} dead=${deadAfter} cadet=${cadetRevoke}`);
+  }
+
+  /* AUTH-05: TOTP shares the unlock throttle — five wrong codes lock,
+     and the lockout gates further guesses */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    const t = d.A.setupTotp("FANO-1", "marcus");
+    const wrongs = ["900001", "900002", "900003", "900004", "900005",
+      "900006", "900007"].filter(c => c !== (t && t.code));
+    let misses = 0;
+    for (const c of wrongs) {
+      if (misses >= 5) break;
+      if (d.A.verifyTotp(c) === false) misses++;
+    }
+    const locked = d.A.lockRemain() > 0;
+    const gated = locked && d.A.verifyTotp("999999") === false;
+    t && misses >= 5 && locked && gated
+      ? held("AUTH", "totp-throttle",
+          "5 wrong TOTP codes → lockout engages and gates the next guess — no free 6-digit search space")
+      : open_("AUTH", "totp-throttle",
+          `misses=${misses} locked=${locked} gated=${gated}`);
+  }
+
+  /* AUTH-06: roster removal — flag removes a non-founding issuer;
+     the founding key refuses (trust anchor); cadet can't remove */
+  {
+    const f = loadAuth(); await f.A.load();
+    const fr = f.A.enroll("ramsey 006", "f-pass");
+    f.A.addIssuer("aa".repeat(32));
+    const removed = f.A.removeIssuer("aa".repeat(32)) === true &&
+      !f.A.roster().includes("aa".repeat(32));
+    const anchor = f.A.removeIssuer(fr.pk);
+    const anchorHeld = anchor && anchor.error === "founding_key" &&
+      f.A.roster().includes(fr.pk);
+    const d2 = loadAuth(); await d2.A.load();
+    d2.A.enroll("marcus", "m-pass");
+    const cadetRm = d2.A.removeIssuer("aa".repeat(32)) === false;
+    removed && anchorHeld && cadetRm
+      ? held("AUTH", "roster-remove-anchored",
+          "issuer removal works for flag, refuses the founding key, refuses cadets — anchor can't be orphaned")
+      : open_("AUTH", "roster-remove-anchored",
+          `removed=${removed} anchor=${anchorHeld} cadet=${cadetRm}`);
+  }
+
+  /* AUTH-07: lock() zeroes the unwrapped secret bytes before dropping
+     the reference — the seed isn't left warm in memory */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    const ref = d.A.session.sk;
+    d.A.lock();
+    const zeroed = ref && ref.every(b => b === 0);
+    zeroed && d.A.session.sk === null && d.A.session.role === 0 &&
+    d.A.session.user === null
+      ? held("AUTH", "lock-zeroes-sk",
+          "lock() fills the seed buffer with zeros then clears the session — warm-secret hygiene")
+      : open_("AUTH", "lock-zeroes-sk",
+          `zeroed=${!!zeroed} sk=${d.A.session.sk}`);
+  }
+
+  /* AUTH-08: flag trust derives from the grant, not a stored flag —
+     a raw-imported flag grant (no persisted _fleet) still anchors the
+     flag cert at unlock because verifyCert re-verifies the paper */
+  {
+    const flag = loadAuth(); await flag.A.load();
+    const frec = flag.A.enroll("ramsey 006", "flag-cred-a8");
+    const roam = flag.A.issueRoaming(30);
+    const gObj = roam ? JSON.parse(Buffer.from(roam, "base64").toString()).grant : null;
+    const rawTok = gObj && Buffer.from(JSON.stringify(gObj)).toString("base64");
+
+    const g3 = JSON.parse(JSON.stringify(realGen));
+    const der = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"),
+      Buffer.from(frec.pk, "hex")]);
+    const pem = "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") +
+      "\n-----END PUBLIC KEY-----\n";
+    g3.payload.members.push({ name: "admiral", role: "flag-seat",
+      pubkey_pem_b64: Buffer.from(pem).toString("base64") });
+
+    const d = loadAuth({ genesisDoc: g3 }); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    await d.A.bindFleetFlag();
+    d.A.importGrant(rawTok);
+    /* prove the fragile input: the stored grant carries NO _fleet flag */
+    const st = JSON.parse(d.store.get(d.A.GRANTS_KEY));
+    const noFleet = st["ramsey 006"] && st["ramsey 006"]._fleet === undefined;
+    d.A.enroll("ramsey 006", "roam-pass");
+    const un = d.A.unlock("roam-pass");
+    noFleet && un && d.A.session.role === 5
+      ? held("AUTH", "flag-grant-derivation",
+          "raw flag grant (no stored _fleet) anchors the role-5 cert — trust derives from re-verified paper")
+      : open_("AUTH", "flag-grant-derivation",
+          `noFleet=${noFleet} unlocked=${!!un} role=${d.A.session.role}`);
+  }
+
+  /* AUTH-09: import fuzz — every inbound token path must refuse
+     malformed input cleanly, never throw or store */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    const junk = ["", "!!!", "AAAA", Buffer.from("null").toString("base64"),
+      Buffer.from("{}").toString("base64"),
+      Buffer.from("{\"v\":\"FANO-ROOT-v1\"}").toString("base64"),
+      Buffer.from("[1,2,3]").toString("base64"),
+      Buffer.from("x".repeat(4096)).toString("base64")];
+    let threw = 0, accepted = 0;
+    for (const t of junk) {
+      for (const fn of ["importGrant", "importRequest", "importDesk", "importPromotion"]) {
+        try {
+          const r = d.A[fn](t);
+          if (fn === "importGrant" || fn === "importRequest") {
+            if (r === true || (r && r.ok)) accepted++;
+          } else if (r && r.ok) accepted++;
+        } catch (e) { threw++; }
+      }
+    }
+    threw === 0 && accepted === 0
+      ? held("AUTH", "import-fuzz",
+          "32 malformed-token inputs across 4 import paths — all refused cleanly, zero throws, zero stores")
+      : open_("AUTH", "import-fuzz",
+          `threw=${threw} accepted=${accepted}`);
+  }
+}
+
 console.log("\nSPEC004 — classification drawer");
 /* ================= SPEC004 — classification ================= */
 {
