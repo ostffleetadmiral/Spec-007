@@ -101,7 +101,7 @@ lattice 狀態變化與 fabric 事件可扇出至此。多播仍按跳數支付�
 | 閘門 | 所需證明 | 狀態 |
 |---|---|---|
 | `addr-derive` | coord+organ+digest → 位址,逐位向量 | 未建 |
-| `route-o1` | 下一跳於有界運算內計算,無表掃描 | **PROVEN**(`route-o1.mjs`):全部 3375² 配對中最多 14 個受檢運算;單調遞減窮盡驗證 → ≤42 跳;較早退表掃描快 502×。範圍:僅解析 |
+| `route-o1` | 下一跳於有界運算內計算,無表掃描 | **PROVEN**(`route-o1.mjs`):全部 3375² 配對中最多 14 個受檢運算;單調遞減窮盡驗證 → ≤42 跳;較早退表掃描快 502×。範圍:僅解析。**遠端雙生驗證(2026-10-07)**:sheraton 硬體上 Python 方言 `route()` 走完整 ≤42 跳路徑,平均 13.9 µs(最大 42 跳為 46.7 µs),簽章驗證 49.3 µs/封包 — 對端矽晶上之逐跳有界工作量。**實測 WAN 段**:digit 之 `fano-wan-gateway` + sheraton 之 `fano_beacon` → 全球 v6 上 10/10 次簽章 FLEET-ACK 往返,RTT 中位數 2.5 ms(遞送物理,非解析成本)。**環形路由邊界**:`routeToPeer`(Rations `src/p2p/routing.zig`,qstar-mesh 相同)為 **O(本機對等度)** — 直連比對 + 貪婪最近掃描;實測(`src/p2p/route_bench.zig`):10 對等約 0.1 µs → 50k 對等約 0.5 ms。對網路規模平坦 — 節點對等表不隨艦隊增長 — 惟承載數萬連線之超級樞紐逐決策成本上升;屬架構問題,非路由缺陷 |
 | `mtu-honesty` | 1266 B 原始狀態絕不聲稱單一最小 MTU 資料包;`LATTICE-FULL-C` 僅在壓縮形式可放入時單資料包 | 已規範(§3,OVR-02 修訂) |
 | `staleness-detect` | 摘要片段不符 → 接收者標記 | **PROVEN**(`staleness-detect.mjs`):同步接受;單格傷口、雙格置換、截斷皆標記 STALE;判定於全部 3375 接收位置無關位置;2⁻⁴⁴ 碰撞界 — 偵測分歧而非偽造(認證仍屬雙錨) |
 | `wan-lab` | 串流在原始 UDP 線路的種子劣化下存活 | **PROVEN**(`spec008-wire.mjs`):6/6 於 ::1 — 乾淨通道逐位元一致;15% 遺失 → 依 seq 缺口誠實回報 INCOMPLETE;重排+重複 → 去重後逐位元重組;陳舊片段於標頭即拒;LATTICE-FULL-C 299 B ≤ 1232 B 單資料包與合法 15 訊框路徑並行;495/500 權杖串流 seq↔酬載精確相符。範圍:tensor 位址作為路由標頭 — 字面 `fd53:5007::/48` 綁定依主機而定。**WAN 邊緣(2026-10-07)**:`qstar-llm.abrdns.com` DDNS 寫入路徑已驗證 — 機上 DynamicURL(`/usr/local/bin/qstar-dyndns-update.py`,cron 每 5 分鐘)即時更新了 A 記錄(ns71 已服務目前 WAN IP)。IPv4 入站仍受 CGNAT 封鎖(T-Mobile `172.59.x` 空間 — DDNS 只修簿記,不修可達性)。**真正的 WAN 鑰匙是 IPv6**:digit 在 wlan0 持有全域 v6 `2607:fb91:3a11:bafb::/64`;`fano-wan-gateway.mjs` 綁定 `[::]` UDP,於邊界驗證 FNV-256 簽章,丟棄未簽章資料包,將已驗證的 136-B 封包轉發入網狀網路(本地端到端驗證:簽章→收件匣 `valid:true`,偽造→丟棄)。**外部 v6 入站:未驗證** — AAAA 記錄待建(需該記錄自身的 v6 DynamicURL 或 API 憑證;`ddns-update.mjs` 讀取 `CLOUDNS_DYNURL_V6` 或重用機上 v4 權杖)。**DNS 旁路修正案(艦隊令 2026-10-07)**:傳輸層不依賴公共 DNS — 封包經 FNV-256 簽章自我驗證,CA 信任鏈對線路層僅屬裝飾。`fleet-map.mjs` 產出探測實測位址簿(digit 邊緣 `[2607:fb91:…]:9779`、sheraton v6+v4、雙節點 AP/STA)— 以實測綁定而非斷言名稱進行會合。外部檢查器無法驗證 v6 入站(check-host 節點無法解析 v6-literal 區域;無艦隊外探測機)— 首個真實外部簽章資料包將關閉此項。**會合機制已驗證(2026-10-07)**:`fano_beacon.py` + `fano_dialect.py`(第三方言雙生 — Python,3/3 黃金向量逐位元一致)部署至 sheraton;簽章 `FLEET-BEACON:sheraton` 封包 → digit 之 v6 邊緣 → 簽章驗證 → 觀測源 `2607:fb91:…::e2b7` 記入 `rendezvous.json` → 回傳簽章 `FLEET-ACK`。身份即簽章,位置即實測 — 無 STUN 會合模型於真實機器間經 v6 運作。**中繼隧道(2026-10-07)**:`fano_relay_link.py` 承載於 Rations WS 中繼(`src/relay/server.js` — 僅出站扇出樞紐):sheraton → `ws://digit:8100/ws` → 簽章 F1 訊框 → digit → UDP → 節點 A 收件匣 `valid:true`,反向 digit → 中繼 → sheraton 亦驗證通過 — **三層傳輸,簽章端到端完整,雙端皆僅出站**。唯有中繼需要可達位址;只要樞紐可託管,營運商 NAT 即無關緊要。外來/未簽章訊框於 F1+verify 邊界丟棄。**公告板(2026-10-07)**:`fleet-manifest.mjs` + `fleet_bootstrap.py` — 經 ed25519 簽章的艦隊清單透過 git push 發佈至公開倉庫,成員以 `raw.githubusercontent.com` 擷取(全球複寫 HTTPS — 無需自有伺服器,營運商無法阻斷)。sheraton 擷取 digit 目前 v6 綁定,依釘選艦隊公鑰驗證簽章並寫入會合表 — 第三層會合機制(網狀射頻 → 簽章信標 → 公開公告板)。**創世信任根(2026-10-07)**:`fleet-genesis.json` — digit+sheraton 雙重簽署(2-of-2 ed25519)宣告艦隊信任錨:兩枚公鑰內嵌、方言契約 sha256、SPEC-007 基線 sha256、法定數規則。`fleet_bootstrap.py` 自公告板擷取創世紀錄,自驗全部成員簽章,本地 TOFU 釘選,而後要求每份清單引用該釘選創世且由創世成員簽署 — 已於 sheraton 實測(簽署者 `digit`,2/2 簽章,會合表已建立)。公告板竄改 → GENESIS CONFLICT 或簽署者拒絕,高聲失敗。運維附註:raw.githubusercontent CDN 會提供數分鐘的陳舊副本 — bootstrap 在判定前先重試陳舊值 |
@@ -116,6 +116,9 @@ lattice 狀態變化與 fabric 事件可扇出至此。多播仍按跳數支付�
 ## 6. 非主張
 
 - 不主張 O(1) 遞送延遲 — 僅 O(1) 解析。
+- O(1) 界限僅適用於格點*解析*;環形路由器
+  (Rations 與 qstar-mesh 之 `routeToPeer`)為 O(本機對等度)—
+  對節點自身連線表之直連比對 + 貪婪掃描。
 - 位址格式不賦予密碼學安全性;簽章/驗證仍屬現行雙錨紀律。
 - IPv6/Q128.128 位寬押韻是設計鏡像,不是定理。
 - 136 位元組線路之酬載尾部(`40+plen..104`)為未驗證暫存空間 — 簽章覆蓋標頭與 `plen` 位元組酬載。接收端必須僅讀取 `plen` 位元組;填充位元不計。
