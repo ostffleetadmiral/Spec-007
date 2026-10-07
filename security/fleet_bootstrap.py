@@ -47,7 +47,7 @@ def main():
     members = {}
     for m in gen["payload"]["members"]:
         members[m["name"]] = (m["pubkey_hint"],
-                              load_der_public_key(base64.b64decode(
+                              load_pem_public_key(base64.b64decode(
                                   m["pubkey_pem_b64"])))
     for name, sig in gen["sigs"].items():
         try:
@@ -70,8 +70,17 @@ def main():
               f"{len(gen['sigs'])}/{len(members)} sigs verified", flush=True)
 
     # --- 2. manifest: signer must be a genesis member + cite genesis ---
-    manifest = fetch(URL)
-    payload = manifest["payload"]
+    # raw.githubusercontent CDN can serve a stale copy for a few minutes —
+    # an older VALID manifest is lag, not tamper: retry before judging.
+    manifest, payload = None, {}
+    for attempt in range(3):
+        manifest = fetch(URL)
+        payload = manifest["payload"]
+        if payload.get("genesis_sha256") == ghash: break
+        if attempt < 2:
+            print(f"stale manifest (genesis {str(payload.get('genesis_sha256'))[:16]}… "
+                  f"≠ {ghash[:16]}…) — CDN lag, retry {attempt+2}/3", flush=True)
+            time.sleep(10)
     if payload.get("genesis_sha256") != ghash:
         sys.exit("manifest does not descend from pinned genesis")
     hint = manifest.get("pubkey_hint", "")
