@@ -800,6 +800,50 @@ window.FANO_AUTH = (function () {
     return rec ? rec.pk.slice(0, 16).toUpperCase().replace(/(.{4})/g, "$1 ").trim() : null;
   }
 
+  /* ---------- desk transfer ----------
+     A desk is its key, not its machine. FANO-DESK-v1 carries the whole
+     desk record — identity (keystore still passphrase-wrapped; the key
+     never travels in the clear), the founding, the issuer roster, and
+     the grants ledger — signed by the desk's own key so a receiving
+     desk can authenticate the handoff before it trusts it. */
+  function deskBytes(bundle) {
+    var b = Object.assign({}, bundle); delete b.sig;
+    return enc.encode("FANO-DESK-v1\n" + canonJson(b));
+  }
+  function canonJson(o) { return JSON.stringify(o, null, 2); }
+  function exportDesk() {
+    if (!session.sk) return null;
+    var rec = loadRecord();
+    if (!rec) return null;
+    var bundle = { v: "FANO-DESK-v1", ts: new Date().toISOString(),
+      record: rec, genesis: genesis(), issuers: roster(), grants: grants() };
+    var sig = sign(deskBytes(bundle), session.sk);
+    if (!sig) return null;
+    bundle.sig = hex(sig);
+    return btoa(JSON.stringify(bundle));
+  }
+  function importDesk(token) {
+    var b;
+    try { b = JSON.parse(atob(token.trim())); } catch (e) { return { error: "not_desk_token" }; }
+    if (!b || b.v !== "FANO-DESK-v1" || !b.record || !b.sig)
+      return { error: "not_desk_token" };
+    if (loadRecord()) return { error: "desk_founded" };
+    /* the token must be signed by the key it carries */
+    if (!verify(deskBytes(b), unhex(b.sig), unhex(b.record.pk)))
+      return { error: "sig_invalid" };
+    /* founding only travels with its own key — a token claiming a
+       genesis that isn't the carried key's is a forgery of state */
+    var g = b.genesis;
+    if (g && g.pk !== b.record.pk) g = null;
+    localStorage.setItem(STORE_KEY, JSON.stringify(b.record));
+    if (g) saveGenesis(g);
+    (b.issuers || []).forEach(function (p) {
+      if (/^[0-9a-f]{64}$/i.test(p)) addIssuer(p.toLowerCase()); });
+    if (b.grants && typeof b.grants === "object") saveGrants(b.grants);
+    return { ok: true, user: b.record.user,
+             founded: !!(g && g.pk === b.record.pk) };
+  }
+
   return {
     load: load, enroll: enroll, unlock: unlock, burn: burn,
     genesis: genesis, burnGenesis: burnGenesis, GENESIS_KEY: GENESIS_KEY,
@@ -819,6 +863,7 @@ window.FANO_AUTH = (function () {
     credBytes: credBytes, issueCredential: issueCredential,
     verifyCredential: verifyCredential, exportCredential: exportCredential,
     authenticate: authenticate, isPinned: isPinned,
+    exportDesk: exportDesk, importDesk: importDesk,
     setupTotp: setupTotp, verifyTotp: verifyTotp, totpRequired: totpRequired,
     totpStatus: totpStatus, totpCode: totpCode, qrSvg: qrSvg,
     TOTP_ISSUER: TOTP_ISSUER, TOTP_ACCOUNT: TOTP_ACCOUNT,

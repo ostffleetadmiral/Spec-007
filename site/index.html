@@ -138,7 +138,8 @@ SIGN AND ENROLL</button>
 <p><small id="enroll-note">Signing mints a real Ed25519 keypair and signs the covenant hash.
 The secret key is wrapped with your passphrase (PBKDF2 &middot; AES-256-GCM) and never stored in the clear.
 On an unfounded desk, the first signature writes the genesis record — sha256 of the founding key, bound forever.</small></p>
-<p style="margin-top:1rem;"><small><a href="#" id="factory-reset" style="color:var(--rule);">desk compromised? — factory reset</a></small></p>
+<p style="margin-top:1rem;"><small><a href="#" id="factory-reset" style="color:var(--rule);">desk compromised? — factory reset</a>
+ · <a href="#" id="desk-import" style="color:var(--rule);">carry a desk? — import transfer</a></small></p>
 </div>
 
 <script src="assets/fano-auth.js"></script>
@@ -172,6 +173,19 @@ document.getElementById('factory-reset').addEventListener('click', function (e) 
        here — a partial reset is how the split-store bug bit us */
     location.href = 'reset.html';
   });
+});
+document.getElementById('desk-import').addEventListener('click', function (e) {
+  e.preventDefault();
+  var tok = prompt('FANO-DESK-v1 transfer token — signed by the desk you carry.\n' +
+    'Mint it on the source desk: terminal → export-desk (keystore warm).');
+  if (!tok) return;
+  var r = FANO_AUTH.importDesk(tok.replace(/\s/g, ''));
+  if (r.error === 'desk_founded') { alert('This desk is already founded — factory reset first.'); return; }
+  if (r.error === 'sig_invalid') { alert('Refused — the token is not signed by the key it carries.'); return; }
+  if (r.error) { alert('Not a FANO-DESK-v1 token.'); return; }
+  alert('Desk received — ' + r.user.toUpperCase() + (r.founded ? ' · founding carried' : '') +
+    '.\nUnlock with your credential.');
+  location.reload();
 });
 var langBtn = document.createElement('span');
 langBtn.id = 'idx-lang';

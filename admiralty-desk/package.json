@@ -1,0 +1,13 @@
+{
+  "name": "admiralty-desk",
+  "version": "1.0.0",
+  "description": "FANO-1 Admiralty workstation — full-screen Electron shell over site/",
+  "main": "main.js",
+  "scripts": {
+    "start": "sh desk.sh",
+    "desk": "sh desk.sh"
+  },
+  "devDependencies": {
+    "electron": "44.5.1"
+  }
+}

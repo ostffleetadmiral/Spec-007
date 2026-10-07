@@ -1603,6 +1603,7 @@
     "manual", "export", "import", "7q", "admiralty", "pet", "quplink", "family", "rations", "comms", "ask", "theme",
     "credential", "auth", "provider", "academy", "science", "gate", "codex",
     "lang", "unlock", "rekey", "burn", "grant", "grants", "branch", "request-branch",
+    "export-desk", "import-desk",
     "sysmon", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
     "xyzzy", "look", "open sesame", "sudo", "clear", "lock"];
 
@@ -1646,6 +1647,8 @@
     "  grants          list issued callsign grants",
     "  request-branch <div>  file a branch request — Fleet Admiral approves in 7q",
     "  branch          show your branch assignment",
+    "  export-desk     signed desk-transfer token — carry this desk to another machine",
+    "  import-desk <tok>  accept a desk-transfer token on an unfounded desk",
     "  burn            destroy the keystore — next boot asks for the pledge",
     "  clear           wipe the scroll",
     "  lock            sign out",
@@ -1702,6 +1705,19 @@
           "\neggs: " + state.eggs.length + "/" + eggTotal();
       case "manual": openManual(); return t("term.manual");
       case "export": return btoa(JSON.stringify(state)) + "\n— carry this code; 'import <code>' on any desk restores you";
+      case "export-desk":
+        if (!FANO_AUTH.session.sk) return "export-desk: unlock first — the desk signs its own transfer";
+        var dtok = FANO_AUTH.exportDesk();
+        return dtok ? dtok + "\n— FANO-DESK-v1 · the keystore stays wrapped; 'import-desk <token>' on an unfounded desk"
+                    : "export-desk: refused — no record to carry";
+      case "import-desk":
+        if (!argRaw) return "import-desk: needs a desk token";
+        var di = FANO_AUTH.importDesk(argRaw.replace(/\s/g, ""));
+        if (di.error === "desk_founded") return "import-desk: this desk is already founded — burn first";
+        if (di.error === "sig_invalid") return "import-desk: refused — token not signed by the key it carries";
+        if (di.error) return "import-desk: not a FANO-DESK-v1 token";
+        return "desk received — " + di.user.toUpperCase() + (di.founded ? " · founding carried" : "") +
+          "\nunlock with your credential — the desk is yours";
       case "import":
         if (!argRaw) return "import: needs a save code";
         try {
@@ -2186,6 +2202,21 @@
     d.addEventListener("click", function () { sm.classList.remove("open"); saverStart(); });
     var run = document.getElementById("sm-run");
     sm.insertBefore(d, run);
+  })();
+  /* shell controls — only on the Admiralty's own machine (Electron) */
+  (function () {
+    var D = window.ADMIRALTY_DESK, sm = document.getElementById("start-menu");
+    if (!D || !D.isDesk || !sm) return;
+    var run = document.getElementById("sm-run");
+    [["Minimize shell", "ctrl+m", D.minimize],
+     ["Full-screen", "f11", D.toggleFullscreen],
+     ["Exit workstation", "ctrl+shift+q", D.quit]].forEach(function (it) {
+      var d = document.createElement("div");
+      d.className = "sm-item";
+      d.innerHTML = "<span>" + it[0] + "</span><span class='hint'>" + it[1] + "</span>";
+      d.addEventListener("click", function () { sm.classList.remove("open"); it[2](); });
+      sm.insertBefore(d, run);
+    });
   })();
 
   /* run box → live-search launcher: results appear as you type (iter 31) */
