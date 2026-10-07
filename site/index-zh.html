@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+<script>
+if (location.hostname === "localhost" || location.hostname === "[::1]") {
+  location.replace("http://127.0.0.1:" + location.port +
+    location.pathname + location.search + location.hash);
+}
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SPEC-007 // 照明之器</title>

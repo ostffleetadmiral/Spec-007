@@ -36,13 +36,37 @@
 <script>
 var t = document.getElementById("title"), v = document.getElementById("verdict"),
     log = document.getElementById("log");
-function burn(tag) {
-  var b = FANO_RESET.execute();
-  t.textContent = "Founding cleared — " + tag;
-  log.textContent = b.map(function (k) { return "destroyed  " + k; }).join("\n");
+var CANON = "127.0.0.1";
+var hop = new URLSearchParams(location.search).get("hop");
+
+/* scorched earth: every key on this origin burns, not just the desk's */
+function scorch() {
+  var had = Object.keys(localStorage);
+  try { sessionStorage.clear(); } catch (e) {}
+  localStorage.clear();
+  return had;
 }
+
+/* after this origin is ash, sweep the sibling loopback store once,
+   then land on the canonical covenant */
+function next() {
+  if (hop) { location.replace("http://" + CANON + ":" + location.port + "/index.html"); return; }
+  var twin = location.hostname === CANON ? "localhost" : CANON;
+  location.replace("http://" + twin + ":" + location.port + "/reset.html?hop=1");
+}
+
+function burn(tag) {
+  var had = scorch();
+  t.textContent = "Desk razed — " + tag;
+  log.textContent = (had.length
+    ? had.map(function (k) { return "destroyed  " + k; }).join("\n")
+    : "store already empty") +
+    "\n\nsweeping the twin origin, then returning to the covenant…";
+  setTimeout(next, 1200);
+}
+
 FANO_RESET.guard().then(function (g) {
-  if (g.mode === "vote") {
+  if (g.mode === "vote" && !hop) {
     t.textContent = "Flag desk — vote required";
     v.innerHTML = "<p>Founding callsign <code>" + (g.callsign || "?") +
       "</code> is the Fleet Admiral's seat. A unanimous vote of the " +
@@ -50,7 +74,8 @@ FANO_RESET.guard().then(function (g) {
     document.getElementById("votebox").style.display = "block";
     return;
   }
-  burn(g.mode === "cluster" ? "sovereign cluster, unilateral" : "ordinary desk");
+  burn(g.mode === "cluster" ? "sovereign cluster, unilateral"
+       : hop ? "twin origin swept" : "ordinary desk");
 });
 document.getElementById("vote-btn").addEventListener("click", function () {
   FANO_RESET.verifyVote(document.getElementById("token").value).then(function (ok) {
