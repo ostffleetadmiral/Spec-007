@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-07T22:54:46.021Z",
+  "generated": "2026-10-07T22:56:10.259Z",
   "findings": [
     {
       "id": "FURN-01",
@@ -827,7 +827,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "attacker-signed vote refused",
-      "ts": "2026-10-07T22:54:41.616Z"
+      "ts": "2026-10-07T22:56:05.279Z"
     },
     {
       "id": "RED-02",
@@ -836,7 +836,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "1-of-2 sig → not unanimous → refused",
-      "ts": "2026-10-07T22:54:41.622Z"
+      "ts": "2026-10-07T22:56:05.284Z"
     },
     {
       "id": "RED-03",
@@ -845,7 +845,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "vote for another seat refused (bound to founding callsign)",
-      "ts": "2026-10-07T22:54:41.623Z"
+      "ts": "2026-10-07T22:56:05.285Z"
     },
     {
       "id": "RED-04",
@@ -854,7 +854,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": ">24h token treated as replay",
-      "ts": "2026-10-07T22:54:41.625Z"
+      "ts": "2026-10-07T22:56:05.286Z"
     },
     {
       "id": "RED-05",
@@ -863,7 +863,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "mutated body invalidates the vote",
-      "ts": "2026-10-07T22:54:41.627Z"
+      "ts": "2026-10-07T22:56:05.288Z"
     },
     {
       "id": "RED-06",
@@ -872,7 +872,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "cluster→unilateral, public→vote-required, ordinary→open",
-      "ts": "2026-10-07T22:54:41.632Z"
+      "ts": "2026-10-07T22:56:05.292Z"
     },
     {
       "id": "BLUE-01",
@@ -881,7 +881,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "PUT/DELETE/TRACE/PROPFIND all refused",
-      "ts": "2026-10-07T22:54:41.642Z"
+      "ts": "2026-10-07T22:56:05.301Z"
     },
     {
       "id": "BLUE-02",
@@ -890,7 +890,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "../../etc/passwd → 404",
-      "ts": "2026-10-07T22:54:41.664Z"
+      "ts": "2026-10-07T22:56:05.327Z"
     },
     {
       "id": "BLUE-03",
@@ -899,7 +899,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "/assets/ → 403",
-      "ts": "2026-10-07T22:54:41.669Z"
+      "ts": "2026-10-07T22:56:05.334Z"
     },
     {
       "id": "BLUE-04",
@@ -908,7 +908,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "content-security-policy, x-content-type-options, x-frame-options",
-      "ts": "2026-10-07T22:54:41.674Z"
+      "ts": "2026-10-07T22:56:05.339Z"
     },
     {
       "id": "BLUE-05",
@@ -917,7 +917,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "non-flag founding resets freely — no false lockout",
-      "ts": "2026-10-07T22:54:41.677Z"
+      "ts": "2026-10-07T22:56:05.341Z"
     },
     {
       "id": "BLACK-01",
@@ -926,7 +926,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "site wasm == build artifact",
-      "ts": "2026-10-07T22:54:41.677Z"
+      "ts": "2026-10-07T22:56:05.342Z"
     },
     {
       "id": "BLACK-02",
@@ -935,16 +935,16 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "5 pins verify against live files",
-      "ts": "2026-10-07T22:54:41.678Z"
+      "ts": "2026-10-07T22:56:05.342Z"
     },
     {
       "id": "BLACK-03",
       "team": "BLACK",
       "name": "ghpages-parity",
-      "verdict": "OPEN",
-      "severity": "high",
-      "detail": "differs assets/fano-auth.js",
-      "ts": "2026-10-07T22:54:42.128Z"
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "132/133 site files bit-identical; 0 stray",
+      "ts": "2026-10-07T22:56:06.367Z"
     },
     {
       "id": "BLACK-04",
@@ -953,7 +953,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "no key-material paths or PEM bodies in history",
-      "ts": "2026-10-07T22:54:42.250Z"
+      "ts": "2026-10-07T22:56:06.485Z"
     },
     {
       "id": "BLACK-05",
@@ -962,7 +962,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "6 exec files, all in expected dirs",
-      "ts": "2026-10-07T22:54:42.258Z"
+      "ts": "2026-10-07T22:56:06.494Z"
     },
     {
       "id": "GRAY-01",
@@ -971,7 +971,7 @@
       "verdict": "NOTED",
       "severity": "info",
       "detail": "verifyCert only requires iss==pk — a devtools insider CAN mint a desk-local fleet_admiral record. It buys UI chrome, not fleet authority: branch assignments die at branchOf's roster check, grants die at verifyGrant's roster check, and genesis sigs die at the published member keys. Fleet trust is unaffected — recorded as desk-local theater, not a fleet escalation.",
-      "ts": "2026-10-07T22:54:42.259Z"
+      "ts": "2026-10-07T22:56:06.494Z"
     },
     {
       "id": "GRAY-02",
@@ -980,7 +980,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "forged flag appearance only locks the forger's own desk behind the vote",
-      "ts": "2026-10-07T22:54:42.260Z"
+      "ts": "2026-10-07T22:56:06.496Z"
     },
     {
       "id": "GRAY-03",
@@ -989,7 +989,7 @@
       "verdict": "NOTED",
       "severity": "info",
       "detail": "roster is localStorage — an insider on their own desk can roster their own pk and pass verifyGrant/branchOf locally. Boundary: it changes nothing outside that desk; fleet manifests and genesis sigs are verified against published keys, not desk rosters.",
-      "ts": "2026-10-07T22:54:42.261Z"
+      "ts": "2026-10-07T22:56:06.496Z"
     },
     {
       "id": "GRAY-04",
@@ -998,7 +998,7 @@
       "verdict": "NOTED",
       "severity": "info",
       "detail": "session.sk lives in page memory while unlocked — devtools or a same-origin script can read it (standard for client-side crypto). TOTP wrap + PBKDF2 keystore protect at rest; unlocked-session exposure is the documented residual.",
-      "ts": "2026-10-07T22:54:42.261Z"
+      "ts": "2026-10-07T22:56:06.496Z"
     },
     {
       "id": "COMM-01",
@@ -1007,7 +1007,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "valid seals pass; covered-flip/oversize/short all drop (Python twin)",
-      "ts": "2026-10-07T22:54:42.305Z"
+      "ts": "2026-10-07T22:56:06.540Z"
     },
     {
       "id": "COMM-02",
@@ -1016,7 +1016,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "valid wire verifies under strict len==136",
-      "ts": "2026-10-07T22:54:42.307Z"
+      "ts": "2026-10-07T22:56:06.542Z"
     },
     {
       "id": "COMM-03",
@@ -1025,7 +1025,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "token canon byte-identical JS↔Python",
-      "ts": "2026-10-07T22:54:42.352Z"
+      "ts": "2026-10-07T22:56:06.587Z"
     },
     {
       "id": "DESK-01",
@@ -1034,7 +1034,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fleet-anchored authenticator enrolls ramsey 006 as FLEET-ADMIRAL on a foreign founded desk — no founding claimed",
-      "ts": "2026-10-07T22:54:43.386Z"
+      "ts": "2026-10-07T22:56:07.523Z"
     },
     {
       "id": "DESK-02",
@@ -1043,7 +1043,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "attacker-issued authenticator refused — iss is not the fleet flag",
-      "ts": "2026-10-07T22:54:43.706Z"
+      "ts": "2026-10-07T22:56:07.819Z"
     },
     {
       "id": "DESK-03",
@@ -1052,7 +1052,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "export→import carries record + founding; credential unwraps on the new desk",
-      "ts": "2026-10-07T22:54:44.301Z"
+      "ts": "2026-10-07T22:56:08.432Z"
     },
     {
       "id": "DESK-04",
@@ -1061,7 +1061,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "post-sign mutation → sig_invalid",
-      "ts": "2026-10-07T22:54:44.322Z"
+      "ts": "2026-10-07T22:56:08.458Z"
     },
     {
       "id": "DESK-05",
@@ -1070,7 +1070,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "tampered genesis also invalidates the signature — refused earlier, still safe",
-      "ts": "2026-10-07T22:54:44.341Z"
+      "ts": "2026-10-07T22:56:08.478Z"
     },
     {
       "id": "DESK-06",
@@ -1079,7 +1079,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "non-pinned first enrollment founds the desk as a CADET — grant issuance refused below STATION-CHIEF",
-      "ts": "2026-10-07T22:54:44.637Z"
+      "ts": "2026-10-07T22:56:08.779Z"
     },
     {
       "id": "DESK-07",
@@ -1088,7 +1088,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "pinned callsign still claims genesis as FLEET-ADMIRAL — flag-seat founding intact",
-      "ts": "2026-10-07T22:54:44.918Z"
+      "ts": "2026-10-07T22:56:09.065Z"
     },
     {
       "id": "DESK-08",
@@ -1097,7 +1097,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "6 office/rank callsigns refused without grant — control \"marcus\" enrolls as CADET",
-      "ts": "2026-10-07T22:54:45.337Z"
+      "ts": "2026-10-07T22:56:09.494Z"
     },
     {
       "id": "DESK-09",
@@ -1106,7 +1106,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "granted office enrolls once as CADET (role 0) — title ≠ clearance; second claim refused",
-      "ts": "2026-10-07T22:54:45.902Z"
+      "ts": "2026-10-07T22:56:10.122Z"
     },
     {
       "id": "SPEC004-01",
@@ -1115,7 +1115,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "HEAD + gh-pages + full history: zero drawer paths",
-      "ts": "2026-10-07T22:54:45.945Z"
+      "ts": "2026-10-07T22:56:10.168Z"
     },
     {
       "id": "SPEC004-02",
@@ -1124,7 +1124,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "133 deployed files surname-clean",
-      "ts": "2026-10-07T22:54:45.999Z"
+      "ts": "2026-10-07T22:56:10.234Z"
     },
     {
       "id": "SPEC004-03",
@@ -1133,7 +1133,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "SPEC-004-REGISTRY exists only inside the drawer",
-      "ts": "2026-10-07T22:54:46.009Z"
+      "ts": "2026-10-07T22:56:10.246Z"
     },
     {
       "id": "SPEC004-04",
@@ -1142,7 +1142,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "4 declassified copies, surname-clean",
-      "ts": "2026-10-07T22:54:46.010Z"
+      "ts": "2026-10-07T22:56:10.247Z"
     },
     {
       "id": "SPEC004-05",
@@ -1151,7 +1151,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "drawer restored intact from archive after git-clean incident; gitignore holds",
-      "ts": "2026-10-07T22:54:46.010Z"
+      "ts": "2026-10-07T22:56:10.247Z"
     },
     {
       "id": "SPEC004-06",
@@ -1160,7 +1160,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "security/out + zig-out absent from tree",
-      "ts": "2026-10-07T22:54:46.020Z"
+      "ts": "2026-10-07T22:56:10.259Z"
     }
   ]
 }
