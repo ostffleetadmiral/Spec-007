@@ -62,8 +62,12 @@ window.FANO_RESET = (function () {
              (m.role === "genesis-root" && m.name === "admiral");
     });
     if (!adm) return Promise.resolve(null);
+    /* pk_sha256 in the desk record hashes the RAW 32-byte key —
+       strip the SPKI DER wrapper (12-byte prefix) to match */
     var pem = atob(adm.pubkey_pem_b64).replace(/-----[^-]+-----|\s/g, "");
-    return sha256hex(b64d(pem).buffer);
+    var der = b64d(pem);
+    var raw = der.length === 44 ? der.slice(-32) : der;
+    return sha256hex(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.length));
   }
 
   /* guard() → { mode, reason, callsign }
@@ -96,6 +100,14 @@ window.FANO_RESET = (function () {
     try { tok = typeof tokenJson === "string" ? JSON.parse(tokenJson) : tokenJson; }
     catch (e) { return Promise.resolve(false); }
     if (!tok || tok.body === undefined || !tok.sigs) return Promise.resolve(false);
+    /* the vote names the seat it burns — a token minted for one
+       callsign must not burn another flag founding */
+    var g = genesisLocal();
+    if (!g || !g.callsign || tok.body.callsign !== g.callsign)
+      return Promise.resolve(false);
+    /* votes decay: a 24h-old unanimous token is a replay, not a vote */
+    var age_ms = Date.now() - Date.parse(tok.body.ts || "");
+    if (!(age_ms >= 0 && age_ms < 86400e3)) return Promise.resolve(false);
     var bodyBytes = enc.encode(canon(tok.body));
     return fetchGenesis().then(function (gen) {
       if (!gen) return false;
