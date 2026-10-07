@@ -70,11 +70,31 @@ try {
     .update(JSON.stringify(g.payload, null, 2)).digest("hex");
 } catch {}
 
+/* signed artifact hashes: the board is untrusted transport, so any
+   * downloadable the fleet publishes must carry its sha256 inside the
+   * signed payload — a tampered .py or .wasm on the board then fails
+   * closed at verification time, not silently at install time. */
+const ARTIFACTS = [
+  "site/apps/fano/fano.wasm",
+  "site/downloads/fano_beacon.py",
+  "site/downloads/fano_relay_link.py",
+  "site/downloads/fano_dialect.py",
+  "site/downloads/fleet_bootstrap.py",
+];
+const artifacts = {};
+for (const a of ARTIFACTS) {
+  const p = path.join(ROOT, a);
+  if (fs.existsSync(p))
+    artifacts[a.replace(/^site\//, "")] =
+      "sha256:" + crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
+}
+
 const addrs = selfAddrs();
 const payload = {
   spec: "FLEETMANIFESTv1",
   ts: new Date().toISOString(),
   genesis_sha256,
+  artifacts,
   members: {
     digit: {
       role: "edge-gateway",

@@ -12,6 +12,7 @@
 # Env: FLEET_PUBKEY  (default ~/.config/fleet/ed25519.pub.pem)
 #      FLEET_MANIFEST_URL (default raw.githubusercontent canonical)
 import json, sys, os, time, base64, urllib.request, argparse, hashlib
+from datetime import datetime, timezone
 
 BASE = os.environ.get("FLEET_BULLETIN",
   "https://raw.githubusercontent.com/ostffleetadmiral/Spec-007/main")
@@ -95,6 +96,23 @@ def main():
         sys.exit(f"SIGNATURE REJECTED — bulletin untrusted: {e}")
     print(f"manifest verified (signer {signer}, genesis {ghash[:16]}…, "
           f"ts {payload['ts']})", flush=True)
+
+    # freshness: a valid signature proves authorship, not recency — a
+    # replayed manifest would otherwise bind stale endpoints forever.
+    # Bound the replay window: reject beyond the horizon, warn past 24h.
+    max_age_h = float(os.environ.get("FLEET_MANIFEST_MAX_AGE_H", "168"))
+    try:
+        ts = datetime.fromisoformat(payload["ts"].replace("Z", "+00:00"))
+        age_h = (datetime.now(timezone.utc) - ts).total_seconds() / 3600
+    except (KeyError, ValueError):
+        sys.exit("manifest carries no parseable ts — rejecting")
+    if age_h > max_age_h:
+        sys.exit(f"manifest stale — age {age_h:.1f}h exceeds {max_age_h}h "
+                 f"horizon (possible replay)")
+    if age_h < -24:
+        sys.exit(f"manifest ts {age_h:.1f}h in the future — clock attack or skew")
+    if age_h > 24:
+        print(f"warn: manifest {age_h:.1f}h old — nearing horizon", flush=True)
 
     for name, m in payload.get("members", {}).items():
         print(f"  {name}: role={m.get('role')} addr={m.get('addr') or m.get('gateway_udp6') or m.get('v6_global')}",

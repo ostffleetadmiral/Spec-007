@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-07T05:31:04.176Z",
+  "generated": "2026-10-07T10:23:48.406Z",
   "findings": [
     {
       "id": "SEC-01",
@@ -1287,6 +1287,96 @@
       "severity": "info",
       "detail": "8.1 KiB artifact, 3375 cells: JSON.parse 0.2ms, 15³ grid build 0.4ms — data path trivial; DOM paint (3375 nodes) deferred to a browser environment (no Chromium on host)",
       "ts": "2026-10-07T05:31:04.174Z"
+    },
+    {
+      "id": "SENT-01",
+      "team": "SENTINEL",
+      "name": "cold-boot-hostile-board",
+      "verdict": "NOTED",
+      "severity": "info",
+      "detail": "TOFU accepted a self-consistent ATTACKER genesis on first contact — correct behavior for trust-on-first-use, and the honest limit: first-boot trust is whoever the board serves. Defense = out-of-band pin distribution (ship ~/.config/fleet/genesis.json with the node image)",
+      "ts": "2026-10-07T10:23:25.709Z"
+    },
+    {
+      "id": "SENT-02",
+      "team": "SENTINEL",
+      "name": "pinned-genesis-conflict",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "GENESIS CONFLICT — foreign-but-valid genesis refused against pin: GENESIS CONFLICT — pinned d5f7a36bd3851722 vs fetched fb4facb1aaeb1e8c — possible board tampering",
+      "ts": "2026-10-07T10:23:25.836Z"
+    },
+    {
+      "id": "SENT-03",
+      "team": "SENTINEL",
+      "name": "foreign-signer-rejected",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "non-genesis signer refused: manifest signer sha256:5432d709f9b13568 is not a genesis member",
+      "ts": "2026-10-07T10:23:25.984Z"
+    },
+    {
+      "id": "SENT-04",
+      "team": "SENTINEL",
+      "name": "manifest-replay-window",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "rejected rc=1",
+      "ts": "2026-10-07T10:23:26.130Z"
+    },
+    {
+      "id": "SENT-05",
+      "team": "SENTINEL",
+      "name": "gateway-flood-siege",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "206 forged/malformed dropped; every forwarded datagram seal-verifies (31 in: covered-forgeries leaked=false); gateway alive",
+      "ts": "2026-10-07T10:23:28.157Z"
+    },
+    {
+      "id": "SENT-06",
+      "team": "SENTINEL",
+      "name": "canon-parity-adversarial",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "unicode/escapes/nested — JS canon byte-matches Python canon (cross-impl signature domain intact, 158B)",
+      "ts": "2026-10-07T10:23:28.202Z"
+    },
+    {
+      "id": "SENT-07",
+      "team": "SENTINEL",
+      "name": "no-private-keys-committed",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "committed tree carries zero PEM private keys",
+      "ts": "2026-10-07T10:23:28.260Z"
+    },
+    {
+      "id": "SENT-08",
+      "team": "SENTINEL",
+      "name": "artifact-pins-signed",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "5 artifacts hashed inside the signed manifest — board-served tamper fails closed at verify time",
+      "ts": "2026-10-07T10:23:28.261Z"
+    },
+    {
+      "id": "SENT-09",
+      "team": "SENTINEL",
+      "name": "ghpages-artifact-identity",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "deployed fano.wasm bit-identical to the audited artifact",
+      "ts": "2026-10-07T10:23:28.267Z"
+    },
+    {
+      "id": "SENT-10",
+      "team": "SENTINEL",
+      "name": "stale-manifest-rejected",
+      "verdict": "HELD",
+      "severity": "info",
+      "detail": "non-descending manifest retried then refused (20s, staleness-aware)",
+      "ts": "2026-10-07T10:23:48.405Z"
     }
   ]
 }
