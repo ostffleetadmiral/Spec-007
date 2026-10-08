@@ -177,3 +177,21 @@ footer {
 @media (max-width: 40rem) {
   .dossier { margin: 0; padding: 1.5rem; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .ember { transition: none; }
+}
+
+/* the file is already paper — print it like it means it */
+@media print {
+  body { background: #fff; }
+  .dossier { margin: 0; max-width: none; box-shadow: none; padding: 0; }
+  .watermark { display: none; }
+  nav.file-nav { display: none; }
+  .redacted { border-bottom: 1px dashed var(--ink); }
+  a { color: var(--ink); }
+  .ember, .ember.burning { opacity: 1; filter: none; transform: none; }
+  footer { page-break-inside: avoid; }
+  h1, h2, h3 { page-break-after: avoid; }
+  pre, blockquote, table { page-break-inside: avoid; }
+}

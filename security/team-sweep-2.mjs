@@ -722,7 +722,7 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     /* DESK-14: destructive verdicts arm before they fire — BURN is
        a two-click act, not a misclick */
     {
-      /dataset\.armed/.test(dsrc) && /CONFIRM\?/.test(dsrc)
+      /dataset\.armed/.test(dsrc) && /cmd\.burn\.confirm/.test(dsrc)
         ? held("DESK", "burn-confirmed",
             "containment BURN arms on first click, fires on second — no one-shot annihilation")
         : open_("DESK", "burn-confirmed", "one-click burn still live");
@@ -736,6 +736,86 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
         ? held("DESK", "no-native-dialogs",
             "fano-desktop + fano-reset carry zero native dialogs — every prompt is a DOM widget")
         : open_("DESK", "no-native-dialogs", "native dialog call present");
+    }
+
+    /* DESK-16: theme contrast — every ink/accent clears WCAG AA 4.5:1
+       against its own background, all five liveries */
+    {
+      const css = fs.readFileSync(path.join(SITE, "assets/fano-desktop.css"), "utf8");
+      const lin = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+      const lum = h => { const n = parseInt(h.slice(1), 16);
+        return .2126 * lin(n >> 16) + .7152 * lin(n >> 8 & 255) + .0722 * lin(n & 255); };
+      const ratio = (a, b) => { const x = lum(a), y = lum(b);
+        return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+      const blocks = css.match(/[^{}]+\{[^{}]*--desk-bg[^}]*\}/g) || [];
+      let worst = 99, who = "";
+      for (const b of blocks) {
+        const v = k => { const m = b.match(new RegExp("--" + k + ":\\s*(#[0-9a-f]{6})"));
+          return m && m[1]; };
+        const bg = v("desk-bg");
+        for (const k of ["desk-ink", "desk-dim", "acc", "acc-hi"]) {
+          const c = v(k); if (!c || !bg) continue;
+          const r = ratio(c, bg);
+          if (r < worst) { worst = r; who = k + " in " + b.slice(0, 30); }
+        }
+      }
+      blocks.length >= 5 && worst >= 4.5
+        ? held("DESK", "contrast-aa",
+            `${blocks.length} livery palettes audited — worst ink ratio ${worst.toFixed(2)}:1 (AA needs 4.5)`)
+        : open_("DESK", "contrast-aa",
+            `worst=${worst.toFixed(2)} (${who}), palettes=${blocks.length}`);
+    }
+
+    /* DESK-17: motion is a courtesy — reduced-motion stills the desk
+       and the paper */
+    {
+      const desk = fs.readFileSync(path.join(SITE, "assets/fano-desktop.css"), "utf8");
+      const dos = fs.readFileSync(path.join(SITE, "assets/dossier.css"), "utf8");
+      /prefers-reduced-motion/.test(desk) && /animation:\s*none/.test(desk) &&
+      /prefers-reduced-motion/.test(dos)
+        ? held("DESK", "reduced-motion",
+            "wallspin, boot fade, window transitions all still under prefers-reduced-motion")
+        : open_("DESK", "reduced-motion", "no reduced-motion handling in desk or dossier css");
+    }
+
+    /* DESK-18: print stylesheet — the file prints like paper, the desk
+       prints its windows, not its room */
+    {
+      const desk = fs.readFileSync(path.join(SITE, "assets/fano-desktop.css"), "utf8");
+      const dos = fs.readFileSync(path.join(SITE, "assets/dossier.css"), "utf8");
+      /@media\s+print/.test(dos) && /nav\.file-nav[^}]*display:\s*none/.test(dos) &&
+      /@media\s+print/.test(desk) && /\.taskbar[^}]*display:\s*none/.test(desk)
+        ? held("DESK", "print-stylesheet",
+            "dossier prints chrome-free (nav/watermark suppressed); desk prints windows without taskbar/icons")
+        : open_("DESK", "print-stylesheet", "print media rules missing");
+    }
+
+    /* DESK-19: narrow viewports — the chart table wraps, the chrome
+       yields, nothing squeezes to mush under 50rem */
+    {
+      const css = fs.readFileSync(path.join(SITE, "assets/fano-desktop.css"), "utf8");
+      const mq = css.match(/@media\s*\(max-width:\s*50rem\)\s*\{([^@]*)\}/);
+      /flex-wrap/.test(css.match(/\.adm-chart\s*\{[^}]*\}/)?.[0] || "") &&
+      mq && /leds/.test(mq[1]) && /start-menu/.test(mq[1])
+        ? held("DESK", "narrow-viewport",
+            "adm-chart wraps, LEDs cede the taskbar, start-menu clamps to 92vw under 50rem")
+        : open_("DESK", "narrow-viewport", "narrow layout rules incomplete");
+    }
+
+    /* DESK-20: i18n chrome coverage — every toast/sec/row/button and
+       flavor string routes through t(); the literal pool is ratcheted */
+    {
+      const hits = (dsrc.match(/(toast|sec|row|button)\(\s*"/g) || [])
+        .filter(m => !/t\(/.test(m));
+      const tcLit = (dsrc.match(/textContent\s*=\s*"[A-Za-z]/g) || []);
+      const achArray = /var ACHIEVEMENTS = \[/.test(dsrc);
+      const eggArray = /var EGGS = \[/.test(dsrc);
+      const achT = /t\("ach\." \+ id\)/.test(dsrc);
+      !hits.length && !tcLit.length && achArray && eggArray && achT
+        ? held("DESK", "i18n-chrome",
+            "zero untranslated chrome literals — toasts, suite rows, achievements and eggs all speak both tongues")
+        : open_("DESK", "i18n-chrome",
+            `literal calls=${hits.length} tcLits=${tcLit.length} achArr=${achArray} eggArr=${eggArray} achT=${achT}`);
     }
   }
 

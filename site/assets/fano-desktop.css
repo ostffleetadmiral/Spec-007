@@ -6,11 +6,11 @@
 :root {
   --desk-bg: #04070b;
   --desk-ink: #ccd6de;
-  --desk-dim: #5d6b78;
+  --desk-dim: #70808d;
   --acc: #4fc3e8;
   --acc-hi: #9fe8ff;
   --acc-rgb: 79,195,232;
-  --dim-rgb: 93,107,120;
+  --dim-rgb: 112,128,141;
   --amber: #c9a44a;
   --amber-hi: #e8c76a;
   --ok: #35d854;
@@ -260,11 +260,11 @@ body.desk { animation: bootin .8s ease-out; }
 body.crt {
   --desk-bg: #020a04;
   --desk-ink: #9fe8a8;
-  --desk-dim: #3f7a4a;
+  --desk-dim: #4e9059;
   --acc: #35d854;
   --acc-hi: #8affa0;
   --acc-rgb: 53,216,84;
-  --dim-rgb: 63,122,74;
+  --dim-rgb: 78,144,89;
   --ok: #35d854;
   --chrome: rgba(4,20,10,.9);
   --chrome-edge: rgba(53,216,84,.2);
@@ -287,11 +287,11 @@ body.crt .win-body { filter: sepia(.4) hue-rotate(60deg) saturate(.8); }
 body.wh {
   --desk-bg: #aebfce;
   --desk-ink: #16222e;
-  --desk-dim: #4c6372;
-  --acc: #0f6c96;
+  --desk-dim: #384d59;
+  --acc: #085070;
   --acc-hi: #06344a;
-  --acc-rgb: 15,108,150;
-  --dim-rgb: 76,99,114;
+  --acc-rgb: 8,80,112;
+  --dim-rgb: 56,77,89;
   --chrome: rgba(232,240,247,.9);
   --chrome-edge: rgba(30,60,80,.22);
   --edge-strong: rgba(30,60,80,.5);
@@ -311,11 +311,11 @@ body.wh .task-item { background: rgba(255,255,255,.4); }
 body.sp {
   --desk-bg: #0a0407;
   --desk-ink: #e3d2d5;
-  --desk-dim: #7c5d63;
+  --desk-dim: #937279;
   --acc: #e0475f;
   --acc-hi: #ff97a5;
   --acc-rgb: 224,71,95;
-  --dim-rgb: 124,93,99;
+  --dim-rgb: 147,114,121;
   --chrome: rgba(24,12,16,.9);
   --chrome-edge: rgba(230,120,135,.2);
   --edge-strong: rgba(230,120,135,.42);
@@ -381,7 +381,7 @@ body.ge .win-title, body.ge .ostf-btn, body.ge .clock b, body.ge .icon .glyph {
 .led i { width: .5rem; height: .5rem; border-radius: 50%; background: var(--desk-dim); display: block; }
 .led.on i { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
 .led.bad i { background: var(--stamp); box-shadow: 0 0 8px var(--stamp); }
-.lang-btn { font-size: .6rem; letter-spacing: .1em; color: var(--acc); border: 1px solid var(--line); padding: .15rem .5rem; border-radius: 3px; cursor: pointer; user-select: none; }
+.lang-btn { font-size: .6rem; letter-spacing: .1em; color: var(--acc); border: 1px solid var(--desk-line); padding: .15rem .5rem; border-radius: 3px; cursor: pointer; user-select: none; }
 .lang-btn:hover { border-color: var(--acc); box-shadow: 0 0 8px var(--acc); }
 
 /* command palette — the fast drawer (iter 30) */
@@ -538,10 +538,33 @@ body.booted .wall, body.booted .wall-caption { visibility: visible; }
   .icons { bottom: auto; max-height: 60vh; }
   .icon { width: 5rem; }
   .win { min-width: 90vw; }
+  .leds { display: none; }
+  .wall .wall-caption { right: .6rem; font-size: .55rem; }
+  .start-menu { width: min(16.5rem, 92vw); }
+  .adm-pillar { flex: 1 1 100%; }
+}
+
+/* motion is a courtesy, not a right — the desk stills for those who ask */
+@media (prefers-reduced-motion: reduce) {
+  body.desk { animation: none; }
+  .wall svg { animation: none; }
+  .win, .toast, .task-item, .icon, .win-btn, .game-btn, .qp-card, .icon .glyph { transition: none; }
+  .saver-fano { transition: none; }
+}
+
+/* printing the desk prints the paper, not the room */
+@media print {
+  body.desk { background: #fff; overflow: visible; }
+  body.desk::before, body.desk::after { display: none; }
+  .taskbar, .icons, .wall, #toasts, .start-menu, #saver, #cycler, #palette,
+  .ctxmenu, #boot, .win-titlebar, .win-grip { display: none !important; }
+  .win { position: static; min-width: 0; box-shadow: none; backdrop-filter: none;
+    border: 1px solid #999; overflow: visible; }
+  .win-body { overflow: visible; }
 }
 
 /* ---------- admiralty suite: the flag's chart table ---------- */
-.adm-chart { display: flex; gap: .6rem; margin: .4rem 0; }
+.adm-chart { display: flex; gap: .6rem; margin: .4rem 0; flex-wrap: wrap; }
 .adm-pillar { flex: 1; border: 1px solid var(--desk-line); padding: .45rem .55rem; }
 .adm-pillar-t { color: var(--acc-hi); font-size: .6rem; letter-spacing: .18em; margin-bottom: .35rem; }
 .adm-branch { font-size: .62rem; padding: .12rem 0; color: var(--desk-dim); }

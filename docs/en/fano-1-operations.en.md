@@ -103,6 +103,7 @@ host desk's founding is untouched.
 **Bearer-instrument warning — read this once:** `sub:null` means whoever
 holds the paper holds the seat. A roaming paper in an inbox, a screenshot, a
 clipboard history is a flag seat with legs. Mint it, use it, let it die.
+Thirty days is the leash.
 
 ### 3a. Trust internals — what the desk verifies (wave-2 retro-pass)
 
@@ -188,7 +189,28 @@ probed (WIRE-01..07):
 - **Verdicts arm before they fire.** Containment BURN is a two-click
   act (DESK-14); the whole desk carries zero native dialogs — every
   confirmation is a DOM widget (DESK-15).
-Thirty days is the leash.
+
+### 3d. Livery & language — what the desk passes (wave-5 retro-pass)
+
+`fano-desktop.css`/`dossier.css`/`fano-i18n.js` unwound next
+(DESK-16..20):
+
+- **Every livery clears AA.** All five palettes measure ≥4.5:1 ink
+  contrast (worst now 4.66); `desk-dim` and WHITEHALL's accent were
+  below and have been retuned (DESK-16).
+- **Motion is a courtesy.** `prefers-reduced-motion` stills the
+  spinning plane, boot fade, and every transition (DESK-17).
+- **The file prints like paper.** `@media print` strips nav,
+  watermark, taskbar and icons; dossier pages keep break discipline
+  (DESK-18).
+- **Narrow desks stay desks.** Under 50rem the chart table wraps,
+  status LEDs cede the taskbar, the start menu clamps to 92vw
+  (DESK-19).
+- **The desk speaks both tongues.** ~200 chrome literals — toasts,
+  suite sections, POST lines, manual, sysmon, achievements, eggs —
+  route through `t()`; dictionaries hold 356 keys per side, exact
+  parity (DESK-20). Residual: the terminal command corpus and
+  ANOMALY_LORE remain EN-canon pending the twin audit.
 
 ## 4. Desk transfer — FANO-DESK-v1
 

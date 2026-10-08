@@ -181,7 +181,7 @@
           win.remove(); delete openWins[title];
           var t2 = document.querySelector('.task-item[data-wid="' + win.dataset.wid + '"]');
           if (t2) t2.remove();
-          toast("keystore + TOTP verified — " + unlockedRec.user + " on duty"); paintClearance();
+          toast(t("tst.keystore.totp", unlockedRec.user)); paintClearance();
         } else { inp.value = ""; inp.placeholder = "invalid code — try again"; }
         return;
       }
@@ -198,14 +198,14 @@
         delete openWins[title];
         var t = document.querySelector('.task-item[data-wid="' + win.dataset.wid + '"]');
         if (t) t.remove();
-        toast("keystore warm — " + (FANO_AUTH.ROLE_LABEL[FANO_AUTH.session.role] || "CADET") + " " + rec.user + " on duty");
+        toast(t("tst.keystore.warm", FANO_AUTH.ROLE_LABEL[FANO_AUTH.session.role] || "CADET", rec.user));
         paintClearance();
       } else if (rec && rec.totp_required) {
         if (FANO_AUTH.verifyTotp(inp.value)) {
           win.remove(); delete openWins[title];
           var t2 = document.querySelector('.task-item[data-wid="' + win.dataset.wid + '"]');
           if (t2) t2.remove();
-          toast("keystore + TOTP verified — " + rec.user + " on duty"); paintClearance();
+          toast(t("tst.keystore.totp", rec.user)); paintClearance();
         } else { inp.value = ""; inp.placeholder = "invalid code — try again"; }
       } else {
         inp.value = "";
@@ -245,7 +245,7 @@
     state.xp += n;
     paintClearance();
     save();
-    if (why) toast("+" + n + "xp — " + why);
+    if (why) toast(t("tst.xp", n, why));
   }
 
   function firstOpen(key, n, why) {
@@ -288,90 +288,19 @@
     } catch (e) { done(false); }
   }
 
-  var ACHIEVEMENTS = {
-    first_contact: "First Contact — opened a dossier file",
-    archivist: "Archivist — read the whole File (L2)",
-    full_read: "Full Read — every page in the dossier",
-    denied: "Denied — tried the drawer anyway",
-    pyro: "Pyromaniac — read the file that burns",
-    sworn: "Sworn In — re-read the covenant",
-    qclerk: "Q's Clerk — opened the Ledger of Fractions",
-    decorator: "Interior Decorator — moved an icon",
-    nightowl: "Night Shift — on the desk past midnight",
-    wardrobe: "Wardrobe — changed liveries",
-    sysmon: "Instrumented — watched the instruments",
-    curator: "Curator — opened every drawer that opens",
-    paladin: "Paladin — the fast drawer, five times",
-    projectionist: "Projectionist — screened all eight renders",
-    historian: "Historian — fifty commands on record",
-    completionist: "Completionist — every egg collected",
-    resupply: "Resupply — docked the sister platform",
-    operator: "Operator — opened the tradecraft desk",
-    reader_leak: "Eyes Only — read the leak the drawer lost",
-    film_buff: "Film Buff — all twenty-five titles on the roll",
-    anomaly_hunter: "Anomaly Hunter — ten cold cases opened",
-    fiction_scholar: "Fiction Scholar — twenty-five speculative files read",
-    floor_cartographer: "Floor Cartographer — every honest gap inspected",
-  };
+  var ACHIEVEMENTS = ["first_contact","archivist","full_read","denied","pyro","sworn","qclerk","decorator","nightowl","wardrobe","sysmon","curator","paladin","projectionist","historian","completionist","resupply","operator","reader_leak","film_buff","anomaly_hunter","fiction_scholar","floor_cartographer"];
   function achieve(id) {
     if (state.achievements.indexOf(id) >= 0) return;
     state.achievements.push(id);
     save();
-    toast("ACHIEVEMENT — " + ACHIEVEMENTS[id], "ach");
+    toast(t("tst.achievement", t("ach." + id)), "ach");
     sfx.chime();
   }
   var DOCS_READ = {};
 
   /* ---------- egg hunt: seven hidden courtesies of the desk ---------- */
 
-  var EGGS = {
-    geom: "Geometry Nerd — clicked the Fano plane",
-    fineprint: "Fine Print — read the wall caption",
-    zulu: "Zulu Time — consulted the clock",
-    fengshui: "Feng Shui — parked an icon in the corner",
-    askedtwice: "Asked Twice — the drawer, again, via the menu",
-    impatient: "Impatient — pressed OSTF seven times",
-    konami: "Old Codes — the sequence still works",
-    fano7: "Fano Master — all seven lines in one sitting",
-    sisyphus: "Sisyphean — seven attempts against the integer floor",
-    poweruser: "Power User — ten distinct commands in the shell",
-    importer: "Importer — carried a career between desks",
-    fastdrawer: "Fast Drawer — found the palette (Ctrl+K)",
-    gallery: "Gallery — screened every pane in the deck",
-    waker: "Waker — let the saver run half a minute, then woke it",
-    tiler: "Tiler — two windows snapped at once",
-    sesamist: "Sesamist — said the magic words anyway",
-    standingwave: "Standing Wave — knocked firmly, twice",
-    metered: "Meter Reader — met the adversary by name",
-    mixologist: "Mixologist — the ledger never stirs",
-    attentive: "Attentive — paid attention",
-    interrogated: "Expected to Die — asked the wrong question",
-    licenced: "Licence Exercised — killed it yourself",
-    satellite: "GoldenEye — found the orbital livery",
-    residence: "Skyfall — reported the address",
-    posture: "Day Zero — the posture, not the date",
-    sigil: "Sigma — recited the sealed instrument",
-    corps: "AIWO — called the corps",
-    axiomatic: "First Free Act — typed the axiom",
-    fraction: "One Part in Eight — found the aperture",
-    frontoffice: "Universal Exports — asked for the front by name",
-    columbus: "Triplicate — filed in Columbus",
-    namesake: "Namesake — typed a name from the watch list",
-    marathon: "Marathon — five titles on the film roll",
-    secondlife: "Second Life — you only live twice",
-    interpreter: "Interpreter — switched tongues mid-mission",
-    decoder: "Decoder Ring — resolved the 006 chain to its mother tongue",
-    fountainhead: "Fountainhead — found the spring west of Astrakhan",
-    cleaver: "The Butcher — cut the scarcity ledger",
-    transmission: "Transmission — opened the object file",
-    sealbreaker: "Seal Breaker — opened the declassified exhibits",
-    brotherhood: "Brother File — opened SPEC-006",
-    genealogist: "Genealogist — asked after the siblings",
-    flagplot: "Flag Plot — entered the Command suite",
-    anomaly: "Cold Case — opened a file the lab can't build",
-    fictionfile: "Fiction File — read an entry from the speculative drawer",
-    codex: "Field Codex — opened the anomalies annex",
-  };
+  var EGGS = ["geom","fineprint","zulu","fengshui","askedtwice","impatient","konami","fano7","sisyphus","poweruser","importer","fastdrawer","gallery","waker","tiler","sesamist","standingwave","metered","mixologist","attentive","interrogated","licenced","satellite","residence","posture","sigil","corps","axiomatic","fraction","frontoffice","columbus","namesake","marathon","secondlife","interpreter","decoder","fountainhead","cleaver","transmission","sealbreaker","brotherhood","genealogist","flagplot","anomaly","fictionfile","codex"];
   /* ---------- anomaly codex: the honest floor, filed as lore ----------
      The corpus's uncomputable residue lives here as a collectible
      codex. Speculative terms are fiction-framed claims with REAL
@@ -688,12 +617,12 @@
   /* rotating cover stories for the sealed drawer */
   var DENIED_TAILS = ["denied.tail", "denied.tail2", "denied.tail3", "denied.tail4"];
 
-  function eggTotal() { return Object.keys(EGGS).length; }
+  function eggTotal() { return EGGS.length; }
   function egg(id) {
     if (state.eggs.indexOf(id) >= 0) return;
     state.eggs.push(id);
     save();
-    toast("EGG " + state.eggs.length + "/" + eggTotal() + " — " + EGGS[id], "egg");
+    toast(t("tst.egg", state.eggs.length + "/" + eggTotal(), t("egg." + id)), "egg");
     sfx.egg();
     if (state.eggs.length >= eggTotal()) achieve("completionist");
     award(7, "egg");
@@ -1053,13 +982,13 @@
       var i = document.createElement("input"); i.className = "cmd-in"; i.placeholder = ph; return i;
     }
 
-    var head = sec("FLAG REGISTRY");
-    head.appendChild(row("callsign: " + (rec ? rec.user : "—") + " · role: " + (A.ROLE_LABEL[A.session.role] || "?")));
-    head.appendChild(row("fp: " + (A.fingerprint() || "—")));
+    var head = sec(t("cmd.sec.flagreg"));
+    head.appendChild(row(t("cmd.flag.callsign") + (rec ? rec.user : "—") + t("cmd.flag.role") + (A.ROLE_LABEL[A.session.role] || "?")));
+    head.appendChild(row(t("cmd.flag.fp") + (A.fingerprint() || "—")));
     head.appendChild(row(g ? "genesis: " + g.callsign + " · sha256 " + (g.pk_sha256 || "").slice(0, 24) + "…" : "genesis: not on this desk"));
-    head.appendChild(row("issuers: " + A.roster().length + " · callsign grants on file: " + Object.keys(A.grants()).length));
+    head.appendChild(row(t("cmd.flag.issuers", A.roster().length, Object.keys(A.grants()).length)));
 
-    var au = sec("FLAG AUTHENTICATOR — the Admiral's paper is the real thing");
+    var au = sec(t("cmd.sec.authenticator"));
     var aTok = document.createElement("textarea"); aTok.className = "cmd-in"; aTok.rows = 3;
     aTok.readOnly = true; aTok.placeholder = "the FANO-ROOT-v1 credential prints here — carry it anywhere";
     var aRow = document.createElement("div"); aRow.className = "cmd-row";
@@ -1073,12 +1002,12 @@
       if (c && !c.error) {
         aTok.value = c;
         copyText(c, "roaming paper on clipboard — unbound, 30 days. Paste it as the grant token at any desk's covenant.");
-      } else toast("mint refused", "sys");
+      } else toast(t("tst.mint.refused"), "sys");
     }));
     aRow.appendChild(btn("EXPORT", function () {
       var t = A.exportCredential();
       if (t) { aTok.value = t; copyText(t, "authenticator exported + on clipboard"); }
-      else toast("no authenticator on file — issue one first", "sys");
+      else toast(t("tst.no.totp"), "sys");
     }));
     au.appendChild(aRow); au.appendChild(aTok);
     var vRow = document.createElement("div"); vRow.className = "cmd-row";
@@ -1093,7 +1022,7 @@
     }));
     au.appendChild(vRow);
 
-    var rq = sec("BRANCH REQUESTS — the Admiral's signature moves a posting");
+    var rq = sec(t("cmd.sec.branchreq"));
     var all = A.branchReqs(), any = false;
     Object.keys(all).forEach(function (pk) {
       var r = all[pk];
@@ -1113,7 +1042,7 @@
       rr.appendChild(btn("DENY", function () { A.denyBranch(pk); renderCommand(root); }));
       rq.appendChild(rr);
     });
-    if (!any) rq.appendChild(row("no pending requests — the wire is quiet."));
+    if (!any) rq.appendChild(row(t("cmd.branchreq.none")));
     var imp = document.createElement("div"); imp.className = "cmd-row";
     var impIn = document.createElement("textarea"); impIn.className = "cmd-in"; impIn.rows = 2;
     impIn.placeholder = "import a request token — base64, signed by the requester's key";
@@ -1125,7 +1054,7 @@
     }));
     rq.appendChild(imp);
 
-    var gr = sec("CALLSIGN GRANTS — reserved names move by paper");
+    var gr = sec(t("cmd.sec.grants"));
     var gRow = document.createElement("div"); gRow.className = "cmd-row";
     var gName = inp("reserved callsign");
     var gPk = inp("subject pk hex (optional — binds the grant)");
@@ -1136,7 +1065,7 @@
       var gg = A.grantCallsign(gName.value, gPk.value.trim() || null);
       if (gg && !gg.error) {
         gOut.value = A.exportGrant(gg.callsign) || "";
-        toast("grant signed — '" + gg.callsign + "'", "sys");
+        toast(t("tst.grant.signed", gg.callsign), "sys");
       } else toast(gg && gg.error === "not_restricted" ? "not a reserved callsign" : "grant refused", "sys");
     }));
     gr.appendChild(gRow); gr.appendChild(gOut);
@@ -1149,13 +1078,13 @@
     }));
     gr.appendChild(rv);
     Object.keys(A.revoked()).forEach(function (nm) {
-      gr.appendChild(row("revoked: " + nm + " — " + new Date(A.revoked()[nm].ts).toISOString().slice(0, 10)));
+      gr.appendChild(row(t("cmd.grants.revoked", nm, new Date(A.revoked()[nm].ts).toISOString().slice(0, 10))));
     });
 
-    var ro = sec("ISSUER ROSTER — keys trusted to certify elevated roles");
+    var ro = sec(t("cmd.sec.roster"));
     A.roster().forEach(function (fp) {
       var ir = document.createElement("div"); ir.className = "cmd-row";
-      ir.appendChild(row("fp " + fp.slice(0, 12).toUpperCase() + "…"));
+      ir.appendChild(row(t("cmd.roster.fp", fp.slice(0, 12).toUpperCase())));
       ir.appendChild(btn("REMOVE", function () {
         var rm = A.removeIssuer(fp);
         toast(rm === true ? "issuer removed" : (rm && rm.error === "founding_key" ? "founding key is the anchor" : "removal refused"), "sys");
@@ -1168,14 +1097,14 @@
     rRow.appendChild(rIn);
     rRow.appendChild(btn("ADD", function () {
       if (/^[0-9a-f]{64}$/i.test(rIn.value.trim())) {
-        A.addIssuer(rIn.value.trim().toLowerCase()); toast("issuer rostered", "sys"); renderCommand(root);
-      } else toast("not a pk hex", "sys");
+        A.addIssuer(rIn.value.trim().toLowerCase()); toast(t("tst.issuer.rostered"), "sys"); renderCommand(root);
+      } else toast(t("tst.notpk"), "sys");
     }));
     ro.appendChild(rRow);
 
-    var ct = sec("CONTAINMENT — flagged identities await a human verdict");
+    var ct = sec(t("cmd.sec.containment"));
     var cl = A.containedList ? A.containedList() : {}, cks = Object.keys(cl);
-    if (!cks.length) ct.appendChild(row("no flagged identities on this desk"));
+    if (!cks.length) ct.appendChild(row(t("cmd.containment.none")));
     cks.forEach(function (pk) {
       var e = cl[pk], rr = document.createElement("div"); rr.className = "cmd-row";
       rr.appendChild(row(pk.slice(0, 20) + "… · " + e.status +
@@ -1184,13 +1113,13 @@
         rr.appendChild(btn("PROMOTE", function () {
           var rec = A.loadRecord();
           if (rec && rec.pk === pk) {
-            A.promoteContained(pk) ? toast("promoted to cadet — " + pk.slice(0, 12), "sys") : toast("promotion refused", "sys");
+            A.promoteContained(pk) ? toast(t("tst.promoted", pk.slice(0, 12)), "sys") : toast(t("tst.promotion.refused"), "sys");
           } else {
             var pr = A.issuePromotion(pk.replace(/^pid:/, ""), 30);
             if (pr && pr.v) {
               var tok = A.exportPromotion(pr);
               copyText(tok, "promotion paper on clipboard — carry it to the contained desk");
-            } else toast("promotion mint refused", "sys");
+            } else toast(t("tst.promotion.mint.refused"), "sys");
           }
           renderCommand(root);
         }));
@@ -1198,10 +1127,10 @@
           /* two clicks — the first arms, the second burns */
           if (burnBtn.dataset.armed !== "1") {
             burnBtn.dataset.armed = "1";
-            burnBtn.textContent = "CONFIRM?";
+            burnBtn.textContent = t("cmd.burn.confirm");
             return;
           }
-          A.burnContained(pk) ? toast("identity burned — " + pk.slice(0, 12), "sys") : toast("burn refused", "sys");
+          A.burnContained(pk) ? toast(t("tst.burned", pk.slice(0, 12)), "sys") : toast(t("tst.burn.refused"), "sys");
           renderCommand(root);
         });
         rr.appendChild(burnBtn);
@@ -1210,7 +1139,7 @@
     });
 
     var note = document.createElement("div"); note.className = "cmd-foot";
-    note.textContent = "everything here signs with the session key. tokens travel over any channel — the wire is dumb, the paper is real.";
+    note.textContent = t("cmd.sign.note");
     root.appendChild(note);
   }
 
@@ -1255,7 +1184,7 @@
   function openAdmiralty() {
     var A = FANO_AUTH;
     if (!A || !A.session.sk) {
-      toast("admiralty.suite — sign in; the board posts for personnel only", "sys");
+      toast(t("tst.admiralty.signin"), "sys");
       openDenied(); return;
     }
     var title = "admiralty.suite — BOARD OF ADMIRALTY";
@@ -1283,9 +1212,9 @@
     }
 
     /* board: the office, then the two pillars with their branches */
-    var bd = sec("BOARD OF ADMIRALTY — joint command");
+    var bd = sec(t("cmd.sec.board"));
     var fl = document.createElement("div"); fl.className = "adm-flag";
-    fl.textContent = "FLEET ADMIRAL — PAUL P. RAMSEY · supreme command · directive sign-off";
+    fl.textContent = t("cmd.board.flag");
     bd.appendChild(fl);
     var chart = document.createElement("div"); chart.className = "adm-chart";
     function pillar(name, mission, branches) {
@@ -1302,22 +1231,22 @@
         r.innerHTML = "";
         r.appendChild(document.createTextNode(br.replace(/_/g, " ")));
         var o = document.createElement("span"); o.className = "occ";
-        o.textContent = occ.length ? "  · " + occ.length + " billet" + (occ.length > 1 ? "s" : "") + " held" : "  · open billet";
+        o.textContent = occ.length ? t(occ.length > 1 ? "cmd.board.billets" : "cmd.board.billet1", occ.length) : t("cmd.board.openbillet");
         r.appendChild(o);
         p.appendChild(r);
       });
       return p;
     }
-    chart.appendChild(pillar("NAVAL COMMAND", "fleet operations · discipline · the seal", ADM_NAVAL));
-    chart.appendChild(pillar("STAR COMMAND", "space readiness · training", ADM_STAR));
+    chart.appendChild(pillar(t("cmd.board.naval"), t("cmd.board.naval.m"), ADM_NAVAL));
+    chart.appendChild(pillar(t("cmd.board.star"), t("cmd.board.star.m"), ADM_STAR));
     bd.appendChild(chart);
-    bd.appendChild(row("viewer: " + (rec ? rec.user : "—") + " · " + (A.ROLE_LABEL[A.session.role] || "?") +
-      (flag ? " · the flag seat is yours" : "")));
+    bd.appendChild(row(t("cmd.board.viewer") + (rec ? rec.user : "—") + " · " + (A.ROLE_LABEL[A.session.role] || "?") +
+      (flag ? t("cmd.board.yourseat") : "")));
 
     /* star command readiness ledger: the academy's catalogue is the
        training pipeline — count what the fleet can teach */
-    var rd = sec("STAR COMMAND — READINESS LEDGER");
-    var rdRow = row("loading academy manifest…"); rd.appendChild(rdRow);
+    var rd = sec(t("cmd.sec.readiness"));
+    var rdRow = row(t("cmd.readiness.loading")); rd.appendChild(rdRow);
     fetch("assets/academy-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
       var topics = {}, langs = {}, access = {};
       (m.lessons || []).forEach(function (l) {
@@ -1325,25 +1254,26 @@
         access[l.access] = (access[l.access] || 0) + 1;
         (l.language || []).forEach(function (x) { langs[x] = (langs[x] || 0) + 1; });
       });
-      rdRow.textContent = (m.lesson_count || (m.lessons || []).length) + " lessons on the syllabus · " +
-        Object.keys(topics).length + " topics · " + Object.keys(access).map(function (k) {
+      rdRow.textContent = t("cmd.readiness.line", m.lesson_count || (m.lessons || []).length,
+          Object.keys(topics).length) +
+        Object.keys(access).map(function (k) {
           return access[k] + " " + k; }).join(" · ");
       var top = Object.keys(topics).sort(function (a, b) { return topics[b] - topics[a]; }).slice(0, 6);
-      rd.appendChild(row("largest schools: " + top.map(function (t) { return t + " (" + topics[t] + ")"; }).join(" · ")));
-      rd.appendChild(row("languages: " + Object.keys(langs).map(function (k) { return k + " ×" + langs[k]; }).join(" · ")));
-    }).catch(function () { rdRow.textContent = "academy manifest unavailable on this desk"; });
+      rd.appendChild(row(t("cmd.readiness.schools") + top.map(function (t) { return t + " (" + topics[t] + ")"; }).join(" · ")));
+      rd.appendChild(row(t("cmd.readiness.langs") + Object.keys(langs).map(function (k) { return k + " ×" + langs[k]; }).join(" · ")));
+    }).catch(function () { rdRow.textContent = t("cmd.readiness.miss"); });
 
     /* standing order + the directive book */
-    var st = sec("STANDING ORDER");
+    var st = sec(t("cmd.sec.order"));
     var so = document.createElement("div"); so.className = "adm-sig";
     var body = document.createElement("div"); body.textContent = ORDER_001;
     var sig = document.createElement("div"); sig.className = "sig-line";
-    sig.textContent = "— signed, Fleet Admiral Paul P. Ramsey";
+    sig.textContent = t("cmd.order.signed");
     so.appendChild(body); so.appendChild(sig); st.appendChild(so);
 
-    var dr = sec("DIRECTIVE BOOK — FANO-DIR-v1 · flag signature required");
+    var dr = sec(t("cmd.sec.directives"));
     var list = directives();
-    if (!list.length) dr.appendChild(row("no directives on the book — the pen is capped."));
+    if (!list.length) dr.appendChild(row(t("cmd.directives.none")));
     list.slice().reverse().forEach(function (dv) {
       var ok = verifyDirective(dv);
       var rr = document.createElement("div"); rr.className = "cmd-row adm-sig";
@@ -1359,25 +1289,25 @@
       var bIn = document.createElement("input"); bIn.className = "cmd-in"; bIn.placeholder = "directive text — signed on issue";
       fRow.appendChild(tIn); fRow.appendChild(bIn);
       fRow.appendChild(btn("SIGN & ISSUE", function () {
-        if (!tIn.value.trim() || !bIn.value.trim()) { toast("a directive needs a title and text", "sys"); return; }
+        if (!tIn.value.trim() || !bIn.value.trim()) { toast(t("tst.directive.fields"), "sys"); return; }
         var fp0 = A.fingerprint(); // live issuer fp — the seat signs, canon names the officeholder
         var rec0 = A.loadRecord();
         var iss = rec0 ? rec0.pk : null;
-        if (!iss) { toast("no key on this desk", "sys"); return; }
+        if (!iss) { toast(t("tst.nokey"), "sys"); return; }
         var ts = Math.floor(Date.now() / 1000);
         var sg = A.sign(dirBytes(tIn.value.trim(), bIn.value.trim(), iss, ts), A.session.sk);
-        if (!sg) { toast("signature refused", "sys"); return; }
+        if (!sg) { toast(t("tst.sig.refused"), "sys"); return; }
         var l = directives();
         l.push({ title: tIn.value.trim(), body: bIn.value.trim(), iss: iss, ts: ts, sig: A.hex(sg) });
         saveDirectives(l);
-        toast("directive signed — FANO-DIR-v1 · iss fp " + (fp0 || "").split(" ")[0] + "…", "sys");
+        toast(t("tst.directive.signed", (fp0 || "").split(" ")[0]), "sys");
         renderAdmiralty(root);
       }));
       dr.appendChild(fRow);
       var ex = document.createElement("div"); ex.className = "cmd-row";
       ex.appendChild(btn("EXPORT BOOK", function () {
         var l2 = directives();
-        if (!l2.length) { toast("the book is empty", "sys"); return; }
+        if (!l2.length) { toast(t("tst.book.empty"), "sys"); return; }
         var w = makeWindow("directive book — export", (function () {
           var t = document.createElement("textarea"); t.className = "cmd-in"; t.rows = 12;
           t.readOnly = true; t.value = btoa(JSON.stringify(l2)); return t;
@@ -1386,7 +1316,7 @@
       }));
       dr.appendChild(ex);
     } else {
-      dr.appendChild(row("the ink is dry — directives issue from the flag seat only."));
+      dr.appendChild(row(t("cmd.directives.flagonly")));
     }
 
     /* ---------- GENESIS SEAT — the third signature ----------
@@ -1395,24 +1325,24 @@
        genesis payload: the canonical bytes are signed here, on the
        desk, and the signature travels back by hand — like every
        proper countersignature. */
-    var gs = sec("GENESIS SEAT — countersignature");
+    var gs = sec(t("cmd.sec.genesis"));
     if (flag) {
-      gs.appendChild(row("flag key (ed25519 pk): " + rec.pk));
+      gs.appendChild(row(t("cmd.genesis.flagkey") + rec.pk));
       gs.appendChild(btn("COPY PK", function () {
         copyText(rec.pk, "flag pk on the clipboard — hand it to the ledger officer");
       }));
-      gs.appendChild(row("relay this pk to the ledger officer to stage your seat."));
+      gs.appendChild(row(t("cmd.genesis.relay")));
       fetch("pending-genesis.json").then(function (r) {
-        if (!r.ok) { gs.appendChild(row("no pending genesis staged — the ledger officer stages the payload first.")); return null; }
+        if (!r.ok) { gs.appendChild(row(t("cmd.genesis.nostage"))); return null; }
         return r.json();
       }).then(function (pg) {
         if (!pg || !pg.payload) return;
         var body = new TextEncoder().encode(JSON.stringify(pg.payload, null, 2));
-        gs.appendChild(row("pending payload staged — " + pg.payload.members.length +
+        gs.appendChild(row(t("cmd.genesis.staged") + pg.payload.members.length +
           " members · quorum " + pg.payload.quorum + " · spec " + pg.payload.spec));
         gs.appendChild(btn("COUNTERSIGN GENESIS", function () {
           var sg = A.sign(body, A.session.sk);
-          if (!sg) { toast("signature refused", "sys"); return; }
+          if (!sg) { toast(t("tst.sig.refused"), "sys"); return; }
           var w = makeWindow("genesis countersignature — relay to the ledger", (function () {
             var t = document.createElement("textarea"); t.className = "cmd-in"; t.rows = 8;
             t.readOnly = true;
@@ -1420,15 +1350,15 @@
             return t;
           })());
           w.style.width = "34rem"; w.style.height = "16rem";
-          toast("genesis countersigned — relay the block to the ledger officer", "sys");
+          toast(t("tst.genesis.signed"), "sys");
         }));
       }).catch(function () {});
     } else {
-      gs.appendChild(row("the genesis seat posts to the flag seat only."));
+      gs.appendChild(row(t("cmd.genesis.flagonly")));
     }
 
     var note = document.createElement("div"); note.className = "cmd-foot";
-    note.textContent = "the board posts for all personnel — transparency is doctrine. " +
+    note.textContent = t("cmd.board.note") +
       "only the flag seat signs; the suite remembers every signature it is shown.";
     root.appendChild(note);
   }
@@ -1574,21 +1504,21 @@
     var status = document.createElement("pre"); status.style.whiteSpace="pre-wrap"; box.appendChild(status);
     var actions = document.createElement("p");
     function button(text, fn) { var b=document.createElement("button"); b.textContent=text; b.className="cmd-btn"; b.addEventListener("click",fn); actions.appendChild(b); return b; }
-    button("DISCOVER MODELS", function () {
-      GOV_CFG.url=url.value; GOV_CFG.token=token.value; GOV_CFG.provider=provider.value; status.textContent="discovering…";
+    button(t("cmd.btn.discover"), function () {
+      GOV_CFG.url=url.value; GOV_CFG.token=token.value; GOV_CFG.provider=provider.value; status.textContent=t("sts.discovering");
       govFetch("/models").then(function(r){return r.json();}).then(function(j){
         var inv=j[GOV_CFG.provider]; status.textContent=inv ? JSON.stringify(inv.models,null,2) : JSON.stringify(j,null,2);
         if (inv && inv.models && inv.models.length && !model.value) {
           var usable = inv.models.filter(function (m) { return !/embed/i.test(m.name); });
           model.value = (usable[0] || inv.models[0]).name;
         }
-      }).catch(function(e){status.textContent="bridge unavailable — "+e;});
+      }).catch(function(e){status.textContent=t("sts.bridge.down")+e;});
     });
-    button("USE FOR ASK", function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; GOV_CFG.provider=provider.value; GOV_CFG.model=model.value; status.textContent=GOV_CFG.model ? "provider armed — ask uses the governed boundary" : "choose a discovered model first"; });
-    button("RECENT AUDIT", function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; govFetch("/audit").then(function(r){return r.json();}).then(function(j){status.textContent=JSON.stringify(j,null,2);}).catch(function(e){status.textContent="audit unavailable — "+e;}); });
-    button("CAPABILITY REGISTRY", function () { fetch("assets/capability-registry.json").then(function(r){return r.json();}).then(function(j){status.textContent=JSON.stringify(j,null,2);}).catch(function(e){status.textContent="registry unavailable — "+e;}); });
-    button("SALVAGE REGISTRY", function () {
-      status.textContent="loading machine-wide salvage registry…";
+    button(t("cmd.btn.useask"), function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; GOV_CFG.provider=provider.value; GOV_CFG.model=model.value; status.textContent=GOV_CFG.model ? "provider armed — ask uses the governed boundary" : "choose a discovered model first"; });
+    button(t("cmd.btn.audit"), function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; govFetch("/audit").then(function(r){return r.json();}).then(function(j){status.textContent=JSON.stringify(j,null,2);}).catch(function(e){status.textContent=t("sts.audit.down")+e;}); });
+    button(t("cmd.btn.capregistry"), function () { fetch("assets/capability-registry.json").then(function(r){return r.json();}).then(function(j){status.textContent=JSON.stringify(j,null,2);}).catch(function(e){status.textContent=t("sts.registry.down")+e;}); });
+    button(t("cmd.btn.salvage"), function () {
+      status.textContent=t("sts.salvage.loading");
       fetch("assets/zig-capability-registry.json").then(function(r){return r.json();}).then(function(j){
         var lines=[];
         lines.push("machine-wide zig salvage — "+j.capability_count+" capabilities");
@@ -1606,17 +1536,17 @@
         lines.push("evidence states:");
         Object.keys(j.by_evidence_state||{}).forEach(function(k){ lines.push("  "+k+": "+j.by_evidence_state[k]); });
         status.textContent=lines.join("\n");
-      }).catch(function(e){status.textContent="salvage registry unavailable — "+e;});
+      }).catch(function(e){status.textContent=t("sts.salvage.down")+e;});
     });
-    button("SPEC REGISTRY", function () {
-      status.textContent="loading canonical spec registry…";
+    button(t("cmd.btn.specregistry"), function () {
+      status.textContent=t("sts.spec.loading");
       fetch("assets/spec-registry.json").then(function(r){return r.json();}).then(function(j){
         var lines=["canonical registry — "+j.spec_count+" specs · audit seq "+j.audit_sequence,""];
         j.specs.forEach(function(s){
           lines.push("  "+s.name+"  ["+s.status+"]"+(s.normative?" normative":"")+"  v"+s.version);
         });
         status.textContent=lines.join("\n");
-      }).catch(function(e){status.textContent="spec registry unavailable — "+e;});
+      }).catch(function(e){status.textContent=t("sts.spec.down")+e;});
     });
     box.appendChild(actions); makeWindow(title, box);
   }
@@ -1635,7 +1565,7 @@
         (claimed === real.length ? "" : " — MANIFEST COUNT MISMATCH (claims " + claimed + ")") +
         " — choose a lesson.";
       real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\nevidence: "+lesson.evidence+"\nassessment: "+lesson.assessment+"\nsource: "+lesson.source; }); list.appendChild(b); });
-    }).catch(function(e){ detail.textContent="academy manifest unavailable — "+e; });
+    }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 
   function openScience() {
@@ -1686,7 +1616,7 @@
         });
         filters.appendChild(b);
       });
-    }).catch(function (e) { detail.textContent = "science inventory unavailable — " + e; });
+    }).catch(function (e) { detail.textContent = t("sts.science.down") + e; });
   }
 
   /* ---------- terminal: canon as commands (iter 13) ---------- */
@@ -1793,9 +1723,9 @@
       case "sha": return "bcb81b78ebeab9e3762a806788a0c4c1bd3bbd1e8a7b9339030037efab6367b4\nspec-007.md — UNCHANGED. the baseline holds.";
       case "tests": return "zig: 8+18+15+21+12+12 = 86 primary … GREEN\nq_toys: 6 … GREEN\ntotal: 92 verified operations";
       case "xp":
-        return "clearance: L" + clearance() + " (" + state.xp + "xp)" +
-          "\nachievements: " + state.achievements.length + "/" + Object.keys(ACHIEVEMENTS).length +
-          "\neggs: " + state.eggs.length + "/" + eggTotal();
+        return t("fm.clearance") + " L" + clearance() + " (" + state.xp + "xp)" +
+          "\n" + t("fm.achievements") + ": " + state.achievements.length + "/" + ACHIEVEMENTS.length +
+          "\n" + t("fm.eggs") + ": " + state.eggs.length + "/" + eggTotal();
       case "manual": openManual(); return t("term.manual");
       case "export": return btoa(JSON.stringify(state)) + "\n— carry this code; 'import <code>' on any desk restores you";
       case "export-desk":
@@ -2372,7 +2302,7 @@
     startMenu.classList.remove("open");
     smRun.value = ""; smHits.innerHTML = "";
     if (hits.length) hits[0].act();
-    else toast("run: nothing filed under '" + q + "'");
+    else toast(t("tst.run.miss", q));
   });
   smRun.addEventListener("click", function (e) { e.stopPropagation(); });
 
@@ -2720,39 +2650,39 @@
 
   function manualText() {
     var lines = [
-      "FIELD MANUAL — service record",
+      t("fm.title"),
       "════════════════════════════════",
-      "clearance      L" + clearance() + " · " + state.xp + "xp" +
-        "  (next: " + (XP_LEVELS[clearance() + 1] || "—") + "xp)",
-      "time on desk   " + fmtTime(state.totalSec),
+      t("fm.clearance") + "  L" + clearance() + " · " + state.xp + "xp" +
+        "  (" + t("fm.next") + ": " + (XP_LEVELS[clearance() + 1] || "—") + "xp)",
+      t("fm.time") + "  " + fmtTime(state.totalSec),
       "",
-      "achievements   " + state.achievements.length + "/" + Object.keys(ACHIEVEMENTS).length,
+      t("fm.achievements") + "  " + state.achievements.length + "/" + ACHIEVEMENTS.length,
     ];
-    Object.keys(ACHIEVEMENTS).forEach(function (k) {
+    ACHIEVEMENTS.forEach(function (k) {
       var got = state.achievements.indexOf(k) >= 0;
-      lines.push("  " + (got ? "■" : "□") + " " + ACHIEVEMENTS[k]);
+      lines.push("  " + (got ? "■" : "□") + " " + t("ach." + k));
     });
     lines.push("");
-    lines.push("eggs           " + state.eggs.length + "/" + Object.keys(EGGS).length);
-    Object.keys(EGGS).forEach(function (k) {
+    lines.push(t("fm.eggs") + "  " + state.eggs.length + "/" + EGGS.length);
+    EGGS.forEach(function (k) {
       var got = state.eggs.indexOf(k) >= 0;
-      lines.push("  " + (got ? "■" : "□") + " " + (got ? EGGS[k] : "???"));
+      lines.push("  " + (got ? "■" : "□") + " " + (got ? t("egg." + k) : "???"));
     });
     lines.push("");
-    lines.push("dossier        " + Object.keys(DOCS_READ).length + "/15 pages read");
+    lines.push(t("fm.dossier") + "  " + Object.keys(DOCS_READ).length + "/15 " + t("fm.pages"));
     Object.keys(FS).forEach(function (k) {
       var n = FS[k].items.filter(function (i) { return DOCS_READ[i[0]]; }).length;
       lines.push("  " + k + " ".repeat(Math.max(1, 12 - k.length)) + " " +
         n + "/" + FS[k].items.length + (n === FS[k].items.length ? " ✓" : ""));
     });
-    lines.push("render deck    " + state.vizSeen.length + "/8 panes screened");
-    lines.push("terminal       " + state.termHist.length + " commands on record · " +
-      state.termCmds.length + " distinct");
-    lines.push("livery         " + THEMES[state.theme].label +
-      (state.eggs.indexOf("konami") >= 0 ? "" : " (one more exists)"));
-    lines.push("audio          " + (state.muted ? "muted" : "live"));
+    lines.push(t("fm.deck") + "  " + state.vizSeen.length + "/8 " + t("fm.panes"));
+    lines.push(t("fm.terminal") + "  " + state.termHist.length + " " + t("fm.cmds") + " · " +
+      state.termCmds.length + " " + t("fm.distinct"));
+    lines.push(t("fm.livery") + "  " + THEMES[state.theme].label +
+      (state.eggs.indexOf("konami") >= 0 ? "" : t("fm.onemore")));
+    lines.push(t("fm.audio") + "  " + (state.muted ? t("fm.muted") : t("fm.live")));
     lines.push("");
-    lines.push("save code      terminal: 'export' — career travels with you");
+    lines.push(t("fm.savecode"));
     return lines.join("\n");
   }
 
@@ -2761,18 +2691,18 @@
   /* ---------- POST boot (iter 11) ---------- */
 
   var BOOT_LINES = [
-    "FANO-1 BIOS v7 — Q128.128 integer core",
-    "ALU check: u128 ………………… OK",
-    "shadow layer: i256/i512 …… OK (half-ulp)",
-    "lattice: 421 e0 nodes ……… RESIDENT",
-    "wasm core: spec007.wasm …… @@WASM@@",
-    "harness: 92 tests …………… GREEN",
-    "baseline: bcb81b78ebeab9… UNCHANGED",
-    "drawer seal …………………… ENGAGED",
-    "clearance restore: L" + clearance() + " · " + state.xp + "xp … OK",
-    "signing authority: Fleet Admiral — verified",
+    t("boot.bios"),
+    t("boot.alu"),
+    t("boot.shadow"),
+    t("boot.lattice"),
+    t("boot.wasm"),
+    t("boot.harness"),
+    t("boot.baseline"),
+    t("boot.seal"),
+    t("boot.clearance") + " L" + clearance() + " · " + state.xp + "xp … OK",
+    t("boot.authority"),
     "",
-    "desktop ready. mind the drawer.",
+    t("boot.ready"),
   ];
   var bootEl = document.getElementById("boot");
   var bootLog = document.getElementById("boot-log");
@@ -2943,19 +2873,19 @@
     var iv = setInterval(function () {
       if (!win.isConnected) { clearInterval(iv); return; }
       pre.textContent =
-        "SYSMON — desk telemetry\n─────────────────────────────\n" +
-        "uptime        " + fmtTime(Math.floor((Date.now() - sessionStart) / 1000)) + "\n" +
-        "frame rate    " + fps + " fps\n" +
-        "windows       " + document.querySelectorAll(".win").length + " open\n" +
-        "wasm core     " + (wasmAlive === null ? "probing…" : wasmAlive ? "ALIVE · 421 nodes" : "ABSENT") + "\n" +
-        "lattice link  " + (llmAlive === null ? "probing…" : llmAlive ? "OLLAMA RESIDENT" : "no :11434 — offline") + "\n" +
-        "livery        " + THEMES[state.theme].label + "\n" +
-        "clearance     L" + clearance() + " · " + state.xp + "xp\n" +
-        "eggs          " + state.eggs.length + "/" + eggTotal() + " · achievements " +
-          state.achievements.length + "/" + Object.keys(ACHIEVEMENTS).length + "\n" +
-        "audio         " + (state.muted ? "muted" : "live") + "\n" +
+        t("sys.title") + "\n─────────────────────────────\n" +
+        t("sys.uptime") + "  " + fmtTime(Math.floor((Date.now() - sessionStart) / 1000)) + "\n" +
+        t("sys.fps") + "  " + fps + " fps\n" +
+        t("sys.windows") + "  " + document.querySelectorAll(".win").length + " " + t("sys.open") + "\n" +
+        t("sys.wasm") + "  " + (wasmAlive === null ? t("sys.probing") : wasmAlive ? "ALIVE · 421 nodes" : "ABSENT") + "\n" +
+        t("sys.lattice") + "  " + (llmAlive === null ? t("sys.probing") : llmAlive ? "OLLAMA RESIDENT" : t("sys.offline")) + "\n" +
+        t("fm.livery") + "  " + THEMES[state.theme].label + "\n" +
+        t("fm.clearance") + "  L" + clearance() + " · " + state.xp + "xp\n" +
+        t("fm.eggs") + "  " + state.eggs.length + "/" + eggTotal() + " · " + t("fm.achievements") + " " +
+          state.achievements.length + "/" + ACHIEVEMENTS.length + "\n" +
+        t("fm.audio") + "  " + (state.muted ? t("fm.muted") : t("fm.live")) + "\n" +
         "─────────────────────────────\n" +
-        "every number here is measured, not claimed.";
+        t("sys.measured");
     }, 500);
     achieve("sysmon");
   }
@@ -2978,7 +2908,7 @@
     items.push({ n: "field manual — service record", act: openManual });
     items.push({ n: "7q.drawer — SEALED", act: deniedMenu });
     Object.keys(THEMES).forEach(function (t) {
-      items.push({ n: "livery: " + THEMES[t].label, act: function () { setTheme(t); toast("livery: " + THEMES[t].label); } });
+      items.push({ n: "livery: " + THEMES[t].label, act: function () { setTheme(t); toast(t("toast.livery") + THEMES[t].label); } });
     });
     if (window.QUVIZ) window.QUVIZ.vizPaneList().forEach(function (v) {
       items.push({ n: "viz: " + v, act: function () { window.QUVIZ.openViz(v); } });
@@ -3060,14 +2990,14 @@
       pf.style.cssText = "width:100%;margin-top:6px";
       pf.addEventListener("change", function () {
         if (FANO_AUTH.importPromotion(pf.value)) {
-          toast("promotion accepted — containment lifted, welcome cadet", "sys");
+          toast(t("tst.promotion.accepted"), "sys");
           paintClearance();
-        } else toast("promotion refused — wrong subject, expired, or untrusted issuer", "sys");
+        } else toast(t("tst.promotion.refused.long"), "sys");
       });
       nb.appendChild(pf);
       makeWindow("containment.notice", nb);
       openAcademy();
-      toast("containment — academy only, pending adjudication", "sys");
+      toast(t("tst.contained"), "sys");
     }
   });
 })();
