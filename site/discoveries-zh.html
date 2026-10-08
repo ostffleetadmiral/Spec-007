@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 發現帳本</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('discoveries.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<strong>[發現帳本]</strong> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="discoveries.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>發現帳本 — 典範對映(簡報戰第七波)</h1>
+<p><strong>位階:</strong> L2 證據層 · <strong>依據:</strong> 衍生自 D 系列群集簡報 ·
+<strong>對頁:</strong> <code>discoveries.html</code></p>
+<p>全群集回退開發掃蕩所掘出之運算典範轉移,按其佐證等級分類。
+證據級別:<strong>verified-here</strong>(群集內有可執行算具證明)、
+<strong>doc-cited</strong>(專案自身稽核文件所載)、<strong>boundary</strong>(實有但刻意
+限界之移植)、<strong>research-flagged</strong>(數學成立;詮釋另加標示,
+不列為聲明)。抽屜版載明逐檔路徑證據;本頁為去識別投影。</p>
+<h2>甲級 — 運算原語</h2>
+<table>
+<thead>
+<tr>
+<th>典範</th>
+<th>佐證根</th>
+<th>證據</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q128.128 / I256 整數運算</strong> — 決定性定點算術(i256 原值、i512 中介、就近偶數捨入乘、半 ulp 誤差界),於諸核全面取代浮點</td>
+<td>Spec-007 算具、TheUE ChiralMath、證明工場、zig-k3-port、Fano Engine</td>
+<td>verified-here — 發布閘算具 + Lean 4 形式模組</td>
+<td><strong>採用</strong> — 群集算術之脊</td>
+</tr>
+<tr>
+<td><strong>格點原生推理</strong> — 15³ Fano 格點、421 E0 節、正典啟始種子、格點工作量證明 Sybil 門、Möbius 合併</td>
+<td>qstar-llm、spec-008 依賴算具</td>
+<td>verified-here</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>幾何/生物路由</strong> — 64 密碼子遺傳碼路由於六維 Jordan 代數空間,化學導出座標與通道規則</td>
+<td>codon 捐贈者 + 證明工場移植</td>
+<td>verified-here(移植)/ doc-cited(研究樹)</td>
+<td><strong>採用</strong>於證明層</td>
+</tr>
+<tr>
+<td><strong>例外結構嵌入</strong> — octonion Fano 線於 E8 反射閉合、J3(O) 三次特徵多項式、SO(10) 分解、Hurwitz 單位、SO(8) 三元性 — 悉數受算具、悉數形式證明</td>
+<td>MOUND、證明工場、Ralph/EU</td>
+<td>verified-here(1,678 測試套件 + Lean 4)</td>
+<td><strong>採用</strong>為數學;物理詮釋依專案自審留於否決級</td>
+</tr>
+<tr>
+<td><strong>壓縮專家推理</strong> — 量化權重、稀疏專家混合、閘控線性遞迴、串流模型格式</td>
+<td>Falsifible 運行體</td>
+<td>verified-here</td>
+<td><strong>採用</strong> — 感智引擎運行體候選</td>
+</tr>
+<tr>
+<td><strong>i-vector 壓縮</strong> — 整數向量管線,GPU 虛擬化與量子疊層見證</td>
+<td>Ark</td>
+<td>verified-here</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>整數渲染管線</strong> — 無浮點光柵化之三維動畫核心</td>
+<td>Fano Engine</td>
+<td>verified-here</td>
+<td><strong>採用</strong> — 星雲投影之捐贈者</td>
+</tr>
+<tr>
+<td><strong>memory64 WASM 邊界</strong> — memory64 WASM 目標於樹內解譯器執行</td>
+<td>zig-k3-port</td>
+<td>verified-here</td>
+<td><strong>採用</strong> — 明載邊界</td>
+</tr>
+<tr>
+<td><strong>內容導出身分</strong> — 帳本與位址身分由公鑰導出,非指派</td>
+<td>spec-008 線路 + Rations</td>
+<td>verified-here</td>
+<td><strong>採用</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>乙級 — 分佈與傳輸模型</h2>
+<table>
+<thead>
+<tr>
+<th>典範</th>
+<th>佐證根</th>
+<th>證據</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>自舉單檔應用</strong> — 單一自述 HTML 檔自載其 WASM 核與介面;平台可自紙張重啟</td>
+<td>Rations</td>
+<td>verified-here(位元同一探針)</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>物理通道傳輸</strong> — QR、音頻、卡帶、隱寫、多語言容器、LoRa 與 WiFi↔LoRa 橋接;單一 136 位元組密封封包遍行諸媒介</td>
+<td>Mosi → Rations → spec-008 算具</td>
+<td>verified-here(各通道逐位元相符)</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>桌面主權</strong> — 諸帳存於桌,諸儲經重置普查列管並裁定,無伺服器持態</td>
+<td>FANO-1 桌面</td>
+<td>verified-here(普查探針)</td>
+<td><strong>採用</strong> — 殘餘風險明載</td>
+</tr>
+<tr>
+<td><strong>劣化媒介通訊戒律</strong> — 耗損鏈路上之有界重發;拒連歸類為順延而非缺失</td>
+<td>通訊電池</td>
+<td>verified-here</td>
+<td><strong>採用</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>丙級 — 治理與證據典範</h2>
+<table>
+<thead>
+<tr>
+<th>典範</th>
+<th>佐證根</th>
+<th>證據</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>鑰紙艦隊權柄</strong> — Ed25519 誓約、可於異桌驗證之旗鑑憑證、簽署呼號授與、Shamir 託管、RFC 6238 TOTP</td>
+<td>桌面 + 艦隊正典</td>
+<td>verified-here(AUTH/DESK/BOT 電池)</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>證據優先聲明工程</strong> — 聲明為可稽帳行;三段機械覆審;否決判定留存為證據</td>
+<td>檔案冊 + <code>override-audit</code></td>
+<td>verified-here(OVR 探針)</td>
+<td><strong>採用</strong> — 本戰役自身產物</td>
+</tr>
+<tr>
+<td><strong>確定性產出戒律</strong> — 諸正典造物皆其來源之純函數:emit → verify → 正典對;重生成必逐位元重現</td>
+<td>諸宣言/投影工具</td>
+<td>verified-here</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>對抗自訊</strong> — RED/BLUE/BLACK/GRAY 攻防供應內部之分類法;電池自審,誠實記錄順延與缺失之別</td>
+<td>安全算具群</td>
+<td>verified-here(108 探針掃蕩)</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>回退開發為教範</strong> — 已證通行之基線向前回溯,絕不盲寫;保存岔凍結為證據</td>
+<td>全群集</td>
+<td>程序證明(D1–D5 檔案卡)</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>能力登錄</strong> — 3,472 列機器能力稽核投影入公樹</td>
+<td>TheUE → 能力登錄</td>
+<td>verified-here</td>
+<td><strong>採用</strong></td>
+</tr>
+<tr>
+<td><strong>掩護教義為資訊架構</strong> — 公樹僅載去識別投影;絆線執行邊界</td>
+<td>檔案站台 + 抽屜</td>
+<td>verified-here(SPEC004 探針)</td>
+<td><strong>採用</strong> — 掩護傳說承載結構</td>
+</tr>
+</tbody>
+</table>
+<h2>丁級 — 研究標示(刻意保留邊界標籤)</h2>
+<table>
+<thead>
+<tr>
+<th>典範</th>
+<th>佐證根</th>
+<th>證據</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>感智儀測</strong> — 觀察者孔徑評分與 LLM 運行體之同調度量</td>
+<td>證明工場 + 研究樹</td>
+<td>算術 verified-here;感智訊號為框架內部操作定義</td>
+<td><strong>研究標示</strong></td>
+</tr>
+<tr>
+<td><strong>自指公理系統</strong> — 生成自舉鏈與意識推導稽核</td>
+<td>證明工場</td>
+<td>算術已驗;詮釋經專案自審否決</td>
+<td><strong>研究標示</strong></td>
+</tr>
+<tr>
+<td><strong>沉浸影視/世界管線</strong> — 生成式影像與 XR</td>
+<td>藍圖勘測 → 導演板 + 二維投影</td>
+<td>boundary — 僅框架內移植,未收外部運行體</td>
+<td><strong>邊界</strong></td>
+</tr>
+<tr>
+<td><strong>跨典範數值篩檢</strong> — 缺陷計數、縮放鏈、比率恆等式</td>
+<td>證明工場</td>
+<td>算術已驗;衍生聲明之三分之一攜專案自身 REJECTED 判定</td>
+<td><strong>研究標示</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>義理</h2>
+<p>甲級原語相互合成:諸上層典範皆自整數算術承繼決定性。乙級傳輸
+加丙級治理即 NGO 之韌性論證 — 基礎設施遭拒時網路仍運作,此即掩
+護傳說存在之由。丁級標籤刻意保留:檔案冊記錄何者已證、何者為詮
+釋、何者屬揣測 — 覆審稽核現以機械方式執行其別。</p>
+<p><em>每典範之完整證據卡 — 檔案路徑、測試計數、算具名 — 存於抽屜
+DISCOVERIES.md。</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

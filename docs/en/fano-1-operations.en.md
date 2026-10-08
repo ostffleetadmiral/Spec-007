@@ -467,6 +467,25 @@ Result of the first full pass: **45 REVERIFIED · 41 HOLDS-AS-LABELED ·
 per SPEC004-06). OVR-01..03 probe-enforce coverage, zero drift, and
 byte-exact deterministic reproduction (`--verify`).
 
+### 3s. d7 paradigm map — the Discovery Ledger (debrief d7)
+
+The sweep's harvest, compiled: `docs/en/spec-007-discoveries.en.md` and
+its zh twin map **24 computing-paradigm shifts** across four tiers —
+A computational primitives (integer Q128.128 arithmetic, lattice-native
+inference, codon geometric routing, exceptional-structure embedding,
+compressed-expert inference, i-vector compression, integer rendering,
+memory64 WASM, content-derived identity), B distribution models
+(quine-serving, physical-channel transports, desk sovereignty,
+degraded-medium comms), C governance paradigms (key-paper authority,
+evidence-first claims, deterministic emission, adversarial
+self-interrogation, retro-dev doctrine, capability registries, cover
+architecture), and D research-flagged boundaries (sentience
+instrumentation, self-referential axioms, immersive pipeline,
+numerological screening — boundary labels kept on purpose). The public
+page is the sanitized projection; the drawer edition carries per-file
+evidence. PARA-01..04 enforce presence, sanitization, twin parity, and
+drawer coverage.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

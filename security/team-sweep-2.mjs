@@ -2093,6 +2093,63 @@ console.log("\nOVERRIDE — claims audit (debrief d6)");
   }
 }
 
+console.log("\nPARADIGM — discoveries map (debrief d7)");
+/* ================= PARADIGM — the cluster's own map ====================
+   The discoveries page is a sanitized projection of the drawer
+   DISCOVERIES.md — paradigm rows, evidence classes, boundary labels.
+   Twins exist, counts align, nothing classified leaks. */
+{
+  const DEN = path.join(ROOT, "docs", "en", "spec-007-discoveries.en.md");
+  const DZH = path.join(ROOT, "docs", "zh-Hant", "spec-007-discoveries.zh-Hant.md");
+  const DDW = path.join(ROOT, "thoughts&convos", "DISCOVERIES.md");
+  /* PARA-01: the twin pair and drawer edition all exist */
+  {
+    const ok = [DEN, DZH, DDW].every(f => fs.existsSync(f));
+    ok ? held("PARA", "pair-present",
+        "discoveries twins + drawer edition all present")
+      : open_("PARA", "pair-present", "missing discoveries artifact(s)");
+  }
+  /* PARA-02: the public projection is sanitized */
+  {
+    const raw = fs.existsSync(DEN) ? fs.readFileSync(DEN, "utf8") : "";
+    const leaks = /\/home\/|CascadeProjects|Documents\/|Desktop\/|Music\//.test(raw)
+      || /admiral|ramsey|paul\b/i.test(raw) || /thoughts&convos/.test(raw);
+    raw && !leaks
+      ? held("PARA", "projection-sanitized",
+          "public paradigm map carries no paths, officer text, or drawer refs")
+      : open_("PARA", "projection-sanitized", "sanitization leak in discoveries doc");
+  }
+  /* PARA-03: twin structural parity — same paradigm rows, same tiers */
+  {
+    if (!fs.existsSync(DEN) || !fs.existsSync(DZH)) {
+      noted("PARA", "twin-parity", "twin absent — deferred");
+    } else {
+      const cnt = f => (fs.readFileSync(f, "utf8").match(/\| \*\*PAR-/g) || []).length ||
+        (fs.readFileSync(f, "utf8").match(/^\| \*\*/gm) || []).length;
+      const en = cnt(DEN), zh = cnt(DZH);
+      const enT = (fs.readFileSync(DEN, "utf8").match(/^## /gm) || []).length;
+      const zhT = (fs.readFileSync(DZH, "utf8").match(/^## /gm) || []).length;
+      en === zh && en > 0 && enT === zhT
+        ? held("PARA", "twin-parity",
+            `${en} paradigm rows each side, ${enT} sections — twins aligned`)
+        : open_("PARA", "twin-parity", `en rows=${en} zh rows=${zh} sections ${enT}/${zhT}`);
+    }
+  }
+  /* PARA-04: drawer edition covers at least every public paradigm */
+  {
+    if (!fs.existsSync(DDW) || !fs.existsSync(DEN)) {
+      noted("PARA", "drawer-coverage", "drawer or public map absent — deferred");
+    } else {
+      const pub = (fs.readFileSync(DEN, "utf8").match(/^\| \*\*/gm) || []).length;
+      const drw = (fs.readFileSync(DDW, "utf8").match(/^\| PAR-/gm) || []).length;
+      drw >= pub && pub > 0
+        ? held("PARA", "drawer-coverage",
+            `drawer ${drw} entries ⊇ public ${pub} — projection complete`)
+        : open_("PARA", "drawer-coverage", `drawer=${drw} public=${pub}`);
+    }
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));
