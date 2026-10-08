@@ -327,6 +327,22 @@ projection, never fake capability. The plan's external donor projects
 are survey citations only — nothing is vendored. C91 records the audit;
 the drawer keeps the map.
 
+### 3k. engine.os — the signed roster (sentience w2)
+
+The blueprint's first gap is closed: `tools/engine-manifest.mjs` signs a
+single ENGINEMANIFESTv1 registry of every runtime the desk may trust —
+the governance bridge, all three Ollama providers, both WASM cores
+(spec007, rations — rations' hash must also agree with its own published
+sidecar), the five asset registries, and the security battery pinned by
+its sweep's anchor hash. Same canon discipline as the fleet bulletin:
+`--emit` signs root+site, `--verify` is the load gate (spec, signature,
+genesis lineage, key hint, timestamp, parity, **inventory** — every
+signed sha256 must still match the file on disk), bare run writes
+nothing. The `engine` terminal command (and the engine.os icon) opens a
+pane that groups runtimes by kind and labels each by evidence —
+verified-here, bridge-mediated, doc-cited — never promised reachable.
+ENG-01..04 probe it.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

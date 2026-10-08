@@ -1715,6 +1715,51 @@
     }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 
+  function openEngine() {
+    var title = "engine.os — governed runtime registry";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div"); box.className = "win-body academy-pane";
+    box.innerHTML = "<p><strong>ENGINE.OS</strong> <small>— every runtime the desk may trust, one signed roster</small></p>" +
+      "<p><small>" + esc(t("eng.note")) + "</small></p>";
+    var status = document.createElement("pre"); status.style.whiteSpace = "pre-wrap";
+    var list = document.createElement("div"); list.className = "academy-list";
+    var detail = document.createElement("pre"); detail.style.whiteSpace = "pre-wrap";
+    box.appendChild(status); box.appendChild(list); box.appendChild(detail);
+    makeWindow(title, box);
+    fetch("engine-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
+      var p = m && m.payload;
+      if (!p || p.spec !== "ENGINEMANIFESTv1") { status.textContent = t("eng.invalid"); return; }
+      var rts = p.runtimes || {};
+      status.textContent = t("eng.status", String(p.runtime_count || 0)) +
+        "\n" + t("eng.signed") + ": " + (m.sig_ed25519 ? "yes" : "NO") +
+        " · " + (m.pubkey_hint || "?") +
+        "\n" + t("eng.stamped") + ": " + (p.ts || "?") +
+        "\n" + t("eng.lineage") + ": " + ((p.genesis_sha256 || "?").slice(0, 24)) + "…" +
+        "\n\n" + t("eng.loadgate");
+      var kinds = {};
+      Object.keys(rts).forEach(function (id) { var k = rts[id].kind || "?"; (kinds[k] = kinds[k] || []).push(id); });
+      Object.keys(kinds).forEach(function (k) {
+        var h = document.createElement("p"); h.innerHTML = "<strong>" + esc(k) + "</strong>"; list.appendChild(h);
+        kinds[k].forEach(function (id) {
+          var rt = rts[id], b = document.createElement("button");
+          b.className = "cmd-btn"; b.textContent = id + "  [" + (rt.evidence || "?") + "]";
+          b.addEventListener("click", function () {
+            var lines = [id, "  kind: " + rt.kind, "  evidence: " + rt.evidence];
+            if (rt.endpoint) lines.push("  endpoint: " + rt.endpoint);
+            if (rt.path) lines.push("  path: " + rt.path);
+            if (rt.sha256) lines.push("  " + rt.sha256);
+            if (rt.anchor_sha256) lines.push("  anchor: " + rt.anchor_sha256);
+            if (rt.members != null) lines.push("  members: " + rt.members);
+            if (rt.sidecar_agrees != null) lines.push("  sidecar_agrees: " + rt.sidecar_agrees);
+            if (rt.note) lines.push("  note: " + rt.note);
+            detail.textContent = lines.join("\n");
+          });
+          list.appendChild(b);
+        });
+      });
+    }).catch(function (e) { status.textContent = t("eng.down") + e; });
+  }
+
   function openScience() {
     var title = "q-branch — science inventory";
     if (openWins[title]) { focus(openWins[title]); return; }
@@ -1811,6 +1856,7 @@
     "  promotion <tok> present FANO-CONTAIN-v1 paper — the only door out of containment",
     "  science         Q's lab notebook — what the fleet can compute",
     "  codex           the anomalies annex — cold cases and fiction files",
+    "  engine          engine.os — the signed roster of runtimes this desk may trust",
     "  quplink         open the sandbox uplink",
     "  family          the sibling projects — fleet registry",
     "  lang [en|zh]    the desk's second tongue",
@@ -1860,6 +1906,7 @@
     "  promotion <tok> 出示 FANO-CONTAIN-v1 紙本 — 出隔離之唯一門",
     "  science         Q 之實驗室筆記 — 艦隊所能計算者",
     "  codex           異常別冊 — 冷案與虛構檔案",
+    "  engine          engine.os — 此桌可信運行時之已簽名冊",
     "  quplink         開啟沙盒上行鏈路",
     "  family          姊妹專案 — 艦隊名錄",
     "  lang [en|zh]    桌面之第二語言",
@@ -2209,6 +2256,7 @@
         return "promotion refused — wrong subject, expired, or untrusted issuer";
       }
       case "academy": openAcademy(); return "academy.os opened — source-linked lessons await.";
+      case "engine": openEngine(); return t("term.engine");
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
       case "codex": egg("codex"); openScience(); return t("term.codex", String(state.anoms.length), String(state.anomsTotal || "?"));
       case "gate": {
@@ -2376,6 +2424,7 @@
     { kind: "app", glyph: "◈", label: "quplink", sub: "sandbox", act: function () { if (window.QUPLINK) window.QUPLINK.open(); } },
     { kind: "app", glyph: "◍", label: "rations.os", sub: "air-gap web", act: function () { openDoc("apps/rations/quine.html", "rations.os"); achieve("resupply"); } },
     { kind: "app", glyph: "☏", label: "comms.os", sub: "tradecraft desk", act: function () { if (window.FANO_COMMS) { window.FANO_COMMS.open(); achieve("operator"); } } },
+    { kind: "app", glyph: "⚙", label: "engine.os", sub: "runtime roster", act: openEngine },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "locked", glyph: "✦", label: "admiralty.suite", sub: "flag tier", act: openAdmiralty },
     { kind: "locked", glyph: "▦", label: "7q.drawer", sub: "SEALED", act: deniedIcon },

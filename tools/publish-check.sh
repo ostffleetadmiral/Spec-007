@@ -43,7 +43,7 @@ echo "== wasm continuity"
   && say " PASS" "rations.wasm sha256" || { say " FAIL" "rations.wasm sha256"; FAIL=1; }
 
 echo "== canon parity (published copies must match the signed roots)"
-for c in fleet-genesis.json fleet-manifest.json; do
+for c in fleet-genesis.json fleet-manifest.json engine-manifest.json; do
   cmp -s "$c" "site/$c" \
     && say " PASS" "canon:$c" || { say " FAIL" "canon:$c"; FAIL=1; }
 done

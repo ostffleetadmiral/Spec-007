@@ -1659,6 +1659,90 @@ console.log("\nCLUSTER — cross-cluster integration (wave 9)");
   }
 }
 
+console.log("\nENGINE — unified runtime registry (sentience w2)");
+/* ================= ENGINE — the blueprint's P1 gap =====================
+   The blueprint asked for an agent/service registry; the fleet's version
+   is a signed manifest over every runtime the desk may trust. Same canon
+   discipline as the fleet bulletin: --emit signs, --verify is the load
+   gate, bare invocation writes nothing. The inventory check is the real
+   teeth — a signed registry that disagrees with the files on disk is
+   itself the finding. */
+{
+  /* ENG-01: the committed engine manifest verifies end-to-end */
+  {
+    const em = path.join(ROOT, "engine-manifest.json");
+    if (!fs.existsSync(em)) {
+      noted("ENGINE", "manifest-load-verifies",
+        "engine-manifest.json absent — emit pending, deferred");
+    } else {
+      const r = spawnSync("node", [path.join(ROOT, "tools", "engine-manifest.mjs"),
+        "--verify"], { cwd: ROOT, encoding: "utf8", timeout: 20000 });
+      r.status === 0 && /engine verify: GREEN/.test(r.stdout || "")
+        ? held("ENGINE", "manifest-load-verifies",
+            "--verify: spec + signature + genesis lineage + hint + ts + site parity + inventory all green")
+        : open_("ENGINE", "manifest-load-verifies",
+            `rc=${r.status} out=${(r.stdout || r.stderr || "").slice(0, 120)}`);
+    }
+  }
+  /* ENG-02: inventory held — signed hashes match the files on disk */
+  {
+    const em = path.join(ROOT, "engine-manifest.json");
+    if (!fs.existsSync(em)) {
+      noted("ENGINE", "inventory-held", "engine-manifest.json absent — deferred");
+    } else {
+      const man = JSON.parse(fs.readFileSync(em, "utf8"));
+      const drift = [];
+      for (const [id, rt] of Object.entries(man.payload.runtimes || {})) {
+        if (rt.path && rt.sha256 && fs.existsSync(path.join(ROOT, rt.path))) {
+          const h = "sha256:" + crypto.createHash("sha256")
+            .update(fs.readFileSync(path.join(ROOT, rt.path))).digest("hex");
+          if (h !== rt.sha256) drift.push(id);
+        } else if (rt.path && rt.sha256) drift.push(id + ":missing");
+      }
+      drift.length === 0
+        ? held("ENGINE", "inventory-held",
+            `${man.payload.runtime_count} runtimes — every signed sha256 matches the file on disk`)
+        : open_("ENGINE", "inventory-held",
+            `registry drifted from disk: ${drift.join(", ")}`);
+    }
+  }
+  /* ENG-03: bare invocation is read-only — canon untouched */
+  {
+    const em = path.join(ROOT, "engine-manifest.json");
+    if (!fs.existsSync(em)) {
+      noted("ENGINE", "manifest-dry-run-safe", "engine-manifest.json absent — deferred");
+    } else {
+      const before = fs.readFileSync(em, "utf8");
+      const r = spawnSync("node", [path.join(ROOT, "tools", "engine-manifest.mjs")],
+        { cwd: ROOT, encoding: "utf8", timeout: 20000 });
+      const after = fs.readFileSync(em, "utf8");
+      r.status === 0 && before === after
+        ? held("ENGINE", "manifest-dry-run-safe",
+            "bare invocation prints the payload and writes nothing — canon untouched")
+        : open_("ENGINE", "manifest-dry-run-safe",
+            `rc=${r.status} canon mutated=${before !== after}`);
+    }
+  }
+  /* ENG-04: every runtime carries a controlled evidence label */
+  {
+    const em = path.join(ROOT, "engine-manifest.json");
+    if (!fs.existsSync(em)) {
+      noted("ENGINE", "evidence-labels", "engine-manifest.json absent — deferred");
+    } else {
+      const man = JSON.parse(fs.readFileSync(em, "utf8"));
+      const allowed = new Set(["verified-here", "bridge-mediated", "doc-cited"]);
+      const bad = [];
+      for (const [id, rt] of Object.entries(man.payload.runtimes || {}))
+        if (!allowed.has(rt.evidence)) bad.push(`${id}:${rt.evidence}`);
+      bad.length === 0
+        ? held("ENGINE", "evidence-labels",
+            "every runtime carries a controlled evidence label — verified-here, bridge-mediated, or doc-cited")
+        : open_("ENGINE", "evidence-labels",
+            `uncontrolled evidence labels: ${bad.join(", ")}`);
+    }
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));
