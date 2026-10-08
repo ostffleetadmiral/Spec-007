@@ -20,12 +20,24 @@
 // differs whenever any frame byte differs. Two coordinated bytes in the
 // same frame can evade XOR; that is a stated bound, not a defect, and
 // the outer envelope's own seal is the second wall (tested elsewhere).
+//
+// LAWB-09 remediation (D12): the XOR check is now explicitly layered.
+//   Layer 1 — frameCheck: unkeyed XOR, error DETECTION only (noise).
+//             Forgeable by an adversary (payload^delta + check^delta);
+//             that bound stays on record, tested and labeled.
+//   Layer 2 — frameTag: keyed HMAC-SHA256 tag truncated to 8 bytes over
+//             the entire raw frame (magic|seq|len|payload|check). Any
+//             modification to any covered byte fails authentication
+//             without the channel key — this is the adversary wall at
+//             transport level, defense-in-depth below the envelope seal.
+//             frameAuth/unframeAuth are the authenticated channel;
+//             frame/unframe remain the inner detection layer.
 
 const std = @import("std");
 
 const WIRE_PACKET_BYTES: usize = 136;
 const FRAME_PAYLOAD: usize = 56; // chunk size on the wire
-const FRAME_OVERHEAD: usize = 4; // magic(2) + seq + len + check(1) → 5? see below
+const TAG_BYTES: usize = 8; // truncated HMAC-SHA256 — 2^64 forgery space
 const MAGIC0: u8 = 0xF0;
 const MAGIC1: u8 = 0xA0;
 
@@ -101,6 +113,78 @@ fn streamParity(cells: []const []const u8, cell_size: usize, out: []u8) void {
         std.debug.assert(cell.len == cell_size);
         for (cell, 0..) |b, j| out[j] ^= b;
     }
+}
+
+// ─────────── Layer 2: authenticated channel (LAWB-09 remediation) ───────────
+
+/// Keyed tag over one raw frame: HMAC-SHA256(key, frame_bytes)[0..8].
+/// Covers magic, seq, len, payload AND the detection check byte — an
+/// adversary cannot update the tag without the key, so the payload^delta
+/// + check^delta forge from LAWB-09 dies here.
+fn frameTag(key: []const u8, raw_frame: []const u8) [TAG_BYTES]u8 {
+    var mac: [32]u8 = undefined;
+    std.crypto.auth.hmac.sha2.HmacSha256.create(&mac, raw_frame, key);
+    var tag: [TAG_BYTES]u8 = undefined;
+    @memcpy(&tag, mac[0..TAG_BYTES]);
+    return tag;
+}
+
+/// Authenticated encode: same frames as `frame`, plus a keyed tag per
+/// frame. Layout: [magic magic seq len payload[len] check tag[8]].
+fn frameAuth(key: []const u8, packet: []const u8, out: []u8) !usize {
+    if (packet.len > WIRE_PACKET_BYTES) return error.OverCapacity;
+    var n: usize = 0;
+    var seq: u8 = 0;
+    var off: usize = 0;
+    while (off < packet.len) : (seq += 1) {
+        const len: u8 = @intCast(@min(FRAME_PAYLOAD, packet.len - off));
+        const payload = packet[off .. off + len];
+        if (n + 5 + TAG_BYTES + len > out.len) return error.OutputOverflow;
+        out[n] = MAGIC0;
+        out[n + 1] = MAGIC1;
+        out[n + 2] = seq;
+        out[n + 3] = len;
+        @memcpy(out[n + 4 .. n + 4 + len], payload);
+        out[n + 4 + len] = frameCheck(seq, len, payload);
+        const tag = frameTag(key, out[n .. n + 5 + len]);
+        @memcpy(out[n + 5 + len .. n + 5 + TAG_BYTES + len], &tag);
+        n += 5 + TAG_BYTES + len;
+        off += len;
+    }
+    return n;
+}
+
+/// Authenticated decode: verify the keyed tag BEFORE trusting a frame's
+/// contents — forgery, splice, and tag truncation all refuse. Structural
+/// checks (magic, sequence, capacity, detection check) still apply after
+/// the tag verifies: authentication first, structure second.
+fn unframeAuth(key: []const u8, stream: []const u8, out: []u8) !usize {
+    var n: usize = 0;
+    var i: usize = 0;
+    var expect_seq: u8 = 0;
+    while (i < stream.len) {
+        if (i + 5 + TAG_BYTES > stream.len) return error.Truncated;
+        if (stream[i] != MAGIC0 or stream[i + 1] != MAGIC1)
+            return error.BadMagic;
+        const seq = stream[i + 2];
+        const len: usize = stream[i + 3];
+        if (i + 5 + TAG_BYTES + len > stream.len) return error.Truncated;
+        const raw = stream[i .. i + 5 + len];
+        const tag = stream[i + 5 + len .. i + 5 + TAG_BYTES + len];
+        const want = frameTag(key, raw);
+        if (!std.mem.eql(u8, tag, &want)) return error.BadTag;
+        const payload = stream[i + 4 .. i + 4 + len];
+        if (seq != expect_seq) return error.OutOfOrder;
+        if (raw[4 + len] != frameCheck(seq, @intCast(len), payload))
+            return error.Corrupt;
+        if (n + len > WIRE_PACKET_BYTES) return error.OverCapacity;
+        if (n + len > out.len) return error.OutputOverflow;
+        @memcpy(out[n .. n + len], payload);
+        n += len;
+        i += 5 + TAG_BYTES + len;
+        expect_seq += 1;
+    }
+    return n;
 }
 
 // ─────────────────────────────── tests ───────────────────────────────
@@ -236,4 +320,113 @@ test "parity: empty envelope frames to zero-length stream" {
     var back: [WIRE_PACKET_BYTES]u8 = undefined;
     const m = try unframe(stream[0..0], &back);
     try std.testing.expectEqual(@as(usize, 0), m);
+}
+
+// ─── LAWB-09 remediation tests — the keyed layer is the adversary wall ───
+
+const TEST_KEY = "spec008-parity-channel-key-d12";
+
+test "auth: keyed round-trip on the 136B envelope is bit-exact" {
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    // 3 frames × (5 + 8 tag) overhead + 136 payload
+    try std.testing.expectEqual(@as(usize, 3 * 13 + 136), n);
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+    const m = try unframeAuth(TEST_KEY, stream[0..n], &back);
+    try std.testing.expectEqual(WIRE_PACKET_BYTES, m);
+    try std.testing.expectEqualSlices(u8, &pkt, &back);
+}
+
+test "auth: the LAWB-09 forge dies at the tag — payload^delta+check^delta" {
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    // replay the documented forge on frame 0: corrupt one payload byte by
+    // delta and the detection check by the same delta — the XOR equation
+    // still balances (inner layer stays forgeable: the bound stands),
+    // but the keyed tag now refuses it.
+    var forged: [640]u8 = undefined;
+    @memcpy(forged[0..n], stream[0..n]);
+    forged[4] ^= 0xA5; // payload byte
+    forged[4 + 56] ^= 0xA5; // frame 0 check byte (same delta → check holds)
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+    // inner detection layer: documented bound — the forge still verifies.
+    // (Demonstrated on the unkeyed wire format, where the XOR equation
+    // balances; the bound stays on record, it is not removed.)
+    var inner_stream: [512]u8 = undefined;
+    const ni = try frame(&pkt, &inner_stream);
+    var inner_forged: [512]u8 = undefined;
+    @memcpy(inner_forged[0..ni], inner_stream[0..ni]);
+    inner_forged[4] ^= 0xA5;
+    inner_forged[4 + 56] ^= 0xA5;
+    _ = try unframe(inner_forged[0..ni], &back); // verifies — bound stands
+    // authenticated channel: the same bytes refuse at BadTag
+    try std.testing.expectError(error.BadTag, unframeAuth(TEST_KEY, forged[0..n], &back));
+}
+
+test "auth: wrong key, foreign-stream splice, and tag truncation refuse" {
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+    // wrong key → first tag mismatch
+    try std.testing.expectError(error.BadTag, unframeAuth("attacker-key", stream[0..n], &back));
+    // splice a valid frame from a different-key stream — tag won't match
+    var foreign: [640]u8 = undefined;
+    const nf = try frameAuth("other-channel", &pkt, &foreign);
+    var spliced: [640]u8 = undefined;
+    @memcpy(spliced[0..n], stream[0..n]);
+    // replace frame 1 (offset 13+56=69, len 13+56) with foreign frame 1
+    const f1 = 13 + 56;
+    @memcpy(spliced[f1 .. f1 + f1], foreign[f1 .. f1 + f1]);
+    try std.testing.expectError(error.BadTag, unframeAuth(TEST_KEY, spliced[0..n], &back));
+    // truncated tag at end of stream
+    try std.testing.expectError(error.Truncated, unframeAuth(TEST_KEY, stream[0 .. n - 4], &back));
+    _ = nf;
+}
+
+test "auth: 100-iteration adversary loop — every forged mutation refuses" {
+    // deterministic attacker: 100 coordinated forgery attempts — single
+    // flips, XOR-balanced check forges, seq edits, tag replays. Every
+    // single one must refuse; zero may slip through.
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+    var refused: usize = 0;
+    var iter: usize = 0;
+    while (iter < 100) : (iter += 1) {
+        var attack: [640]u8 = undefined;
+        @memcpy(attack[0..n], stream[0..n]);
+        switch (iter % 4) {
+            0 => { // single-byte corruption at rotating offset
+                attack[(iter *% 37) % n] ^= @truncate(1 +% iter);
+            },
+            1 => { // XOR-balanced forge: payload^delta + check^delta
+                const frame_len = 5 + TAG_BYTES + 56;
+                const frame_idx = (iter / 4) % 3;
+                const base = frame_idx * frame_len;
+                const delta: u8 = @truncate(0x10 +% iter);
+                attack[base + 4] ^= delta;
+                attack[base + 4 + 56] ^= delta;
+            },
+            2 => { // seq edit — structural AND tag covered
+                const frame_len = 5 + TAG_BYTES + 56;
+                const frame_idx = (iter / 4) % 3;
+                attack[frame_idx * frame_len + 2] ^= 0x7;
+            },
+            else => { // tag replay: stamp frame 0's tag onto frame 1
+                const frame_len = 5 + TAG_BYTES + 56;
+                @memcpy(
+                    attack[frame_len + 5 + 56 .. frame_len + 5 + 56 + TAG_BYTES],
+                    attack[5 + 56 .. 5 + 56 + TAG_BYTES],
+                );
+            },
+        }
+        if (unframeAuth(TEST_KEY, attack[0..n], &back)) |_| {} else |_| {
+            refused += 1;
+        }
+    }
+    try std.testing.expectEqual(@as(usize, 100), refused);
 }

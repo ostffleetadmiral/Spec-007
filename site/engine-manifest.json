@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-08T14:52:59.315Z",
+    "ts": "2026-10-08T15:03:55.100Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 12,
     "runtimes": {
@@ -79,12 +79,12 @@
         "kind": "harness",
         "path": "security/",
         "members": 38,
-        "anchor_sha256": "sha256:093bc857a1a73444cff8ea346260aaf7631705f3c9b61423399d95f4fff3b017",
+        "anchor_sha256": "sha256:9901ae7cb01cd75c5f0cbcad699d417a6ef0eb0e96f5f489bca6de110649b659",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       }
     }
   },
-  "sig_ed25519": "7uG8Hvv11i6utsnZ_CM_QLRSQIAwPQRWmwTgoJIkYWORy7q46JrXDRIDmJVW7uRpSQM7MCzZ8NeFiBoG8SLVBA",
+  "sig_ed25519": "Jief5vLYwcv_3ObCvK5Mh9kt9NiCx5iPEe6OLAS5n8qT_QB7crlpkNy6M8hB-4A4cX0rGe0OUOsBPIa6SY3KDQ",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }
