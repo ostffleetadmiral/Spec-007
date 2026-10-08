@@ -187,4 +187,5 @@ pub fn build(b: *std.Build) void {
         imp("render", r_render),
     });
     depTest(b, test_step, "src/spec008_qstar_parity.zig", target, optimize, &.{});
+    depTest(b, test_step, "src/spec008_medium_lattice.zig", target, optimize, &.{});
 }

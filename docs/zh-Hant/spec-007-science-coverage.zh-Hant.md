@@ -79,6 +79,12 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | SimHash 指紋 | 晶格探針 | Charikar,STOC 2002 | SETTLED |
 | Steane ⟦7,1,3⟧ 碼 | `sibling:ark-ivector:qsharp/SteaneCode.qs` | Steane 1996 | SETTLED |
 | 校驗和 ≠ MAC | LAWB-09 教訓 | 已發表原理 — 無金鑰完整標籤可偽造;已以金鑰層修復 | SETTLED + 已修復 |
+| 多埠 S 矩陣/四聯 Smith 圖 | `sibling:hardware:src/smith.zig`、`src/spec008_medium_lattice.zig` | 多埠網路分析屬定論工程(Pozar);框架自有四聯圖以 Q128 做 Γ↔z,四象限為精確 90° 旋轉 | SETTLED + INTERNAL |
+| Wi-Fi CSI 感測 | 介質即感測器先例 | 通道狀態資訊擷取(Intel 5300/AX200 級)— 大量同儕審查 Wi-Fi 感測文獻 | PEER-REVIEWED |
+| IEEE 802.11bf WLAN 感測 | 標準化里程碑 | IEEE bf 任務組 — WLAN 感測已標準化為正式服務(2025 批准) | STANDARD |
+| 無線電層析成像(RTI) | 「介質即晶格」先例 | Wilson & Patwari,IEEE Trans. Mobile Comput. 9(5):621(2010)— 鏈路矩陣之射頻遮蔽解析為體素網格:介質即晶格屬已發表科學 | PEER-REVIEWED |
+| TDR 線纜阻抗計量 | 線纜即晶格先例 | 時域反射術 — 定論計量學,將線纜阻抗/故障映射至同一 Γ 平面 | SETTLED |
+| 介質即晶格計畫 | 框架建構 | `src/spec008_medium_lattice.zig` — Γ→15×15 格胞量化、四埠陣列→(k,r,c)、次/超閾值界限雙向檢驗;作為量測疊層可行,可否證條件在案 | INTERNAL |
 
 ## §5 熱力學與能源硬體
 
@@ -127,7 +133,7 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 熱薛丁格貓態 | 退相干界參照 | Agrenius et al.,Science Advances 11:adr4492 (2025),arXiv:2406.03389 — 微波腔中位移熱態之疊加,溫度達 1.8 K(為 30 mK 環境之 60 倍),純度 0.06,Wigner 負值干涉。原則上弱化「量子需基態冷卻」之反對;1.8 K 仍屬低溫 — 距 310 K 生物仍遠 | PEER-REVIEWED |
 | 粒線體量子態預印本 | 量子生物學前沿 | Yang, Gu & Song,bioRxiv 10.64898/2026.09.10.750628 (2026) — 僅於活細胞/組織觀測之異常 71.0-THz 模式,極化子模型(光-CH₂ 耦合將 87 分裂為 71+103 THz),ATP 產量調節 +10%;未經複製、單實驗室、詮釋依賴模型 | PREPRINT |
 | ENAQT(環境輔助量子輸運) | 退相干反例先例 | Engel et al.,Nature 446:782 (2007);Plenio & Huelga — 結構化振動雜訊在光合複合物中可*輔助*而非摧毀量子輸運:「溫/濕殺量子」並非絕對 | PEER-REVIEWED |
-| 15³/16³ 晶格量子位元計畫 | 框架自身建構 | `sibling:hardware:src/completion_10d.zig`、`anti_octonion.zig`、`dual_b_complex.zig`、`quantum/simulator.zig` — 幾何屬實且經測試驗證(法諾對稱、三次縮放鏈、E8 根系);**庫內無動力學方程** — 無哈密頓量、時間演化、退相干模型或糾纏算符;2 振幅模擬器僅為玩具。作為物理:建構層級,保留 — 殼層相干主張在動力學寫出前不可檢驗 | INTERNAL + 缺口在案 |
+| 15³/16³ 晶格量子位元計畫 | 框架自身建構 — 一手文獻 Zenodo DOI 10.5281/zenodo.22715354(自存檔,未同儕審查) | `sibling:hardware:src/completion_10d.zig`、`sibling:hardware:src/anti_octonion.zig`、`sibling:hardware:src/dual_b_complex.zig`、`sibling:hardware:src/quantum/lattice_hamiltonian.zig`、`sibling:hardware:src/quantum/lattice_evolution.zig`、`sibling:hardware:src/quantum/lattice_decoherence.zig`、`sibling:hardware:src/quantum/lattice_entanglement.zig`、`sibling:hardware:src/quantum/lattice_blocks.zig` — 動力學現已實作並經測試驗證(D17):緊束縛哈密頓量(厄米、Gershgorin 界限)、Chebyshev exp(−iHτ) 傳播子(Bessel 尾端么正界限)、播種精確相位退相位、精確雙位元 concurrence、雙塊耦合/穿隧/光錐檢驗。缺口在案:軌跡退相位 ≠ 完整 Lindblad;雙位元 concurrence ≠ N 體二分;模型內結果 ≠ 物理裝置 | INTERNAL |
 | Orch-OR(Penrose–Hameroff 協調客觀約化) | 儀器層之意識基底參照 | 理論經同儕審查:Penrose & Hameroff,Phys. Life Rev. 11:39 (2014)。支持證據:麻醉劑作用於微管 Wiest et al.,eNeuro (2024);色氨酸網超輻射 Babcock et al.,J. Phys. Chem. B (2024);Hameroff 綜述,Neurosci. Conscious. niaf011 (2025)。反方:Tegmark 退相干界 Phys. Rev. E 61:4194 (2000) — 經有限記憶修正而弱化(arXiv:2601.07689);Donadi/Bassi 自發輻射約束 Phys. Rev. A 104:L030402 (2021) 排除最簡 DP 塌縮情形 — 部分分離窗口仍開放 | PEER-REVIEWED 雙向 — 不定,保留 |
 
 ## §8 形式驗證、標準與治理文集
@@ -167,9 +173,10 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 邊緣層引文(Sankhya、TGD、Natural Path、自指、意識預印本) | 低權重 | 真實造物;獨立性主張屬實;證據權重如實標定 |
 | 24 項文獻評審 | 於此全收 | `sibling:hardware:src/literature_review.zig` 全部 DOI 於 §1–§8 逐字釘定(SCI-01) |
 | Orch-OR 意識基底 | 爭議中 | 最簡 DP 塌縮為自發輻射界限所排除(Phys. Rev. A 104:L030402);室溫微管量子效應有實驗支持(2024–25);裁決「不定」— 未證明亦未推翻,保留 |
-| 無通信定理 | CONSTRAINED | 即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理 — 庫內外皆無逃脫機制。晶格模型未提供可檢驗之動力耦合算符;主張保留,未推翻 |
+| 無通信定理 | CONSTRAINED | 即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。**現已於模型內算出**(D17 `lattice_blocks.zig`):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 <3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席 |
 | 量子生物證據鏈 | FLAG | 熱貓(1.8 K,仍屬低溫)+ 粒線體預印本(未複製、依賴模型)+ ENAQT(僅光合)各削弱退相干反對之一角 — 皆未橋接至神經尺度意識;記為削弱鏈,非證明 |
-| 15³ 量子位元動力學 | FLAG | 幾何於庫內已驗;哈密頓量/時間演化/退相干保護算符缺席 — 動力學寫出並測試前屬建構。「殼防退相干」主張目前為定義性,非推導 |
+| 15³ 量子位元動力學 | 已量測(模型內) | 動力學已寫出並檢驗(D17 `lattice_*.zig`):哈密頓量、Chebyshev 演化、退相位軌跡、精確 concurrence。殼屏蔽實驗實測:屏蔽保真度 0.999999999 對無屏蔽 0.9999988,V_shell∈[0,100] 全平 — 屏蔽於模型內屬實,但由弱邊界耦合驅動,非位壘高度(機制歸因為量測所修正)。接縫穿隧:開放傳輸 35.1% 對位壘 8 之 1.47%(E<V₀ 透射非零)。物理裝置主張仍缺席 |
+| 理論對發現之界 | META | 數學證明得定理(Dirac 反物質方程);發現須觀測(Anderson 正子)。層級體系所編碼正是此界 — harness_proven 與 lit_supported 皆模型層;本頁所錄無一為物理發現 |
 | 裁決引擎 | 機械 | `tools/science-verdict.mjs` 分類本頁每一行:harness_proven / lit_supported / constrained / flagged / indeterminate — 證明或保留,無漏解析(SV-01..03) |
 | 湧現掃蕩 | 機械 | `tools/emergent-sweep.mjs` 掃全部根源之共享具名常數 — filed/emergent/routine/lineage/convergent 結案;湧現發現含 D8_ROOTS=112、F4_DIM=52、FREUDENTHAL_DIM=56、GUT_SUPER_PERIOD=113、GOLAY_N=23、SCALING_DIM=9、16/20 主張分裂、42::ROTATION_SEED(EMG-01..03) |
 

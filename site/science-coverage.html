@@ -392,6 +392,42 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 <td>Published principle — unkeyed integrity tags are forgeable; remediated with keyed layer</td>
 <td>SETTLED + remediated</td>
 </tr>
+<tr>
+<td>Multi-port S-matrix / quad Smith chart</td>
+<td><code>sibling:hardware:src/smith.zig</code>, <code>src/spec008_medium_lattice.zig</code></td>
+<td>Multi-port network analysis is settled practice (Pozar); the framework's own Quad chart does Γ↔z in Q128 with exact 90° quadrant rotations</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>Wi-Fi CSI sensing</td>
+<td>medium-as-sensor precedent</td>
+<td>Channel State Information extraction (Intel 5300/AX200 class) — large peer-reviewed Wi-Fi sensing literature</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>IEEE 802.11bf WLAN Sensing</td>
+<td>standardization milestone</td>
+<td>IEEE task group bf — WLAN sensing standardized as a real service (ratified 2025)</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>Radio Tomographic Imaging</td>
+<td>"medium becomes the lattice" precedent</td>
+<td>Wilson &amp; Patwari, IEEE Trans. Mobile Comput. 9(5):621 (2010) — RF shadowing across a link matrix resolves a voxel grid: medium-as-lattice is published science</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>TDR wire impedance metrology</td>
+<td>wire-as-lattice precedent</td>
+<td>Time-domain reflectometry — settled metrology mapping cable impedance/faults onto the same Γ plane</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Medium-as-lattice program</td>
+<td>framework construction</td>
+<td><code>src/spec008_medium_lattice.zig</code> — Γ→15×15 cell quantization, 4-port array→(k,r,c), sub/super-threshold bound tested both directions; feasible as a measurement overlay, falsification condition on record</td>
+<td>INTERNAL</td>
+</tr>
 </tbody>
 </table>
 <h2>§5 Thermodynamics &amp; energy hardware</h2>
@@ -631,9 +667,9 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 </tr>
 <tr>
 <td>15³/16³ lattice-qubit program</td>
-<td>framework's own construction</td>
-<td><code>sibling:hardware:src/completion_10d.zig</code>, <code>anti_octonion.zig</code>, <code>dual_b_complex.zig</code>, <code>quantum/simulator.zig</code> — geometry real and test-verified (Fano symmetry, cubic scaling chain, E8 roots); <strong>no dynamical equations in-repo</strong> — no Hamiltonian, time-evolution, decoherence model, or entanglement operator; the 2-amplitude simulator is a toy. As physics: CONSTRUCTION-tier, held — the shell-coherence claim cannot be tested until dynamics are written</td>
-<td>INTERNAL + gap on record</td>
+<td>framework's own construction — primary source Zenodo DOI 10.5281/zenodo.22715354 (self-archived, not peer-reviewed)</td>
+<td><code>sibling:hardware:src/completion_10d.zig</code>, <code>sibling:hardware:src/anti_octonion.zig</code>, <code>sibling:hardware:src/dual_b_complex.zig</code>, <code>sibling:hardware:src/quantum/lattice_hamiltonian.zig</code>, <code>sibling:hardware:src/quantum/lattice_evolution.zig</code>, <code>sibling:hardware:src/quantum/lattice_decoherence.zig</code>, <code>sibling:hardware:src/quantum/lattice_entanglement.zig</code>, <code>sibling:hardware:src/quantum/lattice_blocks.zig</code> — dynamics now implemented and test-verified (D17): tight-binding Hamiltonian (Hermitian, Gershgorin bounds), Chebyshev exp(−iHτ) propagator (Bessel-tail unitarity bound), seeded exact-phase dephasing, exact 2-site concurrence, two-block coupling/tunneling/light-cone tests. Residual gaps on record: trajectory dephasing ≠ full Lindblad; 2-site concurrence ≠ N-body bipartition; in-model results ≠ physical device</td>
+<td>INTERNAL</td>
 </tr>
 <tr>
 <td>Orch-OR (Penrose–Hameroff orchestrated objective reduction)</td>
@@ -803,7 +839,7 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 <tr>
 <td>No-communication theorem</td>
 <td>CONSTRAINED</td>
-<td>Instant correlation is real (Bell violations confirmed); controlled FTL signaling requires breaking the theorem — no mechanism in-repo or in literature escapes it. The lattice model supplies no dynamical coupling operator to test; claim held, not refuted</td>
+<td>Instant correlation is real (Bell violations confirmed); controlled FTL signaling requires breaking the theorem. <strong>Now computed in-model</strong> (D17 <code>lattice_blocks.zig</code>): correlation propagates ballistically — measured front tail &lt;3.1×10⁻¹¹ beyond 7 sites at τ=1, consistent with the Lieb-Robinson bound (Commun. Math. Phys. 28:251, 1972). The model supplies its own light cone: correlation real, instant signaling absent</td>
 </tr>
 <tr>
 <td>Quantum-bio evidence chain</td>
@@ -812,8 +848,13 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 </tr>
 <tr>
 <td>15³ qubit dynamics</td>
-<td>FLAG</td>
-<td>Geometry verified in-repo; Hamiltonian / time-evolution / decoherence-protection operator absent — construction until dynamics are written and tested. The "shell prevents decoherence" claim is currently definitional, not derived</td>
+<td>MEASURED (in-model)</td>
+<td>Dynamics written &amp; tested (D17 <code>lattice_*.zig</code>): Hamiltonian, Chebyshev evolution, dephasing trajectories, exact concurrence. Shell-shield experiment measured: shielded fidelity 0.999999999 vs unshielded 0.9999988, flat in V_shell∈[0,100] — shielding real in-model but driven by weak boundary coupling, NOT barrier height (mechanism attribution corrected by measurement). Seam tunneling: 35.1% transfer open vs 1.47% at barrier 8 (E&lt;V₀ transmission nonzero). Physical-device claim remains absent</td>
+</tr>
+<tr>
+<td>Theory vs discovery boundary</td>
+<td>META</td>
+<td>A mathematical proof yields a theorem (Dirac's antimatter equation); a discovery requires observation (Anderson's positron). The tier system encodes exactly this — harness_proven and lit_supported are model-tier; nothing filed here is a physical discovery</td>
 </tr>
 <tr>
 <td>Verdict engine</td>

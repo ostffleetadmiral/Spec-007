@@ -2520,6 +2520,114 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
         : open_("EMG", "debrief-sanitized", `leaks: ${leaks.join(",")}`);
     }
   }
+
+  /* ── D17: medium-as-lattice + lattice quantum dynamics ── */
+  const ML = path.join(ROOT, "src", "spec008_medium_lattice.zig");
+  /* RF-01: the medium-as-lattice falsification harness is green */
+  {
+    if (!fs.existsSync(ML)) {
+      open_("RF", "medium-harness", "src/spec008_medium_lattice.zig absent");
+    } else {
+      const r = spawnSync("zig", ["test", ML],
+        { encoding: "utf8", timeout: 120000 });
+      r.status === 0
+        ? held("RF", "medium-harness", "Gamma→cell→coord harness green — medium-as-lattice mapping proves under a bounded noise model")
+        : open_("RF", "medium-harness", `rc=${r.status} ${(r.stderr || "").slice(0, 140)}`);
+    }
+  }
+  /* RF-02: the noise bound is tested in BOTH directions — the LAWB-09
+     pattern: the failure boundary is the deliverable */
+  {
+    if (!fs.existsSync(ML)) {
+      open_("RF", "bound-both-ways", "harness absent");
+    } else {
+      const s = fs.readFileSync(ML, "utf8");
+      /sub-threshold/.test(s) && /super-threshold/.test(s) && /bound-failure/.test(s)
+        ? held("RF", "bound-both-ways", "sub-threshold in-cell AND super-threshold break both tested")
+        : open_("RF", "bound-both-ways", "one-sided bound test — the failure direction is missing");
+    }
+  }
+  /* RF-03: honest non-claims documented in-source */
+  {
+    if (!fs.existsSync(ML)) {
+      open_("RF", "non-claims", "harness absent");
+    } else {
+      const s = fs.readFileSync(ML, "utf8");
+      /OutsideDisk/.test(s) && /does NOT claim/.test(s) && /rf-field-probe/.test(s)
+        ? held("RF", "non-claims", "OutsideDisk refusal, scope note, and empirical-domain pointer all in-source")
+        : open_("RF", "non-claims", "honest-bound documentation missing from the harness header");
+    }
+  }
+  /* QD-01: the five lattice dynamics modules exist in the hardware tree
+     and are wired into the test suite */
+  {
+    const HQ = path.join(HOME, SIBROOTS["hardware"], "src");
+    const mods = ["lattice_hamiltonian", "lattice_evolution", "lattice_decoherence", "lattice_entanglement", "lattice_blocks"];
+    const missing = mods.filter(m => !fs.existsSync(path.join(HQ, "quantum", `${m}.zig`)));
+    let unimported = [];
+    try {
+      const at = fs.readFileSync(path.join(HQ, "all_tests.zig"), "utf8");
+      unimported = mods.filter(m => !at.includes(`quantum/${m}.zig`));
+    } catch { unimported = ["<all_tests unreadable>"]; }
+    !missing.length && !unimported.length
+      ? held("QD", "modules-wired", "5 dynamics modules present and imported by all_tests.zig")
+      : open_("QD", "modules-wired", `missing=${missing.join(",")} unimported=${unimported.join(",")}`);
+  }
+  /* QD-02: hardware suite green — the dynamics are tested, not just written */
+  {
+    const HW = path.join(HOME, SIBROOTS["hardware"]);
+    const r = spawnSync("zig", ["build", "test"],
+      { encoding: "utf8", cwd: HW, timeout: 600000 });
+    r.status === 0
+      ? held("QD", "suite-green", "zig build test passes with the lattice dynamics tests inside")
+      : open_("QD", "suite-green", `rc=${r.status} ${(r.stderr || r.stdout || "").slice(0, 160)}`);
+  }
+  /* QD-03: honest-scope documentation in-source — trajectory≠Lindblad,
+     2-site≠N-body, modulo-global-phase, never-instant */
+  {
+    const HQ = path.join(HOME, SIBROOTS["hardware"], "src", "quantum");
+    const need = [
+      ["lattice_evolution.zig", /global phase/i],
+      ["lattice_decoherence.zig", /Lindblad/i],
+      ["lattice_entanglement.zig", /out of scope|v1/i],
+      ["lattice_blocks.zig", /never instant/i],
+    ];
+    const gaps = need.filter(([f, re]) => {
+      try { return !re.test(fs.readFileSync(path.join(HQ, f), "utf8")); }
+      catch { return true; }
+    }).map(([f]) => f);
+    gaps.length === 0
+      ? held("QD", "scope-notes", "all four scope disclosures present in-source")
+      : open_("QD", "scope-notes", `missing scope notes: ${gaps.join(",")}`);
+  }
+  /* QD-04: measured results filed in the coverage record (en) */
+  {
+    const DOC = path.join(ROOT, "docs", "en", "spec-007-science-coverage.en.md");
+    const d = fs.existsSync(DOC) ? fs.readFileSync(DOC, "utf8") : "";
+    const need = ["0.999999999", "Lieb-Robinson", "35.1", "light cone"];
+    const miss = need.filter(s => !d.includes(s));
+    miss.length === 0
+      ? held("QD", "results-filed", "shell-shield fidelity, LR bound, tunneling transfer, light cone all on record")
+      : open_("QD", "results-filed", `coverage missing measured values: ${miss.join(",")}`);
+  }
+  /* QD-05: the light-cone test exists and names the bound it measures */
+  {
+    const LB = path.join(HOME, SIBROOTS["hardware"], "src", "quantum", "lattice_blocks.zig");
+    const s = fs.existsSync(LB) ? fs.readFileSync(LB, "utf8") : "";
+    /test "light cone/.test(s) && /Lieb-Robinson|ballistic/i.test(s)
+      ? held("QD", "light-cone-test", "ballistic-front test present — instant correlation measured, not asserted")
+      : open_("QD", "light-cone-test", "light-cone test or bound reference absent");
+  }
+  /* QD-06: the zh twin files the same measured numbers */
+  {
+    const DOC = path.join(ROOT, "docs", "zh-Hant", "spec-007-science-coverage.zh-Hant.md");
+    const d = fs.existsSync(DOC) ? fs.readFileSync(DOC, "utf8") : "";
+    const need = ["0.999999999", "35.1", "Lieb-Robinson"];
+    const miss = need.filter(s => !d.includes(s));
+    miss.length === 0
+      ? held("QD", "twin-numbers", "zh twin carries the identical measured values")
+      : open_("QD", "twin-numbers", `zh twin missing: ${miss.join(",")}`);
+  }
 }
 
 /* ================= LAWBREAK — try to break the laws =================

@@ -391,6 +391,42 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 <td>已發表原理 — 無金鑰完整標籤可偽造;已以金鑰層修復</td>
 <td>SETTLED + 已修復</td>
 </tr>
+<tr>
+<td>多埠 S 矩陣/四聯 Smith 圖</td>
+<td><code>sibling:hardware:src/smith.zig</code>、<code>src/spec008_medium_lattice.zig</code></td>
+<td>多埠網路分析屬定論工程(Pozar);框架自有四聯圖以 Q128 做 Γ↔z,四象限為精確 90° 旋轉</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>Wi-Fi CSI 感測</td>
+<td>介質即感測器先例</td>
+<td>通道狀態資訊擷取(Intel 5300/AX200 級)— 大量同儕審查 Wi-Fi 感測文獻</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>IEEE 802.11bf WLAN 感測</td>
+<td>標準化里程碑</td>
+<td>IEEE bf 任務組 — WLAN 感測已標準化為正式服務(2025 批准)</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>無線電層析成像(RTI)</td>
+<td>「介質即晶格」先例</td>
+<td>Wilson &amp; Patwari,IEEE Trans. Mobile Comput. 9(5):621(2010)— 鏈路矩陣之射頻遮蔽解析為體素網格:介質即晶格屬已發表科學</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>TDR 線纜阻抗計量</td>
+<td>線纜即晶格先例</td>
+<td>時域反射術 — 定論計量學,將線纜阻抗/故障映射至同一 Γ 平面</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>介質即晶格計畫</td>
+<td>框架建構</td>
+<td><code>src/spec008_medium_lattice.zig</code> — Γ→15×15 格胞量化、四埠陣列→(k,r,c)、次/超閾值界限雙向檢驗;作為量測疊層可行,可否證條件在案</td>
+<td>INTERNAL</td>
+</tr>
 </tbody>
 </table>
 <h2>§5 熱力學與能源硬體</h2>
@@ -630,9 +666,9 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 </tr>
 <tr>
 <td>15³/16³ 晶格量子位元計畫</td>
-<td>框架自身建構</td>
-<td><code>sibling:hardware:src/completion_10d.zig</code>、<code>anti_octonion.zig</code>、<code>dual_b_complex.zig</code>、<code>quantum/simulator.zig</code> — 幾何屬實且經測試驗證(法諾對稱、三次縮放鏈、E8 根系);<strong>庫內無動力學方程</strong> — 無哈密頓量、時間演化、退相干模型或糾纏算符;2 振幅模擬器僅為玩具。作為物理:建構層級,保留 — 殼層相干主張在動力學寫出前不可檢驗</td>
-<td>INTERNAL + 缺口在案</td>
+<td>框架自身建構 — 一手文獻 Zenodo DOI 10.5281/zenodo.22715354(自存檔,未同儕審查)</td>
+<td><code>sibling:hardware:src/completion_10d.zig</code>、<code>sibling:hardware:src/anti_octonion.zig</code>、<code>sibling:hardware:src/dual_b_complex.zig</code>、<code>sibling:hardware:src/quantum/lattice_hamiltonian.zig</code>、<code>sibling:hardware:src/quantum/lattice_evolution.zig</code>、<code>sibling:hardware:src/quantum/lattice_decoherence.zig</code>、<code>sibling:hardware:src/quantum/lattice_entanglement.zig</code>、<code>sibling:hardware:src/quantum/lattice_blocks.zig</code> — 動力學現已實作並經測試驗證(D17):緊束縛哈密頓量(厄米、Gershgorin 界限)、Chebyshev exp(−iHτ) 傳播子(Bessel 尾端么正界限)、播種精確相位退相位、精確雙位元 concurrence、雙塊耦合/穿隧/光錐檢驗。缺口在案:軌跡退相位 ≠ 完整 Lindblad;雙位元 concurrence ≠ N 體二分;模型內結果 ≠ 物理裝置</td>
+<td>INTERNAL</td>
 </tr>
 <tr>
 <td>Orch-OR(Penrose–Hameroff 協調客觀約化)</td>
@@ -802,7 +838,7 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 <tr>
 <td>無通信定理</td>
 <td>CONSTRAINED</td>
-<td>即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理 — 庫內外皆無逃脫機制。晶格模型未提供可檢驗之動力耦合算符;主張保留,未推翻</td>
+<td>即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。<strong>現已於模型內算出</strong>(D17 <code>lattice_blocks.zig</code>):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 &lt;3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席</td>
 </tr>
 <tr>
 <td>量子生物證據鏈</td>
@@ -811,8 +847,13 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 </tr>
 <tr>
 <td>15³ 量子位元動力學</td>
-<td>FLAG</td>
-<td>幾何於庫內已驗;哈密頓量/時間演化/退相干保護算符缺席 — 動力學寫出並測試前屬建構。「殼防退相干」主張目前為定義性,非推導</td>
+<td>已量測(模型內)</td>
+<td>動力學已寫出並檢驗(D17 <code>lattice_*.zig</code>):哈密頓量、Chebyshev 演化、退相位軌跡、精確 concurrence。殼屏蔽實驗實測:屏蔽保真度 0.999999999 對無屏蔽 0.9999988,V_shell∈[0,100] 全平 — 屏蔽於模型內屬實,但由弱邊界耦合驅動,非位壘高度(機制歸因為量測所修正)。接縫穿隧:開放傳輸 35.1% 對位壘 8 之 1.47%(E&lt;V₀ 透射非零)。物理裝置主張仍缺席</td>
+</tr>
+<tr>
+<td>理論對發現之界</td>
+<td>META</td>
+<td>數學證明得定理(Dirac 反物質方程);發現須觀測(Anderson 正子)。層級體系所編碼正是此界 — harness_proven 與 lit_supported 皆模型層;本頁所錄無一為物理發現</td>
 </tr>
 <tr>
 <td>裁決引擎</td>
