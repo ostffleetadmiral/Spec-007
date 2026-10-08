@@ -111,6 +111,10 @@ verbatim), plus the 2026-10-08 research debrief (`security/out/research-debrief.
 
 | Topic | Framework role | External record | Tier |
 |---|---|---|---|
+| 3I/ATLAS (third interstellar object) | anomaly under test | ATLAS discovery 2025-07-01; hyperbolic v∞≈58 km/s, Galactic-Centre radiant; Loeb, arXiv:2507.12213 — an anomaly-classification essay, not a detection claim | PREPRINT |
+| Wow! signal (1977) | benchmark radio transient | Ehman, Big Ear 1420.4556 MHz (hydrogen hyperfine), ~72 s, 1977-08-15; never repeated in 48 yr — settled observation, unsettled origin | PEER-REVIEWED |
+| Wow↔ATLAS alignment claim | under test | Loeb (2025): ~9° separation (ΔRA≈4°, ΔDec≈8°), random-cap probability ~0.6%; 1420 MHz follow-up on 3I/ATLAS: zero detections to date | PREPRINT (proposal-tier) |
+| Astrometric probe harness | `src/spec007_astrometric_probe.zig` | integer-Q128 evaluation: separation <9° (≈8.77° measured), P≈0.0062, 3.47 light-days at 600 AU, ~49-yr inbound transit consistent; superluminal premise refused at the wire-cost gate | INTERNAL |
 | Steane ⟦7,1,3⟧ CSS code | `sibling:ark-ivector` Q# layer | Steane 1996 — canonical QEC code | SETTLED |
 | Q# / .NET 8 quantum witnesses | `sibling:hardware:qsharp/` | Microsoft Quantum SDK — real toolchain | SETTLED + INTERNAL |
 | 6-qubit codon encoding | `sibling:hardware:qsharp/CodonProofs.qs` | Framework construction over real primitives | INTERNAL |
@@ -178,6 +182,7 @@ verbatim), plus the 2026-10-08 research debrief (`security/out/research-debrief.
 | Quantum-bio evidence chain | FLAG | Hot cats (1.8 K, still cryogenic) + mitochondrial preprint (unreplicated, model-dependent) + ENAQT (photosynthesis only) each chip at the decoherence objection — none bridges to neural-scale consciousness; recorded as a chain of chips, not a proof |
 | 15³ qubit dynamics | MEASURED (in-model) | Dynamics written & tested (D17 `lattice_*.zig`): Hamiltonian, Chebyshev evolution, dephasing trajectories, exact concurrence. Shell-shield experiment measured: shielded fidelity 0.999999999 vs unshielded 0.9999988, flat in V_shell∈[0,100] — shielding real in-model but driven by weak boundary coupling, NOT barrier height (mechanism attribution corrected by measurement). Seam tunneling: 35.1% transfer open vs 1.47% at barrier 8 (E<V₀ transmission nonzero). Physical-device claim remains absent |
 | Theory vs discovery boundary | META | A mathematical proof yields a theorem (Dirac's antimatter equation); a discovery requires observation (Anderson's positron). The tier system encodes exactly this — harness_proven and lit_supported are model-tier; nothing filed here is a physical discovery |
+| Wow↔ATLAS coupling (kinematic-optical model) | CONTESTED | The 9° alignment and 0.6% random-cap figure are real (harness-measured); the coupling mechanism — natural maser + gravitational lensing + precursor emission at 600 AU — has zero supporting detections, and 1420 MHz follow-up on 3I/ATLAS reports nothing to date. Falsification channel filed: continued narrowband nondetection ⟹ coincidence model stands; a verified detection re-opens. Held INDETERMINATE with coincidence favored on current evidence |
 | Verdict engine | MECHANICAL | `tools/science-verdict.mjs` classifies every row on this page: harness_proven / lit_supported / constrained / flagged / indeterminate — prove-or-hold, nothing unparsed (SV-01..03) |
 | Emergent sweep | MECHANICAL | `tools/emergent-sweep.mjs` scans all roots for shared named constants — filed/emergent/routine/lineage/convergent dispositions; emergent finds include D8_ROOTS=112, F4_DIM=52, FREUDENTHAL_DIM=56, GUT_SUPER_PERIOD=113, GOLAY_N=23, SCALING_DIM=9, the 16/20 claim split, and 42::ROTATION_SEED (EMG-01..03) |
 

@@ -110,6 +110,10 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 
 | 主題 | 框架角色 | 外部記錄 | 層級 |
 |---|---|---|---|
+| 3I/ATLAS(第三星際天體) | 受測異常 | ATLAS 於 2025-07-01 發現;雙曲 v∞≈58 km/s,銀心方向輻射點;Loeb,arXiv:2507.12213 — 異常分類論述,非偵測主張 | PREPRINT |
+| Wow! 訊號(1977) | 基準無線電瞬變 | Ehman,Big Ear 1420.4556 MHz(氫超精細線),約 72 秒,1977-08-15;48 年未再現 — 觀測屬定論,來源未定 | PEER-REVIEWED |
+| Wow↔ATLAS 對準主張 | 受測 | Loeb(2025):約 9° 間隔(ΔRA≈4°、ΔDec≈8°),隨機帽蓋機率約 0.6%;對 3I/ATLAS 之 1420 MHz 後續觀測:迄今零偵測 | PREPRINT(提議層) |
+| 測天探針驗具 | `src/spec007_astrometric_probe.zig` | 整數 Q128 評估:間隔 <9°(實測 ≈8.77°)、P≈0.0062、600 AU 處 3.47 光日、內向過境約 49 年一致;超光速前提於線費不變量關卡遭拒 | INTERNAL |
 | Steane ⟦7,1,3⟧ CSS 碼 | `sibling:ark-ivector` Q# 層 | Steane 1996 — 標準 QEC 碼 | SETTLED |
 | Q# / .NET 8 量子見證 | `sibling:hardware:qsharp/` | Microsoft Quantum SDK — 真實工具鏈 | SETTLED + INTERNAL |
 | 6 量子位元密碼子編碼 | `sibling:hardware:qsharp/CodonProofs.qs` | 建構於真實原語上之框架建構 | INTERNAL |
@@ -177,6 +181,7 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 量子生物證據鏈 | FLAG | 熱貓(1.8 K,仍屬低溫)+ 粒線體預印本(未複製、依賴模型)+ ENAQT(僅光合)各削弱退相干反對之一角 — 皆未橋接至神經尺度意識;記為削弱鏈,非證明 |
 | 15³ 量子位元動力學 | 已量測(模型內) | 動力學已寫出並檢驗(D17 `lattice_*.zig`):哈密頓量、Chebyshev 演化、退相位軌跡、精確 concurrence。殼屏蔽實驗實測:屏蔽保真度 0.999999999 對無屏蔽 0.9999988,V_shell∈[0,100] 全平 — 屏蔽於模型內屬實,但由弱邊界耦合驅動,非位壘高度(機制歸因為量測所修正)。接縫穿隧:開放傳輸 35.1% 對位壘 8 之 1.47%(E<V₀ 透射非零)。物理裝置主張仍缺席 |
 | 理論對發現之界 | META | 數學證明得定理(Dirac 反物質方程);發現須觀測(Anderson 正子)。層級體系所編碼正是此界 — harness_proven 與 lit_supported 皆模型層;本頁所錄無一為物理發現 |
+| Wow↔ATLAS 耦合(運動學-光學模型) | 爭議中 | 9° 對準與 0.6% 隨機帽蓋數值屬實(驗具實測);耦合機制 — 天然邁射 + 引力透鏡 + 600 AU 前置發射 — 無支持偵測,1420 MHz 後續觀測迄今無獲。可否證通道在案:持續窄頻無偵測 ⟹ 巧合模型成立;經驗證之偵測方重啟。不定保留,現有證據傾向巧合 |
 | 裁決引擎 | 機械 | `tools/science-verdict.mjs` 分類本頁每一行:harness_proven / lit_supported / constrained / flagged / indeterminate — 證明或保留,無漏解析(SV-01..03) |
 | 湧現掃蕩 | 機械 | `tools/emergent-sweep.mjs` 掃全部根源之共享具名常數 — filed/emergent/routine/lineage/convergent 結案;湧現發現含 D8_ROOTS=112、F4_DIM=52、FREUDENTHAL_DIM=56、GUT_SUPER_PERIOD=113、GOLAY_N=23、SCALING_DIM=9、16/20 主張分裂、42::ROTATION_SEED(EMG-01..03) |
 

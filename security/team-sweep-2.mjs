@@ -2628,6 +2628,43 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
       ? held("QD", "twin-numbers", "zh twin carries the identical measured values")
       : open_("QD", "twin-numbers", `zh twin missing: ${miss.join(",")}`);
   }
+
+  /* ── D18: astrometric probe — Wow↔ATLAS alignment evaluation ── */
+  const AP = path.join(ROOT, "src", "spec007_astrometric_probe.zig");
+  /* AST-01: the astrometric harness is green */
+  {
+    if (!fs.existsSync(AP)) {
+      open_("AST", "probe-harness", "src/spec007_astrometric_probe.zig absent");
+    } else {
+      const r = spawnSync("zig", ["test", AP],
+        { encoding: "utf8", timeout: 120000 });
+      r.status === 0
+        ? held("AST", "probe-harness", "integer-Q128 astrometric evaluation green — separation, cap probability, transit, invariant gate all computed")
+        : open_("AST", "probe-harness", `rc=${r.status} ${(r.stderr || "").slice(0, 140)}`);
+    }
+  }
+  /* AST-02: invariant gate + disconfirmation channel documented in-source */
+  {
+    if (!fs.existsSync(AP)) {
+      open_("AST", "falsifiable", "probe absent");
+    } else {
+      const s = fs.readFileSync(AP, "utf8");
+      /ViolatesWireCost/.test(s) && /disconfirmation/.test(s) && /does NOT claim/.test(s)
+        ? held("AST", "falsifiable", "wire-cost refusal + disconfirmation channel + non-claim all in-source")
+        : open_("AST", "falsifiable", "falsifiability documentation missing from the probe header");
+    }
+  }
+  /* AST-03: the measured verdict is filed in both twins */
+  {
+    const en = fs.readFileSync(path.join(ROOT, "docs", "en", "spec-007-science-coverage.en.md"), "utf8");
+    const zh = fs.readFileSync(path.join(ROOT, "docs", "zh-Hant", "spec-007-science-coverage.zh-Hant.md"), "utf8");
+    const need = ["8.77", "0.6", "1420", "ATLAS"];
+    const missEn = need.filter(s => !en.includes(s));
+    const missZh = need.filter(s => !zh.includes(s));
+    !missEn.length && !missZh.length
+      ? held("AST", "verdict-filed", "measured separation, cap probability, follow-up status filed both twins")
+      : open_("AST", "verdict-filed", `missing en:${missEn.join(",")} zh:${missZh.join(",")}`);
+  }
 }
 
 /* ================= LAWBREAK — try to break the laws =================
