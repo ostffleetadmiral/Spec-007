@@ -2150,6 +2150,211 @@ console.log("\nPARADIGM — discoveries map (debrief d7)");
   }
 }
 
+console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
+/* ================= BRIDGE — the pour-over ===============================
+   The D-series carded the roots; D9 wired the hardware-family evidence in
+   mechanically, and D10 extended the bridge cluster-wide — 59 anchors over
+   all 30 populated census roots plus the archive corpus. Absent siblings
+   defer (NOTED), never error. */
+{
+  const BRG = path.join(ROOT, "tools", "bridge-map.mjs");
+  const BLG = path.join(ROOT, "security", "out", "bridge-ledger.json");
+  /* D10: full populated-census map — lockstep with bridge-map.mjs SIB
+     (the drawer vault is deliberately absent: cites to it stay dead) */
+  const SIBROOTS = {
+    "hardware": "CascadeProjects/hardware",
+    "zig-k3-port": "CascadeProjects/hardware/experiments/zig-k3-port",
+    "zig-k3-preserved": "CascadeProjects/hardware/experiments/zig-k3-port-local-preserved-20261004",
+    "theue": "CascadeProjects/hardware/experiments/TheUE",
+    "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
+    "bs-analysis": "CascadeProjects/hardware/experiments/BS",
+    "spec-007": "CascadeProjects/hardware/experiments/Spec-007",
+    "rations": "CascadeProjects/Rations",
+    "theplatform": "CascadeProjects/ThePlatform",
+    "octolab": "CascadeProjects/octo",
+    "falsifible": "CascadeProjects/Falsifible",
+    "abby-donor-shelf": "CascadeProjects/basic/Abby",
+    "qstar-llm-basic": "CascadeProjects/basic/qstar-llm",
+    "eu-version-z": "Music/Paul/Sci-Fi",
+    "eu-legacy": "Music/Paul/engineered_universe",
+    "eu-vx4": "Music/Paul/newest",
+    "codon": "Music/Paul/codon",
+    "space-agent": "Music/Paul/space-agent",
+    "pj-hexredox": "Desktop/PJ",
+    "qstar-corpus": "Desktop/Qstar",
+    "ralph-corpus": "Desktop/Ralph",
+    "sheraton-shelf": "Desktop/Sheraton",
+    "tp-donor-shelf": "Desktop/ThePlatform",
+    "desi-llama": "Desktop/Desi",
+    "fano-engine": "Documents/animation",
+    "ark-ivector": "Documents/Ark",
+    "mosi-papertunes": "Documents/Mosi",
+    "archive-corpus": "Documents/archive",
+    "models-store": "Documents/models",
+  };
+  const HOME = process.env.HOME;
+  /* BRG-01: the committed ledger verifies — anchors + links reproduce */
+  {
+    if (!fs.existsSync(BRG) || !fs.existsSync(BLG)) {
+      noted("BRG", "ledger-verifies", "bridge tool or ledger absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [BRG, "--verify"],
+        { encoding: "utf8", timeout: 120000 });
+      r.status === 0 && /bridge verify: GREEN/.test(r.stdout || "")
+        ? held("BRG", "ledger-verifies",
+            "--verify GREEN — every anchor + claim link reproduces byte-exact")
+        : open_("BRG", "ledger-verifies",
+            `rc=${r.status} out=${(r.stdout || r.stderr || "").slice(0, 140)}`);
+    }
+  }
+  /* BRG-02: every committed anchor held at last audit + coverage present */
+  {
+    if (!fs.existsSync(BLG)) {
+      noted("BRG", "anchors-held", "ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(BLG, "utf8"));
+      const heldN = (led.anchors || []).filter(a => a.status === "held").length;
+      const links = Object.keys(led.claim_links || {}).length;
+      heldN === led.anchor_count && links > 0
+        ? held("BRG", "anchors-held",
+            `${heldN}/${led.anchor_count} anchors held, ${links} claims bridged`)
+        : open_("BRG", "anchors-held",
+            `held=${heldN}/${led.anchor_count} links=${links}`);
+    }
+  }
+  /* BRG-03: the SPEC-008 second implementation resolves live in zig-k3 */
+  {
+    const marks = [
+      ["zig-k3-port", "src/fablattice.zig", "SPEC008v1"],
+      ["zig-k3-port", "src/fablattice.zig", "3375"],
+      ["zig-k3-port", "src/fanowire.zig", "FANO_WIRE: usize = 136"],
+      ["zig-k3-port", "tools/k3beacon.zig", "136"],
+      ["zig-k3-port", "src/osig.zig", "fano_dialect"],
+    ];
+    let okN = 0, missing = [];
+    for (const [root, rel, mark] of marks) {
+      try {
+        const t = fs.readFileSync(path.join(HOME, SIBROOTS[root], rel), "utf8");
+        t.includes(mark) ? okN++ : missing.push(`${rel}:${mark}`);
+      } catch { missing.push(rel); }
+    }
+    missing.length === 0
+      ? held("BRG", "spec008-second-impl",
+          "fablattice SPEC008v1 + 3375² walk, fanowire 136-B, k3beacon, osig fold — all resolve in the second codebase")
+      : missing.length < marks.length
+        ? open_("BRG", "spec008-second-impl", `missing: ${missing.join(", ")}`)
+        : noted("BRG", "spec008-second-impl", "zig-k3 tree absent — deferred");
+  }
+  /* BRG-04: the public bridge-map twins exist, align, and carry no leaks */
+  {
+    const BEN = path.join(ROOT, "docs", "en", "spec-007-bridge-map.en.md");
+    const BZH = path.join(ROOT, "docs", "zh-Hant", "spec-007-bridge-map.zh-Hant.md");
+    const BDW = path.join(ROOT, "thoughts&convos", "BRIDGE-MAP.md");
+    if (!fs.existsSync(BEN) || !fs.existsSync(BZH) || !fs.existsSync(BDW)) {
+      noted("BRG", "twins-sanitized", "bridge-map twins or drawer edition absent — deferred");
+    } else {
+      const en = fs.readFileSync(BEN, "utf8"), zh = fs.readFileSync(BZH, "utf8");
+      const leaks = /\/home\/|CascadeProjects|thoughts&convos/.test(en + zh)
+        || /admiral|ramsey|paul\b/i.test(en + zh);
+      const enS = (en.match(/^## /gm) || []).length;
+      const zhS = (zh.match(/^## /gm) || []).length;
+      !leaks && enS === zhS && enS > 0
+        ? held("BRG", "twins-sanitized",
+            `twins aligned (${enS} sections each), no paths/officers/drawer refs leaked`)
+        : open_("BRG", "twins-sanitized",
+            `leaks=${leaks} sections=${enS}/${zhS}`);
+    }
+  }
+  /* BRG-05: every `sibling:` cite in the dossier resolves to a real file */
+  {
+    const dm = path.join(ROOT, "docs", "en", "spec-007-research-dossier.md");
+    const cites = [...fs.readFileSync(dm, "utf8")
+      .matchAll(/sibling:([\w.-]+):([\w.\/-]+)/g)]
+      .map(m => ({ r: m[1], p: m[2] }));
+    if (cites.length === 0) {
+      noted("BRG", "sibling-cites-resolve", "no sibling: cites in dossier — deferred");
+    } else {
+      const bad = cites.filter(c => !(SIBROOTS[c.r] &&
+        fs.existsSync(path.join(HOME, SIBROOTS[c.r], c.p))));
+      bad.length === 0
+        ? held("BRG", "sibling-cites-resolve",
+            `${cites.length} sibling: cites in the dossier all resolve to real files`)
+        : open_("BRG", "sibling-cites-resolve",
+            `${bad.length}/${cites.length} dead: ${bad.slice(0, 3).map(c => c.r + ":" + c.p).join(", ")}`);
+    }
+  }
+  /* BRG-06: the sibling audit re-executes live — bounded */
+  {
+    const theue = path.join(HOME, SIBROOTS["theue"] || "");
+    if (!fs.existsSync(path.join(theue, "build.zig"))) {
+      noted("BRG", "sibling-audit-live", "TheUE tree absent — deferred");
+    } else {
+      const r = spawnSync("zig", ["build", "verify-claims"],
+        { cwd: theue, encoding: "utf8", timeout: 90000 });
+      const out = (r.stdout || "") + (r.stderr || "");
+      r.status === 0 && out.includes("audit_counts=PROVEN:16") && out.includes("TOTAL:36")
+        ? held("BRG", "sibling-audit-live",
+            "TheUE verify-claims green: audit_counts=PROVEN:16 … TOTAL:36 — the 36-claim audit executes in a second codebase")
+        : r.error && r.error.code === "ENOENT"
+          ? noted("BRG", "sibling-audit-live", "zig toolchain absent — deferred")
+          : open_("BRG", "sibling-audit-live",
+              `rc=${r.status} out=${out.slice(0, 140)}`);
+    }
+  }
+  /* BRG-07: root coverage — every populated census root contributes ≥1
+     held anchor; an uncovered root is a machine-detectable gap */
+  {
+    if (!fs.existsSync(BLG)) {
+      noted("BRG", "root-coverage", "ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(BLG, "utf8"));
+      const rc = led.root_coverage;
+      !rc ? open_("BRG", "root-coverage", "ledger predates root_coverage")
+        : rc.covered === rc.populated && (rc.uncovered || []).length === 0
+          ? held("BRG", "root-coverage",
+              `${rc.covered}/${rc.populated} populated census roots anchored — the bridge spans the whole cluster`)
+          : open_("BRG", "root-coverage",
+              `uncovered: ${(rc.uncovered || []).join(", ") || "?"} (${rc.covered}/${rc.populated})`);
+    }
+  }
+  /* BRG-08: the archive corpus anchors resolve — both seal forms
+     (dir+SHA256SUMS/NOTE.md, tarball+.sha256 sidecar) verified */
+  {
+    if (!fs.existsSync(BLG)) {
+      noted("BRG", "archive-corpus", "ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(BLG, "utf8"));
+      const arch = (led.anchors || []).filter(a => a.root === "@archives");
+      const bad = arch.filter(a => a.status !== "held");
+      arch.length === 0 ? noted("BRG", "archive-corpus", "no archive anchors — deferred")
+        : bad.length === 0
+          ? held("BRG", "archive-corpus",
+              `${arch.length} archive-family anchors held — the sealed campaign corpus verifies in both seal forms`)
+          : open_("BRG", "archive-corpus",
+              `${bad.map(a => a.id).join(",")} absent`);
+    }
+  }
+  /* BRG-09: the whole-cluster section exists in both public twins with
+     matching row counts (the expansion stays bilingual) */
+  {
+    const BEN = path.join(ROOT, "docs", "en", "spec-007-bridge-map.en.md");
+    const BZH = path.join(ROOT, "docs", "zh-Hant", "spec-007-bridge-map.zh-Hant.md");
+    if (!fs.existsSync(BEN) || !fs.existsSync(BZH)) {
+      noted("BRG", "cluster-section-parity", "bridge-map twins absent — deferred");
+    } else {
+      const en = fs.readFileSync(BEN, "utf8"), zh = fs.readFileSync(BZH, "utf8");
+      const enSec = /whole cluster/i.test(en), zhSec = zh.includes("整個群集");
+      const rows = t => (t.match(/^\| [^|\n]*\| [^|\n]*\| [^|\n]*\| [^|\n]*\|/gm) || []).length;
+      const enR = rows(en), zhR = rows(zh);
+      enSec && zhSec && enR === zhR
+        ? held("BRG", "cluster-section-parity",
+            `whole-cluster section in both twins, ${enR} table rows each — bilingual expansion holds`)
+        : open_("BRG", "cluster-section-parity",
+            `enSec=${enSec} zhSec=${zhSec} rows=${enR}/${zhR}`);
+    }
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

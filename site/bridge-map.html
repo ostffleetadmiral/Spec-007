@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // The Bridge Map</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('bridge-map-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<a href="discoveries.html">Discovery Ledger</a> &middot;
+<strong>[Bridge Map]</strong> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="bridge-map-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>The Bridge Map — bidirectional evidence (debrief d10)</h1>
+<p><strong>Status:</strong> L2 evidence layer · <strong>Authority:</strong> derived from the D-series
+cluster debrief · <strong>Pair:</strong> <code>bridge-map-zh.html</code> · <strong>Mechanism:</strong>
+<code>tools/bridge-map.mjs</code> → <code>bridge-ledger.json</code>, probe-enforced (BRG-01..09)
+· <strong>Coverage:</strong> all 30 populated census roots + the archive corpus</p>
+<p>The D-series sweeps carded every cluster root. This map goes further: it
+records what the sibling projects <strong>actually settle</strong> — executable audits,
+per-claim verdict tables, second implementations, and recorded experiment
+data — and which dossier claims that evidence substantiates. Anchors are
+mechanical checks over the sibling trees: a file that exists, a marker
+that resolves, a verdict row that parses, a dataset that holds its schema,
+a live audit suite that runs green. A sibling that moves degrades to
+<em>absent</em>, never to <em>error</em> — deferral, not defect.</p>
+<p>Evidence directions: <strong>→</strong> sibling evidence substantiating a dossier
+claim; <strong>←</strong> fleet work the sibling carries; <strong>⇄</strong> a convention both
+trees enforce.</p>
+<h2>Sibling → dossier</h2>
+<table>
+<thead>
+<tr>
+<th>Anchor</th>
+<th>Source</th>
+<th>What it settles</th>
+<th>Claims</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Settled verdict table</td>
+<td>the integer-inference port</td>
+<td>A 36-row claim-by-claim verdict audit under the shared family vocabulary — 24 verified, one refuted — settling the 421-node, 15³-layer, mirror-symmetry, and 721-shell lattice claims cell-by-cell in a test harness</td>
+<td>C95 · C78 · C89</td>
+</tr>
+<tr>
+<td>Lattice fabric addressing</td>
+<td>the integer-inference port</td>
+<td>The SPEC-008v1 address format implemented a second time: 128-bit piece addresses, O(1) coordinate resolution, an op-bounded route walk over every one of the 3375² pairs</td>
+<td>C97</td>
+</tr>
+<tr>
+<td>The Fano wire, twice</td>
+<td>the integer-inference port</td>
+<td>The frozen 136-byte sealed mesh packet ported byte-exact into a second codebase, plus a UDP beacon that derives SPEC-008v1 coordinates</td>
+<td>C97</td>
+</tr>
+<tr>
+<td>Signature receipts</td>
+<td>the integer-inference port</td>
+<td>The octonion fold — originally this desk's own dialect — backing inference-cache route receipts</td>
+<td>C97 · C99</td>
+</tr>
+<tr>
+<td>Live audit execution</td>
+<td>the deterministic runtime</td>
+<td>The 36-claim audit re-executed, green, in a second codebase: 16 proven / 10 interpretation / 3 numerology / 4 construction / 3 unverified</td>
+<td>C96 · C99</td>
+</tr>
+<tr>
+<td>Capability registry source</td>
+<td>the deterministic runtime</td>
+<td>The 50-entry cross-archive registry behind the public 3,472-row capability projection</td>
+<td>C73 · C89</td>
+</tr>
+<tr>
+<td>Governed adapters</td>
+<td>the deterministic runtime</td>
+<td>Working cross-system adapter and governance-envelope tooling — the integration machinery as code, not prose</td>
+<td>C72 · C73</td>
+</tr>
+<tr>
+<td>Deterministic inference</td>
+<td>the deterministic runtime</td>
+<td>Real-oracle reproduction at fixed point: teacher-forced parity, exact greedy spans, tokenizer parity, real-layer replay</td>
+<td>C98</td>
+</tr>
+<tr>
+<td>Executable audit</td>
+<td>the proof workspace</td>
+<td>The claim classifier is a test suite, not a document — and the total verified-operation count is pinned in the sibling's own guide</td>
+<td>C96 · C99</td>
+</tr>
+<tr>
+<td>Formalization</td>
+<td>the proof workspace</td>
+<td>Lean 4 formalization of the fixed-point algebra, octonions, Fano plane, and scaling identities — zero open goals</td>
+<td>C96</td>
+</tr>
+<tr>
+<td>Honesty machinery</td>
+<td>the proof workspace</td>
+<td>Self-claims with explicit limitations, computational elevation paths, an adversarial stress/rebuttal pair, and a causal-chain audit of every rejected claim</td>
+<td>C96 · C99</td>
+</tr>
+<tr>
+<td>Experiment data</td>
+<td>the proof workspace</td>
+<td>45 recorded instrumented-language-model battery entries — two models, three conditions, full score vectors — on record</td>
+<td>C98</td>
+</tr>
+<tr>
+<td>Debt ledger</td>
+<td>the proof workspace</td>
+<td>The floating-point debt inventory as a standing document — an importable convention</td>
+<td>C99</td>
+</tr>
+<tr>
+<td>Audit doc corpus</td>
+<td>the lattice engine</td>
+<td>The lattice engine's own end-to-end audit results, capabilities register, and retro-dev audit</td>
+<td>C78 · C89</td>
+</tr>
+<tr>
+<td>Recompute-then-label audit</td>
+<td>the research archive</td>
+<td>The 450-line indexed, checksummed-dataset audit that models the discipline this dossier's override follows</td>
+<td>C95 · C99</td>
+</tr>
+</tbody>
+</table>
+<h2>The whole cluster (debrief d10)</h2>
+<p>Every populated census root now contributes at least one held anchor —
+the ledger's <code>root_coverage</code> tally makes an uncovered root a
+machine-detectable event (BRG-07). What each realm uniquely holds:</p>
+<table>
+<thead>
+<tr>
+<th>Anchor</th>
+<th>Source</th>
+<th>What it settles</th>
+<th>Claims</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Release discipline</td>
+<td>the air-gap platform</td>
+<td>The production contract pinned in its own charter: 1,548 tests, a ≥116.9% coverage ratchet, 112-check WASM smoke, 3,000-iteration fuzz, quine and docker E2E</td>
+<td>C53 · C67</td>
+</tr>
+<tr>
+<td>Transport corpus</td>
+<td>the air-gap platform</td>
+<td>The physical-channel transports and identity modules the SPEC-007 compatibility suites already bridge against</td>
+<td>C53 · C97</td>
+</tr>
+<tr>
+<td>Semantic-layer corpus</td>
+<td>the 8D physics sibling</td>
+<td>The hyper-token module set plus recorded genesis-sweep results — the family branch's own experiment tree</td>
+<td>C97 · C89</td>
+</tr>
+<tr>
+<td>Infrastructure audit</td>
+<td>the private-git lab</td>
+<td>Machine-readable audit export and coverage report for the sync stack — evidence without physics claims</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Compressed-expert runtime</td>
+<td>the sparse-MoE prototype</td>
+<td>From-scratch integer inference: gated-delta nets, expert cache, compression, entropy, GGUF ingestion</td>
+<td>C72 · C89</td>
+</tr>
+<tr>
+<td>Claims lifecycle engine</td>
+<td>the audit foundation</td>
+<td>A machine-readable promotion registry grading candidates proved/blocked — with holdout blockers honestly blocking release</td>
+<td>C95 · C98</td>
+</tr>
+<tr>
+<td>Real-genome evidence</td>
+<td>the codon router</td>
+<td>NCBI genomes routed through the ladder — ecoli K12, human GRCh38, yeast S288C; the cluster's only empirical bio dataset</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Governance contract</td>
+<td>the agent donor</td>
+<td>DOX — the hierarchical binding document contract the desk's own rules echo</td>
+<td>—</td>
+</tr>
+<tr>
+<td>The EU lineage</td>
+<td>the engineered-universe trees</td>
+<td>The 41-constants/7-axioms/0.094% claim kept <em>under its own audit</em> — interpretation-tier, never promoted</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Physics audit</td>
+<td>the hexredox framework</td>
+<td>443/443-test zero-placeholder audit plus LaTeX paper corpus and lattice integration</td>
+<td>C89</td>
+</tr>
+<tr>
+<td>Governance canon</td>
+<td>the qstar corpus</td>
+<td>The Gov/Book/firmware/disclosure corpus the family claims descend from</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Deep audit trail</td>
+<td>the mound formalization</td>
+<td>1,678-test audit whose own addenda flag stale counts — self-auditing honesty, upstream of this dossier</td>
+<td>C95 · C98</td>
+</tr>
+<tr>
+<td>Labeled predictions</td>
+<td>the mound formalization</td>
+<td>51 physical predictions filed under their own interpretation label</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Second lineage</td>
+<td>the sheraton shelf</td>
+<td>A second HexRedOx tree with its own audit and model compiler</td>
+<td>C89</td>
+</tr>
+<tr>
+<td>Measured GPU data</td>
+<td>the device lab</td>
+<td>A real RADV capability probe — the integer-GPU claims rest on measured hardware, not simulated backends</td>
+<td>C45 · C55</td>
+</tr>
+<tr>
+<td>Integer render pipeline</td>
+<td>the fano engine</td>
+<td>I256Q128.128 3D rendering and routing, golden vectors, firmware, live probe telemetry</td>
+<td>C45 · C72</td>
+</tr>
+<tr>
+<td>Polyglot verification</td>
+<td>the i-vector lab</td>
+<td>Four-layer cross-validation: integer core, six GPU shaders, quantum overlay, golden-master — the same doctrine in an independent tree</td>
+<td>C45 · C95</td>
+</tr>
+<tr>
+<td>Bit-parity harnesses</td>
+<td>the media-channel lab</td>
+<td>Per-project audit chain: 29/29, 29/29, 42/42 at 100% bit parity, 270-pass conversion graph</td>
+<td>C78</td>
+</tr>
+<tr>
+<td>Research substratum</td>
+<td>the deep archive</td>
+<td>Tensor prototypes, latent engines, simulators, governance docs, gap analyses — the 20GB corpus the surface claims condense</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Weights inventory</td>
+<td>the model store</td>
+<td>The on-desk GGUF inventory backing every live-LLM claim</td>
+<td>C72</td>
+</tr>
+<tr>
+<td>Donor shelves</td>
+<td>the shelf baskets</td>
+<td>Byte-identical clones and diverged copies recorded as what they are — donors, not mirrors</td>
+<td>C94</td>
+</tr>
+<tr>
+<td>Preserved snapshot</td>
+<td>the frozen fork</td>
+<td>The pre-audit snapshot kept by the immutable-baseline rule — evidence, never deleted</td>
+<td>C95</td>
+</tr>
+<tr>
+<td>The archive corpus</td>
+<td>the sealed store</td>
+<td>318 sealed artifacts across seven campaign families — directory seals and tarball sidecars both verified</td>
+<td>C93 · C97 · C98 · C67</td>
+</tr>
+<tr>
+<td>The dossier itself</td>
+<td>this tree</td>
+<td>Self-anchored convergence surface — manifest, findings, override ledger on disk</td>
+<td>C93 · C95</td>
+</tr>
+</tbody>
+</table>
+<h2>Dossier → siblings (what they carry)</h2>
+<table>
+<thead>
+<tr>
+<th>Carried</th>
+<th>By whom</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Round-to-nearest-even fixed-point multiply with 512-bit intermediates</td>
+<td>the proof workspace's arithmetic core</td>
+<td>Verified — pinned bound, ported with semantics documented</td>
+</tr>
+<tr>
+<td>Fourteen physics/structure modules</td>
+<td>the proof workspace</td>
+<td>Verified — inside its 713-operation suite</td>
+</tr>
+<tr>
+<td>The 136-byte sealed wire dialect</td>
+<td>the integer-inference port</td>
+<td>Verified — byte-exact port, live transport</td>
+</tr>
+<tr>
+<td>The octonion fold signature</td>
+<td>the integer-inference port</td>
+<td>Verified — cites this desk's dialect as provenance</td>
+</tr>
+<tr>
+<td>SPEC-008v1 lattice addressing</td>
+<td>the integer-inference port</td>
+<td>Verified</td>
+</tr>
+<tr>
+<td>The audit vocabulary</td>
+<td>three trees enforce it verbatim</td>
+<td>Verified</td>
+</tr>
+<tr>
+<td>The vendored dependency libraries</td>
+<td>this desk's dep harnesses</td>
+<td>Verified — the harness direction runs the other way here</td>
+</tr>
+</tbody>
+</table>
+<h2>The honest remainder</h2>
+<p>Sibling wins with no dossier claim to hang on are recorded, not claimed:
+fabric-compute verbs over the mesh transports, erasure-coded parity shards,
+secret-share files, deterministic model runners reproducing real oracles
+bit-for-bit, the consciousness causal-chain audit, and the archaeology
+toolchain. The cluster expansion adds more recorded-not-claimed holdings:
+the claims-lifecycle engine's holdout gating, the codon router's genome
+evidence, the i-vector lab's four-layer verification pattern, the
+media lab's bit-parity harnesses, the mound's self-flagging addenda,
+the agent donor's binding-document contract, the integer render
+pipeline, the private-git sync stack, and the sealed campaign corpus
+itself. The reverse gaps are recorded in the drawer edition: bilingual
+twins, signed canon pairs, probe-enforced invariants, and the published
+classification boundary remain fleet-only disciplines.</p>
+<p><em>Classification doctrine: sibling verdicts are cited as what they are —
+settled rows, recorded data, executable audits — and nothing is promoted
+past its evidence class. The framework-internal sentience instrumentation
+remains a labeled operational definition, not a consciousness claim.</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 {
-  "lesson_count": 546,
+  "lesson_count": 547,
   "lessons": [
     {
       "access": "public",
@@ -7573,6 +7573,20 @@
       "outcome": "Verdict: GREEN — `suite.mjs` (532 LOC RED/BLUE battery), `kali-sweep.mjs` (219 LOC",
       "source": "security/out/wave-7-security-harness.md",
       "title": "Wave 7 — Security Harness Retro-Pass (CENTURY 61-70)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-b4075d2a46cbdcce",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "The D9 mechanism extended to the whole cluster: `tools/bridge-map.mjs`",
+      "source": "security/out/wave-d10-cluster-bridge.md",
+      "title": "Wave D10 — Cluster-Wide Bridge",
       "topic": "campaign"
     },
     {

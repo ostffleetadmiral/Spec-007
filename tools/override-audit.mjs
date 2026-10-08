@@ -50,7 +50,7 @@ try {
 /* probe-id vocabulary — only real teams match; FANO-1/SHA-1/SPEC-007 excluded */
 const TEAMS = ["DESK","WIRE","AUTH","BOT","ZIG","RED","BLUE","BLACK","GRAY","COMM",
   "SENT","HARN","FLEET","CLUSTER","ENGINE","CONT","LIBRARY","PROD","CURR","CENS",
-  "SPEC004","OVR","SUP","KALI"];
+  "SPEC004","OVR","SUP","KALI","BRG"];
 const PROBE_RE = new RegExp("\\b(" + TEAMS.join("|") + ")-(\\d{1,2})\\b", "g");
 const ALIAS = { ENG: "ENGINE", LIB: "LIBRARY", CONT: "CONT" };
 /* expand range cites: "ENG-01..04" → the full range */
@@ -139,6 +139,46 @@ for (const r of rows) {
     experiments: path.join(HOME, "CascadeProjects", "hardware", "experiments"),
     family: path.join(HOME, "CascadeProjects", "Rations"),
   };
+  /* sibling: anchors — `sibling:<root>:<relpath>` cites a file in a named
+     cluster tree (D9 bridge). Resolved against the same $HOME-relative
+     root map the bridge ledger uses; absent → the cite simply doesn't
+     resolve (deferral, not defect — sibling trees mutate). */
+  /* D10: the full populated census map — kept in lockstep with
+     tools/bridge-map.mjs SIB (BRG-07 enforces the coverage) */
+  const SIBROOTS = {
+    "hardware": "CascadeProjects/hardware",
+    "zig-k3-port": "CascadeProjects/hardware/experiments/zig-k3-port",
+    "zig-k3-preserved": "CascadeProjects/hardware/experiments/zig-k3-port-local-preserved-20261004",
+    "theue": "CascadeProjects/hardware/experiments/TheUE",
+    "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
+    "bs-analysis": "CascadeProjects/hardware/experiments/BS",
+    "rations": "CascadeProjects/Rations",
+    "theplatform": "CascadeProjects/ThePlatform",
+    "octolab": "CascadeProjects/octo",
+    "falsifible": "CascadeProjects/Falsifible",
+    "abby-donor-shelf": "CascadeProjects/basic/Abby",
+    "qstar-llm-basic": "CascadeProjects/basic/qstar-llm",
+    "eu-version-z": "Music/Paul/Sci-Fi",
+    "eu-legacy": "Music/Paul/engineered_universe",
+    "eu-vx4": "Music/Paul/newest",
+    "codon": "Music/Paul/codon",
+    "space-agent": "Music/Paul/space-agent",
+    "pj-hexredox": "Desktop/PJ",
+    "qstar-corpus": "Desktop/Qstar",
+    "ralph-corpus": "Desktop/Ralph",
+    "sheraton-shelf": "Desktop/Sheraton",
+    "tp-donor-shelf": "Desktop/ThePlatform",
+    "desi-llama": "Desktop/Desi",
+    "fano-engine": "Documents/animation",
+    "ark-ivector": "Documents/Ark",
+    "mosi-papertunes": "Documents/Mosi",
+    "archive-corpus": "Documents/archive",
+    "models-store": "Documents/models",
+  };
+  const sibCites = [...ev.matchAll(/sibling:([\w.-]+):([\w.\/-]+)/g)]
+    .map(m => ({ root: m[1], rel: m[2] }));
+  const sibHits = sibCites.filter(c =>
+    SIBROOTS[c.root] && fs.existsSync(path.join(HOME, SIBROOTS[c.root], c.rel))).length;
   /* basename fallback index — drawer/deps/docs/site basenames across the repo */
   const basenameIdx = new Map();
   const idxDirs = ["", "site", "site/assets", "deps", "docs/en", "thoughts&convos",
@@ -233,7 +273,8 @@ for (const r of rows) {
     return { cited: n, word: w, live, ok };
   });
   const anchors = pathHits.length + probesHeld.length +
-    countChecks.filter(c => c.ok === "ok").length + symHits + (harnessCited ? 1 : 0) + xref;
+    countChecks.filter(c => c.ok === "ok").length + symHits + (harnessCited ? 1 : 0) + xref +
+    sibHits;
 
   /* pass 2 — adversarial */
   const notes = [];
@@ -257,7 +298,8 @@ for (const r of rows) {
   LED.push({
     id: r.id, verdict: r.verdict, grade,
     anchors: { paths: pathHits.length, symbols: symHits, probes_held: probesHeld.length,
-      probes_ext: probesExt.length, counts_ok: countChecks.filter(c => c.ok === "ok").length },
+      probes_ext: probesExt.length, counts_ok: countChecks.filter(c => c.ok === "ok").length,
+      sibling: sibHits },
     roots, notes,
   });
 }
@@ -285,7 +327,7 @@ const lines = [
   "| ID | verdict | grade | anchors | roots | notes |",
   "|---|---|---|---|---|---|",
   ...LED.map(l => `| ${l.id} | ${l.verdict} | ${l.grade} | ` +
-    `p${l.anchors.paths}/s${l.anchors.symbols}/h${l.anchors.probes_held}/x${l.anchors.probes_ext}/c${l.anchors.counts_ok} | ` +
+    `p${l.anchors.paths}/s${l.anchors.symbols}/h${l.anchors.probes_held}/x${l.anchors.probes_ext}/c${l.anchors.counts_ok}/b${l.anchors.sibling} | ` +
     `${l.roots.join(", ") || "—"} | ${l.notes.join("; ") || "—"} |`),
 ];
 const debrief = lines.join("\n") + "\n";

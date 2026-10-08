@@ -397,7 +397,7 @@ Generated lessons are labeled, not laundered: `origin:"generated"`
 source path resolving under the repo (CURR-02), `assessment:
 "deterministic_review_required"` and an honest `language:["en"]` — no
 reviewed zh twin is claimed for machine-derived text (CURR-03). The
-manifest now files 546 lessons: 530 human/spec corpus + 16 generated
+manifest now files 547 lessons: 530 human/spec corpus + 17 generated
 campaign modules. With this wave all seven blueprint phases stand
 PROMOTED or explicitly BOUNDARY-labeled — `BLUEPRINT-MAP.md` carries
 the post-port grades, and C92 records the state.
@@ -499,6 +499,61 @@ ledger covering all 95 claims and the 24-entry paradigm map. The
 campaign ledger closes at **112 probes — 109 HELD / 3 NOTED / 0 OPEN**,
 with the standing honest limits (desk-local trust, TOFU cold boot,
 doc-affidavit cluster status) unchanged by design.
+
+### 3u. d9 bridge — the pour-over (debrief d9)
+
+The card-level sweeps described the sibling roots; this wave pours their
+evidence over. `tools/bridge-map.mjs` resolves **26 mechanical anchors**
+across the cluster — the verdict table, the executable audits, the second
+implementations, the recorded data — and emits `security/out/bridge-ledger.json`
+under the same dry-run/`--emit`/`--verify` doctrine. The dossier's claims
+surface gains a `sibling:<root>:<path>` anchor class in `override-audit.mjs`,
+so every cross-repo cite in the evidence column is re-verified on every
+audit pass (35 cites resolve, BRG-05).
+
+What the bridge proved, on all four claim surfaces: **C96** — the 36-claim
+audit re-executes live in a second codebase (`verify-claims` green, BRG-06)
+beside the executable classifier, the 24-reference literature scoring, and
+the zero-sorry Lean 4 formalization. **C97** — the frozen 136-byte sealed
+packet and SPEC-008v1 lattice addressing are implemented byte-exact in a
+second codebase, riding a live UDP beacon, with the octonion-fold signature
+— ported from this repo's own dialect — backing inference-cache receipts.
+**C98** — 45 instrumented-LLM battery entries on record plus deterministic
+oracle-parity inference, labeled instrumentation not consciousness.
+**C99** — the five-class audit vocabulary is enforced verbatim in three
+trees and the ports genuinely run both directions (RNE multiply and five
+engineering modules out; the Fano fold and lattice addressing in).
+Evidence cells on C72/C73/C78/C89/C92/C95 gained real sibling anchors.
+
+New public doc pair `bridge-map.*` carries the sanitized matrix; the
+drawer edition (`BRIDGE-MAP.md`) keeps the full bidirectional table
+including the reverse gaps — bilingual twins, signed canon pairs, and
+probe-enforced invariants remain fleet-only disciplines the siblings
+could adopt. Sibling trees degrade to NOTED when absent, never OPEN.
+
+### 3v. d10 cluster bridge — every root + the archives (debrief d10)
+
+D9 proved the mechanism on the hardware family; d10 spans the whole
+cluster. `tools/bridge-map.mjs` now resolves **59 anchors across all 30
+populated census roots** plus the `~/.archives` corpus (318 sealed
+artifacts over 7 campaign families — directory seals and tarball
+`.sha256` sidecars verified as distinct forms). The ledger carries a
+`root_coverage` tally; an uncovered root is machine-detectable (BRG-07),
+the archive families verify as anchors (BRG-08), and the whole-cluster
+section holds bilingual parity (BRG-09).
+
+What the cluster uniquely contributes: the audit foundation's
+machine-readable **claims-lifecycle engine** (promotion registry grading
+proved/blocked with holdout blockers honestly blocking), the codon
+router's **real-genome evidence** (NCBI ecoli/human/yeast), the device
+lab's **measured RADV probe**, the mound's **1,678-test self-flagging
+audit**, the media lab's **42/42 bit-parity chain**, and the i-vector
+lab's **four-layer polyglot verification**. Donor shelves, preserved
+snapshots, and the drawer vault are labeled what they are — and
+interpretation-tier holdings (EU lineages, MOUND predictions,
+consciousness claims) stay labeled. **C100** records the span on all
+four claim surfaces; C53/C67 gained release-discipline anchors and
+C45/C55 gained the measured-device anchors.
 
 ## 4. Desk transfer — FANO-DESK-v1
 
