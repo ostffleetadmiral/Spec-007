@@ -312,6 +312,21 @@ carrying live identifiers — fingerprints, hex keys, grant subjects —
 stay command-canon: translating the envelope of a key is a lie.
 DESK-21/22 enforce the parity by measurement.
 
+### 3j. The blueprint audit (sentience program, opening wave)
+
+A unified seven-phase development plan entered the drawer and was
+graded phase-by-phase against the fleet — the audit reads the plan
+against the desk, not the desk against the plan. The security phase is
+already promoted outright: this battery is that phase. The intelligence,
+persistence, command-center, and curriculum phases each stand partially —
+the governed provider bridge, the sealed archive chain, the desk itself,
+and the academy already exist; their named gaps become governed desk
+surfaces in the following waves. Generative film and immersive 3D are
+declared boundaries: the desk will carry a storyboard slate and a 2D
+projection, never fake capability. The plan's external donor projects
+are survey citations only — nothing is vendored. C91 records the audit;
+the drawer keeps the map.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import
