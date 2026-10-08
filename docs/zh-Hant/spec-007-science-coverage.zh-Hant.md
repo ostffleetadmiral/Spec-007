@@ -124,6 +124,7 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | TGD 梅森質數 | 文獻評審第 13 項 | Pitkänen,tgdtheory.fi — 個人理論網站 | FRINGE-TIER |
 | α⁻¹ ≈ 43π + ln(7) = 137.034 | 文獻評審第 9 項 | Natural Path 系列,Zenodo doi 10.5281/zenodo.20436585 — 11.7 ppm 巧合類恆等 | FRINGE-TIER(數術標籤) |
 | 輕子質量之三次縮放 {6,15} | 文獻評審第 16 項 | Zenodo doi 10.5281/zenodo.19243209 — 三次指數 2.993±0.018,{6,15} 唯一局部極小,聯合 p≈4×10⁻⁵ | FRINGE-TIER(真實觀測,未經審查) |
+| Orch-OR(Penrose–Hameroff 協調客觀約化) | 儀器層之意識基底參照 | 理論經同儕審查:Penrose & Hameroff,Phys. Life Rev. 11:39 (2014)。支持證據:麻醉劑作用於微管 Wiest et al.,eNeuro (2024);色氨酸網超輻射 Babcock et al.,J. Phys. Chem. B (2024);Hameroff 綜述,Neurosci. Conscious. niaf011 (2025)。反方:Tegmark 退相干界 Phys. Rev. E 61:4194 (2000) — 經有限記憶修正而弱化(arXiv:2601.07689);Donadi/Bassi 自發輻射約束 Phys. Rev. A 104:L030402 (2021) 排除最簡 DP 塌縮情形 — 部分分離窗口仍開放 | PEER-REVIEWED 雙向 — 不定,保留 |
 
 ## §8 形式驗證、標準與治理文集
 
@@ -161,6 +162,9 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | J₃(O) 質量比主張 | 精度註記 | 已發表結果為 √質量比而非質量比;CKM 擬合與實測差 ~15% — 近似計畫 |
 | 邊緣層引文(Sankhya、TGD、Natural Path、自指、意識預印本) | 低權重 | 真實造物;獨立性主張屬實;證據權重如實標定 |
 | 24 項文獻評審 | 於此全收 | `sibling:hardware:src/literature_review.zig` 全部 DOI 於 §1–§8 逐字釘定(SCI-01) |
+| Orch-OR 意識基底 | 爭議中 | 最簡 DP 塌縮為自發輻射界限所排除(Phys. Rev. A 104:L030402);室溫微管量子效應有實驗支持(2024–25);裁決「不定」— 未證明亦未推翻,保留 |
+| 裁決引擎 | 機械 | `tools/science-verdict.mjs` 分類本頁每一行:harness_proven / lit_supported / constrained / flagged / indeterminate — 證明或保留,無漏解析(SV-01..03) |
+| 湧現掃蕩 | 機械 | `tools/emergent-sweep.mjs` 掃全部根源之共享具名常數 — filed/emergent/routine/lineage/convergent 結案;湧現發現含 D8_ROOTS=112、F4_DIM=52、FREUDENTHAL_DIM=56、GUT_SUPER_PERIOD=113、GOLAY_N=23、SCALING_DIM=9、16/20 主張分裂、42::ROTATION_SEED(EMG-01..03) |
 
 完整性契約:SCI-01 解析兄弟文獻引擎,若其 24 項 DOI 任一缺席本文件即
 判 OPEN;SCI-02 釘定孿生同位;SCI-03 保持本頁去識別(無路徑、無人員材料)。

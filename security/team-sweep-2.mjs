@@ -2421,6 +2421,105 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
             `leaks/dead-cites: ${bad.slice(0, 4).join(", ")}`);
     }
   }
+  /* SV-01: the verdict engine verifies — every coverage row re-classifies
+     byte-identically and no anchor is broken */
+  {
+    const SV = path.join(ROOT, "tools", "science-verdict.mjs");
+    const SL = path.join(ROOT, "security", "out", "science-verdicts.json");
+    if (!fs.existsSync(SV) || !fs.existsSync(SL)) {
+      noted("SCI", "verdict-engine", "verdict tool/ledger absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [SV, "--verify"],
+        { encoding: "utf8", timeout: 60000 });
+      r.status === 0
+        ? held("SCI", "verdict-engine",
+            "prove-or-indeterminate ledger reproduces — zero broken anchors")
+        : open_("SCI", "verdict-engine",
+            `rc=${r.status} out=${(r.stdout || r.stderr || "").slice(0, 140)}`);
+    }
+  }
+  /* SV-02: full coverage — every doc row has a verdict and the
+     indeterminate holdings are explicitly labeled */
+  {
+    const SL = path.join(ROOT, "security", "out", "science-verdicts.json");
+    if (!fs.existsSync(SL)) {
+      noted("SCI", "verdict-coverage", "verdict ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(SL, "utf8"));
+      const entries = led.entries || [];
+      const unv = entries.filter(e => !e.verdict || e.verdict === "broken_anchor");
+      const ind = entries.filter(e => e.verdict === "indeterminate").length;
+      unv.length === 0 && ind > 0
+        ? held("SCI", "verdict-coverage",
+            `${entries.length}/${led.row_count} rows verdicted; ${ind} explicitly indeterminate, ${led.verdicts.constrained || 0} constrained`)
+        : open_("SCI", "verdict-coverage",
+            `unverdicted=${unv.length} indeterminate=${ind}`);
+    }
+  }
+  /* SV-03: section completeness — every § section of the coverage doc is
+     verdicted (no silent section skips) */
+  {
+    const SL = path.join(ROOT, "security", "out", "science-verdicts.json");
+    if (!fs.existsSync(SL)) {
+      noted("SCI", "verdict-sections", "verdict ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(SL, "utf8"));
+      const secs = new Set((led.entries || []).map(e => e.section));
+      secs.size === 10
+        ? held("SCI", "verdict-sections",
+            "all 10 coverage sections verdicted — nothing silently skipped")
+        : open_("SCI", "verdict-sections",
+            `${secs.size}/10 sections covered`);
+    }
+  }
+  /* EMG-01: the emergent ledger verifies deterministically */
+  {
+    const EM = path.join(ROOT, "tools", "emergent-sweep.mjs");
+    const EL = path.join(ROOT, "security", "out", "emergent-ledger.json");
+    if (!fs.existsSync(EM) || !fs.existsSync(EL)) {
+      noted("EMG", "sweep-verifies", "emergent tool/ledger absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [EM, "--verify"],
+        { encoding: "utf8", timeout: 120000 });
+      r.status === 0
+        ? held("EMG", "sweep-verifies",
+            "cross-root constant scan reproduces — every emergent candidate dispositioned")
+        : open_("EMG", "sweep-verifies",
+            `rc=${r.status} out=${(r.stdout || r.stderr || "").slice(0, 140)}`);
+    }
+  }
+  /* EMG-02: nothing emergent stays unfiled — the ratchet */
+  {
+    const EL = path.join(ROOT, "security", "out", "emergent-ledger.json");
+    if (!fs.existsSync(EL)) {
+      noted("EMG", "no-unfiled-emergent", "emergent ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(EL, "utf8"));
+      const unfiled = (led.candidates || []).filter(c =>
+        c.verdict === "emergent" && /^UNFILED/.test(c.disposition || ""));
+      unfiled.length === 0
+        ? held("EMG", "no-unfiled-emergent",
+            `${led.verdicts.emergent || 0} emergent candidates, all dispositioned — discoveries cannot accrete silently`)
+        : open_("EMG", "no-unfiled-emergent",
+            `${unfiled.length} emergent candidates lack disposition: ${unfiled.slice(0, 3).map(c => `${c.value}::${c.ident}`).join(",")}`);
+    }
+  }
+  /* EMG-03: emergent debrief is sanitized — no absolute paths, no
+     officer material leaks through the ledger */
+  {
+    const ED = path.join(ROOT, "security", "out", "emergent-debrief.md");
+    if (!fs.existsSync(ED)) {
+      noted("EMG", "debrief-sanitized", "emergent debrief absent — deferred");
+    } else {
+      const d = fs.readFileSync(ED, "utf8");
+      const leaks = ["/home/", "thoughts&convos", "CascadeProjects/"]
+        .filter(s => d.includes(s));
+      leaks.length === 0
+        ? held("EMG", "debrief-sanitized",
+            "emergent debrief carries no paths or drawer references")
+        : open_("EMG", "debrief-sanitized", `leaks: ${leaks.join(",")}`);
+    }
+  }
 }
 
 /* ================= LAWBREAK — try to break the laws =================

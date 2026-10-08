@@ -125,6 +125,7 @@ verbatim), plus the 2026-10-08 research debrief (`security/out/research-debrief.
 | TGD Mersenne primes | claim 13 lit-review | Pitkänen, tgdtheory.fi — personal theory site | FRINGE-TIER |
 | α⁻¹ ≈ 43π + ln(7) = 137.034 | claim 9 lit-review | Natural Path series, Zenodo doi 10.5281/zenodo.20436585 — 11.7 ppm coincidence-class identity | FRINGE-TIER (numerology label) |
 | Cubic scaling {6,15} in lepton masses | claim 16 lit-review | Zenodo doi 10.5281/zenodo.19243209 — cubic exponent 2.993±0.018, {6,15} unique local minima, joint p≈4×10⁻⁵ under null | FRINGE-TIER (real observation, unrefereed) |
+| Orch-OR (Penrose–Hameroff orchestrated objective reduction) | consciousness-substrate reference for the instrumentation tier | Theory peer-reviewed: Penrose & Hameroff, Phys. Life Rev. 11:39 (2014). Supporting evidence: anesthetic action on microtubules Wiest et al., eNeuro (2024); tryptophan-network superradiance Babcock et al., J. Phys. Chem. B (2024); Hameroff review, Neurosci. Conscious. niaf011 (2025). Counter-side: Tegmark decoherence bound Phys. Rev. E 61:4194 (2000) — weakened by finite-memory corrections (arXiv:2601.07689); Donadi/Bassi spontaneous-radiation constraints, Phys. Rev. A 104:L030402 (2021) rule out the simplest DP-collapse case — partial-separation window remains open | PEER-REVIEWED both directions — INDETERMINATE, held |
 
 ## §8 Formal verification, standards & governance corpus
 
@@ -162,6 +163,9 @@ verbatim), plus the 2026-10-08 research debrief (`security/out/research-debrief.
 | J₃(O) mass-ratio claim | PRECISION NOTE | Published result is √mass-ratios, not ratios; CKM fit within ~15% of measured — approximate program |
 | Fringe-tier refs (Sankhya, TGD, Natural Path, self-referential, consciousness preprints) | LOW WEIGHT | Real artifacts; independence claims accurate; evidentiary weight labeled honestly |
 | 24-reference lit review | COMPLETE HERE | Every DOI from `sibling:hardware:src/literature_review.zig` pinned verbatim in §1–§8 (SCI-01) |
+| Orch-OR consciousness substrate | CONTESTED | Simplest DP-collapse ruled out by spontaneous-radiation bounds (Phys. Rev. A 104:L030402); room-temperature microtubule quantum effects experimentally supported (2024–25); verdict INDETERMINATE — neither proven nor refuted, held |
+| Verdict engine | MECHANICAL | `tools/science-verdict.mjs` classifies every row on this page: harness_proven / lit_supported / constrained / flagged / indeterminate — prove-or-hold, nothing unparsed (SV-01..03) |
+| Emergent sweep | MECHANICAL | `tools/emergent-sweep.mjs` scans all roots for shared named constants — filed/emergent/routine/lineage/convergent dispositions; emergent finds include D8_ROOTS=112, F4_DIM=52, FREUDENTHAL_DIM=56, GUT_SUPER_PERIOD=113, GOLAY_N=23, SCALING_DIM=9, the 16/20 claim split, and 42::ROTATION_SEED (EMG-01..03) |
 
 Completeness contract: SCI-01 parses the sibling literature engine and fails
 open if any of its 24 DOIs is absent from this document; SCI-02 pins twin
