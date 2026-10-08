@@ -486,6 +486,20 @@ page is the sanitized projection; the drawer edition carries per-file
 evidence. PARA-01..04 enforce presence, sanitization, twin parity, and
 drawer coverage.
 
+### 3t. d8 capstone — the debrief closes (debrief d8)
+
+Three terminal claims filed on all dossier surfaces: **C93** canonizes
+the three-layer cover legend — SallirreugTech plays MI6, the Academy
+plays STAR COMMAND, OSTF is the real NGO beneath — declared
+load-bearing doctrine rather than decoration, probe-enforced by the
+SPEC004/CENS-02/PARA-02 boundary battery. **C94** records the debrief
+itself: 33 roots carded, five realm sweeps under the ten-step protocol,
+every disposition honest. **C95** records the self-audit: the override
+ledger covering all 95 claims and the 24-entry paradigm map. The
+campaign ledger closes at **112 probes — 109 HELD / 3 NOTED / 0 OPEN**,
+with the standing honest limits (desk-local trust, TOFU cold boot,
+doc-affidavit cluster status) unchanged by design.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import
