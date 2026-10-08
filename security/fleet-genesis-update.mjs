@@ -40,7 +40,11 @@ const pubkey_pem_b64 = Buffer.from(pem).toString("base64");
 const hint = "sha256:" + crypto.createHash("sha256").update(raw).digest("hex").slice(0, 16);
 
 const gen = JSON.parse(fs.readFileSync(GEN));
-const members = gen.payload.members.filter(m => m.name !== "admiral");
+/* the flag seat is singular — remove ANY claimant (name or role), not
+   just the one called "admiral", or the emitted doc carries two seats
+   and every desk's bindFleetFlag refuses to anchor it */
+const members = gen.payload.members
+  .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
 members.push({
   name: "admiral",
   role: "flag-seat",
@@ -74,6 +78,26 @@ if (!process.argv.includes("--no-sheraton")) {
 
 const out = { payload, sigs };
 const ghash = crypto.createHash("sha256").update(body).digest("hex");
+
+/* self-verify before writing: a malformed emit must die here, not on
+   a desk's bootstrap — re-verify every collected sig over canon */
+{
+  const membersByName = Object.fromEntries(
+    payload.members.map(m => [m.name, m]));
+  for (const [name, sig] of Object.entries(sigs)) {
+    const pem = Buffer.from(
+      membersByName[name].pubkey_pem_b64, "base64").toString();
+    if (!crypto.verify(null, body, crypto.createPublicKey(pem),
+        Buffer.from(sig, "base64url"))) {
+      console.error(`self-verify FAILED: ${name} sig does not verify — aborting, nothing written`);
+      process.exit(1);
+    }
+  }
+  console.error(`self-verify: ${Object.keys(sigs).length} sig(s) verify over canon`);
+}
+if (sigs.digit && !sigs.sheraton)
+  console.error("NOTE: single-sig genesis — bootstrap requires both root sigs (use --no-sheraton only for rehearsals)");
+
 if (process.argv.includes("--dry")) {
   console.log(JSON.stringify(out, null, 2));
   console.error(`genesis_sha256: ${ghash}`);

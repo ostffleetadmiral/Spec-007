@@ -106,6 +106,15 @@
 - **帳目詞表受控。** HARN-01 對每筆發現列驗證成文之 verdict/severity 集合;HARN-02 以宣言紀律視 `fleet-map.json` — FLEETMAPv1、24 小時內、全員實測。
 - **超能帳目為最新。** 34/34 PROVEN;admiral 成員已入 genesis,漫遊錨定驗證全程實測。
 
+### 3g. 艦隊正典 — 鑄造與載入紀律(第八波逆向稽核)
+
+簽署公報與創世工具今與桌面同守先驗後寫之紀:
+
+- **鑄造須明示。** `fleet-manifest.mjs` 裸行僅印未簽本體,不觸檔;`--emit` 簽署;`--push` 暫存正典**雙份**(`fleet-manifest.json` 與 `site/fleet-manifest.json`)— 舊路徑僅交一份,致 parity 閘轉紅。
+- **載入設閘。** `--verify` 檢 spec、canon(payload) 簽名、創世系譜、公鑰指紋、時間戳、root↔site 一致 — 信任公報前先過六項實測(FLEET-01)。
+- **目擊有期。** 逾 24 小時之 rendezvous 節點退出簽署文件;帳目仍存為證據。beacon 源埠改標 `observed_port` — 所見,非可撥。
+- **旗座惟一。** `fleet-genesis-update.mjs` 入座前以名或角色清除一切旗座申索,寫入前對每枚簽名就 canon 自驗,單簽鑄造發警。歧義即敵意 — 各桌拒錨(SENT-14)。
+
 ## 4. 桌面轉移 — FANO-DESK-v1
 
 誓約終端之 `export-desk` / `import-desk`,或轉移畫面之 DOM 匯入路徑(Electron 相容 — 身分路徑全程無 `prompt()`)。套件攜帶封裝之密鑰庫記錄與創始狀態,由匯出桌之金鑰簽署。私鑰素材全程封裝;匯入桌拒絕覆於已創始之桌,亦拒絕外來創始之偽造。雙向通行:瀏覽器↔Electron 任意方向。具橋接之處(§6),鑄造/匯出之權杖自動推送至系統剪貼簿。

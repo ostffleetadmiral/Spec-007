@@ -6,8 +6,10 @@
 // The manifest is ed25519-signed: fleet members pin the pubkey; the
 // bulletin board itself is untrusted transport.
 //
-//   node fleet-manifest.mjs --emit            # sign → fleet-manifest.json
-//   node fleet-manifest.mjs --emit --push     # + git add/commit/push
+//   node fleet-manifest.mjs                   # dry-run — print payload, write nothing
+//   node fleet-manifest.mjs --emit            # sign → fleet-manifest.json + site/
+//   node fleet-manifest.mjs --emit --push     # + git add/commit/push (canon pair)
+//   node fleet-manifest.mjs --verify          # load-side gate: sig + lineage + parity
 //   node fleet-manifest.mjs --keygen          # mint keypair (once)
 //
 // Env: FLEET_PRIVKEY (default ~/.config/fleet/ed25519.pem)
@@ -60,6 +62,18 @@ const peers = {};
 try { Object.assign(peers, JSON.parse(fs.readFileSync(
   path.join(HERE, "out", "rendezvous.json"), "utf8"))); } catch {}
 
+/* rendezvous entries are measurements, not facts: a peer beaconing once
+   months ago must not stay signed into the bulletin. Stale sightings
+   are excluded from the payload (the ledger keeps them as evidence). */
+const PEER_MAX_AGE_MS = 24 * 3600 * 1000;
+const nowMs = Date.now();
+const livePeers = {}, stalePeers = [];
+for (const [n, p] of Object.entries(peers)) {
+  const age = nowMs - Date.parse(p.lastSeen || 0);
+  if (Number.isFinite(age) && age <= PEER_MAX_AGE_MS) livePeers[n] = p;
+  else stalePeers.push(n);
+}
+
 /* genesis anchor: the manifest must cite the fleet's trust root so
    bootstrap can reject manifests that don't descend from genesis */
 let genesis_sha256 = null;
@@ -103,12 +117,54 @@ const payload = {
       relay_ws: "ws://<lan-or-hub>:8100/ws",
       note: "inbound filtered by carrier — beacon or relay preferred",
     },
-    ...Object.fromEntries(Object.entries(peers).map(([n, p]) => [n, {
+    ...Object.fromEntries(Object.entries(livePeers).map(([n, p]) => [n, {
       role: "fleet-peer", lastSeen: p.lastSeen,
-      addr: p.addr ? `[${p.addr}]:${p.port}` : null,
+      /* the beacon's source port is ephemeral — it observed, it does
+         not listen. Emit it labeled, never as a dialable address. */
+      addr: p.addr || null,
+      observed_port: p.port ?? null,
     }])),
   },
 };
+
+const EMIT = process.argv.includes("--emit");
+const VERIFY = process.argv.includes("--verify");
+const PUSH = process.argv.includes("--push");
+
+/* ---- load-side gate: verify the signed bulletin end-to-end ---- */
+if (VERIFY) {
+  const man = JSON.parse(fs.readFileSync(OUT, "utf8"));
+  const body = JSON.stringify(man.payload, null, 2);
+  const pub = fs.readFileSync(PUB);
+  const okSig = crypto.verify(null, Buffer.from(body), pub,
+    Buffer.from(man.sig_ed25519, "base64url"));
+  const okSpec = man.payload.spec === "FLEETMANIFESTv1";
+  const okGen = man.payload.genesis_sha256 === genesis_sha256;
+  const okHint = man.pubkey_hint ===
+    "sha256:" + crypto.createHash("sha256").update(pub).digest("hex").slice(0, 16);
+  const okTs = Number.isFinite(Date.parse(man.payload.ts || ""));
+  const okParity = fs.existsSync(path.join(ROOT, "site", "fleet-manifest.json")) &&
+    fs.readFileSync(OUT).equals(
+      fs.readFileSync(path.join(ROOT, "site", "fleet-manifest.json")));
+  const checks = { spec: okSpec, signature: okSig, genesis_lineage: okGen,
+                   pubkey_hint: okHint, ts: okTs, site_parity: okParity };
+  for (const [k, v] of Object.entries(checks))
+    console.log(`  [${v ? "PASS" : "FAIL"}] ${k}`);
+  if (!Object.values(checks).every(Boolean)) process.exit(1);
+  console.log("manifest verify: GREEN — signed bulletin descends from genesis");
+  process.exit(0);
+}
+
+/* ---- emit ---- */
+if (!EMIT) {
+  console.log(JSON.stringify(payload, null, 2));
+  console.error(`dry-run — nothing signed or written` +
+    (stalePeers.length ? ` · stale peers excluded: ${stalePeers.join(",")}` : "") +
+    ` · --emit to sign, --verify to check the published bulletin`);
+  process.exit(0);
+}
+if (stalePeers.length)
+  console.error(`stale peers excluded: ${stalePeers.join(",")}`);
 
 if (!fs.existsSync(PRIV)) { console.error(`no signing key — run --keygen first`); process.exit(1); }
 const body = JSON.stringify(payload, null, 2);
@@ -124,8 +180,11 @@ fs.writeFileSync(path.join(ROOT, "site", "fleet-manifest.json"),
   JSON.stringify(manifest, null, 2));
 console.log(`manifest → ${OUT} + site/ (sig ${sig.slice(0, 24)}…)`);
 
-if (process.argv.includes("--push")) {
-  const { stdout } = await run("git", ["-C", ROOT, "add", "fleet-manifest.json"]);
+if (PUSH) {
+  /* the canon is a PAIR — pushing one side leaves the published copy
+     stale and publish-check's parity gate red */
+  await run("git", ["-C", ROOT, "add", "fleet-manifest.json",
+                                    "site/fleet-manifest.json"]);
   await run("git", ["-C", ROOT, "commit", "-m",
     `fleet-manifest: ${payload.ts}`]);
   await run("git", ["-C", ROOT, "push"]);

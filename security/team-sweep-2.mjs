@@ -1493,6 +1493,54 @@ console.log("\nHARN — harness integrity (wave 7)");
   }
 }
 
+console.log("\nFLEET — canon emit/load (wave 8)");
+/* ================= FLEET — canon emit/load =================
+   The manifest is a signed bulletin; its emitter used to re-sign
+   canon on a bare read. Wave 8 gates emit behind --emit, adds a
+   --verify load gate, bounds peer staleness, and labels ephemeral
+   beacon ports honestly. Genesis updates keep the flag seat
+   singular — the same invariant bindFleetFlag now enforces. */
+{
+  /* FLEET-01: the committed signed bulletin verifies end-to-end */
+  {
+    const r = spawnSync("node", [path.join(HERE, "fleet-manifest.mjs"),
+      "--verify"], { cwd: ROOT, encoding: "utf8", timeout: 20000 });
+    r.status === 0 && /manifest verify: GREEN/.test(r.stdout || "")
+      ? held("FLEET", "manifest-load-verifies",
+          "--verify: spec + signature + genesis lineage + hint + ts + site parity all green")
+      : open_("FLEET", "manifest-load-verifies",
+          `rc=${r.status} out=${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
+  /* FLEET-02: the flag seat is singular in published genesis */
+  {
+    const g = JSON.parse(fs.readFileSync(
+      path.join(ROOT, "fleet-genesis.json"), "utf8"));
+    const seats = new Set();
+    for (const m of g.payload.members)
+      if (m.name === "admiral" || m.role === "flag-seat")
+        if (m.pubkey_pem_b64) seats.add(m.pubkey_pem_b64);
+    seats.size === 1
+      ? held("FLEET", "genesis-seat-singular",
+          "exactly one distinct flag-seat key — bindFleetFlag can anchor")
+      : open_("FLEET", "genesis-seat-singular",
+          `${seats.size} distinct flag-seat keys — ambiguous anchor, desks refuse`);
+  }
+  /* FLEET-03: bare emit reads only — a dry run must not re-sign canon */
+  {
+    const before = fs.readFileSync(
+      path.join(ROOT, "fleet-manifest.json"), "utf8");
+    const r = spawnSync("node", [path.join(HERE, "fleet-manifest.mjs")],
+      { cwd: ROOT, encoding: "utf8", timeout: 20000 });
+    const after = fs.readFileSync(
+      path.join(ROOT, "fleet-manifest.json"), "utf8");
+    r.status === 0 && before === after
+      ? held("FLEET", "manifest-dry-run-safe",
+          "bare invocation prints the payload and writes nothing — canon untouched")
+      : open_("FLEET", "manifest-dry-run-safe",
+          `rc=${r.status} canon mutated=${before !== after}`);
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

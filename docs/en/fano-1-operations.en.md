@@ -258,6 +258,29 @@ audits its own evidence:
   admiral member is live in genesis, so roaming-anchor
   verification runs end-to-end.
 
+### 3g. Fleet canon — emit and load discipline (wave-8 retro-pass)
+
+The signed bulletin and genesis tools now carry the same
+gate-before-write discipline as the desk:
+
+- **Emit is opt-in.** `fleet-manifest.mjs` bare prints the
+  unsigned payload and writes nothing; `--emit` signs; `--push`
+  stages BOTH halves of the canon pair (`fleet-manifest.json`
+  and `site/fleet-manifest.json`) — the old path committed one
+  and left the parity gate red.
+- **Load has a gate.** `--verify` checks spec, signature over
+  canon(payload), genesis lineage, pubkey hint, timestamp, and
+  root↔site parity — six live checks before the bulletin is
+  trusted (FLEET-01).
+- **Sightings age out.** Rendezvous peers older than 24h leave
+  the signed doc; the ledger keeps them as evidence. Beacon
+  source ports emit as `observed_port` — observed, not dialable.
+- **The flag seat stays singular.** `fleet-genesis-update.mjs`
+  removes any flag-seat claimant (name OR role) before seating
+  the new admiral, self-verifies every collected signature over
+  canon before writing, and warns on single-sig emits.
+  Ambiguity is hostile — desks refuse to bind it (SENT-14).
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import
