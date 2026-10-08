@@ -91,12 +91,18 @@ try {
 } catch {}
 facts.findings = (findings.findings || []).length;
 
-/* corpus for cross-reference anchors — dossier twins + calc harnesses */
+/* corpus for cross-reference anchors — the numeric-evidence canon only.
+   Broad globs (all of docs/en) make the ledger drift whenever prose docs
+   grow; the corpus must be the stable claim-evidence surfaces. */
 const corpus = (() => {
+  const EVDOC = /^spec-007-(research-dossier|verified|claim-verification|design-input-audit|expanded-engineering-spec|economic-assessment|public|engineering-revision)/;
   const parts = [];
-  const add = d => { try { for (const f of fs.readdirSync(d))
-    if (/\.(md|zig)$/.test(f)) parts.push(fs.readFileSync(path.join(d, f), "utf8")); } catch {} };
-  add(path.join(ROOT, "docs", "en")); add(path.join(ROOT, "src"));
+  try { for (const f of fs.readdirSync(path.join(ROOT, "docs", "en")))
+    if (EVDOC.test(f)) parts.push(
+      fs.readFileSync(path.join(ROOT, "docs", "en", f), "utf8")); } catch {}
+  try { for (const f of fs.readdirSync(path.join(ROOT, "src")))
+    if (/^spec007.*\.zig$|^fixed_point.*\.zig$/.test(f)) parts.push(
+      fs.readFileSync(path.join(ROOT, "src", f), "utf8")); } catch {}
   return parts.join("\n");
 })();
 
