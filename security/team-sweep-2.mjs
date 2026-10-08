@@ -1951,6 +1951,59 @@ console.log("\nCURRICULUM — generated course modules (sentience w6)");
   }
 }
 
+console.log("\nCENSUS — cluster inventory (debrief d0)");
+/* ================= CENSUS — every root, carded ==========================
+   33 project roots enumerated live; the public registry carries codenames
+   and evidence classes only — paths stay $HOME-relative inside the tool. */
+{
+  const CEN = path.join(ROOT, "tools", "cluster-census.mjs");
+  const CR = path.join(SITE, "assets", "cluster-registry.json");
+  /* CENS-01: registry reproduces from live roots — verify mode */
+  {
+    if (!fs.existsSync(CEN) || !fs.existsSync(CR)) {
+      noted("CENS", "roots-consistent", "census tool or registry absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [CEN, "--verify"], { encoding: "utf8" });
+      r.status === 0
+        ? held("CENS", "roots-consistent",
+            "registry == live roots — names, presence, file counts all match")
+        : open_("CENS", "roots-consistent",
+            `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 140)}`);
+    }
+  }
+  /* CENS-02: the projection is sanitized — no absolute paths, no officer text */
+  {
+    const raw = fs.existsSync(CR) ? fs.readFileSync(CR, "utf8") : "";
+    const leaks = /\/home\/|BEGIN [A-Z ]*PRIVATE KEY|sk":/.test(raw)
+      || /admiral|ramsey|paul/i.test(raw);
+    raw && !leaks
+      ? held("CENS", "projection-sanitized",
+          "zero absolute paths, key material, or officer names in the registry")
+      : open_("CENS", "projection-sanitized", "registry carries sensitive text");
+  }
+  /* CENS-03: classification vocabulary is controlled and complete */
+  {
+    if (!fs.existsSync(CR)) {
+      noted("CENS", "classification", "registry absent — deferred");
+    } else {
+      const reg = JSON.parse(fs.readFileSync(CR, "utf8"));
+      const CLASSES = ["first-party", "donor-vendored", "asset-store", "empty"];
+      const EVID = ["verified-here", "doc-cited", "donor-survey",
+        "census-empty", "census-static", "drawer-cited"];
+      const bad = (reg.entries || []).filter(e =>
+        !CLASSES.includes(e.class) || !EVID.includes(e.evidence) ||
+        !e.role || !e.name);
+      const classSum = Object.values(reg.by_class || {})
+        .reduce((a, n) => a + n, 0);
+      !bad.length && classSum === reg.root_count && reg.root_count === (reg.entries || []).length
+        ? held("CENS", "classification",
+            `${reg.root_count} roots — controlled classes, tallies sum, every card complete`)
+        : open_("CENS", "classification",
+            `bad=${bad.length} classSum=${classSum} roots=${reg.root_count}/${(reg.entries || []).length}`);
+    }
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

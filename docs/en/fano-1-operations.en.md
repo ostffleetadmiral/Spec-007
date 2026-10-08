@@ -402,6 +402,21 @@ campaign modules. With this wave all seven blueprint phases stand
 PROMOTED or explicitly BOUNDARY-labeled — `BLUEPRINT-MAP.md` carries
 the post-port grades, and C92 records the state.
 
+### 3p. cluster-census — every root carded (debrief d0)
+
+The debrief opens with inventory: `tools/cluster-census.mjs` walks the
+canonical root list — **33 project roots**: 26 first-party, 3
+donor-vendored shelves, 3 empty/broken slots, 1 asset store — and emits
+`site/assets/cluster-registry.json`, a sanitized projection carrying
+codenames, realms, roles, and evidence classes only. Source paths stay
+`$HOME`-relative inside the tool; the artifact holds no absolute paths,
+no key material, no officer names (CENS-02 — it caught an owner-named
+donor directory before landing). `--verify` checks identity-level
+consistency — names, presence, class, evidence — while `file_count` is
+explicitly a snapshot label, since the census file itself lives inside
+a counted root (CENS-01, CENS-03). The full cards — absolute paths,
+git heads, dirty counts — live drawer-side in `CLUSTER-CENSUS.md`.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import
