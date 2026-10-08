@@ -325,15 +325,15 @@ console.log("\nBLACK — supply chain");
       { cwd: ROOT, encoding: "utf8" });
     const paths = blobs.split("\n").map(l => l.split(" ").slice(1).join(" "))
       .filter(p => p && /\.(pem|key|env|secret|p12|pfx)$/i.test(p));
-    /* pickaxe on the armor trailer, assembled at runtime so this source
-       file can never trip its own scan: real key blocks carry
-       "PRIVATE KEY-----"; regex literals (BEGIN [A-Z ]*PRIVATE KEY) and
-       this code carry no contiguous match. */
+    /* armor-BEGIN lines only: a committed key block always carries
+       "-----BEGIN [TYPE ]PRIVATE KEY-----"; code literals that hunt it
+       (this file included) can never match that pattern themselves. */
     const NEEDLE = "PRIVATE " + "KEY" + "-----";
     const pkScan = execSync(
-      `git log --all -p -S '${NEEDLE}' --format=format:'%H' | head -40`,
-      { cwd: ROOT, encoding: "utf8" });
-    const leaks = pkScan.split("\n").filter(l => l.includes(NEEDLE)).length;
+      `git log --all -p -S '${NEEDLE}' --format=format:'%H'`,
+      { cwd: ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    const leaks = pkScan.split("\n")
+      .filter(l => /-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(l)).length;
     !paths.length && !leaks
       ? held("BLACK", "history-secret-scan", "no key-material paths or PEM bodies in history")
       : open_("BLACK", "history-secret-scan",
