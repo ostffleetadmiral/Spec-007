@@ -1806,6 +1806,47 @@ console.log("\nCONTINUITY — persistence surface (sentience w3)");
   }
 }
 
+console.log("\nLIBRARY — command-center surface (sentience w4)");
+/* ================= LIBRARY — the blueprint's P3 gap ====================
+   The desk is already the 2D command center; the comms pane is already
+   the community hub. The missing piece was an in-desk editor — now a
+   pane over the continuity store's document records. */
+{
+  const dsrc = fs.readFileSync(path.join(SITE, "assets", "fano-desktop.js"), "utf8");
+  /* LIB-01: the editor exists and persists into the continuity store */
+  {
+    const wired = /function openEditor\(/.test(dsrc) &&
+      /kind: "document"/.test(dsrc) && dsrc.includes("contLoad") &&
+      /case "edit"/.test(dsrc);
+    wired
+      ? held("LIBRARY", "editor-wired",
+          "openEditor + 'edit' command + documents filed as continuity records")
+      : open_("LIBRARY", "editor-wired", "editor surface incomplete");
+  }
+  /* LIB-02: no eval anywhere in desk assets — the CSP rule as a probe */
+  {
+    const files = fs.readdirSync(path.join(SITE, "assets"))
+      .filter(f => f.endsWith(".js"));
+    const bad = files.filter(f => {
+      const c = fs.readFileSync(path.join(SITE, "assets", f), "utf8");
+      return /\beval\(|new Function\(/.test(c);
+    });
+    bad.length === 0
+      ? held("LIBRARY", "no-eval",
+          `${files.length} desk assets — zero eval/new Function`)
+      : open_("LIBRARY", "no-eval", `eval surfaces: ${bad.join(", ")}`);
+  }
+  /* LIB-03: the community hub is the comms suite — present and wired */
+  {
+    const comms = fs.existsSync(path.join(SITE, "assets", "fano-comms.js")) &&
+      /FANO_COMMS/.test(dsrc) && /comms\.os/.test(dsrc);
+    comms
+      ? held("LIBRARY", "community-hub",
+          "comms.os fills the hub role — wire, messenger, drops all wired to the desk")
+      : open_("LIBRARY", "community-hub", "comms surface missing or unwired");
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

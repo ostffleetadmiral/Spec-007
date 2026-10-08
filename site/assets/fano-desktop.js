@@ -1796,6 +1796,73 @@
     }
   }
 
+  /* ---------- editor.os — the in-desk IDE surface (blueprint P3) ----------
+     Documents are "document"-kind records in the continuity store — one
+     persistence layer, one census entry, DMS and editor share it. Plain
+     textarea editing: no eval, no remote sync, nothing pretending to be
+     a compiler. */
+  function openEditor() {
+    var title = "editor.os — the quiet typewriter";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div"); box.className = "win-body academy-pane";
+    box.innerHTML = "<p><strong>EDITOR.OS</strong> <small>— " + esc(t("ed.tag")) + "</small></p>";
+    var list = document.createElement("div"); list.className = "academy-list";
+    var stat = document.createElement("pre"); stat.style.whiteSpace = "pre-wrap";
+    box.appendChild(list); box.appendChild(stat);
+    var sel = { id: null };
+    var titleIn = document.createElement("input"); titleIn.className = "term-in";
+    titleIn.placeholder = t("cty.title.ph"); titleIn.spellcheck = false;
+    titleIn.style.cssText = "width:100%;font-family:monospace;background:transparent;color:inherit;border:1px solid var(--rule);padding:.35rem";
+    var bodyIn = document.createElement("textarea"); bodyIn.className = "term-in";
+    bodyIn.rows = 14; bodyIn.spellcheck = false;
+    bodyIn.style.cssText = "width:100%;font-family:monospace;background:transparent;color:inherit;border:1px solid var(--rule);padding:.35rem";
+    function meter() {
+      stat.textContent = t("ed.meter", String(bodyIn.value.split(/\n/).length),
+        String(bodyIn.value.length)) + (sel.id ? "  ·  " + sel.id : "");
+    }
+    bodyIn.addEventListener("input", meter);
+    function refresh() {
+      list.innerHTML = "";
+      var recs = contLoad(), ids = Object.keys(recs).filter(function (k) {
+        return recs[k].kind === "document"; }).sort();
+      ids.forEach(function (k) {
+        var b = document.createElement("button"); b.className = "cmd-btn";
+        b.textContent = recs[k].title;
+        b.addEventListener("click", function () {
+          sel.id = k; titleIn.value = recs[k].title; bodyIn.value = recs[k].body || ""; meter();
+        });
+        list.appendChild(b);
+      });
+      var nw = document.createElement("button"); nw.className = "cmd-btn";
+      nw.textContent = t("ed.new");
+      nw.addEventListener("click", function () {
+        sel.id = null; titleIn.value = ""; bodyIn.value = ""; meter();
+      });
+      list.appendChild(nw);
+    }
+    var save = document.createElement("button"); save.className = "cmd-btn";
+    save.textContent = t("cty.save");
+    save.addEventListener("click", function () {
+      var ttl = titleIn.value.trim(); if (!ttl) { toast(t("cty.needtitle"), "sys"); return; }
+      var recs = contLoad();
+      var id = sel.id || "doc-" + Date.now().toString(36);
+      recs[id] = { kind: "document", title: ttl, body: bodyIn.value,
+        ts: new Date().toISOString() };
+      contSave(recs); sel.id = id; refresh(); toast(t("cty.saved"), "sys");
+    });
+    var del = document.createElement("button"); del.className = "cmd-btn";
+    del.textContent = t("ed.del");
+    del.addEventListener("click", function () {
+      if (!sel.id) return;
+      var recs = contLoad(); delete recs[sel.id]; contSave(recs);
+      sel.id = null; titleIn.value = ""; bodyIn.value = ""; refresh(); meter();
+      toast(t("ed.deleted"), "sys");
+    });
+    var bar = document.createElement("p"); bar.appendChild(save); bar.appendChild(del);
+    box.appendChild(titleIn); box.appendChild(bodyIn); box.appendChild(bar);
+    makeWindow(title, box); refresh(); meter();
+  }
+
   function openEngine() {
     var title = "engine.os — governed runtime registry";
     if (openWins[title]) { focus(openWins[title]); return; }
@@ -1939,6 +2006,7 @@
     "  codex           the anomalies annex — cold cases and fiction files",
     "  engine          engine.os — the signed roster of runtimes this desk may trust",
     "  continuity      continuity.os — sealed archives + desk records",
+    "  edit            editor.os — the desk's own typewriter",
     "  quplink         open the sandbox uplink",
     "  family          the sibling projects — fleet registry",
     "  lang [en|zh]    the desk's second tongue",
@@ -1990,6 +2058,7 @@
     "  codex           異常別冊 — 冷案與虛構檔案",
     "  engine          engine.os — 此桌可信運行時之已簽名冊",
     "  continuity      continuity.os — 已封檔案庫＋桌面記錄",
+    "  edit            editor.os — 桌面自備之打字機",
     "  quplink         開啟沙盒上行鏈路",
     "  family          姊妹專案 — 艦隊名錄",
     "  lang [en|zh]    桌面之第二語言",
@@ -2341,6 +2410,7 @@
       case "academy": openAcademy(); return "academy.os opened — source-linked lessons await.";
       case "engine": openEngine(); return t("term.engine");
       case "continuity": openContinuity(); return t("term.continuity");
+      case "edit": openEditor(); return t("term.edit");
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
       case "codex": egg("codex"); openScience(); return t("term.codex", String(state.anoms.length), String(state.anomsTotal || "?"));
       case "gate": {
@@ -2510,6 +2580,7 @@
     { kind: "app", glyph: "☏", label: "comms.os", sub: "tradecraft desk", act: function () { if (window.FANO_COMMS) { window.FANO_COMMS.open(); achieve("operator"); } } },
     { kind: "app", glyph: "⚙", label: "engine.os", sub: "runtime roster", act: openEngine },
     { kind: "app", glyph: "◫", label: "continuity.os", sub: "the vault", act: openContinuity },
+    { kind: "app", glyph: "✎", label: "editor.os", sub: "typewriter", act: openEditor },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "locked", glyph: "✦", label: "admiralty.suite", sub: "flag tier", act: openAdmiralty },
     { kind: "locked", glyph: "▦", label: "7q.drawer", sub: "SEALED", act: deniedIcon },

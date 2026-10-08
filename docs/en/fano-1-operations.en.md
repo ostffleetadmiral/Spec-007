@@ -356,6 +356,18 @@ declared in the reset census so reset doctrine sweeps it like every
 other desk store. CONT-01..03 probe the projection against the live
 corpus (names, seals, counts) and the store's census membership.
 
+### 3m. editor.os — the in-desk typewriter (sentience w4)
+
+The blueprint's third phase wanted a 2D command center with an
+in-platform IDE; the desk was already the command center and comms.os
+was already the hub — what was missing was the editor. `editor.os` is a
+plain-text document surface over the continuity store: records of kind
+`document` are created, edited, and destroyed here, with a live
+line/char meter and zero remote sync. No eval, no transpiler, nothing
+pretending to be a compiler — the CSP rule is itself probed (LIB-02).
+`edit` opens it. The community-hub role stays documented where it
+belongs: comms.os (LIB-03).
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import
