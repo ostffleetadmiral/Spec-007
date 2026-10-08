@@ -2665,6 +2665,27 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
       ? held("AST", "verdict-filed", "measured separation, cap probability, follow-up status filed both twins")
       : open_("AST", "verdict-filed", `missing en:${missEn.join(",")} zh:${missZh.join(",")}`);
   }
+  /* AST-04: the power-budget screen is real code, not prose */
+  {
+    const s = fs.existsSync(AP) ? fs.readFileSync(AP, "utf8") : "";
+    const need = ["isoPowerW", "beamedPowerW", "persistenceRatio", "dopplerHz", "snrNow"];
+    const miss = need.filter(s2 => !s.includes(s2));
+    miss.length === 0
+      ? held("AST", "budget-in-source", "EIRP ledger, gain matrix, persistence + Doppler bounds all implemented")
+      : open_("AST", "budget-in-source", `missing: ${miss.join(",")}`);
+  }
+  /* AST-05: the budget verdict is filed in both twins */
+  {
+    const en = fs.readFileSync(path.join(ROOT, "docs", "en", "spec-007-science-coverage.en.md"), "utf8");
+    const zh = fs.readFileSync(path.join(ROOT, "docs", "zh-Hant", "spec-007-science-coverage.zh-Hant.md"), "utf8");
+    const enNeed = ["0.55 GW", "36,590", "MJy", "275 kHz"];
+    const zhNeed = ["0.55 GW", "36,590", "MJy", "275 kHz"];
+    const missEn = enNeed.filter(s => !en.includes(s));
+    const missZh = zhNeed.filter(s => !zh.includes(s));
+    !missEn.length && !missZh.length
+      ? held("AST", "budget-verdict", "EIRP, Arecibo ratio, persistence + Doppler bounds filed both twins")
+      : open_("AST", "budget-verdict", `missing en:${missEn.join(",")} zh:${missZh.join(",")}`);
+  }
 }
 
 /* ================= LAWBREAK — try to break the laws =================

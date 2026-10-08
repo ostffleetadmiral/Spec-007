@@ -7,12 +7,40 @@ Documentation doctrine: claims, arithmetic proof, implementation evidence,
 failure/rejection, and cost are recorded separately — see the research
 dossier twins under `docs/`.
 
+## Development authority
+
+The governing corpus lives in the drawer at `thoughts&convos/gov/` and is
+the development authority for this tree:
+
+- `gov/specs/SPECGovernanceRulebook.md` — SPEC lifecycle: creation,
+  versioning, review, retirement; traceability into the audit ledger.
+- `gov/specs/SPEC-000.md` … `SPEC-006.md` — equity/accessibility, ethical
+  AI governance, technical standards & interoperability, code space and
+  polyglot addressing, security clearance & classification (override
+  authority, audit requirements), and the observer-substrate invariants
+  (falsifiability, wire-cost, no unseeded correlation).
+- `gov/constitutional/` — OSTF constitution and bylaws foundation.
+- `gov/admiralty/` — admiralty bylaws, delegation, succession, rules of
+  procedure — the fleet-authority chain the desk implements.
+- `gov/AIWO-SIM-2026-001.md`, `gov/Sigma.md`, `gov/PREDICTIVE-REGISTRY-2026.md`
+  — simulation directive, sigma methodology, predictive registry.
+
+Rules of engagement with the corpus: read it freely; **cite the path,
+never the contents.** The drawer boundary below is absolute — gov text,
+officer names, and drawer paths never appear in committed source beyond
+directory-level references like this one, never in `docs/`, `site/`, or
+any published projection. Where a gov document and this file disagree,
+the gov document governs intent; this file governs mechanics — reconcile
+by editing this file, never by weakening the drawer boundary.
+
 ## Build & verify
 
 ```bash
 tools/publish-check.sh          # the release gate — ALL of it, every time
 zig build test                  # deps + spec008 harnesses (integer-only)
-node security/team-sweep-2.mjs  # consolidated sweep — 85 probes, exits 1 on any OPEN
+node security/team-sweep-2.mjs  # consolidated sweep — 171 probes, exits 1 on any OPEN
+node security/comms-suite.mjs --docker   # Hydra WAN lab — REAL signaling (up → probe → down)
+node security/comms-suite.mjs --local    # same suite on localhost hydra nodes
 node security/capstone-audit.mjs
 node security/sentinel-sweep.mjs
 node security/superpowers-audit.mjs
