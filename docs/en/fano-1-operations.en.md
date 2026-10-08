@@ -281,6 +281,26 @@ gate-before-write discipline as the desk:
   canon before writing, and warns on single-sig emits.
   Ambiguity is hostile — desks refuse to bind it (SENT-14).
 
+### 3h. The cluster — what the family shelf proves (wave-9 retro-pass)
+
+The sibling projects are family files, not marketing — every number on
+the FAMILY shelf must trace verbatim to that tree's own README/AGENTS
+(CLUSTER-01 enforces it by reading the docs live). Evidence classes:
+
+- **Locally proven.** The Rations bridge is real code upstream
+  (`e932053`): SPEC-007 invite-token wire compatibility and
+  degraded-medium/acoustic stress suites registered in `tests.zig`
+  (CLUSTER-03), plus the public capability projection — 3,472 rows ×
+  18 domains, count-consistent, no absolute paths or key material
+  (CLUSTER-02).
+- **Doc-affidavit.** qstar-llm (2,610+ tests), zig-k3-port
+  (token-identical), TheUE (50-entry registry), ThePlatform (Q#
+  parity), euz (6,372+ tests), Rations (116.9% ratchet) — cited from
+  their own docs, not rebuilt. If a sibling tree is absent the probe
+  defers, never fabricates.
+- **Boundary kept.** Neighbor-repo WIP is untouched — dirty paths in
+  the experiments monorepo are their owners' work, not the campaign's.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

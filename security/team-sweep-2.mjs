@@ -1541,6 +1541,82 @@ console.log("\nFLEET — canon emit/load (wave 8)");
   }
 }
 
+console.log("\nCLUSTER — cross-cluster integration (wave 9)");
+/* ================= CLUSTER — the family shelf cites real trees ==========
+   Wave 9's evidence convention: sibling status is doc-cited — every number
+   on the FAMILY shelf must appear verbatim in that tree's own README/AGENTS.
+   An absent sibling tree defers (NOTED), same as an absent lab service.
+   What IS locally proven: the Rations compat suites and the sanitized
+   capability-registry projection. */
+{
+  const EXP = "/home/admpaul/CascadeProjects";
+  const read = (p) => { try { return fs.readFileSync(p, "utf8"); } catch { return null; } };
+  /* CLUSTER-01: every cited fact traces to the sibling's own docs */
+  {
+    const cites = [
+      ["qstar-llm", `${EXP}/hardware/experiments/qstar-llm/README.md`, "2,610"],
+      ["zig-k3-port", `${EXP}/hardware/experiments/zig-k3-port/README.md`, "Token-identical"],
+      ["TheUE", `${EXP}/hardware/experiments/TheUE/README.md`, "50 capability entries"],
+      ["ThePlatform", `${EXP}/ThePlatform/README.md`, "Q# parity"],
+      ["euz", "/home/admpaul/Music/Paul/Sci-Fi/AGENTS.md", "6372"],
+      ["Rations", `${EXP}/Rations/AGENTS.md`, "116.9%"],
+    ];
+    const missing = [], drifted = [];
+    for (const [name, p, needle] of cites) {
+      const doc = read(p);
+      if (doc === null) { missing.push(name); continue; }
+      if (!doc.includes(needle)) drifted.push(`${name}:${needle}`);
+    }
+    if (missing.length === cites.length) {
+      noted("CLUSTER", "doc-citation-audit",
+        "no sibling trees reachable — citations unverified, deferred");
+    } else if (drifted.length === 0) {
+      held("CLUSTER", "doc-citation-audit",
+        `${cites.length - missing.length}/${cites.length} citations verify verbatim in each tree's own docs` +
+        (missing.length ? ` (${missing.join(",")} absent — deferred)` : ""));
+    } else {
+      open_("CLUSTER", "doc-citation-audit",
+        `stale citations on the shelf: ${drifted.join(" ")}`);
+    }
+  }
+  /* CLUSTER-02: the public capability projection is sanitized and honest */
+  {
+    const rp = path.join(SITE, "assets", "zig-capability-registry.json");
+    if (!fs.existsSync(rp)) {
+      noted("CLUSTER", "registry-projection",
+        "zig-capability-registry.json absent — deferred until TheUE re-emits");
+    } else {
+      const raw = fs.readFileSync(rp, "utf8");
+      const d = JSON.parse(raw);
+      const rows = d.capabilities || d.registry || [];
+      const leaks = /\/home\/|thoughts&convos|BEGIN [A-Z ]*PRIVATE KEY/.test(raw);
+      rows.length === d.capability_count && rows.length > 0 && !leaks
+        ? held("CLUSTER", "registry-projection",
+            `${rows.length} rows × ${Object.keys(d.by_domain || {}).length} domains — count consistent, no paths/keys leaked`)
+        : open_("CLUSTER", "registry-projection",
+            `count=${rows.length} vs claimed=${d.capability_count} leaks=${leaks}`);
+    }
+  }
+  /* CLUSTER-03: the Rations bridge is real code in the Rations tree */
+  {
+    const t = read(`${EXP}/Rations/src/tests.zig`);
+    const compat = read(`${EXP}/Rations/src/token_spec007_compat_test.zig`);
+    const stress = read(`${EXP}/Rations/src/spec007_medium_stress_test.zig`);
+    if (!t || !compat || !stress) {
+      noted("CLUSTER", "rations-bridge",
+        "Rations tree absent or suites missing — deferred");
+    } else {
+      const wired = t.includes("token_spec007_compat_test") &&
+                    t.includes("spec007_medium_stress_test");
+      wired
+        ? held("CLUSTER", "rations-bridge",
+            "SPEC-007 compat + degraded-medium suites registered in Rations tests.zig")
+        : open_("CLUSTER", "rations-bridge",
+            "suite files exist but are not wired into tests.zig");
+    }
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));
