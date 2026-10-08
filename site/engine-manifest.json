@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-08T16:00:03.989Z",
+    "ts": "2026-10-08T16:45:13.892Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 12,
     "runtimes": {
@@ -85,6 +85,6 @@
       }
     }
   },
-  "sig_ed25519": "_jSkk3EWN1F0CgoN0E8FbZLzzg4zI6XtK7_DJw4KHKfGe2PA26cRSC6Q0vY5RN3bFofU52NaZhRyn80-NrSyBA",
+  "sig_ed25519": "pE2B3Bn7ba6oo3UuY3WOLRLhsJ3RCpc-gWUAGOqprbhemPRhJViPQ79gR5nEhMcpmOYO_UJvx6ab6ARZ7462DA",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

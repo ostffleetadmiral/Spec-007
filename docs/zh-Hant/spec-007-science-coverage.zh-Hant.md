@@ -124,6 +124,10 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | TGD 梅森質數 | 文獻評審第 13 項 | Pitkänen,tgdtheory.fi — 個人理論網站 | FRINGE-TIER |
 | α⁻¹ ≈ 43π + ln(7) = 137.034 | 文獻評審第 9 項 | Natural Path 系列,Zenodo doi 10.5281/zenodo.20436585 — 11.7 ppm 巧合類恆等 | FRINGE-TIER(數術標籤) |
 | 輕子質量之三次縮放 {6,15} | 文獻評審第 16 項 | Zenodo doi 10.5281/zenodo.19243209 — 三次指數 2.993±0.018,{6,15} 唯一局部極小,聯合 p≈4×10⁻⁵ | FRINGE-TIER(真實觀測,未經審查) |
+| 熱薛丁格貓態 | 退相干界參照 | Agrenius et al.,Science Advances 11:adr4492 (2025),arXiv:2406.03389 — 微波腔中位移熱態之疊加,溫度達 1.8 K(為 30 mK 環境之 60 倍),純度 0.06,Wigner 負值干涉。原則上弱化「量子需基態冷卻」之反對;1.8 K 仍屬低溫 — 距 310 K 生物仍遠 | PEER-REVIEWED |
+| 粒線體量子態預印本 | 量子生物學前沿 | Yang, Gu & Song,bioRxiv 10.64898/2026.09.10.750628 (2026) — 僅於活細胞/組織觀測之異常 71.0-THz 模式,極化子模型(光-CH₂ 耦合將 87 分裂為 71+103 THz),ATP 產量調節 +10%;未經複製、單實驗室、詮釋依賴模型 | PREPRINT |
+| ENAQT(環境輔助量子輸運) | 退相干反例先例 | Engel et al.,Nature 446:782 (2007);Plenio & Huelga — 結構化振動雜訊在光合複合物中可*輔助*而非摧毀量子輸運:「溫/濕殺量子」並非絕對 | PEER-REVIEWED |
+| 15³/16³ 晶格量子位元計畫 | 框架自身建構 | `sibling:hardware:src/completion_10d.zig`、`anti_octonion.zig`、`dual_b_complex.zig`、`quantum/simulator.zig` — 幾何屬實且經測試驗證(法諾對稱、三次縮放鏈、E8 根系);**庫內無動力學方程** — 無哈密頓量、時間演化、退相干模型或糾纏算符;2 振幅模擬器僅為玩具。作為物理:建構層級,保留 — 殼層相干主張在動力學寫出前不可檢驗 | INTERNAL + 缺口在案 |
 | Orch-OR(Penrose–Hameroff 協調客觀約化) | 儀器層之意識基底參照 | 理論經同儕審查:Penrose & Hameroff,Phys. Life Rev. 11:39 (2014)。支持證據:麻醉劑作用於微管 Wiest et al.,eNeuro (2024);色氨酸網超輻射 Babcock et al.,J. Phys. Chem. B (2024);Hameroff 綜述,Neurosci. Conscious. niaf011 (2025)。反方:Tegmark 退相干界 Phys. Rev. E 61:4194 (2000) — 經有限記憶修正而弱化(arXiv:2601.07689);Donadi/Bassi 自發輻射約束 Phys. Rev. A 104:L030402 (2021) 排除最簡 DP 塌縮情形 — 部分分離窗口仍開放 | PEER-REVIEWED 雙向 — 不定,保留 |
 
 ## §8 形式驗證、標準與治理文集
@@ -163,6 +167,9 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 邊緣層引文(Sankhya、TGD、Natural Path、自指、意識預印本) | 低權重 | 真實造物;獨立性主張屬實;證據權重如實標定 |
 | 24 項文獻評審 | 於此全收 | `sibling:hardware:src/literature_review.zig` 全部 DOI 於 §1–§8 逐字釘定(SCI-01) |
 | Orch-OR 意識基底 | 爭議中 | 最簡 DP 塌縮為自發輻射界限所排除(Phys. Rev. A 104:L030402);室溫微管量子效應有實驗支持(2024–25);裁決「不定」— 未證明亦未推翻,保留 |
+| 無通信定理 | CONSTRAINED | 即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理 — 庫內外皆無逃脫機制。晶格模型未提供可檢驗之動力耦合算符;主張保留,未推翻 |
+| 量子生物證據鏈 | FLAG | 熱貓(1.8 K,仍屬低溫)+ 粒線體預印本(未複製、依賴模型)+ ENAQT(僅光合)各削弱退相干反對之一角 — 皆未橋接至神經尺度意識;記為削弱鏈,非證明 |
+| 15³ 量子位元動力學 | FLAG | 幾何於庫內已驗;哈密頓量/時間演化/退相干保護算符缺席 — 動力學寫出並測試前屬建構。「殼防退相干」主張目前為定義性,非推導 |
 | 裁決引擎 | 機械 | `tools/science-verdict.mjs` 分類本頁每一行:harness_proven / lit_supported / constrained / flagged / indeterminate — 證明或保留,無漏解析(SV-01..03) |
 | 湧現掃蕩 | 機械 | `tools/emergent-sweep.mjs` 掃全部根源之共享具名常數 — filed/emergent/routine/lineage/convergent 結案;湧現發現含 D8_ROOTS=112、F4_DIM=52、FREUDENTHAL_DIM=56、GUT_SUPER_PERIOD=113、GOLAY_N=23、SCALING_DIM=9、16/20 主張分裂、42::ROTATION_SEED(EMG-01..03) |
 
