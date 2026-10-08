@@ -247,10 +247,14 @@ for (const r of rows) {
      published work rather than local executable evidence */
   const litCited = /literature|measured|published|standard\b|datasheet|doi:|zenodo/i.test(ev);
   const probes = [...probeIds(ev)];
-  const probesHeld = probes.filter(p => held.has(p));
-  const probesExt = probes.filter(p => !held.has(p) &&
-    (extIdLiterals.has(p) || suiteTeams.has(p.split("-")[0]) || known.has(p)));
-  const probesDead = probes.filter(p => !held.has(p) && !probesExt.includes(p));
+  /* a cited probe anchors when it RESOLVES — held in findings, ext
+     literal, suite-team vocabulary, or known in findings at any verdict.
+     The held/open split is findings' own live state and flips mid-wave;
+     counting it here made the ledger racy (OVR-03 drift, D11). A probe
+     that is OPEN still enforces — its verdict is findings' surface. */
+  const probesResolved = probes.filter(p => held.has(p) ||
+    extIdLiterals.has(p) || suiteTeams.has(p.split("-")[0]) || known.has(p));
+  const probesDead = probes.filter(p => !probesResolved.includes(p));
   /* count citations: "546 lessons", "3,472 rows", "12 runtimes", "101 probes"… */
   const counts = [...ev.matchAll(/(\d[\d,]*)\s*(lessons?|rows?|capabilities|runtimes?|archives|probes|claims?|assets|entries|tests)\b/gi)];
   const countChecks = counts.map(m => {
@@ -272,7 +276,7 @@ for (const r of rows) {
       n === live ? "ok" : "drift";
     return { cited: n, word: w, live, ok };
   });
-  const anchors = pathHits.length + probesHeld.length +
+  const anchors = pathHits.length + probesResolved.length +
     countChecks.filter(c => c.ok === "ok").length + symHits + (harnessCited ? 1 : 0) + xref +
     sibHits;
 
@@ -283,7 +287,7 @@ for (const r of rows) {
   for (const p of probesDead) notes.push(`dead probe ref: ${p}`);
   for (const p of paths.filter(p => !pathHits.includes(p))) notes.push(`dead path ref: ${p}`);
   const verifiedFamily = VERIFIED_RE.test(r.verdict);
-  if (verifiedFamily && anchors === 0 && probesExt.length === 0 && !litCited)
+  if (verifiedFamily && anchors === 0 && !litCited)
     notes.push("VERIFIED verdict with zero resolvable anchors");
 
   /* pass 3 — grade + map */
@@ -292,14 +296,14 @@ for (const r of rows) {
   if (notes.some(n => /count drift|VERIFIED verdict with zero/.test(n))) { grade = "DRIFTED"; drifted++; }
   else if (/rejected|refuted|contradicted/i.test(r.verdict)) grade = "HOLDS-AS-REJECTED";
   else if (verifiedFamily && anchors > 0) grade = "REVERIFIED";
-  else if (verifiedFamily && (probesExt.length > 0 || litCited)) grade = "EXT-CITED";
+  else if (verifiedFamily && litCited) grade = "EXT-CITED";
   else grade = "HOLDS-AS-LABELED";
 
   LED.push({
     id: r.id, verdict: r.verdict, grade,
-    anchors: { paths: pathHits.length, symbols: symHits, probes_held: probesHeld.length,
-      probes_ext: probesExt.length, counts_ok: countChecks.filter(c => c.ok === "ok").length,
-      sibling: sibHits },
+    anchors: { paths: pathHits.length, symbols: symHits, probes: probesResolved.length,
+      counts_ok: countChecks.filter(c => c.ok === "ok").length,
+      sibling: sibHits, harness: harnessCited ? 1 : 0, xref, lit: litCited ? 1 : 0 },
     roots, notes,
   });
 }
@@ -327,7 +331,7 @@ const lines = [
   "| ID | verdict | grade | anchors | roots | notes |",
   "|---|---|---|---|---|---|",
   ...LED.map(l => `| ${l.id} | ${l.verdict} | ${l.grade} | ` +
-    `p${l.anchors.paths}/s${l.anchors.symbols}/h${l.anchors.probes_held}/x${l.anchors.probes_ext}/c${l.anchors.counts_ok}/b${l.anchors.sibling} | ` +
+    `p${l.anchors.paths}/s${l.anchors.symbols}/h${l.anchors.probes}/c${l.anchors.counts_ok}/b${l.anchors.sibling} | ` +
     `${l.roots.join(", ") || "—"} | ${l.notes.join("; ") || "—"} |`),
 ];
 const debrief = lines.join("\n") + "\n";

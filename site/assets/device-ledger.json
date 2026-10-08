@@ -1,0 +1,36 @@
+{
+  "spec": "DEVICELEDGERv1",
+  "generated": "2026-10-08T14:30:37.297Z",
+  "cpu": {
+    "cores": 8,
+    "arch": "x86_64",
+    "simd": [
+      "avx2",
+      "avx",
+      "sse4_2",
+      "ssse3"
+    ]
+  },
+  "mem_gb": 30,
+  "runtimes": {
+    "zig": true,
+    "node": true,
+    "python": true,
+    "dotnet": true,
+    "go": false,
+    "cargo": true,
+    "lean": true,
+    "deno": false,
+    "wasmtime": false
+  },
+  "gpu": {
+    "present": true,
+    "render_nodes": 1,
+    "vendor_class": "amd",
+    "vulkan": true
+  },
+  "ollama": {
+    "resident": true,
+    "models": 4
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "lesson_count": 547,
+  "lesson_count": 548,
   "lessons": [
     {
       "access": "public",
@@ -7545,6 +7545,20 @@
       "outcome": "Verdict: GREEN — `route-o1.mjs`, `fleet-manifest.mjs`, `fleet-genesis-update.mjs`,",
       "source": "security/out/wave-8-spec008-fleet.md",
       "title": "Wave 8 — SPEC-008/Fleet Retro-Pass (CENTURY 71-80)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-a35adcb0b5a0842e",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "The cluster's mechanisms moved from cited to executed, then the battery",
+      "source": "security/out/wave-d11-porting-lawbreak.md",
+      "title": "Wave D11 — Porting + LAWBREAK",
       "topic": "campaign"
     },
     {

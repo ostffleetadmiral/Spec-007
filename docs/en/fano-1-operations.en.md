@@ -397,7 +397,7 @@ Generated lessons are labeled, not laundered: `origin:"generated"`
 source path resolving under the repo (CURR-02), `assessment:
 "deterministic_review_required"` and an honest `language:["en"]` — no
 reviewed zh twin is claimed for machine-derived text (CURR-03). The
-manifest now files 547 lessons: 530 human/spec corpus + 17 generated
+manifest now files 548 lessons: 530 human/spec corpus + 18 generated
 campaign modules. With this wave all seven blueprint phases stand
 PROMOTED or explicitly BOUNDARY-labeled — `BLUEPRINT-MAP.md` carries
 the post-port grades, and C92 records the state.
@@ -554,6 +554,37 @@ interpretation-tier holdings (EU lineages, MOUND predictions,
 consciousness claims) stay labeled. **C100** records the span on all
 four claim surfaces; C53/C67 gained release-discipline anchors and
 C45/C55 gained the measured-device anchors.
+
+### 3w. d11 porting wave — cluster mechanisms in-framework (debrief d11)
+
+D10 mapped the holdings; d11 ported them. Seven mechanisms now execute
+inside the framework rather than being cited: `tools/claim-promotion.mjs`
+(the audit foundation's claims-lifecycle schema over the 100-claim
+override ledger — proved requires held anchors, release-blocked
+arithmetic honest), `tools/golden-master.mjs` + `golden/vectors.txt`
+(the i-vector lab's golden-master pattern over Q128.128 — 37 vectors
+byte-identical, mutation detected), `src/spec008_qstar_parity.zig` (the
+media lab's channel round-trip onto the 136-byte envelope — bit-exact,
+capacity enforced both directions, two-erasure underdetermination
+refused), `tools/dox-audit.mjs` (nearest-AGENTS binding ratchet — every
+file chains to a governing guide, dead rule→probe cites are findings),
+`tools/device-ledger.mjs` (workstation capability inventory, sanitized
+public projection), `tools/evidence-manifest.mjs` (sha256 pins over
+every sibling cite — content drift is machine-detectable), and
+`tools/archive-verify.mjs` (both seal forms across the 248-entry
+corpus — self-pinning manifests honestly classified, never repaired or
+deleted).
+
+Then the battery attacked them. LAWB-01..10 went after the laws
+themselves — capacity, underdetermination, hash visibility, determinism,
+ratchet semantics, conservation, free information, self-sealing,
+checksums, causality. Nine laws held. **LAWB-09 bent one and labeled
+it**: a single-layer XOR checksum is forgeable by an adversary
+(payload⊕δ with check⊕δ verifies) — recorded in-source as checksum≠MAC,
+with the envelope's signature seal documented as the real wall. That is
+the porting doctrine: adopt the mechanism, attack it, and publish the
+bend. **C101/C102** record the wave on all four claim surfaces;
+PRM/GLD/PAR/DOX/DEV/EVM/ARC probe sections pin every port.
 
 ## 4. Desk transfer — FANO-DESK-v1
 

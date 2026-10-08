@@ -186,4 +186,5 @@ pub fn build(b: *std.Build) void {
         imp("relay_router", m_relay), imp("mesh_peer", m_peer),
         imp("render", r_render),
     });
+    depTest(b, test_step, "src/spec008_qstar_parity.zig", target, optimize, &.{});
 }

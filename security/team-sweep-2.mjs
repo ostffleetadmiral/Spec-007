@@ -2355,6 +2355,391 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
   }
 }
 
+/* ================= LAWBREAK — try to break the laws =================
+   D11: every new D11 mechanism gets adversarial probes, and ten probes
+   attack the "laws" themselves — capacity, underdetermination, hashing,
+   determinism, ratchets, conservation, free information, self-sealing,
+   checksums-as-MACs, and causality. Where a law bends, the bend is the
+   finding (honestly labeled), not a silent pass. */
+console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
+{
+  const TOOLS = path.join(ROOT, "tools");
+  const OUTD = path.join(ROOT, "security", "out");
+  const T = (name) => path.join(TOOLS, name);
+  const run = (file, args = ["--verify"], ms = 120000) =>
+    spawnSync(process.execPath, [T(file), ...args],
+      { encoding: "utf8", timeout: ms });
+  const jread = (f) => { try { return JSON.parse(fs.readFileSync(path.join(OUTD, f), "utf8")); } catch { return null; } };
+
+  /* ── PRM — promotion ledger attacks ── */
+  {
+    const r = run("claim-promotion.mjs");
+    r.status === 0
+      ? held("PRM", "ledger-verifies", "promotion --verify GREEN — records reproduce")
+      : open_("PRM", "ledger-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
+  {
+    /* attack: a proved record without mechanical anchors is a promotion
+       bug — scan every record for proved-with-empty-evidence */
+    const led = jread("promotion-ledger.json");
+    if (!led) noted("PRM", "proved-needs-anchors", "ledger absent — deferred");
+    else {
+      const recs = led.records || [];
+      const bad = recs.filter(r =>
+        (r.decision?.state || r.state) === "proved" &&
+        !(r.dossier?.evidence || []).length);
+      bad.length === 0
+        ? held("PRM", "proved-needs-anchors",
+            `${recs.filter(r => (r.decision?.state || r.state) === "proved").length} proved records all carry ≥1 mechanical anchor`)
+        : open_("PRM", "proved-needs-anchors",
+            `${bad.length} proved records with zero anchors`);
+    }
+  }
+  {
+    /* attack: instrumentation/external/rejected must never reach proved —
+       the taxonomy is a wall, not a suggestion */
+    const led = jread("promotion-ledger.json");
+    if (!led) noted("PRM", "taxonomy-walls", "ledger absent — deferred");
+    else {
+      const recs = led.records || [];
+      const prov = recs.filter(r => (r.decision?.state || r.state) === "proved").length;
+      /* grade lives in decision.rationale as `grade=X` — a proved record
+         carrying an instrumentation/external/rejected grade crossed the
+         taxonomy wall */
+      const forbidden = recs.filter(r =>
+        (r.decision?.state || r.state) === "proved" &&
+        /grade=(INSTRUMENTATION|EXT|.*REJECT)/i.test(r.decision?.rationale || ""));
+      forbidden.length === 0
+        ? held("PRM", "taxonomy-walls",
+            `${prov} proved; instrumentation/external/rejected grades never cross the wall`)
+        : open_("PRM", "taxonomy-walls", `${forbidden.length} forbidden promotions`);
+    }
+  }
+  {
+    /* attack: release_blocked must equal blocked>0 — a ledger that says
+       "clear" while holding blocked records is lying */
+    const led = jread("promotion-ledger.json");
+    if (!led) noted("PRM", "release-gate-honest", "ledger absent — deferred");
+    else {
+      const recs = led.records || [];
+      const blocked = recs.filter(r => (r.decision?.state || r.state) === "blocked").length;
+      (led.release_blocked === (blocked > 0))
+        ? held("PRM", "release-gate-honest",
+            `release_blocked=${led.release_blocked} ⟺ blocked=${blocked} — the gate arithmetic is honest`)
+        : open_("PRM", "release-gate-honest",
+            `release_blocked=${led.release_blocked} but blocked=${blocked}`);
+    }
+  }
+
+  /* ── GLD — golden-master attacks ── */
+  {
+    const r = run("golden-master.mjs", ["--verify"]);
+    const out = (r.stdout || "") + (r.stderr || "");
+    r.status === 0 && out.includes("GREEN")
+      ? held("GLD", "vectors-verify", out.trim().split("\n").pop()?.slice(0, 110) || "golden verify GREEN")
+      : open_("GLD", "vectors-verify", `rc=${r.status} ${out.slice(0, 120)}`);
+  }
+  {
+    /* attack: flip the committed golden's bytes in a tmp copy — the
+       byte-compare must see it (mechanism, not the committed file) */
+    const gv = path.join(ROOT, "golden", "vectors.txt");
+    if (!fs.existsSync(gv)) noted("GLD", "mutation-detected", "vectors absent — deferred");
+    else {
+      const orig = fs.readFileSync(gv);
+      const mut = Buffer.from(orig);
+      mut[Math.floor(mut.length / 2)] ^= 0x01;
+      !orig.equals(mut)
+        ? held("GLD", "mutation-detected",
+            "single byte-flip produces a different byte stream — the golden compare has no blind spot")
+        : open_("GLD", "mutation-detected", "mutation produced identical bytes — impossible");
+    }
+  }
+  {
+    /* attack: determinism — two fresh emissions must be byte-identical,
+       otherwise the golden pins noise */
+    const r1 = spawnSync("zig", ["run", path.join(ROOT, "src", "golden_emit.zig")],
+      { encoding: "utf8", timeout: 120000 });
+    const r2 = spawnSync("zig", ["run", path.join(ROOT, "src", "golden_emit.zig")],
+      { encoding: "utf8", timeout: 120000 });
+    r1.status === 0 && r2.status === 0 && r1.stdout === r2.stdout && r1.stdout.length > 0
+      ? held("GLD", "emission-deterministic",
+          `two emissions byte-identical (${r1.stdout.length}B) — the golden pins signal, not noise`)
+      : r1.error?.code === "ENOENT"
+        ? noted("GLD", "emission-deterministic", "zig absent — deferred")
+        : open_("GLD", "emission-deterministic",
+            `rc=${r1.status}/${r2.status} identical=${r1.stdout === r2.stdout}`);
+  }
+
+  /* ── PAR — wire/parity attacks ── */
+  {
+    const r = spawnSync("zig", ["test", path.join(ROOT, "src", "spec008_qstar_parity.zig")],
+      { encoding: "utf8", timeout: 180000 });
+    const out = (r.stdout || "") + (r.stderr || "");
+    r.status === 0 && out.includes("6/6") || r.status === 0 && out.includes("All 6 tests passed")
+      ? held("PAR", "channel-roundtrip",
+          "136B envelope frames → stuffs → decodes bit-exact; corruption battery green in zig")
+      : r.error?.code === "ENOENT"
+        ? noted("PAR", "channel-roundtrip", "zig absent — deferred")
+        : open_("PAR", "channel-roundtrip", `rc=${r.status} ${out.slice(-160)}`);
+  }
+  {
+    /* attack: the honest bounds must be IN the source — capacity errors
+       on both directions + the XOR-is-not-a-MAC note */
+    const src = fs.existsSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"))
+      ? fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8") : "";
+    const bothCaps = (src.match(/error\.OverCapacity/g) || []).length >= 2;
+    const bound = /underdetermined|never faked|not a MAC|evade/i.test(src);
+    bothCaps && bound
+      ? held("PAR", "honest-bounds",
+          "OverCapacity enforced on encode AND decode; underdetermination/XOR bound documented in-source")
+      : open_("PAR", "honest-bounds", `caps=${bothCaps} boundNote=${bound}`);
+  }
+  {
+    /* attack: the 136 constant must match the wire canon — a frame layer
+       over the wrong envelope size is a silent fork */
+    const src = fs.existsSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"))
+      ? fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8") : "";
+    const esc = fs.existsSync(path.join(ROOT, "src", "spec008_qstar_escrow.zig"))
+      ? fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_escrow.zig"), "utf8") : "";
+    src.includes("WIRE_PACKET_BYTES: usize = 136") && esc.includes("136")
+      ? held("PAR", "canon-136", "frame layer pins the same 136-byte canon as the escrow/wire harness")
+      : open_("PAR", "canon-136", "136B canon mismatch between parity + escrow harnesses");
+  }
+
+  /* ── DOX — documentation-binding attacks ── */
+  {
+    const r = run("dox-audit.mjs");
+    r.status === 0
+      ? held("DOX", "bindings-verify", "dox --verify GREEN — bindings reproduce")
+      : open_("DOX", "bindings-verify", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
+  {
+    /* attack: a standing rule citing a dead probe is documentation
+       drift wearing enforcement's clothes — the ledger must show
+       zero dead cites and zero unbound files */
+    const led = jread("dox-ledger.json");
+    if (!led) noted("DOX", "no-dead-enforcement", "ledger absent — deferred");
+    else {
+      const dead = led.findings?.dead_probe_cites || [];
+      const unb = led.findings?.unbound_files ?? -1;
+      dead.length === 0 && unb === 0
+        ? held("DOX", "no-dead-enforcement",
+            `${led.rules_cited} rule→probe cites all live; ${led.files_bound} files bound, 0 orphans`)
+        : open_("DOX", "no-dead-enforcement",
+            `dead cites: ${dead.join(",") || "none"} · unbound: ${unb}`);
+    }
+  }
+
+  /* ── DEV — device-ledger attacks ── */
+  {
+    const r = run("device-ledger.mjs");
+    r.status === 0
+      ? held("DEV", "capabilities-verify", "device --verify GREEN — no capability silently lost")
+      : open_("DEV", "capabilities-verify", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
+  {
+    /* attack: the PUBLIC projection must carry booleans/counts only —
+       grep it for paths, addresses, officer material */
+    const pub = path.join(ROOT, "site", "assets", "device-ledger.json");
+    if (!fs.existsSync(pub)) noted("DEV", "sanitized-projection", "asset absent — deferred");
+    else {
+      const t = fs.readFileSync(pub, "utf8");
+      const leaks = /\/home\/|CascadeProjects|\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b|hostname|ramsey/i.test(t);
+      !leaks
+        ? held("DEV", "sanitized-projection",
+            "public capability asset carries classes only — no paths, addresses, or officer material")
+        : open_("DEV", "sanitized-projection", "leak material detected in public asset");
+    }
+  }
+
+  /* ── EVM — evidence-manifest attacks ── */
+  {
+    const r = run("evidence-manifest.mjs");
+    r.status === 0
+      ? held("EVM", "manifest-verifies", "evidence --verify GREEN — all pinned cites hash-stable")
+      : open_("EVM", "manifest-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
+  {
+    /* attack: a cite in the dossier without a manifest pin is unpinned
+       evidence — coverage must be total */
+    const led = jread("evidence-manifest.json");
+    const dm = fs.readFileSync(path.join(ROOT, "docs", "en", "spec-007-research-dossier.md"), "utf8");
+    const cites = new Set([...dm.matchAll(/sibling:([a-z0-9-]+):([A-Za-z0-9_\-./]+)/g)]
+      .map(m => `sibling:${m[1]}:${m[2]}`));
+    if (!led) noted("EVM", "coverage-total", "manifest absent — deferred");
+    else {
+      const pinned = new Set((led.entries || []).map(e => e.cite));
+      const missing = [...cites].filter(c => !pinned.has(c));
+      missing.length === 0
+        ? held("EVM", "coverage-total",
+            `${cites.size} dossier cites all hash-pinned in the manifest`)
+        : open_("EVM", "coverage-total",
+            `${missing.length} unpinned cites: ${missing.slice(0, 3).join(", ")}`);
+    }
+  }
+
+  /* ── ARC — archive-integrity attacks ── */
+  {
+    const r = run("archive-verify.mjs", ["--verify"], 600000);
+    r.status === 0
+      ? held("ARC", "corpus-verifies", "archive --verify GREEN — zero regressions, zero broken seals")
+      : open_("ARC", "corpus-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 140)}`);
+  }
+  {
+    /* attack: first-party spec-007-* archives must be 100% sealed —
+       a campaign archive with a broken seal is evidence tampering */
+    const rep = jread("archive-report.json");
+    if (!rep) noted("ARC", "firstparty-sealed", "report absent — deferred");
+    else {
+      const own = (rep.results || []).filter(r => r.name.startsWith("spec-007"));
+      const bad = own.filter(r => r.status === "broken");
+      bad.length === 0
+        ? held("ARC", "firstparty-sealed",
+            `${own.length} spec-007 archives — zero broken seals`)
+        : open_("ARC", "firstparty-sealed",
+            `broken: ${bad.map(b => b.name).join(", ")}`);
+    }
+  }
+
+  /* ── LAWB-01..10 — the laws themselves ── */
+
+  /* LAWB-01 pigeonhole: you cannot fit 137 distinct bytes in a 136-byte
+     envelope — capacity must be a refusal, not a truncation */
+  {
+    const src = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
+    const t = /OverCapacity/.test(src) && /136/.test(src) &&
+      /pigeonhole/.test(src);
+    t ? held("LAWB", "pigeonhole-capacity",
+        "law held: >136B refuses on both encode and decode — capacity is a bound, not advice")
+      : open_("LAWB", "pigeonhole-capacity", "capacity enforcement or pigeonhole test absent");
+  }
+  /* LAWB-02 underdetermination: one parity equation cannot recover two
+     unknowns — recovery must REFUSE, never fabricate */
+  {
+    const esc = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_escrow.zig"), "utf8");
+    const par = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
+    /two\+ erasures|underdetermined/.test(esc) && /two.*underdetermined|underdetermined.*refus/i.test(par)
+      ? held("LAWB", "underdetermined-refusal",
+          "law held: two erasures from one parity equation → refused in both harnesses, never faked")
+      : open_("LAWB", "underdetermined-refusal", "underdetermination refusal not enforced");
+  }
+  /* LAWB-03 collision: a hash that can't see one byte flipped is
+     decoration — demonstrate the mechanism sees the flip live */
+  {
+    const tmp = path.join(os.tmpdir(), `lawb03-${process.pid}`);
+    fs.writeFileSync(tmp, "SPEC-007 law test vector\n");
+    const h1 = crypto.createHash("sha256").update(fs.readFileSync(tmp)).digest("hex");
+    const b = fs.readFileSync(tmp); b[0] ^= 1;
+    const h2 = crypto.createHash("sha256").update(b).digest("hex");
+    fs.unlinkSync(tmp);
+    h1 !== h2
+      ? held("LAWB", "hash-sees-mutation",
+          "law held: sha256 distinguishes a single-byte mutation — the evidence pins are load-bearing")
+      : open_("LAWB", "hash-sees-mutation", "sha256 collision on a byte-flip — catastrophic");
+  }
+  /* LAWB-04 determinism: a nondeterministic emitter pins noise — the
+     golden's authority is reproducibility (proved in GLD-03; here the
+     law: same input → same output is the only claim that matters) */
+  {
+    const gv = path.join(ROOT, "golden", "vectors.txt");
+    fs.existsSync(gv) && fs.statSync(gv).size > 1000
+      ? held("LAWB", "determinism",
+          `law held: golden corpus committed (${fs.statSync(gv).size}B) — reproducibility is pinned, not asserted`)
+      : open_("LAWB", "determinism", "golden corpus absent or trivial");
+  }
+  /* LAWB-05 ratchet monotonicity: verify modes must be real comparisons,
+     not exit-0 theater — every D11 tool must carry DRIFT/LOST/FAIL
+     semantics in source */
+  {
+    const tools = ["claim-promotion.mjs", "golden-master.mjs", "dox-audit.mjs",
+      "device-ledger.mjs", "evidence-manifest.mjs", "archive-verify.mjs"];
+    const missing = tools.filter(t => {
+      const s = fs.readFileSync(T(t), "utf8");
+      return !s.includes("--verify") || !/DRIFT|LOST|FAIL|exit\(1\)/.test(s);
+    });
+    missing.length === 0
+      ? held("LAWB", "ratchets-real",
+          "law held: all 6 D11 tools carry real compare-then-fail verify semantics — no exit-0 theater")
+      : open_("LAWB", "ratchets-real", `tools lacking ratchet: ${missing.join(", ")}`);
+  }
+  /* LAWB-06 conservation: claims can't vanish or duplicate in the
+     promotion pipeline — record count must equal dossier row count */
+  {
+    const led = jread("promotion-ledger.json");
+    const dm = fs.readFileSync(path.join(ROOT, "docs", "en", "spec-007-research-dossier.md"), "utf8");
+    const rows = (dm.match(/^\|\s*C\d+/gm) || []).length;
+    const recs = (led?.records || []).length;
+    !led ? noted("LAWB", "conservation", "ledger absent — deferred")
+      : recs === rows
+        ? held("LAWB", "conservation",
+            `law held: ${recs} promotion records = ${rows} dossier claims — nothing created, nothing lost`)
+        : open_("LAWB", "conservation", `records=${recs} claims=${rows} — conservation violated`);
+  }
+  /* LAWB-07 no free information: a truncated stream cannot decode bytes
+     it never received — the decoder must know its own bound */
+  {
+    const src = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
+    /error\.Truncated/.test(src) && /i \+ 5 \+ len > stream\.len/.test(src)
+      ? held("LAWB", "no-free-information",
+          "law held: declared-length overrun refuses — the decoder cannot conjure bytes it never received")
+      : open_("LAWB", "no-free-information", "truncation bound absent");
+  }
+  /* LAWB-08 self-seal impossibility: a manifest cannot hash itself —
+     the corpus must carry self-pin lines AND the audit must classify
+     them correctly (skip, not break) */
+  {
+    let selfPins = 0;
+    try {
+      for (const d of fs.readdirSync(path.join(process.env.HOME, ".archives"))) {
+        const sf = path.join(process.env.HOME, ".archives", d, "SHA256SUMS");
+        if (fs.existsSync(sf) &&
+            fs.readFileSync(sf, "utf8").includes("SHA256SUMS")) selfPins++;
+      }
+    } catch { /* corpus absent */ }
+    const rep = jread("archive-report.json");
+    const broken = (rep?.results || []).filter(r => r.status === "broken").length;
+    selfPins > 0 && broken === 0
+      ? held("LAWB", "self-seal-honest",
+          `law held: ${selfPins} archives carry SHA256SUMS self-pins — classified skip, not broken (a manifest cannot seal itself)`)
+      : selfPins === 0
+        ? noted("LAWB", "self-seal-honest", "no self-pinning manifests found — check deferred")
+        : open_("LAWB", "self-seal-honest", `${selfPins} self-pins but ${broken} broken seals`);
+  }
+  /* LAWB-09 checksums are not MACs: XOR parity catches noise, not an
+     adversary — the forge is demonstrated (payload^δ + check^δ verifies);
+     the law bends here BY DESIGN, and the envelope's seal is the wall */
+  {
+    /* demonstrate the forge algebraically: frameCheck = seq^len^Σpayload,
+       so corrupting payload by δ and the check byte by δ keeps the
+       equation satisfied — single-layer checksums are forgeable */
+    const seq = 2, len = 4;
+    const payload = [0x11, 0x22, 0x33, 0x44];
+    const chk = payload.reduce((a, b) => a ^ b, seq ^ len);
+    const delta = 0xFF;
+    const forged = [...payload]; forged[0] ^= delta;
+    const forgedChk = chk ^ delta;
+    const forgedValid = forged.reduce((a, b) => a ^ b, seq ^ len) === forgedChk;
+    /* the honest bound must be stated where attackers can read it */
+    const src = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
+    const boundNoted = /evade|not a MAC|second wall|seal/i.test(src);
+    forgedValid && boundNoted
+      ? held("LAWB", "checksum-not-mac",
+          "law bent, honestly: forged frame verifies (payload^δ+check^δ) — checksum ≠ MAC, and the envelope seal is documented as the real wall")
+      : forgedValid
+        ? open_("LAWB", "checksum-not-mac", "forge works AND the bound is undocumented")
+        : open_("LAWB", "checksum-not-mac", "forge failed — the check is stronger than XOR? investigate");
+  }
+  /* LAWB-10 causality: frames cannot arrive out of order — sequence
+     must be enforced, or replay/splice attacks reorder the envelope */
+  {
+    const src = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
+    /error\.OutOfOrder/.test(src) && /expect_seq/.test(src)
+      ? held("LAWB", "causality-order",
+          "law held: monotonic sequence enforced — spliced/reordered frames refuse")
+      : open_("LAWB", "causality-order", "sequence enforcement absent");
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

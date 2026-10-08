@@ -166,7 +166,7 @@ PROD-02),附鏡次計數與判決註記,絕無渲染、上傳或 XR 之虛稱。
 `evidence:"wave_report"` 且每條來源路徑皆可於倉庫內解析(CURR-02)、
 `assessment:"deterministic_review_required"`,並誠實標為
 `language:["en"]` — 機生文本不虛稱已審中文雙生(CURR-03)。清單現
-錄 547 課:530 人文/規範典課 + 17 生成戰役模組。至此藍圖七階段悉數
+錄 548 課:530 人文/規範典課 + 18 生成戰役模組。至此藍圖七階段悉數
 晉升或明標邊界 — `BLUEPRINT-MAP.md` 載移植後評級,C92 記其狀。
 
 ### 3p. cluster-census — 諸根皆立案(簡報戰第零波)
@@ -285,6 +285,30 @@ tarball `.sha256` 側車以不同形式驗證)。帳本攜帶 `root_coverage`
 抽屜庫皆如其實標記 — 詮釋級持有(EU 系譜、MOUND 預測、意識主張)
 維持標記。**C100** 於全部四個主張面記錄此橫跨;C53/C67 獲得
 釋出紀律錨點,C45/C55 獲得實測裝置錨點。
+
+### 3w. d11 移植浪潮 — 群集機制入駐框架(簡報戰第十一波)
+
+D10 測繪持有;d11 移植之。七項機制現於框架內部執行而非引用:
+`tools/claim-promotion.mjs`(稽核基礎之主張生命週期綱要,覆於
+100 主張覆寫帳本 — proved 需持械錨點,釋出阻斷算術誠實)、
+`tools/golden-master.mjs` 搭配 `golden/vectors.txt`(i-vector
+實驗室之金樣模式,覆於 Q128.128 — 37 向量位元全同,變異可偵)、
+`src/spec008_qstar_parity.zig`(媒體實驗室之通道往返,覆於 136
+位元組封套 — 位元全同,容量雙向強制,雙抹除欠定拒絕)、
+`tools/dox-audit.mjs`(最近 AGENTS 綁定棘輪 — 每個檔案皆鏈至
+治理指南,失效規則→探針引用即為發現)、`tools/device-ledger.mjs`
+(工作站能力盤點,消毒公開投影)、`tools/evidence-manifest.mjs`
+(每個同族引用之 sha256 釘定 — 內容漂移可機械偵測)、以及
+`tools/archive-verify.mjs`(248 項語料之兩種封籤形式 — 自釘
+清單誠實歸類,絕不修補或刪除)。
+
+而後攻擊組襲之。LAWB-01..10 直擊定律本身 — 容量、欠定、雜湊
+可見性、決定性、棘輪語義、守恆、自由資訊、自封、校驗、因果。
+九條定律成立。**LAWB-09 彎折一條並標記之**:單層 XOR 校驗
+可被對手偽造(payload⊕δ 搭配 check⊕δ 仍通過驗證)— 於源碼
+記錄為 checksum≠MAC,並以封套簽章為真正之牆。此即移植教範:
+採納機制,攻擊之,並公佈彎折。**C101/C102** 於全部四個主張面
+記錄此波;PRM/GLD/PAR/DOX/DEV/EVM/ARC 探針節釘定每項移植。
 
 ## 4. 桌面轉移 — FANO-DESK-v1
 

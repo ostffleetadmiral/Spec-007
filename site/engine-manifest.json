@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-08T07:51:18.461Z",
+    "ts": "2026-10-08T14:52:59.315Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 12,
     "runtimes": {
@@ -66,7 +66,7 @@
       "academy-manifest": {
         "kind": "registry",
         "path": "site/assets/academy-manifest.json",
-        "sha256": "sha256:4d8fc2c91d6c9149246cd21baf3260dc4e1551d2571cf515ba7e0bec5c0dd568",
+        "sha256": "sha256:2c86a27dc15dc56ca04e75d66ede675ce7e3cede97e90abb0d3f671d8ba89794",
         "evidence": "verified-here"
       },
       "science-inventory": {
@@ -79,12 +79,12 @@
         "kind": "harness",
         "path": "security/",
         "members": 38,
-        "anchor_sha256": "sha256:5a74b1c72e3b3fc05a32e84af01ce1fc84f519dec34ed7e766ce5a92f7598b3c",
+        "anchor_sha256": "sha256:093bc857a1a73444cff8ea346260aaf7631705f3c9b61423399d95f4fff3b017",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       }
     }
   },
-  "sig_ed25519": "Ni1VXtb1MhQegOVlgVBv2oSjw8J6W40Juv3bPXWAyfyR5hieqCUCmNOsx3y7oSnZZ-CcEvqNKiSs7YYr1whhAQ",
+  "sig_ed25519": "7uG8Hvv11i6utsnZ_CM_QLRSQIAwPQRWmwTgoJIkYWORy7q46JrXDRIDmJVW7uRpSQM7MCzZ8NeFiBoG8SLVBA",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }
