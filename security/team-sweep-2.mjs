@@ -2038,6 +2038,61 @@ console.log("\nCENSUS — cluster inventory (debrief d0)");
   }
 }
 
+console.log("\nOVERRIDE — claims audit (debrief d6)");
+/* ================= OVERRIDE — 92 claims × 3 passes =====================
+   override-audit.mjs runs the whole claims table through re-verify /
+   adversarial / grade-and-map. Verified verdicts must carry resolvable
+   anchors; honest labels hold; nothing drifts silently. */
+{
+  const OVR = path.join(ROOT, "tools", "override-audit.mjs");
+  const OLG = path.join(ROOT, "security", "out", "override-ledger.json");
+  /* OVR-01: the ledger exists and covers every dossier claim */
+  {
+    if (!fs.existsSync(OVR) || !fs.existsSync(OLG)) {
+      noted("OVR", "ledger-complete", "audit tool or ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(OLG, "utf8"));
+      const tableRows = fs.readFileSync(
+        path.join(ROOT, "docs", "en", "spec-007-research-dossier.md"), "utf8")
+        .split("\n").filter(l => /^\| C\d+ \|/.test(l)).length;
+      led.claim_count === tableRows
+        ? held("OVR", "ledger-complete",
+            `${led.claim_count}/${tableRows} claims audited — ledger covers the full table`)
+        : open_("OVR", "ledger-complete",
+            `ledger=${led.claim_count} dossier-rows=${tableRows}`);
+    }
+  }
+  /* OVR-02: zero drift — every Verified-family verdict anchored or cited */
+  {
+    if (!fs.existsSync(OLG)) {
+      noted("OVR", "zero-drift", "ledger absent — deferred");
+    } else {
+      const led = JSON.parse(fs.readFileSync(OLG, "utf8"));
+      const d = led.grades && led.grades.DRIFTED || 0;
+      d === 0
+        ? held("OVR", "zero-drift",
+            `${led.claim_count} claims — REVERIFIED ${led.grades.REVERIFIED || 0}, ` +
+            `HOLDS-AS-LABELED ${led.grades["HOLDS-AS-LABELED"] || 0}, ` +
+            `REJECTED-held ${led.grades["HOLDS-AS-REJECTED"] || 0}, ` +
+            `EXT-CITED ${led.grades["EXT-CITED"] || 0} — none drifted`)
+        : open_("OVR", "zero-drift", `${d} claims DRIFTED — see override-ledger.json`);
+    }
+  }
+  /* OVR-03: the audit is deterministic — verify mode byte-exact */
+  {
+    if (!fs.existsSync(OVR) || !fs.existsSync(OLG)) {
+      noted("OVR", "deterministic", "audit tool or ledger absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [OVR, "--verify"], { encoding: "utf8" });
+      r.status === 0
+        ? held("OVR", "deterministic",
+            "re-running the 3-pass audit reproduces the ledger — verify mode green")
+        : open_("OVR", "deterministic",
+            `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 120)}`);
+    }
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

@@ -445,6 +445,28 @@ names and the terminal prompt; window titles stay English by convention
 since they double as `openWins` identity keys. Full cards:
 `thoughts&convos/CLUSTER-CENSUS.md` §D1.
 
+### 3r. d6 claims override — every verdict re-earned (debrief d6)
+
+`tools/override-audit.mjs` runs all 92 dossier claims through three
+mechanical passes. **Re-verify** resolves every checkable anchor the
+evidence cites: backtick paths across repo/site/sibling roots (with a
+basename index for relocated files), probe IDs against the merged
+findings ledger plus suite-native teams (COMM/SENT/GOV/KALI/FURN/…),
+code symbols in source, cited counts recomputed against live manifests
+(lessons, capabilities, runtimes, claims, codex, assets), calc-harness
+citations against `src/spec007_calculations.zig`, and cross-referenced
+quantities matched against the dossier corpus. **Adversarial** attacks
+the verdict itself: Verified-family rows with zero resolvable anchors
+flag drift; count citations are snapshot-labeled when the underlying
+artifact legitimately grows (probes, archives, findings). **Grade + map**
+assigns REVERIFIED / HOLDS-AS-LABELED / HOLDS-AS-REJECTED / EXT-CITED /
+DRIFTED and maps each claim to the cluster roots that substantiate it.
+Result of the first full pass: **45 REVERIFIED · 41 HOLDS-AS-LABELED ·
+5 HOLDS-AS-REJECTED · 1 EXT-CITED · 0 DRIFTED** — the ledger lands at
+`security/out/override-ledger.json` + `override-debrief.md` (disk-local
+per SPEC004-06). OVR-01..03 probe-enforce coverage, zero drift, and
+byte-exact deterministic reproduction (`--verify`).
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

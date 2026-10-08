@@ -203,6 +203,24 @@ PROD-02),附鏡次計數與判決註記,絕無渲染、上傳或 XR 之虛稱。
 提示符;視窗標題依慣例守英文,因其兼任 `openWins` 識別鍵。全檔
 卡見 `thoughts&convos/CLUSTER-CENSUS.md` §D1。
 
+### 3r. d6 聲明覆審 — 每項判定重新取證(簡報戰第六波)
+
+`tools/override-audit.mjs` 將檔案冊 92 則聲明悉數行經三段機械稽核。
+**重驗**解析證據所引一切可驗錨點:反引號路徑(跨本倉/站台/兄弟倉,
+並以基名索引捕捉遷移檔案)、探針代號(對比合併 findings 帳與各套件
+自鑄編碼 COMM/SENT/GOV/KALI/FURN 等)、源碼符號、引述計數(對比即
+時宣言:課目、能力、運行體、聲明、異典、資產)、算具引用(對
+`src/spec007_calculations.zig`),及交叉引用量值(對檔案語料)。
+**對抗**攻擊判定本身:Verified 族而無一可解錨者標記偏移;引述計數
+於底層物件正當增長者(探針、封存、發現)標為快照而不計偏移。
+**評級與對映**賦予 REVERIFIED / HOLDS-AS-LABELED /
+HOLDS-AS-REJECTED / EXT-CITED / DRIFTED,並將每則聲明對映至佐證
+之群集根。首輪全量結果:**45 REVERIFIED · 41 HOLDS-AS-LABELED ·
+5 HOLDS-AS-REJECTED · 1 EXT-CITED · 0 DRIFTED** — 帳目落於
+`security/out/override-ledger.json` 與 `override-debrief.md`(依
+SPEC004-06 留於本機)。OVR-01..03 以探針鎖定覆蓋、零偏移與
+`--verify` 逐位元確定性重現。
+
 ## 4. 桌面轉移 — FANO-DESK-v1
 
 誓約終端之 `export-desk` / `import-desk`,或轉移畫面之 DOM 匯入路徑(Electron 相容 — 身分路徑全程無 `prompt()`)。套件攜帶封裝之密鑰庫記錄與創始狀態,由匯出桌之金鑰簽署。私鑰素材全程封裝;匯入桌拒絕覆於已創始之桌,亦拒絕外來創始之偽造。雙向通行:瀏覽器↔Electron 任意方向。具橋接之處(§6),鑄造/匯出之權杖自動推送至系統剪貼簿。
