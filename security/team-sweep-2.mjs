@@ -2353,6 +2353,74 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
             `enSec=${enSec} zhSec=${zhSec} rows=${enR}/${zhR}`);
     }
   }
+
+  /* ── SCI — the science coverage map (D13) ───────────────────────────
+     The coverage doc is complete by contract: every DOI in the sibling
+     literature engine must appear verbatim, the twins stay aligned, and
+     every sibling: cite in the doc resolves to a real file. */
+  /* SCI-01: every DOI in the sibling literature_review engine is pinned
+     verbatim in the coverage doc — a new sibling reference without a row
+     here fails open */
+  {
+    const LRE = path.join(HOME, SIBROOTS["hardware"], "src", "literature_review.zig");
+    const CD = path.join(ROOT, "docs", "en", "spec-007-science-coverage.en.md");
+    if (!fs.existsSync(LRE)) {
+      noted("SCI", "lit-review-pinned", "hardware lit-review absent — deferred");
+    } else if (!fs.existsSync(CD)) {
+      open_("SCI", "lit-review-pinned", "coverage doc absent — DOIs unverifiable");
+    } else {
+      const src = fs.readFileSync(LRE, "utf8");
+      const dois = [...src.matchAll(/\.doi = "([^"]+)"/g)].map(m => m[1]);
+      const doc = fs.readFileSync(CD, "utf8");
+      const missing = dois.filter(d => !doc.includes(d));
+      missing.length === 0
+        ? held("SCI", "lit-review-pinned",
+            `${dois.length} lit-review DOIs all pinned verbatim in the coverage doc`)
+        : open_("SCI", "lit-review-pinned",
+            `${missing.length}/${dois.length} DOIs absent: ${missing.slice(0, 3).join(", ")}`);
+    }
+  }
+  /* SCI-02: the coverage twins stay aligned — same section count, same
+     table-row count on both sides */
+  {
+    const CEN = path.join(ROOT, "docs", "en", "spec-007-science-coverage.en.md");
+    const CZH = path.join(ROOT, "docs", "zh-Hant", "spec-007-science-coverage.zh-Hant.md");
+    if (!fs.existsSync(CEN) || !fs.existsSync(CZH)) {
+      noted("SCI", "coverage-twin-parity", "coverage twins absent — deferred");
+    } else {
+      const en = fs.readFileSync(CEN, "utf8"), zh = fs.readFileSync(CZH, "utf8");
+      const sec = t => (t.match(/^## §/gm) || []).length;
+      const rows = t => (t.match(/^\| [^|\n]*\| [^|\n]*\|/gm) || []).length;
+      const es = sec(en), zs = sec(zh), er = rows(en), zr = rows(zh);
+      es === zs && er === zr
+        ? held("SCI", "coverage-twin-parity",
+            `${es} sections, ${er} table rows each side — twin holds`)
+        : open_("SCI", "coverage-twin-parity",
+            `sections=${es}/${zs} rows=${er}/${zr}`);
+    }
+  }
+  /* SCI-03: the coverage doc is sanitized and its sibling: cites resolve —
+     no absolute paths, no drawer references, no dead cites */
+  {
+    const CD = path.join(ROOT, "docs", "en", "spec-007-science-coverage.en.md");
+    if (!fs.existsSync(CD)) {
+      noted("SCI", "coverage-sanitized", "coverage doc absent — deferred");
+    } else {
+      const doc = fs.readFileSync(CD, "utf8");
+      const dirty = ["/home/", "thoughts&convos", "CascadeProjects/"]
+        .filter(s => doc.includes(s));
+      const cites = [...doc.matchAll(/sibling:([\w.-]+):([\w.\/-]+)/g)]
+        .map(m => ({ root: m[1], rel: m[2] }))
+        .filter(c => SIBROOTS[c.root] &&
+          !fs.existsSync(path.join(HOME, SIBROOTS[c.root], c.rel)));
+      const bad = [...dirty, ...cites.map(c => `sibling:${c.root}:${c.rel}`)];
+      bad.length === 0
+        ? held("SCI", "coverage-sanitized",
+            "no paths/drawer refs in the coverage doc; every sibling: cite resolves")
+        : open_("SCI", "coverage-sanitized",
+            `leaks/dead-cites: ${bad.slice(0, 4).join(", ")}`);
+    }
+  }
 }
 
 /* ================= LAWBREAK — try to break the laws =================

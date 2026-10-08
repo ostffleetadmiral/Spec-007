@@ -26,7 +26,7 @@ zig build test >/dev/null 2>&1 && say " PASS" "zig build test (deps + spec008 ha
 
 echo "== site build + twins"
 ( cd site && python3 build.py >/dev/null 2>&1 ) && say " PASS" "build.py" || { say " FAIL" "build.py"; FAIL=1; }
-for slug in public verified dossier claims input-audit registry proposal-record economics red-team expanded governance terminology covert declassified object-006 component-map discoveries bridge-map; do
+for slug in public verified dossier claims input-audit registry proposal-record economics red-team expanded governance terminology covert declassified object-006 component-map discoveries bridge-map science-coverage; do
   if [ "$slug" = covert ]; then a=covert-en.html; b=covert-zh.html; else a="$slug.html"; b="$slug-zh.html"; fi
   [ -f "site/$a" ] && [ -f "site/$b" ] && say " PASS" "twin:$slug" || { say " FAIL" "twin:$slug"; FAIL=1; }
 done

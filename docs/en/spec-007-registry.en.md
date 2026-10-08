@@ -24,6 +24,7 @@
 | `spec-007-component-map` | L2 | Active — reverse-engineering baseline | 1.0.0 | SPEC Council designee | Rows must match publish-check coverage | 2026-10-06 | With L4 harnesses |
 | `spec-007-discoveries` | L2 | Active — paradigm map (sanitized projection) | 1.0.0 | SPEC Council designee | Evidence classes must match D-series cards | 2026-10-08 | With L1 |
 | `spec-007-bridge-map` | L2 | Active — bidirectional evidence bridge (sanitized projection) | 1.0.0 | SPEC Council designee | Anchors must resolve under BRG probes | 2026-10-08 | With L1 |
+| `spec-007-science-coverage` | L2 | Active — external-science map: 24 pinned DOIs + counter-ledger (sanitized projection) | 1.0.0 | SPEC Council designee | Every lit-review DOI pinned under SCI-01 | 2026-10-08 | With L1 |
 | `spec-007-public` | L3 | Active — public face | 1.0.0 | SPEC Council designee | Sanitized projection of L1/L2 | 2026-10-05 | With L1 |
 | `src/spec007_*.zig` harnesses | L4 | Active — executable gates | n/a (pinned by tests) | SPEC Council designee | All tests green per publish-check | 2026-10-05 | Continuous |
 | `thoughts&convos/` drawer | L5 | Classified — referenced, not itemized | n/a | Fleet Admiral (owner) | Under SPEC-004 "7q" registry (separate) | 2026-10-05 | Under SPEC-004 |

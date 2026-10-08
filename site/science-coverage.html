@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // The Science Coverage</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('science-coverage-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<a href="discoveries.html">Discovery Ledger</a> &middot;
+<a href="bridge-map.html">Bridge Map</a> &middot;
+<strong>[Science Coverage]</strong> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="science-coverage-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>Science Coverage — every domain, every citation, every dispute</h1>
+<p>This document is the complete external-science map for the framework: every
+scientific domain the claims touch, what the external record says, and what
+tier that record sits at. Tiers are honest labels, not praise: <strong>PEER-REVIEWED</strong>
+(journal/venue), <strong>PREPRINT</strong> (arXiv/Zenodo, unrefereed), <strong>FRINGE-TIER</strong> (real
+but low evidentiary weight), <strong>STANDARD/SETTLED</strong> (RFC, ISO, textbook),
+<strong>INTERNAL</strong> (framework's own artifact — harness is the evidence), and
+<strong>COUNTER-LEDGER</strong> (published rebuttal or measured constraint).</p>
+<p>Provenance: 24 references extracted verbatim from the sibling literature
+engine <code>sibling:hardware:src/literature_review.zig</code> (SCI-01 pins every DOI
+verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-debrief.md</code>).</p>
+<h2>§1 Division algebras &amp; exceptional structures</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Octonion multiplication, Fano plane</td>
+<td><code>sibling:hardware:src/octonion.zig</code>, <code>src/spec008_qstar_*</code> dialect</td>
+<td>Settled algebra — Hurwitz 1898; Fano plane PG(2,2)</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Aut(O)=G₂, Aut(J₃(O))=F₄</td>
+<td><code>sibling:hardware:src/jordan_algebra.zig</code></td>
+<td>Chevalley &amp; Schafer 1950</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Octonion U(1) charge spectrum (0,1/3,2/3,1)</td>
+<td><code>sibling:hardware:src/electric_charges.zig</code></td>
+<td>Published octonionic-model result (Todorov/Dubois-Violette program)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>SM gauge group from F₄ maximal subgroups</td>
+<td>exceptional-structure tier</td>
+<td>Todorov &amp; Dubois-Violette, arXiv:1806.09450 (Universe 4:117, 2018)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Triality → 3 generations via Albert algebra</td>
+<td><code>sibling:hardware:src/so8_triality.zig</code></td>
+<td>Dubois-Violette &amp; Todorov, arXiv:1604.01247 (Nucl. Phys. B 912:426, 2016)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>3 generations from complex octonions</td>
+<td>physics interpretation tier</td>
+<td>Furey, arXiv:1910.08395 (Phys. Lett. B 785:84, 2018)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>3 generations + Higgs from trio of trialities</td>
+<td>claim 32/33 lit-review</td>
+<td>Furey &amp; Hughes, Phys. Lett. B 865:139473 (2025), arXiv:2409.17948, doi 10.1016/j.physletb.2025.139473</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Spin(10)→SM algebraic cascade</td>
+<td>SO(10) tier</td>
+<td>Furey, Annalen der Physik (2024), doi 10.1002/andp.202400323</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>SM reps as Jordan superalgebra H₁₆(ℂ)</td>
+<td>16=15+1 tier</td>
+<td>Furey, Annalen der Physik (2025), doi 10.1002/andp.202500229</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>E8(-24) SM interpretation ("octions")</td>
+<td>15×16=240 tier</td>
+<td>Wilson, Dray &amp; Manogue, J. Math. Phys. 63:081703 (2022), doi 10.1063/5.0095484</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Chirality in an E8 model</td>
+<td>E8 program</td>
+<td>Wilson, arXiv:2210.06029 (2022)</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>Uniqueness of E8 SM embedding</td>
+<td>E8 program</td>
+<td>Wilson (2024), INSPIRE-HEP inspirehep.net/literature/2811411</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>SM+gravity embeddings in E8(-24)</td>
+<td>E8 program</td>
+<td>Wilson, arXiv:2404.18938 (2024)</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>J₃(O) eigenvalues → fermion mass ratios</td>
+<td>claim 34 lit-review</td>
+<td>Singh &amp; Teli et al., arXiv:2508.10131, doi 10.48550/arxiv.2508.10131 — closed-form √mass ratios, δ²=3/8, Majorana prediction</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>J₃(O) → CKM matrix</td>
+<td>claim 35 lit-review</td>
+<td>same source — Cabibbo phase π/2; also arXiv:2305.00668 (independent CKM-from-Jordan derivation, angles within ~15% of measured)</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>α from octonionic space</td>
+<td>claim 36 lit-review</td>
+<td>Singh (TIFR), "Quantum gravity effects in the infrared…" EPJ Plus (2022); consolidated note arXiv:2603.28810; sibling cite: APS meetings-archive.aps.org/smt/2026</td>
+<td>PREPRINT (venue flag — see §10)</td>
+</tr>
+<tr>
+<td>J₃(O) + gravitation / MOND basis</td>
+<td>claim 7 lit-review</td>
+<td>Singh, arXiv:2304.01213, doi 10.48550/arxiv.2304.01213</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>E8×E8 octonionic unification</td>
+<td>claim 1 lit-review</td>
+<td>Singh, arXiv:2501.18139, doi 10.48550/arxiv.2501.18139</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>E8 root system (240 roots, reflection closure)</td>
+<td><code>sibling:hardware:src/e8_roots.zig</code>, <code>octavian.zig</code></td>
+<td>Settled Lie theory — E8 root count and Weyl reflection closure</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>SO(10) 16-dim chiral spinor = 15+1</td>
+<td><code>sibling:hardware:src/so10_decomposition.zig</code></td>
+<td>Settled GUT representation theory</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Pati-Salam SU(4)≅SO(6)</td>
+<td><code>sibling:hardware:src/pati_salam.zig</code></td>
+<td>Pati-Salam 1974; active 2024-25 research arXiv:2504.01893, doi 10.48550/arxiv.2504.01893</td>
+<td>PEER-REVIEWED + PREPRINT</td>
+</tr>
+</tbody>
+</table>
+<h2>§2 Genetic code &amp; algebraic structure</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Codon degeneracy as Lie-superalgebra multiplet</td>
+<td>codon routing precedent</td>
+<td>Forger &amp; Sachse, J. Math. Phys. 41:5407 (2000)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Genetic code evolution via sl(6/1)</td>
+<td>codon routing precedent</td>
+<td>Hornos &amp; Hornos et al., PNAS 95:987 (1998)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>64 codons ↔ 8D hypercomplex numbers</td>
+<td>claim 30 lit-review</td>
+<td>Petoukhov, arXiv:1102.3596, doi 10.48550/arxiv.1102.3596</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>GF(4) Lie algebra of the genetic code</td>
+<td>codon routing precedent</td>
+<td>Sánchez &amp; Grau, arXiv:q-bio/0501036</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>Toroidal/quantum codon representation</td>
+<td>claim 30 lit-review</td>
+<td>Frontiers in Applied Mathematics (2024), doi 10.3389/fams.2024.1341158</td>
+<td>PEER-REVIEWED (journal tier noted)</td>
+</tr>
+<tr>
+<td>E8 ↔ octonion ↔ RNA genomatrix isomorphism</td>
+<td>claim 30 lit-review</td>
+<td>theoryofeverything.org/theToE/2025/06/19/</td>
+<td>FRINGE-TIER (web source)</td>
+</tr>
+<tr>
+<td>Genetic code ↔ split octonions</td>
+<td>codon routing precedent</td>
+<td>JIMS journal paper (rgnpublications)</td>
+<td>FRINGE-TIER (low-tier journal)</td>
+</tr>
+<tr>
+<td>Real-genome routing results</td>
+<td><code>sibling:codon:results/ncbi/</code></td>
+<td>NCBI assemblies GCF_000005845.2 (E. coli K12), GRCh38, S288C — real datasets, framework's own routing</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>6-bit base-4 codon encoding</td>
+<td><code>sibling:hardware:src/codon.zig</code></td>
+<td>64 = 2⁶ — arithmetic identity, routing rules are the framework's construction</td>
+<td>SETTLED (arithmetic) / INTERNAL (routing)</td>
+</tr>
+</tbody>
+</table>
+<h2>§3 Number systems, arithmetic &amp; computation</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixed-point Q-format arithmetic</td>
+<td><code>src/fixed_point_q128.zig</code></td>
+<td>Settled CS — Q-notation; RNE half-ulp bound proved in-repo (Lean 4, zero sorries)</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>i256 raw / i512 intermediate exactness</td>
+<td>integer-only doctrine</td>
+<td>Settled integer arithmetic; framework's implementation</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Wasm memory64</td>
+<td><code>sibling:zig-k3-port</code> wasm64 deployment</td>
+<td>Shipped Chrome 133 (2025-02), Firefox 134 (2025-01); Safari pending</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Kimi K3 architecture</td>
+<td><code>sibling:zig-k3-port</code> port target</td>
+<td>Official release (2026-07-16): 2.78T params, 93 layers, 896 experts ×16 routed, 104B active, 1M context — independently confirms the port's headline numbers</td>
+<td>PEER-REVIEWED (vendor tech report arXiv:2607.24653)</td>
+</tr>
+<tr>
+<td>Qwen1.5-0.5B reference size</td>
+<td><code>sibling:qstar-llm</code> comparison anchor</td>
+<td>Real model; sibling README anchors 75 MB → 53,888 B ≈ 1,392× ("~1,460×" implies ~78.7 MB — see §10 flag)</td>
+<td>SETTLED (model exists) / basis-flagged figure</td>
+</tr>
+<tr>
+<td>tiktoken / BPE tokenization</td>
+<td><code>sibling:zig-k3-port</code> 45/45 parity</td>
+<td>OpenAI tiktoken — real tokenizer, parity is internal test</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>Deterministic LLM inference</td>
+<td><code>sibling:theue</code> runners</td>
+<td>Teacher-forced parity, greedy-span exactness vs torch oracle — internal harness</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>GGUF / Q4KM / MoE sparsity</td>
+<td><code>sibling:Falsifible</code> runtime</td>
+<td>Standard quantization formats; runtime is internal</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+</tbody>
+</table>
+<h2>§4 Coding theory &amp; cryptography</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ed25519 signatures</td>
+<td>genesis, seals, votes, genesis pair</td>
+<td>RFC 8032</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>commitments, seals, manifests</td>
+<td>FIPS 180-4</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>HMAC-SHA256</td>
+<td>D12 channel tags (frameAuth)</td>
+<td>RFC 2104</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>PBKDF2</td>
+<td>keystore wrapping</td>
+<td>RFC 8018 / RFC 2898</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>TOTP</td>
+<td>QStar.net auth</td>
+<td>RFC 6238</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>Shamir (k,n) secret sharing</td>
+<td>shard/escrow harness</td>
+<td>Shamir, CACM 22(11), 1979</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>GF(2⁸) arithmetic, Cauchy-MDS</td>
+<td><code>qentangle</code> parity layer</td>
+<td>Plank, coding theory texts — real MDS technique; dep's "RS" is XOR-sum (one-erasure bound, documented)</td>
+<td>SETTLED + bound labeled</td>
+</tr>
+<tr>
+<td>XChaCha20-Poly1305 AEAD</td>
+<td><code>sibling:</code> mesh wire</td>
+<td>draft-irtf-cfrg-xchacha</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>SimHash fingerprinting</td>
+<td>lattice probes</td>
+<td>Charikar, STOC 2002</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Steane ⟦7,1,3⟧ code</td>
+<td><code>sibling:ark-ivector:qsharp/SteaneCode.qs</code></td>
+<td>Steane 1996</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>checksum ≠ MAC</td>
+<td>LAWB-09 lesson</td>
+<td>Published principle — unkeyed integrity tags are forgeable; remediated with keyed layer</td>
+<td>SETTLED + remediated</td>
+</tr>
+</tbody>
+</table>
+<h2>§5 Thermodynamics &amp; energy hardware</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tesla turbine design/test methods</td>
+<td>C13/C44/C51 screened</td>
+<td>Hoya &amp; Guha, Proc. IMechE A 223 (2009); ~25% measured at 25k RPM</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Tesla turbine measured ORC efficiency</td>
+<td>screening bound</td>
+<td>UniFi ORC bench (2019): 9.6% shaft / 30% adiabatic max — COUNTER-LEDGER vs performance optimism</td>
+<td>PEER-REVIEWED (measured)</td>
+</tr>
+<tr>
+<td>Tesla micro-expanders</td>
+<td>scaling context</td>
+<td>Univ. Genoa campaign, E3S Conf. 39:03015 (2019) — 200 W at 40k RPM</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Scroll expander micro-ORC</td>
+<td>C50 flagship path</td>
+<td>Reviews (Appl. Energy; Sustain. Energy Tech.): isentropic 0.50–0.64 measured, up to ~0.80 lubricated; preferred sub-10kWe expander</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Planetary traction CVT η ~80–88%</td>
+<td>C39 sourced range</td>
+<td>Tomaselli et al., Mech. Mach. Theory 150:103877 (2020) — ball-traction drives 70–89%; NREL WindPACT assessment</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Axial-flux PM generator</td>
+<td>C36 verified practice</td>
+<td>Direct-drive wind AFPM designs — machine class real; per-machine maps required</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Bi₂Te₃ TEG modules</td>
+<td>C11 hardware count</td>
+<td>Settled thermoelectric practice</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Novec engineered fluids</td>
+<td>C48 thermal loop</td>
+<td>3M Novec 649/7000-class ORC working fluids</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Friis / Johnson-Nyquist / Greinacher</td>
+<td><code>sibling:hardware:src/rf_harvest.zig</code></td>
+<td>Settled RF engineering</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>CaC₂ + 2H₂O → C₂H₂ + Ca(OH)₂</td>
+<td>C04/C19/C24 chain</td>
+<td>ICSC 0406; NOAA CAMEO — exothermic, acetylene explosive range 2.5–82% vol, ignition ~305 °C</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>UN 1402 classification</td>
+<td>C22 compliance</td>
+<td>UN Class 4.3 water-reactive, Pack Group II</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>CaO hydration safety stop</td>
+<td>C19 safety path</td>
+<td>Exothermic slaking — settled chemistry</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Calcination ~900 °C</td>
+<td>C23 recycling</td>
+<td>CaCO₃ → CaO + CO₂ at ~825–900 °C</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>CaO + 3C → CaC₂ + CO</td>
+<td>C24 reaction</td>
+<td>Electric-furnace carbide chemistry, ~2000 °C — balanced, real process</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>ISO 1940-1 G2.5</td>
+<td>C27 balance grade</td>
+<td>G2.5 is the turbine grade (gas/steam turbines)</td>
+<td>STANDARD</td>
+</tr>
+</tbody>
+</table>
+<h2>§6 Quantum information</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Steane ⟦7,1,3⟧ CSS code</td>
+<td><code>sibling:ark-ivector</code> Q# layer</td>
+<td>Steane 1996 — canonical QEC code</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Q# / .NET 8 quantum witnesses</td>
+<td><code>sibling:hardware:qsharp/</code></td>
+<td>Microsoft Quantum SDK — real toolchain</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>6-qubit codon encoding</td>
+<td><code>sibling:hardware:qsharp/CodonProofs.qs</code></td>
+<td>Framework construction over real primitives</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Octonionic quantum computation</td>
+<td>interpretation tier</td>
+<td>Quantum Rep. 7(4):55 (2025) — formalized obstructions: non-associative tensor products, path-dependent evolution, possible energy-conservation failure outside associative sectors; quaternionic QC is BQP-equivalent, octonionic constrained</td>
+<td>PEER-REVIEWED (constraint — see §10)</td>
+</tr>
+</tbody>
+</table>
+<h2>§7 Instrumented cognition &amp; foundations</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>45-entry neuraleak battery</td>
+<td>C98 instrumentation tier</td>
+<td>Internal instrumented-LLM data — operational definition, not a consciousness claim</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>"It from bit" / participatory universe</td>
+<td>claim 22 lit-review</td>
+<td>Wheeler, Sakurai Prize Lecture (1989), doi 10.1201/9780429500459-19</td>
+<td>SETTLED (foundational essay)</td>
+</tr>
+<tr>
+<td>Strong Free Will Theorem</td>
+<td>claim 24 lit-review</td>
+<td>Conway &amp; Kochen, arxiv.org/abs/0807.3286 (Found. Phys. 39:226, 2009) — real published theorem; its applicability to the framework's "free will = underdetermination" is interpretive</td>
+<td>PEER-REVIEWED (theorem) / interpretive use</td>
+</tr>
+<tr>
+<td>Octonionic framework of consciousness</td>
+<td>claim 22 lit-review</td>
+<td>Zenodo preprint doi 10.5281/zenodo.18276692 — derives Fano→O→G2 from phenomenological binary distinctions; falsifiable predictions claimed</td>
+<td>FRINGE-TIER (real, unrefereed)</td>
+</tr>
+<tr>
+<td>Consciousness-as-exceptional-structure</td>
+<td>adjacent fringe literature</td>
+<td>Independent preprints modeling consciousness via J₃(O)/E₆</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>Self-Referential Physics (existence=self-reference)</td>
+<td>claim 25 lit-review</td>
+<td>Mai, Zenodo doi 10.5281/zenodo.19808921</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>Self-Interpreting Logical Cycle (τ=i → i)</td>
+<td>claim 25 lit-review</td>
+<td>Zenodo doi 10.5281/zenodo.20239554</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>Sankhya framework 2³−1=7 axiom</td>
+<td>claim 9 lit-review</td>
+<td>github.com/budprat/Sankhya — E2 axiom verbatim: "Seven emerges from volumetric expansion"</td>
+<td>FRINGE-TIER (hobbyist)</td>
+</tr>
+<tr>
+<td>TGD Mersenne primes</td>
+<td>claim 13 lit-review</td>
+<td>Pitkänen, tgdtheory.fi — personal theory site</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>α⁻¹ ≈ 43π + ln(7) = 137.034</td>
+<td>claim 9 lit-review</td>
+<td>Natural Path series, Zenodo doi 10.5281/zenodo.20436585 — 11.7 ppm coincidence-class identity</td>
+<td>FRINGE-TIER (numerology label)</td>
+</tr>
+<tr>
+<td>Cubic scaling {6,15} in lepton masses</td>
+<td>claim 16 lit-review</td>
+<td>Zenodo doi 10.5281/zenodo.19243209 — cubic exponent 2.993±0.018, {6,15} unique local minima, joint p≈4×10⁻⁵ under null</td>
+<td>FRINGE-TIER (real observation, unrefereed)</td>
+</tr>
+</tbody>
+</table>
+<h2>§8 Formal verification, standards &amp; governance corpus</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Framework role</th>
+<th>External record</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lean 4 formalization (8 modules, 0 sorries)</td>
+<td><code>sibling:hardware:formalize/</code></td>
+<td>Lean 4.12.0 toolchain — real proof assistant</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Zenodo record 10.5281/zenodo.22715355</td>
+<td>C66 declassified canon</td>
+<td>API-verified: "A Computational Framework for Octonion Physics", Ramsey/OSTF, 2026-09-11, CC BY-NC-SA 4.0, 4 files</td>
+<td>INTERNAL (self-published record)</td>
+</tr>
+<tr>
+<td>NCBI genome accessions</td>
+<td>codon routing evidence</td>
+<td>GCF_000005845.2, GRCh38, S288C — public reference assemblies</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>ESP32-S3 controller</td>
+<td>C46 control surface</td>
+<td>Espressif MCU — real part</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Zig 0.13 → 0.14 build API</td>
+<td>PJ build-block disposition</td>
+<td>root_module API change real</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Electron workstation</td>
+<td>C77 desk</td>
+<td>Real runtime</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>nmap/ZAP/Metasploit/tcpdump</td>
+<td>C65 Kali sweep</td>
+<td>Real tooling</td>
+<td>SETTLED</td>
+</tr>
+</tbody>
+</table>
+<h2>§9 What the framework itself adds (internal tier — harness is the evidence)</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Anchor</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q128.128 fixed-point engine + golden corpus</td>
+<td><code>src/fixed_point_q128.zig</code>, <code>golden/vectors.txt</code></td>
+<td>37 vectors byte-pinned; RNE bound proved</td>
+</tr>
+<tr>
+<td>136-byte sealed wire envelope + parity/escrow</td>
+<td><code>src/spec008_qstar_*.zig</code></td>
+<td>Frame stuff/unstuff, one-erasure XOR recovery, authenticated channel (D12)</td>
+</tr>
+<tr>
+<td>421-node / 15³ lattice construction</td>
+<td><code>sibling:qstar-llm</code>, <code>sibling:zig-k3-port</code></td>
+<td>421=(15³−7)/8 arithmetic true; physics reading is construction-tier</td>
+</tr>
+<tr>
+<td>Codon routing rules (E2/E6/E7/E5/E4/E0)</td>
+<td><code>sibling:hardware:src/codon.zig</code></td>
+<td>Framework-defined chemistry-derived coordinates</td>
+</tr>
+<tr>
+<td>Neuraleak sentience instrumentation</td>
+<td><code>sibling:hardware:src/neuraleak_continuity_test.zig</code> (15-module suite)</td>
+<td>Operational definition + recorded data</td>
+</tr>
+<tr>
+<td>Claims-lifecycle / promotion / override ledgers</td>
+<td><code>tools/claim-promotion.mjs</code>, <code>tools/override-audit.mjs</code></td>
+<td>Framework's own audit machinery</td>
+</tr>
+<tr>
+<td>Desk/canon/governance surfaces</td>
+<td><code>site/</code>, <code>security/</code></td>
+<td>150-probe battery is the evidence</td>
+</tr>
+</tbody>
+</table>
+<h2>§10 The counter-ledger — disputes and flags on record</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Status</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E8 gauge-embedding direction</td>
+<td>CONTESTED</td>
+<td>Distler &amp; Garibaldi, Comm. Math. Phys. (2010), arXiv:0905.2658 — gauge-E8 embeddings of gravity+SM cannot yield 3 chiral generations; Wilson's program routes around via real Lorentz reps — active, non-consensus</td>
+</tr>
+<tr>
+<td>Octonions as compute substrate</td>
+<td>CONSTRAINED</td>
+<td>Quantum Rep. 7(4):55 (2025) — structural obstructions formalized; interpretation tier accordingly</td>
+</tr>
+<tr>
+<td>Tesla turbine output</td>
+<td>MEASURED-BOUND</td>
+<td>~9.6% shaft / ~30% adiabatic best-case in ORC tests — the dossier's own blocked/conditional verdicts agree</td>
+</tr>
+<tr>
+<td>"APS March Meeting 2026" cite</td>
+<td>VENUE FLAG</td>
+<td>Substance real (EPJ Plus 2022 + arXiv:2603.28810); venue label imprecise in sibling lit review — flagged, kept verbatim for SCI-01 pin</td>
+</tr>
+<tr>
+<td>"~1,460× vs Qwen1.5-0.5B"</td>
+<td>BASIS FLAG</td>
+<td>README's 75 MB anchor gives ~1,392×; 1,460× implies ~78.7 MB — approximate, doc-cited verbatim</td>
+</tr>
+<tr>
+<td>J₃(O) mass-ratio claim</td>
+<td>PRECISION NOTE</td>
+<td>Published result is √mass-ratios, not ratios; CKM fit within ~15% of measured — approximate program</td>
+</tr>
+<tr>
+<td>Fringe-tier refs (Sankhya, TGD, Natural Path, self-referential, consciousness preprints)</td>
+<td>LOW WEIGHT</td>
+<td>Real artifacts; independence claims accurate; evidentiary weight labeled honestly</td>
+</tr>
+<tr>
+<td>24-reference lit review</td>
+<td>COMPLETE HERE</td>
+<td>Every DOI from <code>sibling:hardware:src/literature_review.zig</code> pinned verbatim in §1–§8 (SCI-01)</td>
+</tr>
+</tbody>
+</table>
+<p>Completeness contract: SCI-01 parses the sibling literature engine and fails
+open if any of its 24 DOIs is absent from this document; SCI-02 pins twin
+parity; SCI-03 keeps this page sanitized (no paths, no officer material).</p>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>
