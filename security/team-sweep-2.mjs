@@ -1743,6 +1743,69 @@ console.log("\nENGINE — unified runtime registry (sentience w2)");
   }
 }
 
+console.log("\nCONTINUITY — persistence surface (sentience w3)");
+/* ================= CONTINUITY — the blueprint's P2 gap =================
+   The sealed corpus projects a sanitized snapshot the desk can read; the
+   raw archives never leave the machine. The desk-local records store
+   rides the reset census — anything the desk keeps, the reset knows. */
+{
+  const AM = path.join(SITE, "assets", "archive-manifest.json");
+  /* CTY-01: the projection matches the real corpus — names and seals */
+  {
+    if (!fs.existsSync(AM)) {
+      noted("CONT", "projection-accurate", "archive-manifest.json absent — deferred");
+    } else {
+      const pub = JSON.parse(fs.readFileSync(AM, "utf8"));
+      const r = spawnSync("node", [path.join(ROOT, "tools", "archive-projection.mjs")],
+        { cwd: ROOT, encoding: "utf8", timeout: 20000 });
+      if (r.status !== 0) {
+        noted("CONT", "projection-accurate", "projection tool unavailable — deferred");
+      } else {
+        const live = JSON.parse(r.stdout);
+        const pubNames = new Set((pub.archives || []).map(a => a.name));
+        const liveNames = new Set((live.archives || []).map(a => a.name));
+        const added = [...liveNames].filter(n => !pubNames.has(n));
+        const dropped = [...pubNames].filter(n => !liveNames.has(n));
+        const sealDrift = (pub.archives || []).filter(a =>
+          liveNames.has(a.name) &&
+          (live.archives.find(b => b.name === a.name) || {}).sealed !== a.sealed);
+        added.length === 0 && dropped.length === 0 && sealDrift.length === 0
+          ? held("CONT", "projection-accurate",
+              `${pubNames.size} archives projected — names and seal states match the live corpus`)
+          : open_("CONT", "projection-accurate",
+              `drift: +${added.join(",")} -${dropped.join(",")} seals:${sealDrift.map(a => a.name).join(",")}`);
+      }
+    }
+  }
+  /* CTY-02: the projection leaks nothing — basenames only */
+  {
+    if (!fs.existsSync(AM)) {
+      noted("CONT", "projection-sanitized", "archive-manifest.json absent — deferred");
+    } else {
+      const raw = fs.readFileSync(AM, "utf8");
+      const leaks = /\/home\/|thoughts&convos|BEGIN [A-Z ]*PRIVATE KEY/.test(raw);
+      const d = JSON.parse(raw);
+      const consistent = d.archive_count === (d.archives || []).length &&
+        d.sealed_count === (d.archives || []).filter(a => a.sealed).length;
+      !leaks && consistent
+        ? held("CONT", "projection-sanitized",
+            `${d.archive_count} entries — basenames only, counts self-consistent`)
+        : open_("CONT", "projection-sanitized",
+            `leaks=${leaks} count_consistent=${consistent}`);
+    }
+  }
+  /* CTY-03: the records store is inside the reset census */
+  {
+    const desk = fs.readFileSync(path.join(SITE, "assets", "fano-desktop.js"), "utf8");
+    const reset = fs.readFileSync(path.join(SITE, "assets", "fano-reset.js"), "utf8");
+    desk.includes("fano1.continuity") && reset.includes('"fano1.continuity"')
+      ? held("CONT", "store-in-census",
+          "fano1.continuity declared and swept — the reset census knows the store")
+      : open_("CONT", "store-in-census",
+          "records store not in reset census — a desk store the reset can't see");
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

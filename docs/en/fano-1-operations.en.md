@@ -343,6 +343,19 @@ pane that groups runtimes by kind and labels each by evidence —
 verified-here, bridge-mediated, doc-cited — never promised reachable.
 ENG-01..04 probe it.
 
+### 3l. continuity.os — the persistence surface (sentience w3)
+
+The blueprint's second gap is closed. `tools/archive-projection.mjs`
+projects the `~/.archives` corpus into `site/assets/archive-manifest.json`
+— basenames and seal states only; the raw corpus never leaves the
+machine, and unsealed entries are listed, not hidden. The
+`continuity` command (and the continuity.os icon) opens the pane: the
+sealed archive roster on top, a desk-local records store underneath —
+documents, projects, and task cards filed under `fano1.continuity`,
+declared in the reset census so reset doctrine sweeps it like every
+other desk store. CONT-01..03 probe the projection against the live
+corpus (names, seals, counts) and the store's census membership.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

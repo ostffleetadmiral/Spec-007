@@ -135,6 +135,10 @@
 
 藍圖首個缺口已補:`tools/engine-manifest.mjs` 簽署單一 ENGINEMANIFESTv1 名冊,收錄此桌可信之每一運行時 — 治理橋接、三路 Ollama 提供者、兩枚 WASM 核心(spec007、rations — rations 之雜湊須與其公開側車一致)、五份資產登錄、以及以其掃描錨點雜湊釘定之安全電池。典律同艦隊公報:`--emit` 簽署 root+site 雙份,`--verify` 為載入閘(規格、簽名、創世系譜、金鑰指紋、時戳、雙份一致、**清點** — 每枚已簽署 sha256 須仍與盤上檔案相符),裸執行不寫檔。終端 `engine` 指令(與 engine.os 圖示)開啟窗格,依種類分組並以證據標示各運行時 — verified-here、bridge-mediated、doc-cited — 絕不擔保可達。ENG-01..04 為其探針。
 
+### 3l. continuity.os — 永續表面(統一生態第三波)
+
+藍圖第二個缺口已補。`tools/archive-projection.mjs` 將 `~/.archives` 語料投影為 `site/assets/archive-manifest.json` — 僅基名與封存狀態;原始語料絕不離機,未封條目如實列出而非隱藏。`continuity` 指令(與 continuity.os 圖示)開啟窗格:上方為已封檔案名冊,下方為桌本地記錄庫 — 文件、專案、任務卡片存入 `fano1.continuity`,已登錄於重置普查,重置教義如對他庫般一併清掃。CONT-01..03 以活體語料稽核投影(名稱、封存、計數),並查記錄庫之普查歸屬。
+
 ## 4. 桌面轉移 — FANO-DESK-v1
 
 誓約終端之 `export-desk` / `import-desk`,或轉移畫面之 DOM 匯入路徑(Electron 相容 — 身分路徑全程無 `prompt()`)。套件攜帶封裝之密鑰庫記錄與創始狀態,由匯出桌之金鑰簽署。私鑰素材全程封裝;匯入桌拒絕覆於已創始之桌,亦拒絕外來創始之偽造。雙向通行:瀏覽器↔Electron 任意方向。具橋接之處(§6),鑄造/匯出之權杖自動推送至系統剪貼簿。

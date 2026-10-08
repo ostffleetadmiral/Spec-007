@@ -1715,6 +1715,87 @@
     }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 
+  /* ---------- continuity.os — the persistence surface (blueprint P2) ----------
+     Two halves: the sealed archive corpus (a sanitized projection — the raw
+     archives never leave the machine) and a desk-local records store for
+     working documents and project/task cards. Records ride the desk:
+     same localStorage discipline, swept by the reset census. */
+  var CONT_KEY = "fano1.continuity";
+  function contLoad() {
+    try { var d = JSON.parse(localStorage.getItem(CONT_KEY) || "{}"); return d.records || {}; }
+    catch (e) { return {}; }
+  }
+  function contSave(recs) {
+    try { localStorage.setItem(CONT_KEY, JSON.stringify({ v: 1, records: recs })); } catch (e) {}
+  }
+  function openContinuity() {
+    var title = "continuity.os — persistence & records";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div"); box.className = "win-body academy-pane";
+    box.innerHTML = "<p><strong>CONTINUITY.OS</strong> <small>— " + esc(t("cty.tag")) + "</small></p>";
+    var status = document.createElement("pre"); status.style.whiteSpace = "pre-wrap";
+    var list = document.createElement("div"); list.className = "academy-list";
+    var detail = document.createElement("pre"); detail.style.whiteSpace = "pre-wrap";
+    box.appendChild(status); box.appendChild(list); box.appendChild(detail);
+    makeWindow(title, box);
+    fetch("assets/archive-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
+      var arches = m && Array.isArray(m.archives) ? m.archives : [];
+      status.textContent = t("cty.head", String(arches.length), String(m.sealed_count || 0)) +
+        "\n" + t("cty.snapshot") + ": " + (m.generated || "?");
+      var unsealed = arches.filter(function (a) { return !a.sealed; });
+      if (unsealed.length) status.textContent += "\n" + t("cty.unsealed") + ": " + unsealed.map(function (a) { return a.name; }).join(", ");
+      arches.slice(-40).forEach(function (a) {
+        var b = document.createElement("button"); b.className = "cmd-btn";
+        b.textContent = a.name + "  [" + a.kind + (a.sealed ? " · sealed" : " · UNSEALED") + "]";
+        b.addEventListener("click", function () {
+          detail.textContent = a.name + "\n  kind: " + a.kind + "\n  sealed: " + a.sealed +
+            (a.files != null ? "\n  files: " + a.files : "");
+        });
+        list.appendChild(b);
+      });
+      renderRecords();
+    }).catch(function (e) { status.textContent = t("cty.down") + e; renderRecords(); });
+
+    function renderRecords() {
+      var h = document.createElement("p");
+      h.innerHTML = "<strong>" + esc(t("cty.records")) + "</strong> <small>— " + esc(t("cty.recnote")) + "</small>";
+      var recList = document.createElement("div"); recList.className = "academy-list";
+      box.appendChild(h); box.appendChild(recList);
+      var recs = contLoad();
+      var keys = Object.keys(recs).sort();
+      keys.forEach(function (k) {
+        var rec = recs[k], b = document.createElement("button");
+        b.className = "cmd-btn"; b.textContent = rec.kind + " · " + rec.title;
+        b.addEventListener("click", function () {
+          detail.textContent = "[" + rec.kind + "] " + rec.title + "\n  " + rec.ts + "\n\n" + rec.body;
+        });
+        recList.appendChild(b);
+      });
+      var kind = document.createElement("select");
+      ["document", "project", "task"].forEach(function (k2) {
+        var o = document.createElement("option"); o.value = k2; o.textContent = t("cty.kind." + k2); kind.appendChild(o);
+      });
+      var titleIn = document.createElement("input"); titleIn.className = "term-in";
+      titleIn.placeholder = t("cty.title.ph"); titleIn.spellcheck = false;
+      titleIn.style.cssText = "width:100%;font-family:monospace;background:transparent;color:inherit;border:1px solid var(--rule);padding:.35rem";
+      var bodyIn = document.createElement("textarea"); bodyIn.className = "term-in";
+      bodyIn.placeholder = t("cty.body.ph"); bodyIn.rows = 4; bodyIn.spellcheck = false;
+      bodyIn.style.cssText = "width:100%;font-family:monospace;background:transparent;color:inherit;border:1px solid var(--rule);padding:.35rem";
+      var save = document.createElement("button"); save.className = "cmd-btn";
+      save.textContent = t("cty.save");
+      save.addEventListener("click", function () {
+        var ttl = titleIn.value.trim(); if (!ttl) { toast(t("cty.needtitle"), "sys"); return; }
+        var recs2 = contLoad();
+        var id = "rec-" + Date.now().toString(36);
+        recs2[id] = { kind: kind.value, title: ttl, body: bodyIn.value, ts: new Date().toISOString() };
+        contSave(recs2); toast(t("cty.saved"), "sys"); titleIn.value = ""; bodyIn.value = "";
+      });
+      var wrap = document.createElement("p");
+      wrap.appendChild(kind); wrap.appendChild(save);
+      box.appendChild(titleIn); box.appendChild(bodyIn); box.appendChild(wrap);
+    }
+  }
+
   function openEngine() {
     var title = "engine.os — governed runtime registry";
     if (openWins[title]) { focus(openWins[title]); return; }
@@ -1857,6 +1938,7 @@
     "  science         Q's lab notebook — what the fleet can compute",
     "  codex           the anomalies annex — cold cases and fiction files",
     "  engine          engine.os — the signed roster of runtimes this desk may trust",
+    "  continuity      continuity.os — sealed archives + desk records",
     "  quplink         open the sandbox uplink",
     "  family          the sibling projects — fleet registry",
     "  lang [en|zh]    the desk's second tongue",
@@ -1907,6 +1989,7 @@
     "  science         Q 之實驗室筆記 — 艦隊所能計算者",
     "  codex           異常別冊 — 冷案與虛構檔案",
     "  engine          engine.os — 此桌可信運行時之已簽名冊",
+    "  continuity      continuity.os — 已封檔案庫＋桌面記錄",
     "  quplink         開啟沙盒上行鏈路",
     "  family          姊妹專案 — 艦隊名錄",
     "  lang [en|zh]    桌面之第二語言",
@@ -2257,6 +2340,7 @@
       }
       case "academy": openAcademy(); return "academy.os opened — source-linked lessons await.";
       case "engine": openEngine(); return t("term.engine");
+      case "continuity": openContinuity(); return t("term.continuity");
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
       case "codex": egg("codex"); openScience(); return t("term.codex", String(state.anoms.length), String(state.anomsTotal || "?"));
       case "gate": {
@@ -2425,6 +2509,7 @@
     { kind: "app", glyph: "◍", label: "rations.os", sub: "air-gap web", act: function () { openDoc("apps/rations/quine.html", "rations.os"); achieve("resupply"); } },
     { kind: "app", glyph: "☏", label: "comms.os", sub: "tradecraft desk", act: function () { if (window.FANO_COMMS) { window.FANO_COMMS.open(); achieve("operator"); } } },
     { kind: "app", glyph: "⚙", label: "engine.os", sub: "runtime roster", act: openEngine },
+    { kind: "app", glyph: "◫", label: "continuity.os", sub: "the vault", act: openContinuity },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "locked", glyph: "✦", label: "admiralty.suite", sub: "flag tier", act: openAdmiralty },
     { kind: "locked", glyph: "▦", label: "7q.drawer", sub: "SEALED", act: deniedIcon },
