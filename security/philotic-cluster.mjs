@@ -158,7 +158,7 @@ const inboxDelta = (await ctl("w1", "/inbox")).inbox.length - inboxBefore;
 agree === ROUNDS && inboxDelta === 0
   ? ok("cluster-instant-correlation",
       `${ROUNDS} correlated rounds across real ${MODE} cluster, w1 inbox delta=${inboxDelta} — zero wire traffic`)
-  : f("cluster-instant-correlation", "OPEN", `agree=${agree}/${ROUNDS} inboxDelta=${inboxDelta}`, "med");
+  : f("cluster-instant-correlation", "OPEN", `agree=${agree}/${ROUNDS} inboxDelta=${inboxDelta}`, "medium");
 
 /* ---------- Phase 2: the mandatory alpha leg ---------- */
 const alpha = sharedBit(SEED, 4242);
@@ -224,7 +224,7 @@ noted("time-reversal-witness",
     ? ok("constraint-web-agreement",
         `${seededCount} lab nodes seeded; ${pairs} pair(s) agree 1024/1024 — the web correlates, the wire stays empty`)
     : f("constraint-web-agreement", "OPEN",
-        `seeded=${seededCount} pairs=${agreeing}/${pairs}`, "med");
+        `seeded=${seededCount} pairs=${agreeing}/${pairs}`, "medium");
 }
 
 {

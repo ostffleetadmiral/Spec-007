@@ -486,6 +486,8 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     } else {
       /* foreign desk founded by someone else; fleet anchor = flag's pk */
       const g2 = JSON.parse(JSON.stringify(realGen));
+      g2.payload.members = g2.payload.members
+        .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
       g2.payload.members.push({ name: "admiral", role: "flag-seat",
         pubkey_pem_b64: Buffer.from("-----BEGIN PUBLIC KEY-----\n" +
           "xxx\n-----END PUBLIC KEY-----\n").toString("base64") });
@@ -910,6 +912,8 @@ console.log("\nBOT — containment doctrine");
     const rawPk2 = Buffer.from(frec.pk, "hex");
     const der2 = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"), rawPk2]);
     const pem2 = "-----BEGIN PUBLIC KEY-----\n" + der2.toString("base64") + "\n-----END PUBLIC KEY-----\n";
+    g3.payload.members = g3.payload.members
+      .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
     g3.payload.members.push({ name: "admiral", role: "flag-seat",
       pubkey_pem_b64: Buffer.from(pem2).toString("base64") });
     const bot2 = loadAuth({ genesisDoc: g3, nav: { webdriver: true } });
@@ -1109,6 +1113,8 @@ console.log("\nAUTH — cert/trust retro-pass (wave 2)");
       Buffer.from(frec.pk, "hex")]);
     const pem = "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") +
       "\n-----END PUBLIC KEY-----\n";
+    g3.payload.members = g3.payload.members
+      .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
     g3.payload.members.push({ name: "admiral", role: "flag-seat",
       pubkey_pem_b64: Buffer.from(pem).toString("base64") });
 
@@ -1423,6 +1429,67 @@ console.log("\nSPEC004 — classification drawer");
     !leaked.length
       ? held("SPEC004", "generated-excluded", "security/out + zig-out absent from tree")
       : open_("SPEC004", "generated-excluded", leaked.slice(0, 3).join(","));
+  }
+}
+
+console.log("\nHARN — harness integrity (wave 7)");
+/* ================= HARN — the battery audits itself =================
+   The findings file is evidence; its schema is a contract. Codified
+   here so a harness emitting a malformed row or novel verdict gets
+   caught instead of silently corrupting the ledger. */
+{
+  /* HARN-01: findings taxonomy — every row in the merged ledger matches
+     the canonical shape + controlled vocabularies */
+  {
+    const fj = JSON.parse(fs.readFileSync(
+      path.join(SITE, "security", "findings.json"), "utf8"));
+    const VERDICTS = new Set(["HELD", "HARDENED", "NOTED", "OPEN",
+      "EXPLOITED", "ERROR", "BLOCKED", "CHANNEL", "EMERGENT",
+      "PROVEN", "ABSENT", "PENDING"]);
+    const SEVERITIES = new Set(["info", "low", "medium", "high", "critical"]);
+    const bad = [];
+    for (const r of fj.findings || []) {
+      if (!r.id || !/^[A-Z][A-Z0-9]*-\d+$/.test(r.id) ||
+          !r.team || !r.name ||
+          !VERDICTS.has(r.verdict) ||
+          !SEVERITIES.has(r.severity) ||
+          typeof r.detail !== "string" || !r.ts)
+        bad.push(`${r.id || "?"}(${[
+          r.verdict && !VERDICTS.has(r.verdict) ? "verdict" : "",
+          r.severity && !SEVERITIES.has(r.severity) ? "severity" : "",
+          !r.id ? "id" : ""].filter(Boolean).join("+") || "shape"})`);
+    }
+    bad.length === 0
+      ? held("HARN", "findings-taxonomy",
+          `${(fj.findings || []).length} ledger rows — every id/verdict/severity inside the controlled vocabulary`)
+      : open_("HARN", "findings-taxonomy",
+          `${bad.length} malformed rows: ${bad.slice(0, 5).join(" ")}`);
+  }
+  /* HARN-02: fleet-map staleness — the DNS-free address book is a
+     measurement artifact, not config. If emitted, it must carry the
+     FLEETMAPv1 spec, a fresh timestamp, and measured fields for all
+     members — stale maps get treated like stale manifests: refused. */
+  {
+    const mp = path.join(HERE, "out", "fleet-map.json");
+    if (!fs.existsSync(mp)) {
+      noted("HARN", "fleet-map-staleness",
+        "security/out/fleet-map.json not emitted — probe deferred until `fleet-map.mjs --emit` runs");
+    } else {
+      const m = JSON.parse(fs.readFileSync(mp, "utf8"));
+      const ageH = (Date.now() - Date.parse(m.generated || 0)) / 3600000;
+      const members = m.members || {};
+      const stale = [];
+      for (const name of ["digit", "sheraton", "qstar001", "fano001"])
+        if (!members[name]) stale.push(name + ":missing");
+      if (members.digit && members.digit.reachable !== true &&
+          !(members.digit.v4 || members.digit.v6_global || members.digit.gateway))
+        stale.push("digit:no-measurement");
+      m.spec === "FLEETMAPv1" && ageH < 24 && stale.length === 0
+        ? held("HARN", "fleet-map-staleness",
+            `FLEETMAPv1 emitted ${ageH.toFixed(1)}h ago, ${Object.keys(members).length} members measured`)
+        : open_("HARN", "fleet-map-staleness",
+            `spec=${m.spec} age=${ageH.toFixed(1)}h stale=[${stale.join(" ")}]`);
+    }
   }
 }
 

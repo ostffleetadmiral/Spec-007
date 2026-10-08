@@ -5,8 +5,9 @@
 //
 //   node security/sentinel-sweep.mjs
 import { spawn, spawnSync, execSync } from "node:child_process";
+import vm from "node:vm";
 import { createHash, generateKeyPairSync, sign as cryptoSign,
-         createPublicKey, verify as cryptoVerify } from "node:crypto";
+         createPublicKey, verify as cryptoVerify, webcrypto } from "node:crypto";
 import dgram from "node:dgram";
 import fs from "node:fs";
 import http from "node:http";
@@ -291,7 +292,7 @@ const signDoc = (payload, k) => ({
         "deployed fano.wasm bit-identical to the audited artifact")
     : f("ghpages-artifact-identity", "NOTED",
         `gh-pages wasm differs or missing (status ${gpw.status}) — ` +
-        `branch may predate latest site`, "med");
+        `branch may predate latest site`, "medium");
 }
 
 /* ========== S-10 stale non-descending manifest: retry then reject ==== */
@@ -311,6 +312,122 @@ const signDoc = (payload, k) => ({
     ? held("stale-manifest-rejected",
         `non-descending manifest retried then refused (${((Date.now()-t0)/1000).toFixed(0)}s, staleness-aware)`)
     : open_("stale-manifest-rejected", `rc=${r.code} out=${r.out.slice(0, 100)}`);
+}
+
+/* ---------- containment trust chain — FANO-CONTAIN-v1 paper ----------
+   Sentinel's mandate is the trust chain, and promotion paper is a
+   trust-chain artifact: signed release for a contained desk, verified
+   against the roster or the genesis-anchored flag seat. Probes load the
+   shipped fano-auth.js in a vm sandbox — same as the desk runs it. */
+{
+  const wasmBuf = fs.readFileSync(path.join(SITE, "apps/rations/rations.wasm"));
+  const loadAuth = ({ genesisDoc = null, nav = null } = {}) => {
+    const store = new Map();
+    const sandbox = {
+      console, TextEncoder, TextDecoder, WebAssembly, JSON, Math, Date,
+      Promise, Uint8Array, Uint32Array, ArrayBuffer, BigInt, setTimeout,
+      atob: s => Buffer.from(s, "base64").toString("binary"),
+      btoa: s => Buffer.from(s, "binary").toString("base64"),
+      crypto: webcrypto,
+      localStorage: {
+        getItem: k => store.has(k) ? store.get(k) : null,
+        setItem: (k, v) => store.set(k, String(v)),
+        removeItem: k => store.delete(k) },
+      WebSocket: function () {},
+      location: { hostname: "127.0.0.1" },
+      fetch: async (url) => url.includes("fleet-genesis")
+        ? { ok: !!genesisDoc, json: async () => genesisDoc }
+        : { ok: true, arrayBuffer: async () =>
+              wasmBuf.buffer.slice(wasmBuf.byteOffset, wasmBuf.byteOffset + wasmBuf.length) },
+    };
+    if (nav) sandbox.navigator = nav;
+    sandbox.window = sandbox;
+    vm.createContext(sandbox);
+    vm.runInContext(
+      fs.readFileSync(path.join(SITE, "assets/fano-auth.js"), "utf8"), sandbox);
+    return { A: sandbox.FANO_AUTH, store };
+  };
+  const memberWithPk = (pkHex, name, role) => {
+    const der = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"), Buffer.from(pkHex, "hex")]);
+    const pem = "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") + "\n-----END PUBLIC KEY-----\n";
+    return { name, role, pubkey_pem_b64: Buffer.from(pem).toString("base64") };
+  };
+
+  /* flag desk mints paper; contained desk anchored to the flag seat
+     presents it. First a positive control so the refusals mean the
+     gates work, not that the whole path is dead. */
+  const flag = loadAuth(); await flag.A.load();
+  const frec = flag.A.enroll("ramsey 006", "sentinel-flag-1");
+  const fPk = frec.pk;
+  const g1 = JSON.parse(JSON.stringify(realGen));
+  g1.payload.members = g1.payload.members
+    .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
+  g1.payload.members.push(memberWithPk(fPk, "admiral", "flag-seat"));
+  const bot = loadAuth({ genesisDoc: g1, nav: { webdriver: true } });
+  await bot.A.load();
+  const br = bot.A.enroll("sentinel-bot", "sentinel-bot-1");
+  await bot.A.bindFleetFlag();
+  const goodTok = flag.A.exportPromotion(flag.A.issuePromotion(br.pk, 30));
+  const freed = bot.A.importPromotion(goodTok);
+  freed && !bot.A.isContained()
+    ? held("promotion-anchor-path",
+        "flag-signed FANO-CONTAIN-v1 releases a contained desk — the trust root works end-to-end")
+    : open_("promotion-anchor-path",
+        `valid flag promotion refused: freed=${freed} contained=${bot.A.isContained()}`);
+
+  /* expired paper is dead paper — replay-window analog on the
+     promotion canon, same discipline as manifest-replay-window */
+  const bot2 = loadAuth({ genesisDoc: g1, nav: { webdriver: true } });
+  await bot2.A.load();
+  const br2 = bot2.A.enroll("sentinel-bot2", "sentinel-bot-2");
+  await bot2.A.bindFleetFlag();
+  const deadTok = flag.A.exportPromotion(flag.A.issuePromotion(br2.pk, -1));
+  const freed2 = bot2.A.importPromotion(deadTok);
+  !freed2 && bot2.A.isContained()
+    ? held("promotion-expired-refused",
+        "flag-signed promotion past its expiry refused — the leash is the timestamp, not the signer")
+    : open_("promotion-expired-refused", `expired promotion accepted: freed=${freed2}`);
+
+  /* a flipped signature byte must die at verify, not at the ledger */
+  const bot3 = loadAuth({ genesisDoc: g1, nav: { webdriver: true } });
+  await bot3.A.load();
+  const br3 = bot3.A.enroll("sentinel-bot3", "sentinel-bot-3");
+  await bot3.A.bindFleetFlag();
+  const promo3 = flag.A.issuePromotion(br3.pk, 30);
+  promo3.sig = (promo3.sig[0] === "0" ? "1" : "0") + promo3.sig.slice(1);
+  const freed3 = bot3.A.importPromotion(flag.A.exportPromotion(promo3));
+  !freed3 && bot3.A.isContained()
+    ? held("promotion-sig-tamper",
+        "mutated promotion signature refused — tampered paper can't launder containment away")
+    : open_("promotion-sig-tamper", `tampered promotion accepted: freed=${freed3}`);
+
+  /* hostile genesis carrying two flag seats — the attacker's own key
+     beside the real admiral — must refuse to bind, not silently take
+     the last seat in the array */
+  const atk = generateKeyPairSync("ed25519");
+  const atkPkHex = Buffer.from(atk.publicKey.export({ type: "spki", format: "der" }).slice(-32)).toString("hex");
+  const g2 = JSON.parse(JSON.stringify(realGen));
+  g2.payload.members = g2.payload.members
+    .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
+  g2.payload.members.push(memberWithPk(fPk, "admiral", "flag-seat"));
+  g2.payload.members.push(memberWithPk(atkPkHex, "vice-admiral", "flag-seat"));
+  const bot4 = loadAuth({ genesisDoc: g2, nav: { webdriver: true } });
+  await bot4.A.load();
+  const br4 = bot4.A.enroll("sentinel-bot4", "sentinel-bot-4");
+  const bound = await bot4.A.bindFleetFlag();
+  /* attacker's forged promotion under the ambiguous doc */
+  const enc2 = new TextEncoder();
+  const exp4 = Math.floor(Date.now() / 1000) + 86400;
+  const sig4 = cryptoSign(null,
+    enc2.encode("FANO-CONTAIN-v1\n" + br4.pk + "\n" + atkPkHex + "\n" + exp4), atk.privateKey);
+  const freed4 = bot4.A.importPromotion(Buffer.from(JSON.stringify({
+    v: "FANO-CONTAIN-v1", sub: br4.pk, iss: atkPkHex,
+    sig: Buffer.from(sig4).toString("hex"), exp: exp4 })).toString("base64"));
+  bound === null && !freed4 && bot4.A.isContained()
+    ? held("flag-seat-ambiguity-refused",
+        "two flag-seat keys in one genesis → bind refuses; attacker's seat can't anchor release paper")
+    : open_("flag-seat-ambiguity-refused",
+        `bound=${bound} freed=${freed4} — ambiguous flag seat exploitable`);
 }
 
 /* ---------- merge into findings.json ---------- */

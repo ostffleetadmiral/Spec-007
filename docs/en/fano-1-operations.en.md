@@ -232,6 +232,32 @@ probed (WIRE-01..07):
   unannotated float; render/mesh f32 reads are marked sidecar
   boundary assertions (ZIG-01).
 
+### 3f. The battery itself — what the sweeps now prove (wave-7 retro-pass)
+
+The probe infrastructure unwound this wave; the battery now
+audits its own evidence:
+
+- **Absent service ≠ defect.** A refused socket marks the probe
+  NOTED (deferred) across `suite.mjs`'s eight relay/edge catches;
+  only genuine harness breakage reports ERROR.
+- **The flag seat is singular.** `bindFleetFlag` counts distinct
+  flag-seat keys in the genesis document — two claimants refuse
+  to bind at all (SENT-14). Previously the last member in the
+  array won silently.
+- **Promotion paper carries the same leash as manifests.**
+  SENT-11..14: flag-signed FANO-CONTAIN-v1 releases a contained
+  desk; expired and signature-tampered paper refuse.
+- **The lossy-edge flake is closed.** COMM-06 resends on a
+  bounded budget — fire-and-forget carries no delivery
+  guarantee, so one dropped frame can no longer flip the verdict.
+- **The ledger vocabulary is controlled.** HARN-01 validates
+  every findings row against the codified verdict/severity sets;
+  HARN-02 treats `fleet-map.json` like a manifest — FLEETMAPv1,
+  fresh under 24h, every member measured.
+- **The superpowers ledger is current.** 34/34 PROVEN; the
+  admiral member is live in genesis, so roaming-anchor
+  verification runs end-to-end.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

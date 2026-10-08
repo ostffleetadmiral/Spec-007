@@ -21,7 +21,7 @@ function f(name, verdict, detail, severity) {
   console.log(`  [${verdict}] BREAK-${String(n).padStart(2, "0")} ${name}${detail ? " — " + detail : ""}`);
 }
 const blocked = (name, d) => f(name, "BLOCKED", d, "info");
-const channel = (name, d) => f(name, "CHANNEL", d, "med");
+const channel = (name, d) => f(name, "CHANNEL", d, "medium");
 const noted = (name, d) => f(name, "NOTED", d, "info");
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -75,7 +75,7 @@ wireBytes = 0;
   wireBytes === 2
     ? channel("timing-channel",
         `bits moved as arrival timing — but each cost 1 wire byte; ~${Date.now() - t0}ms for 2 bits: a slow channel at <= c, not a theorem break`)
-    : f("timing-channel", "OPEN", `wire=${wireBytes}`, "med");
+    : f("timing-channel", "OPEN", `wire=${wireBytes}`, "medium");
 }
 
 /* ATTACK C — post-selection illusion: announce a seed-biased subset
@@ -93,7 +93,7 @@ wireBytes = 0;
   subset > 1800 && subset < 2300 && aliceAgrees === subset && wireBytes === 2
     ? blocked("postselection-illusion",
         `${subset} rounds 'selected' — Bob's subset reads ${aliceAgrees}/${subset} identical because his stream IS the stream; signal content = 0, wire delta = 0`)
-    : f("postselection-illusion", "OPEN", `subset=${subset} agree=${aliceAgrees}`, "med");
+    : f("postselection-illusion", "OPEN", `subset=${subset} agree=${aliceAgrees}`, "medium");
 }
 
 /* ATTACK D — unauthorized join: a third party guesses the stream.
@@ -105,7 +105,7 @@ wireBytes = 0;
   const frac = agree / 4096;
   frac > 0.4 && frac < 0.6
     ? blocked("eavesdropper-join", `foreign seed agrees ${agree}/4096 (${(frac * 100).toFixed(1)}%) — indistinguishable from noise; web admits no freeloader`)
-    : f("eavesdropper-join", "OPEN", `agree=${agree}`, "med");
+    : f("eavesdropper-join", "OPEN", `agree=${agree}`, "medium");
 }
 
 /* ATTACK F — the established carrier: "the light is already on, so a
@@ -134,8 +134,8 @@ wireBytes = 0;
         `64-byte standing stream lit; signal byte still paid flight time ${(flightNs/1e3).toFixed(0)}µs and 1 wire byte — ` +
         `established removes the handshake, not the propagation; Sommerfeld-Brillouin front = c`)
     : carrierBytes === 1 && flightNs === 0
-    ? f("established-carrier", "OPEN", `arrival in zero measured time — resolution limit, needs WAN rerun`, "med")
-    : f("established-carrier", "OPEN", `wire=${carrierBytes} flight=${flightNs}ns`, "med");
+    ? f("established-carrier", "OPEN", `arrival in zero measured time — resolution limit, needs WAN rerun`, "medium")
+    : f("established-carrier", "OPEN", `wire=${carrierBytes} flight=${flightNs}ns`, "medium");
 }
 
 /* ATTACK E — basis bias (zig-verified, cited): any local unitary on

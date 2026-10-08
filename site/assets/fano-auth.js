@@ -674,10 +674,16 @@ window.FANO_AUTH = (function () {
   function bindFleetFlag(gen) {
     var done = function (g) {
       var ms = (g && g.payload && g.payload.members) || [];
-      var adm = null;
+      var seats = {}, nSeats = 0, adm = null;
       for (var i = 0; i < ms.length; i++)
-        if (ms[i].name === "admiral" || ms[i].role === "flag-seat") adm = ms[i];
-      if (!adm || !adm.pubkey_pem_b64) { fleetFlagPk = null; return null; }
+        if (ms[i] && (ms[i].name === "admiral" || ms[i].role === "flag-seat") && ms[i].pubkey_pem_b64) {
+          var k = ms[i].pubkey_pem_b64;
+          if (!seats[k]) { seats[k] = ms[i]; nSeats++; }
+          adm = seats[k];
+        }
+      /* an ambiguous flag seat is hostile: two different keys claiming
+         the seat means the doc was tampered — refuse to bind at all */
+      if (nSeats !== 1) { fleetFlagPk = null; return null; }
       /* atob unwraps b64→pem, strip armor, atob again b64→der */
       var b64 = atob(adm.pubkey_pem_b64).replace(/-----[^-]+-----|\s/g, "");
       var der = Uint8Array.from(atob(b64),

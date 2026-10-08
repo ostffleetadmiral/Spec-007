@@ -69,7 +69,7 @@ agree === ROUNDS && wireBytes === 0 && aRx === 0
   ? ok("instant-correlation-zero-wire",
       `${ROUNDS} correlated rounds delivered with ${wireBytes + aRx} post-distribution bytes`)
   : f("instant-correlation-zero-wire", "OPEN",
-      `agree=${agree}/${ROUNDS} wire=${wireBytes + aRx}`, "med");
+      `agree=${agree}/${ROUNDS} wire=${wireBytes + aRx}`, "medium");
 
 /* Phase 2 — the bend: tamper A's copy, measure what B receives */
 const msg = "HELLO";
@@ -97,7 +97,7 @@ await new Promise((r) => setTimeout(r, 100));
 wireBytes === msg.length
   ? ok("real-signaling-requires-wire",
       `delivering "${msg}" for real cost exactly ${wireBytes} bytes on the wire — no free channel`)
-  : f("real-signaling-requires-wire", "OPEN", `wire=${wireBytes}`, "med");
+  : f("real-signaling-requires-wire", "OPEN", `wire=${wireBytes}`, "medium");
 
 /* Phase 4 — QET: energy teleportation REQUIRES the classical bit.
    Hotta minimal model: A measures σx (infusing E_A), MUST announce

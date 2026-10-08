@@ -46,9 +46,19 @@ probe("IDENT", "desk transfer token FANO-DESK-v1 (keystore stays wrapped)",
   "DESK-03/04/05 probes + DOM import path");
 probe("IDENT", "unlock throttle — persisted exponential backoff",
   has("site/assets/fano-auth.js", "fano1.auth.fail", "lockRemain"),
-  "fano-auth.js fail counter survives reload");
+  "fano-auth.js fail counter survives reload; TOTP verify shares the same backoff");
+probe("IDENT", "bot containment — detect → pinned cadet → academy-only",
+  has("site/assets/fano-auth.js", "detectAutomation", "FANO-CONTAIN-v1") &&
+  has("security/team-sweep-2.mjs", "webdriver-contained"),
+  "BOT-01..08 desk probes + SENT-11..14 promotion trust chain");
 
 console.log("═══ ESCROW & GOVERNANCE ═══");
+probe("GOV", "callsign revocation — rescinded grants die at verify",
+  has("site/assets/fano-auth.js", "revokeCallsign", "fano1.revoked"),
+  "AUTH probes: revoked paper refused while the signed grant still sits in the ledger");
+probe("GOV", "flag-seat ambiguity refused — two keys can't split the seat",
+  has("site/assets/fano-auth.js", "nSeats"),
+  "SENT-14: ambiguous genesis refuses to bind the flag anchor");
 probe("GOV", "Shamir flag escrow — 3-of-3 unanimous = reset vote",
   exists("src/spec008_qstar_escrow.zig") &&
   has("src/spec008_qstar_escrow.zig", "shamirSplit", "shamirRecover", "commit"),
@@ -75,7 +85,7 @@ probe("WIRE", "O(1) route decision — ≤14 ops, ≤42-hop bound",
   "route-o1.mjs exhaustive 3375² pairs");
 probe("WIRE", "10 physical transports — QR/audio/cassette/paper/stega/etc",
   has("src/spec008_qstar_carriage.zig", "transport_qr", "transport_lora", "maypole_bridge"),
-  "carriage harness: 9/9 round-trips byte-exact");
+  "carriage harness: 12 tests — round-trips byte-exact + crafted-share refusal + OOM cleanup + 288-case mutation battery");
 probe("WIRE", "staleness detection — digest-fragment mismatch flags STALE",
   exists("security/staleness-detect.mjs"),
   "staleness-detect.mjs: wound/permutation/truncation flagged");
@@ -85,6 +95,9 @@ probe("WIRE", "WAN-edge seal-gated gateway + DNS-free rendezvous",
 probe("WIRE", "relay routing — TTL-16 bounded walk, honest drop",
   has("src/spec008_qstar_mesh.zig", "handleRelayRoute", "buildRelayPacket"),
   "mesh harness: deliver/forward/drop proven");
+probe("WIRE", "network-role invites — u64/BigInt ABI honored, admin=flag-only",
+  has("site/assets/fano-comms.js", "inviteCreate"),
+  "WIRE-03: role enum 0..2 clamped, delegation ceiling enforced");
 probe("WIRE", "mesh AEAD — XChaCha20-Poly1305 on the envelope",
   has("src/spec008_qstar_mesh.zig", "encryptMessage", "AuthenticationFailed"),
   "tamper + wrong-key refused");
@@ -120,6 +133,13 @@ probe("CM", "wasm artifact bit-parity + manifest pins",
 probe("CM", "detached-worktree deploy — shared-tree class eliminated",
   has("tools/deploy-pages.sh", "git worktree"),
   "drawer + serve.py cwd no longer at risk");
+probe("CM", "exact i18n twin parity — 356 keys/side, zero empty values",
+  has("site/assets/fano-i18n.js", "\"boot.") &&
+  has("security/team-sweep-2.mjs", "i18n-chrome"),
+  "DESK-20 ratchet: en/zh-Hant dictionaries locked at parity");
+probe("CM", "harness self-audit — findings taxonomy + fleet-map staleness",
+  has("security/team-sweep-2.mjs", "findings-taxonomy", "fleet-map-staleness"),
+  "HARN-01/02: the battery audits its own ledger vocabulary");
 
 console.log("═══ LIVE GENESIS VERIFICATION ═══");
 let ADM_PENDING = false;
@@ -151,7 +171,8 @@ const LIMITS = [
   "entangle.rsEncode parity is XOR-sum (one-erasure bound), not Vandermonde RS — rsReconstruct transposes; both routed around, upstream never tested it",
   "unlocked session sk lives in page memory — devtools/same-origin read is inherent to client-side keystore",
   "roster injection is desk-local theater — fleet authority is published-key-gated, but a local UI can be spoofed",
-  "fano-comms.js still uses prompt() — silent failure under Electron",
+  "heuristic bot detection is not proof-of-humanity — containment gates desk privileges, and the contained flag is desk-local like all localStorage trust",
+  "ANOMALY_LORE corpus (139 paragraphs) untranslated — lore content deferred to the twin-parity audit, chrome is at parity",
   "external IPv6 inbound to the WAN edge is UNVERIFIED; IPv4 inbound is CGNAT-blocked",
   "136-B envelope payload tail is unauthenticated scratch — receivers MUST honor plen",
   "capacity() in transport deps is a registry slot, not a byte count",

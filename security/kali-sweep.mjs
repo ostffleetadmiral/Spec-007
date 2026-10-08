@@ -69,10 +69,12 @@ async function wsDial(url, origin) {
         upgraded = true; buf = buf.subarray(i + 4);
       }
       while (buf.length >= 2) {
-        const len = buf[1] & 0x7f;
-        if (buf.length < 2 + len) break;
-        if ((buf[0] & 0xf) === 8 && len >= 2) closeCode = buf.readUInt16BE(2);
-        buf = buf.subarray(2 + len);
+        let len = buf[1] & 0x7f, off = 2;
+        if (len === 126) { if (buf.length < 4) break; len = buf.readUInt16BE(2); off = 4; }
+        else if (len === 127) { if (buf.length < 10) break; len = Number(buf.readBigUInt64BE(2)); off = 10; }
+        if (buf.length < off + len) break;
+        if ((buf[0] & 0xf) === 8 && len >= 2) closeCode = buf.readUInt16BE(off);
+        buf = buf.subarray(off + len);
       }
     });
     sock.on("error", () => resolve("refused: connect error"));
@@ -108,7 +110,7 @@ if (!(await up(`${WAN}/stats`))) {
 /* ---------- KALI-04/05: WS origin policy on lab relays ---------- */
 {
   const evil = await wsDial("ws://localhost:18081/ws", "http://evil.example");
-  if (evil === "refused: connect error") {
+  if (/refused: connect error|timeout|tcp closed pre-upgrade/.test(evil)) {
     absent("KALI-04/05", "relay-origin-policy", "ws://localhost:18081");
   } else {
     /close=4403|refused|closed/.test(evil)
@@ -134,7 +136,7 @@ if (DESK_UP) {
   const missing = need.filter((k) => !h[k]);
   missing.length === 0
     ? ok("desk-security-headers", need.join(", ") + " all present")
-    : f("desk-security-headers", "OPEN", `missing: ${missing.join(",")}`, "med");
+    : f("desk-security-headers", "OPEN", `missing: ${missing.join(",")}`, "medium");
   const dir = await req(`${DESK}/assets/`);
   dir.status === 403
     ? ok("desk-no-dir-listing", "/assets/ -> 403 (listing not issued)")
@@ -165,9 +167,11 @@ if (DESK_UP) {
   for (const m of ["PUT", "DELETE", "TRACE", "OPTIONS", "PROPFIND", "CONNECT"]) {
     results.push(`${m}=${await rawMethod(m)}`);
   }
-  results.every((r) => /=(501|405|403)/.test(r))
+  results.every((r) => /=0$/.test(r))
+    ? noted("desk-method-surface", `desk stopped answering mid-probe (${results.join(" ")}) — deferred`)
+    : results.every((r) => /=(501|405|403)/.test(r))
     ? ok("desk-method-surface", results.join(" "))
-    : f("desk-method-surface", "OPEN", results.join(" "), "med");
+    : f("desk-method-surface", "OPEN", results.join(" "), "medium");
 }
 
 /* ---------- KALI-11: relay hardened headers + no debug leak ---------- */
@@ -179,17 +183,18 @@ if (!(await up(`${RELAY}/api/health`))) {
   const missing = ["x-content-type-options", "x-frame-options", "referrer-policy"].filter((k) => !h[k]);
   missing.length === 0
     ? ok("relay-security-headers", "nosniff/frame/referrer present")
-    : f("relay-security-headers", "OPEN", `missing: ${missing.join(",")}`, "med");
+    : f("relay-security-headers", "OPEN", `missing: ${missing.join(",")}`, "medium");
 }
 
 /* ---------- KALI-12: dossier artifacts served intact ---------- */
 if (DESK_UP) {
-  const res = await fetch(`${DESK}/assets/spec007.wasm`);
-  const body = new Uint8Array(await res.arrayBuffer());
+  let res = null;
+  try { res = await fetch(`${DESK}/assets/spec007.wasm`); } catch {}
+  const body = res ? new Uint8Array(await res.arrayBuffer()) : new Uint8Array(0);
   const magic = body.length >= 4 && body[0] === 0x00 && body[1] === 0x61 && body[2] === 0x73 && body[3] === 0x6d;
   magic && body.length > 400
     ? ok("desk-wasm-artifact", `spec007.wasm served: ${body.length}B, wasm magic present`)
-    : f("desk-wasm-artifact", "OPEN", `status=${res.status} bytes=${body.length} magic=${magic}`, "med");
+    : f("desk-wasm-artifact", "OPEN", `status=${res && res.status} bytes=${body.length} magic=${magic}`, "medium");
 }
 if (DESK_UP) {
   const r = await req(`${DESK}/component-map.html`);

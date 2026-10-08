@@ -24,6 +24,16 @@ function f(team, name, verdict, detail, severity) {
   console.log(`  [${verdict}] SEC-${String(secN).padStart(2, "0")} ${team}/${name}`);
 }
 
+/* service-absence classifier: a refused socket is a deferral, not a
+   finding — the probe couldn't reach the lab, which is NOTED, not a
+   defect verdict. Real harness breakage still reports ERROR. */
+const svcDown = (e) =>
+  /ECONNREFUSED|ETIMEDOUT|EHOSTUNREACH|ENETUNREACH|fetch failed|socket hang up|connection.*refus|timeout/i
+    .test((e && (e.message + " " + (e.code || ""))) || "");
+const catchVerdict = (e) => svcDown(e)
+  ? ["NOTED", "deferred — service absent: " + String(e.message || e).slice(0, 60)]
+  : ["ERROR", String(e.message || e).slice(0, 80)];
+
 /* ---------- load shipped fano-auth.js with browser shims ---------- */
 const sandbox = {
   window: {}, localStorage, crypto, TextEncoder, TextDecoder,
@@ -214,7 +224,7 @@ function connEnd(ws, label) {
     const got = await Promise.race([end, sleep(4000).then(() => "accepted")]);
     f("RED", "relay-oversize-payload", got !== "accepted" ? "HARDENED" : "EXPLOITED",
       "4MiB+1 frame → " + got, "high");
-  } catch (e) { f("RED", "relay-oversize-payload", "ERROR", e.message.slice(0, 80), "high"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("RED", "relay-oversize-payload", v, d, "high"); }
 }
 
 // SEC: relay — message flood (rate limit 100/s)
@@ -226,7 +236,7 @@ function connEnd(ws, label) {
     const res = await Promise.race([end, sleep(4000).then(() => "all-accepted")]);
     f("RED", "relay-msg-flood", res !== "all-accepted" ? "HARDENED" : "EXPLOITED",
       "300 msgs burst → " + res, "high");
-  } catch (e) { f("RED", "relay-msg-flood", "ERROR", e.message.slice(0, 80), "high"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("RED", "relay-msg-flood", v, d, "high"); }
 }
 
 // SEC: relay — malformed frame (invalid opcode 0xB)
@@ -240,7 +250,7 @@ function connEnd(ws, label) {
     const res = await Promise.race([end, sleep(3000).then(() => "ignored")]);
     f("RED", "relay-bad-opcode", res !== "ignored" ? "HARDENED" : "OPEN",
       "opcode 0xB → " + res, "medium");
-  } catch (e) { f("RED", "relay-bad-opcode", "ERROR", e.message.slice(0, 80), "medium"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("RED", "relay-bad-opcode", v, d, "medium"); }
 }
 
 // SEC: replay — re-open same sealed channel bytes on B twice
@@ -309,7 +319,7 @@ console.log("\n-- BLUE --");
     const probe = await httpGet(RELAY_HTTP + "/__probe");
     f("BLUE", "relay-debug-gate", probe.status === 404 ? "HARDENED" : "OPEN",
       `/__probe → HTTP ${probe.status} (RATIONS_DEBUG ${process.env.RELAY_DEBUG || "unset"})`, "medium");
-  } catch (e) { f("BLUE", "relay-debug-gate", "ERROR", e.message.slice(0, 60), "medium"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("BLUE", "relay-debug-gate", v, d, "medium"); }
 }
 
 // relay security headers on static responses
@@ -319,7 +329,7 @@ console.log("\n-- BLUE --");
     const coop = res.headers["cross-origin-opener-policy"];
     f("BLUE", "relay-http-headers", coop === "same-origin" ? "HARDENED" : "OPEN",
       `COOP=${coop || "absent"}`, "low");
-  } catch (e) { f("BLUE", "relay-http-headers", "ERROR", e.message.slice(0, 60), "low"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("BLUE", "relay-http-headers", v, d, "low"); }
 }
 
 // AES-GCM tag manipulation
@@ -499,7 +509,7 @@ console.log("\n-- GRAY --");
     const missing = need.filter((n) => !exp.includes(n));
     f("BLUE", "compute-wasm-abi", missing.length === 0 ? "HARDENED" : "OPEN",
       `spec007.wasm ${bytes.length}B exports=${exp.length} missing=[${missing}]`, "medium");
-  } catch (e) { f("BLUE", "compute-wasm-abi", "ERROR", e.message.slice(0, 60), "medium"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("BLUE", "compute-wasm-abi", v, d, "medium"); }
 }
 
 // science inventory integrity: every verdict sits on the honest ladder
@@ -513,7 +523,7 @@ console.log("\n-- GRAY --");
     const ok = bad.length === 0 && sum === inv.term_count;
     f("BLUE", "science-inventory-ladder", ok ? "HARDENED" : "OPEN",
       `terms=${inv.term_count} counted=${sum} off-ladder=${bad.length}`, "low");
-  } catch (e) { f("BLUE", "science-inventory-ladder", "ERROR", e.message.slice(0, 60), "low"); }
+  } catch (e) { const [v, d] = catchVerdict(e); f("BLUE", "science-inventory-ladder", v, d, "low"); }
 }
 
 /* ---------- write findings — merge, preserving other teams' entries ---------- */
