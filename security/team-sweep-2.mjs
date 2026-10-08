@@ -1847,6 +1847,58 @@ console.log("\nLIBRARY — command-center surface (sentience w4)");
   }
 }
 
+console.log("\nPRODUCTION — storyboard + projection (sentience w5)");
+/* ================= DIRECTOR + NEBULA — P4/P5 bounded ports ==============
+   The film pipeline lands as a storyboard slate over a generated canon
+   inventory; the immersive nebula lands as a 2D projection of real
+   roster/registry data, honestly tagged illustrative. */
+{
+  const PL = path.join(SITE, "assets", "production-ledger.json");
+  /* DIR-01: the ledger's counts match the sources it was cut from */
+  {
+    if (!fs.existsSync(PL)) {
+      noted("PROD", "ledger-consistent", "production-ledger.json absent — deferred");
+    } else {
+      const m = JSON.parse(fs.readFileSync(PL, "utf8"));
+      const assets = m.assets || [];
+      const claims = assets.filter(a => a.kind === "claim").length;
+      const dossier = fs.readFileSync(path.join(SITE, "dossier.html"), "utf8");
+      const realClaims = new Set([
+        ...[...dossier.matchAll(/\| (C\d{2,3}) \|/g)].map(x => x[1]),
+        ...[...dossier.matchAll(/<td>(C\d{2,3})<\/td>/g)].map(x => x[1]),
+      ]).size;
+      const kindSum = Object.values(m.by_kind || {}).reduce((a, n) => a + n, 0);
+      assets.length === m.asset_count && kindSum === m.asset_count && claims === realClaims
+        ? held("PROD", "ledger-consistent",
+            `${m.asset_count} assets — claims ${claims}==${realClaims} on the dossier, kind tallies sum`)
+        : open_("PROD", "ledger-consistent",
+            `assets=${assets.length} claimed=${m.asset_count} kinds=${kindSum} claims ${claims}!=${realClaims}`);
+    }
+  }
+  /* DIR-02: the slate rides the reset census */
+  {
+    const desk = fs.readFileSync(path.join(SITE, "assets", "fano-desktop.js"), "utf8");
+    const reset = fs.readFileSync(path.join(SITE, "assets", "fano-reset.js"), "utf8");
+    desk.includes("fano1.slate") && reset.includes('"fano1.slate"') &&
+      /function openDirector\(/.test(desk)
+      ? held("PROD", "slate-in-census",
+          "director.os declared — slate store swept by reset like every desk ledger")
+      : open_("PROD", "slate-in-census", "slate store or pane missing");
+  }
+  /* NEB-01: the nebula is a projection — real data, illustrative tag */
+  {
+    const viz = fs.readFileSync(path.join(SITE, "assets", "quplink-viz.js"), "utf8");
+    const reg = /\["nebula",[^\]]+false\]/.test(viz);
+    const real = viz.includes("production-ledger.json") &&
+      viz.includes("zig-capability-registry.json");
+    reg && real
+      ? held("PROD", "nebula-projection",
+          "fleet-ring viz registered — tagged ILLUSTRATIVE over real roster + domain data")
+      : open_("PROD", "nebula-projection",
+          `registered=${reg} real-data=${real}`);
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));

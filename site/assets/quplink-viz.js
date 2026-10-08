@@ -389,6 +389,56 @@ window.QUVIZ = (function (FANO) {
     frame();
   }
 
+  /* --- nebula: the fleet ring — real roster, schematic arrangement ---
+     The blueprint's "Code Nebula" ports as a projection: FANO-1 at the
+     center, the doc-cited family ringed around it, capability domains
+     ticked on the outer rim. Nodes and counts are real (production
+     ledger + TheUE registry); the layout is a schematic, and says so. */
+  function vizNebula(cv, ui) {
+    var lab = document.createElement("div");
+    lab.className = "game-info";
+    ui.appendChild(lab);
+    Promise.all([
+      fetch("assets/production-ledger.json").then(function (r) { return r.json(); }),
+      fetch("assets/zig-capability-registry.json").then(function (r) { return r.json(); }),
+    ]).then(function (rs) {
+      var fam = (rs[0].assets || []).filter(function (a) { return a.kind === "family"; });
+      var domains = Object.keys(rs[1].by_domain || {});
+      var claims = (rs[0].by_kind || {}).claim || 0;
+      lab.textContent = "fleet ring — " + fam.length + " members · " +
+        domains.length + " capability domains · " + claims + " claims in the ledger";
+      var x = cv.getContext("2d"), W = 640, H = 340;
+      x.fillStyle = FANO.col("--console-bg", "#0b0e13"); x.fillRect(0, 0, W, H);
+      var cx = W / 2, cy = H / 2;
+      /* outer rim: one tick per capability domain */
+      domains.forEach(function (d, i) {
+        var a = -Math.PI / 2 + i * 2 * Math.PI / domains.length;
+        var x1 = cx + Math.cos(a) * 150, y1 = cy + Math.sin(a) * 150;
+        var x2 = cx + Math.cos(a) * 160, y2 = cy + Math.sin(a) * 160;
+        x.strokeStyle = "rgba(78,205,196,.5)"; x.beginPath();
+        x.moveTo(x1, y1); x.lineTo(x2, y2); x.stroke();
+      });
+      /* family ring: one node per doc-cited member */
+      x.font = "9px monospace"; x.textAlign = "center";
+      fam.forEach(function (f, i) {
+        var a = -Math.PI / 2 + i * 2 * Math.PI / fam.length;
+        var fx = cx + Math.cos(a) * 92, fy = cy + Math.sin(a) * 92;
+        x.strokeStyle = "rgba(139,26,26,.6)"; x.beginPath();
+        x.moveTo(cx, cy); x.lineTo(fx, fy); x.stroke();
+        x.fillStyle = FANO.col("--stamp", "#8b1a1a");
+        x.beginPath(); x.arc(fx, fy, 5, 0, 7); x.fill();
+        x.fillStyle = FANO.col("--desk-ink", "#c8c4b4");
+        x.fillText(f.title, fx, fy + 16);
+      });
+      /* the desk at the center */
+      x.fillStyle = FANO.col("--desk-ink", "#c8c4b4");
+      x.beginPath(); x.arc(cx, cy, 8, 0, 7); x.fill();
+      x.fillText("FANO-1", cx, cy + 24);
+      x.fillStyle = FANO.col("--desk-dim", "#6b675a");
+      x.fillText("the projection, not the immersion — TheUE carries the 3D program", cx, 330);
+    }).catch(function () { lab.textContent = "nebula data unavailable"; });
+  }
+
   /* ================= registry ================= */
 
   var VIZ = [
@@ -400,6 +450,7 @@ window.QUVIZ = (function (FANO) {
     ["cartridge", "Cartridge Cutaway", "the 332 mL budget, animated", vizCartridge, true],
     ["tesla", "Tesla Gap Flow", "boundary-layer streamlines", vizTesla, false],
     ["lattice", "15³ Projection", "the lattice on a sphere", vizLattice, false],
+    ["nebula", "Fleet Nebula", "the family ring — projection, not immersion", vizNebula, false],
   ];
 
   /* direct entry for the palette/terminal — the deck opens on command */

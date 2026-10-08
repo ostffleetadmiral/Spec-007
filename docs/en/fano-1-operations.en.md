@@ -368,6 +368,22 @@ pretending to be a compiler — the CSP rule is itself probed (LIB-02).
 `edit` opens it. The community-hub role stays documented where it
 belongs: comms.os (LIB-03).
 
+### 3n. director.os + the nebula — production and projection (sentience w5)
+
+The blueprint's film and immersive phases land as honest bounded ports.
+`tools/slate-ledger.mjs` cuts `site/assets/production-ledger.json` —
+the desk's real canon inventory (91 claims, 139 codex entries, 32
+pages, 8 family, 8 viz — 278 assets), regenerated per wave so the slate
+never drifts from the dossier (PROD-01). `director.os` is the
+storyboard surface: canon assets drop onto a desk-local shot list
+(`fano1.slate`, swept by the reset census — PROD-02) annotated with
+take counts and verdicts, with zero claims of render, upload, or XR.
+The `nebula` visualization is the blueprint's immersive surface made
+honest: a 2D projection of the real capability domains and family
+roster, tagged ILLUSTRATIVE where the deck's truth tags require it —
+the arrangement is schematic, the data is real (PROD-03). `director`
+and `nebula` commands open both; both surfaces wear bilingual chrome.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

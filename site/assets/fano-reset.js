@@ -128,7 +128,7 @@ window.FANO_RESET = (function () {
               "fano1.comms.relay", "fano1.desk.state", "fano1.desk.v1",
               "fano1.directives", "fano1.containment", "fano1.revoked",
               "fano1.branchreqs", "fano1.branches", "fano1.auth.fail",
-              "fano1.continuity", "fano1.lang"];
+              "fano1.continuity", "fano1.slate", "fano1.lang"];
   function execute() {
     var burned = [];
     KEYS.forEach(function (k) {

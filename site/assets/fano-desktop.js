@@ -1863,6 +1863,93 @@
     makeWindow(title, box); refresh(); meter();
   }
 
+  /* ---------- director.os — the storyboard slate (blueprint P4, bounded) ----------
+     The film pipeline ports as a slate, not a renderer: canon assets
+     (claims, codex entries, pages, family, viz) are boarded into an
+     ordered shot list. Read-only over canon; the slate is desk-local
+     and swept by the reset census. No footage is promised — the slate
+     is the honest scope of a one-person studio. */
+  var SLATE_KEY = "fano1.slate";
+  function slateLoad() {
+    try { var d = JSON.parse(localStorage.getItem(SLATE_KEY) || "[]"); return Array.isArray(d) ? d : []; }
+    catch (e) { return []; }
+  }
+  function slateSave(s) {
+    try { localStorage.setItem(SLATE_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+  function openDirector() {
+    var title = "director.os — the production slate";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div"); box.className = "win-body academy-pane";
+    box.innerHTML = "<p><strong>DIRECTOR.OS</strong> <small>— " + esc(t("dir.tag")) + "</small></p>" +
+      "<p><small>" + esc(t("dir.boundary")) + "</small></p>";
+    var status = document.createElement("pre"); status.style.whiteSpace = "pre-wrap";
+    var pool = document.createElement("div"); pool.className = "academy-list";
+    var slate = document.createElement("div"); slate.className = "academy-list";
+    box.appendChild(status);
+    var h1 = document.createElement("p"); h1.innerHTML = "<strong>" + esc(t("dir.pool")) + "</strong>"; box.appendChild(h1);
+    box.appendChild(pool);
+    var h2 = document.createElement("p"); h2.innerHTML = "<strong>" + esc(t("dir.slate")) + "</strong>"; box.appendChild(h2);
+    box.appendChild(slate);
+    makeWindow(title, box);
+    fetch("assets/production-ledger.json").then(function (r) { return r.json(); }).then(function (m) {
+      var assets = m && Array.isArray(m.assets) ? m.assets : [];
+      status.textContent = t("dir.status", String(assets.length), String(slateLoad().length)) +
+        "  ·  " + (m.generated || "?");
+      var byKind = {};
+      assets.forEach(function (a) { (byKind[a.kind] = byKind[a.kind] || []).push(a); });
+      Object.keys(byKind).forEach(function (k) {
+        var kh = document.createElement("p"); kh.innerHTML = "<strong>" + esc(k) + "</strong> ×" + byKind[k].length;
+        pool.appendChild(kh);
+        var row = document.createElement("p");
+        byKind[k].slice(0, 24).forEach(function (a) {
+          var b = document.createElement("button"); b.className = "cmd-btn"; b.textContent = a.title;
+          b.title = a.id;
+          b.addEventListener("click", function () {
+            var s = slateLoad(); s.push({ id: a.id, ts: new Date().toISOString() });
+            slateSave(s); renderSlate(); toast(t("dir.boarded") + a.id, "sys");
+          });
+          row.appendChild(b);
+        });
+        if (byKind[k].length > 24) {
+          var more = document.createElement("span"); more.className = "game-info";
+          more.textContent = "+" + (byKind[k].length - 24); row.appendChild(more);
+        }
+        pool.appendChild(row);
+      });
+      renderSlate();
+    }).catch(function (e) { status.textContent = t("dir.down") + e; });
+
+    function renderSlate() {
+      slate.innerHTML = "";
+      var s = slateLoad();
+      s.forEach(function (shot, i) {
+        var row = document.createElement("p");
+        var lab = document.createElement("span"); lab.textContent = "#" + (i + 1) + "  " + shot.id;
+        row.appendChild(lab);
+        [["↑", -1], ["↓", 1], ["✕", 0]].forEach(function (op) {
+          var b = document.createElement("button"); b.className = "cmd-btn"; b.textContent = op[0];
+          b.addEventListener("click", function () {
+            var s2 = slateLoad();
+            if (op[1] === 0) s2.splice(i, 1);
+            else {
+              var j = i + op[1];
+              if (j < 0 || j >= s2.length) return;
+              var tmp = s2[i]; s2[i] = s2[j]; s2[j] = tmp;
+            }
+            slateSave(s2); renderSlate();
+          });
+          row.appendChild(b);
+        });
+        slate.appendChild(row);
+      });
+      if (!s.length) {
+        var e = document.createElement("p"); e.className = "game-info";
+        e.textContent = t("dir.empty"); slate.appendChild(e);
+      }
+    }
+  }
+
   function openEngine() {
     var title = "engine.os — governed runtime registry";
     if (openWins[title]) { focus(openWins[title]); return; }
@@ -2007,6 +2094,8 @@
     "  engine          engine.os — the signed roster of runtimes this desk may trust",
     "  continuity      continuity.os — sealed archives + desk records",
     "  edit            editor.os — the desk's own typewriter",
+    "  director        director.os — storyboard the canon into a shot list",
+    "  nebula          the fleet ring — a 2D projection, not immersion",
     "  quplink         open the sandbox uplink",
     "  family          the sibling projects — fleet registry",
     "  lang [en|zh]    the desk's second tongue",
@@ -2059,6 +2148,8 @@
     "  engine          engine.os — 此桌可信運行時之已簽名冊",
     "  continuity      continuity.os — 已封檔案庫＋桌面記錄",
     "  edit            editor.os — 桌面自備之打字機",
+    "  director        director.os — 將正典排成分鏡表",
+    "  nebula          艦隊星環 — 2D 投影,非沉浸",
     "  quplink         開啟沙盒上行鏈路",
     "  family          姊妹專案 — 艦隊名錄",
     "  lang [en|zh]    桌面之第二語言",
@@ -2411,6 +2502,10 @@
       case "engine": openEngine(); return t("term.engine");
       case "continuity": openContinuity(); return t("term.continuity");
       case "edit": openEditor(); return t("term.edit");
+      case "director": openDirector(); return t("term.director");
+      case "nebula":
+        if (window.QUVIZ && window.QUVIZ.openViz("nebula")) return t("term.nebula");
+        return t("term.nebula.down");
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
       case "codex": egg("codex"); openScience(); return t("term.codex", String(state.anoms.length), String(state.anomsTotal || "?"));
       case "gate": {
@@ -2581,6 +2676,7 @@
     { kind: "app", glyph: "⚙", label: "engine.os", sub: "runtime roster", act: openEngine },
     { kind: "app", glyph: "◫", label: "continuity.os", sub: "the vault", act: openContinuity },
     { kind: "app", glyph: "✎", label: "editor.os", sub: "typewriter", act: openEditor },
+    { kind: "app", glyph: "⧉", label: "director.os", sub: "the slate", act: openDirector },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "locked", glyph: "✦", label: "admiralty.suite", sub: "flag tier", act: openAdmiralty },
     { kind: "locked", glyph: "▦", label: "7q.drawer", sub: "SEALED", act: deniedIcon },
