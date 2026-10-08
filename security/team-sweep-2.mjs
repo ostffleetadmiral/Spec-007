@@ -325,10 +325,14 @@ console.log("\nBLACK — supply chain");
       { cwd: ROOT, encoding: "utf8" });
     const paths = blobs.split("\n").map(l => l.split(" ").slice(1).join(" "))
       .filter(p => p && /\.(pem|key|env|secret|p12|pfx)$/i.test(p));
+    /* pickaxe on the armor trailer — "PRIVATE KEY-----" occurs only in
+       real key blocks; regex literals like BEGIN [A-Z ]*PRIVATE KEY in
+       the harness itself carry no trailing dashes and can't self-hit */
     const pkScan = execSync(
-      "git log --all -p -S 'PRIVATE KEY' --format=format:'%H' | head -40",
+      "git log --all -p -S 'PRIVATE KEY-----' --format=format:'%H' | head -40",
       { cwd: ROOT, encoding: "utf8" });
-    const leaks = pkScan.split("\n").filter(l => l.includes("PRIVATE KEY")).length;
+    const leaks = pkScan.split("\n")
+      .filter(l => l.includes("PRIVATE KEY-----")).length;
     !paths.length && !leaks
       ? held("BLACK", "history-secret-scan", "no key-material paths or PEM bodies in history")
       : open_("BLACK", "history-secret-scan",
@@ -1966,7 +1970,7 @@ console.log("\nCENSUS — cluster inventory (debrief d0)");
       const r = spawnSync(process.execPath, [CEN, "--verify"], { encoding: "utf8" });
       r.status === 0
         ? held("CENS", "roots-consistent",
-            "registry == live roots — names, presence, file counts all match")
+            "registry == live roots — names, presence, class, evidence all match (counts snapshot-labeled)")
         : open_("CENS", "roots-consistent",
             `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 140)}`);
     }
