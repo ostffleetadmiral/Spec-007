@@ -866,6 +866,35 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
         : open_("DESK", "term-corpus-twin",
             `helpEn=${helpEn} helpZh=${helpZh} zhMap=${zhMap} wired=${wired}`);
     }
+
+    /* DESK-23: pane-literal ratchet — every DOM-boundary English literal
+       routes through t() (D1 self-pass retrofit). The residual pool is
+       exactly the identifier allowlist: product names (.OS titles), the
+       terminal prompt, and markup-only nodes. Window titles stay English
+       by convention — they double as openWins identity keys. */
+    {
+      const allow = new Set(["ACADEMY.OS", "CONTINUITY.OS", "EDITOR.OS",
+        "DIRECTOR.OS", "ENGINE.OS", "fano:~$"]);
+      const bad = [];
+      for (const m of dsrc.matchAll(/innerHTML\s*\+?=\s*((?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\+\s*)+)/g)) {
+        for (const st of m[1].match(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g) || [])
+          for (const n of st.slice(1, -1).matchAll(/>([^<{}]+)</g)) {
+            const tx = n[1].trim();
+            if (/[A-Za-z]/.test(tx) && !allow.has(tx)) bad.push("ih:" + tx.slice(0, 48));
+          }
+      }
+      for (const m of dsrc.matchAll(/(btn|inp|sec|row|toast|field)\(\s*"([^"]*[A-Za-z]{3}[^"]*)"/g))
+        bad.push("call:" + m[1] + ":" + m[2].slice(0, 48));
+      for (const m of dsrc.matchAll(/(?:textContent|placeholder)\s*=\s*"([^"]*[A-Za-z]{3}[^"]*)"/g))
+        if (!allow.has(m[1])) bad.push("tc:" + m[1].slice(0, 48));
+      for (const m of dsrc.matchAll(/copyText\([^,]+,\s*"([^"]*[A-Za-z]{3}[^"]*)"/g))
+        bad.push("copy:" + m[1].slice(0, 48));
+      !bad.length
+        ? held("DESK", "pane-literal-ratchet",
+            "zero untranslated DOM-boundary literals — panes, placeholders, buttons, toasts all route through t()")
+        : open_("DESK", "pane-literal-ratchet",
+            `literal pool=${bad.length} ${bad.slice(0, 6).join(" | ")}`);
+    }
   }
 
 console.log("\nBOT — containment doctrine");

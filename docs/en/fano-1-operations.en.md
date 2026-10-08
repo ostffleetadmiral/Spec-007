@@ -417,6 +417,34 @@ explicitly a snapshot label, since the census file itself lives inside
 a counted root (CENS-01, CENS-03). The full cards — absolute paths,
 git heads, dirty counts — live drawer-side in `CLUSTER-CENSUS.md`.
 
+### 3q. d1 retro-pass — hardware family + the desk itself
+
+The first debrief sweep runs the ten-step retro-development protocol on
+the hardware monorepo: **qstar-llm** (lattice-native inference — the
+Sentience Engine's compute layer; `fixed_point.zig` module test green),
+**zig-k3-port** (integer Q128.128 port of kimi-k3-in-c; `zig build test`
+quiet-green; carries the wasm64-memory64 finding — only the in-tree `k3w`
+interpreter runs it), the **preserved pre-port fork** (frozen evidence —
+never rebuilt, never deleted), **TheUE** (deterministic ChiralMath core;
+`audit-capabilities` conformance fixtures all green — the same tool that
+projects `zig-capability-registry.json`), **BS** (Wow!-signal claims
+audit — its index→recompute→label ledger is the model for the d6 claims
+override), and a **self-pass on Spec-007**.
+
+The self-pass found real drift: the i18n discipline landed in wave-5+
+panes but was never retrofitted to the pre-i18n surfaces — the governed
+bridge, academy, engine tagline, Q-branch, sysmon, start-menu tiles,
+unlock flow, containment notice, and the flag command suite carried
+roughly a hundred English literals DESK-20's audit didn't reach
+(mid-concat strings, `btn()/inp()` helper calls, innerHTML text nodes,
+`copyText` labels). All of it now routes through `t()` — ~96 new keys
+each side, 520==520 parity, `t()` generalized to variadic `%s`, and the
+anomaly-detail inline conditionals normalized into the dict. **DESK-23**
+ratchets the residual pool to exactly the identifier allowlist — product
+names and the terminal prompt; window titles stay English by convention
+since they double as `openWins` identity keys. Full cards:
+`thoughts&convos/CLUSTER-CENSUS.md` §D1.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

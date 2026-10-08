@@ -162,13 +162,13 @@
     var d = document.createElement("div");
     d.className = "win-body console";
     d.innerHTML = "<pre style='margin:0;white-space:pre-wrap'>" +
-      "agent:   " + esc(ident.user) + "\n" +
-      "key fp:  " + ident.pk.slice(0, 8).toUpperCase() + "…\n" +
-      "role:    " + (FANO_AUTH.ROLE_LABEL[ident.cert.role] || "CADET") + "\n" +
-      "covenant: " + ident.covenant_sig.slice(0, 24) + "… ✓\n\n" +
-      "passphrase unlocks the keystore. comms stay cold without it.</pre>";
+      t("unl.agent") + esc(ident.user) + "\n" +
+      t("unl.keyfp") + ident.pk.slice(0, 8).toUpperCase() + "…\n" +
+      t("unl.role") + (FANO_AUTH.ROLE_LABEL[ident.cert.role] || "CADET") + "\n" +
+      t("unl.cov") + ident.covenant_sig.slice(0, 24) + "… ✓\n\n" +
+      t("unl.note") + "</pre>";
     var inp = document.createElement("input");
-    inp.className = "term-in"; inp.type = "password"; inp.placeholder = "passphrase"; inp.spellcheck = false;
+    inp.className = "term-in"; inp.type = "password"; inp.placeholder = t("ph.pass"); inp.spellcheck = false;
     d.appendChild(inp);
     var win = makeWindow(title, d);
     win.style.width = "26rem"; win.style.height = "15rem";
@@ -182,15 +182,15 @@
           var t2 = document.querySelector('.task-item[data-wid="' + win.dataset.wid + '"]');
           if (t2) t2.remove();
           toast(t("tst.keystore.totp", unlockedRec.user)); paintClearance();
-        } else { inp.value = ""; inp.placeholder = "invalid code — try again"; }
+        } else { inp.value = ""; inp.placeholder = t("ph.badcode"); }
         return;
       }
       var rec = FANO_AUTH.unlock(inp.value);
       if (rec && rec.totp_required && !FANO_AUTH.session.totp) {
         unlockedRec = rec; totpStage = true;
         inp.value = ""; inp.type = "text"; inp.inputMode = "numeric"; inp.maxLength = 6;
-        inp.placeholder = "Google Authenticator code for QStar.net";
-        d.querySelector("pre").textContent += "\n\nTOTP required — enter the six-digit QStar.net code.";
+        inp.placeholder = t("ph.totp");
+        d.querySelector("pre").textContent += "\n\n" + t("unl.totp");
         return;
       }
       if (rec && (!rec.totp_required || FANO_AUTH.session.totp)) {
@@ -206,11 +206,11 @@
           var t2 = document.querySelector('.task-item[data-wid="' + win.dataset.wid + '"]');
           if (t2) t2.remove();
           toast(t("tst.keystore.totp", rec.user)); paintClearance();
-        } else { inp.value = ""; inp.placeholder = "invalid code — try again"; }
+        } else { inp.value = ""; inp.placeholder = t("ph.badcode"); }
       } else {
         inp.value = "";
         var lock = FANO_AUTH.lockRemain && FANO_AUTH.lockRemain();
-        inp.placeholder = lock ? ("device locked — " + lock + "s") : "wrong passphrase — try again";
+        inp.placeholder = lock ? t("ph.locked", String(lock)) : t("ph.wrong");
       }
     });
   }
@@ -229,7 +229,7 @@
   var clrEl = document.getElementById("clr");
   function paintClearance() {
     if (clrEl) clrEl.textContent =
-      (FANO_AUTH.isContained && FANO_AUTH.isContained() ? "CONTAINED" : "CLR L" + clearance()) + " · " + state.xp + "xp";
+      (FANO_AUTH.isContained && FANO_AUTH.isContained() ? t("clr.contained") : t("clr.prefix") + clearance()) + " · " + state.xp + "xp";
     /* the emblem knows your clearance — brighter as the file trusts you */
     var ws = document.querySelector(".wall svg");
     if (ws) {
@@ -1019,7 +1019,7 @@
       var n = FS[k].items.filter(function (i) { return DOCS_READ[i[0]]; }).length;
       el.querySelector(".sub").textContent =
         n === FS[k].items.length ? n + "/" + FS[k].items.length + " ✓" :
-          n + "/" + FS[k].items.length + (state.lang === "zh" ? " 已歸檔" : " filed");
+          n + "/" + FS[k].items.length + t("badge.filed");
     });
   }
 
@@ -1132,39 +1132,39 @@
     var head = sec(t("cmd.sec.flagreg"));
     head.appendChild(row(t("cmd.flag.callsign") + (rec ? rec.user : "—") + t("cmd.flag.role") + (A.ROLE_LABEL[A.session.role] || "?")));
     head.appendChild(row(t("cmd.flag.fp") + (A.fingerprint() || "—")));
-    head.appendChild(row(g ? "genesis: " + g.callsign + " · sha256 " + (g.pk_sha256 || "").slice(0, 24) + "…" : "genesis: not on this desk"));
+    head.appendChild(row(g ? t("flag.genesis") + g.callsign + " · sha256 " + (g.pk_sha256 || "").slice(0, 24) + "…" : t("flag.nogenesis")));
     head.appendChild(row(t("cmd.flag.issuers", A.roster().length, Object.keys(A.grants()).length)));
 
     var au = sec(t("cmd.sec.authenticator"));
     var aTok = document.createElement("textarea"); aTok.className = "cmd-in"; aTok.rows = 3;
-    aTok.readOnly = true; aTok.placeholder = "the FANO-ROOT-v1 credential prints here — carry it anywhere";
+    aTok.readOnly = true; aTok.placeholder = t("ph.root");
     var aRow = document.createElement("div"); aRow.className = "cmd-row";
-    aRow.appendChild(btn("ISSUE / REFRESH", function () {
+    aRow.appendChild(btn(t("flag.btn.issue"), function () {
       var c = A.issueCredential(null, 365);
-      if (c && !c.error) { aTok.value = A.exportCredential() || ""; copyText(aTok.value, "authenticator minted + on clipboard — FANO-ROOT-v1"); }
-      else toast(c && c.error === "not_flag_seat" ? "this desk does not hold the flag seat" : "mint refused", "sys");
+      if (c && !c.error) { aTok.value = A.exportCredential() || ""; copyText(aTok.value, t("flag.minted")); }
+      else toast(c && c.error === "not_flag_seat" ? t("flag.notseat") : t("tst.mint.refused"), "sys");
     }));
-    aRow.appendChild(btn("ROAMING PAPER", function () {
+    aRow.appendChild(btn(t("flag.btn.roam"), function () {
       var c = A.issueRoaming(30);
       if (c && !c.error) {
         aTok.value = c;
-        copyText(c, "roaming paper on clipboard — unbound, 30 days. Paste it as the grant token at any desk's covenant.");
+        copyText(c, t("flag.roamed"));
       } else toast(t("tst.mint.refused"), "sys");
     }));
-    aRow.appendChild(btn("EXPORT", function () {
+    aRow.appendChild(btn(t("flag.btn.export"), function () {
       var t = A.exportCredential();
-      if (t) { aTok.value = t; copyText(t, "authenticator exported + on clipboard"); }
+      if (t) { aTok.value = t; copyText(t, t("flag.exported")); }
       else toast(t("tst.no.totp"), "sys");
     }));
     au.appendChild(aRow); au.appendChild(aTok);
     var vRow = document.createElement("div"); vRow.className = "cmd-row";
     var vIn = document.createElement("textarea"); vIn.className = "cmd-in"; vIn.rows = 2;
-    vIn.placeholder = "authenticate a presented token — verify the signature, not the story";
+    vIn.placeholder = t("ph.verify");
     vRow.appendChild(vIn);
-    vRow.appendChild(btn("AUTHENTICATE", function () {
+    vRow.appendChild(btn(t("flag.btn.auth"), function () {
       var v = A.authenticate(vIn.value);
-      toast(v ? "flag verified — " + v.callsign.toUpperCase() + " · sub fp " + (v.sub || "-").slice(0, 8).toUpperCase() + "…" +
-        (v.tofu ? " · first contact (no local genesis)" : "") : "refused — credential failed verification", "sys");
+      toast(v ? t("flag.verified", v.callsign.toUpperCase(), (v.sub || "-").slice(0, 8).toUpperCase()) +
+        (v.tofu ? t("flag.firstcontact") : "") : t("flag.authrefused"), "sys");
       vIn.value = ""; renderCommand(root);
     }));
     au.appendChild(vRow);
@@ -1178,49 +1178,49 @@
       var valid = A.verifyRequest(r);
       var rr = row(r.callsign + " → " + r.branch.toUpperCase() +
         " · fp " + r.pk.slice(0, 8).toUpperCase() + "… · " +
-        new Date(r.ts * 1000).toISOString().slice(0, 10) + (valid ? "" : " · sig-invalid"));
+        new Date(r.ts * 1000).toISOString().slice(0, 10) + (valid ? "" : t("flag.siginvalid")));
       rr.appendChild(document.createTextNode(" "));
-      rr.appendChild(btn("APPROVE", function () {
+      rr.appendChild(btn(t("flag.btn.approve"), function () {
         var a = A.assignBranch(pk, r.branch);
         toast(a && !a.error ?
-          "assigned — " + r.branch + " · fp " + pk.slice(0, 8).toUpperCase() + "…" : "approval refused", "sys");
+          t("flag.assigned", r.branch, pk.slice(0, 8).toUpperCase()) : t("flag.approverefused"), "sys");
         renderCommand(root);
       }));
-      rr.appendChild(btn("DENY", function () { A.denyBranch(pk); renderCommand(root); }));
+      rr.appendChild(btn(t("flag.btn.deny"), function () { A.denyBranch(pk); renderCommand(root); }));
       rq.appendChild(rr);
     });
     if (!any) rq.appendChild(row(t("cmd.branchreq.none")));
     var imp = document.createElement("div"); imp.className = "cmd-row";
     var impIn = document.createElement("textarea"); impIn.className = "cmd-in"; impIn.rows = 2;
-    impIn.placeholder = "import a request token — base64, signed by the requester's key";
+    impIn.placeholder = t("ph.req");
     imp.appendChild(impIn);
-    imp.appendChild(btn("IMPORT", function () {
+    imp.appendChild(btn(t("flag.btn.import"), function () {
       toast(A.importRequest(impIn.value) ?
-        "request on file — signature verified" : "refused — token failed signature check", "sys");
+        t("flag.reqok") : t("flag.reqbad"), "sys");
       impIn.value = ""; renderCommand(root);
     }));
     rq.appendChild(imp);
 
     var gr = sec(t("cmd.sec.grants"));
     var gRow = document.createElement("div"); gRow.className = "cmd-row";
-    var gName = inp("reserved callsign");
-    var gPk = inp("subject pk hex (optional — binds the grant)");
+    var gName = inp(t("flag.inp.reserved"));
+    var gPk = inp(t("flag.inp.subpk"));
     gRow.appendChild(gName); gRow.appendChild(gPk);
     var gOut = document.createElement("textarea"); gOut.className = "cmd-in"; gOut.rows = 2;
-    gOut.readOnly = true; gOut.placeholder = "issued grant token prints here";
-    gRow.appendChild(btn("ISSUE", function () {
+    gOut.readOnly = true; gOut.placeholder = t("ph.grant");
+    gRow.appendChild(btn(t("flag.btn.issue2"), function () {
       var gg = A.grantCallsign(gName.value, gPk.value.trim() || null);
       if (gg && !gg.error) {
         gOut.value = A.exportGrant(gg.callsign) || "";
         toast(t("tst.grant.signed", gg.callsign), "sys");
-      } else toast(gg && gg.error === "not_restricted" ? "not a reserved callsign" : "grant refused", "sys");
+      } else toast(gg && gg.error === "not_restricted" ? t("flag.notreserved") : t("flag.grantrefused"), "sys");
     }));
     gr.appendChild(gRow); gr.appendChild(gOut);
     var rv = document.createElement("div"); rv.className = "cmd-row";
-    var rvIn = inp("callsign to rescind — revocation is permanent on this desk");
+    var rvIn = inp(t("flag.inp.revoke"));
     rv.appendChild(rvIn);
-    rv.appendChild(btn("REVOKE", function () {
-      toast(A.revokeCallsign(rvIn.value) ? "callsign rescinded — its paper is dead here" : "revocation refused", "sys");
+    rv.appendChild(btn(t("flag.btn.revoke"), function () {
+      toast(A.revokeCallsign(rvIn.value) ? t("flag.revoked") : t("flag.revokerefused"), "sys");
       rvIn.value = ""; renderCommand(root);
     }));
     gr.appendChild(rv);
@@ -1232,17 +1232,17 @@
     A.roster().forEach(function (fp) {
       var ir = document.createElement("div"); ir.className = "cmd-row";
       ir.appendChild(row(t("cmd.roster.fp", fp.slice(0, 12).toUpperCase())));
-      ir.appendChild(btn("REMOVE", function () {
+      ir.appendChild(btn(t("flag.btn.remove"), function () {
         var rm = A.removeIssuer(fp);
-        toast(rm === true ? "issuer removed" : (rm && rm.error === "founding_key" ? "founding key is the anchor" : "removal refused"), "sys");
+        toast(rm === true ? t("flag.removed") : (rm && rm.error === "founding_key" ? t("flag.anchor") : t("flag.removerefused")), "sys");
         renderCommand(root);
       }));
       ro.appendChild(ir);
     });
     var rRow = document.createElement("div"); rRow.className = "cmd-row";
-    var rIn = inp("issuer public key hex — adds to the roster");
+    var rIn = inp(t("flag.inp.pk"));
     rRow.appendChild(rIn);
-    rRow.appendChild(btn("ADD", function () {
+    rRow.appendChild(btn(t("flag.btn.add"), function () {
       if (/^[0-9a-f]{64}$/i.test(rIn.value.trim())) {
         A.addIssuer(rIn.value.trim().toLowerCase()); toast(t("tst.issuer.rostered"), "sys"); renderCommand(root);
       } else toast(t("tst.notpk"), "sys");
@@ -1257,7 +1257,7 @@
       rr.appendChild(row(pk.slice(0, 20) + "… · " + e.status +
         " · " + (e.signals || []).join(",") + " · " + new Date(e.ts).toISOString().slice(0, 19)));
       if (e.status === "pending") {
-        rr.appendChild(btn("PROMOTE", function () {
+        rr.appendChild(btn(t("flag.btn.promote"), function () {
           var rec = A.loadRecord();
           if (rec && rec.pk === pk) {
             A.promoteContained(pk) ? toast(t("tst.promoted", pk.slice(0, 12)), "sys") : toast(t("tst.promotion.refused"), "sys");
@@ -1265,12 +1265,12 @@
             var pr = A.issuePromotion(pk.replace(/^pid:/, ""), 30);
             if (pr && pr.v) {
               var tok = A.exportPromotion(pr);
-              copyText(tok, "promotion paper on clipboard — carry it to the contained desk");
+              copyText(tok, t("flag.paper"));
             } else toast(t("tst.promotion.mint.refused"), "sys");
           }
           renderCommand(root);
         }));
-        var burnBtn = btn("BURN", function () {
+        var burnBtn = btn(t("flag.btn.burn"), function () {
           /* two clicks — the first arms, the second burns */
           if (burnBtn.dataset.armed !== "1") {
             burnBtn.dataset.armed = "1";
@@ -1295,7 +1295,7 @@
     if (!el) return;
     var adm = FANO_AUTH && FANO_AUTH.session.sk && FANO_AUTH.hasRole(FANO_AUTH.ROLES.fleet_admiral);
     var sub = el.querySelector(".sub");
-    if (sub && sub.textContent !== (adm ? "COMMAND" : "SEALED")) sub.textContent = adm ? "COMMAND" : "SEALED";
+    if (sub && sub.textContent !== (adm ? t("drw.cmd") : t("drw.sealed"))) sub.textContent = adm ? t("drw.cmd") : t("drw.sealed");
   }
 
   /* ---------- admiralty suite: the flag's chart table ----------
@@ -1426,16 +1426,16 @@
       var rr = document.createElement("div"); rr.className = "cmd-row adm-sig";
       var tb = document.createElement("div"); tb.textContent = dv.title + " — " + dv.body;
       var sb = document.createElement("div"); sb.className = "sig-line " + (ok ? "adm-billet-ok" : "adm-billet-bad");
-      sb.textContent = (ok ? "sig verified" : "SIG INVALID") + " · iss " + dv.iss.slice(0, 12).toUpperCase() +
+      sb.textContent = (ok ? t("sig.ok") : t("sig.bad")) + t("sig.iss") + dv.iss.slice(0, 12).toUpperCase() +
         "… · " + new Date(dv.ts * 1000).toISOString().slice(0, 19).replace("T", " ") + "z";
       rr.appendChild(tb); rr.appendChild(sb); dr.appendChild(rr);
     });
     if (flag) {
       var fRow = document.createElement("div"); fRow.className = "cmd-row";
-      var tIn = document.createElement("input"); tIn.className = "cmd-in"; tIn.placeholder = "directive title";
-      var bIn = document.createElement("input"); bIn.className = "cmd-in"; bIn.placeholder = "directive text — signed on issue";
+      var tIn = document.createElement("input"); tIn.className = "cmd-in"; tIn.placeholder = t("ph.dirtitle");
+      var bIn = document.createElement("input"); bIn.className = "cmd-in"; bIn.placeholder = t("ph.dirbody");
       fRow.appendChild(tIn); fRow.appendChild(bIn);
-      fRow.appendChild(btn("SIGN & ISSUE", function () {
+      fRow.appendChild(btn(t("flag.btn.sign"), function () {
         if (!tIn.value.trim() || !bIn.value.trim()) { toast(t("tst.directive.fields"), "sys"); return; }
         var fp0 = A.fingerprint(); // live issuer fp — the seat signs, canon names the officeholder
         var rec0 = A.loadRecord();
@@ -1452,7 +1452,7 @@
       }));
       dr.appendChild(fRow);
       var ex = document.createElement("div"); ex.className = "cmd-row";
-      ex.appendChild(btn("EXPORT BOOK", function () {
+      ex.appendChild(btn(t("flag.btn.book"), function () {
         var l2 = directives();
         if (!l2.length) { toast(t("tst.book.empty"), "sys"); return; }
         var w = makeWindow("directive book — export", (function () {
@@ -1475,8 +1475,8 @@
     var gs = sec(t("cmd.sec.genesis"));
     if (flag) {
       gs.appendChild(row(t("cmd.genesis.flagkey") + rec.pk));
-      gs.appendChild(btn("COPY PK", function () {
-        copyText(rec.pk, "flag pk on the clipboard — hand it to the ledger officer");
+      gs.appendChild(btn(t("flag.btn.copypk"), function () {
+        copyText(rec.pk, t("flag.copiedpk"));
       }));
       gs.appendChild(row(t("cmd.genesis.relay")));
       fetch("pending-genesis.json").then(function (r) {
@@ -1486,8 +1486,8 @@
         if (!pg || !pg.payload) return;
         var body = new TextEncoder().encode(JSON.stringify(pg.payload, null, 2));
         gs.appendChild(row(t("cmd.genesis.staged") + pg.payload.members.length +
-          " members · quorum " + pg.payload.quorum + " · spec " + pg.payload.spec));
-        gs.appendChild(btn("COUNTERSIGN GENESIS", function () {
+          t("flag.members") + pg.payload.quorum + t("flag.specsep") + pg.payload.spec));
+        gs.appendChild(btn(t("flag.btn.countersign"), function () {
           var sg = A.sign(body, A.session.sk);
           if (!sg) { toast(t("tst.sig.refused"), "sys"); return; }
           var w = makeWindow("genesis countersignature — relay to the ledger", (function () {
@@ -1506,7 +1506,7 @@
 
     var note = document.createElement("div"); note.className = "cmd-foot";
     note.textContent = t("cmd.board.note") +
-      "only the flag seat signs; the suite remembers every signature it is shown.";
+      t("flag.footsign");
     root.appendChild(note);
   }
 
@@ -1643,11 +1643,11 @@
     var title = "governance.ai — provider boundary";
     if (openWins[title]) { focus(openWins[title]); return; }
     var box = document.createElement("div"); box.className = "win-body gov-pane";
-    box.innerHTML = "<p><strong>GOVERNED AI PROVIDER</strong></p>" +
-      "<p><small>FANO does not call remote Ollama directly. This local bridge applies clearance, HRIS, evidence, and audit gates before forwarding.</small></p>";
+    box.innerHTML = "<p><strong>" + esc(t("gov.title")) + "</strong></p>" +
+      "<p><small>" + esc(t("gov.note")) + "</small></p>";
     function field(label, value, type) { var p=document.createElement("p"), l=document.createElement("label"), i=document.createElement("input"); l.textContent=label; i.type=type||"text"; i.value=value||""; i.style.cssText="width:100%;font-family:monospace;background:transparent;color:inherit;border:1px solid var(--rule);padding:.35rem"; p.appendChild(l); p.appendChild(document.createElement("br")); p.appendChild(i); box.appendChild(p); return i; }
-    var url = field("BRIDGE URL", GOV_CFG.url), token = field("BRIDGE TOKEN", GOV_CFG.token, "password"), model = field("MODEL", GOV_CFG.model);
-    var provider = document.createElement("select"); provider.innerHTML = "<option value=\"local\">local · 127.0.0.1:11434</option><option value=\"qstar\">Qstar · 127.0.0.1:11435</option><option value=\"remote\">remote · 192.168.12.210:11434</option>"; provider.value=GOV_CFG.provider; box.appendChild(provider);
+    var url = field(t("gov.f.url"), GOV_CFG.url), token = field(t("gov.f.token"), GOV_CFG.token, "password"), model = field(t("gov.f.model"), GOV_CFG.model);
+    var provider = document.createElement("select"); provider.innerHTML = "<option value=\"local\">" + esc(t("gov.prov.local")) + " · 127.0.0.1:11434</option><option value=\"qstar\">" + esc(t("gov.prov.qstar")) + " · 127.0.0.1:11435</option><option value=\"remote\">" + esc(t("gov.prov.remote")) + " · 192.168.12.210:11434</option>"; provider.value=GOV_CFG.provider; box.appendChild(provider);
     var status = document.createElement("pre"); status.style.whiteSpace="pre-wrap"; box.appendChild(status);
     var actions = document.createElement("p");
     function button(text, fn) { var b=document.createElement("button"); b.textContent=text; b.className="cmd-btn"; b.addEventListener("click",fn); actions.appendChild(b); return b; }
@@ -1661,26 +1661,26 @@
         }
       }).catch(function(e){status.textContent=t("sts.bridge.down")+e;});
     });
-    button(t("cmd.btn.useask"), function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; GOV_CFG.provider=provider.value; GOV_CFG.model=model.value; status.textContent=GOV_CFG.model ? "provider armed — ask uses the governed boundary" : "choose a discovered model first"; });
+    button(t("cmd.btn.useask"), function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; GOV_CFG.provider=provider.value; GOV_CFG.model=model.value; status.textContent=GOV_CFG.model ? t("gov.armed") : t("gov.pick"); });
     button(t("cmd.btn.audit"), function () { GOV_CFG.url=url.value; GOV_CFG.token=token.value; govFetch("/audit").then(function(r){return r.json();}).then(function(j){status.textContent=JSON.stringify(j,null,2);}).catch(function(e){status.textContent=t("sts.audit.down")+e;}); });
     button(t("cmd.btn.capregistry"), function () { fetch("assets/capability-registry.json").then(function(r){return r.json();}).then(function(j){status.textContent=JSON.stringify(j,null,2);}).catch(function(e){status.textContent=t("sts.registry.down")+e;}); });
     button(t("cmd.btn.salvage"), function () {
       status.textContent=t("sts.salvage.loading");
       fetch("assets/zig-capability-registry.json").then(function(r){return r.json();}).then(function(j){
         var lines=[];
-        lines.push("machine-wide zig salvage — "+j.capability_count+" capabilities");
+        lines.push(t("salv.head", String(j.capability_count)));
         lines.push("");
-        lines.push("governance coverage by category:");
+        lines.push(t("salv.cov"));
         var cov=j.governance_coverage||{};
-        Object.keys(cov).forEach(function(k){ if(k!==".archive"){ var c=cov[k]; lines.push("  "+k+": "+c.covered+" covered · "+c.partial+" partial · "+c.gap+" gap / "+c.documents+" docs"); } });
+        Object.keys(cov).forEach(function(k){ if(k!==".archive"){ var c=cov[k]; lines.push(t("salv.row", k, String(c.covered), String(c.partial), String(c.gap), String(c.documents))); } });
         lines.push("");
-        lines.push("lifecycle:");
+        lines.push(t("salv.life"));
         Object.keys(j.by_lifecycle||{}).forEach(function(k){ lines.push("  "+k+": "+j.by_lifecycle[k]); });
         lines.push("");
-        lines.push("domains:");
+        lines.push(t("salv.dom"));
         Object.keys(j.by_domain||{}).forEach(function(k){ lines.push("  "+k+": "+j.by_domain[k]); });
         lines.push("");
-        lines.push("evidence states:");
+        lines.push(t("salv.evd"));
         Object.keys(j.by_evidence_state||{}).forEach(function(k){ lines.push("  "+k+": "+j.by_evidence_state[k]); });
         status.textContent=lines.join("\n");
       }).catch(function(e){status.textContent=t("sts.salvage.down")+e;});
@@ -1688,9 +1688,9 @@
     button(t("cmd.btn.specregistry"), function () {
       status.textContent=t("sts.spec.loading");
       fetch("assets/spec-registry.json").then(function(r){return r.json();}).then(function(j){
-        var lines=["canonical registry — "+j.spec_count+" specs · audit seq "+j.audit_sequence,""];
+        var lines=[t("spec.head", String(j.spec_count), String(j.audit_sequence)),""];
         j.specs.forEach(function(s){
-          lines.push("  "+s.name+"  ["+s.status+"]"+(s.normative?" normative":"")+"  v"+s.version);
+          lines.push("  "+s.name+"  ["+s.status+"]"+(s.normative?t("spec.norm"):"")+"  v"+s.version);
         });
         status.textContent=lines.join("\n");
       }).catch(function(e){status.textContent=t("sts.spec.down")+e;});
@@ -1702,16 +1702,16 @@
     var title = "academy.os — public curriculum";
     if (openWins[title]) { focus(openWins[title]); return; }
     var box = document.createElement("div"); box.className = "win-body academy-pane";
-    box.innerHTML = "<p><strong>ACADEMY.OS</strong> <small>— source-linked public curriculum</small></p><p><small>Ollama may tutor, but competencies and credentials remain deterministic and human-reviewed.</small></p>";
+    box.innerHTML = "<p><strong>ACADEMY.OS</strong> <small>— " + esc(t("aca.tag")) + "</small></p><p><small>" + esc(t("aca.note")) + "</small></p>";
     var list = document.createElement("div"), detail = document.createElement("pre"); list.className="academy-list"; detail.style.whiteSpace="pre-wrap"; box.appendChild(list); box.appendChild(detail); makeWindow(title, box);
     fetch("assets/academy-manifest.json").then(function(r){return r.json();}).then(function(m){
       /* integrity: the count must match the lessons actually filed */
       var real = m && Array.isArray(m.lessons) ? m.lessons : [];
       var claimed = m && m.lesson_count;
-      detail.textContent = real.length + " lessons filed" +
-        (claimed === real.length ? "" : " — MANIFEST COUNT MISMATCH (claims " + claimed + ")") +
-        " — choose a lesson.";
-      real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=(lesson.origin==="generated"?t("aca.generated")+" ":"")+lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\nevidence: "+lesson.evidence+"\nassessment: "+lesson.assessment+"\nsource: "+lesson.source; }); list.appendChild(b); });
+      detail.textContent = t("aca.filed", String(real.length)) +
+        (claimed === real.length ? "" : t("aca.mismatch", String(claimed))) +
+        t("aca.pick");
+      real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=(lesson.origin==="generated"?t("aca.generated")+" ":"")+lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\n"+t("aca.ev")+lesson.evidence+"\n"+t("aca.as")+lesson.assessment+"\n"+t("aca.src")+lesson.source; }); list.appendChild(b); });
     }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 
@@ -1746,10 +1746,10 @@
       if (unsealed.length) status.textContent += "\n" + t("cty.unsealed") + ": " + unsealed.map(function (a) { return a.name; }).join(", ");
       arches.slice(-40).forEach(function (a) {
         var b = document.createElement("button"); b.className = "cmd-btn";
-        b.textContent = a.name + "  [" + a.kind + (a.sealed ? " · sealed" : " · UNSEALED") + "]";
+        b.textContent = a.name + "  [" + a.kind + (a.sealed ? t("cty.sealed") : t("cty.unsealed.badge")) + "]";
         b.addEventListener("click", function () {
-          detail.textContent = a.name + "\n  kind: " + a.kind + "\n  sealed: " + a.sealed +
-            (a.files != null ? "\n  files: " + a.files : "");
+          detail.textContent = a.name + "\n  " + t("cty.kind.lbl") + a.kind + "\n  " + t("cty.sealed.lbl") + a.sealed +
+            (a.files != null ? "\n  " + t("cty.files.lbl") + a.files : "");
         });
         list.appendChild(b);
       });
@@ -1954,7 +1954,7 @@
     var title = "engine.os — governed runtime registry";
     if (openWins[title]) { focus(openWins[title]); return; }
     var box = document.createElement("div"); box.className = "win-body academy-pane";
-    box.innerHTML = "<p><strong>ENGINE.OS</strong> <small>— every runtime the desk may trust, one signed roster</small></p>" +
+    box.innerHTML = "<p><strong>ENGINE.OS</strong> <small>— " + esc(t("eng.tag")) + "</small></p>" +
       "<p><small>" + esc(t("eng.note")) + "</small></p>";
     var status = document.createElement("pre"); status.style.whiteSpace = "pre-wrap";
     var list = document.createElement("div"); list.className = "academy-list";
@@ -1966,7 +1966,7 @@
       if (!p || p.spec !== "ENGINEMANIFESTv1") { status.textContent = t("eng.invalid"); return; }
       var rts = p.runtimes || {};
       status.textContent = t("eng.status", String(p.runtime_count || 0)) +
-        "\n" + t("eng.signed") + ": " + (m.sig_ed25519 ? "yes" : "NO") +
+        "\n" + t("eng.signed") + ": " + (m.sig_ed25519 ? t("eng.yes") : t("eng.no")) +
         " · " + (m.pubkey_hint || "?") +
         "\n" + t("eng.stamped") + ": " + (p.ts || "?") +
         "\n" + t("eng.lineage") + ": " + ((p.genesis_sha256 || "?").slice(0, 24)) + "…" +
@@ -1999,8 +1999,8 @@
     var title = "q-branch — science inventory";
     if (openWins[title]) { focus(openWins[title]); return; }
     var box = document.createElement("div"); box.className = "win-body academy-pane";
-    box.innerHTML = "<p><strong>Q BRANCH — SCIENCE INVENTORY</strong> <small>— what the fleet can actually compute</small></p>" +
-      "<p><small>Labels are honest: VERIFIED IN HOUSE · PATTERN ONLY · UNBUILT · FICTION DRAWER.</small></p>";
+    box.innerHTML = "<p><strong>" + esc(t("qb.title")) + "</strong> <small>— " + esc(t("qb.tag")) + "</small></p>" +
+      "<p><small>" + esc(t("qb.hint")) + "</small></p>";
     var filters = document.createElement("p"), list = document.createElement("div"),
         detail = document.createElement("pre");
     list.className = "academy-list"; detail.style.whiteSpace = "pre-wrap";
@@ -2010,11 +2010,11 @@
       var counts = inv.verdict_counts || {};
       /* the honest floor is the codex — count it for the cartographer */
       state.anomsTotal = inv.terms.filter(function (t) { return FLOOR_VERDICTS[t.verdict]; }).length;
-      detail.textContent = inv.term_count + " corpus terms filed\n" +
+      detail.textContent = t("qb.terms", String(inv.term_count)) + "\n" +
         Object.keys(counts).map(function (k) { return "  " + k + ": " + counts[k]; }).join("\n") +
-        "\n\nanomalies on file: " + state.anomsTotal +
-        "  ·  inspected: " + state.anoms.length +
-        "\n\nchoose a term.";
+        "\n\n" + t("qb.anoms") + state.anomsTotal +
+        "  ·  " + t("qb.ins") + state.anoms.length +
+        "\n\n" + t("qb.pick");
       var modes = ["all", "modeled", "sheraton_modeled", "mappable_verified", "gap", "speculative"];
       modes.forEach(function (m) {
         var b = document.createElement("button"); b.className = "cmd-btn";
@@ -2035,13 +2035,12 @@
                         : (zh ? ANOMALY_FALLBACK_ZH : ANOMALY_FALLBACK))
                     : null);
                 detail.textContent = t.term + "\n\n" + t.label + " (" + t.verdict + ")" +
-                  (zh ? "\n等級: " : "\ngrade: ") + t.grade +
-                  (t.spec007_sections.length ? (zh ? "\nspec-007 章節: " : "\nspec-007 sections: ") + t.spec007_sections.join(", ") : "") +
-                  (zh ? "\n來源: " : "\nsource: ") + t.source +
-                  (t.unbuilt ? (zh ? "\n\n— 未建:在 Q 部門工單上,尚非機關。" : "\n\n— UNBUILT: on the Q Branch work order, not yet a gadget.") : "") +
-                  (lore ? (zh ? "\n\n— 異常編纂 —\n" : "\n\n— ANOMALY CODEX —\n") + lore +
-                    (zh ? "\n(已查 " + state.anoms.length + " / " + state.anomsTotal + " 異常)" :
-                          "\n(inspected " + state.anoms.length + " of " + state.anomsTotal + " anomalies)") : "");
+                  "\n" + t("an.grade") + t.grade +
+                  (t.spec007_sections.length ? "\n" + t("an.sections") + t.spec007_sections.join(", ") : "") +
+                  "\n" + t("an.src") + t.source +
+                  (t.unbuilt ? "\n\n" + t("an.unbuilt") : "") +
+                  (lore ? "\n\n" + t("an.codex") + "\n" + lore +
+                    "\n" + t("an.ins", String(state.anoms.length), String(state.anomsTotal)) : "");
               });
               list.appendChild(tb);
             });
@@ -2300,7 +2299,7 @@
       case "export-desk":
         if (!FANO_AUTH.session.sk) return "export-desk: unlock first — the desk signs its own transfer";
         var dtok = FANO_AUTH.exportDesk();
-        if (dtok) copyText(dtok, "desk token on the clipboard");
+        if (dtok) copyText(dtok, t("flag.desktoken"));
         return dtok ? dtok + "\n— FANO-DESK-v1 · the keystore stays wrapped; 'import-desk <token>' on an unfounded desk"
                     : "export-desk: refused — no record to carry";
       case "import-desk":
@@ -2799,7 +2798,7 @@
     if (!sm) return;
     var d = document.createElement("div");
     d.className = "sm-item";
-    function paint() { d.innerHTML = "<span>Sound</span><span class='hint'>" + (state.muted ? "muted" : "live") + "</span>"; }
+    function paint() { d.innerHTML = "<span>" + esc(t("sm.sound")) + "</span><span class='hint'>" + (state.muted ? esc(t("fm.muted")) : esc(t("fm.live"))) + "</span>"; }
     d.addEventListener("click", function (e) {
       e.stopPropagation();
       state.muted = !state.muted; save(); paint();
@@ -2815,7 +2814,7 @@
     if (!sm) return;
     var d = document.createElement("div");
     d.className = "sm-item";
-    d.innerHTML = "<span>Screensaver</span><span class='hint'>the ledger drifts</span>";
+    d.innerHTML = "<span>" + esc(t("sm.saver")) + "</span><span class='hint'>" + esc(t("sm.saverhint")) + "</span>";
     d.addEventListener("click", function () { sm.classList.remove("open"); saverStart(); });
     var run = document.getElementById("sm-run");
     sm.insertBefore(d, run);
@@ -2825,9 +2824,9 @@
     var D = window.ADMIRALTY_DESK, sm = document.getElementById("start-menu");
     if (!D || !D.isDesk || !sm) return;
     var run = document.getElementById("sm-run");
-    [["Minimize shell", "ctrl+m", D.minimize],
-     ["Full-screen", "f11", D.toggleFullscreen],
-     ["Exit workstation", "ctrl+shift+q", D.quit]].forEach(function (it) {
+    [[t("sm.min"), "ctrl+m", D.minimize],
+     [t("sm.fs"), "f11", D.toggleFullscreen],
+     [t("sm.exit"), "ctrl+shift+q", D.quit]].forEach(function (it) {
       var d = document.createElement("div");
       d.className = "sm-item";
       d.innerHTML = "<span>" + it[0] + "</span><span class='hint'>" + it[1] + "</span>";
@@ -3132,7 +3131,7 @@
       var d = document.createElement("div");
       d.className = "cyc-item" + (i === cycIdx % cycList.length ? " on" : "");
       d.textContent = w.querySelector(".win-title").textContent +
-        (w.style.display === "none" ? "  (shelved)" : "");
+        (w.style.display === "none" ? t("win.shelved") : "");
       cycEl.appendChild(d);
     });
     cycEl.classList.add("on");
@@ -3308,9 +3307,9 @@
     fetch("assets/spec007.wasm").then(function (r) { return r.arrayBuffer(); })
       .then(function (b) { return WebAssembly.instantiate(b); })
       .then(function (o) {
-        wasmLine = o.instance.exports.fano_alive() === 421 ? "LIVE · 421" : "ALIVE?";
+        wasmLine = o.instance.exports.fano_alive() === 421 ? t("sys.live421") : t("sys.aliveq");
       })
-      .catch(function () { wasmLine = "ABSENT"; });
+      .catch(function () { wasmLine = t("sys.absent"); });
     var hair = document.createElement("div");
     hair.id = "boot-hair";
     bootEl.appendChild(hair);
@@ -3349,11 +3348,10 @@
     });
   }
 
-  function t(k, a1, a2) {
+  function t(k) {
     var dict = window.FANO_I18N || {}; /* read live — icons build before this line runs */
     var s = (dict[state.lang] && dict[state.lang][k]) || (dict.en && dict.en[k]) || k;
-    if (a1 !== undefined) s = s.replace("%s", a1);
-    if (a2 !== undefined) s = s.replace("%s", a2);
+    for (var i = 1; i < arguments.length; i++) s = s.replace("%s", arguments[i]);
     return s;
   }
   function applyLang() {
@@ -3462,8 +3460,8 @@
         t("sys.uptime") + "  " + fmtTime(Math.floor((Date.now() - sessionStart) / 1000)) + "\n" +
         t("sys.fps") + "  " + fps + " fps\n" +
         t("sys.windows") + "  " + document.querySelectorAll(".win").length + " " + t("sys.open") + "\n" +
-        t("sys.wasm") + "  " + (wasmAlive === null ? t("sys.probing") : wasmAlive ? "ALIVE · 421 nodes" : "ABSENT") + "\n" +
-        t("sys.lattice") + "  " + (llmAlive === null ? t("sys.probing") : llmAlive ? "OLLAMA RESIDENT" : t("sys.offline")) + "\n" +
+        t("sys.wasm") + "  " + (wasmAlive === null ? t("sys.probing") : wasmAlive ? t("sys.alive", "421") : t("sys.absent")) + "\n" +
+        t("sys.lattice") + "  " + (llmAlive === null ? t("sys.probing") : llmAlive ? t("sys.ollama") : t("sys.offline")) + "\n" +
         t("fm.livery") + "  " + THEMES[state.theme].label + "\n" +
         t("fm.clearance") + "  L" + clearance() + " · " + state.xp + "xp\n" +
         t("fm.eggs") + "  " + state.eggs.length + "/" + eggTotal() + " · " + t("fm.achievements") + " " +
@@ -3568,10 +3566,10 @@
     if (FANO_AUTH.isContained && FANO_AUTH.isContained()) {
       var nb = document.createElement("div");
       nb.className = "win-body academy-pane";
-      nb.innerHTML = "<p><strong>CONTAINMENT</strong> <small>— automation flag on this identity</small></p>" +
-        "<p><small>This desk flagged the identity as bot-shaped. Wire, grants, branch requests, and the governed bridge are sealed. The academy is open — learn. A STATION-CHIEF+ human reviews the flag; their signed FANO-CONTAIN-v1 promotion paper releases you.</small></p>";
+      nb.innerHTML = "<p><strong>" + esc(t("con.title")) + "</strong> <small>— " + esc(t("con.tag")) + "</small></p>" +
+        "<p><small>" + esc(t("con.body")) + "</small></p>";
       var pf = document.createElement("input");
-      pf.className = "term-in"; pf.placeholder = "paste promotion paper here"; pf.spellcheck = false;
+      pf.className = "term-in"; pf.placeholder = t("ph.promo"); pf.spellcheck = false;
       pf.style.cssText = "width:100%;margin-top:6px";
       pf.addEventListener("change", function () {
         if (FANO_AUTH.importPromotion(pf.value)) {
