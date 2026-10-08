@@ -211,7 +211,8 @@ for (const r of rows) {
     const n = parseInt(m[1].replace(/,/g, ""), 10), w = m[2].toLowerCase();
     let live = null, snapshot = false;
     if (/lesson/.test(w)) live = facts.lessons;
-    else if (/capabilit|row/.test(w)) live = facts.capabilities;
+    else if (/capabilit/.test(w)) live = facts.capabilities;
+    else if (/row/.test(w)) { live = facts.findings; snapshot = true; }
     else if (/runtime/.test(w)) live = facts.runtimes;
     else if (/archive/.test(w)) { live = facts.archives; snapshot = true; }
     else if (/probe|finding/.test(w)) { live = facts.findings; snapshot = true; }
@@ -219,9 +220,10 @@ for (const r of rows) {
     else if (/codex|entries/.test(w)) live = facts.codex;
     else if (/asset/.test(w)) live = facts.assets;
     /* snapshot counts (probes/archives/findings) are wave-dated measurements —
-       growth after the claim was written is not drift */
-    const ok = live == null ? "unmapped" : n === live ? "ok" :
-      snapshot || n < live ? "snapshot" : "drift";
+       they never count as anchors and never drift; identity-count claims
+       (lessons/claims/codex/capabilities/runtimes) are verified live */
+    const ok = snapshot ? "snapshot" : live == null ? "unmapped" :
+      n === live ? "ok" : "drift";
     return { cited: n, word: w, live, ok };
   });
   const anchors = pathHits.length + probesHeld.length +
