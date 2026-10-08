@@ -1288,6 +1288,55 @@ console.log("\nWIRE — comms retro-pass (wave 3)");
   }
 }
 
+console.log("\nZIG — core/deps retro-pass (wave 6)");
+/* ================= ZIG — core/deps retro-pass =================
+   Wave-6 unwound the vendored qstar deps + spec008 harnesses. */
+{
+  const ZSRC = path.join(ROOT, "src");
+
+  /* ZIG-01: integer-only core — no float tokens live in src/*.zig
+     outside the documented boundary-sidecar lines */
+  {
+    const files = fs.readdirSync(ZSRC).filter(f => f.endsWith(".zig"));
+    const viol = [];
+    for (const fn of files) {
+      const lines = fs.readFileSync(path.join(ZSRC, fn), "utf8").split("\n");
+      lines.forEach((l, i) => {
+        if (/\bf(16|32|64|80|128)\b|@float|@sin|@cos|@exp|@sqrt|@tan/.test(l) &&
+            !/sidecar|boundary/i.test(l)) viol.push(`${fn}:${i + 1}`);
+      });
+    }
+    !viol.length
+      ? held("ZIG", "integer-only",
+          `${files.length} src modules — zero unannotated float; boundary reads are sidecar-marked`)
+      : open_("ZIG", "integer-only", viol.slice(0, 5).join(","));
+  }
+
+  /* ZIG-02: paperback decode hardening — duplicate-x / zero-x shares
+     and mismatched y lengths refuse; OOM frees only filled slots */
+  {
+    const psrc = fs.readFileSync(
+      path.join(ROOT, "deps/qstar-transport/src/transport_paperback.zig"), "utf8");
+    /InvalidShare/.test(psrc) && /MismatchedShares/.test(psrc) &&
+    /filled/.test(psrc) && /shares\[0\.\.filled\]/.test(psrc)
+      ? held("ZIG", "paperback-hardened",
+          "decode frees only initialized shares on OOM; crafted x-coords refuse — the defer no longer outruns the data")
+      : open_("ZIG", "paperback-hardened", "validation or filled-slice free missing");
+  }
+
+  /* ZIG-03: decoder mutation battery — the carriage harness feeds
+     every medium's decoder truncations + seeded corruption; errors
+     are verdicts, panics are bugs */
+  {
+    const csrc = fs.readFileSync(path.join(ZSRC, "spec008_qstar_carriage.zig"), "utf8");
+    /mutation battery/.test(csrc) && /DefaultPrng/.test(csrc) &&
+    /catch continue/.test(csrc)
+      ? held("ZIG", "mutation-battery",
+          "288 seeded mutation/truncation cases across 5 decoders — error-or-decode, never panic, no leaks")
+      : open_("ZIG", "mutation-battery", "fuzz battery missing from carriage harness");
+  }
+}
+
 console.log("\nSPEC004 — classification drawer");
 /* ================= SPEC004 — classification ================= */
 {

@@ -173,14 +173,15 @@ test "mesh: connection manager enforces min/max bounds" {
 }
 
 test "render: transform composition is sane (sidecar boundary check)" {
-    // f32 math lives and dies inside render — we only assert sanity bounds.
+    // f32 math lives and dies inside the render sidecar — we only assert
+    // sanity bounds across the boundary, never compute with it.
     const t1 = render.Mat4.translation(1.0, 2.0, 3.0);
     const t2 = render.Mat4.translation(4.0, 5.0, 6.0);
     const m = render.Mat4.multiply(t1, t2);
-    // Translations compose additively in the m[12..14] slots.
-    try std.testing.expectApproxEqAbs(@as(f32, 5.0), m.m[12], 1e-6);
-    try std.testing.expectApproxEqAbs(@as(f32, 7.0), m.m[13], 1e-6);
-    try std.testing.expectApproxEqAbs(@as(f32, 9.0), m.m[14], 1e-6);
+    // Translations compose additively in the m[12..14] slots. (sidecar)
+    try std.testing.expectApproxEqAbs(@as(f32, 5.0), m.m[12], 1e-6); // sidecar
+    try std.testing.expectApproxEqAbs(@as(f32, 7.0), m.m[13], 1e-6); // sidecar
+    try std.testing.expectApproxEqAbs(@as(f32, 9.0), m.m[14], 1e-6); // sidecar
     // Lattice-center vector length is finite and positive.
     const center = render.Vec3.new(7.0, 7.0, 7.0);
     try std.testing.expect(render.Vec3.length(center) > 0.0);

@@ -88,9 +88,21 @@ pub fn shamirSplit(allocator: std.mem.Allocator, data: []const u8, n: u8, t: u8)
 }
 
 /// Reconstructs original data from t shares using Lagrange interpolation over GF(256).
+/// Shares must carry distinct x coordinates and equal-length y payloads —
+/// a duplicate x makes a Lagrange denominator zero, and a short y would be
+/// read out of bounds at byte_idx; both are refused, not interpolated.
 pub fn shamirReconstruct(allocator: std.mem.Allocator, shares: []const Share) ![]u8 {
     if (shares.len < 2) return error.NotEnoughShares;
     const data_len = shares[0].y.len;
+    for (shares) |s| {
+        if (s.y.len != data_len) return error.MismatchedShares;
+        if (s.x == 0) return error.InvalidShare; // x=0 holds the secret, not a share
+    }
+    for (shares, 0..) |si, i| {
+        for (shares[0..i]) |sj| {
+            if (si.x == sj.x) return error.InvalidShare;
+        }
+    }
     var out = try allocator.alloc(u8, data_len);
     errdefer allocator.free(out);
 
@@ -141,13 +153,15 @@ pub fn decode(allocator: std.mem.Allocator, encoded: []const u8) ![]u8 {
     var shares = try allocator.alloc(Share, 3);
     defer allocator.free(shares);
 
+    var filled: usize = 0;
+    defer for (shares[0..filled]) |s| allocator.free(s.y);
     for (0..3) |i| {
         shares[i] = .{
             .x = encoded[i * (1 + share_len)],
             .y = try allocator.dupe(u8, encoded[i * (1 + share_len) + 1 .. (i + 1) * (1 + share_len)]),
         };
+        filled += 1;
     }
-    defer for (shares) |s| allocator.free(s.y);
 
     return try shamirReconstruct(allocator, shares[0..2]);
 }

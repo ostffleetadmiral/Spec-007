@@ -153,6 +153,113 @@ test "carriage: LoRa frame carries the envelope; oversize refuses honestly" {
     try std.testing.expectError(error.PayloadTooLarge, lora.encodePacket(a, oversize));
 }
 
+test "carriage: paperback decode refuses crafted share containers" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+    const enc = try paper.encode(a, &pkt);
+    defer a.free(enc);
+    const share_span = enc.len / 3;
+
+    // Duplicate x across shares 0+1: Lagrange denominator divides by
+    // x0 ^ x1 = 0 — must refuse, not silently interpolate garbage.
+    var dup = try a.dupe(u8, enc);
+    defer a.free(dup);
+    dup[share_span] = dup[0]; // share1.x := share0.x
+    try std.testing.expectError(error.InvalidShare, paper.decode(a, dup));
+
+    // x=0 is not a share — the share at x=0 IS the secret. Refuse.
+    var zero = try a.dupe(u8, enc);
+    defer a.free(zero);
+    zero[0] = 0;
+    try std.testing.expectError(error.InvalidShare, paper.decode(a, zero));
+
+    // Direct API: mismatched y lengths refuse before any OOB byte_idx.
+    var sh = [2]paper.Share{
+        .{ .x = 1, .y = @constCast("ab") },
+        .{ .x = 2, .y = @constCast("abc") },
+    };
+    try std.testing.expectError(error.MismatchedShares, paper.shamirReconstruct(a, &sh));
+}
+
+test "carriage: paperback decode frees cleanly on the OOM path" {
+    // The container decoder allocates three share bodies in sequence;
+    // a failure at dupe 2 must not free uninitialized share slots.
+    var failing = std.testing.FailingAllocator.init(std.testing.allocator, .{ .fail_index = 2 });
+    const a = failing.allocator();
+    const pkt = testPacket();
+    const enc = try paper.encode(std.testing.allocator, &pkt);
+    defer std.testing.allocator.free(enc);
+    try std.testing.expectError(error.OutOfMemory, paper.decode(a, enc));
+}
+
+test "carriage: mutation battery — decoders error, never panic" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+
+    // Encode once per medium, then hammer each decoder with truncations
+    // and seeded bit-flips. Any error or clean decode is a pass; a panic
+    // or leak is a fail (testing.allocator reports leaks).
+    const enc_qr = try qr.encode(a, &pkt);
+    defer a.free(enc_qr);
+    const enc_audio = try audio.encode(a, &pkt);
+    defer a.free(enc_audio);
+    const enc_paper = try paper.encode(a, &pkt);
+    defer a.free(enc_paper);
+    var cover_src: [4096]u8 = undefined;
+    for (&cover_src, 0..) |*b, i| b.* = @truncate(i *% 53 +% 200);
+    const enc_stega = try stega.encode(a, &pkt, &cover_src);
+    defer a.free(enc_stega);
+    const enc_poly = try poly.encode(a, &pkt, .jar);
+    defer a.free(enc_poly);
+
+    var prng = std.Random.DefaultPrng.init(0xF4A0);
+    const r = prng.random();
+
+    // QR: identity codec — every mutation still decodes (it is a dupe).
+    for (0..64) |_| {
+        var m = try a.dupe(u8, enc_qr);
+        defer a.free(m);
+        if (m.len > 0) m[r.intRangeAtMost(usize, 0, m.len - 1)] ^= 0xFF;
+        const d = qr.decode(a, m) catch continue;
+        defer a.free(d);
+    }
+    // Audio RS: mutated input must error-or-decode, never OOB.
+    for (0..64) |i| {
+        const n = @min(enc_audio.len, i * 3);
+        var m = try a.dupe(u8, enc_audio[0..n]);
+        defer a.free(m);
+        if (m.len > 0) m[r.intRangeAtMost(usize, 0, m.len - 1)] ^= 0xA5;
+        const d = audio.decode(a, m) catch continue;
+        defer a.free(d);
+    }
+    // Paperback: truncations + x-coordinate corruption.
+    for (0..96) |i| {
+        const n = @min(enc_paper.len, i * 5);
+        var m = try a.dupe(u8, enc_paper[0..n]);
+        defer a.free(m);
+        if (m.len > 0) m[r.intRangeAtMost(usize, 0, m.len - 1)] = r.int(u8);
+        const d = paper.decode(a, m) catch continue;
+        defer a.free(d);
+    }
+    // Stega: header and pixel mutations.
+    for (0..64) |_| {
+        var m = try a.dupe(u8, enc_stega);
+        defer a.free(m);
+        if (m.len > 0) m[r.intRangeAtMost(usize, 0, m.len - 1)] ^= 0x5A;
+        const d = stega.decode(a, m) catch continue;
+        defer a.free(d);
+    }
+    // Polyglot JAR: truncations and signature corruption.
+    for (0..64) |i| {
+        const n = @min(enc_poly.len, i * 40);
+        var m = try a.dupe(u8, enc_poly[0..n]);
+        defer a.free(m);
+        if (m.len > 0) m[r.intRangeAtMost(usize, 0, m.len - 1)] ^= 0x99;
+        const d = poly.decode(a, m, .jar) catch continue;
+        defer a.free(d);
+    }
+}
+
 test "carriage: maypole bridge forwards WiFi->LoRa->WiFi byte-exact" {
     const a = std.testing.allocator;
     const pkt = testPacket();

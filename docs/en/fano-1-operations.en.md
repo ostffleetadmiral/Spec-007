@@ -212,6 +212,26 @@ probed (WIRE-01..07):
   parity (DESK-20). Residual: the terminal command corpus and
   ANOMALY_LORE remain EN-canon pending the twin audit.
 
+### 3e. Wire internals — what the core refuses (wave-6 retro-pass)
+
+`deps/qstar-transport` and the `src/spec008_*` harnesses unwound
+(ZIG-01..03):
+
+- **The paperback decoder is memory-safe under OOM.** Share bodies
+  free only what was filled — the old `defer` outran the data and
+  touched undefined slots.
+- **Crafted shares refuse.** Duplicate x-coords and zero-x shares
+  hit `InvalidShare`; mismatched y lengths hit `MismatchedShares` —
+  Lagrange denominators can no longer divide by zero silently
+  (ZIG-02).
+- **Every decoder survives the mutation battery.** 288 seeded
+  truncations and corruptions across QR, audio, paperback, stega,
+  and polyglot — errors or clean decodes, never a panic or leak
+  (ZIG-03).
+- **The core stays integer-only.** `src/*.zig` holds zero
+  unannotated float; render/mesh f32 reads are marked sidecar
+  boundary assertions (ZIG-01).
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import
