@@ -384,6 +384,24 @@ roster, tagged ILLUSTRATIVE where the deck's truth tags require it —
 the arrangement is schematic, the data is real (PROD-03). `director`
 and `nebula` commands open both; both surfaces wear bilingual chrome.
 
+### 3o. course-gen — the generated curriculum (sentience w6)
+
+The blueprint's final phase closes the loop the campaign itself
+documents: `tools/course-gen.mjs` reads the wave reports under
+`security/out/` — the primary record of what was actually built and
+verified — and emits academy lessons deterministically. Bare run is a
+dry-run; `--emit` merges into `academy-manifest.json`; `--verify`
+proves the filed generated set reproduces byte-exact (CURR-01).
+Generated lessons are labeled, not laundered: `origin:"generated"`
+(badged in the academy pane), `evidence:"wave_report"` with every
+source path resolving under the repo (CURR-02), `assessment:
+"deterministic_review_required"` and an honest `language:["en"]` — no
+reviewed zh twin is claimed for machine-derived text (CURR-03). The
+manifest now files 546 lessons: 530 human/spec corpus + 16 generated
+campaign modules. With this wave all seven blueprint phases stand
+PROMOTED or explicitly BOUNDARY-labeled — `BLUEPRINT-MAP.md` carries
+the post-port grades, and C92 records the state.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

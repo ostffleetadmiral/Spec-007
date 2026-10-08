@@ -156,6 +156,19 @@ PROD-02),附鏡次計數與判決註記,絕無渲染、上傳或 XR 之虛稱。
 真實(PROD-03)。`director` 與 `nebula` 指令開啟兩者;兩表面皆披
 雙語制服。
 
+### 3o. course-gen — 生成式課程(統一生態第六波)
+
+藍圖末段閉合戰役自身所記之環:`tools/course-gen.mjs` 讀取
+`security/out/` 下之波次報告 — 所建與所驗之首手記錄 — 確定性
+產出學院課程。裸執行為試跑;`--emit` 併入 `academy-manifest.json`;
+`--verify` 證明已錄之生成集合逐字節復現(CURR-01)。生成課程明標
+而非漂洗:`origin:"generated"`(學院窗格標章)、
+`evidence:"wave_report"` 且每條來源路徑皆可於倉庫內解析(CURR-02)、
+`assessment:"deterministic_review_required"`,並誠實標為
+`language:["en"]` — 機生文本不虛稱已審中文雙生(CURR-03)。清單現
+錄 546 課:530 人文/規範典課 + 16 生成戰役模組。至此藍圖七階段悉數
+晉升或明標邊界 — `BLUEPRINT-MAP.md` 載移植後評級,C92 記其狀。
+
 ## 4. 桌面轉移 — FANO-DESK-v1
 
 誓約終端之 `export-desk` / `import-desk`,或轉移畫面之 DOM 匯入路徑(Electron 相容 — 身分路徑全程無 `prompt()`)。套件攜帶封裝之密鑰庫記錄與創始狀態,由匯出桌之金鑰簽署。私鑰素材全程封裝;匯入桌拒絕覆於已創始之桌,亦拒絕外來創始之偽造。雙向通行:瀏覽器↔Electron 任意方向。具橋接之處(§6),鑄造/匯出之權杖自動推送至系統剪貼簿。

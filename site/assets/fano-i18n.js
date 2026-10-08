@@ -256,6 +256,7 @@ window.FANO_I18N = {
     "sts.spec.loading": "loading canonical spec registry…",
     "sts.spec.down": "spec registry unavailable — ",
     "sts.academy.down": "academy manifest unavailable — ",
+    "aca.generated": "[generated]",
     "sts.science.down": "science inventory unavailable — ",
 
     /* toasts — the desk's running commentary */
@@ -644,6 +645,7 @@ window.FANO_I18N = {
     "sts.spec.loading": "讀取正典規格登錄…",
     "sts.spec.down": "規格登錄不可用 — ",
     "sts.academy.down": "學院清單不可用 — ",
+    "aca.generated": "[生成]",
     "sts.science.down": "科學目錄不可用 — ",
 
     /* 浮訊 — 桌面之旁白 */

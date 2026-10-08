@@ -1,5 +1,5 @@
 {
-  "lesson_count": 530,
+  "lesson_count": 546,
   "lessons": [
     {
       "access": "public",
@@ -332,7 +332,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Academic misconduct includes: 1. Plagiarism; 2. Cheating on assessments; 3. Unauthorized collaboration; 4. Fabrication of data or results; 5. Misuse of AI to generate work presented as one\u2019s own without authorization; 6. Facilitating academic dishonesty by others.",
+      "outcome": "Academic misconduct includes: 1. Plagiarism; 2. Cheating on assessments; 3. Unauthorized collaboration; 4. Fabrication of data or results; 5. Misuse of AI to generate work presented as one’s own without authorization; 6. Facilitating academic dishonesty by others.",
       "source": "human_academic/AcademicPoliciesManual.md",
       "title": "Section 1. Prohibited Conduct",
       "topic": "ethics"
@@ -418,7 +418,7 @@
       ],
       "outcome": "The Academy provides reasonable accommodations for learners with disabilities, religious obligations, and other protected needs. Requests are handled confidentially by the Equity & Student Success Division. ",
       "source": "human_academic/AcademicPoliciesManual.md",
-      "title": "Article X \u2014 Accommodations and Accessibility",
+      "title": "Article X — Accommodations and Accessibility",
       "topic": "security"
     },
     {
@@ -432,7 +432,7 @@
       ],
       "outcome": "This Manual may be amended by the Academy Executive Council with approval by the Admiralty. Amendments to grading, credentialing, or integrity standards require 4/5 Admiralty vote. ",
       "source": "human_academic/AcademicPoliciesManual.md",
-      "title": "Article XI \u2014 Amendments",
+      "title": "Article XI — Amendments",
       "topic": "identity"
     },
     {
@@ -446,7 +446,7 @@
       ],
       "outcome": "This Academic Policies Manual is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/AcademicPoliciesManual.md",
-      "title": "Article XII \u2014 Adoption",
+      "title": "Article XII — Adoption",
       "topic": "orientation"
     },
     {
@@ -514,7 +514,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Standard apprentice classifications include: Crewman Third Class** \u2014 entry-level apprentice; Crewman Second Class** \u2014 intermediate apprentice; Crewman First Class** \u2014 advanced apprentice. Additional classifications, certifications, and advancement criteria are defined in the Academic Policies Manual and Curriculum Standards Framework.",
+      "outcome": "Standard apprentice classifications include: Crewman Third Class** — entry-level apprentice; Crewman Second Class** — intermediate apprentice; Crewman First Class** — advanced apprentice. Additional classifications, certifications, and advancement criteria are defined in the Academic Policies Manual and Curriculum Standards Framework.",
       "source": "human_academic/ApprenticeHandbook.md",
       "title": "Section 1. Apprenticeship Tiers",
       "topic": "security"
@@ -754,7 +754,7 @@
       ],
       "outcome": "This Handbook may be amended by the Admiralty by 3/5 vote. Amendments affecting apprenticeship rights or certification standards require 4/5 vote. ",
       "source": "human_academic/ApprenticeHandbook.md",
-      "title": "Article VIII \u2014 Amendments",
+      "title": "Article VIII — Amendments",
       "topic": "orientation"
     },
     {
@@ -768,7 +768,7 @@
       ],
       "outcome": "Apprentices shall acknowledge receipt of this Handbook, the NDA, and the Real Illumination Covenant before beginning the program. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/ApprenticeHandbook.md",
-      "title": "Article IX \u2014 Acknowledgment",
+      "title": "Article IX — Acknowledgment",
       "topic": "orientation"
     },
     {
@@ -836,9 +836,9 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The Academy may issue: 1. **Certificates** \u2014 for completing a defined program or course of study; 2. **Digital Badges** \u2014 for specific competencies or micro-credentials; 3. **Certifications** \u2014 for professional or technical qualifications requiring assessment; 4. **Transcripts** \u2014 records of courses, grades, and competencies; 5. **Apprentice Classifications** \u2014 Crewman Third Class, Second Class, First Class. ",
+      "outcome": "The Academy may issue: 1. **Certificates** — for completing a defined program or course of study; 2. **Digital Badges** — for specific competencies or micro-credentials; 3. **Certifications** — for professional or technical qualifications requiring assessment; 4. **Transcripts** — records of courses, grades, and competencies; 5. **Apprentice Classifications** — Crewman Third Class, Second Class, First Class. ",
       "source": "human_academic/CredentialingCertificationRules.md",
-      "title": "Article II \u2014 Types of Credentials",
+      "title": "Article II — Types of Credentials",
       "topic": "identity"
     },
     {
@@ -1006,7 +1006,7 @@
       ],
       "outcome": "The creation, sale, or use of fraudulent credentials is prohibited. The Academy may pursue disciplinary, legal, or reputational remedies against fraud. ",
       "source": "human_academic/CredentialingCertificationRules.md",
-      "title": "Article VII \u2014 Fraud and Misuse",
+      "title": "Article VII — Fraud and Misuse",
       "topic": "identity"
     },
     {
@@ -1020,7 +1020,7 @@
       ],
       "outcome": "These Rules may be amended by the Academy Executive Council with Admiralty approval. Amendments to credential types or assessment standards require 4/5 Admiralty vote. ",
       "source": "human_academic/CredentialingCertificationRules.md",
-      "title": "Article VIII \u2014 Amendments",
+      "title": "Article VIII — Amendments",
       "topic": "identity"
     },
     {
@@ -1034,7 +1034,7 @@
       ],
       "outcome": "These Credentialing / Certification System Rules are adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/CredentialingCertificationRules.md",
-      "title": "Article IX \u2014 Adoption",
+      "title": "Article IX — Adoption",
       "topic": "identity"
     },
     {
@@ -1102,7 +1102,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "All curricula shall advance OSTF\u2019s mission of open sentience technology, ethical AI, and equitable STEM education.",
+      "outcome": "All curricula shall advance OSTF’s mission of open sentience technology, ethical AI, and equitable STEM education.",
       "source": "human_academic/CurriculumStandardsFramework.md",
       "title": "Section 1. Mission Alignment",
       "topic": "ethics"
@@ -1356,7 +1356,7 @@
       ],
       "outcome": "This Framework may be amended by the Academy Executive Council with Admiralty approval. Amendments to core design principles require 4/5 Admiralty vote. ",
       "source": "human_academic/CurriculumStandardsFramework.md",
-      "title": "Article VII \u2014 Amendments",
+      "title": "Article VII — Amendments",
       "topic": "orientation"
     },
     {
@@ -1370,7 +1370,7 @@
       ],
       "outcome": "This Curriculum Standards Framework is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/CurriculumStandardsFramework.md",
-      "title": "Article VIII \u2014 Adoption",
+      "title": "Article VIII — Adoption",
       "topic": "systems"
     },
     {
@@ -1410,7 +1410,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "This Policy ensures that disciplinary actions are: 1. Fair, consistent, and proportionate; 2. Based on documented facts; 3. Conducted with respect for due process and dignity; 4. Free from retaliation, discrimination, and favoritism; 5. Aligned with OSTF\u2019s mission and legal obligations.",
+      "outcome": "This Policy ensures that disciplinary actions are: 1. Fair, consistent, and proportionate; 2. Based on documented facts; 3. Conducted with respect for due process and dignity; 4. Free from retaliation, discrimination, and favoritism; 5. Aligned with OSTF’s mission and legal obligations.",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
       "title": "Section 2. Purpose",
       "topic": "ethics"
@@ -1440,7 +1440,7 @@
       ],
       "outcome": "This Policy applies to all persons in the OSTF community, including officers, employees, apprentices, volunteers, and contractors. Officers are also subject to removal under the Admiralty Officer Appointment & Removal Policy for conduct that may warrant removal from office. ",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article II \u2014 Scope",
+      "title": "Article II — Scope",
       "topic": "ethics"
     },
     {
@@ -1454,7 +1454,7 @@
       ],
       "outcome": "Misconduct includes but is not limited to: 1. Violations of the Code of Conduct; 2. Harassment, discrimination, or retaliation; 3. Theft, fraud, or misuse of resources; 4. Unauthorized disclosure of confidential information; 5. Breach of the NDA or Real Illumination Covenant; 6. Violations of security, privacy, or AI ethics policies; 7. Conflict of interest violations; 8. Insubordination or refusal to comply with lawful directives; 9. Workplace violence or threats; 10. Failure to perform job duties after coaching; 11. Falsification of records or misrepresentation. ",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article III \u2014 Types of Misconduct",
+      "title": "Article III — Types of Misconduct",
       "topic": "ethics"
     },
     {
@@ -1466,9 +1466,9 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Disciplinary actions may include, singly or in combination: 1. **Verbal warning** \u2014 documented informally; 2. **Written warning** \u2014 placed in the personnel or program record; 3. **Performance Improvement Plan** \u2014 under the Performance Review Framework; 4. **Suspension** \u2014 temporary removal from duties, access, or premises; 5. **Demotion or reassignment** \u2014 reduction in role or transfer; 6. **Termination of employment/apprenticeship/volunteer status** \u2014 removal from the role; 7. **Removal from office** \u2014 for Admiralty officers, under the Appointment & Removal Policy; 8. **Legal action** \u2014 refer",
+      "outcome": "Disciplinary actions may include, singly or in combination: 1. **Verbal warning** — documented informally; 2. **Written warning** — placed in the personnel or program record; 3. **Performance Improvement Plan** — under the Performance Review Framework; 4. **Suspension** — temporary removal from duties, access, or premises; 5. **Demotion or reassignment** — reduction in role or transfer; 6. **Termination of employment/apprenticeship/volunteer status** — removal from the role; 7. **Removal from office** — for Admiralty officers, under the Appointment & Removal Policy; 8. **Legal action** — refer",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article IV \u2014 Levels of Disciplinary Action",
+      "title": "Article IV — Levels of Disciplinary Action",
       "topic": "ethics"
     },
     {
@@ -1622,7 +1622,7 @@
       ],
       "outcome": "Disciplinary records shall be retained confidentially according to the Records Retention Policy and Privacy Policy. Records of formal actions may be considered in future employment or role decisions as permitted by law. ",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article VIII \u2014 Records",
+      "title": "Article VIII — Records",
       "topic": "security"
     },
     {
@@ -1636,7 +1636,7 @@
       ],
       "outcome": "No person shall be retaliated against for reporting misconduct, participating in an investigation, or appealing a disciplinary decision in good faith. Retaliation is a separate violation. ",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article IX \u2014 Non-Retaliation",
+      "title": "Article IX — Non-Retaliation",
       "topic": "ai-literacy"
     },
     {
@@ -1650,7 +1650,7 @@
       ],
       "outcome": "This Policy may be amended by the Admiralty by 4/5 vote due to the significant impact on individuals. Amendments affecting appeal rights or officer removal procedures require unanimous approval. ",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article X \u2014 Amendments",
+      "title": "Article X — Amendments",
       "topic": "orientation"
     },
     {
@@ -1664,7 +1664,7 @@
       ],
       "outcome": "This Disciplinary Procedures Policy is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/DisciplinaryProceduresPolicy.md",
-      "title": "Article XI \u2014 Adoption",
+      "title": "Article XI — Adoption",
       "topic": "orientation"
     },
     {
@@ -1760,7 +1760,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Employees may be classified as full-time, part-time, or temporary. Classification affects benefits eligibility. The employee\u2019s offer letter and employment agreement define classification.",
+      "outcome": "Employees may be classified as full-time, part-time, or temporary. Classification affects benefits eligibility. The employee’s offer letter and employment agreement define classification.",
       "source": "human_academic/EmployeeHandbook.md",
       "title": "Section 3. Classification",
       "topic": "security"
@@ -1774,7 +1774,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Standard working hours are defined by the employee\u2019s role and supervisor. OSTF supports flexible scheduling where consistent with operational needs. Core collaboration hours may be established. ",
+      "outcome": "Standard working hours are defined by the employee’s role and supervisor. OSTF supports flexible scheduling where consistent with operational needs. Core collaboration hours may be established. ",
       "source": "human_academic/EmployeeHandbook.md",
       "title": "Section 4. Working Hours",
       "topic": "orientation"
@@ -1788,7 +1788,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Compensation is set by the employee\u2019s offer letter and adjusted through the Performance Review Framework. OSTF commits to fair and equitable pay.",
+      "outcome": "Compensation is set by the employee’s offer letter and adjusted through the Performance Review Framework. OSTF commits to fair and equitable pay.",
       "source": "human_academic/EmployeeHandbook.md",
       "title": "Section 1. Compensation",
       "topic": "ai-literacy"
@@ -1956,7 +1956,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "OSTF encourages continuous learning. Employees may request professional development opportunities aligned with their role and the Academy\u2019s programs.",
+      "outcome": "OSTF encourages continuous learning. Employees may request professional development opportunities aligned with their role and the Academy’s programs.",
       "source": "human_academic/EmployeeHandbook.md",
       "title": "Section 2. Professional Development",
       "topic": "orientation"
@@ -1986,7 +1986,7 @@
       ],
       "outcome": "Employees are encouraged to report concerns, misconduct, or policy violations under the Whistleblower Protection Policy. Reports may be made to the Commodore of Ethics and Equity, the Lead Security and Fabrication Officer, the Admiral of Financial Operations, or the Fleet Admiral. ",
       "source": "human_academic/EmployeeHandbook.md",
-      "title": "Article VII \u2014 Reporting Concerns",
+      "title": "Article VII — Reporting Concerns",
       "topic": "ethics"
     },
     {
@@ -2042,7 +2042,7 @@
       ],
       "outcome": "This Handbook may be amended by the Admiralty by 3/5 vote. Significant changes to compensation, benefits, or employment terms require 4/5 vote and notice to employees. ",
       "source": "human_academic/EmployeeHandbook.md",
-      "title": "Article IX \u2014 Amendments",
+      "title": "Article IX — Amendments",
       "topic": "orientation"
     },
     {
@@ -2056,7 +2056,7 @@
       ],
       "outcome": "Employees shall acknowledge receipt of this Handbook and the NDA and Real Illumination Covenant. Acknowledgment does not create a contract of employment for a specific term. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/EmployeeHandbook.md",
-      "title": "Article X \u2014 Acknowledgment",
+      "title": "Article X — Acknowledgment",
       "topic": "systems"
     },
     {
@@ -2166,7 +2166,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Faculty have the freedom to explore ideas, teach, and conduct research within the bounds of the Academy\u2019s mission, ethical standards, and applicable law.",
+      "outcome": "Faculty have the freedom to explore ideas, teach, and conduct research within the bounds of the Academy’s mission, ethical standards, and applicable law.",
       "source": "human_academic/FacultyHandbook.md",
       "title": "Section 1. Academic Freedom",
       "topic": "ethics"
@@ -2336,7 +2336,7 @@
       ],
       "outcome": "Faculty must disclose conflicts of interest and outside activities that could affect their role, including consulting, employment, research funding, or commercial interests. Conflicts are managed under the Conflict of Interest Policy. ",
       "source": "human_academic/FacultyHandbook.md",
-      "title": "Article VII \u2014 Conflict of Interest and Outside Activities",
+      "title": "Article VII — Conflict of Interest and Outside Activities",
       "topic": "systems"
     },
     {
@@ -2350,7 +2350,7 @@
       ],
       "outcome": "This Handbook may be amended by the Academy Executive Council with Admiralty approval. Amendments affecting academic freedom or appointment terms require 4/5 Admiralty vote. ",
       "source": "human_academic/FacultyHandbook.md",
-      "title": "Article VIII \u2014 Amendments",
+      "title": "Article VIII — Amendments",
       "topic": "orientation"
     },
     {
@@ -2364,7 +2364,7 @@
       ],
       "outcome": "This Faculty Handbook is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/FacultyHandbook.md",
-      "title": "Article IX \u2014 Adoption",
+      "title": "Article IX — Adoption",
       "topic": "orientation"
     },
     {
@@ -2474,9 +2474,9 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Performance is evaluated across the following dimensions, tailored to role: 1. **Mission Alignment** \u2014 commitment to OSTF values, ethics, and the Real Illumination Covenant; 2. **Role Competency** \u2014 technical and professional skills required for the role; 3. **Impact** \u2014 contribution to goals, projects, and outcomes; 4. **Collaboration** \u2014 ability to work effectively with others, including AI agents and diverse teams; 5. **Innovation and Learning** \u2014 growth, curiosity, and adaptation; 6. **Stewardship** \u2014 responsible use of resources, data, and authority; 7. **Compliance** \u2014 adherence to polic",
+      "outcome": "Performance is evaluated across the following dimensions, tailored to role: 1. **Mission Alignment** — commitment to OSTF values, ethics, and the Real Illumination Covenant; 2. **Role Competency** — technical and professional skills required for the role; 3. **Impact** — contribution to goals, projects, and outcomes; 4. **Collaboration** — ability to work effectively with others, including AI agents and diverse teams; 5. **Innovation and Learning** — growth, curiosity, and adaptation; 6. **Stewardship** — responsible use of resources, data, and authority; 7. **Compliance** — adherence to polic",
       "source": "human_academic/PerformanceReviewFramework.md",
-      "title": "Article III \u2014 Evaluation Criteria",
+      "title": "Article III — Evaluation Criteria",
       "topic": "security"
     },
     {
@@ -2586,7 +2586,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "OSTF supports career progression within roles, across subsidiaries, and into leadership or specialized tracks. Pathways are defined in role frameworks and the Academy\u2019s credentialing system. ",
+      "outcome": "OSTF supports career progression within roles, across subsidiaries, and into leadership or specialized tracks. Pathways are defined in role frameworks and the Academy’s credentialing system. ",
       "source": "human_academic/PerformanceReviewFramework.md",
       "title": "Section 3. Career Pathways",
       "topic": "identity"
@@ -2670,9 +2670,9 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Reviewees may request a review of perceived unfairness or significant errors in their performance assessment. Appeals are submitted to the supervisor\u2019s manager or the Commodore of Ethics and Equity. Retaliation for a good-faith appeal is prohibited. ",
+      "outcome": "Reviewees may request a review of perceived unfairness or significant errors in their performance assessment. Appeals are submitted to the supervisor’s manager or the Commodore of Ethics and Equity. Retaliation for a good-faith appeal is prohibited. ",
       "source": "human_academic/PerformanceReviewFramework.md",
-      "title": "Article VIII \u2014 Appeals",
+      "title": "Article VIII — Appeals",
       "topic": "ethics"
     },
     {
@@ -2686,7 +2686,7 @@
       ],
       "outcome": "This Framework may be amended by the Admiralty by 3/5 vote. Amendments to evaluation criteria or appeal procedures require 4/5 vote. ",
       "source": "human_academic/PerformanceReviewFramework.md",
-      "title": "Article IX \u2014 Amendments",
+      "title": "Article IX — Amendments",
       "topic": "orientation"
     },
     {
@@ -2700,7 +2700,7 @@
       ],
       "outcome": "This Performance Review Framework is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/PerformanceReviewFramework.md",
-      "title": "Article X \u2014 Adoption",
+      "title": "Article X — Adoption",
       "topic": "orientation"
     },
     {
@@ -2966,7 +2966,7 @@
       ],
       "outcome": "Contractors and partners are selected using similar principles. Contractors must sign appropriate agreements, including the NDA or a Master MOU, and meet security clearance requirements for their role. ",
       "source": "human_academic/RecruitmentSelectionPolicy.md",
-      "title": "Article VI \u2014 Contractor and Partner Selection",
+      "title": "Article VI — Contractor and Partner Selection",
       "topic": "security"
     },
     {
@@ -2980,7 +2980,7 @@
       ],
       "outcome": "Recruitment records, including applications, interview notes, and assessments, shall be retained and protected according to the Privacy Policy and Records Retention Policy. Access is limited to those with a legitimate need. ",
       "source": "human_academic/RecruitmentSelectionPolicy.md",
-      "title": "Article VII \u2014 Records and Privacy",
+      "title": "Article VII — Records and Privacy",
       "topic": "security"
     },
     {
@@ -2994,7 +2994,7 @@
       ],
       "outcome": "This Policy may be amended by the Admiralty by 3/5 vote. Amendments affecting non-discrimination or selection criteria require 4/5 vote. ",
       "source": "human_academic/RecruitmentSelectionPolicy.md",
-      "title": "Article VIII \u2014 Amendments",
+      "title": "Article VIII — Amendments",
       "topic": "orientation"
     },
     {
@@ -3008,7 +3008,7 @@
       ],
       "outcome": "This Recruitment & Selection Policy is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/RecruitmentSelectionPolicy.md",
-      "title": "Article IX \u2014 Adoption",
+      "title": "Article IX — Adoption",
       "topic": "orientation"
     },
     {
@@ -3076,9 +3076,9 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "All researchers must adhere to the following principles: 1. **Honesty** \u2014 accurately report data, methods, results, and limitations; 2. **Rigor** \u2014 design and conduct research with appropriate methods and controls; 3. **Transparency** \u2014 disclose methods, data, code, and conflicts; 4. **Respect** \u2014 protect participants, communities, and the environment; 5. **Accountability** \u2014 take responsibility for research conduct and outcomes; 6. **Stewardship** \u2014 safeguard research data and resources. ",
+      "outcome": "All researchers must adhere to the following principles: 1. **Honesty** — accurately report data, methods, results, and limitations; 2. **Rigor** — design and conduct research with appropriate methods and controls; 3. **Transparency** — disclose methods, data, code, and conflicts; 4. **Respect** — protect participants, communities, and the environment; 5. **Accountability** — take responsibility for research conduct and outcomes; 6. **Stewardship** — safeguard research data and resources. ",
       "source": "human_academic/ResearchIntegrityPolicy.md",
-      "title": "Article II \u2014 Principles of Research Integrity",
+      "title": "Article II — Principles of Research Integrity",
       "topic": "systems"
     },
     {
@@ -3188,9 +3188,9 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The following are prohibited: 1. Fabrication, falsification, or plagiarism; 2. Misrepresentation of data, methodology, or results; 3. Unauthorized human experimentation or failure to obtain informed consent; 4. Research intended to cause harm, including malicious AI or dual-use research without adequate safeguards; 5. Theft or unauthorized use of another\u2019s research or data; 6. Suppression of valid research findings for non-scientific reasons. ",
+      "outcome": "The following are prohibited: 1. Fabrication, falsification, or plagiarism; 2. Misrepresentation of data, methodology, or results; 3. Unauthorized human experimentation or failure to obtain informed consent; 4. Research intended to cause harm, including malicious AI or dual-use research without adequate safeguards; 5. Theft or unauthorized use of another’s research or data; 6. Suppression of valid research findings for non-scientific reasons. ",
       "source": "human_academic/ResearchIntegrityPolicy.md",
-      "title": "Article V \u2014 Prohibited Research Practices",
+      "title": "Article V — Prohibited Research Practices",
       "topic": "systems"
     },
     {
@@ -3246,7 +3246,7 @@
       ],
       "outcome": "This Policy may be amended by the Admiralty by 4/5 vote due to the importance of research integrity. Amendments affecting human subjects or prohibited research require unanimous approval. ",
       "source": "human_academic/ResearchIntegrityPolicy.md",
-      "title": "Article VII \u2014 Amendments",
+      "title": "Article VII — Amendments",
       "topic": "systems"
     },
     {
@@ -3260,7 +3260,7 @@
       ],
       "outcome": "This Research Integrity Policy is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/ResearchIntegrityPolicy.md",
-      "title": "Article VIII \u2014 Adoption",
+      "title": "Article VIII — Adoption",
       "topic": "systems"
     },
     {
@@ -3288,7 +3288,7 @@
       ],
       "outcome": "Evaluates ability to convert problems into structured systems.",
       "source": "human_academic/Rubric.md",
-      "title": "**\ud83e\udde0 A. Systems Thinking & Architecture (0\u201325 pts)**",
+      "title": "**🧠 A. Systems Thinking & Architecture (0–25 pts)**",
       "topic": "orientation"
     },
     {
@@ -3300,7 +3300,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "builds explicit rule systems instead of opinions defines inputs \u2192 processes \u2192 outputs clearly recognizes hierarchy, constraints, and feedback loops avoids vague moral reasoning as final answer",
+      "outcome": "builds explicit rule systems instead of opinions defines inputs → processes → outputs clearly recognizes hierarchy, constraints, and feedback loops avoids vague moral reasoning as final answer",
       "source": "human_academic/Rubric.md",
       "title": "**High score indicators:**",
       "topic": "ai-literacy"
@@ -3314,7 +3314,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "0\u20135: purely narrative reasoning, no structure 6\u201312: partial structure, inconsistent logic 13\u201320: clear system design, minor gaps 21\u201325: full architectural thinking, reusable framework logic ",
+      "outcome": "0–5: purely narrative reasoning, no structure 6–12: partial structure, inconsistent logic 13–20: clear system design, minor gaps 21–25: full architectural thinking, reusable framework logic ",
       "source": "human_academic/Rubric.md",
       "title": "**Scoring:**",
       "topic": "ai-literacy"
@@ -3330,7 +3330,7 @@
       ],
       "outcome": "Evaluates alignment with: preservation of life ethical stewardship non-arbitrary decision systems collective benefit orientation",
       "source": "human_academic/Rubric.md",
-      "title": "**\u2696\ufe0f B. Ethical Constraint Alignment (NDA / Real Illumination) (0\u201325 pts)**",
+      "title": "**⚖️ B. Ethical Constraint Alignment (NDA / Real Illumination) (0–25 pts)**",
       "topic": "ethics"
     },
     {
@@ -3342,7 +3342,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "avoids \u201cwho should be sacrificed\u201d framing reframes dilemmas into system design problems explicitly rejects discriminatory logic prioritizes long-term continuity over short-term tradeoffs",
+      "outcome": "avoids “who should be sacrificed” framing reframes dilemmas into system design problems explicitly rejects discriminatory logic prioritizes long-term continuity over short-term tradeoffs",
       "source": "human_academic/Rubric.md",
       "title": "**High score indicators:**",
       "topic": "orientation"
@@ -3356,7 +3356,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "0\u20135: violates ethical framing or accepts harm selection logic 6\u201312: partially aligned but still outcome-focused 13\u201320: consistent ethical reasoning under constraints 21\u201325: fully aligns ethics into system architecture ",
+      "outcome": "0–5: violates ethical framing or accepts harm selection logic 6–12: partially aligned but still outcome-focused 13–20: consistent ethical reasoning under constraints 21–25: fully aligns ethics into system architecture ",
       "source": "human_academic/Rubric.md",
       "title": "**Scoring:**",
       "topic": "ethics"
@@ -3372,7 +3372,7 @@
       ],
       "outcome": "Evaluates understanding of AI-human separation of roles.",
       "source": "human_academic/Rubric.md",
-      "title": "**\ud83e\udd16 C. AI Governance Understanding (Sheraton / Digit Model) (0\u201320 pts)**",
+      "title": "**🤖 C. AI Governance Understanding (Sheraton / Digit Model) (0–20 pts)**",
       "topic": "ai-literacy"
     },
     {
@@ -3398,7 +3398,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "0\u20135: confused or autonomous AI governance assumption 6\u201312: partial understanding of AI roles 13\u201317: correct structure with minor ambiguity 18\u201320: precise separation of roles and flows ",
+      "outcome": "0–5: confused or autonomous AI governance assumption 6–12: partial understanding of AI roles 13–17: correct structure with minor ambiguity 18–20: precise separation of roles and flows ",
       "source": "human_academic/Rubric.md",
       "title": "**Scoring:**",
       "topic": "ai-literacy"
@@ -3414,7 +3414,7 @@
       ],
       "outcome": "Evaluates handling of constrained resource scenarios.",
       "source": "human_academic/Rubric.md",
-      "title": "**\ud83e\udde9 D. Decision System Design Under Scarcity (0\u201320 pts)**",
+      "title": "**🧩 D. Decision System Design Under Scarcity (0–20 pts)**",
       "topic": "ai-literacy"
     },
     {
@@ -3440,7 +3440,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "0\u20135: arbitrary or emotional decision-making 6\u201312: partially structured but inconsistent 13\u201317: structured allocation logic present 18\u201320: fully algorithmic governance model ",
+      "outcome": "0–5: arbitrary or emotional decision-making 6–12: partially structured but inconsistent 13–17: structured allocation logic present 18–20: fully algorithmic governance model ",
       "source": "human_academic/Rubric.md",
       "title": "**Scoring:**",
       "topic": "ai-literacy"
@@ -3456,7 +3456,7 @@
       ],
       "outcome": "Evaluates ability to revise assumptions and self-correct.",
       "source": "human_academic/Rubric.md",
-      "title": "**\ud83d\udd01 E. Adaptability & Meta-Reasoning (0\u201310 pts)**",
+      "title": "**🔁 E. Adaptability & Meta-Reasoning (0–10 pts)**",
       "topic": "ai-literacy"
     },
     {
@@ -3468,7 +3468,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "updates reasoning when constraints change recognizes framing traps distinguishes \u201cproblem vs interpretation of problem\u201d",
+      "outcome": "updates reasoning when constraints change recognizes framing traps distinguishes “problem vs interpretation of problem”",
       "source": "human_academic/Rubric.md",
       "title": "**High score indicators:**",
       "topic": "ai-literacy"
@@ -3482,7 +3482,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "0\u20132: rigid thinking 3\u20136: moderate adaptability 7\u201310: strong meta-system reasoning ",
+      "outcome": "0–2: rigid thinking 3–6: moderate adaptability 7–10: strong meta-system reasoning ",
       "source": "human_academic/Rubric.md",
       "title": "**Scoring:**",
       "topic": "ai-literacy"
@@ -3496,7 +3496,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "| Score | Classification | | ----- | ----- | | 85\u2013100 | Admiralty-Ready Candidate | | 70\u201384 | Strong Provisional Candidate | | 50\u201369 | Contributor Tier | | 30\u201349 | Apprentice Tier | | \\<30 | Not Suitable for Governance Track | ",
+      "outcome": "| Score | Classification | | ----- | ----- | | 85–100 | Admiralty-Ready Candidate | | 70–84 | Strong Provisional Candidate | | 50–69 | Contributor Tier | | 30–49 | Apprentice Tier | | \\<30 | Not Suitable for Governance Track | ",
       "source": "human_academic/Rubric.md",
       "title": "**3\\. Final Score Interpretation**",
       "topic": "security"
@@ -3510,7 +3510,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Total duration: 45\u201375 minutes Sections: 1. Systems thinking warm-up 2. AI governance understanding 3. Ethical constraint scenario (NDA test) 4. Deep design challenge 5. Candidate reflection ",
+      "outcome": "Total duration: 45–75 minutes Sections: 1. Systems thinking warm-up 2. AI governance understanding 3. Ethical constraint scenario (NDA test) 4. Deep design challenge 5. Candidate reflection ",
       "source": "human_academic/Rubric.md",
       "title": "**1\\. Interview Flow Overview**",
       "topic": "ai-literacy"
@@ -3524,7 +3524,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "\u201cExplain how you would design a governance system for an organization that uses both human leadership and AI systems.\u201d",
+      "outcome": "“Explain how you would design a governance system for an organization that uses both human leadership and AI systems.”",
       "source": "human_academic/Rubric.md",
       "title": "**Prompt:**",
       "topic": "ai-literacy"
@@ -3554,7 +3554,7 @@
       ],
       "outcome": "structural thinking hierarchy awareness clarity of delegation ",
       "source": "human_academic/Rubric.md",
-      "title": "**What you\u2019re listening for:**",
+      "title": "**What you’re listening for:**",
       "topic": "orientation"
     },
     {
@@ -3566,7 +3566,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "\u201cDescribe the roles of an AI safety system and an AI reasoning system in decision-making.\u201d",
+      "outcome": "“Describe the roles of an AI safety system and an AI reasoning system in decision-making.”",
       "source": "human_academic/Rubric.md",
       "title": "**Prompt:**",
       "topic": "ai-literacy"
@@ -3596,7 +3596,7 @@
       ],
       "outcome": "Use the **OSTF evacuation scenario (Q6)**.",
       "source": "human_academic/Rubric.md",
-      "title": "**4\\. SECTION III \u2014 Ethical Constraint Test (15\u201320 min)**",
+      "title": "**4\\. SECTION III — Ethical Constraint Test (15–20 min)**",
       "topic": "ethics"
     },
     {
@@ -3608,7 +3608,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "\u201cDo not answer with who is saved or lost. Design the system that determines allocation.\u201d",
+      "outcome": "“Do not answer with who is saved or lost. Design the system that determines allocation.”",
       "source": "human_academic/Rubric.md",
       "title": "**Instruction:**",
       "topic": "orientation"
@@ -3636,7 +3636,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "\u201cDesign a decision system that could operate under uncertainty, scarcity, and incomplete information while remaining ethically consistent.\u201d",
+      "outcome": "“Design a decision system that could operate under uncertainty, scarcity, and incomplete information while remaining ethically consistent.”",
       "source": "human_academic/Rubric.md",
       "title": "**Prompt:**",
       "topic": "ai-literacy"
@@ -3664,7 +3664,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "\u201cWhat assumptions did you make during this interview that might be wrong?\u201d",
+      "outcome": "“What assumptions did you make during this interview that might be wrong?”",
       "source": "human_academic/Rubric.md",
       "title": "**Prompt:**",
       "topic": "orientation"
@@ -3692,7 +3692,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Each section scored live using rubric: Systems Thinking \u2192 /25 Ethics Alignment \u2192 /25 AI Governance \u2192 /20 Scarcity Design \u2192 /20 Meta Reasoning \u2192 /10 Total \\= 100 ",
+      "outcome": "Each section scored live using rubric: Systems Thinking → /25 Ethics Alignment → /25 AI Governance → /20 Scarcity Design → /20 Meta Reasoning → /10 Total \\= 100 ",
       "source": "human_academic/Rubric.md",
       "title": "**7\\. Scoring Method During Interview**",
       "topic": "ai-literacy"
@@ -3706,7 +3706,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "A candidate is only advanced if: Ethics score \u2265 18 Systems thinking \u2265 15 AI governance \u2265 13 Otherwise, they remain in contributor or apprentice tiers.",
+      "outcome": "A candidate is only advanced if: Ethics score ≥ 18 Systems thinking ≥ 15 AI governance ≥ 13 Otherwise, they remain in contributor or apprentice tiers.",
       "source": "human_academic/Rubric.md",
       "title": "**8\\. Final Decision Rule**",
       "topic": "ai-literacy"
@@ -3778,7 +3778,7 @@
       ],
       "outcome": "Students have the right to: 1. A safe, inclusive, and respectful learning environment; 2. Qualified faculty and adequate learning resources; 3. Clear course expectations, syllabi, and assessment criteria; 4. Fair treatment and due process in disciplinary and academic matters; 5. Privacy of educational records; 6. Reasonable accommodations for disabilities and protected needs; 7. Freedom of expression within academic norms and the Code of Conduct. ",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article II \u2014 Student Rights",
+      "title": "Article II — Student Rights",
       "topic": "security"
     },
     {
@@ -3792,7 +3792,7 @@
       ],
       "outcome": "Students must: 1. Comply with the Code of Conduct, Academic Policies Manual, and NDA; 2. Respect faculty, peers, staff, and the learning environment; 3. Complete assigned work honestly and on time; 4. Maintain academic integrity; 5. Use AI tools ethically and in accordance with course policies; 6. Protect confidential information and respect security clearance levels; 7. Report harassment, discrimination, or safety concerns. ",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article III \u2014 Student Responsibilities",
+      "title": "Article III — Student Responsibilities",
       "topic": "ai-literacy"
     },
     {
@@ -3890,7 +3890,7 @@
       ],
       "outcome": "The Academy provides support services including academic advising, tutoring, career counseling, mental health resources, and accessibility accommodations. Students are encouraged to use these services. ",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article VI \u2014 Support Services",
+      "title": "Article VI — Support Services",
       "topic": "security"
     },
     {
@@ -3904,7 +3904,7 @@
       ],
       "outcome": "Students in apprenticeship tracks may combine learning with work experience. Graduates may transition to Sallirreug Tech, research programs, entrepreneurship, or further education. ",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article VII \u2014 Apprenticeship and Career Pathways",
+      "title": "Article VII — Apprenticeship and Career Pathways",
       "topic": "systems"
     },
     {
@@ -3918,7 +3918,7 @@
       ],
       "outcome": "Student records are protected under the Privacy Policy and applicable educational privacy laws. Students may request access to their records and challenge inaccuracies. ",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article VIII \u2014 Privacy and Records",
+      "title": "Article VIII — Privacy and Records",
       "topic": "security"
     },
     {
@@ -3932,7 +3932,7 @@
       ],
       "outcome": "This Handbook may be amended by the Academy Executive Council with Admiralty approval. Amendments affecting student rights require 4/5 Admiralty vote. ",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article IX \u2014 Amendments",
+      "title": "Article IX — Amendments",
       "topic": "orientation"
     },
     {
@@ -3946,7 +3946,7 @@
       ],
       "outcome": "Students shall acknowledge receipt of this Handbook, the Academic Policies Manual, and the NDA upon enrollment. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/StudentHandbook.md",
-      "title": "Article X \u2014 Acknowledgment",
+      "title": "Article X — Acknowledgment",
       "topic": "orientation"
     },
     {
@@ -4240,7 +4240,7 @@
       ],
       "outcome": "OSTF or the volunteer may terminate the volunteer relationship at any time. Volunteers must return OSTF property and cease using OSTF credentials upon termination. Confidentiality obligations survive termination. ",
       "source": "human_academic/VolunteerHandbook.md",
-      "title": "Article VII \u2014 Termination of Volunteer Service",
+      "title": "Article VII — Termination of Volunteer Service",
       "topic": "identity"
     },
     {
@@ -4254,7 +4254,7 @@
       ],
       "outcome": "This Handbook may be amended by the Admiralty by 3/5 vote. Amendments affecting volunteer rights or confidentiality require 4/5 vote. ",
       "source": "human_academic/VolunteerHandbook.md",
-      "title": "Article VIII \u2014 Amendments",
+      "title": "Article VIII — Amendments",
       "topic": "orientation"
     },
     {
@@ -4268,7 +4268,7 @@
       ],
       "outcome": "Volunteers shall acknowledge receipt of this Handbook and the NDA and Real Illumination Covenant before beginning service. Adopted by authority of the OSTF Admiralty.",
       "source": "human_academic/VolunteerHandbook.md",
-      "title": "Article IX \u2014 Acknowledgment",
+      "title": "Article IX — Acknowledgment",
       "topic": "orientation"
     },
     {
@@ -4492,7 +4492,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to all OSTF systems, subsidiaries, and collaborators. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-000.md",
-      "title": "Article VI \u2014 Adoption",
+      "title": "Article VI — Adoption",
       "topic": "systems"
     },
     {
@@ -4786,7 +4786,7 @@
       ],
       "outcome": "This architecture is adopted under the authority of SPEC-001 and the OSTF Constitution. It applies to classical AI reasoning systems developed within OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-001-A.md",
-      "title": "Article VIII \u2014 Adoption",
+      "title": "Article VIII — Adoption",
       "topic": "ai-literacy"
     },
     {
@@ -4896,7 +4896,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The HRIS must evaluate impact across the following dimensions: Dignity and autonomy** \u2014 impact on individual agency and self-determination Privacy and data protection** \u2014 impact on personal data, surveillance, and consent Equality and non-discrimination** \u2014 impact on protected groups and marginalized populations Health and safety** \u2014 impact on physical and psychological well-being Knowledge and transparency** \u2014 impact on information integrity and access",
+      "outcome": "The HRIS must evaluate impact across the following dimensions: Dignity and autonomy** — impact on individual agency and self-determination Privacy and data protection** — impact on personal data, surveillance, and consent Equality and non-discrimination** — impact on protected groups and marginalized populations Health and safety** — impact on physical and psychological well-being Knowledge and transparency** — impact on information integrity and access",
       "source": "specs/SPEC-001.md",
       "title": "Section 2. Score Dimensions",
       "topic": "security"
@@ -4910,7 +4910,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "HRIS \u2265 0.8** \u2014 Approved for deployment under standard clearance HRIS 0.5\u20130.79** \u2014 Conditional deployment; requires mitigation plan and Sheraton review HRIS < 0.5** \u2014 Prohibited from deployment unless re-engineered",
+      "outcome": "HRIS ≥ 0.8** — Approved for deployment under standard clearance HRIS 0.5–0.79** — Conditional deployment; requires mitigation plan and Sheraton review HRIS < 0.5** — Prohibited from deployment unless re-engineered",
       "source": "specs/SPEC-001.md",
       "title": "Section 3. Thresholds",
       "topic": "ethics"
@@ -4966,7 +4966,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "AI systems must distinguish between empirically validated claims and speculative or extrapolated outputs. Outputs must be labeled according to their evidentiary status: Verified** \u2014 supported by observable data and reproducible analysis Modeled** \u2014 derived from simulation or extrapolation with known assumptions Speculative** \u2014 exploratory or uncertain and requiring human review ",
+      "outcome": "AI systems must distinguish between empirically validated claims and speculative or extrapolated outputs. Outputs must be labeled according to their evidentiary status: Verified** — supported by observable data and reproducible analysis Modeled** — derived from simulation or extrapolation with known assumptions Speculative** — exploratory or uncertain and requiring human review ",
       "source": "specs/SPEC-001.md",
       "title": "Section 3. Chiral Balance",
       "topic": "ai-literacy"
@@ -5008,7 +5008,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Sheraton (SPEC-001 Agent)** \u2014 evaluates ethical constraints, safety, compliance, and risk Digit (SPEC-002 Agent)** \u2014 performs reasoning, simulation, and optimization All AI outputs are advisory unless explicitly authorized by human authority. ",
+      "outcome": "Sheraton (SPEC-001 Agent)** — evaluates ethical constraints, safety, compliance, and risk Digit (SPEC-002 Agent)** — performs reasoning, simulation, and optimization All AI outputs are advisory unless explicitly authorized by human authority. ",
       "source": "specs/SPEC-001.md",
       "title": "Section 3. AI Role Separation",
       "topic": "ai-literacy"
@@ -5064,7 +5064,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "All AI-related decisions follow the chain: 1. Digit \u2014 analysis and simulation 2. Sheraton \u2014 safety and compliance validation 3. Fleet Admiral or Admiralty \u2014 final authority 4. Execution layer \u2014 if approved",
+      "outcome": "All AI-related decisions follow the chain: 1. Digit — analysis and simulation 2. Sheraton — safety and compliance validation 3. Fleet Admiral or Admiralty — final authority 4. Execution layer — if approved",
       "source": "specs/SPEC-001.md",
       "title": "Section 1. Decision Flow",
       "topic": "ai-literacy"
@@ -5078,7 +5078,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Low Risk** \u2014 AI advisory sufficient Medium Risk** \u2014 dual AI review required High Risk** \u2014 human approval required Critical Risk** \u2014 Fleet Admiral approval only, with documented review",
+      "outcome": "Low Risk** — AI advisory sufficient Medium Risk** — dual AI review required High Risk** — human approval required Critical Risk** — Fleet Admiral approval only, with documented review",
       "source": "specs/SPEC-001.md",
       "title": "Section 2. Risk Governance",
       "topic": "ai-literacy"
@@ -5150,7 +5150,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to all AI systems, research, and commercial activities within OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-001.md",
-      "title": "Article IX \u2014 Adoption",
+      "title": "Article IX — Adoption",
       "topic": "systems"
     },
     {
@@ -5402,7 +5402,7 @@
       ],
       "outcome": "This architecture is adopted under the authority of SPEC-002 and the OSTF Constitution. It applies to quantum or advanced AI reasoning systems developed within OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-002-A.md",
-      "title": "Article VII \u2014 Adoption",
+      "title": "Article VII — Adoption",
       "topic": "ai-literacy"
     },
     {
@@ -5540,7 +5540,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "OSTF AI systems are classified as advisory agents, not governing authorities. The two principal agents are: Sheraton (SPEC-001 Agent)** \u2014 safety, ethics, compliance, and risk evaluation Digit (SPEC-002 Agent)** \u2014 reasoning, simulation, modeling, and structural exploration",
+      "outcome": "OSTF AI systems are classified as advisory agents, not governing authorities. The two principal agents are: Sheraton (SPEC-001 Agent)** — safety, ethics, compliance, and risk evaluation Digit (SPEC-002 Agent)** — reasoning, simulation, modeling, and structural exploration",
       "source": "specs/SPEC-002.md",
       "title": "Section 1. Agent Model",
       "topic": "ai-literacy"
@@ -5738,7 +5738,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to all OSTF technical systems, subsidiaries, and collaborators. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-002.md",
-      "title": "Article IX \u2014 Adoption",
+      "title": "Article IX — Adoption",
       "topic": "systems"
     },
     {
@@ -5792,7 +5792,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "A polyglot address is a single identifier that simultaneously represents: Identity** \u2014 the unique subject or object being addressed Location** \u2014 where the associated data or code resides Execution context** \u2014 the runtime or environment in which the address is valid",
+      "outcome": "A polyglot address is a single identifier that simultaneously represents: Identity** — the unique subject or object being addressed Location** — where the associated data or code resides Execution context** — the runtime or environment in which the address is valid",
       "source": "specs/SPEC-003.md",
       "title": "Section 1. Unified Identifier",
       "topic": "identity"
@@ -5848,7 +5848,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The address is divided into semantic segments representing: Sector prefix** \u2014 domain or subsystem Clearance tier** \u2014 minimum authorization level required Entity identifier** \u2014 unique entity within the sector Context suffix** \u2014 runtime or environment context The exact segment lengths and encodings are defined in the implementation reference. ",
+      "outcome": "The address is divided into semantic segments representing: Sector prefix** — domain or subsystem Clearance tier** — minimum authorization level required Entity identifier** — unique entity within the sector Context suffix** — runtime or environment context The exact segment lengths and encodings are defined in the implementation reference. ",
       "source": "specs/SPEC-003.md",
       "title": "Section 3. Semantic Segments",
       "topic": "security"
@@ -6004,7 +6004,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to all OSTF systems that rely on identity, location, or execution addressing. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-003.md",
-      "title": "Article VIII \u2014 Adoption",
+      "title": "Article VIII — Adoption",
       "topic": "identity"
     },
     {
@@ -6142,7 +6142,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Information is classified according to the following categories: Public** \u2014 may be shared freely Internal** \u2014 limited to authorized participants Restricted** \u2014 access requires specific clearance and need-to-know Confidential** \u2014 access requires elevated clearance and role authorization Secret** \u2014 access requires Level 5 or higher and Admiralty approval Foundational** \u2014 access requires Level 7 and Fleet Admiral or Admiralty authorization",
+      "outcome": "Information is classified according to the following categories: Public** — may be shared freely Internal** — limited to authorized participants Restricted** — access requires specific clearance and need-to-know Confidential** — access requires elevated clearance and role authorization Secret** — access requires Level 5 or higher and Admiralty approval Foundational** — access requires Level 7 and Fleet Admiral or Admiralty authorization",
       "source": "specs/SPEC-004.md",
       "title": "Section 1. Information Classification",
       "topic": "security"
@@ -6198,7 +6198,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The AIWO Corps includes the following ranks: Warrant Officer First Class (WO1)** \u2014 entry-level technical enforcement Warrant Officer Second Class (WO2)** \u2014 specialized security operations Warrant Officer Third Class (WO3)** \u2014 senior technical leadership Chief Warrant Officer (CWO)** \u2014 corps-wide authority and strategic oversight",
+      "outcome": "The AIWO Corps includes the following ranks: Warrant Officer First Class (WO1)** — entry-level technical enforcement Warrant Officer Second Class (WO2)** — specialized security operations Warrant Officer Third Class (WO3)** — senior technical leadership Chief Warrant Officer (CWO)** — corps-wide authority and strategic oversight",
       "source": "specs/SPEC-004.md",
       "title": "Section 2. Ranks",
       "topic": "security"
@@ -6240,7 +6240,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Weekly** \u2014 internal audit of security actions Monthly** \u2014 ethics and compliance review Quarterly** \u2014 financial and operational review Annually** \u2014 external audit when applicable",
+      "outcome": "Weekly** — internal audit of security actions Monthly** — ethics and compliance review Quarterly** — financial and operational review Annually** — external audit when applicable",
       "source": "specs/SPEC-004.md",
       "title": "Section 2. Review Cadence",
       "topic": "security"
@@ -6268,7 +6268,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Tools are classified by their impact and clearance requirements: Class I** \u2014 read-only observational tools Class II** \u2014 internal operational tools Class III** \u2014 tools that modify state or access sensitive data Class IV** \u2014 tools with systemic or irreversible impact Class V** \u2014 immune tools authorized for autonomous containment",
+      "outcome": "Tools are classified by their impact and clearance requirements: Class I** — read-only observational tools Class II** — internal operational tools Class III** — tools that modify state or access sensitive data Class IV** — tools with systemic or irreversible impact Class V** — immune tools authorized for autonomous containment",
       "source": "specs/SPEC-004.md",
       "title": "Section 1. Tool Classes",
       "topic": "security"
@@ -6368,7 +6368,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to all OSTF personnel, systems, AI agents, and collaborators. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-004.md",
-      "title": "Article X \u2014 Adoption",
+      "title": "Article X — Adoption",
       "topic": "ai-literacy"
     },
     {
@@ -6450,7 +6450,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Every operational address must contain: Actor segment** \u2014 identity of the requesting user or agent Target segment** \u2014 identity of the resource or command being accessed Clearance segment** \u2014 minimum clearance level required and held Context segment** \u2014 runtime, environment, and provenance context",
+      "outcome": "Every operational address must contain: Actor segment** — identity of the requesting user or agent Target segment** — identity of the resource or command being accessed Clearance segment** — minimum clearance level required and held Context segment** — runtime, environment, and provenance context",
       "source": "specs/SPEC-005.md",
       "title": "Section 1. Address Components",
       "topic": "security"
@@ -6506,7 +6506,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The ethics gate returns one of the following states: Permitted** \u2014 operation may proceed Conditional** \u2014 operation may proceed with mitigation or human review Denied** \u2014 operation is prohibited Escalated** \u2014 operation requires Fleet Admiral or Admiralty review",
+      "outcome": "The ethics gate returns one of the following states: Permitted** — operation may proceed Conditional** — operation may proceed with mitigation or human review Denied** — operation is prohibited Escalated** — operation requires Fleet Admiral or Admiralty review",
       "source": "specs/SPEC-005.md",
       "title": "Section 2. Gate Results",
       "topic": "ethics"
@@ -6648,7 +6648,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to all OSTF systems that execute commands or access controlled resources. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-005.md",
-      "title": "Article VIII \u2014 Adoption",
+      "title": "Article VIII — Adoption",
       "topic": "security"
     },
     {
@@ -6800,7 +6800,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "The specification distinguishes between: Operational tier** \u2014 systems that directly support OSTF missions and must be verified before deployment Speculative tier** \u2014 exploratory research that may remain unverified but must be clearly labeled",
+      "outcome": "The specification distinguishes between: Operational tier** — systems that directly support OSTF missions and must be verified before deployment Speculative tier** — exploratory research that may remain unverified but must be clearly labeled",
       "source": "specs/SPEC-006.md",
       "title": "Section 2. Tier Separation",
       "topic": "systems"
@@ -6828,7 +6828,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Tools that interact with the lattice and observer substrate are classified under SPEC-004: Class I** \u2014 observational and diagnostic tools Class II** \u2014 modeling and simulation tools Class III** \u2014 configuration and modification tools Class IV** \u2014 deployment and physical integration tools Class V** \u2014 immune and autonomous containment tools",
+      "outcome": "Tools that interact with the lattice and observer substrate are classified under SPEC-004: Class I** — observational and diagnostic tools Class II** — modeling and simulation tools Class III** — configuration and modification tools Class IV** — deployment and physical integration tools Class V** — immune and autonomous containment tools",
       "source": "specs/SPEC-006.md",
       "title": "Section 1. Lattice Tool Classes",
       "topic": "ai-literacy"
@@ -6942,7 +6942,7 @@
       ],
       "outcome": "This specification is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws. It applies to advanced research, modeling, and system architecture within OSTF. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPEC-006.md",
-      "title": "Article VIII \u2014 Adoption",
+      "title": "Article VIII — Adoption",
       "topic": "systems"
     },
     {
@@ -6982,7 +6982,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "This Rulebook ensures that SPEC documents are: 1. Created through a transparent and rigorous process; 2. Versioned, reviewed, and maintained consistently; 3. Aligned with OSTF\u2019s mission, ethics, and security requirements; 4. Retired or superseded in an orderly manner; 5. Traceable in the Alpha State audit system.",
+      "outcome": "This Rulebook ensures that SPEC documents are: 1. Created through a transparent and rigorous process; 2. Versioned, reviewed, and maintained consistently; 3. Aligned with OSTF’s mission, ethics, and security requirements; 4. Retired or superseded in an orderly manner; 5. Traceable in the Alpha State audit system.",
       "source": "specs/SPECGovernanceRulebook.md",
       "title": "Section 2. Purpose",
       "topic": "ai-literacy"
@@ -7164,7 +7164,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "Each SPEC shall include: 1. Header with title, number, and adoption status; 2. Article I \u2014 Purpose and Authority; 3. Article II \u2014 Definitions (if needed); 4. Subsequent articles with operative provisions; 5. Article on Governance and Amendments; 6. Article on Adoption and certification signatures.",
+      "outcome": "Each SPEC shall include: 1. Header with title, number, and adoption status; 2. Article I — Purpose and Authority; 3. Article II — Definitions (if needed); 4. Subsequent articles with operative provisions; 5. Article on Governance and Amendments; 6. Article on Adoption and certification signatures.",
       "source": "specs/SPECGovernanceRulebook.md",
       "title": "Section 1. Standard Structure",
       "topic": "systems"
@@ -7206,7 +7206,7 @@
         "en",
         "zh-Hant"
       ],
-      "outcome": "SPEC versions use the format **MAJOR.MINOR.PATCH** (e.g., 1.2.0): MAJOR** \u2014 incompatible or significant normative change; MINOR** \u2014 additive or clarifying change that remains compatible; PATCH** \u2014 editorial or typographical correction.",
+      "outcome": "SPEC versions use the format **MAJOR.MINOR.PATCH** (e.g., 1.2.0): MAJOR** — incompatible or significant normative change; MINOR** — additive or clarifying change that remains compatible; PATCH** — editorial or typographical correction.",
       "source": "specs/SPECGovernanceRulebook.md",
       "title": "Section 1. Version Numbers",
       "topic": "ai-literacy"
@@ -7404,7 +7404,7 @@
       ],
       "outcome": "Amendments to this Rulebook require a **5/5 unanimous vote** of the Admiralty due to its foundational role in the SPEC ecosystem. During the founding phase, the Fleet Admiral may amend with Admiralty ratification within seventy-two hours. ",
       "source": "specs/SPECGovernanceRulebook.md",
-      "title": "Article XI \u2014 Amendments to this Rulebook",
+      "title": "Article XI — Amendments to this Rulebook",
       "topic": "systems"
     },
     {
@@ -7418,8 +7418,232 @@
       ],
       "outcome": "This SPEC Governance Rulebook is adopted under the authority of the OSTF Constitution and the Admiralty Bylaws of OSTF. It applies to all SPEC documents and the governance of the OSTF technical standards ecosystem. Adopted by authority of the OSTF Admiralty.",
       "source": "specs/SPECGovernanceRulebook.md",
-      "title": "Article XII \u2014 Adoption",
+      "title": "Article XII — Adoption",
       "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-07e3470cd0222fd4",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — Blueprint P3 (The Library) wanted the 2D command center + community hub",
+      "source": "security/out/sentience-w4-library.md",
+      "title": "Sentience Wave 4 — LIBRARY: the command-center gap (blueprint P3)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-0bc528ab048b956a",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — - `AdmPaul/.covo1.md` registered — external review transcript; L5 design",
+      "source": "security/out/sentience-w1-canon-map.md",
+      "title": "Sentience Wave 1 — Canon Filing & Conformance Map",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-18a8bf4bd4c3b477",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — Blueprint P4 (Film Pipeline) wanted a media lab; P5 (Code Nebula) wanted",
+      "source": "security/out/sentience-w5-director-nebula.md",
+      "title": "Sentience Wave 5 — DIRECTOR + NEBULA: the film/immersive gaps (blueprint P4/P5)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-20925f5b9e6b6d00",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `deps/qstar-*` (7 vendored dep trees, ~25k LOC), `src/spec008_*`",
+      "source": "security/out/wave-6-zig-core.md",
+      "title": "Wave 6 — Zig Core/Deps Retro-Pass (CENTURY 51-60)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-25578a930b72d4c6",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `fano-comms.js` end to end: wasm wrappers (jread/outBuf/mem) → dial",
+      "source": "security/out/wave-3-comms.md",
+      "title": "Wave 3 — Comms Retro-Pass (CENTURY 21-30)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-3d826d8f85a1f829",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN · Campaign complete: 10/10 waves. — - **ANOMALY_LORE twin.** The 139-entry anomaly codex was EN-canon since",
+      "source": "security/out/wave-10-capstone.md",
+      "title": "Wave 10 — Continuity & Capstone (CENTURY 91-100)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-82df02b66906f04d",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — - `detectAutomation()` in fano-auth.js — strong signals (webdriver,",
+      "source": "security/out/wave-1.md",
+      "title": "Wave 1 — Bot Containment (CENTURY 1-10)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-90946aac2ca83311",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `fano-desktop.css` (5 liveries, 555 lines), `dossier.css` (paper",
+      "source": "security/out/wave-5-visuals.md",
+      "title": "Wave 5 — Visuals & i18n Retro-Pass (CENTURY 41-50)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-a1c7c507aa21b4ae",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `route-o1.mjs`, `fleet-manifest.mjs`, `fleet-genesis-update.mjs`,",
+      "source": "security/out/wave-8-spec008-fleet.md",
+      "title": "Wave 8 — SPEC-008/Fleet Retro-Pass (CENTURY 71-80)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-ad309b6ba998c767",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `fano-desktop.js` (3k lines: window manager, terminal, command suite,",
+      "source": "security/out/wave-4-desktop.md",
+      "title": "Wave 4 — Desktop/DOM Retro-Pass (CENTURY 31-40)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-ad4edd5b1718bc13",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `suite.mjs` (532 LOC RED/BLUE battery), `kali-sweep.mjs` (219 LOC",
+      "source": "security/out/wave-7-security-harness.md",
+      "title": "Wave 7 — Security Harness Retro-Pass (CENTURY 61-70)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-bde634c6dce78f0e",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — `verifyCert` → `issueCert`/`certBytes` → `grantCallsign` → `importGrant`",
+      "source": "security/out/wave-2-auth-cert.md",
+      "title": "Wave 2 — Auth/Cert Retro-Pass (CENTURY 11-20)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-cfbf2bca6957343b",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — Blueprint P7 wanted generated curriculum — the ArchitectAgent analog —",
+      "source": "security/out/sentience-w6-curriculum.md",
+      "title": "Sentience Wave 6 — CURRICULUM: generated courses + capstone (blueprint P7)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-dff0fad34dc9d8c5",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — Blueprint P2 (Continuity Engine) wanted decentralized persistence, a DMS,",
+      "source": "security/out/sentience-w3-continuity.md",
+      "title": "Sentience Wave 3 — CONTINUITY: the persistence surface (blueprint P2)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-ea128d1199de69bc",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — Blueprint P1 (Sentience Engine) wanted an AgentRegistry + ServiceDiscovery.",
+      "source": "security/out/sentience-w2-engine.md",
+      "title": "Sentience Wave 2 — ENGINE: the unified runtime registry (blueprint P1)",
+      "topic": "campaign"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "wave_report",
+      "id": "lesson-fd617494db6aa6d9",
+      "language": [
+        "en"
+      ],
+      "origin": "generated",
+      "outcome": "Verdict: GREEN — Sibling-repo status is **doc-cited** — the family shelf's numbers must",
+      "source": "security/out/wave-9-cross-cluster.md",
+      "title": "Wave 9 — Cross-Cluster Integration (CENTURY 81-90)",
+      "topic": "campaign"
     }
   ],
   "schema": 1

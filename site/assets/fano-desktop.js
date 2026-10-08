@@ -1711,7 +1711,7 @@
       detail.textContent = real.length + " lessons filed" +
         (claimed === real.length ? "" : " — MANIFEST COUNT MISMATCH (claims " + claimed + ")") +
         " — choose a lesson.";
-      real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\nevidence: "+lesson.evidence+"\nassessment: "+lesson.assessment+"\nsource: "+lesson.source; }); list.appendChild(b); });
+      real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=(lesson.origin==="generated"?t("aca.generated")+" ":"")+lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\nevidence: "+lesson.evidence+"\nassessment: "+lesson.assessment+"\nsource: "+lesson.source; }); list.appendChild(b); });
     }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 

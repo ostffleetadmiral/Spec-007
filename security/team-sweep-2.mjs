@@ -1899,6 +1899,58 @@ console.log("\nPRODUCTION — storyboard + projection (sentience w5)");
   }
 }
 
+console.log("\nCURRICULUM — generated course modules (sentience w6)");
+/* ================= CURRICULUM — P7 generated courses ====================
+   course-gen.mjs turns the campaign's own wave reports into academy
+   lessons — deterministic, source-linked, review-gated. The pane badges
+   them; nothing generated passes as human-written. */
+{
+  const GEN = path.join(ROOT, "tools", "course-gen.mjs");
+  const AM = path.join(SITE, "assets", "academy-manifest.json");
+  /* CURR-01: regeneration is deterministic — verify mode must exit clean */
+  {
+    if (!fs.existsSync(GEN) || !fs.existsSync(AM)) {
+      noted("CURR", "deterministic", "generator or manifest absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [GEN, "--verify"],
+        { encoding: "utf8" });
+      r.status === 0
+        ? held("CURR", "deterministic",
+            "generated lesson set reproduces byte-exact — verify mode green")
+        : open_("CURR", "deterministic",
+            `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 120)}`);
+    }
+  }
+  /* CURR-02: every generated lesson's source file exists under security/out */
+  {
+    const m = JSON.parse(fs.readFileSync(AM, "utf8"));
+    const gen = (m.lessons || []).filter(l => l.origin === "generated");
+    const missing = gen.filter(l => !fs.existsSync(path.join(ROOT, l.source)));
+    gen.length > 0 && missing.length === 0
+      ? held("CURR", "source-linked",
+          `${gen.length} generated lessons — every source path resolves under the repo`)
+      : open_("CURR", "source-linked",
+          `generated=${gen.length} missing-sources=${missing.length}`);
+  }
+  /* CURR-03: generated lessons stay review-gated and honestly labeled */
+  {
+    const m = JSON.parse(fs.readFileSync(AM, "utf8"));
+    const gen = (m.lessons || []).filter(l => l.origin === "generated");
+    const bad = gen.filter(l =>
+      l.assessment !== "deterministic_review_required" ||
+      l.evidence !== "wave_report" ||
+      (l.language || []).includes("zh-Hant"));
+    const paneBadges = fs.readFileSync(
+      path.join(SITE, "assets", "fano-desktop.js"), "utf8")
+      .includes('aca.generated');
+    gen.length > 0 && !bad.length && paneBadges
+      ? held("CURR", "review-gated",
+          `${gen.length} lessons: wave_report evidence, review-required assessment, en-only label, badged in the pane`)
+      : open_("CURR", "review-gated",
+          `generated=${gen.length} mislabeled=${bad.length} pane-badge=${paneBadges}`);
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));
