@@ -819,6 +819,48 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
         : open_("DESK", "i18n-chrome",
             `literal calls=${hits.length} tcLits=${tcLit.length} achArr=${achArray} eggArr=${eggArray} achT=${achT}`);
     }
+
+    /* DESK-21: lore-corpus twin — every ANOMALY_LORE key has a zh
+       verdict, fallbacks included (wave-10 twin audit) */
+    {
+      const grab = (name) => {
+        const m = dsrc.match(new RegExp("var " + name + " = \\{([\\s\\S]*?)\\n  \\};"));
+        if (!m) return null;
+        return new Set([...m[1].matchAll(/^\s*"(?:[^"\\]|\\.)*":/gm)]
+          .map(x => x[0].trim().slice(1, -2)));
+      };
+      const enL = grab("ANOMALY_LORE"), zhL = grab("ANOMALY_LORE_ZH");
+      if (!enL || !zhL) {
+        open_("DESK", "lore-twin", "corpus object missing");
+      } else {
+        const enOnly = [...enL].filter(k => !zhL.has(k));
+        const zhOnly = [...zhL].filter(k => !enL.has(k));
+        const fallbacks = /ANOMALY_FALLBACK_ZH/.test(dsrc) && /MAPPED_FALLBACK_ZH/.test(dsrc);
+        !enOnly.length && !zhOnly.length && fallbacks
+          ? held("DESK", "lore-twin",
+              `${enL.size} codex entries + 2 fallbacks — zh twin is one-to-one`)
+          : open_("DESK", "lore-twin",
+              `enOnly=${enOnly.length} zhOnly=${zhOnly.length} fallbacks=${fallbacks}`);
+      }
+    }
+
+    /* DESK-22: terminal corpus twin — help lines one-to-one, the zh
+       answer map exists, and termZh() fronts the exec boundary */
+    {
+      const helpEn = (dsrc.match(/var TERM_HELP = \[([\s\S]*?)\]\.join/) || [,""])[1]
+        .split("\n").filter(l => /^\s*"/.test(l)).length;
+      const helpZh = (dsrc.match(/var TERM_HELP_ZH = \[([\s\S]*?)\]\.join/) || [,""])[1]
+        .split("\n").filter(l => /^\s*"/.test(l)).length;
+      const zhMap = /var TERM_ZH = \{/.test(dsrc) && /function termZh/.test(dsrc);
+      const helpCase = (dsrc.match(/case "help":[^\n]*/) || [""])[0];
+      const wired = /print\(termZh\(out\)\)/.test(dsrc) &&
+        /TERM_HELP_ZH/.test(helpCase);
+      helpEn > 0 && helpEn === helpZh && zhMap && wired
+        ? held("DESK", "term-corpus-twin",
+            `help ${helpEn}==${helpZh} lines, TERM_ZH map + termZh() boundary wired`)
+        : open_("DESK", "term-corpus-twin",
+            `helpEn=${helpEn} helpZh=${helpZh} zhMap=${zhMap} wired=${wired}`);
+    }
   }
 
 console.log("\nBOT — containment doctrine");

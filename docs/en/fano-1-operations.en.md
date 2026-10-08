@@ -301,6 +301,17 @@ the FAMILY shelf must trace verbatim to that tree's own README/AGENTS
 - **Boundary kept.** Neighbor-repo WIP is untouched — dirty paths in
   the experiments monorepo are their owners' work, not the campaign's.
 
+### 3i. Both tongues, one canon (wave-10 twin audit)
+
+The last EN-only corpora are closed. The anomaly codex carries a full
+zh twin (`ANOMALY_LORE_ZH` — 139/139 entries plus both fallbacks,
+verdict register preserved), the terminal help is line-for-line
+(`TERM_HELP_ZH`), and `termZh()` fronts the exec boundary with a zh
+map for prose answers and a prefix table for label framing. Lines
+carrying live identifiers — fingerprints, hex keys, grant subjects —
+stay command-canon: translating the envelope of a key is a lie.
+DESK-21/22 enforce the parity by measurement.
+
 ## 4. Desk transfer — FANO-DESK-v1
 
 `export-desk` / `import-desk` in the covenant terminal, or the DOM import

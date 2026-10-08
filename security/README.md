@@ -14,11 +14,11 @@ routing identity is the node's `peer_id`; ledger identity is
 | `hydra-node.mjs` | Node daemon: WASM core, presence loop, per-node ledger, control API (`:9090`), embedded relay (`:8080`), auto-redial |
 | `wan-bridge.mjs` | Deterministic impairment proxy: delay/jitter/drop/dup/reorder/rate/directional/dead — all runtime-adjustable via `/impair` |
 | `comms-suite.mjs` | COMM team — 33 probes in canonical docker mode (COMM-01..33; `--local` runs the 27 single-host subset), emits `out/findings.json` |
-| `suite.mjs` | RED/BLUE/BLACK/GRAY — 33 probes against WASM + relay + auth (relay-touching probes honor `RELAY_URL`/`RELAY_HTTP`) |
-| `kali-sweep.mjs` | KALI team — 14 probes replaying the Kali-tooling assertions (token gates, origin policy, header/method/traversal surface, wire-ciphertext record); absent services → NOTED, not crash |
-| `team-sweep-2.mjs` | Consolidated sweep — 34 probes: RED/BLUE/BLACK/GRAY/COMM/DESK/**SPEC004** (drawer-shipping, surname tripwire, registry seal, declassified copies, drawer restore, generated-exclusion) |
-| `sentinel-sweep.mjs` | 10 probes — auth surface point checks |
-| `superpowers-audit.mjs` | 28-entry capability ledger — live-verifies every claim incl. genesis Ed25519 sigs on the wire |
+| `suite.mjs` | RED/BLUE/BLACK/GRAY — ~30 probes against WASM + relay + auth (relay-touching probes honor `RELAY_URL`/`RELAY_HTTP`); absent lab services classify NOTED, never ERROR |
+| `kali-sweep.mjs` | KALI team — replays the Kali-tooling assertions (token gates, origin policy, header/method/traversal surface, wire-ciphertext record); absent services → NOTED, not crash |
+| `team-sweep-2.mjs` | Consolidated sweep — 85 probes: RED/BLUE/BLACK/GRAY/COMM/DESK/**SPEC004** (drawer-shipping, surname tripwire, registry seal, declassified copies, drawer restore, generated-exclusion) + **BOT** (containment), **AUTH** (cert/trust), **WIRE** (comms boundary), **ZIG** (core/deps), **HARN** (findings taxonomy + fleet-map staleness), **FLEET** (canon emit/load), **CLUSTER** (cross-repo doc-citation + registry projection) |
+| `sentinel-sweep.mjs` | 14 probes — auth surface + containment trust chain (promotion release/refusal, flag-seat ambiguity) |
+| `superpowers-audit.mjs` | 34-entry capability ledger + 9 honest limits — live-verifies every claim incl. genesis Ed25519 sigs on the wire |
 | `capstone-audit.mjs` | 25 checks — envelope forgery battery, canon parity, manifest lineage |
 | `chaos-hammer.mjs` | 6 fault-injection probes on the wire layer |
 | `fabric-stress.mjs` / `fabric-bridge.mjs` | Descent-closure stress + bridge probes (9/9, findings ledger) |
@@ -42,6 +42,11 @@ routing identity is the node's `peer_id`; ledger identity is
 | `fleet_bootstrap.py` | Python canon verifier — genesis TOFU pin + manifest lineage + rendezvous |
 | `fleet-audit.mjs` | External anvil audit of the fleet giants (euz/downbeat/theplatform) |
 | `admiralty-reset-token.mjs` | Mints `FANO-RESET-v1` dual-signed flag-reset tokens |
+| `fano_beacon.py` | Sealed rendezvous beacon — `FLEET-BEACON:<name>` as a 136-B Fano packet to the anchor's UDP6 edge |
+| `fano_dialect.py` | Python twin of the frozen 136-B wire dialect — third independent implementation, self-tests the firmware golden vectors bit-exact |
+| `fano_relay_link.py` | Fano dialect over a Rations-style WS relay — outbound-only dials, identity inside the envelope |
+| `gov-index.mjs` | Deterministic index of the governance corpus — sha256 every doc, `.archive/` superseded snapshots excluded |
+| `ipv6-derive.mjs` | SPEC008v1 address-derivation gate — coord + organ + artifact digest → 128-bit address |
 | `rf-field-probe.mjs` | RF edge probe — needs radio hardware (wlan1 + powered ESP32s), defers honestly without it |
 | `ddns-update.mjs` | DDNS write path (external side effect — excluded from unattended sweeps) |
 | `docker-compose.wan.yml` | The WAN topology |

@@ -458,6 +458,153 @@
   };
   var ANOMALY_FALLBACK = "COLD CASE — no computable analogue on file. the desk doesn't pretend.";
   var MAPPED_FALLBACK = "FICTION FILE — fiction-framed claim, real machinery mapped on file. the math is honest; the framing stays in the drawer.";
+  /* ANOMALY_LORE_ZH — the codex speaks both tongues. same verdicts,
+     same register: 檔案 = file, 冷案 = cold case, 已建 = built,
+     已對映 = mapped, 暫扣 = held, 後設 = meta. keys identical to
+     ANOMALY_LORE; DESK probe enforces one-to-one coverage. */
+  var ANOMALY_LORE_ZH = {
+    "philotic connections": "虛構檔案 — 貝爾對稜已在案。相關矩陣為真;跨秒差距之通話則非。",
+    "philotic physics": "虛構檔案 — 相思子網可算。訊號容量:恰為零。本桌查過兩遍。",
+    "philotic physics (fictional)": "虛構檔案 — 作者自標虛構。其下之網是真數學。",
+    "philotic time": "虛構檔案 — 相關無視距離;亦無視汝之行程表。",
+    "the ansible concept (ftl communication)": "虛構檔案 — 瞬時相關,訊號為零。無訊號之證明歸檔於「本室實證」。",
+    "ender's game: philotic parallax instantaneous communicator": "虛構檔案 — 視差通訊器。無論 Alice 所為,Bob 之約化態恆為 I/2。",
+    "ender's game: the ansible revisited": "虛構檔案 — 重審一遍:依然相關,依然靜默。",
+    "ansible and alcubierre drive physics": "虛構檔案 — 兩半皆在案:sech² 孤子＋相思子網。數學成立;船不開航。",
+    "alcubierre drive physics": "虛構檔案 — rho·32pi 於壁中為負。需異常物質;本庫無存貨。",
+    "battle school computing": "虛構檔案 — 戰校之算力是博弈樹與格架。兩者我們都造了。",
+    "ender's jeesh": "虛構檔案 — 一支小型艦隊子樹。斬首計數已驗證。",
+    "dragon army formations": "虛構檔案 — 隊形樹。扇出為三,斬首即成孤兒。",
+    "fleet operations": "虛構檔案 — fleetTree＋票決。艦隊在跑;小說仍是小說。",
+    "defense operations": "虛構檔案 — 防禦即指揮樹。孤兒皆如實計數。",
+    "admiralty council": "虛構檔案 — 議會即法定人數。票決已封存在案。",
+    "fleet admirals roll call": "虛構檔案 — 點名即法定人數檢查。出席。",
+    "international fleet command structure (hegemon/strategos/polemarch)": "虛構檔案 — 三席一樹。hegemon 在列。",
+    "international fleet network": "虛構檔案 — i.f. 網路已對映為真實艦隊樹。",
+    "ender's game: international fleet hierarchy": "虛構檔案 — 層級已驗證:一根,孤兒有數。",
+    "ender's tactical innovation": "虛構檔案 — 創新＝博弈樹尋得之策略。窮舉、確定。",
+    "battle room network": "虛構檔案 — 戰鬥室為各向同性三維格架。度六,無上下。",
+    "battle room architecture and zero-g training": "虛構檔案 — 零重力競技場＝各向同性網格。敵門在下。",
+    "ender's game: zero-gravity training environment": "虛構檔案 — lattice3D 在案。內部度六。",
+    "strategic intelligence": "虛構檔案 — 戰略是博弈樹。解算器不詐唬。",
+    "ansible addressing across star systems": "虛構檔案 — 封裝扇區位址。定址為真;ansible 是願景。",
+    "time dilation in ender's game universe": "虛構檔案 — 伽瑪平方為精確有理數,beta=3/5 得 25/16。相對論為真;學員非真。",
+    "the mind game's ai architecture": "冷案→已建 — 感知器評估器＋博弈樹解算器。架構於玩具尺度可算。",
+    "the mind game adaptive ai": "虛構檔案 — 整數算術中的自適應學習器。它學得 AND 與 OR;XOR 敗北,如實承認。",
+    "ender's game: adaptive ai psychological assessment": "虛構檔案 — 感知器做評估;心理學留在抽屜裡。",
+    "ender's game: adaptive content retrieval": "虛構檔案 — HNSW 檢索。自適應足矣。",
+    "mind game's knowledge retrieval and adaptation": "虛構檔案 — HNSW 檢索、感知器適應。兩者皆在案。",
+    "psychological assessment": "虛構檔案 — 感知器是不得已的評估員。本桌建議尋求專業協助。",
+    "psychological support": "虛構檔案 — 情感評分在案。詞典級同理心。",
+    "formic hive coordination": "虛構檔案 — 蟲巢協調＝分散式法定人數。共識為真;蟻后非真。",
+    "formic collective intelligence": "虛構檔案 — 集體智慧建模為共識。未諮詢任何蟻后。",
+    "formic hive structure": "虛構檔案 — 蟲巢對映為艦隊樹。層級即層級。",
+    "the formic hive structure": "虛構檔案 — 同一結構,第二次歸檔。",
+    "formic hive mind as neural network": "虛構檔案 — 蜂巢心智至多是一枚感知器。依然不會 XOR。",
+    "the hive mind as neural network": "虛構檔案 — 同上;第二次歸檔也一樣不會 XOR。",
+    "the hive mind's processing architecture": "虛構檔案 — 分散式處理＝法定人數＋通道。",
+    "hive mind distributed processing": "虛構檔案 — 法定人數可算;心靈感應不可。",
+    "the giant's drink scenario": "冷案→已建 — 一場無策略能贏的騙局。窮舉證畢。巨人照樣斟酒。",
+    "the giant's drink scenario analysis": "冷案→已建 — 極小極大證明不可勝;藏於莊家節點後的勝葉照輸。",
+    "psychological modeling": "已建 — 詞典情感評分。粗糙、誠實、整數。",
+    "4. psychological modeling": "已建 — 同一檔案,帶編號版。",
+    "security considerations in the novel": "冷案 — 小說的安全是敘事。我們的承諾是真的。",
+    "the queen's perspective": "虛構檔案 — 她的法定人數可建模;她的視角歸她所有。",
+    "narrative device": "虛構檔案 — 歸於敘事檔。本桌不為隱喻建模。",
+    "god innovation": "虛構檔案 — 超出範圍。本桌的許可權未及於此。",
+    "battle school training philosophy": "虛構檔案 — 哲學是散文;機器另案歸檔。",
+    "battle school and the mind game's temporal structure": "已建 — 時序結構＝博弈樹層交替。",
+    "battle school's computing resources": "已建 — 博弈樹＋格架。資源已清點。",
+    "battle school training philosophy ": "虛構檔案 — 頁邊批註有意見,無程式。",
+    "psychological training implications": "冷案 — 意涵是散文。情感評分器才是誠實的部分。",
+    "training methodology": "冷案 — 方法論是標題;train() 呼叫歸於感知器檔。",
+    "the problem": "冷案 — 散文標題。本桌不假裝它是機關。",
+    "proof sketch": "冷案 — 草圖非證明。真證明在 zig test 裡。",
+    "core insight": "冷案 — 洞見免費;實作才是帳單。",
+    "key mechanisms:": "冷案 — 冒號不是機制。",
+    "formal definition": "冷案 — 定義是形式化的;模組在別處。",
+    "mathematical definition": "冷案 — 定義不會編譯。",
+    "significance": "冷案 — 重要性被斷言,未被計算。",
+    "strengths": "冷案 — 優點被列舉,未被量測。",
+    "unique properties": "冷案 — 獨特性被宣稱;雜湊並未驗證它。",
+    "technical limitations": "冷案 — 諷刺的是全堆最誠實的標題。",
+    "technical limitations vs mind game": "冷案 — 對照標題。兩側分別歸檔。",
+    "physical interpretation": "冷案 — 詮釋免費;度量在 astro 檔。",
+    "philosophical implications": "冷案 — 0900 之前本桌謝絕哲學。",
+    "information implications": "冷案 — Shannon 界可算;意涵歸你所有。",
+    "algorithm overview": "冷案 — 概覽,顧名思義,不是演算法。",
+    "algorithmic approaches": "冷案 — 途徑已記錄;途徑未實作。",
+    "applications": "冷案 — 「應用」是宣稱去比手勢的地方。",
+    "applications in modern ai": "冷案 — 現代 AI 宣稱;整數證明。",
+    "modern parallels": "冷案 — 平行是幾何學與行銷的事。",
+    "modern implementations": "冷案 — 「現代」不是實作細節。",
+    "real-world parallels": "冷案 — 真實世界沒有簽署誓約。",
+    "real-world ai parallels": "冷案 — 見「真實世界平行」,加炒作。",
+    "historical context": "冷案 — 脈絡是歷史;總帳是現在。",
+    "1985 technology context": "冷案 — 1985 來電;語料以散文回覆。",
+    "2016-2017 breakthroughs": "冷案 — 突破被宣稱;未附 commit 雜湊。",
+    "scientific accuracy": "冷案 — 一個關於準確性的標題。諷刺自動歸檔。",
+    "scientific accuracy note": "冷案 — 一則關於準確性的註記。見上。",
+    "scientific speculation": "冷案 — 臆測,至少標示準確。",
+    "theoretical possibilities (speculative)": "冷案 — 理論且臆測,雙重標記。",
+    "requirements for real implementation": "冷案 — 需求第一條:一份實作。",
+    "scale challenges (if real)": "冷案 — 「(if real)」在此承擔了全部誠實工作。",
+    "practical implementation": "冷案 — 「實用」是承認失敗的形容詞。",
+    "implementation notes": "冷案 — 關於實作的註記;實作不含在內。",
+    "implementation pathways": "冷案 — 路徑已繪;目的地待定。",
+    "performance characteristics": "冷案 — 特性被斷言;基準沒有跑。",
+    "processing characteristics": "冷案 — 處理在別處;這裡是標題。",
+    "collection design": "已建 — dirStats 算出語料的實際結構。",
+    "design principles": "冷案 — 原則已記錄;原則不會執行。",
+    "core principles": "冷案 — 原則是核心;程式在別處。",
+    "facility requirements": "冷案 — 設施是一台筆電。需求已達成。",
+    "construction": "冷案 — 引證含糊。本桌需要頁碼。",
+    "construction (1973)": "冷案 — 1973 年構造,引證不明。暫存待溯源。",
+    "medical ai": "冷案 — 醫療宣稱需要本程式沒有的執照。",
+    "python implementation (sklearn style)": "冷案 — 語言不對。本艦隊以 zig 計算。",
+    "quantum implementation (future)": "冷案 — 「未來」是判決,不是模組。",
+    "quantum inspiration": "冷案 — 靈感不是計算。量子暫存器在別處。",
+    "quantum ai systems": "已建 — quantumClassify:一個量子位元,精確有理 Ry,誠實邊界。",
+    "quantum power systems": "已建 — Ising 哈密頓量就是能量簿記。",
+    "natural language understanding": "已建 — 雜湊詞袋＋線性意圖。玩具尺度 NLU,如實標示。",
+    "1. natural language understanding": "已建 — 同一機器的帶編號版。",
+    "ai character consistency": "已建 — 確定性即是機器尺度的角色一致性。",
+    "6. **ai character consistency**": "已建 — markdown 粗體也升遷了。",
+    "minor issues": "已建 — minorIssueCount 計之。計數誠實。",
+    "minor variations": "已建 — syncDiff 的增減 shingle 就是變異。",
+    "breaking pattern": "已建 — 模式斷裂即偵測到的異常。countAnomalies 為之。",
+    "scientific references": "已建 — citationCount:et al.＋(20xx) 標記,已計。",
+    "5. **scientific references**": "已建 — 帶編號版。",
+    "modern verification": "已建 — merkle 驗證是現代的那種。",
+    "2. long-term memory": "已建 — KG 三元組儲存是持久記憶機器。",
+    "occurrences in nature": "冷案 — 算術不是植物學。裁決成立。",
+    "self-similarity in nature": "冷案 — 自相似可算;蕨類無法認證。",
+    "botanical structures": "冷案 — 花園在整數邊界之外。",
+    "biological proportions": "冷案 — 生物學不以定點歸檔。",
+    "biological organization": "冷案 — 組織被宣稱;有機體不含在內。",
+    "formic consciousness": "暫扣 — 意識在此不可計算。本桌把抽屜鎖著。",
+    "quantum propulsion": "暫扣 — 無誠實類比在案。孤子是幾何,不是推力。",
+    "quantum weaponry": "暫扣 — 本桌不庫存武器,量子的也不例外。",
+    "terraforming systems": "暫扣 — 地球化是下一個世紀的預算項目。",
+    "colonization operations": "暫扣 — 作戰檔,無機器。",
+    "civilian integration": "暫扣 — 整合是社會宣稱,不是模組。",
+    "builderberg systems": "暫扣 — builderberg 是名號,不是數字。",
+    "sentinel operations": "已對映 — 哨兵是漂移監視者。EWMA 值勤中。",
+    "logistics supply": "已對映 — 補給路由就是 dijkstra。最短誠實路徑。",
+    "special projects classified ops": "暫扣 — 機密作戰,歸機密作戰之處。",
+    "multiversal monitoring": "暫扣 — 我們監測一個宇宙的遙測。它已夠忙。",
+    "speaker for the dead": "虛構檔案 — 代言人為死者發聲;本桌為總帳發聲。",
+    "after the formic wars": "虛構檔案 — 一個時代,不是演算法。",
+    "ender's game parallel": "虛構檔案 — 平行是散文。",
+    "ender's parallel": "虛構檔案 — 較短的平行,仍是散文。",
+    "the ender's game universe": "虛構檔案 — 宇宙是虛構的;其機器另案歸檔。",
+    "fictional technology": "後設 — 抽屜給自己貼的標籤。",
+    "b. research recommended 🔍": "冷案 — 研究永遠被建議。表情符號是裝飾。",
+    "collection design ": "已建 — 見「collection design」。",
+    "security considerations in the novel ": "冷案 — 敘事安全;真承諾在別處。",
+  };
+  var ANOMALY_FALLBACK_ZH = "冷案 — 無可算類比在案。本桌不假裝。";
+  var MAPPED_FALLBACK_ZH = "虛構檔案 — 虛構框架之宣稱,真機器已在案對映。數學誠實;框架留在抽屜。";
   var FLOOR_VERDICTS = { gap: 1, speculative: 1, speculative_mapped: 1, mappable: 1 };
   function anomalySeen(t) {
     if (!FLOOR_VERDICTS[t.verdict]) return;
@@ -1600,16 +1747,21 @@
               tb.textContent = t.label + " · " + t.term;
               tb.addEventListener("click", function () {
                 anomalySeen(t);
-                var lore = ANOMALY_LORE[t.term] || (FLOOR_VERDICTS[t.verdict]
-                  ? (t.verdict === "speculative_mapped" ? MAPPED_FALLBACK : ANOMALY_FALLBACK)
-                  : null);
+                var zh = state.lang === "zh";
+                var lore = (zh ? ANOMALY_LORE_ZH[t.term] : ANOMALY_LORE[t.term]) ||
+                  (FLOOR_VERDICTS[t.verdict]
+                    ? (t.verdict === "speculative_mapped"
+                        ? (zh ? MAPPED_FALLBACK_ZH : MAPPED_FALLBACK)
+                        : (zh ? ANOMALY_FALLBACK_ZH : ANOMALY_FALLBACK))
+                    : null);
                 detail.textContent = t.term + "\n\n" + t.label + " (" + t.verdict + ")" +
-                  "\ngrade: " + t.grade +
-                  (t.spec007_sections.length ? "\nspec-007 sections: " + t.spec007_sections.join(", ") : "") +
-                  "\nsource: " + t.source +
-                  (t.unbuilt ? "\n\n— UNBUILT: on the Q Branch work order, not yet a gadget." : "") +
-                  (lore ? "\n\n— ANOMALY CODEX —\n" + lore +
-                    "\n(inspected " + state.anoms.length + " of " + state.anomsTotal + " anomalies)" : "");
+                  (zh ? "\n等級: " : "\ngrade: ") + t.grade +
+                  (t.spec007_sections.length ? (zh ? "\nspec-007 章節: " : "\nspec-007 sections: ") + t.spec007_sections.join(", ") : "") +
+                  (zh ? "\n來源: " : "\nsource: ") + t.source +
+                  (t.unbuilt ? (zh ? "\n\n— 未建:在 Q 部門工單上,尚非機關。" : "\n\n— UNBUILT: on the Q Branch work order, not yet a gadget.") : "") +
+                  (lore ? (zh ? "\n\n— 異常編纂 —\n" : "\n\n— ANOMALY CODEX —\n") + lore +
+                    (zh ? "\n(已查 " + state.anoms.length + " / " + state.anomsTotal + " 異常)" :
+                          "\n(inspected " + state.anoms.length + " of " + state.anomsTotal + " anomalies)") : "");
               });
               list.appendChild(tb);
             });
@@ -1678,6 +1830,133 @@
     "  ↑/↓ history · Tab completes",
   ].join("\n");
 
+  var TERM_HELP_ZH = [
+    "指令:",
+    "  help            本清單",
+    "  ls [dir]        列出檔案庫檔案(L0_PUBLIC、L1_TRUSTED、L2_FILE、L3_OPS、Q_BRANCH)",
+    "  open <page>     開啟檔案庫頁面(例如 open dossier.html)",
+    "  cat covenant    誓約",
+    "  about           系統資訊",
+    "  sha             基線完整性檢查",
+    "  tests           測試組狀態",
+    "  xp              許可等級與戰地記錄",
+    "  theme [name]    station · crt · whitehall · spectre",
+    "  sysmon          即時桌面監測(fps、wasm、格架)",
+    "  viz [name]      開啟渲染窗格(sankey、e8、smith、claims …)",
+    "  palette         Ctrl+K — 快速抽屜",
+    "  mute / unmute   桌面之聲",
+    "  echo <s>        桌面複述你",
+    "  whoami          桌面如實回答",
+    "  zulu            時鐘,逐字",
+    "  7q              申請抽屜准入",
+    "  admiralty       海軍部議會 — 組織、整備帳目、指令冊",
+    "  credential      將旗之鑑別證書 · credential verify <token> 查驗所呈紙本",
+    "  pet             召喚思維帽",
+    "  manual          野戰手冊(服役記錄)",
+    "  export          印出存檔碼 · import <code> 復原之",
+    "  ask <q>         查詢受治理之 Ollama 邊界(先設 'provider')",
+    "  provider        配置本地/遠端 Ollama 發現＋橋接權杖",
+    "  academy         開啟源碼連結之公開課程",
+    "  promotion <tok> 出示 FANO-CONTAIN-v1 紙本 — 出隔離之唯一門",
+    "  science         Q 之實驗室筆記 — 艦隊所能計算者",
+    "  codex           異常別冊 — 冷案與虛構檔案",
+    "  quplink         開啟沙盒上行鏈路",
+    "  family          姊妹專案 — 艦隊名錄",
+    "  lang [en|zh]    桌面之第二語言",
+    "  rations         停泊姊妹平台",
+    "  comms           comms.os — 線路、通訊、投放、通訊技藝",
+    "  unlock          喚醒密鑰庫(口令)",
+    "  rekey           重簽爾之職級憑證",
+    "  grant <cs> [pk] 核發保留呼號授權(STATION-CHIEF+)",
+    "  grants          列出已核發之呼號授權",
+    "  request-branch <div>  提交分部申請 — 艦隊司令於 7q 核准",
+    "  branch          顯示爾之分部指派",
+    "  export-desk     簽署之桌面轉移權杖 — 攜此桌至他機",
+    "  import-desk <tok>  於未創始之桌接受桌面轉移權杖",
+    "  burn            銷毀密鑰庫 — 下次開機再問誓約",
+    "  clear           清除卷軸",
+    "  lock            登出",
+    "  ↑/↓ 歷史 · Tab 補全",
+  ].join("\n");
+
+  /* terminal corpus zh — reader-facing prose answers get a twin; lines
+     carrying live identifiers (keys, fps, counts) stay command-canon. */
+  var TERM_ZH = {
+    "run 'about' instead — it has a window": "改執行 'about' — 它有視窗",
+    "sysinfo windowed.": "系統資訊已視窗化。",
+    "zig: 8+18+15+21+12+12 = 86 primary … GREEN\nq_toys: 6 … GREEN\ntotal: 92 verified operations":
+      "zig: 8+18+15+21+12+12 = 86 主項 … GREEN\nq_toys: 6 … GREEN\n合計: 92 項已驗證操作",
+    "export-desk: unlock first — the desk signs its own transfer": "export-desk:先解鎖 — 桌面親簽自身之轉移",
+    "import-desk: needs a desk token": "import-desk:需要一枚桌面權杖",
+    "import-desk: this desk is already founded — burn first": "import-desk:此桌已創始 — 先焚毀",
+    "import-desk: refused — token not signed by the key it carries": "import-desk:拒絕 — 權杖非其所攜金鑰所簽",
+    "import-desk: not a FANO-DESK-v1 token": "import-desk:非 FANO-DESK-v1 權杖",
+    "import: needs a save code": "import:需要一枚存檔碼",
+    "import: not a field record": "import:非戰地記錄",
+    "import: the code didn't survive transit": "import:該碼未能生還於傳輸",
+    "the board convenes — naval command · star command.": "議會開庭 — 海軍指揮 · 星際指揮。",
+    "quplink: module absent": "quplink:模組缺席",
+    "family: quplink module absent": "family:quplink 模組缺席",
+    "comms.os live — the tradecraft drawer slides open.": "comms.os 已上線 — 通訊技藝抽屜滑開。",
+    "comms: module absent": "comms:模組缺席",
+    "viz: deck absent": "viz:平台缺席",
+    "nobody signed in — that should not be possible.": "無人登入 — 此事本不應可能。",
+    "no record on this desk.": "此桌無記錄。",
+    "credential verify: needs a token": "credential verify:需要一枚權杖",
+    "credential: unlock first — cold keystore cannot mint": "credential:先解鎖 — 冷密鑰庫不能鑄造",
+    "credential: authenticators are flag-seat only. your paper is the callsign grant — 'grant' tokens are yours.":
+      "credential:鑑別證書僅屬旗座。爾之紙本是呼號授權 — 'grant' 權杖歸爾。",
+    "request-branch: unlock first — cold keystore cannot sign": "request-branch:先解鎖 — 冷密鑰庫不能簽署",
+    "request-branch: refused — the mint declined": "request-branch:拒絕 — 鑄印所駁回",
+    "auth module absent": "auth 模組缺席",
+    "keystore already warm.": "密鑰庫已暖。",
+    "the keystore waits for your passphrase.": "密鑰庫候爾口令。",
+    "keystore destroyed — and the founding record with it.\nthis desk is unfounded again. the next signature writes a new genesis.":
+      "密鑰庫已毀 — 創始記錄同殉。\n此桌再度無主。下一枚簽名書寫新的創世。",
+    "keystore destroyed — the desk will ask for the pledge again.\n(genesis survives — the founding is a fact. 'burn genesis' erases it.)":
+      "密鑰庫已毀 — 桌面將再問誓約。\n(創世倖存 — 創始是事實。'burn genesis' 抹除之。)",
+    "rekey: unlock first — cold keystore cannot sign": "rekey:先解鎖 — 冷密鑰庫不能簽署",
+    "rekey: signature failed": "rekey:簽名失敗",
+    "rekey: certificate re-issued, expiry +5y — same key, new paper.":
+      "rekey:憑證已重簽,效期 +5y — 同一把鑰,新的紙本。",
+    "grant: unlock first — cold keystore cannot sign": "grant:先解鎖 — 冷密鑰庫不能簽署",
+    "grant: usage — grant <callsign> [subject-pk-hex]": "grant:用法 — grant <callsign> [subject-pk-hex]",
+    "grant: refused — issuing reserved callsigns requires STATION-CHIEF clearance.":
+      "grant:拒絕 — 核發保留呼號需 STATION-CHIEF 許可。",
+    "no callsign grants on this desk.": "此桌無呼號授權。",
+    "governed provider panel opened.": "受治理之 provider 面板已開啟。",
+    "promotion: paste the FANO-CONTAIN-v1 token a STATION-CHIEF+ issued for this pk":
+      "promotion:貼上 STATION-CHIEF+ 為此 pk 核發之 FANO-CONTAIN-v1 權杖",
+    "promotion accepted — containment lifted, welcome to the cadet pool":
+      "晉升接受 — 隔離解除,歡迎加入學員池",
+    "promotion refused — wrong subject, expired, or untrusted issuer":
+      "晉升拒絕 — 主體不符、已過期、或簽發者不可信",
+    "academy.os opened — source-linked lessons await.": "academy.os 已開啟 — 源碼連結之課程靜候。",
+    "q-branch inventory opened — honest labels only.": "Q 部門清冊已開啟 — 僅誠實標籤。",
+    "configure 'provider' first — the bridge is the gate.": "請先配置 'provider' — 橋即閘。",
+    "gate: dry-running <risk> <tool_class> <required_clearance> — no model contacted.":
+      "gate:空轉 <risk> <tool_class> <required_clearance> — 未接觸任何模型。",
+    "ask: ask what?": "ask:問什麼?",
+    "echo: echo: echo:": "echo:echo:echo:",
+  };
+  /* leading-label framing translations — identifier tails stay canon */
+  var TERM_ZH_PREFIX = [
+    ["desk received — ", "已收桌面 — "],
+    ["record restored — ", "記錄已復原 — "],
+    ["film roll — ", "菲林卷 — "],
+    ["request-branch: choose one —", "分部申請:擇一 —"],
+    ["branch request signed — ", "分部申請已簽署 — "],
+    ["lang: ", "語言:"],
+  ];
+  function termZh(out) {
+    if (state.lang !== "zh" || typeof out !== "string") return out;
+    if (TERM_ZH[out]) return TERM_ZH[out];
+    for (var i = 0; i < TERM_ZH_PREFIX.length; i++)
+      if (out.indexOf(TERM_ZH_PREFIX[i][0]) === 0)
+        return TERM_ZH_PREFIX[i][1] + out.slice(TERM_ZH_PREFIX[i][0].length);
+    return out;
+  }
+
   function termExec(cmd, print) {
     var parts = cmd.trim().split(/\s+/);
     var c = parts[0].toLowerCase();
@@ -1685,7 +1964,7 @@
     var arg = argRaw.toLowerCase();
     var full = cmd.trim().toLowerCase().replace(/\s+/g, " ");
     switch (c) {
-      case "help": return TERM_HELP;
+      case "help": return state.lang === "zh" ? TERM_HELP_ZH : TERM_HELP;
       case "ls":
         if (!arg) {
           return Object.keys(FS).join("   ") +
@@ -1787,23 +2066,28 @@
       case "whoami": {
         var rec = FANO_AUTH && FANO_AUTH.loadRecord();
         if (!rec) return "nobody signed in — that should not be possible.";
-        var warm = FANO_AUTH.session.sk ? "keystore warm" : "keystore cold — run 'unlock'";
+        var zh0 = state.lang === "zh";
+        var warm = FANO_AUTH.session.sk
+          ? (zh0 ? "密鑰庫已暖" : "keystore warm")
+          : (zh0 ? "密鑰庫冷 — 執行 'unlock'" : "keystore cold — run 'unlock'");
         var g0 = FANO_AUTH.genesis && FANO_AUTH.genesis();
         var gline = (g0 && g0.pk === rec.pk)
-          ? "\ngenesis: sha256 " + (g0.pk_sha256 || "").slice(0, 24) + "… — this desk's founding key is yours"
-          : (g0 ? "\ngenesis: sha256 " + (g0.pk_sha256 || "").slice(0, 24) + "… — founded by another key" : "");
+          ? "\ngenesis: sha256 " + (g0.pk_sha256 || "").slice(0, 24) + (zh0 ? "… — 此桌創始之鑰屬爾" : "… — this desk's founding key is yours")
+          : (g0 ? "\ngenesis: sha256 " + (g0.pk_sha256 || "").slice(0, 24) + (zh0 ? "… — 由他鑰創始" : "… — founded by another key") : "");
         var br = FANO_AUTH.branchOf ? FANO_AUTH.branchOf(rec.pk) : null;
         var auLine = "";
         if (FANO_AUTH.verifyCredential) {
           var auG = (FANO_AUTH.grants() || {})[rec.user];
           var auV = auG && auG.root ? FANO_AUTH.verifyCredential(auG.root) : null;
-          if (auV) auLine = "\nauthenticator: FANO-ROOT-v1 verified · expires " +
+          if (auV) auLine = (zh0 ? "\n鑑別證書: FANO-ROOT-v1 已驗證 · 期滿 " :
+              "\nauthenticator: FANO-ROOT-v1 verified · expires ") +
             new Date(auV.exp * 1000).toISOString().slice(0, 10);
         }
         return t("term.whoami", clearance(), state.eggs.length) +
-          "\ncallsign: " + rec.user + " · role: " + (FANO_AUTH.ROLE_LABEL[FANO_AUTH.session.role] || "?") +
-          "\nkey fp: " + FANO_AUTH.fingerprint() + " · " + warm + gline +
-          (br ? "\nbranch: " + br.branch.toUpperCase() + " — assigned by fp " + br.iss.slice(0, 8).toUpperCase() + "…" : "") +
+          (zh0 ? "\n呼號: " : "\ncallsign: ") + rec.user + " · role: " + (FANO_AUTH.ROLE_LABEL[FANO_AUTH.session.role] || "?") +
+          (zh0 ? "\n金鑰指紋: " : "\nkey fp: ") + FANO_AUTH.fingerprint() + " · " + warm + gline +
+          (br ? (zh0 ? "\n分部: " : "\nbranch: ") + br.branch.toUpperCase() +
+            (zh0 ? " — 由指紋 " : " — assigned by fp ") + br.iss.slice(0, 8).toUpperCase() + "…" : "") +
           auLine;
       }
       case "credential":
@@ -2068,7 +2352,7 @@
       print("fano:~$ " + cmd);
       var out = termExec(cmd, print);
       if (out === "\x00") log.textContent = "";
-      else if (out) print(out);
+      else if (out) print(termZh(out));
     });
     box.addEventListener("click", function () { inp.focus(); });
     setTimeout(function () { inp.focus(); }, 50);
