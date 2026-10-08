@@ -325,14 +325,15 @@ console.log("\nBLACK — supply chain");
       { cwd: ROOT, encoding: "utf8" });
     const paths = blobs.split("\n").map(l => l.split(" ").slice(1).join(" "))
       .filter(p => p && /\.(pem|key|env|secret|p12|pfx)$/i.test(p));
-    /* pickaxe on the armor trailer — "PRIVATE KEY-----" occurs only in
-       real key blocks; regex literals like BEGIN [A-Z ]*PRIVATE KEY in
-       the harness itself carry no trailing dashes and can't self-hit */
+    /* pickaxe on the armor trailer, assembled at runtime so this source
+       file can never trip its own scan: real key blocks carry
+       "PRIVATE KEY-----"; regex literals (BEGIN [A-Z ]*PRIVATE KEY) and
+       this code carry no contiguous match. */
+    const NEEDLE = "PRIVATE " + "KEY" + "-----";
     const pkScan = execSync(
-      "git log --all -p -S 'PRIVATE KEY-----' --format=format:'%H' | head -40",
+      `git log --all -p -S '${NEEDLE}' --format=format:'%H' | head -40`,
       { cwd: ROOT, encoding: "utf8" });
-    const leaks = pkScan.split("\n")
-      .filter(l => l.includes("PRIVATE KEY-----")).length;
+    const leaks = pkScan.split("\n").filter(l => l.includes(NEEDLE)).length;
     !paths.length && !leaks
       ? held("BLACK", "history-secret-scan", "no key-material paths or PEM bodies in history")
       : open_("BLACK", "history-secret-scan",
