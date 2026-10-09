@@ -99,11 +99,12 @@ function lastErr() {
   return { code, msg };
 }
 function phoneSend(targetHex, body) {
-  const tp = wr(unhex(targetHex)), bp = wr(enc.encode(body));
-  const ok = ex.rations_phone_send(tp, 0, bp, body.length);
+  const tp = wr(unhex(targetHex)), bp = wr(enc.encode(body)), mp = outBuf(32);
+  const ok = ex.rations_phone_send2(tp, 0, bp, body.length, mp);
   const err = ok ? null : lastErr();
-  ex.rations_free(tp); ex.rations_free(bp);
-  return { ok: !!ok, err };
+  const msgId = ok ? hex(mem(mp, 32)) : null;
+  ex.rations_free(tp); ex.rations_free(bp); ex.rations_free(mp);
+  return { ok: !!ok, err, msg_id: msgId };
 }
 /* identity announce: a .connect frame (msg_type 0) carrying our 16-byte
    location — receivers register our REAL peer_id on their conn, which is

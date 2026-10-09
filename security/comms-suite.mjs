@@ -186,7 +186,10 @@ await sleep(6000);
   }
   if (got && got.sealed) ok("sealed-send-wan", `delivered after ${sends} send(s) in ~${Date.now() - t0}ms over impaired edge, sealed=true`);
   else if (got) noted("sealed-send-wan", `delivered but UNSEALED — contact key not yet exchanged; plaintext crossed the impaired edge`);
-  else noted("sealed-send-wan", `no delivery after ${sends} bounded resends — impaired edge absorbed every frame (fire-and-forget transport carries no delivery guarantee)`);
+  else {
+    const c = await ctl("w1", "/counters").catch(() => null);
+    noted("sealed-send-wan", `no delivery after ${sends} bounded resends — w1 counters: ${JSON.stringify(c)}`);
+  }
 }
 
 /* ordering under jitter: 10 tagged payloads. relay_route is fire-and-
@@ -251,8 +254,11 @@ if (MODE !== "local") {
     const ib3 = await ctl("w1", "/inbox");
     got2 = ib3.inbox.find((x) => Buffer.from(x.body_b64, "base64").toString() === "heavy wan probe");
   }
-  got2 ? ok("heavy-impairment-delivery", `300ms+150j/8%loss/15%reorder edge → delivered in ~${Date.now() - t0}ms`)
-       : f("heavy-impairment-delivery", "OPEN", "heavy profile starved delivery", "medium");
+  if (got2) ok("heavy-impairment-delivery", `300ms+150j/8%loss/15%reorder edge → delivered in ~${Date.now() - t0}ms`);
+  else {
+    const c = await ctl("w1", "/counters").catch(() => null);
+    f("heavy-impairment-delivery", "OPEN", `heavy profile starved delivery — w1 counters: ${JSON.stringify(c)}`, "medium");
+  }
   const st = await wctl("west", "/stats");
   (st.rx > 0)
     ? ok("impairment-accounting", `proxy saw traffic — rx=${st.rx} tx=${st.tx} dropped=${st.dropped} duped=${st.duped} delayed=${st.delayed}`)
@@ -283,8 +289,12 @@ if (MODE !== "local") {
     const ib2 = await ctl("w1", "/inbox");
     got = ib2.inbox.find((x) => Buffer.from(x.body_b64, "base64").toString() === "bypass works");
   }
-  got ? ok("dual-homed-bypass", "WAN edge dead — dual-homed bridge relay still delivered")
-      : f("dual-homed-bypass", "OPEN", "bypass host did not restore connectivity", "medium");
+  if (got) ok("dual-homed-bypass", "WAN edge dead — dual-homed bridge relay still delivered");
+  else {
+    const c1 = await ctl("w1", "/counters").catch(() => null);
+    const c2 = await ctl("e1", "/counters").catch(() => null);
+    f("dual-homed-bypass", "OPEN", `bypass host did not restore connectivity — w1: ${JSON.stringify(c1)} e1: ${JSON.stringify(c2)}`, "medium");
+  }
 
   await wctl("east", "/heal"); await wctl("west", "/heal");
   /* churn: kill a leaf, expect honest failure; restart, expect recovery */

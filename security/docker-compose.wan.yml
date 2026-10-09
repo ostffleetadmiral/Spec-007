@@ -55,7 +55,7 @@ services:
     # then the in-process proxy adds its own deterministic profile —
     # two independent impairment layers stacked like a real WAN edge
     command: >
-      sh -c "apk add --no-cache iproute2 >/dev/null 2>&1 &&
+      sh -c "timeout 45 apk add --no-cache iproute2 >/dev/null 2>&1 &&
              tc qdisc replace dev eth1 root netem delay 60ms 25ms loss 0.5% &&
              echo '[wan-east] tc netem applied on eth1' ||
              echo '[wan-east] tc unavailable — in-process impairment only';
@@ -78,7 +78,7 @@ services:
   wan-west:
     image: node:22-alpine
     command: >
-      sh -c "apk add --no-cache iproute2 >/dev/null 2>&1 &&
+      sh -c "timeout 45 apk add --no-cache iproute2 >/dev/null 2>&1 &&
              tc qdisc replace dev eth1 root netem delay 90ms 35ms loss 1% &&
              echo '[wan-west] tc netem applied on eth1' ||
              echo '[wan-west] tc unavailable — in-process impairment only';
