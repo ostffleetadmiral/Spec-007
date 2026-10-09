@@ -1744,24 +1744,36 @@
             mine.cover_role.toUpperCase(), mine.track, mine.branch.toUpperCase()) +
           "\n" + mine.hook
         : t("per.none");
-      /* the casting sheet — assignable personas, grant status marked */
+      /* the casting sheet — tier sections, grant status + seat marked */
       var granted = FANO_AUTH && FANO_AUTH.grants ? FANO_AUTH.grants() : {};
-      rows.filter(function (p) { return p.assignable && !p.alias_of; }).forEach(function (p) {
-        var b = document.createElement("button"); b.className = "cmd-btn";
-        var held = !!granted[p.callsign];
-        b.textContent = p.callsign.toUpperCase() + " — " + p.class + " · " + p.cover_role +
-          (held ? "  [" + t("per.held") + "]" : "");
-        b.addEventListener("click", function () {
-          detail.textContent = p.callsign.toUpperCase() + "\n\n" + p.hook + "\n\n" +
-            t("per.role") + p.cover_role + "\n" + t("per.track") + p.track + "\n" +
-            t("per.branch") + p.branch.toUpperCase() + "\n" + t("per.issue");
+      [3, 2, 1].forEach(function (tier) {
+        var group = rows.filter(function (p) { return p.assignable && p.tier === tier; });
+        if (!group.length) return;
+        var hd = document.createElement("p");
+        hd.innerHTML = "<strong>" + esc(t("per.t" + tier)) + "</strong>";
+        list.appendChild(hd);
+        group.forEach(function (p) {
+          var b = document.createElement("button"); b.className = "cmd-btn";
+          var held = !!granted[p.callsign];
+          b.textContent = p.callsign.toUpperCase() + " — " + p.cover_role +
+            (p.cast === "open" ? "  [" + t("per.open") + "]" : (held ? "  [" + t("per.held") + "]" : "")) +
+            (p.seat ? "  · " + t("per.seat." + p.seat) : "");
+          b.addEventListener("click", function () {
+            detail.textContent = p.callsign.toUpperCase() + " — " + t("per.t" + p.tier) + "\n\n" + p.hook + "\n\n" +
+              t("per.role") + p.cover_role + "\n" + t("per.track") + p.track + "\n" +
+              t("per.branch") + p.branch.toUpperCase() +
+              (p.seat === "held" ? "\n" + t("per.seatnote") : "") + "\n" +
+              (p.cast === "open" ? t("per.openissue") : t("per.issue"));
+          });
+          list.appendChild(b);
         });
-        list.appendChild(b);
       });
-      /* the closed ledger — counted, never issued by casting */
-      var closed = {};
+      /* the closed ledger — the Meter commands the adversary column */
+      var closed = {}, boss = byName["the meter"];
       rows.forEach(function (p) { if (!p.assignable) closed[p.class] = (closed[p.class] || 0) + 1; });
-      detail.textContent = t("per.closed") + " " + Object.keys(closed).sort()
+      detail.textContent = (boss ? t("per.command") + " " + boss.callsign.toUpperCase() +
+        " — " + boss.note + "\n\n" : "") +
+        t("per.closed") + " " + Object.keys(closed).sort()
         .map(function (k) { return k + " ×" + closed[k]; }).join(" · ") + "\n" + t("per.closed.note");
     }).catch(function (e) { me.textContent = t("per.down") + e; });
   }
@@ -2573,7 +2585,9 @@
           if (row && row.alias_of) (m.personas || []).forEach(function (p) { if (p.callsign === row.alias_of) row = p; });
           if (row && row.assignable)
             print((pzh ? "檔案身分: " : "on file: ") + row.callsign.toUpperCase() + " — " +
-              row.class + " · " + row.cover_role + " · " + row.track + " → " + row.branch.toUpperCase());
+              "tier " + row.tier + " · " + row.class + " · " + row.cover_role + " · " +
+              row.track + " → " + row.branch.toUpperCase() +
+              (row.seat === "held" ? (pzh ? " · 席位已任" : " · seat held") : ""));
           else print(pzh ? "此桌無角色檔案 — 帳冊開著。" : "no persona on this desk — the ledger is open.");
         }).catch(function () {});
         return "casting office open — resolving your file…";

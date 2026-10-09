@@ -1,8 +1,14 @@
 {
-  "schema": "PERSONA-MAP-v1",
-  "note": "Layer-2 casting office. Personas are cover, not authority — issuance rides the FANO-CALLSIGN-v1 grant chain. Regex-gated designations (00x, rank prefixes, WO-n, the admiralty) are covered by fano-auth.js RESTRICTED_RE, outside this literal table.",
-  "persona_count": 158,
-  "assignable_count": 45,
+  "schema": "PERSONA-MAP-v2",
+  "note": "The casting office — three-tier matrix. tier 3 constitutional offices and tier 2 Star Command / Academy corps billets train toward real seats; tier 1 is the MI6 cover pool. Restricted callsigns are grant-cast (FANO-CALLSIGN-v1); open billets are corps casting — the desk holds the file. Personas are cover, never authority. The closed ledger reports to the Meter.",
+  "adversary_command": "the meter",
+  "tiers": {
+    "1": "MI6 cover pool",
+    "2": "Star Command / Academy corps",
+    "3": "constitutional offices"
+  },
+  "persona_count": 232,
+  "assignable_count": 116,
   "tracks": [
     "ai-literacy",
     "campaign",
@@ -27,37 +33,53 @@
   ],
   "personas": [
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "admiralty",
       "callsign": "admiral",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "Fleet rank — strategy is the day job.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "legal_financial",
       "callsign": "admiral of financial operations",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "constitutional_officer",
+      "hook": "Treasury and audit — the equity model reports to this desk.",
+      "tier": 3,
+      "track": "systems",
+      "seat": "held"
     },
     {
       "assignable": false,
       "callsign": "aiwo",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "alec trevelyan",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "auric goldfinger",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "axiomatic baseline",
-      "class": "fleet"
+      "class": "institution"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "tanner",
       "callsign": "bill tanner",
       "class": "alias"
@@ -65,81 +87,139 @@
     {
       "assignable": false,
       "callsign": "blofeld",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "bond",
+      "cast": "grant",
       "class": "agent",
       "cover_role": "field_agent",
       "hook": "The name is taken. The file on it is longer than yours.",
+      "tier": 1,
       "track": "security"
     },
     {
       "assignable": true,
       "branch": "specs",
       "callsign": "boothroyd",
+      "cast": "grant",
       "class": "service",
       "cover_role": "q_branch",
       "hook": "The original armourer — the post predates the letter.",
+      "tier": 1,
       "track": "systems"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "admiralty",
       "callsign": "captain",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "Command of a vessel — the ledger gets heavier.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
     },
     {
       "assignable": true,
       "branch": "admiralty",
       "callsign": "charles robinson",
+      "cast": "grant",
       "class": "service",
       "cover_role": "operator",
       "hook": "Chief of staff — the message lands where it should.",
+      "tier": 1,
       "track": "communications"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "human_academic",
       "callsign": "chief of lifesupport",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "staff",
+      "hook": "Life support answers to the crew, not the hull.",
+      "tier": 2,
+      "track": "ethics",
+      "seat": "open"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "admiralty",
       "callsign": "chief of staff",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "staff",
+      "hook": "The office that makes meetings produce orders.",
+      "tier": 2,
+      "track": "communications",
+      "seat": "open"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "security",
       "callsign": "chief warrant officer",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "specialist",
+      "hook": "The senior specialist — the tools answer to this billet.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
     },
     {
       "assignable": true,
       "branch": "research_ip",
       "callsign": "christmas jones",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "Nuclear physicist — the joke is the name, not the degree.",
+      "tier": 1,
       "track": "systems"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "security",
       "callsign": "commander",
-      "class": "fleet"
-    },
-    {
-      "assignable": false,
-      "callsign": "commodore",
-      "class": "fleet"
-    },
-    {
-      "assignable": false,
-      "callsign": "commodore of ethics and equity",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "Command of a section — accountability included.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
     },
     {
       "assignable": true,
+      "branch": "admiralty",
+      "callsign": "commodore",
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "Squadron command — more than one hull answers.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "ethics",
+      "callsign": "commodore of ethics and equity",
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "constitutional_officer",
+      "hook": "The ethics seat — equity is a protocol, not a mood.",
+      "tier": 3,
+      "track": "ethics",
+      "seat": "held"
+    },
+    {
+      "assignable": false,
       "alias_of": "tracy",
       "callsign": "countess tracy",
       "class": "alias"
@@ -147,17 +227,19 @@
     {
       "assignable": false,
       "callsign": "day zero",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "dominic greene",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "donald grant",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
@@ -172,55 +254,71 @@
     {
       "assignable": false,
       "callsign": "dr alvarez",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "dr julius no",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "dr kananga",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "dr no",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "dr. no",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "drax",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "elektra king",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "emilio largo",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "security",
       "callsign": "ensign",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "First stripe, first watch.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
     },
     {
       "assignable": false,
       "callsign": "ernst stavro blofeld",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "leiter",
       "callsign": "felix leiter",
       "class": "alias"
@@ -228,20 +326,22 @@
     {
       "assignable": false,
       "callsign": "fleet admiral",
-      "class": "fleet"
+      "class": "seat"
     },
     {
       "assignable": false,
       "callsign": "francisco scaramanga",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "franz oberhauser",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "mallory",
       "callsign": "gareth mallory",
       "class": "alias"
@@ -249,20 +349,23 @@
     {
       "assignable": false,
       "callsign": "general gogol",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "general ourumov",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "goldfinger",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "mary goodnight",
       "callsign": "goodnight",
       "class": "alias"
@@ -271,13 +374,15 @@
       "assignable": true,
       "branch": "human_academic",
       "callsign": "honey ryder",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "Self-educated off an encyclopedia — the Academy's whole thesis.",
+      "tier": 1,
       "track": "ethics"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "honey ryder",
       "callsign": "honeychile rider",
       "class": "alias"
@@ -285,19 +390,22 @@
     {
       "assignable": false,
       "callsign": "hugo drax",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "jack wade",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "The other agency's man — brings gifts.",
+      "tier": 1,
       "track": "communications"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "bond",
       "callsign": "james bond",
       "class": "alias"
@@ -305,24 +413,28 @@
     {
       "assignable": false,
       "callsign": "janus",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "jaws",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "jinx",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "Allied service, parallel ledger — she signs her own reports.",
+      "tier": 1,
       "track": "security"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "jinx",
       "callsign": "jinx johnson",
       "class": "alias"
@@ -331,94 +443,131 @@
       "assignable": true,
       "branch": "human_academic",
       "callsign": "jock campbell",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "Air support — he flies what you ask.",
+      "tier": 1,
       "track": "orientation"
     },
     {
       "assignable": false,
       "callsign": "kananga",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "human_academic",
       "callsign": "kara milovy",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "The cellist — notice what she notices.",
+      "tier": 1,
       "track": "orientation"
     },
     {
       "assignable": false,
       "callsign": "karl stromberg",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "klebb",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "largo",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "le chiffre",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "security",
       "callsign": "lead security and fabrication officer",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "technical_seat",
+      "hook": "Security validation — the fabricator answers to this desk.",
+      "tier": 3,
+      "track": "security",
+      "seat": "held"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "specs",
       "callsign": "lead technical systems architect",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "technical_seat",
+      "hook": "The technical seat — validation of the whole stack.",
+      "tier": 3,
+      "track": "systems",
+      "seat": "held"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "leiter",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "The liaison — allied service, same wire.",
+      "tier": 1,
       "track": "communications"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "security",
       "callsign": "lieutenant",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "Line officer — the billet that runs the deck.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
     },
     {
       "assignable": false,
       "callsign": "lyutsifer safin",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "admiralty",
       "callsign": "m",
+      "cast": "grant",
       "class": "service",
       "cover_role": "station_chief",
       "hook": "In committee. M is always in committee.",
+      "tier": 1,
       "track": "systems"
     },
     {
       "assignable": true,
       "branch": "human_academic",
       "callsign": "madeleine swann",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "The psychiatrist — she reads the file on the reader.",
+      "tier": 1,
       "track": "ethics"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "boothroyd",
       "callsign": "major boothroyd",
       "class": "alias"
@@ -427,38 +576,46 @@
       "assignable": true,
       "branch": "admiralty",
       "callsign": "mallory",
+      "cast": "grant",
       "class": "service",
       "cover_role": "station_chief",
       "hook": "The chairman reads every file, including this one.",
+      "tier": 1,
       "track": "systems"
     },
     {
       "assignable": true,
       "branch": "human_academic",
       "callsign": "mary goodnight",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "Field support — the file says competent, the record says loyal.",
+      "tier": 1,
       "track": "orientation"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "mathis",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "The contact who vouches — identity is his trade.",
+      "tier": 1,
       "track": "identity"
     },
     {
       "assignable": false,
       "callsign": "max zorin",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
+      "alias_of": "the meter",
       "callsign": "meter",
-      "class": "fleet"
+      "class": "alias"
     },
     {
       "assignable": false,
@@ -466,23 +623,31 @@
       "class": "org"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "human_academic",
       "callsign": "midshipman",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "corps",
+      "hook": "The cadet rung — every flag officer was one.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
     },
     {
       "assignable": false,
       "callsign": "miranda frost",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "tiffany case",
       "callsign": "miss case",
       "class": "alias"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "moneypenny",
       "callsign": "miss moneypenny",
       "class": "alias"
@@ -491,108 +656,129 @@
       "assignable": true,
       "branch": "human_academic",
       "callsign": "moneypenny",
+      "cast": "grant",
       "class": "service",
       "cover_role": "operator",
       "hook": "The desk is already spoken for — the duty is real.",
+      "tier": 1,
       "track": "orientation"
     },
     {
       "assignable": false,
       "callsign": "mr big",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "mr kidd",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "mr white",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "mr wint",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "nomi",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "The number moved; the seat held.",
+      "tier": 1,
       "track": "security"
     },
     {
       "assignable": true,
       "branch": "legal_financial",
       "callsign": "octopussy",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "Runs a floating ledger — logistics with jewels.",
+      "tier": 1,
       "track": "communications"
     },
     {
       "assignable": false,
       "callsign": "oddjob",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "onatopp",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "open sentience technology foundation",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "ostf",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "ourumov",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "paloma",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "Three weeks training. Still better briefed than you.",
+      "tier": 1,
       "track": "identity"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "pam bouvier",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "Pilot. Army. The file says do not underestimate.",
+      "tier": 1,
       "track": "security"
     },
     {
       "assignable": true,
       "branch": "legal_financial",
       "callsign": "pussy galore",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "Runs a crew, not a solo act — organization is the skill.",
+      "tier": 1,
       "track": "communications"
     },
     {
       "assignable": true,
       "branch": "specs",
       "callsign": "q",
+      "cast": "grant",
       "class": "service",
       "cover_role": "q_branch",
       "hook": "The Quartermaster does not sign up through a form.",
+      "tier": 1,
       "track": "systems"
     },
     {
@@ -614,100 +800,131 @@
       "assignable": true,
       "branch": "security",
       "callsign": "quarrel",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "The boat captain who asks the right questions.",
+      "tier": 1,
       "track": "security"
     },
     {
       "assignable": true,
       "branch": "specs",
       "callsign": "quartermaster",
+      "cast": "grant",
       "class": "service",
       "cover_role": "q_branch",
       "hook": "The stores are signed for. All of them.",
+      "tier": 1,
       "track": "systems"
     },
     {
       "assignable": false,
       "callsign": "ramsey",
-      "class": "fleet"
+      "class": "seat"
     },
     {
       "assignable": false,
       "callsign": "raoul silva",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "admiralty",
       "callsign": "rear admiral",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "The junior flag — squadrons answer to it.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "strategy",
       "callsign": "rear admiral of entrepreneurship",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "constitutional_officer",
+      "hook": "Scaling Sallirreug Tech — deployment is the mandate.",
+      "tier": 3,
+      "track": "campaign",
+      "seat": "held"
     },
     {
       "assignable": false,
       "callsign": "red grant",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "renard",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "mathis",
       "callsign": "rene mathis",
       "class": "alias"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "research_ip",
       "callsign": "research lead",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "staff",
+      "hook": "The lab's senior hand — evidence first.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
     },
     {
       "assignable": false,
       "callsign": "rosa klebb",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "safin",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "sallirreug academy",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "sallirreug tech",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "sallirreugtech",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "sallirreugtech academy",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
       "callsign": "scaramanga",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "sigma",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
@@ -723,9 +940,11 @@
       "assignable": true,
       "branch": "research_ip",
       "callsign": "solitaire",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "Reads what has not happened — pattern work, filed honestly.",
+      "tier": 1,
       "track": "ai-literacy"
     },
     {
@@ -737,45 +956,54 @@
       "assignable": true,
       "branch": "research_ip",
       "callsign": "stacey sutton",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "State geologist — the ground truth is literal.",
+      "tier": 1,
       "track": "systems"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "station chief",
+      "cast": "grant",
       "class": "service",
       "cover_role": "operator",
       "hook": "The foreign station head — the wire's other end.",
+      "tier": 1,
       "track": "communications"
     },
     {
       "assignable": false,
       "callsign": "stromberg",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "strategy",
       "callsign": "tanner",
+      "cast": "grant",
       "class": "service",
       "cover_role": "operator",
       "hook": "Chief of staff — every plan survives contact with him.",
+      "tier": 1,
       "track": "systems"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "tatiana romanova",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "The cipher clerk — identity work, literally.",
+      "tier": 1,
       "track": "identity"
     },
     {
-      "assignable": true,
+      "assignable": false,
       "alias_of": "tracy",
       "callsign": "teresa di vicenzo",
       "class": "alias"
@@ -783,17 +1011,19 @@
     {
       "assignable": false,
       "callsign": "the admiralty",
-      "class": "fleet"
+      "class": "institution"
     },
     {
       "assignable": false,
+      "alias_of": "fleet admiral",
       "callsign": "the fleet admiral",
-      "class": "fleet"
+      "class": "alias"
     },
     {
       "assignable": false,
       "callsign": "the meter",
-      "class": "fleet"
+      "class": "archvillain",
+      "note": "The Meter was never a man. Men can be shot. A billing table cannot. Every adversary on the closed ledger reports to the Meter."
     },
     {
       "assignable": false,
@@ -808,30 +1038,36 @@
     {
       "assignable": false,
       "callsign": "tiago rodriguez",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "legal_financial",
       "callsign": "tiffany case",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "The courier — she knows every route that never declared.",
+      "tier": 1,
       "track": "communications"
     },
     {
       "assignable": true,
       "branch": "human_academic",
       "callsign": "tracy",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "operator",
       "hook": "The only one who ever held the title — the ledger remembers.",
+      "tier": 1,
       "track": "orientation"
     },
     {
       "assignable": false,
       "callsign": "trevelyan",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
@@ -854,48 +1090,75 @@
       "class": "honored"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "admiralty",
       "callsign": "vice admiral",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "line_officer",
+      "hook": "Second seat of the line — a flag rank without the office.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "human_academic",
       "callsign": "vice admiral of stem initiatives",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "constitutional_officer",
+      "hook": "Oversight of Academy and research — the seat reviews what the curriculum teaches.",
+      "tier": 3,
+      "track": "ai-literacy",
+      "seat": "held"
     },
     {
       "assignable": false,
       "callsign": "victor zokas",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": true,
       "branch": "security",
       "callsign": "wai lin",
+      "cast": "grant",
       "class": "ally",
       "cover_role": "field_agent",
       "hook": "Colonel of an allied service — the parallel ledger, not a civilian.",
+      "tier": 1,
       "track": "security"
     },
     {
-      "assignable": false,
+      "assignable": true,
+      "branch": "security",
       "callsign": "warrant officer",
-      "class": "fleet"
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "specialist",
+      "hook": "The specialist's stripe — depth over breadth.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
     },
     {
       "assignable": false,
       "callsign": "whitaker",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "xenia onatopp",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
       "callsign": "zorin",
-      "class": "adversary"
+      "class": "adversary",
+      "reports_to": "the meter"
     },
     {
       "assignable": false,
@@ -956,6 +1219,834 @@
       "assignable": false,
       "callsign": "ｑ",
       "class": "zh-mirror"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "instructor",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "academy_instructor",
+      "hook": "Faculty line — the lesson plan is the operation.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "faculty",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "faculty",
+      "hook": "The teaching line — evidence graded, competence certified.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "mentor",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "mentor",
+      "hook": "One desk over — the apprenticeship is real.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "apprentice",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "apprentice",
+      "hook": "The entry rung — the handbook is the contract.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "program lead",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "program_lead",
+      "hook": "Credentials are proposed here — the framework is the authority.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "academy director",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "academy_officer",
+      "hook": "Certifies the awards — the transcript is the ledger.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "credentialing officer",
+      "cast": "open",
+      "class": "corps",
+      "cover_role": "credentialing",
+      "hook": "Issues and revokes — paper that verifies.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "treasurer",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "constitutional_officer",
+      "hook": "Keeper of the ledger — audit is doctrine, not mood.",
+      "tier": 3,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "constitutional",
+      "callsign": "steward",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "constitutional_officer",
+      "hook": "Custody of the institution itself — held in trust, never owned.",
+      "tier": 3,
+      "track": "ethics",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "cassandra vega",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "chief_of_staff",
+      "hook": "Vice Admiral — chief of staff.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "marcus seldon",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "deputy_fleet_admiral_for_operations",
+      "hook": "Rear Admiral — deputy fleet admiral for operations.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "eleanor voss",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "deputy_fleet_admiral_for_strategy_intelligence",
+      "hook": "Rear Admiral — deputy fleet admiral for strategy & intelligence.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "leonardo ramirez",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_operations",
+      "hook": "Commodore — director of operations.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "terence hsu",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "assistant_director_of_operations",
+      "hook": "Commander — assistant director of operations.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "lila cheng",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "captain",
+      "hook": "Captain — captain.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "narrative",
+      "callsign": "desmond reid",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "captain",
+      "hook": "Captain — captain.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "isobel quinn",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "captain",
+      "hook": "Captain — captain.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "inara mendez",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_intelligence",
+      "hook": "Commodore — director of intelligence.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "rhea ortiz",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_cyber_recon",
+      "hook": "Commander — head of cyber recon.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "samuel kim",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_data_analysis",
+      "hook": "Lieutenant Commander — director of data analysis.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "ezekiel ford",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "chief_engineering_officer",
+      "hook": "Commodore — chief engineering officer.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "malia gupta",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_quantum_propulsion",
+      "hook": "Dr — director of quantum propulsion.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "narrative",
+      "callsign": "arthur kilmer",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_re_creation_vessel_integration",
+      "hook": "Captain — head of re-creation vessel integration.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "cassandra nyberg",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "quantum_systems_analyst",
+      "hook": "Lieutenant — quantum systems analyst.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "orlando vega",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "senior_builderbot_architect",
+      "hook": "Engineer — senior builderbot architect.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "strategy",
+      "callsign": "quinn allister",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_communications",
+      "hook": "Commodore — director of communications.",
+      "tier": 2,
+      "track": "communications",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "strategy",
+      "callsign": "darius novak",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_quantum_communications",
+      "hook": "Commander — head of quantum communications.",
+      "tier": 2,
+      "track": "communications",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "vera singh",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "cybersecurity_lead",
+      "hook": "Lieutenant Commander — cybersecurity lead.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "strategy",
+      "callsign": "ernesto ruiz",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "information_systems_manager",
+      "hook": "Captain — information systems manager.",
+      "tier": 2,
+      "track": "communications",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "josiah grimshaw",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_defense_tactical",
+      "hook": "Commodore — director of defense & tactical.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "brianna marshall",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_sentinel_operations",
+      "hook": "Captain — head of sentinel operations.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "maxwell zephyr",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "orion_class_commander",
+      "hook": "Captain — orion class commander.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "fiona gallagher",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "voyager_class_commander",
+      "hook": "Captain — voyager class commander.",
+      "tier": 2,
+      "track": "campaign",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "marcus lee",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "defender_class_commander",
+      "hook": "Captain — defender class commander.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "zane faraday",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "tactical_simulation_analyst",
+      "hook": "Lieutenant Commander — tactical simulation analyst.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "elise carter",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "armaments_specialist",
+      "hook": "Engineer — armaments specialist.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "serena albright",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_medical_services",
+      "hook": "Commodore — director of medical services.",
+      "tier": 2,
+      "track": "ethics",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "harold nakamura",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "chief_medical_officer",
+      "hook": "Dr — chief medical officer.",
+      "tier": 2,
+      "track": "ethics",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "victor morales",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "psychological_support_coordinator",
+      "hook": "Lieutenant — psychological support coordinator.",
+      "tier": 2,
+      "track": "ethics",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "derek o’hara",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "life_support_systems_supervisor",
+      "hook": "Captain — life support systems supervisor.",
+      "tier": 2,
+      "track": "ethics",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "alicia roberts",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_colonization_affairs",
+      "hook": "Commodore — director of colonization affairs.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "fiona delacroix",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_civilian_integration",
+      "hook": "Commander — head of civilian integration.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "isaiah brooks",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "population_logistics_manager",
+      "hook": "Lieutenant Colonel — population logistics manager.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "mia torres",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "social_systems_coordinator",
+      "hook": "Dr — social systems coordinator.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "julian rodriguez",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "habitat_construction_supervisor",
+      "hook": "Engineer — habitat construction supervisor.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "miguel alvarez",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_supply_logistics",
+      "hook": "Commodore — director of supply & logistics.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "rex donovan",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_fleet_resource_allocation",
+      "hook": "Commander — head of fleet resource allocation.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "naomi barrett",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "material_systems_coordinator",
+      "hook": "Captain — material systems coordinator.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "jordan finch",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "supply_chain_analyst",
+      "hook": "Lieutenant — supply chain analyst.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "quentin price",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "maintenance_repair_chief",
+      "hook": "Engineer — maintenance & repair chief.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "nathalie royce",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_ai_integration",
+      "hook": "Commodore — director of ai integration.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "kyra ivanov",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "cybernetic_enhancement_manager",
+      "hook": "Lieutenant Commander — cybernetic enhancement manager.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "lionel devine",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "autonomous_drone_coordination_head",
+      "hook": "Commander — autonomous drone coordination head.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "ram singh",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "quantum_ai_development_director",
+      "hook": "Engineer — quantum ai development director.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "savannah ortega",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "ai_systems_oversight_officer",
+      "hook": "Captain — ai systems oversight officer.",
+      "tier": 2,
+      "track": "ai-literacy",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "narrative",
+      "callsign": "rebekah monroe",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_r_d",
+      "hook": "Commodore — director of r&d.",
+      "tier": 2,
+      "track": "orientation",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "imani okafor",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_quantum_research",
+      "hook": "Dr — head of quantum research.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "victor chang",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "senior_architect_of_theoretical_technologies",
+      "hook": "Engineer — senior architect of theoretical technologies.",
+      "tier": 2,
+      "track": "systems",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "elias turner",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_classified_systems",
+      "hook": "Lieutenant Commander — director of classified systems.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "corinne morgan",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "specialized_quantum_weaponry_developer",
+      "hook": "Captain — specialized quantum weaponry developer.",
+      "tier": 2,
+      "track": "security",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "raphael andrade",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "director_of_classified_projects",
+      "hook": "Commodore — director of classified projects.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "selene faulkner",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "head_of_covert_operations",
+      "hook": "Commander — head of covert operations.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "andre petrov",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "special_warfare_tactics_coordinator",
+      "hook": "Lieutenant Commander — special warfare tactics coordinator.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "sonia delgado",
+      "cast": "open",
+      "class": "fleet",
+      "cover_role": "classified_systems_liaison",
+      "hook": "Captain — classified systems liaison.",
+      "tier": 2,
+      "track": "identity",
+      "seat": "open"
+    },
+    {
+      "assignable": false,
+      "callsign": "oracle",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "prometheus",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "chorus",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "centurion",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "aegis",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "aurora",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "helios",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "daedalus",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "mimir",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
+    },
+    {
+      "assignable": false,
+      "callsign": "argus",
+      "class": "ai_unit",
+      "note": "Fleet AI unit — a machine aboard the Zotron, not a billet. Never cast."
     }
   ]
 }
