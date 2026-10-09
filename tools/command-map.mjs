@@ -122,6 +122,7 @@ const TEAM_MAP = {
   LIBRARY: { duty: "content_integrity",      fleet: "education" },
   PROD:    { duty: "content_integrity",      fleet: "education" },
   CURR:    { duty: "curriculum_integrity",   fleet: "education" },
+  AIWO:    { duty: "comms_integrity",        fleet: "security_infrastructure" },
 };
 
 /* ---------- live fleet parse ---------- */

@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-09T08:14:53.685Z",
+    "ts": "2026-10-09T15:57:11.286Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 12,
     "runtimes": {
@@ -43,7 +43,7 @@
         "path": "site/apps/rations/rations.wasm",
         "sha256": "sha256:ca7ba4e6c3edbb294f51b2048d9837fc4dad496a3ff75906e4b4c5639e1d77cc",
         "evidence": "verified-here",
-        "sidecar_agrees": false
+        "sidecar_agrees": true
       },
       "capability-registry": {
         "kind": "registry",
@@ -78,13 +78,13 @@
       "security-battery": {
         "kind": "harness",
         "path": "security/",
-        "members": 41,
-        "anchor_sha256": "sha256:84af8e14f7ad14175fba6725721e2c7d863c6cf130d76b751980ea7a3bee45d1",
+        "members": 43,
+        "anchor_sha256": "sha256:48ecbffcd3562d460608a6a88ec13f69cf3a275ce7fb47ec89e97aec7dba7f00",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       }
     }
   },
-  "sig_ed25519": "r_P59XgxR3slLXLIL_G-2OT_m9x63QNcCgR3lvhsvsJgURZAqe7y0isfTNzCdk8yQKkM1tJsbkUrJF2NW0orAQ",
+  "sig_ed25519": "dL7MDE4wbnNvVjPf-4gtAP49eY14q8AqEd3hpNqUoNlGiwisDB35YB_S1QCJasfHUQYgscMFNQ6syS3Q_NzlAA",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

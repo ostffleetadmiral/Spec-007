@@ -159,6 +159,11 @@
   ],
   "security_roster": [
     {
+      "team": "AIWO",
+      "duty": "comms_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
       "team": "ARC",
       "duty": "custody",
       "fleet": "security_infrastructure"
@@ -339,7 +344,7 @@
       "fleet": "security_infrastructure"
     }
   ],
-  "team_count": 36,
+  "team_count": 37,
   "cognition": {
     "runtime": "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
     "wasm_worker_module_bytes": 1366906,
@@ -369,16 +374,16 @@
     "capacity": {
       "resident_i4_models_per_node": 53,
       "plan_shared_trunk": {
-        "bytes": 1453200000,
+        "bytes": 1485200000,
         "fits": true,
         "note": "one verified trunk + per-team carried state — the doctrine form"
       },
       "plan_dedicated": {
-        "bytes": 10101200000,
+        "bytes": 10381200000,
         "fits": true,
         "note": "36 separate int4 instances — possible, wasteful"
       },
-      "teams": 36
+      "teams": 37
     }
   }
 }

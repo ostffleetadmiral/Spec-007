@@ -3092,6 +3092,47 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
   }
 }
 
+console.log("\nAIWO — the warrant corps as live agents");
+/* ================= AIWO — corps exercise =================
+   security/aiwo-corps.mjs is the nullclaw-pattern patrol: N team
+   lanes run real cognition ticks on ONE shared packed trunk, then
+   exchange sealed 136-B Fano heartbeats on the loopback mesh — each
+   lane addressed to its own lattice cell. The sweep consumes the
+   emitted ledger; absent → deferred (the exercise is heavy). */
+{
+  const lp = path.join(HERE, "out", "aiwo-corps-ledger.json");
+  if (!fs.existsSync(lp)) {
+    noted("AIWO", "corps-exercise", "aiwo-corps-ledger.json not emitted — run `security/aiwo-corps.mjs --emit`");
+  } else {
+    const m = JSON.parse(fs.readFileSync(lp, "utf8"));
+    const ageH = (Date.now() - Date.parse(m.ts || 0)) / 3600000;
+    const fnd = Object.fromEntries((m.findings || []).map(f => [f.id, f]));
+    const openIds = (m.findings || []).filter(f => f.verdict === "OPEN").map(f => f.id);
+    if (m.schema !== "AIWO-CORPS-v1") {
+      open_("AIWO", "corps-exercise", `bad schema ${m.schema}`);
+    } else if (ageH > 24) {
+      open_("AIWO", "corps-exercise", `corps ledger stale — ${ageH.toFixed(1)}h old, re-run the exercise`);
+    } else if (openIds.length) {
+      open_("AIWO", "corps-exercise", `open probes: ${openIds.join(" ")}`);
+    } else {
+      held("AIWO", "corps-exercise",
+        `${m.teams} teams · ${m.summary.held}/${m.findings.length} probes held · ${fnd["AIWO-03"] ? fnd["AIWO-03"].detail.slice(0, 60) : ""}`);
+    }
+  }
+  /* AIWO-02 authority: the corps exercises lanes but the manifest
+     still caps AI assets at L6 — the chain unchanged by the exercise */
+  {
+    const cm = JSON.parse(fs.readFileSync(path.join(SITE, "assets", "command-manifest.json"), "utf8"));
+    const over = (cm.ai_systems || []).filter(a => a.clearance_cap > 6);
+    const authed = (cm.ai_systems || []).every(a => a.designation === "monitored_ai_asset");
+    over.length === 0 && authed
+      ? held("AIWO", "authority-cap",
+          `corps exercises under Art. V.3 — ${(cm.ai_systems || []).length} monitored assets, none above L6, none commanding`)
+      : open_("AIWO", "authority-cap",
+          `cap breach: over=${over.map(a => a.name)} authed=${authed}`);
+  }
+}
+
 /* ---------- merge ---------- */
 const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));
