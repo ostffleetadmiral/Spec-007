@@ -1,0 +1,961 @@
+{
+  "schema": "PERSONA-MAP-v1",
+  "note": "Layer-2 casting office. Personas are cover, not authority — issuance rides the FANO-CALLSIGN-v1 grant chain. Regex-gated designations (00x, rank prefixes, WO-n, the admiralty) are covered by fano-auth.js RESTRICTED_RE, outside this literal table.",
+  "persona_count": 158,
+  "assignable_count": 45,
+  "tracks": [
+    "ai-literacy",
+    "campaign",
+    "communications",
+    "ethics",
+    "identity",
+    "orientation",
+    "security",
+    "systems"
+  ],
+  "branches": [
+    "admiralty",
+    "constitutional",
+    "ethics",
+    "human_academic",
+    "legal_financial",
+    "narrative",
+    "research_ip",
+    "security",
+    "specs",
+    "strategy"
+  ],
+  "personas": [
+    {
+      "assignable": false,
+      "callsign": "admiral",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "admiral of financial operations",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "aiwo",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "alec trevelyan",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "auric goldfinger",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "axiomatic baseline",
+      "class": "fleet"
+    },
+    {
+      "assignable": true,
+      "alias_of": "tanner",
+      "callsign": "bill tanner",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "blofeld",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "bond",
+      "class": "agent",
+      "cover_role": "field_agent",
+      "hook": "The name is taken. The file on it is longer than yours.",
+      "track": "security"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "boothroyd",
+      "class": "service",
+      "cover_role": "q_branch",
+      "hook": "The original armourer — the post predates the letter.",
+      "track": "systems"
+    },
+    {
+      "assignable": false,
+      "callsign": "captain",
+      "class": "fleet"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "charles robinson",
+      "class": "service",
+      "cover_role": "operator",
+      "hook": "Chief of staff — the message lands where it should.",
+      "track": "communications"
+    },
+    {
+      "assignable": false,
+      "callsign": "chief of lifesupport",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "chief of staff",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "chief warrant officer",
+      "class": "fleet"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "christmas jones",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "Nuclear physicist — the joke is the name, not the degree.",
+      "track": "systems"
+    },
+    {
+      "assignable": false,
+      "callsign": "commander",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "commodore",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "commodore of ethics and equity",
+      "class": "fleet"
+    },
+    {
+      "assignable": true,
+      "alias_of": "tracy",
+      "callsign": "countess tracy",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "day zero",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "dominic greene",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "donald grant",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "double oh",
+      "class": "title"
+    },
+    {
+      "assignable": false,
+      "callsign": "double-oh",
+      "class": "title"
+    },
+    {
+      "assignable": false,
+      "callsign": "dr alvarez",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "dr julius no",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "dr kananga",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "dr no",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "dr. no",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "drax",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "elektra king",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "emilio largo",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "ensign",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "ernst stavro blofeld",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "alias_of": "leiter",
+      "callsign": "felix leiter",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "fleet admiral",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "francisco scaramanga",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "franz oberhauser",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "alias_of": "mallory",
+      "callsign": "gareth mallory",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "general gogol",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "general ourumov",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "goldfinger",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "alias_of": "mary goodnight",
+      "callsign": "goodnight",
+      "class": "alias"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "honey ryder",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "Self-educated off an encyclopedia — the Academy's whole thesis.",
+      "track": "ethics"
+    },
+    {
+      "assignable": true,
+      "alias_of": "honey ryder",
+      "callsign": "honeychile rider",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "hugo drax",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "jack wade",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "The other agency's man — brings gifts.",
+      "track": "communications"
+    },
+    {
+      "assignable": true,
+      "alias_of": "bond",
+      "callsign": "james bond",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "janus",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "jaws",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "jinx",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "Allied service, parallel ledger — she signs her own reports.",
+      "track": "security"
+    },
+    {
+      "assignable": true,
+      "alias_of": "jinx",
+      "callsign": "jinx johnson",
+      "class": "alias"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "jock campbell",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "Air support — he flies what you ask.",
+      "track": "orientation"
+    },
+    {
+      "assignable": false,
+      "callsign": "kananga",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "kara milovy",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "The cellist — notice what she notices.",
+      "track": "orientation"
+    },
+    {
+      "assignable": false,
+      "callsign": "karl stromberg",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "klebb",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "largo",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "le chiffre",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "lead security and fabrication officer",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "lead technical systems architect",
+      "class": "fleet"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "leiter",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "The liaison — allied service, same wire.",
+      "track": "communications"
+    },
+    {
+      "assignable": false,
+      "callsign": "lieutenant",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "lyutsifer safin",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "m",
+      "class": "service",
+      "cover_role": "station_chief",
+      "hook": "In committee. M is always in committee.",
+      "track": "systems"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "madeleine swann",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "The psychiatrist — she reads the file on the reader.",
+      "track": "ethics"
+    },
+    {
+      "assignable": true,
+      "alias_of": "boothroyd",
+      "callsign": "major boothroyd",
+      "class": "alias"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "mallory",
+      "class": "service",
+      "cover_role": "station_chief",
+      "hook": "The chairman reads every file, including this one.",
+      "track": "systems"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "mary goodnight",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "Field support — the file says competent, the record says loyal.",
+      "track": "orientation"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "mathis",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "The contact who vouches — identity is his trade.",
+      "track": "identity"
+    },
+    {
+      "assignable": false,
+      "callsign": "max zorin",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "meter",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "mi6",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "midshipman",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "miranda frost",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "alias_of": "tiffany case",
+      "callsign": "miss case",
+      "class": "alias"
+    },
+    {
+      "assignable": true,
+      "alias_of": "moneypenny",
+      "callsign": "miss moneypenny",
+      "class": "alias"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "moneypenny",
+      "class": "service",
+      "cover_role": "operator",
+      "hook": "The desk is already spoken for — the duty is real.",
+      "track": "orientation"
+    },
+    {
+      "assignable": false,
+      "callsign": "mr big",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "mr kidd",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "mr white",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "mr wint",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "nomi",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "The number moved; the seat held.",
+      "track": "security"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "octopussy",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "Runs a floating ledger — logistics with jewels.",
+      "track": "communications"
+    },
+    {
+      "assignable": false,
+      "callsign": "oddjob",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "onatopp",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "open sentience technology foundation",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "ostf",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "ourumov",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "paloma",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "Three weeks training. Still better briefed than you.",
+      "track": "identity"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "pam bouvier",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "Pilot. Army. The file says do not underestimate.",
+      "track": "security"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "pussy galore",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "Runs a crew, not a solo act — organization is the skill.",
+      "track": "communications"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "q",
+      "class": "service",
+      "cover_role": "q_branch",
+      "hook": "The Quartermaster does not sign up through a form.",
+      "track": "systems"
+    },
+    {
+      "assignable": false,
+      "callsign": "q branch",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "q-branch",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "quantum",
+      "class": "org"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "quarrel",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "The boat captain who asks the right questions.",
+      "track": "security"
+    },
+    {
+      "assignable": true,
+      "branch": "specs",
+      "callsign": "quartermaster",
+      "class": "service",
+      "cover_role": "q_branch",
+      "hook": "The stores are signed for. All of them.",
+      "track": "systems"
+    },
+    {
+      "assignable": false,
+      "callsign": "ramsey",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "raoul silva",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "rear admiral",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "rear admiral of entrepreneurship",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "red grant",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "renard",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "alias_of": "mathis",
+      "callsign": "rene mathis",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "research lead",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "rosa klebb",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "safin",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "sallirreug academy",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "sallirreug tech",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "sallirreugtech",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "sallirreugtech academy",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "scaramanga",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "sigma",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "sis",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "smersh",
+      "class": "org"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "solitaire",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "Reads what has not happened — pattern work, filed honestly.",
+      "track": "ai-literacy"
+    },
+    {
+      "assignable": false,
+      "callsign": "spectre",
+      "class": "org"
+    },
+    {
+      "assignable": true,
+      "branch": "research_ip",
+      "callsign": "stacey sutton",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "State geologist — the ground truth is literal.",
+      "track": "systems"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "station chief",
+      "class": "service",
+      "cover_role": "operator",
+      "hook": "The foreign station head — the wire's other end.",
+      "track": "communications"
+    },
+    {
+      "assignable": false,
+      "callsign": "stromberg",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "strategy",
+      "callsign": "tanner",
+      "class": "service",
+      "cover_role": "operator",
+      "hook": "Chief of staff — every plan survives contact with him.",
+      "track": "systems"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "tatiana romanova",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "The cipher clerk — identity work, literally.",
+      "track": "identity"
+    },
+    {
+      "assignable": true,
+      "alias_of": "tracy",
+      "callsign": "teresa di vicenzo",
+      "class": "alias"
+    },
+    {
+      "assignable": false,
+      "callsign": "the admiralty",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "the fleet admiral",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "the meter",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "the service",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "the union",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "tiago rodriguez",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "legal_financial",
+      "callsign": "tiffany case",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "The courier — she knows every route that never declared.",
+      "track": "communications"
+    },
+    {
+      "assignable": true,
+      "branch": "human_academic",
+      "callsign": "tracy",
+      "class": "ally",
+      "cover_role": "operator",
+      "hook": "The only one who ever held the title — the ledger remembers.",
+      "track": "orientation"
+    },
+    {
+      "assignable": false,
+      "callsign": "trevelyan",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "universal exports",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "vauxhall cross",
+      "class": "org"
+    },
+    {
+      "assignable": false,
+      "callsign": "vesper",
+      "class": "honored"
+    },
+    {
+      "assignable": false,
+      "callsign": "vesper lynd",
+      "class": "honored"
+    },
+    {
+      "assignable": false,
+      "callsign": "vice admiral",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "vice admiral of stem initiatives",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "victor zokas",
+      "class": "adversary"
+    },
+    {
+      "assignable": true,
+      "branch": "security",
+      "callsign": "wai lin",
+      "class": "ally",
+      "cover_role": "field_agent",
+      "hook": "Colonel of an allied service — the parallel ledger, not a civilian.",
+      "track": "security"
+    },
+    {
+      "assignable": false,
+      "callsign": "warrant officer",
+      "class": "fleet"
+    },
+    {
+      "assignable": false,
+      "callsign": "whitaker",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "xenia onatopp",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "zorin",
+      "class": "adversary"
+    },
+    {
+      "assignable": false,
+      "callsign": "布洛菲",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "情報員",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "海軍上將",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "詹姆斯·龐德",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "詹姆斯龐德",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "軍需官",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "金手指",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "錢班霓",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "魔鬼黨",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "龐德",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "ｍ",
+      "class": "zh-mirror"
+    },
+    {
+      "assignable": false,
+      "callsign": "ｑ",
+      "class": "zh-mirror"
+    }
+  ]
+}

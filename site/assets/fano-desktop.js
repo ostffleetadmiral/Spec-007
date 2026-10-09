@@ -1715,6 +1715,57 @@
     }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 
+  /* ---------- persona.os — the casting office (Layer 2) ----------
+     Signers under restricted callsigns play Bond-universe roles while
+     running real Academy training. The manifest maps callsign → cover
+     role → track → suggested branch; issuance still rides the
+     FANO-CALLSIGN-v1 grant chain — the sheet is a map, not a key. */
+  function openPersona() {
+    var title = "persona.os — the casting office";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div"); box.className = "win-body academy-pane";
+    box.innerHTML = "<p><strong>" + esc(t("per.title")) + "</strong> <small>— " + esc(t("per.tag")) + "</small></p><p><small>" + esc(t("per.note")) + "</small></p>";
+    var me = document.createElement("pre"); me.style.whiteSpace = "pre-wrap";
+    var list = document.createElement("div"); list.className = "academy-list";
+    var detail = document.createElement("pre"); detail.style.whiteSpace = "pre-wrap";
+    box.appendChild(me); box.appendChild(list); box.appendChild(detail);
+    makeWindow(title, box);
+    fetch("assets/persona-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
+      var rows = (m && m.personas) || [], byName = {};
+      rows.forEach(function (p) { byName[p.callsign] = p; });
+      function resolve(cs) {
+        var p = byName[cs]; return (p && p.alias_of) ? byName[p.alias_of] : p;
+      }
+      /* my file — the callsign on this desk resolves to a persona or not */
+      var rec = FANO_AUTH && FANO_AUTH.loadRecord && FANO_AUTH.loadRecord();
+      var mine = rec ? resolve(FANO_AUTH.normalizeCallsign(rec.user)) : null;
+      me.textContent = mine && mine.assignable
+        ? t("per.mine", rec.user.toUpperCase(), mine.class.toUpperCase(),
+            mine.cover_role.toUpperCase(), mine.track, mine.branch.toUpperCase()) +
+          "\n" + mine.hook
+        : t("per.none");
+      /* the casting sheet — assignable personas, grant status marked */
+      var granted = FANO_AUTH && FANO_AUTH.grants ? FANO_AUTH.grants() : {};
+      rows.filter(function (p) { return p.assignable && !p.alias_of; }).forEach(function (p) {
+        var b = document.createElement("button"); b.className = "cmd-btn";
+        var held = !!granted[p.callsign];
+        b.textContent = p.callsign.toUpperCase() + " — " + p.class + " · " + p.cover_role +
+          (held ? "  [" + t("per.held") + "]" : "");
+        b.addEventListener("click", function () {
+          detail.textContent = p.callsign.toUpperCase() + "\n\n" + p.hook + "\n\n" +
+            t("per.role") + p.cover_role + "\n" + t("per.track") + p.track + "\n" +
+            t("per.branch") + p.branch.toUpperCase() + "\n" + t("per.issue");
+        });
+        list.appendChild(b);
+      });
+      /* the closed ledger — counted, never issued by casting */
+      var closed = {};
+      rows.forEach(function (p) { if (!p.assignable) closed[p.class] = (closed[p.class] || 0) + 1; });
+      detail.textContent = t("per.closed") + " " + Object.keys(closed).sort()
+        .map(function (k) { return k + " ×" + closed[k]; }).join(" · ") + "\n" + t("per.closed.note");
+    }).catch(function (e) { me.textContent = t("per.down") + e; });
+  }
+
   /* ---------- continuity.os — the persistence surface (blueprint P2) ----------
      Two halves: the sealed archive corpus (a sanitized projection — the raw
      archives never leave the machine) and a desk-local records store for
@@ -2054,7 +2105,7 @@
 
   var TERM_CMDS = ["help", "ls", "open", "cat", "about", "sha", "tests", "xp",
     "manual", "export", "import", "7q", "admiralty", "pet", "quplink", "family", "rations", "comms", "ask", "theme",
-    "credential", "auth", "provider", "academy", "science", "gate", "codex", "promotion",
+    "credential", "auth", "provider", "academy", "science", "persona", "casting", "gate", "codex", "promotion",
     "lang", "unlock", "rekey", "burn", "grant", "grants", "branch", "request-branch",
     "export-desk", "import-desk",
     "sysmon", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
@@ -2089,6 +2140,8 @@
     "  academy         open source-linked public curriculum",
     "  promotion <tok> present FANO-CONTAIN-v1 paper — the only door out of containment",
     "  science         Q's lab notebook — what the fleet can compute",
+    "  persona         your cover identity on file — the casting office",
+    "  casting         open persona.os — the casting office",
     "  codex           the anomalies annex — cold cases and fiction files",
     "  engine          engine.os — the signed roster of runtimes this desk may trust",
     "  continuity      continuity.os — sealed archives + desk records",
@@ -2143,6 +2196,8 @@
     "  academy         開啟源碼連結之公開課程",
     "  promotion <tok> 出示 FANO-CONTAIN-v1 紙本 — 出隔離之唯一門",
     "  science         Q 之實驗室筆記 — 艦隊所能計算者",
+    "  persona         檔案中的掩護身分 — 選角室",
+    "  casting         開啟 persona.os — 選角室",
     "  codex           異常別冊 — 冷案與虛構檔案",
     "  engine          engine.os — 此桌可信運行時之已簽名冊",
     "  continuity      continuity.os — 已封檔案庫＋桌面記錄",
@@ -2506,6 +2561,23 @@
         if (window.QUVIZ && window.QUVIZ.openViz("nebula")) return t("term.nebula");
         return t("term.nebula.down");
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
+      case "persona":
+      case "casting": {
+        openPersona();
+        var prec = FANO_AUTH && FANO_AUTH.loadRecord && FANO_AUTH.loadRecord();
+        if (!prec) return "casting office open — no identity on this desk.";
+        var pzh = state.lang === "zh";
+        fetch("assets/persona-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
+          var cs = FANO_AUTH.normalizeCallsign(prec.user), row = null;
+          (m.personas || []).forEach(function (p) { if (p.callsign === cs) row = p; });
+          if (row && row.alias_of) (m.personas || []).forEach(function (p) { if (p.callsign === row.alias_of) row = p; });
+          if (row && row.assignable)
+            print((pzh ? "檔案身分: " : "on file: ") + row.callsign.toUpperCase() + " — " +
+              row.class + " · " + row.cover_role + " · " + row.track + " → " + row.branch.toUpperCase());
+          else print(pzh ? "此桌無角色檔案 — 帳冊開著。" : "no persona on this desk — the ledger is open.");
+        }).catch(function () {});
+        return "casting office open — resolving your file…";
+      }
       case "codex": egg("codex"); openScience(); return t("term.codex", String(state.anoms.length), String(state.anomsTotal || "?"));
       case "gate": {
         if (!GOV_CFG.token) { openGovProvider(); return "configure 'provider' first — the bridge is the gate."; }
@@ -2672,6 +2744,7 @@
     { kind: "app", glyph: "◈", label: "quplink", sub: "sandbox", act: function () { if (window.QUPLINK) window.QUPLINK.open(); } },
     { kind: "app", glyph: "◍", label: "rations.os", sub: "air-gap web", act: function () { openDoc("apps/rations/quine.html", "rations.os"); achieve("resupply"); } },
     { kind: "app", glyph: "☏", label: "comms.os", sub: "tradecraft desk", act: function () { if (window.FANO_COMMS) { window.FANO_COMMS.open(); achieve("operator"); } } },
+    { kind: "app", glyph: "♟", label: "persona.os", sub: "casting office", act: function () { openPersona(); achieve("operator"); } },
     { kind: "app", glyph: "⚙", label: "engine.os", sub: "runtime roster", act: openEngine },
     { kind: "app", glyph: "◫", label: "continuity.os", sub: "the vault", act: openContinuity },
     { kind: "app", glyph: "✎", label: "editor.os", sub: "typewriter", act: openEditor },
@@ -2696,6 +2769,7 @@
     quplink: "games · sandbox · render deck",
     "rations.os": "the air-gapped web platform — sister system, same quartermaster",
     "comms.os": "wire · messenger · dead drops · stego · shamir · carriers — the tradecraft drawer",
+    "persona.os": "the casting office — cover identity, academy track, suggested branch",
     "self_destruct.txt": "do not read twice",
     "admiralty.suite": "the board of admiralty — naval command · star command",
     "7q.drawer": "SPEC-004 · compartment 7q · sealed",
@@ -3486,6 +3560,7 @@
     items.push({ n: "rations.os — air-gap web platform", act: function () { openDoc("apps/rations/quine.html", "rations.os"); } });
     items.push({ n: "admiralty.suite — board of admiralty", act: openAdmiralty });
     items.push({ n: "comms.os — wire · messenger · tradecraft", act: function () { if (window.FANO_COMMS) window.FANO_COMMS.open(); } });
+    items.push({ n: "persona.os — the casting office", act: openPersona });
     items.push({ n: "qstar.pet — the thinking cap", act: openPet });
     items.push({ n: "sysmon — the instruments", act: openSysmon });
     items.push({ n: "field manual — service record", act: openManual });

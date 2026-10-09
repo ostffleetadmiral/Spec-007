@@ -291,9 +291,9 @@ const ANCHORS = [
   /* -- CascadeProjects realm -- */
   { id: "S27", root: "rations", artifact: "AGENTS.md",
     kind: "doc", direction: "to-spec", claims: ["C53", "C67"],
-    label: "the production release-discipline contract — 1,548 tests, ≥116.9% coverage ratchet, 112-check WASM smoke, 3,000-iter fuzz, 20-check quine E2E",
+    label: "the production release-discipline contract — 1,557 tests, ≥116.9% coverage ratchet, 112-check WASM smoke, 3,000-iter fuzz, 20-check quine E2E",
     check: { type: "marker", root: "rations", file: "AGENTS.md",
-      markers: ["1548 tests", "116.9", "wasm_smoke", "3000"] } },
+      markers: ["1557 tests", "116.9", "wasm_smoke", "3000"] } },
   { id: "S28", root: "rations", artifact: "src/ transport + identity corpus",
     kind: "module-set", direction: "shared", claims: ["C53", "C97"],
     label: "physical-channel transports + the spec007 invite-compat suite — the sibling bridge already runs both directions",

@@ -48,6 +48,10 @@ for c in fleet-genesis.json fleet-manifest.json engine-manifest.json; do
     && say " PASS" "canon:$c" || { say " FAIL" "canon:$c"; FAIL=1; }
 done
 
+echo "== casting ledger (Layer 2 — deterministic, watch-list complete)"
+node tools/persona-map.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "persona-manifest.json" || { say " FAIL" "persona-manifest.json"; FAIL=1; }
+
 echo "== js syntax"
 for j in site/assets/fano-*.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }

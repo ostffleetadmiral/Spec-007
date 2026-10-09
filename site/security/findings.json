@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-09T08:18:42.764Z",
+  "generated": "2026-10-09T12:04:48.708Z",
   "findings": [
     {
       "id": "FURN-01",
@@ -1691,7 +1691,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "attacker-signed vote refused",
-      "ts": "2026-10-09T08:16:49.791Z"
+      "ts": "2026-10-09T12:02:45.284Z"
     },
     {
       "id": "RED-02",
@@ -1700,7 +1700,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "1-of-2 sig → not unanimous → refused",
-      "ts": "2026-10-09T08:16:49.796Z"
+      "ts": "2026-10-09T12:02:45.291Z"
     },
     {
       "id": "RED-03",
@@ -1709,7 +1709,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "vote for another seat refused (bound to founding callsign)",
-      "ts": "2026-10-09T08:16:49.798Z"
+      "ts": "2026-10-09T12:02:45.294Z"
     },
     {
       "id": "RED-04",
@@ -1718,7 +1718,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": ">24h token treated as replay",
-      "ts": "2026-10-09T08:16:49.800Z"
+      "ts": "2026-10-09T12:02:45.296Z"
     },
     {
       "id": "RED-05",
@@ -1727,7 +1727,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "mutated body invalidates the vote",
-      "ts": "2026-10-09T08:16:49.801Z"
+      "ts": "2026-10-09T12:02:45.298Z"
     },
     {
       "id": "RED-06",
@@ -1736,7 +1736,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "cluster→unilateral, public→vote-required, ordinary→open",
-      "ts": "2026-10-09T08:16:49.805Z"
+      "ts": "2026-10-09T12:02:45.305Z"
     },
     {
       "id": "BLUE-01",
@@ -1745,7 +1745,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "PUT/DELETE/TRACE/PROPFIND all refused",
-      "ts": "2026-10-09T08:16:49.814Z"
+      "ts": "2026-10-09T12:02:45.320Z"
     },
     {
       "id": "BLUE-02",
@@ -1754,7 +1754,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "../../etc/passwd → 404",
-      "ts": "2026-10-09T08:16:49.836Z"
+      "ts": "2026-10-09T12:02:45.357Z"
     },
     {
       "id": "BLUE-03",
@@ -1763,7 +1763,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "/assets/ → 403",
-      "ts": "2026-10-09T08:16:49.841Z"
+      "ts": "2026-10-09T12:02:45.365Z"
     },
     {
       "id": "BLUE-04",
@@ -1772,7 +1772,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "content-security-policy, x-content-type-options, x-frame-options",
-      "ts": "2026-10-09T08:16:49.846Z"
+      "ts": "2026-10-09T12:02:45.371Z"
     },
     {
       "id": "BLUE-05",
@@ -1781,7 +1781,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "non-flag founding resets freely — no false lockout",
-      "ts": "2026-10-09T08:16:49.849Z"
+      "ts": "2026-10-09T12:02:45.374Z"
     },
     {
       "id": "BLACK-01",
@@ -1790,7 +1790,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "site wasm == build artifact",
-      "ts": "2026-10-09T08:16:49.850Z"
+      "ts": "2026-10-09T12:02:45.376Z"
     },
     {
       "id": "BLACK-02",
@@ -1799,16 +1799,16 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "5 pins verify against live files",
-      "ts": "2026-10-09T08:16:49.852Z"
+      "ts": "2026-10-09T12:02:45.378Z"
     },
     {
       "id": "BLACK-03",
       "team": "BLACK",
       "name": "ghpages-parity",
-      "verdict": "HELD",
-      "severity": "info",
-      "detail": "143/144 site files bit-identical; 0 stray",
-      "ts": "2026-10-09T08:16:50.848Z"
+      "verdict": "OPEN",
+      "severity": "high",
+      "detail": "differs apps/rations/rations.wasm.sha256",
+      "ts": "2026-10-09T12:02:45.807Z"
     },
     {
       "id": "BLACK-04",
@@ -1817,7 +1817,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "no key-material paths or PEM bodies in history",
-      "ts": "2026-10-09T08:16:51.312Z"
+      "ts": "2026-10-09T12:02:46.389Z"
     },
     {
       "id": "BLACK-05",
@@ -1826,7 +1826,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "6 exec files, all in expected dirs",
-      "ts": "2026-10-09T08:16:51.320Z"
+      "ts": "2026-10-09T12:02:46.404Z"
     },
     {
       "id": "GRAY-01",
@@ -1835,7 +1835,7 @@
       "verdict": "NOTED",
       "severity": "info",
       "detail": "verifyCert only requires iss==pk — a devtools insider CAN mint a desk-local fleet_admiral record. It buys UI chrome, not fleet authority: branch assignments die at branchOf's roster check, grants die at verifyGrant's roster check, and genesis sigs die at the published member keys. Fleet trust is unaffected — recorded as desk-local theater, not a fleet escalation.",
-      "ts": "2026-10-09T08:16:51.320Z"
+      "ts": "2026-10-09T12:02:46.404Z"
     },
     {
       "id": "GRAY-02",
@@ -1844,7 +1844,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "forged flag appearance only locks the forger's own desk behind the vote",
-      "ts": "2026-10-09T08:16:51.322Z"
+      "ts": "2026-10-09T12:02:46.412Z"
     },
     {
       "id": "GRAY-03",
@@ -1853,7 +1853,7 @@
       "verdict": "NOTED",
       "severity": "info",
       "detail": "roster is localStorage — an insider on their own desk can roster their own pk and pass verifyGrant/branchOf locally. Boundary: it changes nothing outside that desk; fleet manifests and genesis sigs are verified against published keys, not desk rosters.",
-      "ts": "2026-10-09T08:16:51.322Z"
+      "ts": "2026-10-09T12:02:46.412Z"
     },
     {
       "id": "GRAY-04",
@@ -1862,7 +1862,7 @@
       "verdict": "NOTED",
       "severity": "info",
       "detail": "session.sk lives in page memory while unlocked — devtools or a same-origin script can read it (standard for client-side crypto). TOTP wrap + PBKDF2 keystore protect at rest; unlocked-session exposure is the documented residual.",
-      "ts": "2026-10-09T08:16:51.322Z"
+      "ts": "2026-10-09T12:02:46.412Z"
     },
     {
       "id": "COMM-01",
@@ -1871,7 +1871,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "valid seals pass; covered-flip/oversize/short all drop (Python twin)",
-      "ts": "2026-10-09T08:16:51.368Z"
+      "ts": "2026-10-09T12:02:46.473Z"
     },
     {
       "id": "COMM-02",
@@ -1880,7 +1880,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "valid wire verifies under strict len==136",
-      "ts": "2026-10-09T08:16:51.369Z"
+      "ts": "2026-10-09T12:02:46.475Z"
     },
     {
       "id": "COMM-03",
@@ -1889,7 +1889,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "token canon byte-identical JS↔Python",
-      "ts": "2026-10-09T08:16:51.412Z"
+      "ts": "2026-10-09T12:02:46.533Z"
     },
     {
       "id": "DESK-01",
@@ -1898,7 +1898,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fleet-anchored authenticator enrolls ramsey 006 as FLEET-ADMIRAL on a foreign founded desk — no founding claimed",
-      "ts": "2026-10-09T08:16:52.343Z"
+      "ts": "2026-10-09T12:02:47.688Z"
     },
     {
       "id": "DESK-02",
@@ -1907,7 +1907,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "attacker-issued authenticator refused — iss is not the fleet flag",
-      "ts": "2026-10-09T08:16:52.616Z"
+      "ts": "2026-10-09T12:02:48.042Z"
     },
     {
       "id": "DESK-03",
@@ -1916,7 +1916,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "export→import carries record + founding; credential unwraps on the new desk",
-      "ts": "2026-10-09T08:16:53.152Z"
+      "ts": "2026-10-09T12:02:48.755Z"
     },
     {
       "id": "DESK-04",
@@ -1925,7 +1925,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "post-sign mutation → sig_invalid",
-      "ts": "2026-10-09T08:16:53.179Z"
+      "ts": "2026-10-09T12:02:48.776Z"
     },
     {
       "id": "DESK-05",
@@ -1934,7 +1934,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "tampered genesis also invalidates the signature — refused earlier, still safe",
-      "ts": "2026-10-09T08:16:53.198Z"
+      "ts": "2026-10-09T12:02:48.807Z"
     },
     {
       "id": "DESK-06",
@@ -1943,7 +1943,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "non-pinned first enrollment founds the desk as a CADET — grant issuance refused below STATION-CHIEF",
-      "ts": "2026-10-09T08:16:53.499Z"
+      "ts": "2026-10-09T12:02:49.177Z"
     },
     {
       "id": "DESK-07",
@@ -1952,7 +1952,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "pinned callsign still claims genesis as FLEET-ADMIRAL — flag-seat founding intact",
-      "ts": "2026-10-09T08:16:53.768Z"
+      "ts": "2026-10-09T12:02:49.547Z"
     },
     {
       "id": "DESK-08",
@@ -1961,7 +1961,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "6 office/rank callsigns refused without grant — control \"marcus\" enrolls as CADET",
-      "ts": "2026-10-09T08:16:54.213Z"
+      "ts": "2026-10-09T12:02:50.312Z"
     },
     {
       "id": "DESK-09",
@@ -1970,7 +1970,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "granted office enrolls once as CADET (role 0) — title ≠ clearance; second claim refused",
-      "ts": "2026-10-09T08:16:54.779Z"
+      "ts": "2026-10-09T12:02:51.525Z"
     },
     {
       "id": "DESK-10",
@@ -1979,7 +1979,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "esc() fronts every dynamic innerHTML sink — callsign markup renders as text, not tags",
-      "ts": "2026-10-09T08:16:54.781Z"
+      "ts": "2026-10-09T12:02:51.527Z"
     },
     {
       "id": "DESK-11",
@@ -1988,7 +1988,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "18 keys swept — every ledger the desk writes dies on adjudication (incl. legacy desk.state)",
-      "ts": "2026-10-09T08:16:54.784Z"
+      "ts": "2026-10-09T12:02:51.531Z"
     },
     {
       "id": "DESK-12",
@@ -1996,8 +1996,8 @@
       "name": "i18n-parity",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "546 keys each side, zero drift, zero empty — the twins are exact",
-      "ts": "2026-10-09T08:16:54.787Z"
+      "detail": "562 keys each side, zero drift, zero empty — the twins are exact",
+      "ts": "2026-10-09T12:02:51.536Z"
     },
     {
       "id": "DESK-13",
@@ -2006,7 +2006,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "548 lessons claimed = 548 filed, all fully formed — the curriculum is honest",
-      "ts": "2026-10-09T08:16:54.789Z"
+      "ts": "2026-10-09T12:02:51.541Z"
     },
     {
       "id": "DESK-14",
@@ -2015,7 +2015,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "containment BURN arms on first click, fires on second — no one-shot annihilation",
-      "ts": "2026-10-09T08:16:54.790Z"
+      "ts": "2026-10-09T12:02:51.541Z"
     },
     {
       "id": "DESK-15",
@@ -2024,7 +2024,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fano-desktop + fano-reset carry zero native dialogs — every prompt is a DOM widget",
-      "ts": "2026-10-09T08:16:54.790Z"
+      "ts": "2026-10-09T12:02:51.542Z"
     },
     {
       "id": "DESK-16",
@@ -2033,7 +2033,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "10 livery palettes audited — worst ink ratio 4.66:1 (AA needs 4.5)",
-      "ts": "2026-10-09T08:16:54.797Z"
+      "ts": "2026-10-09T12:02:51.553Z"
     },
     {
       "id": "DESK-17",
@@ -2042,7 +2042,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "wallspin, boot fade, window transitions all still under prefers-reduced-motion",
-      "ts": "2026-10-09T08:16:54.797Z"
+      "ts": "2026-10-09T12:02:51.553Z"
     },
     {
       "id": "DESK-18",
@@ -2051,7 +2051,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "dossier prints chrome-free (nav/watermark suppressed); desk prints windows without taskbar/icons",
-      "ts": "2026-10-09T08:16:54.797Z"
+      "ts": "2026-10-09T12:02:51.554Z"
     },
     {
       "id": "DESK-19",
@@ -2060,7 +2060,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "adm-chart wraps, LEDs cede the taskbar, start-menu clamps to 92vw under 50rem",
-      "ts": "2026-10-09T08:16:54.798Z"
+      "ts": "2026-10-09T12:02:51.555Z"
     },
     {
       "id": "DESK-20",
@@ -2069,7 +2069,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "zero untranslated chrome literals — toasts, suite rows, achievements and eggs all speak both tongues",
-      "ts": "2026-10-09T08:16:54.798Z"
+      "ts": "2026-10-09T12:02:51.556Z"
     },
     {
       "id": "DESK-21",
@@ -2078,7 +2078,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "139 codex entries + 2 fallbacks — zh twin is one-to-one",
-      "ts": "2026-10-09T08:16:54.799Z"
+      "ts": "2026-10-09T12:02:51.557Z"
     },
     {
       "id": "DESK-22",
@@ -2086,8 +2086,8 @@
       "name": "term-corpus-twin",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "help 51==51 lines, TERM_ZH map + termZh() boundary wired",
-      "ts": "2026-10-09T08:16:54.800Z"
+      "detail": "help 53==53 lines, TERM_ZH map + termZh() boundary wired",
+      "ts": "2026-10-09T12:02:51.559Z"
     },
     {
       "id": "DESK-23",
@@ -2096,7 +2096,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "zero untranslated DOM-boundary literals — panes, placeholders, buttons, toasts all route through t()",
-      "ts": "2026-10-09T08:16:54.802Z"
+      "ts": "2026-10-09T12:02:51.561Z"
     },
     {
       "id": "BOT-01",
@@ -2105,7 +2105,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "navigator.webdriver enroll → contained flag, role 0, registry entry pending",
-      "ts": "2026-10-09T08:16:55.076Z"
+      "ts": "2026-10-09T12:02:52.017Z"
     },
     {
       "id": "BOT-02",
@@ -2114,7 +2114,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "bot claiming 'ramsey 006' genesis → contained cadet, not FLEET-ADMIRAL",
-      "ts": "2026-10-09T08:16:55.360Z"
+      "ts": "2026-10-09T12:02:52.370Z"
     },
     {
       "id": "BOT-03",
@@ -2123,7 +2123,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "grants, branch apply/assign, credentials, roster, export, TOTP — all refused under containment",
-      "ts": "2026-10-09T08:16:55.720Z"
+      "ts": "2026-10-09T12:02:52.781Z"
     },
     {
       "id": "BOT-04",
@@ -2132,7 +2132,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "HeadlessChrome UA + callPhantom global both flag — strong signals contain on one hit",
-      "ts": "2026-10-09T08:16:56.330Z"
+      "ts": "2026-10-09T12:02:53.539Z"
     },
     {
       "id": "BOT-05",
@@ -2141,7 +2141,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "no navigator/globals → clean enrollment, no flag — false-positive channel stays open",
-      "ts": "2026-10-09T08:16:56.604Z"
+      "ts": "2026-10-09T12:02:53.964Z"
     },
     {
       "id": "BOT-06",
@@ -2150,7 +2150,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "FANO-CONTAIN-v1 signed by the fleet flag clears the flag + registry — human adjudication works",
-      "ts": "2026-10-09T08:16:58.563Z"
+      "ts": "2026-10-09T12:02:55.652Z"
     },
     {
       "id": "BOT-07",
@@ -2159,7 +2159,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "wrong-subject + untrusted-issuer promotion paper refused — containment holds",
-      "ts": "2026-10-09T08:17:01.616Z"
+      "ts": "2026-10-09T12:02:56.034Z"
     },
     {
       "id": "AUTH-01",
@@ -2168,7 +2168,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "cadet addIssuer refused (STATION-CHIEF+ gate); flag session rosters fine — the GRAY-01 side-door closed",
-      "ts": "2026-10-09T08:17:03.433Z"
+      "ts": "2026-10-09T12:02:56.959Z"
     },
     {
       "id": "AUTH-02",
@@ -2177,7 +2177,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "valid-signature role-99 cert refused at verifyCert and at unlock — ranks bound to 0..5",
-      "ts": "2026-10-09T08:17:03.988Z"
+      "ts": "2026-10-09T12:02:57.739Z"
     },
     {
       "id": "AUTH-03",
@@ -2186,7 +2186,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "lapsed grant pruned on read; live grant untouched — ledger self-cleans",
-      "ts": "2026-10-09T08:17:04.285Z"
+      "ts": "2026-10-09T12:02:58.161Z"
     },
     {
       "id": "AUTH-04",
@@ -2195,7 +2195,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "flag revokes 'q' — grant stays filed as evidence, verifyGrant + checkCallsign refuse; cadet revoke refused",
-      "ts": "2026-10-09T08:17:04.986Z"
+      "ts": "2026-10-09T12:02:59.290Z"
     },
     {
       "id": "AUTH-05",
@@ -2204,7 +2204,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "5 wrong TOTP codes → lockout engages and gates the next guess — no free 6-digit search space",
-      "ts": "2026-10-09T08:17:05.345Z"
+      "ts": "2026-10-09T12:02:59.795Z"
     },
     {
       "id": "AUTH-06",
@@ -2213,7 +2213,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "issuer removal works for flag, refuses the founding key, refuses cadets — anchor can't be orphaned",
-      "ts": "2026-10-09T08:17:05.903Z"
+      "ts": "2026-10-09T12:03:00.640Z"
     },
     {
       "id": "AUTH-07",
@@ -2222,7 +2222,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "lock() fills the seed buffer with zeros then clears the session — warm-secret hygiene",
-      "ts": "2026-10-09T08:17:08.325Z"
+      "ts": "2026-10-09T12:03:01.065Z"
     },
     {
       "id": "AUTH-08",
@@ -2231,7 +2231,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "raw flag grant (no stored _fleet) anchors the role-5 cert — trust derives from re-verified paper",
-      "ts": "2026-10-09T08:17:12.220Z"
+      "ts": "2026-10-09T12:03:02.569Z"
     },
     {
       "id": "AUTH-09",
@@ -2240,7 +2240,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "32 malformed-token inputs across 4 import paths — all refused cleanly, zero throws, zero stores",
-      "ts": "2026-10-09T08:17:12.497Z"
+      "ts": "2026-10-09T12:03:02.939Z"
     },
     {
       "id": "WIRE-01",
@@ -2249,7 +2249,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "wasm reported n=cap+4096 — jread decoded exactly cap bytes, adjacent heap never surfaced",
-      "ts": "2026-10-09T08:17:12.835Z"
+      "ts": "2026-10-09T12:03:03.358Z"
     },
     {
       "id": "WIRE-02",
@@ -2258,7 +2258,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "javascript:/http:/file: schemes and short/non-hex peer ids all refused before wasm",
-      "ts": "2026-10-09T08:17:14.895Z"
+      "ts": "2026-10-09T12:03:03.777Z"
     },
     {
       "id": "WIRE-03",
@@ -2267,7 +2267,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "cadet refused · chief can't mint admin · out-of-enum + bad net id refused · flag admin + chief user mints — ABI realigned to rations_invite_create",
-      "ts": "2026-10-09T08:17:18.330Z"
+      "ts": "2026-10-09T12:03:04.639Z"
     },
     {
       "id": "WIRE-04",
@@ -2276,7 +2276,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "4 restricted/pinned presence names render as peer-aaaaaaaa — unsigned wire text can't borrow a rank; 'marcus' passes",
-      "ts": "2026-10-09T08:17:18.674Z"
+      "ts": "2026-10-09T12:03:05.050Z"
     },
     {
       "id": "WIRE-05",
@@ -2285,7 +2285,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "5 bad split/join inputs refused · 2-of-3 roundtrip recovers 'codeword' — bounds hold, math intact",
-      "ts": "2026-10-09T08:17:19.011Z"
+      "ts": "2026-10-09T12:03:05.451Z"
     },
     {
       "id": "WIRE-06",
@@ -2294,7 +2294,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "3 malformed contact/msg inputs refused at the gate · well-formed pair files into the phone layer",
-      "ts": "2026-10-09T08:17:19.349Z"
+      "ts": "2026-10-09T12:03:05.844Z"
     },
     {
       "id": "WIRE-07",
@@ -2303,7 +2303,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fano-comms.js is prompt()-free — MSG composes inline, Electron-compatible",
-      "ts": "2026-10-09T08:17:19.349Z"
+      "ts": "2026-10-09T12:03:05.844Z"
     },
     {
       "id": "ZIG-01",
@@ -2312,7 +2312,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "20 src modules — zero unannotated float; boundary reads are sidecar-marked",
-      "ts": "2026-10-09T08:17:19.353Z"
+      "ts": "2026-10-09T12:03:05.849Z"
     },
     {
       "id": "ZIG-02",
@@ -2321,7 +2321,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "decode frees only initialized shares on OOM; crafted x-coords refuse — the defer no longer outruns the data",
-      "ts": "2026-10-09T08:17:19.353Z"
+      "ts": "2026-10-09T12:03:05.850Z"
     },
     {
       "id": "ZIG-03",
@@ -2330,7 +2330,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "288 seeded mutation/truncation cases across 5 decoders — error-or-decode, never panic, no leaks",
-      "ts": "2026-10-09T08:17:19.353Z"
+      "ts": "2026-10-09T12:03:05.850Z"
     },
     {
       "id": "SPEC004-01",
@@ -2339,7 +2339,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "HEAD + gh-pages + full history: zero drawer paths",
-      "ts": "2026-10-09T08:17:19.410Z"
+      "ts": "2026-10-09T12:03:05.939Z"
     },
     {
       "id": "SPEC004-02",
@@ -2348,7 +2348,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "144 deployed files surname-clean",
-      "ts": "2026-10-09T08:17:19.466Z"
+      "ts": "2026-10-09T12:03:06.027Z"
     },
     {
       "id": "SPEC004-03",
@@ -2357,7 +2357,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "SPEC-004-REGISTRY exists only inside the drawer",
-      "ts": "2026-10-09T08:17:19.475Z"
+      "ts": "2026-10-09T12:03:06.040Z"
     },
     {
       "id": "SPEC004-04",
@@ -2366,7 +2366,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "4 declassified copies, surname-clean",
-      "ts": "2026-10-09T08:17:19.477Z"
+      "ts": "2026-10-09T12:03:06.042Z"
     },
     {
       "id": "SPEC004-05",
@@ -2375,7 +2375,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "drawer restored intact from archive after git-clean incident; gitignore holds",
-      "ts": "2026-10-09T08:17:19.477Z"
+      "ts": "2026-10-09T12:03:06.042Z"
     },
     {
       "id": "SPEC004-06",
@@ -2384,7 +2384,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "security/out + zig-out absent from tree",
-      "ts": "2026-10-09T08:17:19.486Z"
+      "ts": "2026-10-09T12:03:06.055Z"
     },
     {
       "id": "HARN-01",
@@ -2393,7 +2393,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "360 ledger rows — every id/verdict/severity inside the controlled vocabulary",
-      "ts": "2026-10-09T08:17:19.488Z"
+      "ts": "2026-10-09T12:03:06.057Z"
     },
     {
       "id": "HARN-02",
@@ -2401,8 +2401,8 @@
       "name": "fleet-map-staleness",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "FLEETMAPv1 emitted 10.0h ago, 4 members measured",
-      "ts": "2026-10-09T08:17:19.489Z"
+      "detail": "FLEETMAPv1 emitted 13.7h ago, 4 members measured",
+      "ts": "2026-10-09T12:03:06.058Z"
     },
     {
       "id": "FLEET-01",
@@ -2411,7 +2411,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "--verify: spec + signature + genesis lineage + hint + ts + site parity all green",
-      "ts": "2026-10-09T08:17:19.557Z"
+      "ts": "2026-10-09T12:03:06.153Z"
     },
     {
       "id": "FLEET-02",
@@ -2420,7 +2420,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "exactly one distinct flag-seat key — bindFleetFlag can anchor",
-      "ts": "2026-10-09T08:17:19.557Z"
+      "ts": "2026-10-09T12:03:06.153Z"
     },
     {
       "id": "FLEET-03",
@@ -2429,7 +2429,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "bare invocation prints the payload and writes nothing — canon untouched",
-      "ts": "2026-10-09T08:17:19.619Z"
+      "ts": "2026-10-09T12:03:06.251Z"
     },
     {
       "id": "CLUSTER-01",
@@ -2438,7 +2438,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "6/6 citations verify verbatim in each tree's own docs",
-      "ts": "2026-10-09T08:17:19.620Z"
+      "ts": "2026-10-09T12:03:06.253Z"
     },
     {
       "id": "CLUSTER-02",
@@ -2447,7 +2447,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "3472 rows × 18 domains — count consistent, no paths/keys leaked",
-      "ts": "2026-10-09T08:17:19.636Z"
+      "ts": "2026-10-09T12:03:06.270Z"
     },
     {
       "id": "CLUSTER-03",
@@ -2456,7 +2456,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "SPEC-007 compat + degraded-medium suites registered in Rations tests.zig",
-      "ts": "2026-10-09T08:17:19.636Z"
+      "ts": "2026-10-09T12:03:06.270Z"
     },
     {
       "id": "ENGINE-01",
@@ -2465,7 +2465,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "--verify: spec + signature + genesis lineage + hint + ts + site parity + inventory all green",
-      "ts": "2026-10-09T08:17:19.719Z"
+      "ts": "2026-10-09T12:03:06.378Z"
     },
     {
       "id": "ENGINE-02",
@@ -2474,7 +2474,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "12 runtimes — every signed sha256 matches the file on disk",
-      "ts": "2026-10-09T08:17:19.726Z"
+      "ts": "2026-10-09T12:03:06.386Z"
     },
     {
       "id": "ENGINE-03",
@@ -2483,7 +2483,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "bare invocation prints the payload and writes nothing — canon untouched",
-      "ts": "2026-10-09T08:17:19.816Z"
+      "ts": "2026-10-09T12:03:06.482Z"
     },
     {
       "id": "ENGINE-04",
@@ -2492,7 +2492,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "every runtime carries a controlled evidence label — verified-here, bridge-mediated, or doc-cited",
-      "ts": "2026-10-09T08:17:19.817Z"
+      "ts": "2026-10-09T12:03:06.482Z"
     },
     {
       "id": "CONT-01",
@@ -2501,7 +2501,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "266 archives projected — names and seal states match the live corpus",
-      "ts": "2026-10-09T08:17:19.914Z"
+      "ts": "2026-10-09T12:03:06.572Z"
     },
     {
       "id": "CONT-02",
@@ -2510,7 +2510,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "266 entries — basenames only, counts self-consistent",
-      "ts": "2026-10-09T08:17:19.915Z"
+      "ts": "2026-10-09T12:03:06.573Z"
     },
     {
       "id": "CONT-03",
@@ -2519,7 +2519,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fano1.continuity declared and swept — the reset census knows the store",
-      "ts": "2026-10-09T08:17:19.917Z"
+      "ts": "2026-10-09T12:03:06.575Z"
     },
     {
       "id": "LIBRARY-01",
@@ -2528,7 +2528,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "openEditor + 'edit' command + documents filed as continuity records",
-      "ts": "2026-10-09T08:17:19.919Z"
+      "ts": "2026-10-09T12:03:06.577Z"
     },
     {
       "id": "LIBRARY-02",
@@ -2537,7 +2537,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "7 desk assets — zero eval/new Function",
-      "ts": "2026-10-09T08:17:19.923Z"
+      "ts": "2026-10-09T12:03:06.583Z"
     },
     {
       "id": "LIBRARY-03",
@@ -2546,7 +2546,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "comms.os fills the hub role — wire, messenger, drops all wired to the desk",
-      "ts": "2026-10-09T08:17:19.923Z"
+      "ts": "2026-10-09T12:03:06.583Z"
     },
     {
       "id": "PROD-01",
@@ -2554,8 +2554,8 @@
       "name": "ledger-consistent",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "292 assets — claims 102==102 on the dossier, kind tallies sum",
-      "ts": "2026-10-09T08:17:19.925Z"
+      "detail": "296 assets — claims 105==105 on the dossier, kind tallies sum",
+      "ts": "2026-10-09T12:03:06.586Z"
     },
     {
       "id": "PROD-02",
@@ -2564,7 +2564,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "director.os declared — slate store swept by reset like every desk ledger",
-      "ts": "2026-10-09T08:17:19.926Z"
+      "ts": "2026-10-09T12:03:06.588Z"
     },
     {
       "id": "PROD-03",
@@ -2573,7 +2573,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fleet-ring viz registered — tagged ILLUSTRATIVE over real roster + domain data",
-      "ts": "2026-10-09T08:17:19.927Z"
+      "ts": "2026-10-09T12:03:06.588Z"
     },
     {
       "id": "CURR-01",
@@ -2582,7 +2582,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "generated lesson set reproduces byte-exact — verify mode green",
-      "ts": "2026-10-09T08:17:20.014Z"
+      "ts": "2026-10-09T12:03:06.682Z"
     },
     {
       "id": "CURR-02",
@@ -2591,7 +2591,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "18 generated lessons — every source path resolves under the repo",
-      "ts": "2026-10-09T08:17:20.018Z"
+      "ts": "2026-10-09T12:03:06.689Z"
     },
     {
       "id": "CURR-03",
@@ -2600,7 +2600,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "18 lessons: wave_report evidence, review-required assessment, en-only label, badged in the pane",
-      "ts": "2026-10-09T08:17:20.023Z"
+      "ts": "2026-10-09T12:03:06.697Z"
     },
     {
       "id": "CENS-01",
@@ -2609,7 +2609,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "registry == live roots — names, presence, class, evidence all match (counts snapshot-labeled)",
-      "ts": "2026-10-09T08:17:22.272Z"
+      "ts": "2026-10-09T12:03:09.825Z"
     },
     {
       "id": "CENS-02",
@@ -2618,7 +2618,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "zero absolute paths, key material, or officer names in the registry",
-      "ts": "2026-10-09T08:17:22.273Z"
+      "ts": "2026-10-09T12:03:09.825Z"
     },
     {
       "id": "CENS-03",
@@ -2627,7 +2627,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "33 roots — controlled classes, tallies sum, every card complete",
-      "ts": "2026-10-09T08:17:22.273Z"
+      "ts": "2026-10-09T12:03:09.826Z"
     },
     {
       "id": "OVR-01",
@@ -2635,8 +2635,8 @@
       "name": "ledger-complete",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "102/102 claims audited — ledger covers the full table",
-      "ts": "2026-10-09T08:17:22.275Z"
+      "detail": "105/105 claims audited — ledger covers the full table",
+      "ts": "2026-10-09T12:03:09.829Z"
     },
     {
       "id": "OVR-02",
@@ -2644,8 +2644,8 @@
       "name": "zero-drift",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "102 claims — REVERIFIED 55, HOLDS-AS-LABELED 41, REJECTED-held 5, EXT-CITED 1 — none drifted",
-      "ts": "2026-10-09T08:17:22.275Z"
+      "detail": "105 claims — REVERIFIED 58, HOLDS-AS-LABELED 41, REJECTED-held 5, EXT-CITED 1 — none drifted",
+      "ts": "2026-10-09T12:03:09.834Z"
     },
     {
       "id": "OVR-03",
@@ -2654,7 +2654,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "re-running the 3-pass audit reproduces the ledger — verify mode green",
-      "ts": "2026-10-09T08:17:23.308Z"
+      "ts": "2026-10-09T12:03:11.373Z"
     },
     {
       "id": "PARA-01",
@@ -2663,7 +2663,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "discoveries twins + drawer edition all present",
-      "ts": "2026-10-09T08:17:23.308Z"
+      "ts": "2026-10-09T12:03:11.374Z"
     },
     {
       "id": "PARA-02",
@@ -2672,7 +2672,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "public paradigm map carries no paths, officer text, or drawer refs",
-      "ts": "2026-10-09T08:17:23.309Z"
+      "ts": "2026-10-09T12:03:11.390Z"
     },
     {
       "id": "PARA-03",
@@ -2681,7 +2681,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "24 paradigm rows each side, 5 sections — twins aligned",
-      "ts": "2026-10-09T08:17:23.309Z"
+      "ts": "2026-10-09T12:03:11.391Z"
     },
     {
       "id": "PARA-04",
@@ -2690,7 +2690,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "drawer 24 entries ⊇ public 24 — projection complete",
-      "ts": "2026-10-09T08:17:23.310Z"
+      "ts": "2026-10-09T12:03:11.393Z"
     },
     {
       "id": "BRG-01",
@@ -2699,7 +2699,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "--verify GREEN — every anchor + claim link reproduces byte-exact",
-      "ts": "2026-10-09T08:17:23.502Z"
+      "ts": "2026-10-09T12:03:11.663Z"
     },
     {
       "id": "BRG-02",
@@ -2708,7 +2708,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "59/59 anchors held, 16 claims bridged",
-      "ts": "2026-10-09T08:17:23.502Z"
+      "ts": "2026-10-09T12:03:11.663Z"
     },
     {
       "id": "BRG-03",
@@ -2717,7 +2717,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "fablattice SPEC008v1 + 3375² walk, fanowire 136-B, k3beacon, osig fold — all resolve in the second codebase",
-      "ts": "2026-10-09T08:17:23.506Z"
+      "ts": "2026-10-09T12:03:11.664Z"
     },
     {
       "id": "BRG-04",
@@ -2726,7 +2726,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "twins aligned (4 sections each), no paths/officers/drawer refs leaked",
-      "ts": "2026-10-09T08:17:23.506Z"
+      "ts": "2026-10-09T12:03:11.665Z"
     },
     {
       "id": "BRG-05",
@@ -2734,8 +2734,8 @@
       "name": "sibling-cites-resolve",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "42 sibling: cites in the dossier all resolve to real files",
-      "ts": "2026-10-09T08:17:23.508Z"
+      "detail": "43 sibling: cites in the dossier all resolve to real files",
+      "ts": "2026-10-09T12:03:11.667Z"
     },
     {
       "id": "BRG-06",
@@ -2744,7 +2744,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "TheUE verify-claims green: audit_counts=PROVEN:16 … TOTAL:36 — the 36-claim audit executes in a second codebase",
-      "ts": "2026-10-09T08:17:23.641Z"
+      "ts": "2026-10-09T12:03:11.853Z"
     },
     {
       "id": "BRG-07",
@@ -2753,7 +2753,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "30/30 populated census roots anchored — the bridge spans the whole cluster",
-      "ts": "2026-10-09T08:17:23.642Z"
+      "ts": "2026-10-09T12:03:11.853Z"
     },
     {
       "id": "BRG-08",
@@ -2762,7 +2762,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "5 archive-family anchors held — the sealed campaign corpus verifies in both seal forms",
-      "ts": "2026-10-09T08:17:23.643Z"
+      "ts": "2026-10-09T12:03:11.854Z"
     },
     {
       "id": "BRG-09",
@@ -2771,7 +2771,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "whole-cluster section in both twins, 41 table rows each — bilingual expansion holds",
-      "ts": "2026-10-09T08:17:23.643Z"
+      "ts": "2026-10-09T12:03:11.855Z"
     },
     {
       "id": "SCI-01",
@@ -2780,7 +2780,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "24 lit-review DOIs all pinned verbatim in the coverage doc",
-      "ts": "2026-10-09T08:17:23.655Z"
+      "ts": "2026-10-09T12:03:11.856Z"
     },
     {
       "id": "SCI-02",
@@ -2789,7 +2789,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "10 sections, 135 table rows each side — twin holds",
-      "ts": "2026-10-09T08:17:23.656Z"
+      "ts": "2026-10-09T12:03:11.857Z"
     },
     {
       "id": "SCI-03",
@@ -2798,7 +2798,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "no paths/drawer refs in the coverage doc; every sibling: cite resolves",
-      "ts": "2026-10-09T08:17:23.657Z"
+      "ts": "2026-10-09T12:03:11.858Z"
     },
     {
       "id": "SCI-04",
@@ -2807,7 +2807,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "prove-or-indeterminate ledger reproduces — zero broken anchors",
-      "ts": "2026-10-09T08:17:23.715Z"
+      "ts": "2026-10-09T12:03:11.938Z"
     },
     {
       "id": "SCI-05",
@@ -2816,7 +2816,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "125/125 rows verdicted; 31 explicitly indeterminate, 7 constrained",
-      "ts": "2026-10-09T08:17:23.715Z"
+      "ts": "2026-10-09T12:03:11.938Z"
     },
     {
       "id": "SCI-06",
@@ -2825,7 +2825,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "all 10 coverage sections verdicted — nothing silently skipped",
-      "ts": "2026-10-09T08:17:23.716Z"
+      "ts": "2026-10-09T12:03:11.939Z"
     },
     {
       "id": "EMG-01",
@@ -2834,7 +2834,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "cross-root constant scan reproduces — every emergent candidate dispositioned",
-      "ts": "2026-10-09T08:17:24.285Z"
+      "ts": "2026-10-09T12:03:12.851Z"
     },
     {
       "id": "EMG-02",
@@ -2843,7 +2843,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "12 emergent candidates, all dispositioned — discoveries cannot accrete silently",
-      "ts": "2026-10-09T08:17:24.287Z"
+      "ts": "2026-10-09T12:03:12.853Z"
     },
     {
       "id": "EMG-03",
@@ -2852,7 +2852,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "emergent debrief carries no paths or drawer references",
-      "ts": "2026-10-09T08:17:24.288Z"
+      "ts": "2026-10-09T12:03:12.854Z"
     },
     {
       "id": "RF-01",
@@ -2861,7 +2861,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "Gamma→cell→coord harness green — medium-as-lattice mapping proves under a bounded noise model",
-      "ts": "2026-10-09T08:17:31.851Z"
+      "ts": "2026-10-09T12:03:17.372Z"
     },
     {
       "id": "RF-02",
@@ -2870,7 +2870,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "sub-threshold in-cell AND super-threshold break both tested",
-      "ts": "2026-10-09T08:17:31.851Z"
+      "ts": "2026-10-09T12:03:17.372Z"
     },
     {
       "id": "RF-03",
@@ -2879,7 +2879,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "OutsideDisk refusal, scope note, and empirical-domain pointer all in-source",
-      "ts": "2026-10-09T08:17:31.851Z"
+      "ts": "2026-10-09T12:03:17.372Z"
     },
     {
       "id": "QD-01",
@@ -2888,7 +2888,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "5 dynamics modules present and imported by all_tests.zig",
-      "ts": "2026-10-09T08:17:31.852Z"
+      "ts": "2026-10-09T12:03:17.373Z"
     },
     {
       "id": "QD-02",
@@ -2897,7 +2897,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "zig build test passes with the lattice dynamics tests inside",
-      "ts": "2026-10-09T08:17:31.891Z"
+      "ts": "2026-10-09T12:03:17.403Z"
     },
     {
       "id": "QD-03",
@@ -2906,7 +2906,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "all four scope disclosures present in-source",
-      "ts": "2026-10-09T08:17:31.897Z"
+      "ts": "2026-10-09T12:03:17.404Z"
     },
     {
       "id": "QD-04",
@@ -2915,7 +2915,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "shell-shield fidelity, LR bound, tunneling transfer, light cone all on record",
-      "ts": "2026-10-09T08:17:31.898Z"
+      "ts": "2026-10-09T12:03:17.404Z"
     },
     {
       "id": "QD-05",
@@ -2924,7 +2924,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "ballistic-front test present — instant correlation measured, not asserted",
-      "ts": "2026-10-09T08:17:31.899Z"
+      "ts": "2026-10-09T12:03:17.404Z"
     },
     {
       "id": "QD-06",
@@ -2933,7 +2933,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "zh twin carries the identical measured values",
-      "ts": "2026-10-09T08:17:31.901Z"
+      "ts": "2026-10-09T12:03:17.405Z"
     },
     {
       "id": "AST-01",
@@ -2942,7 +2942,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "integer-Q128 astrometric evaluation green — separation, cap probability, transit, invariant gate all computed",
-      "ts": "2026-10-09T08:17:35.249Z"
+      "ts": "2026-10-09T12:03:22.023Z"
     },
     {
       "id": "AST-02",
@@ -2951,7 +2951,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "wire-cost refusal + disconfirmation channel + non-claim all in-source",
-      "ts": "2026-10-09T08:17:35.249Z"
+      "ts": "2026-10-09T12:03:22.023Z"
     },
     {
       "id": "AST-03",
@@ -2960,7 +2960,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "measured separation, cap probability, follow-up status filed both twins",
-      "ts": "2026-10-09T08:17:35.250Z"
+      "ts": "2026-10-09T12:03:22.024Z"
     },
     {
       "id": "AST-04",
@@ -2969,7 +2969,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "EIRP ledger, gain matrix, persistence + Doppler bounds all implemented",
-      "ts": "2026-10-09T08:17:35.250Z"
+      "ts": "2026-10-09T12:03:22.024Z"
     },
     {
       "id": "AST-05",
@@ -2978,7 +2978,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "EIRP, Arecibo ratio, persistence + Doppler bounds filed both twins",
-      "ts": "2026-10-09T08:17:35.250Z"
+      "ts": "2026-10-09T12:03:22.025Z"
     },
     {
       "id": "PRM-01",
@@ -2987,7 +2987,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "promotion --verify GREEN — records reproduce",
-      "ts": "2026-10-09T08:17:35.304Z"
+      "ts": "2026-10-09T12:03:22.109Z"
     },
     {
       "id": "PRM-02",
@@ -2995,8 +2995,8 @@
       "name": "proved-needs-anchors",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "54 proved records all carry ≥1 mechanical anchor",
-      "ts": "2026-10-09T08:17:35.305Z"
+      "detail": "57 proved records all carry ≥1 mechanical anchor",
+      "ts": "2026-10-09T12:03:22.110Z"
     },
     {
       "id": "PRM-03",
@@ -3004,8 +3004,8 @@
       "name": "taxonomy-walls",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "54 proved; instrumentation/external/rejected grades never cross the wall",
-      "ts": "2026-10-09T08:17:35.307Z"
+      "detail": "57 proved; instrumentation/external/rejected grades never cross the wall",
+      "ts": "2026-10-09T12:03:22.112Z"
     },
     {
       "id": "PRM-04",
@@ -3014,7 +3014,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "release_blocked=false ⟺ blocked=0 — the gate arithmetic is honest",
-      "ts": "2026-10-09T08:17:35.308Z"
+      "ts": "2026-10-09T12:03:22.114Z"
     },
     {
       "id": "GLD-01",
@@ -3023,7 +3023,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "golden verify: GREEN — 37 vectors byte-identical",
-      "ts": "2026-10-09T08:17:37.611Z"
+      "ts": "2026-10-09T12:03:25.578Z"
     },
     {
       "id": "GLD-02",
@@ -3032,7 +3032,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "single byte-flip produces a different byte stream — the golden compare has no blind spot",
-      "ts": "2026-10-09T08:17:37.611Z"
+      "ts": "2026-10-09T12:03:25.578Z"
     },
     {
       "id": "GLD-03",
@@ -3041,7 +3041,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "two emissions byte-identical (1987B) — the golden pins signal, not noise",
-      "ts": "2026-10-09T08:17:42.214Z"
+      "ts": "2026-10-09T12:03:32.571Z"
     },
     {
       "id": "PAR-01",
@@ -3050,7 +3050,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "136B envelope frames → stuffs → decodes bit-exact; corruption + authenticated-channel batteries green in zig",
-      "ts": "2026-10-09T08:17:45.319Z"
+      "ts": "2026-10-09T12:03:37.187Z"
     },
     {
       "id": "PAR-02",
@@ -3059,7 +3059,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "OverCapacity enforced on encode AND decode; underdetermination/XOR bound documented in-source",
-      "ts": "2026-10-09T08:17:45.320Z"
+      "ts": "2026-10-09T12:03:37.188Z"
     },
     {
       "id": "PAR-03",
@@ -3068,7 +3068,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "frame layer pins the same 136-byte canon as the escrow/wire harness",
-      "ts": "2026-10-09T08:17:45.320Z"
+      "ts": "2026-10-09T12:03:37.189Z"
     },
     {
       "id": "DOX-01",
@@ -3077,7 +3077,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "dox --verify GREEN — bindings reproduce",
-      "ts": "2026-10-09T08:17:46.833Z"
+      "ts": "2026-10-09T12:03:39.276Z"
     },
     {
       "id": "DOX-02",
@@ -3086,7 +3086,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "11 rule→probe cites all live; 29109 files bound, 0 orphans",
-      "ts": "2026-10-09T08:17:46.833Z"
+      "ts": "2026-10-09T12:03:39.276Z"
     },
     {
       "id": "DEV-01",
@@ -3095,7 +3095,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "device --verify GREEN — no capability silently lost",
-      "ts": "2026-10-09T08:17:47.353Z"
+      "ts": "2026-10-09T12:03:39.959Z"
     },
     {
       "id": "DEV-02",
@@ -3104,7 +3104,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "public capability asset carries classes only — no paths, addresses, or officer material",
-      "ts": "2026-10-09T08:17:47.354Z"
+      "ts": "2026-10-09T12:03:39.960Z"
     },
     {
       "id": "EVM-01",
@@ -3113,7 +3113,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "evidence --verify GREEN — all pinned cites hash-stable",
-      "ts": "2026-10-09T08:17:47.447Z"
+      "ts": "2026-10-09T12:03:40.084Z"
     },
     {
       "id": "EVM-02",
@@ -3121,8 +3121,8 @@
       "name": "coverage-total",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "36 dossier cites all hash-pinned in the manifest",
-      "ts": "2026-10-09T08:17:47.448Z"
+      "detail": "37 dossier cites all hash-pinned in the manifest",
+      "ts": "2026-10-09T12:03:40.085Z"
     },
     {
       "id": "ARC-01",
@@ -3131,7 +3131,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "archive --verify GREEN — zero regressions, zero broken seals",
-      "ts": "2026-10-09T08:18:42.715Z"
+      "ts": "2026-10-09T12:04:48.651Z"
     },
     {
       "id": "ARC-02",
@@ -3140,7 +3140,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "83 spec-007 archives — zero broken seals",
-      "ts": "2026-10-09T08:18:42.716Z"
+      "ts": "2026-10-09T12:04:48.652Z"
     },
     {
       "id": "LAWB-01",
@@ -3149,7 +3149,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: >136B refuses on both encode and decode — capacity is a bound, not advice",
-      "ts": "2026-10-09T08:18:42.717Z"
+      "ts": "2026-10-09T12:04:48.652Z"
     },
     {
       "id": "LAWB-02",
@@ -3158,7 +3158,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: two erasures from one parity equation → refused in both harnesses, never faked",
-      "ts": "2026-10-09T08:18:42.717Z"
+      "ts": "2026-10-09T12:04:48.652Z"
     },
     {
       "id": "LAWB-03",
@@ -3167,7 +3167,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: sha256 distinguishes a single-byte mutation — the evidence pins are load-bearing",
-      "ts": "2026-10-09T08:18:42.718Z"
+      "ts": "2026-10-09T12:04:48.653Z"
     },
     {
       "id": "LAWB-04",
@@ -3176,7 +3176,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: golden corpus committed (1987B) — reproducibility is pinned, not asserted",
-      "ts": "2026-10-09T08:18:42.718Z"
+      "ts": "2026-10-09T12:04:48.653Z"
     },
     {
       "id": "LAWB-05",
@@ -3185,7 +3185,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: all 6 D11 tools carry real compare-then-fail verify semantics — no exit-0 theater",
-      "ts": "2026-10-09T08:18:42.719Z"
+      "ts": "2026-10-09T12:04:48.654Z"
     },
     {
       "id": "LAWB-06",
@@ -3193,8 +3193,8 @@
       "name": "conservation",
       "verdict": "HELD",
       "severity": "info",
-      "detail": "law held: 102 promotion records = 102 dossier claims — nothing created, nothing lost",
-      "ts": "2026-10-09T08:18:42.720Z"
+      "detail": "law held: 105 promotion records = 105 dossier claims — nothing created, nothing lost",
+      "ts": "2026-10-09T12:04:48.656Z"
     },
     {
       "id": "LAWB-07",
@@ -3203,7 +3203,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: declared-length overrun refuses — the decoder cannot conjure bytes it never received",
-      "ts": "2026-10-09T08:18:42.720Z"
+      "ts": "2026-10-09T12:04:48.656Z"
     },
     {
       "id": "LAWB-08",
@@ -3212,7 +3212,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: 24 archives carry SHA256SUMS self-pins — classified skip, not broken (a manifest cannot seal itself)",
-      "ts": "2026-10-09T08:18:42.762Z"
+      "ts": "2026-10-09T12:04:48.705Z"
     },
     {
       "id": "LAWB-09",
@@ -3221,7 +3221,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law bent, labeled, REMEDIATED: XOR remains detection-only (forge still verified on the inner layer — bound on record); frameAuth/unframeAuth add per-frame keyed HMAC-SHA256 tags — the same forge, wrong keys, foreign splices, tag replays all refuse at BadTag; 100-iteration adversary loop: 100/100 refused",
-      "ts": "2026-10-09T08:18:42.763Z"
+      "ts": "2026-10-09T12:04:48.706Z"
     },
     {
       "id": "LAWB-10",
@@ -3230,7 +3230,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: 3/3 remediation tests present in harness — remediation is executable, not asserted",
-      "ts": "2026-10-09T08:18:42.763Z"
+      "ts": "2026-10-09T12:04:48.706Z"
     },
     {
       "id": "LAWB-11",
@@ -3239,7 +3239,7 @@
       "verdict": "HELD",
       "severity": "info",
       "detail": "law held: monotonic sequence enforced — spliced/reordered frames refuse",
-      "ts": "2026-10-09T08:18:42.763Z"
+      "ts": "2026-10-09T12:04:48.706Z"
     }
   ]
 }

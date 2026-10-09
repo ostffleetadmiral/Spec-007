@@ -274,7 +274,19 @@ document.getElementById('signbtn').addEventListener('click', function () {
     document.getElementById('stamp').innerHTML =
       '<span class="stamp">已簽署 &mdash; 歸檔 7q &middot; ' + roleName + '</span>' +
       (rec.genesis ? '<br><small class="stamp" style="border-color:var(--gold);color:var(--gold)">創世已鑄 &mdash; sha256 ' + (rec.genesis_hash || '').slice(0, 16) + '…</small>' : '') +
-      '<br><small style="letter-spacing:.05em;color:var(--gold)">sig ' + rec.covenant_sig.slice(0, 24) + '… &middot; fp ' + rec.pk.slice(0, 8).toUpperCase() + '…</small>';
+      '<br><small style="letter-spacing:.05em;color:var(--gold)">sig ' + rec.covenant_sig.slice(0, 24) + '… &middot; fp ' + rec.pk.slice(0, 8).toUpperCase() + '…</small>' +
+      '<br><small id="castline" style="letter-spacing:.05em;color:var(--gold)"></small>';
+    /* 選角室將新簽署歸檔 — 第二層 */
+    fetch('assets/persona-manifest.json').then(function (r) { return r.json(); }).then(function (m) {
+      var cs = FANO_AUTH.normalizeCallsign(rec.user), row = null;
+      (m.personas || []).forEach(function (p) { if (p.callsign === cs) row = p; });
+      if (row && row.alias_of) (m.personas || []).forEach(function (p) { if (p.callsign === row.alias_of) row = p; });
+      var el = document.getElementById('castline');
+      if (el) el.textContent = (row && row.assignable)
+        ? '選角 — 本室判爾為 ' + row.callsign.toUpperCase() +
+          ' · ' + row.cover_role + ' · 課軌 ' + row.track + ' → ' + row.branch.toUpperCase()
+        : '選角 — 檔中無掩護;本室帳冊常開 · 桌面 persona.os';
+    }).catch(function () {});
     var sd = document.getElementById('selfdestruct');
     setTimeout(function () { sd.classList.add('burning'); }, 3000);
     setTimeout(function () { window.location.href = 'desktop.html'; }, 6000);
