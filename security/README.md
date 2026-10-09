@@ -48,6 +48,10 @@ routing identity is the node's `peer_id`; ledger identity is
 | `gov-index.mjs` | Deterministic index of the governance corpus — sha256 every doc, `.archive/` superseded snapshots excluded |
 | `ipv6-derive.mjs` | SPEC008v1 address-derivation gate — coord + organ + artifact digest → 128-bit address |
 | `rf-field-probe.mjs` | RF edge probe — needs radio hardware (wlan1 + powered ESP32s), defers honestly without it |
+| `xploit-sweep.mjs` | XPLT team — active exploit hunting on the live lab: forged unsealed dmsg, presence key-substitution, inbox flood, multi-conn rate-limit evasion, passive hub sniff, replay, header-slack leak, forged relay_route. `--docker`/`--probe`/`--keep` like comms-suite |
+| `encap-sweep.mjs` | ENCAP team — sealed-inner-in-outer tunneling, multi-channel bursts, impairment ramp, carrier failover. `--docker`/`--probe`/`--keep` |
+| `pack-density.mjs` | PACK team — N fixed envelopes in one trunk vs N sends: measured ceiling, all-or-nothing drop signature, rx-delta overhead metering. `--docker`/`--probe`/`--keep` |
+| `ddns-update.mjs` | ClouDNS DDNS sync for the fleet's stable name — API mode for explicit AAAA, DynURL mode for source-IP; `DRY_RUN=1` resolves only |
 | `ddns-update.mjs` | DDNS write path (external side effect — excluded from unattended sweeps) |
 | `docker-compose.wan.yml` | The WAN topology |
 | `docker-compose.sec.yml` | Isolated RED/BLUE rig (internal net, production-posture relay) |

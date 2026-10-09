@@ -118,6 +118,74 @@
 <td>6 測試 + <code>main()</code> 演示</td>
 <td>玩具 7:THE PHILOTIC DESK — 相關對子,<code>philoticMessage()</code> 恆回 0 位元。關聯重於運動,化為桌上玩物</td>
 </tr>
+<tr>
+<td><code>golden_emit.zig</code></td>
+<td>正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 <code>tools/golden-master.mjs</code> 逐位元組比對的固定參考面。純整數輸出。</td>
+<td><code>tools/golden-master.mjs --verify</code>(+ <code>--mutate</code> 自檢)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_astrometric_probe.zig</code></td>
+<td>L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。每個數字皆附明確證偽條件。</td>
+<td>15 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec008_medium_lattice.zig</code></td>
+<td>介質即晶格之證偽框架:四埠 Γ 陣列(RTI/802.11bf 先例)解析為晶格座標 — <code>quantizeGamma</code> 將複反射係數映射至 15×15 格(|Γ|&gt;1 拒絕),<code>resolveCoord</code> 以每埠 O(1) 摺疊為 (k,r,c)。自陳失敗邊界。</td>
+<td>6 測試</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>SPEC-008 依賴橋接測試框架(<code>src/</code>)</h2>
+<p>各框架將一個 <code>deps/qstar-*</code> 供應樹繫結至檔案工件;邊界浮點僅存於依賴簿記,絕不進入線路位元組、雜湊或治理。</p>
+<table>
+<thead>
+<tr>
+<th>元件</th>
+<th>契約</th>
+<th>驗證</th>
+<th>擴充</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec008_qstar_archive.zig</code></td>
+<td>qstar-collapse + qstar-compress + qstar-vfs 接入封存教義:blob→QR 門戶原子化、NestTree 遞迴、RMSY 容器往返、晶格頁 + LRU + 釘定桌面態。<code>atomizeLattice</code> 截斷非 3375 整除之尾 — 已測試並註明。</td>
+<td>9 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec008_qstar_carriage.zig</code></td>
+<td>正典 136-B FANO 封包穿越 qstar-transport 全部介質:QR、OPTAR、音訊、卡帶、紙本 Shamir、LSB 隱寫、多語言載體、LoRa(MTU 255 B)、ESP32 WiFi↔LoRa 橋。<code>capacity()</code> 是註冊槽非位元界 — 適配由往返證明,超限拒絕。</td>
+<td>12 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec008_qstar_escrow.zig</code></td>
+<td>qstar-quantum/entangle 接入 FANO-1 工件:旗幟 ed25519 種子之 Shamir 託管(3-of-3 重置、2-of-3 災備)、136-B 封包之分片條帶+同位。已驗證依賴真相:「RS」同位為縮放 XOR — 僅可復原一個抹除;分片無完整性標籤,故封裝器承諾 sha256(seed)。</td>
+<td>8 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec008_qstar_fleet.zig</code></td>
+<td>qstar-net 接入艦隊:25-E0 BootstrapSeed 會合、proof-of-lattice-work 女巫閘(測試校準難度)、Möbius 合併解決並行格編輯、NAT/WebRTC 矩陣。<code>SeedNode.activation</code>/<code>CellEdit.activation</code> 僅為 f 邊界簿記。</td>
+<td>9 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec008_qstar_mesh.zig</code></td>
+<td>qstar-mesh + qstar-render:Location u128 與 SPEC-008 tensor 位址同寬度級,PeerId = [32]u8;RelayRouter TTL 多跳為 42 跳步行的上界;136-B 封包上 XChaCha20-Poly1305 AEAD,竄改/錯鑰拒絕。</td>
+<td>6 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec008_qstar_parity.zig</code></td>
+<td>線路同位(D11/P3,Mosi LVCE):136-B 封包 frame→channel→decode→re-seal 逐位元一致;任意偏移單位元組毀損必被偵測;鴿籠容量強制執行;截斷/訊框拼接拒絕;XOR 同位恰好復原一個抹除訊框。</td>
+<td>10 測試</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2>韌體(<code>firmware/</code>)</h2>
@@ -164,8 +232,104 @@
 </tr>
 <tr>
 <td><code>comms-suite.mjs</code></td>
-<td>21 探針,docker WAN 拓撲。</td>
-<td>docker 閘控</td>
+<td>COMM 隊 — docker WAN 拓撲 33 探針(COMM-01..33 正典;<code>--local</code> 跑 27 項單機子集):雙宿主繞行、tc netem、分割/癒合/換手、跨網段封緘+簽章遞送。</td>
+<td>docker 閘控;終板 32H/1N</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>team-sweep-2.mjs</code></td>
+<td><strong>整合掃描 — 波段節奏回歸板。</strong> 173 探針橫跨 RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER 加帳本漂移閘;任何 OPEN 即 exit 1。</td>
+<td>每波段閘;終板 170 HELD / 3 NOTED / 0 OPEN</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>xploit-sweep.mjs</code></td>
+<td><strong>XPLT 隊 — 實 WAN 實驗室上的主動漏洞獵捕。</strong> 8 項真實攻擊:偽造未封緘 direct_msg、在場金鑰替換 MITM、收件匣洪水、逐連線→聚合限流規避、被動廣播樞紐嗅探、重放、標頭閒置位元組洩漏、偽造 relay_route。捕獲別名 <code>keypairFromSeed</code> 腐敗(線上每個 v3 簽章皆失效)並推動 v3 簽章封包 + <code>sealed_peers</code> 修復。</td>
+<td><code>node security/xploit-sweep.mjs --docker</code>;終板 3 HELD / 1 BLOCKED / 3 NOTED / 1 EXPLOITED(樞紐元資料 — 架構性)</td>
+<td>新 — 硬化線路之波段</td>
+</tr>
+<tr>
+<td><code>encap-sweep.mjs</code></td>
+<td>ENCAP 隊 — 隧道教義字面化:封緘內層酬載巢置於外層傳輸體、多通道突發、實地損傷爬升、幹線死亡時載波切換至雙宿主繞行。</td>
+<td><code>--docker</code> / <code>--probe</code> 實驗室模式</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>pack-density.mjs</code></td>
+<td>PACK 隊 — 封包裝箱可測量化:N 個定長內層封包装入一個幹線對比 N 次單發;真實上限、全有或全無的丟棄特徵、以 rx-delta 計量之每流開銷、重發成本。</td>
+<td><code>--docker</code> / <code>--probe</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sentinel-sweep.mjs</code></td>
+<td>認證面 + 容器信任鏈 — 晉升放行/拒絕、旗席歧義。</td>
+<td>14 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>superpowers-audit.mjs</code></td>
+<td>34 項能力總帳 + 9 項誠實限制 — 線上驗證每項主張,含線上創世 Ed25519 簽章。</td>
+<td>自足</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>capstone-audit.mjs</code></td>
+<td>封包偽造彈幕 + 正典同位 + 清單世系。</td>
+<td>25 檢查</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>ddns-update.mjs</code></td>
+<td>艦隊固定域名之 ClouDNS DDNS 同步 — API 模式寫入明確 AAAA(非暫時性 v6 記錄所需);DynURL 模式回報呼叫者來源 IP;<code>DRY_RUN</code> 僅解析。</td>
+<td><code>DRY_RUN=1</code> 模式</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fleet-manifest.mjs</code></td>
+<td>正典發射器 — 簽章 <code>fleet-manifest.json</code> + 逐位元組一致之 <code>site/</code> 副本;<code>--verify</code> 為載入閘且絕不簽章。</td>
+<td>FLEET 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fleet-genesis-update.mjs</code></td>
+<td>創世修訂工具 — <code>--pk</code> 收錄成員、經根雙簽、兩份副本皆寫;旗席單一性強制執行。</td>
+<td>FLEET 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fleet-map.mjs</code></td>
+<td>探針實測艦隊通訊錄 → <code>out/rendezvous.json</code>;HARN 陳舊檢查引用之。</td>
+<td>經 HARN 驗證</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fleet_bootstrap.py</code></td>
+<td>Python 正典驗證器 — 創世 TOFU 釘定 + 清單世系 + 會合;正典之第三語言檢查。</td>
+<td>獨立執行</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fano_beacon.py</code> / <code>fano_dialect.py</code> / <code>fano_relay_link.py</code></td>
+<td>Python 三件套:至錨點 UDP6 邊緣之封緘 <code>FLEET-BEACON:&lt;name&gt;</code> 會合;凍結 136-B 方言的第三套獨立實作(自測韌體黃金向量逐位元一致);Rations 式 WS 中繼上方言(僅外撥,身份藏於封包內)。</td>
+<td>方言自測 + mesh-bridge 向量</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fano-wan-gateway.mjs</code></td>
+<td>UDP WAN 邊緣 — FNV-256 封存驗證 → mesh 轉發。</td>
+<td>經 mesh 橋驗證</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>admiralty-reset-token.mjs</code></td>
+<td>鑄造 <code>FANO-RESET-v1</code> 雙簽旗幟重置令牌 — 容器焚毀之人工裁決放行路徑。</td>
+<td>經 sentinel 掃描驗證</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>README.md</code>(本目錄)</td>
+<td>實驗室索引 — 檔案表、控制面令牌、拓撲組合、阻斷目錄、捕獲記錄、執行手冊。</td>
+<td>—</td>
 <td>—</td>
 </tr>
 <tr>
@@ -386,10 +550,22 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>fano-reset.js</code></td>
+<td>海軍部重置教義 — 創世 pk 與創世「admiral」成員相符之桌即旗桌:叢集來源之重置為單方;其他來源僅在全體 <code>FANO-RESET-v1</code> 一致投票下焚毀。普通桌可自由重置。</td>
+<td>桌面/sentinel 探針</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>spec007.wasm</code></td>
 <td>檔案算術於瀏覽器即時運行。</td>
 <td>ABI 探針</td>
 <td>以 residue/air/cool 匯出重建</td>
+</tr>
+<tr>
+<td><code>apps/{fano,rations}</code> + <code>site/assets/*.json</code></td>
+<td>供應可執行工件(Fano quine 方言頁 + fano.wasm;Rations quine 應用)與已發射資產投影(academy、archive、capability、cluster、device、production、science-inventory、spec、zig-capability 註冊表)— 生成工件,絕不手改。</td>
+<td>BLACK-03 同位 + wasm 身份探針</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
@@ -412,8 +588,159 @@
 </tr>
 <tr>
 <td><code>serve.py</code></td>
-<td>本機預覽伺服器。</td>
+<td>硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。</td>
 <td>—</td>
+<td><code>.wasm</code>/<code>.json</code>/<code>.html</code> 加 <code>Cache-Control: no-store</code></td>
+</tr>
+<tr>
+<td><code>deploy-pages.sh</code></td>
+<td>經分離 worktree 之原子化 gh-pages 部署 — 絕不觸動現行檢出(舊 checkout+rm 模式曾兩度致害)。</td>
+<td>BLACK-03 同位複驗</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>golden-master.mjs</code></td>
+<td>正典向量同位(D11/P2,Ark 移植):<code>golden_emit.zig</code> 輸出對 <code>golden/vectors.txt</code>;<code>--emit</code> 為正典行為,<code>--mutate</code> 自檢偵測。</td>
+<td>GLD 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>claim-promotion.mjs</code></td>
+<td>主張生命週期引擎(D11/P1,eu-version-z 晉升 schema 移植):<code>proved</code>/<code>held</code>/<code>rejected_held</code> 閘門以裁決詞彙 + 機械錨點計數為準。</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>override-audit.mjs</code></td>
+<td>D6 主張覆權 — 每項檔案主張三重通過:重驗錨點、對裁決之對抗性攻擊、評級 + 映射至佐證根目錄。輸出 <code>out/override-ledger.json</code> + 簡報。</td>
+<td><code>--verify</code> 對帳</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>bridge-map.mjs</code></td>
+<td>D9 雙向證據橋 — 將兄弟樹之已定裁決、可執行稽核、第二實作與已記錄實驗資料機械地對位至檔案主張;缺席錨點降級為「absent」絕不報錯。</td>
+<td>docs en|zh <code>bridge-map</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>cluster-census.mjs</code></td>
+<td>DEBRIEF D0 — 列舉每個專案根目錄,發射經消毒之公開註冊表投影(僅代號/角色/證據級別;<code>$HOME</code> 相對,無官員姓名)。</td>
+<td><code>--emit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>device-ledger.mjs</code></td>
+<td>D11/P5 工作站能力清冊 — <code>security/out/</code> 存完整帳本 + <code>site/assets/</code> 存消毒後布林/計數投影。</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dox-audit.mjs</code></td>
+<td>D11/P4 文件繫結棘輪 — 每個受治理檔案必須鏈至治理 AGENTS.md;每條具名探針之規則必須解析至存活探針。</td>
+<td>稽核規則之規則</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>evidence-manifest.mjs</code></td>
+<td>D11/P6 — 每條 <code>sibling:root:path</code> 引用之 sha256 清單;兄弟檔案靜默變更即證據漂移。</td>
+<td>EVID 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>engine-manifest.mjs</code></td>
+<td>統一受治理運行時註冊表(藍圖 P1 缺口)— 一份簽章文件列明桌面可信任之每個運行時;與 fleet-manifest 同正典紀律(emit/verify/push)。</td>
+<td>ENGINE-01/02 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>emergent-sweep.mjs</code></td>
+<td>湧現發現掃描 — 具名常數重現於 ≥2 獨立根目錄立案為湧現;裸字面量 ≥3 根收斂立案為 convergent;<code>--emit</code>/<code>--verify</code> 總帳。</td>
+<td>248 候選、0 未立案</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>archive-projection.mjs</code> / <code>archive-verify.mjs</code></td>
+<td>連續性對 — 將 <code>~/.archives/</code> 投影為消毒後公開清單(僅基名;已封/未封誠實列出);verify 重算每個 dir+SHA256SUMS 與 tarball+sidecar 封存。</td>
+<td><code>--emit</code>/<code>--verify</code>;CONT 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>course-gen.mjs</code></td>
+<td>藍圖 P7 課程生成器 — 由波段報告決定性產生課程;每課攜帶 <code>deterministic_review_required</code>。</td>
+<td><code>--emit</code> → academy 清單</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>science-verdict.mjs</code></td>
+<td>證明或不確定通過 — 將 science-coverage 表解析為 <code>harness_proven</code>/<code>lit_supported</code>/<code>constrained</code>/<code>indeterminate</code>。</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>slate-ledger.mjs</code></td>
+<td>發射 <code>production-ledger.json</code> — 導演室分鏡所依據之正典資產清冊;每條目皆從真實來源檔案萃取。</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>支援樹</h2>
+<table>
+<thead>
+<tr>
+<th>元件</th>
+<th>契約</th>
+<th>驗證</th>
+<th>擴充</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec-007.md</code></td>
+<td>不可變基線文件 — 終端機與 publish-check 內 sha256 釘定;檔案之 L0 根。</td>
+<td>sha 釘定 + publish-check</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fleet-genesis.json</code> / <code>fleet-manifest.json</code> / <code>engine-manifest.json</code></td>
+<td>簽章正典根 — 創世契約、艦隊清單、受治理運行時註冊表 — 各具逐位元組一致之 <code>site/</code> 副本。</td>
+<td>FLEET/ENGINE 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>deps/</code></td>
+<td>供應 qstar-* 依賴釘存(2026-10-07,zig 0.13 全綠):quantum、transport、net、mesh、vfs、compress、collapse、render。<code>deps/VENDORED.md</code> 載 LOC 表;f64 邊界限於 mesh/render sidecar。</td>
+<td>8 個 spec008_qstar_* 框架</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>golden/vectors.txt</code></td>
+<td>黃金參考面 — <code>golden_emit.zig</code> 之已提交正典輸出。</td>
+<td><code>golden-master.mjs --verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>admiralty-desk/</code></td>
+<td>旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;contextIsolation + sandbox + 無 nodeIntegration;<code>desk.sh</code> 剝除 <code>ELECTRON_RUN_AS_NODE</code>。</td>
+<td>桌面探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>apps/fano/</code></td>
+<td>Fano quine 方言工件(index.html + fano.wasm)— <code>site/apps/fano/</code> 存逐位元組一致之供應副本。</td>
+<td>wasm 身份</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>prototypes/</code></td>
+<td>行政覆權試驗場 — 封存路徑以隔離實驗執行;報告落於 <code>prototypes/out/</code>;生產不動。</td>
+<td>falsification-audit 之 OVR 列</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>thoughts&amp;convos/</code></td>
+<td>抽屜 — 機密邊界;絕不發佈、絕不於公開樹列舉;姓氏絆線強制執行。</td>
+<td>SPEC004 探針</td>
 <td>—</td>
 </tr>
 </tbody>

@@ -20,6 +20,22 @@ bottom; expansions since the map was drawn are noted per row.
 | `spec007_fixedpoint_prototype.zig` | PROTOTYPE: u128-mg vs Q32.32 vs Q128.128 cross-check on the stoich constants. | 5 tests | range-boundary test: 100,000² wraps in Q32.32 and stays exact in Q128.128 — the boundary the prototype exists to find |
 | `spec007_compute.zig` | Live-computing ABI: every dossier number re-derived in-browser as u32 exports, zero imports, compiled to wasm32. | 1 test + wasm artifact | `residue_mg`, `air_lpm_x10`, `slab_cool_step` exports; test extended; wasm rebuilt (623 B); stale `-dynamic` build flag corrected to `-fno-entry -rdynamic` |
 | `spec007_q_toys.zig` | Q Branch field toys — playable jokes that are genuinely running logic. | 6 tests + `main()` demo | Toy 7: THE PHILOTIC DESK — correlated pair, `philoticMessage()` returns 0 bits. Correlation-over-motion, codified as a desk toy |
+| `golden_emit.zig` | Canonical vector emitter (D11/P2, Ark golden-master port): prints raw i256 results for the Q128.128 primitive set — RNE mul, div, ratio, pow, sqrt — the fixed reference surface `tools/golden-master.mjs` byte-compares. Integer-only emission. | `tools/golden-master.mjs --verify` (+ `--mutate` self-check) | — |
+| `spec007_astrometric_probe.zig` | The Level-7Q astrometric probe: computes the Wow!-signal/3I-ATLAS alignment claim (~9° separation, ~0.6% random-cap coincidence) from first principles in integer Q128 — rational-π quadrant-reduced trig, 600 AU ≈ 3.47 light-days, ~49-yr inbound transit. Every number files a stated disconfirmation condition. | 15 tests | — |
+| `spec008_medium_lattice.zig` | Medium-as-lattice falsification harness: a four-port Γ array (RTI/802.11bf precedent) resolves to lattice coordinates — `quantizeGamma` maps a complex reflection coefficient onto a 15×15 cell (|Γ|>1 refuses), `resolveCoord` folds the array to (k,r,c) in O(1) per port. States its own failure boundary. | 6 tests | — |
+
+## SPEC-008 dep-bridge harnesses (`src/`)
+
+Each harness binds one `deps/qstar-*` vendored tree onto dossier artifacts; boundary floats stay in dep bookkeeping and never touch wire bytes, hashes, or governance.
+
+| Component | Contract | Verification | Expansion |
+|---|---|---|---|
+| `spec008_qstar_archive.zig` | qstar-collapse + qstar-compress + qstar-vfs onto the archive doctrine: blob→QR-portal atomization, NestTree recursion, RMSY container round-trip, lattice pages + LRU + pinned desk state. `atomizeLattice` truncates non-3375-divisible tails — tested, documented. | 9 tests | — |
+| `spec008_qstar_carriage.zig` | The canonical 136-B FANO envelope through every qstar-transport medium: QR, OPTAR, audio, cassette, paperback Shamir, LSB stega, polyglot, LoRa (MTU 255 B), ESP32 WiFi↔LoRa maypole. `capacity()` is a registry slot — fitness proven by round-trip, oversize refuses. | 12 tests | — |
+| `spec008_qstar_escrow.zig` | qstar-quantum/entangle onto FANO-1 artifacts: Shamir escrow of the flag's ed25519 seed (3-of-3 reset, 2-of-3 DR), shard striping + parity on the 136-B envelope. Verified dep truth: "RS" parity is scaled XOR — exactly one erasure; shares carry no tag, so the wrapper commits sha256(seed). | 8 tests | — |
+| `spec008_qstar_fleet.zig` | qstar-net onto the fleet: 25-E0 BootstrapSeed rendezvous, proof-of-lattice-work Sybil gate (test-calibrated difficulty), Möbius merge for concurrent cell edits, NAT/WebRTC matrix. `SeedNode.activation`/`CellEdit.activation` are f-boundary bookkeeping only. | 9 tests | — |
+| `spec008_qstar_mesh.zig` | qstar-mesh + qstar-render: Location u128 matches the SPEC-008 tensor-address width class, PeerId = [32]u8; RelayRouter TTL multi-hop bounds the 42-hop walk; XChaCha20-Poly1305 AEAD on the 136-B envelope with tamper/wrong-key refusal. | 6 tests | — |
+| `spec008_qstar_parity.zig` | Wire parity (D11/P3, Mosi LVCE): frame→channel→decode→re-seal bit-exact on the 136-B envelope; single-byte corruption detected at any offset; pigeonhole capacity enforced; truncation/splice refuse; XOR parity recovers exactly one erased frame. | 10 tests | — |
 
 ## Firmware (`firmware/`)
 
@@ -33,7 +49,23 @@ bottom; expansions since the map was drawn are noted per row.
 |---|---|---|---|
 | `harness.mjs` | Headless WASM + raw WebSocket client, shared by all suites. | exercised by suites | — |
 | `suite.mjs` | RED/BLUE/BLACK/GRAY executable sweep → `site/security/findings.json`. | 33 probes | +2 BLUE probes: `compute-wasm-abi` (spec007.wasm exports the dossier ABI incl. new exports) and `science-inventory-ladder` (every verdict on the honest ladder, counts reconcile) |
-| `comms-suite.mjs` | 21 probes over the docker WAN topology: dual-homed bypass, tc netem, partition/heal/churn. | docker-gated | — |
+| `comms-suite.mjs` | COMM team — 33 probes over the docker WAN topology (COMM-01..33 canonical; `--local` runs the 27-probe single-host subset): dual-homed bypass, tc netem, partition/heal/churn, sealed+signed cross-segment delivery. | docker-gated; 32H/1N final board | — |
+| `team-sweep-2.mjs` | **The consolidated sweep — the wave-cadence regression board.** 173 probes across RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER plus ledger-drift gates; exits 1 on any OPEN. | per-wave gate; final board 170 HELD / 3 NOTED / 0 OPEN | — |
+| `xploit-sweep.mjs` | **XPLT team — active exploit hunting over the live WAN lab.** 8 real attacks: forged unsealed direct_msg, presence key-substitution MITM, inbox flood, per-conn→aggregate rate-limit evasion, passive broadcast-hub sniff, replay, header-slack leak, forged relay_route. Caught the aliased `keypairFromSeed` corruption (every on-wire v3 signature failing) and drove the v3 signed-envelope + `sealed_peers` remediation. | `node security/xploit-sweep.mjs --docker`; final board 3 HELD / 1 BLOCKED / 3 NOTED / 1 EXPLOITED (hub metadata — architectural) | new — the wave that hardened the wire |
+| `encap-sweep.mjs` | ENCAP team — tunneling doctrine made literal: sealed inner payload nested in an outer transport body, multi-channel bursts, live impairment ramp, carrier failover to the dual-homed bypass. | `--docker` / `--probe` lab modes | — |
+| `pack-density.mjs` | PACK team — envelope packing made measurable: N fixed inner envelopes inside one trunk vs N sends; real ceiling, all-or-nothing drop signature, per-stream overhead metered via rx-delta, resend cost. | `--docker` / `--probe` | — |
+| `sentinel-sweep.mjs` | Auth surface + containment trust chain — promotion release/refusal, flag-seat ambiguity. | 14 probes | — |
+| `superpowers-audit.mjs` | 34-entry capability ledger + 9 honest limits — live-verifies every claim incl. genesis Ed25519 sigs on the wire. | self-contained | — |
+| `capstone-audit.mjs` | Envelope forgery battery + canon parity + manifest lineage. | 25 checks | — |
+| `ddns-update.mjs` | ClouDNS DDNS sync for the fleet's stable name — API mode writes an explicit AAAA (required for a non-temporary v6 record); DynURL mode reports caller source IP; `DRY_RUN` resolves only. | `DRY_RUN=1` mode | — |
+| `fleet-manifest.mjs` | Canon emitter — signed `fleet-manifest.json` + byte-identical `site/` copy; `--verify` is the load gate and never signs. | FLEET probes | — |
+| `fleet-genesis-update.mjs` | Genesis amendment tool — `--pk` admits a member, dual-signs via roots, writes both copies; flag-seat singularity enforced. | FLEET probes | — |
+| `fleet-map.mjs` | Probe-measured fleet address book → `out/rendezvous.json`; HARN staleness check cites it. | exercised by HARN | — |
+| `fleet_bootstrap.py` | Python canon verifier — genesis TOFU pin + manifest lineage + rendezvous; a third-language check on the canon. | standalone | — |
+| `fano_beacon.py` / `fano_dialect.py` / `fano_relay_link.py` | The Python trio: sealed `FLEET-BEACON:<name>` rendezvous to the anchor's UDP6 edge; a third independent implementation of the frozen 136-B dialect (self-tests firmware golden vectors bit-exact); the dialect over a Rations-style WS relay (outbound-only dials, identity inside the envelope). | dialect self-test + mesh-bridge vectors | — |
+| `fano-wan-gateway.mjs` | UDP WAN edge — FNV-256 seal verify → mesh forward. | exercised by the mesh bridge | — |
+| `admiralty-reset-token.mjs` | Mints `FANO-RESET-v1` dual-signed flag-reset tokens — the human-adjudicated release path for containment burns. | exercised via sentinel sweep | — |
+| `README.md` (this dir) | The lab index — file table, control-plane tokens, compositions, blocker catalog, catch log, runbook. | — | — |
 | `hydra-node.mjs` / `wan-bridge.mjs` | Ledger node daemon + deterministic impairment proxy. | exercised by comms-suite | — |
 | `kali-sweep.mjs` | The fifth team's pass — replayable external-tooling probes. | docker/WAN-gated | +2 probes: `desk-wasm-artifact` (spec007.wasm served with magic bytes) and `desk-component-map` (the map itself published) |
 | `philotic-probe.mjs` | **The correlation-over-motion experiment on a real wire** — instrumented TCP pipe: 4096 correlated rounds on 0 post-seed bytes, tamper-bend moves 0 bits, real "HELLO" costs exactly 5 bytes; CHSH classical bound noted. Team PHILOTIC in findings.json. | standalone (in-process pipe) | +1 probe: `qet-mandatory-classical-leg` — Hotta QET run ships α as 1 byte; energy teleportation confirmed unable to ride the free correlation channel; +NOTED `hydrogen-clock-baseline` — 21-cm line gives handshake-free slot scheduling; +NOTED `cmb-noise-floor` — Planck occupation attenuates QET on the thermal floor; +3 NOTED: phonon-shield coherence budget, wavefunction phase map, checksum-involution (self-inverse E=mc^2<->i<->E=mc^-2 link) |
@@ -82,7 +114,9 @@ bottom; expansions since the map was drawn are noted per row.
 | `fano-i18n.js` | The desk's second tongue — EN ⇄ 繁體中文 keyed dictionary. | twin gates | `term.codex` added in both tongues; codex command now localizes |
 | `fano-comms.js` | comms.os: seal/open, QR, Shamir, steganography, WS relay. | comms-suite | — |
 | `quplink.js` / `quplink-viz.js` | Sandbox + viz deck running the real wasm. | — | +1 game: **Coast the Slab** — drive `slab_cool_step` down from burst equilibrium to ambient; the ledger runs backward |
+| `fano-reset.js` | Admiralty reset doctrine — a desk whose founding pk matches the genesis "admiral" member is THE flag desk: cluster-origin resets are unilateral; any other origin burns only under a unanimous `FANO-RESET-v1` vote. Ordinary desks reset freely. | desk/sentinel probes | — |
 | `spec007.wasm` | The dossier's arithmetic live in-browser. | compile-abi probe | rebuilt with residue/air/cool exports |
+| `apps/{fano,rations}` + `site/assets/*.json` | Vendored runnable artifacts (the Fano quine dialect page + fano.wasm; the Rations quine app) and the emitted asset projections (academy, archive, capability, cluster, device, production, science-inventory, spec, zig-capability registries) — generated artifacts, never hand-edited. | BLACK-03 parity + wasm identity probes | — |
 
 ## Tools (`tools/`)
 
@@ -90,6 +124,34 @@ bottom; expansions since the map was drawn are noted per row.
 |---|---|---|---|
 | `publish-check.sh` | The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, JS syntax. | self | fixed the silent gap — `fixed_point_q128.zig` (37 tests) and `spec007_compute.zig` were glob-skipped; now explicit; `component-map` twin added |
 | `serve.py` | Hardened static server: GET/HEAD only, no listing, no banner, full security header set. | — | `Cache-Control: no-store` on `.wasm`/`.json`/`.html` — live artifacts never come back stale |
+| `deploy-pages.sh` | Atomic gh-pages deploy via a detached worktree — never touches the live checkout (the old checkout+rm pattern twice caused damage: killed serve.py's cwd, committed the drawer to gh-pages). | BLACK-03 parity re-verify | — |
+| `golden-master.mjs` | Canonical vector parity (D11/P2, Ark port): `golden_emit.zig` output vs `golden/vectors.txt`; `--emit` is a canon act, `--mutate` self-checks detection. | GLD probes | — |
+| `claim-promotion.mjs` | Claims-lifecycle engine (D11/P1, eu-version-z promotion schema port): `proved`/`held`/`rejected_held` gates keyed on the verdict vocabulary + mechanical anchor counts. | — | — |
+| `override-audit.mjs` | The D6 claims override — three passes per dossier claim: re-verify anchors, adversarial attack on the verdict, grade + map to the substantiating root. Emits `out/override-ledger.json` + debrief. | `--verify` against ledger | — |
+| `bridge-map.mjs` | The D9 bidirectional evidence bridge — resolves sibling trees' settled verdicts, audits, second implementations, and recorded data against dossier claims mechanically; absent anchors degrade to "absent," never error. | docs en\|zh `bridge-map` | — |
+| `cluster-census.mjs` | DEBRIEF D0 — enumerates every project root, emits the sanitized public registry projection (codenames/roles/evidence classes; `$HOME`-relative, no officer names). | `--emit` | — |
+| `device-ledger.mjs` | D11/P5 workstation capability inventory — full ledger in `security/out/` + sanitized boolean/count projection in `site/assets/`. | — | — |
+| `dox-audit.mjs` | D11/P4 documentation-binding ratchet — every governed file must chain to a governing AGENTS.md; every rule naming a probe must resolve to a live probe. | the rule that audits the rules | — |
+| `evidence-manifest.mjs` | D11/P6 — sha256 manifest over every `sibling:root:path` citation; a sibling file that changes silently is evidence drift. | EVID probes | — |
+| `engine-manifest.mjs` | Unified governed-runtime registry (blueprint P1 gap) — one signed document naming every runtime the desk may trust; same canon discipline as fleet-manifest (emit/verify/push). | ENGINE-01/02 probes | — |
+| `emergent-sweep.mjs` | Emergent-discovery sweep — named constants recurring across ≥2 independent roots file as emergent; bare-literal convergence ≥3 roots as convergent; `--emit`/`--verify` the ledger. | 248 candidates, 0 unfiled | — |
+| `archive-projection.mjs` / `archive-verify.mjs` | Continuity pair — project `~/.archives/` into the sanitized public manifest (basenames only; sealed vs unsealed honestly listed); verify re-hashes every dir+SHA256SUMS and tarball+sidecar seal. | `--emit`/`--verify`; CONT probes | — |
+| `course-gen.mjs` | Blueprint P7 curriculum generator — deterministic lessons from wave reports; every lesson carries `deterministic_review_required`. | `--emit` → academy manifest | — |
+| `science-verdict.mjs` | Prove-or-indeterminate pass — parses the science-coverage table into `harness_proven`/`lit_supported`/`constrained`/`indeterminate`. | — | — |
+| `slate-ledger.mjs` | Emits `production-ledger.json` — the canon asset inventory the Director's Room storyboards over; every entry extracted from a real source file. | — | — |
+
+## Support trees
+
+| Component | Contract | Verification | Expansion |
+|---|---|---|---|
+| `spec-007.md` | The immutable baseline document — sha256-pinned in the terminal and publish-check; the dossier's L0 root. | sha pin + publish-check | — |
+| `fleet-genesis.json` / `fleet-manifest.json` / `engine-manifest.json` | The signed canon roots — genesis covenant, fleet manifest, governed-runtime registry — each with a byte-identical `site/` copy. | FLEET/ENGINE probes | — |
+| `deps/` | Vendored qstar-* dep pin (2026-10-07, zig 0.13 green): quantum, transport, net, mesh, vfs, compress, collapse, render. `deps/VENDORED.md` carries the LOC table; f64 boundary confined to mesh/render sidecars. | the 8 spec008_qstar_* harnesses | — |
+| `golden/vectors.txt` | The golden reference surface — committed canonical output of `golden_emit.zig`. | `golden-master.mjs --verify` | — |
+| `admiralty-desk/` | The flag workstation as an Electron shell — embedded loopback server on fixed port 8901 (stable localStorage origin keeps the founding key across restarts); serve.py-identical headers; contextIsolation + sandbox + no nodeIntegration; `desk.sh` strips `ELECTRON_RUN_AS_NODE`. | desk probes | — |
+| `apps/fano/` | The Fano quine dialect artifact (index.html + fano.wasm) — byte-identical vendored copy lives at `site/apps/fano/`. | wasm identity | — |
+| `prototypes/` | The executive-override proving ground — sealed paths executed as isolated experiments; reports land in `prototypes/out/`; production untouched. | OVR rows in falsification-audit | — |
+| `thoughts&convos/` | The drawer — classification boundary; never published, never enumerated in the public tree; surname tripwire enforced. | SPEC004 probes | — |
 
 ## Standing rules
 
