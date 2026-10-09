@@ -71,7 +71,7 @@ function jread(fn, cap) {
 }
 const peersJson = () => jread((o, cp, l) => ex.rations_p2p_peers_json(o, cp, l), 16384);
 const presenceJson = () => jread((o, cp, l) => ex.rations_phone_presence_json(o, cp, l), 16384);
-const inboxJson = () => jread((o, cp, l) => ex.rations_phone_inbox_json(o, cp, l), 65536);
+const inboxJson = () => jread((o, cp, l) => ex.rations_phone_inbox_json(o, cp, l), 4 * 1024 * 1024);
 
 function presenceWire(status, text) {
   const t = enc.encode(text || "");
@@ -210,8 +210,26 @@ const server = http.createServer(async (req, res) => {
       case "/id": return send(200, info);
       case "/peers": return send(200, { peers: JSON.parse(peersJson() || "[]"), count: ex.rations_p2p_peer_count() });
       case "/presence": return send(200, { presence: JSON.parse(presenceJson() || "[]") });
-      case "/inbox": { ex.rations_phone_tick(1000n); return send(200, { inbox: JSON.parse(inboxJson() || "[]") }); }
-      case "/counters": return send(200, { forwarded: Number(ex.rations_p2p_relayed_forwarded()), received: Number(ex.rations_p2p_relayed_received()), peers: ex.rations_p2p_peer_count() });
+      case "/inbox": { ex.rations_phone_tick(1000n);
+        const raw = inboxJson();
+        if (raw === null) {
+          // serialize overflowed the read buffer — surface it instead of
+          // silently presenting an empty inbox
+          return send(200, { inbox: [], inbox_overflow: true, count: Number(ex.rations_phone_inbox_count ? ex.rations_phone_inbox_count() : -1) });
+        }
+        return send(200, { inbox: JSON.parse(raw) }); }
+      case "/counters": return send(200, {
+        forwarded: Number(ex.rations_p2p_relayed_forwarded()),
+        received: Number(ex.rations_p2p_relayed_received()),
+        peers: ex.rations_p2p_peer_count(),
+        /* drop-plane counters (R-lab): frames that arrived but died
+           inbound — previously invisible behind catch {}. */
+        dmsg_dropped: Number(ex.rations_p2p_dmsg_dropped ? ex.rations_p2p_dmsg_dropped() : 0),
+        dmsg_drop_kind: ex.rations_p2p_dmsg_drop_kind ? ex.rations_p2p_dmsg_drop_kind() : 0,
+        route_nohop: Number(ex.rations_p2p_route_nohop ? ex.rations_p2p_route_nohop() : 0),
+        route_dead: Number(ex.rations_p2p_route_dead ? ex.rations_p2p_route_dead() : 0),
+        route_dup: Number(ex.rations_p2p_route_dup ? ex.rations_p2p_route_dup() : 0),
+      });
       case "/dial": return send(200, { conn: dial(j.url, j.remote) });
       case "/discover": return send(200, { ok: ex.rations_p2p_discover_peers(j.conn || 1) });
       case "/presence/publish": return send(200, { ok: publishPresence(j.status ?? 1, j.text) });

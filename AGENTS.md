@@ -1,4 +1,6 @@
 # Spec-007 — Agent Guide
+Current User: 
+Fleet Admiral Paul Phillip Ramsey
 
 The flagship dossier: immutable `spec-007.md` baseline + integer-only Zig
 harnesses + Q128.128 fixed-point shadow verification + the FANO-1 desk
