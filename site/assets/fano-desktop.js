@@ -1762,7 +1762,8 @@
             detail.textContent = p.callsign.toUpperCase() + " — " + t("per.t" + p.tier) + "\n\n" + p.hook + "\n\n" +
               t("per.role") + p.cover_role + "\n" + t("per.track") + p.track + "\n" +
               t("per.branch") + p.branch.toUpperCase() +
-              (p.seat === "held" ? "\n" + t("per.seatnote") : "") + "\n" +
+              (p.seat === "held" ? "\n" + t("per.seatnote") : "") +
+              (p.seat === "reserved" ? "\n" + t("per.seatnote.reserved") : "") + "\n" +
               (p.cast === "open" ? t("per.openissue") : t("per.issue"));
           });
           list.appendChild(b);

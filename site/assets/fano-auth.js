@@ -425,7 +425,8 @@ window.FANO_AUTH = (function () {
     /* organizations nobody joins by asking */
     spectre: 1, smersh: 1, quantum: 1, "the union": 1,
     /* the fleet's own — OSTF designations */
-    "fleet admiral": 1, "the fleet admiral": 1, admiral: 1, commodore: 1,
+    "fleet admiral": 1, "the fleet admiral": 1, "fleet captain": 1,
+    admiral: 1, commodore: 1,
     captain: 1, ramsey: 1, "the meter": 1, meter: 1, sigma: 1, aiwo: 1,
     "the admiralty": 1, "day zero": 1, "axiomatic baseline": 1,
     /* OSTF offices — Strategic Command posts are issued by grant, not picked:

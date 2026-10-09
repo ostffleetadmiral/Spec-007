@@ -113,6 +113,9 @@ const PERSONAE = [
   { cs: "lead security and fabrication officer", cls: "fleet", tier: 3, seat: "held",
     role: "technical_seat", track: "security", branch: "security",
     hook: "Security validation — the fabricator answers to this desk." },
+  { cs: "fleet captain", cls: "fleet", tier: 3, seat: "reserved",
+    role: "command_seat", track: "campaign", branch: "admiralty",
+    hook: "Flag-captain of the fleet — a seat reserved for OSTF board appointment; the name casts, the seat is appointed." },
   /* ── tier 2 · Star Command corps billets (seat open) ── */
   { cs: "admiral", cls: "fleet", tier: 2, seat: "open",
     role: "line_officer", track: "campaign", branch: "admiralty",

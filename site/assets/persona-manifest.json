@@ -7,8 +7,8 @@
     "2": "Star Command / Academy corps",
     "3": "constitutional offices"
   },
-  "persona_count": 232,
-  "assignable_count": 116,
+  "persona_count": 233,
+  "assignable_count": 117,
   "tracks": [
     "ai-literacy",
     "campaign",
@@ -327,6 +327,18 @@
       "assignable": false,
       "callsign": "fleet admiral",
       "class": "seat"
+    },
+    {
+      "assignable": true,
+      "branch": "admiralty",
+      "callsign": "fleet captain",
+      "cast": "grant",
+      "class": "fleet",
+      "cover_role": "command_seat",
+      "hook": "Flag-captain of the fleet — a seat reserved for OSTF board appointment; the name casts, the seat is appointed.",
+      "tier": 3,
+      "track": "campaign",
+      "seat": "reserved"
     },
     {
       "assignable": false,
