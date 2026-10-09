@@ -89,6 +89,7 @@ const DISPOSITIONS = {
   "16::SPINOR_DIM": "paradigm-filed — SO(10) chiral spinor dim 16 is the filed 16=15+1 decomposition",
   "16::TOTAL_STATES": "paradigm-filed — 16 total states is the filed 16-state structure",
   "16::cap": "routine-shared-constant — generic capacity bound, coincidental value",
+  "16::TAG_LEN": "routine-shared-constant — AEAD/MAC tag width: 16 bytes is the standard GCM/HMAC tag size",
   "4096::MAX_PAYLOAD": "routine-shared-constant — 4 KiB payload bound, generic buffer sizing",
   "4096::SDP_MAX_LEN": "routine-shared-constant — SDP length bound, generic sizing",
   "721::plus_one": "paradigm-filed — 721=16³−15³ shell boundary (720+1)",
