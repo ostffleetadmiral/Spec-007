@@ -1429,6 +1429,13 @@
       });
       co.appendChild(row(t("cmd.corps.assets") + (m.ai_systems || [])
         .map(function (a) { return a.name.toUpperCase() + " (cap L" + a.clearance_cap + ", " + a.fleet_role + ")"; }).join(" · ")));
+      if (m.cognition && m.cognition.capacity) {
+        var cap = m.cognition.capacity;
+        co.appendChild(row(t("cmd.corps.cog", String(cap.teams),
+          String(cap.resident_i4_models_per_node),
+          String(Math.round(cap.plan_shared_trunk.bytes / 1048576)),
+          cap.plan_shared_trunk.fits ? t("cmd.corps.cogfit") : t("cmd.corps.cogover"))));
+      }
       co.appendChild(row(t("cmd.corps.never")));
     }).catch(function () { coRow.textContent = t("cmd.readiness.miss"); });
 

@@ -200,6 +200,41 @@ const commandKey = {
   security_roster: roster,
 };
 
+/* ---------- cognition capacity (k3 lattice, measured 2026-10-10) ──
+   How the 30+ patrol teams get a cognition layer: the Rations ONNX
+   registry pattern adapted to the integer substrate — ONNX Runtime Web
+   is replaced by k3 packed trunks fanned across k3wexec wasm64 lanes.
+   Figures are integers; "measured" = this machine's probe run,
+   "derived" = arithmetic from measured constants (see drawer doc
+   convos/lattice-cognition.md). */
+const LANE_BYTES = 5300000;         /* measured: 21,176,320 B peak RSS / 4 wasm lanes */
+const TRUNK_I4 = 280000000;         /* derived: 0.5B params × 0.56 B/param int4 trunk */
+const TEAM_STATE = 32000000;        /* derived: conservative per-team KV+state slot */
+const NODE_BUDGET = 14900000000;    /* measured: free RAM on the probe node (~14.9 GB) */
+const TEAMS = roster.length;
+const planShared = TRUNK_I4 + TEAMS * TEAM_STATE + 4 * LANE_BYTES;
+const planDedi = TEAMS * TRUNK_I4 + 4 * LANE_BYTES;
+const cognition = {
+  runtime: "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
+  wasm_worker_module_bytes: 1366906,
+  probe: { lanes: 4, peak_rss_bytes: 21176320, seconds_per_token_milli: 392,
+    expert_requests: 163, expert_drops: 0, status: "measured" },
+  quantization_ladder_bp: [
+    { name: "bf16 trunk", milli_bytes_per_param: 2000 },
+    { name: "int8 (rations onnx parity)", milli_bytes_per_param: 1060 },
+    { name: "int4 qdq draft", milli_bytes_per_param: 560 },
+  ],
+  node_budget_bytes: NODE_BUDGET,
+  capacity: {
+    resident_i4_models_per_node: Math.floor((NODE_BUDGET - 4 * LANE_BYTES) / TRUNK_I4),
+    plan_shared_trunk: { bytes: planShared, fits: planShared <= NODE_BUDGET,
+      note: "one verified trunk + per-team carried state — the doctrine form" },
+    plan_dedicated: { bytes: planDedi, fits: planDedi <= NODE_BUDGET,
+      note: "36 separate int4 instances — possible, wasteful" },
+    teams: TEAMS,
+  },
+};
+
 /* ---------- public manifest (billets only — never names) ---------- */
 const manifest = {
   schema: "COMMAND-MAP-v1",
@@ -222,6 +257,7 @@ const manifest = {
   command_seats: commandSeats.map(s => ({ designation: s.designation, clearance: s.clearance })),
   security_roster: roster,
   team_count: roster.length,
+  cognition,
 };
 const mapBytes = JSON.stringify(manifest, null, 2) + "\n";
 const keyBytes = JSON.stringify(commandKey, null, 2) + "\n";

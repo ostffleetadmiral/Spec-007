@@ -339,5 +339,46 @@
       "fleet": "security_infrastructure"
     }
   ],
-  "team_count": 36
+  "team_count": 36,
+  "cognition": {
+    "runtime": "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
+    "wasm_worker_module_bytes": 1366906,
+    "probe": {
+      "lanes": 4,
+      "peak_rss_bytes": 21176320,
+      "seconds_per_token_milli": 392,
+      "expert_requests": 163,
+      "expert_drops": 0,
+      "status": "measured"
+    },
+    "quantization_ladder_bp": [
+      {
+        "name": "bf16 trunk",
+        "milli_bytes_per_param": 2000
+      },
+      {
+        "name": "int8 (rations onnx parity)",
+        "milli_bytes_per_param": 1060
+      },
+      {
+        "name": "int4 qdq draft",
+        "milli_bytes_per_param": 560
+      }
+    ],
+    "node_budget_bytes": 14900000000,
+    "capacity": {
+      "resident_i4_models_per_node": 53,
+      "plan_shared_trunk": {
+        "bytes": 1453200000,
+        "fits": true,
+        "note": "one verified trunk + per-team carried state — the doctrine form"
+      },
+      "plan_dedicated": {
+        "bytes": 10101200000,
+        "fits": true,
+        "note": "36 separate int4 instances — possible, wasteful"
+      },
+      "teams": 36
+    }
+  }
 }
