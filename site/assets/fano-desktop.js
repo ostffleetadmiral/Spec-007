@@ -1410,6 +1410,28 @@
       rd.appendChild(row(t("cmd.readiness.langs") + Object.keys(langs).map(function (k) { return k + " ×" + langs[k]; }).join(" · ")));
     }).catch(function () { rdRow.textContent = t("cmd.readiness.miss"); });
 
+    /* the warrant corps — command structure over live fleet + teams */
+    var co = sec(t("cmd.sec.corps"));
+    var coRow = row(t("cmd.readiness.loading")); co.appendChild(coRow);
+    fetch("assets/command-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
+      coRow.textContent = t("cmd.corps.line", String(m.team_count || 0),
+        String((m.ai_systems || []).length)) ;
+      (m.chain || []).forEach(function (c) {
+        co.appendChild(row(t("cmd.corps.chainrow", c.seat.toUpperCase(), c.scope)));
+      });
+      var byFleet = {};
+      (m.security_roster || []).forEach(function (r) {
+        (byFleet[r.fleet] = byFleet[r.fleet] || []).push(r.team + ":" + r.duty);
+      });
+      Object.keys(m.fleets || {}).forEach(function (f) {
+        co.appendChild(row(t("cmd.corps.fleetrow", f.replace(/_/g, " "),
+          m.fleets[f].lead || "", (byFleet[f] || []).join(" · "))));
+      });
+      co.appendChild(row(t("cmd.corps.assets") + (m.ai_systems || [])
+        .map(function (a) { return a.name.toUpperCase() + " (cap L" + a.clearance_cap + ", " + a.fleet_role + ")"; }).join(" · ")));
+      co.appendChild(row(t("cmd.corps.never")));
+    }).catch(function () { coRow.textContent = t("cmd.readiness.miss"); });
+
     /* standing order + the directive book */
     var st = sec(t("cmd.sec.order"));
     var so = document.createElement("div"); so.className = "adm-sig";

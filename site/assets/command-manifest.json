@@ -1,0 +1,343 @@
+{
+  "schema": "COMMAND-MAP-v1",
+  "note": "OSTF command structure — the real chain over the fleet. Seats publish; names stay drawer-side. AI assets are monitored by the AIWO Corps at a hard L6 cap; no AI system issues binding orders. The Meter sits on the closed ledger — command exists to outrun it.",
+  "chain": [
+    {
+      "seat": "fleet admiral",
+      "clearance": 7,
+      "scope": "supreme command — emergency override, 7Q activation, founding-phase final authority"
+    },
+    {
+      "seat": "admiralty council",
+      "clearance": 6,
+      "scope": "strategic governance — five principal officers, votes 3/5 · 4/5 · 5/5"
+    },
+    {
+      "seat": "advisory technical authorities",
+      "clearance": 6,
+      "scope": "non-voting — lead technical systems architect, lead security and fabrication officer, chief warrant officer, research leads"
+    },
+    {
+      "seat": "chief warrant officer",
+      "clearance": [
+        6,
+        7
+      ],
+      "scope": "AIWO corps command — reports to the lead security and fabrication officer"
+    },
+    {
+      "seat": "warrant officers",
+      "clearance": [
+        3,
+        6
+      ],
+      "scope": "AIWO operational enforcement — WO1/WO2/WO3 bands"
+    }
+  ],
+  "council_seats": [
+    "fleet admiral",
+    "vice admiral of stem initiatives",
+    "rear admiral of entrepreneurship",
+    "admiral of financial operations",
+    "commodore of ethics and equity"
+  ],
+  "advisory_seats": [
+    "lead technical systems architect",
+    "lead security and fabrication officer",
+    "chief warrant officer",
+    "research lead"
+  ],
+  "fleets": {
+    "education": {
+      "lead": "vice admiral of stem initiatives",
+      "mission": "academy, curriculum, apprenticeship, equity programs"
+    },
+    "commercialization": {
+      "lead": "rear admiral of entrepreneurship",
+      "mission": "product, partnerships, revenue, technology transfer"
+    },
+    "research_ethics": {
+      "lead": "vice admiral of stem initiatives + commodore of ethics and equity",
+      "mission": "standards, safety/ethics research, SPEC framework, research governance"
+    },
+    "security_infrastructure": {
+      "lead": "lead security and fabrication officer",
+      "mission": "clearance enforcement, AI monitoring, incident response, infrastructure"
+    }
+  },
+  "aiwo": {
+    "corps": "AI Warrant Officer Corps",
+    "reports_to": "lead security and fabrication officer",
+    "ranks": [
+      {
+        "rank": "WO1",
+        "title": "warrant officer first class",
+        "clearance": [
+          3,
+          4
+        ],
+        "scope": "entry enforcement + monitoring"
+      },
+      {
+        "rank": "WO2",
+        "title": "warrant officer second class",
+        "clearance": [
+          4,
+          5
+        ],
+        "scope": "specialized operations + investigations"
+      },
+      {
+        "rank": "WO3",
+        "title": "warrant officer third class",
+        "clearance": [
+          5,
+          6
+        ],
+        "scope": "senior technical leadership + cross-system coordination"
+      },
+      {
+        "rank": "CWO",
+        "title": "chief warrant officer",
+        "clearance": [
+          6,
+          7
+        ],
+        "scope": "corps command + strategic oversight"
+      }
+    ],
+    "patrol_duties": [
+      "offense_testing",
+      "defense_posture",
+      "supply_chain_integrity",
+      "insider_audit",
+      "comms_integrity",
+      "identity_assurance",
+      "clearance_enforcement",
+      "core_integrity",
+      "audit_integrity",
+      "claims_audit",
+      "custody",
+      "canon_integrity",
+      "federation_audit",
+      "content_integrity",
+      "curriculum_integrity",
+      "discovery_integrity",
+      "anomaly_watch",
+      "physics_falsification"
+    ],
+    "prohibited": [
+      "override fleet admiral or admiralty",
+      "modify governance documents",
+      "self-elevate clearance",
+      "authorize L7/7Q operations",
+      "irreversible action without human authorization",
+      "issue binding orders"
+    ]
+  },
+  "ai_systems": [
+    {
+      "name": "digit",
+      "designation": "monitored_ai_asset",
+      "clearance_cap": 6,
+      "fleet_role": "edge-gateway",
+      "oversight": "aiwo_corps"
+    },
+    {
+      "name": "sheraton",
+      "designation": "monitored_ai_asset",
+      "clearance_cap": 6,
+      "fleet_role": "genesis-root",
+      "oversight": "aiwo_corps"
+    }
+  ],
+  "command_seats": [
+    {
+      "designation": "flag_seat",
+      "clearance": 7
+    }
+  ],
+  "security_roster": [
+    {
+      "team": "ARC",
+      "duty": "custody",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "AST",
+      "duty": "physics_falsification",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "AUTH",
+      "duty": "clearance_enforcement",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "BLACK",
+      "duty": "supply_chain_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "BLUE",
+      "duty": "defense_posture",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "BOT",
+      "duty": "clearance_enforcement",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "BRG",
+      "duty": "federation_audit",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "CENS",
+      "duty": "federation_audit",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "CLUSTER",
+      "duty": "federation_audit",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "COMM",
+      "duty": "comms_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "CONT",
+      "duty": "identity_assurance",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "CURR",
+      "duty": "curriculum_integrity",
+      "fleet": "education"
+    },
+    {
+      "team": "DESK",
+      "duty": "identity_assurance",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "DEV",
+      "duty": "custody",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "DOX",
+      "duty": "custody",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "EMG",
+      "duty": "anomaly_watch",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "ENGINE",
+      "duty": "canon_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "EVM",
+      "duty": "claims_audit",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "FLEET",
+      "duty": "canon_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "GLD",
+      "duty": "audit_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "GRAY",
+      "duty": "insider_audit",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "HARN",
+      "duty": "audit_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "LAWB",
+      "duty": "audit_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "LIBRARY",
+      "duty": "content_integrity",
+      "fleet": "education"
+    },
+    {
+      "team": "OVR",
+      "duty": "claims_audit",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "PAR",
+      "duty": "comms_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "PARA",
+      "duty": "discovery_integrity",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "PRM",
+      "duty": "claims_audit",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "PROD",
+      "duty": "content_integrity",
+      "fleet": "education"
+    },
+    {
+      "team": "QD",
+      "duty": "physics_falsification",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "RED",
+      "duty": "offense_testing",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "RF",
+      "duty": "physics_falsification",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "SCI",
+      "duty": "discovery_integrity",
+      "fleet": "research_ethics"
+    },
+    {
+      "team": "SPEC004",
+      "duty": "clearance_enforcement",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "WIRE",
+      "duty": "comms_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
+      "team": "ZIG",
+      "duty": "core_integrity",
+      "fleet": "security_infrastructure"
+    }
+  ],
+  "team_count": 36
+}
