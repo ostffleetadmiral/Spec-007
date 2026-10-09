@@ -57,11 +57,11 @@ const BASEPORT = 23100;
    commanding (Art. V.3). */
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "site", "assets", "command-manifest.json"), "utf8"));
 const ROSTER = manifest.security_roster.map(r => r.team);
-const ASSETS = (manifest.ai_systems || []).filter(a => a.designation === "monitored_ai_asset").map(a => a.name);
+const ASSETS = (manifest.ai_systems || []).filter(a => a.designation === "monitored_ai_asset").map(a => ({ name: a.name, custody: a.custody || "unassigned" }));
 const N = Math.min(parseInt(arg("--teams", String(ROSTER.length)), 10), ROSTER.length);
 const teams = ROSTER.slice(0, N);
-const LANES = [...teams, ...ASSETS];   /* patrol teams + monitored assets */
-const isAsset = (t) => ASSETS.includes(t);
+const assetNames = ASSETS.map(a => a.name);
+const LANES = [...teams, ...assetNames];   /* patrol teams + monitored assets */
 /* each lane gets a lattice cell — deterministic, spread across the mesh */
 const coord = i => `@${i % 15}:${Math.floor(i / 15) % 15}:${(i * 7) % 15}`;
 
@@ -130,13 +130,14 @@ for (const r of tickResults) {
 }
 /* monitored assets announce — they never claim a patrol beat */
 for (const a of ASSETS) {
-  const i = LANES.indexOf(a);
+  const i = LANES.indexOf(a.name);
   for (const l of listeners) {
-    if (l.team === a) continue;
+    if (l.team === a.name) continue;
     sends.push(new Promise(res => {
       const p = spawn(bins.beacon, ["send", `127.0.0.1:${l.port}`, coord(i), l.coord,
-        String(BEAT), `PULSE ${BEAT} ${a} MONITORED`], { stdio: ["ignore", "pipe", "pipe"] });
-      p.on("close", rc => res({ from: a, to: l.team, rc }));
+        String(BEAT), `PULSE ${BEAT} ${a.name} ${a.custody.toUpperCase()} MONITORED`],
+        { stdio: ["ignore", "pipe", "pipe"] });
+      p.on("close", rc => res({ from: a.name, to: l.team, rc }));
     }));
   }
 }
@@ -168,11 +169,11 @@ file("AIWO-04", forgedAccepted === 0 ? "HELD" : "OPEN",
 
 /* AIWO-06: monitored assets announced — every lane heard the PULSE */
 {
-  const assetBeats = sent.filter(s => ASSETS.includes(s.from) && s.rc === 0).length;
+  const assetBeats = sent.filter(s => assetNames.includes(s.from) && s.rc === 0).length;
   const heard = ASSETS.length > 0 && assetBeats === ASSETS.length * (LANES.length - 1);
   file("AIWO-06", heard ? "HELD" : "OPEN",
     heard
-      ? `${ASSETS.map(a => a.toUpperCase()).join(" ")} pulsed MONITORED to all ${LANES.length - 1} peers — watched, not commanding`
+      ? `${ASSETS.map(a => a.name.toUpperCase() + ":" + a.custody.toUpperCase()).join(" ")} pulsed MONITORED to all ${LANES.length - 1} peers — watched, not commanding`
       : `monitored-asset pulses: ${assetBeats}/${ASSETS.length * (LANES.length - 1)} sent`);
 }
 
@@ -188,7 +189,7 @@ const ledger = {
   ts: new Date().toISOString(),
   teams: N,
   lanes: LANES.length,
-  monitored_assets: ASSETS,
+  monitored_assets: ASSETS.map(a => ({ name: a.name, custody: a.custody })),
   fixture: { model: path.basename(MODEL), trunk: path.basename(TRUNK) },
   wall_ms: Date.now() - t0,
   findings,

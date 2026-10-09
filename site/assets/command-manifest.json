@@ -141,14 +141,27 @@
       "designation": "monitored_ai_asset",
       "clearance_cap": 6,
       "fleet_role": "edge-gateway",
-      "oversight": "aiwo_corps"
+      "oversight": "aiwo_corps",
+      "custody": "quadrivium",
+      "arts": [
+        "arithmetic",
+        "geometry",
+        "harmonics",
+        "astronomy"
+      ]
     },
     {
       "name": "sheraton",
       "designation": "monitored_ai_asset",
       "clearance_cap": 6,
       "fleet_role": "genesis-root",
-      "oversight": "aiwo_corps"
+      "oversight": "aiwo_corps",
+      "custody": "trivium",
+      "arts": [
+        "grammar",
+        "logic",
+        "rhetoric"
+      ]
     }
   ],
   "command_seats": [

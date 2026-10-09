@@ -1428,7 +1428,8 @@
           m.fleets[f].lead || "", (byFleet[f] || []).join(" · "))));
       });
       co.appendChild(row(t("cmd.corps.assets") + (m.ai_systems || [])
-        .map(function (a) { return a.name.toUpperCase() + " (cap L" + a.clearance_cap + ", " + a.fleet_role + ")"; }).join(" · ")));
+        .map(function (a) { return a.name.toUpperCase() + " (cap L" + a.clearance_cap +
+          (a.custody ? ", " + a.custody : "") + ", " + a.fleet_role + ")"; }).join(" · ")));
       if (m.cognition && m.cognition.capacity) {
         var cap = m.cognition.capacity;
         co.appendChild(row(t("cmd.corps.cog", String(cap.teams),

@@ -134,6 +134,21 @@ const mroles = (fleetm.payload && fleetm.payload.members) || {};
 /* genesis members → command designations. flag-seat = the human chair
    (L7); genesis-root machines = monitored AI assets under AIWO patrol
    (L6 cap — art. IV: AI systems never hold command authority). */
+/* liberal-arts custody — the doctrine division (convos/aiwo-corps-build.md):
+   sheraton holds the whole Trivium (grammar, logic, rhetoric — the mind:
+   rules, deduction, articulation), digit holds the whole Quadrivium
+   (arithmetic, geometry, harmonics, astronomy — the universe: integers,
+   lattice, heartbeat, topology). Maps to the trivium.zig/quadrivium.zig
+   processing layers shared by the agent stack. */
+const CUSTODY = {
+  digit: { custody: "quadrivium",
+    arts: ["arithmetic", "geometry", "harmonics", "astronomy"],
+    scope: "the universe — exact integers, 15^3 lattice, mesh rhythms, cluster topology" },
+  sheraton: { custody: "trivium",
+    arts: ["grammar", "logic", "rhetoric"],
+    scope: "the mind — rule grammar, deduction, articulation; the compliance voice" },
+};
+
 const aiSystems = [], commandSeats = [];
 for (const m of members) {
   const live = mroles[m.name] || {};
@@ -141,12 +156,19 @@ for (const m of members) {
     commandSeats.push({ name: m.name, designation: "flag_seat", clearance: 7,
       note: "The human chair — fleet trust anchor, not a Corps asset." });
   } else {
+    const c = CUSTODY[m.name] || null;
     aiSystems.push({ name: m.name, designation: "monitored_ai_asset",
       clearance_cap: 6, fleet_role: live.role || m.role,
       oversight: "aiwo_corps",
+      custody: c ? c.custody : "unassigned",
+      arts: c ? c.arts : [],
+      custody_scope: c ? c.scope : null,
       note: "Monitored AI agent — Art. V.3: enforces boundaries, never commands." });
   }
 }
+for (const a of aiSystems)
+  if (a.custody === "unassigned")
+    errors.push(`AI asset "${a.name}" has no liberal-arts custody — Trivium or Quadrivium must be declared`);
 if (!commandSeats.length) errors.push("no flag-seat member in genesis — the chair must exist");
 for (const m of members)
   if (!commandSeats.concat(aiSystems).some(x => x.name === m.name))
@@ -254,7 +276,8 @@ const manifest = {
       "irreversible action without human authorization", "issue binding orders"],
   },
   ai_systems: aiSystems.map(s => ({ name: s.name, designation: s.designation,
-    clearance_cap: s.clearance_cap, fleet_role: s.fleet_role, oversight: s.oversight })),
+    clearance_cap: s.clearance_cap, fleet_role: s.fleet_role, oversight: s.oversight,
+    custody: s.custody, arts: s.arts })),
   command_seats: commandSeats.map(s => ({ designation: s.designation, clearance: s.clearance })),
   security_roster: roster,
   team_count: roster.length,
