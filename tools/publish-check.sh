@@ -56,6 +56,10 @@ echo "== command ledger (Layer 3 — deterministic, fleet + corps complete)"
 node tools/command-map.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "command-manifest.json" || { say " FAIL" "command-manifest.json"; FAIL=1; }
 
+echo "== vision ledger (deterministic, artifact-backed)"
+node tools/vision-audit.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "vision-ledger.json" || { say " FAIL" "vision-ledger.json"; FAIL=1; }
+
 echo "== js syntax"
 for j in site/assets/fano-*.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }

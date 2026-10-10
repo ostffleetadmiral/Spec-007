@@ -1,7 +1,7 @@
 {
   "schema": "LAYER-CENSUS-v1",
   "note": "Sanitized projection of the drawer layer map — counts only. The per-file ledger is drawer-side by the SPEC-004 boundary.",
-  "file_count": 29071,
+  "file_count": 29073,
   "by_layer": {
     "archive:originals": {
       "files": 26,
@@ -20,8 +20,8 @@
       "bytes": 63414163
     },
     "mythos:star-command": {
-      "files": 46,
-      "bytes": 947250
+      "files": 47,
+      "bytes": 951890
     },
     "plan:drawer": {
       "files": 4,
@@ -40,8 +40,8 @@
       "bytes": 501957031
     },
     "source:transcript": {
-      "files": 10,
-      "bytes": 206353
+      "files": 11,
+      "bytes": 208158
     },
     "substrate:academy": {
       "files": 470,
@@ -57,7 +57,7 @@
     },
     "substrate:index": {
       "files": 8,
-      "bytes": 86019
+      "bytes": 86778
     }
   }
 }
