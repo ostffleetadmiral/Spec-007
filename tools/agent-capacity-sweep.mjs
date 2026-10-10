@@ -130,7 +130,7 @@ async function run() {
     if (Date.now() - t0 > PER_N_MS) { console.log("  wall-clock cap — stopping"); break; }
   }
 
-  const verdict = maxVerified >= NEEDED ? "UPGRADED-coherence-measured" : "REFUTED-by-measurement";
+  const verdict = maxVerified >= NEEDED ? "UPGRADED-coherence-measured" : "REFUTED-BY-HARDWARE-CAPACITY";
   const rec = {
     ts: new Date().toISOString(), tool: "agent-capacity-sweep",
     prediction: { needed_concurrent: NEEDED, registered: "convos/agent-capacity-test-plan.md" },
