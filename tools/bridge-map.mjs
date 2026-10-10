@@ -56,7 +56,7 @@ const SIB = {
   "mosi-papertunes": "Documents/Mosi",
   "archive-corpus": "Documents/archive",
   "models-store": "Documents/models",
-  "euqinome-drawer": "CascadeProjects/hardware/experiments/Spec-007/thoughts&convos/AdmPaul/Euqinom",
+  "euqinome-drawer": "CascadeProjects/hardware/experiments/Spec-007/thoughts&convos/AdmPaul/.Euqinom",
   "spec-007": "CascadeProjects/hardware/experiments/Spec-007",
 };
 /* the archive corpus lives outside the project roots — ~/.archives */

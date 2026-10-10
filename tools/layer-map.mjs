@@ -46,8 +46,8 @@ const RULES = [
   [/\.git\//, "shelf:tooling"],
   [/vendor\//, "shelf:engineering"],
   [/node_modules\//, "shelf:tooling"],
-  [/AdmPaul\/Euqinom\//, "shelf:engineering"],
-  [/AdmPaul\/governance\//, "shelf:engineering"],
+  [/AdmPaul\/\.Euqinom\//, "archive:retired"],
+  [/AdmPaul\/\.governance\//, "archive:retired"],
   /* archive — sealed, original, retired */
   [/\.archive\//, "archive:sealed"],
   [/(^|\/)archive\//, "archive:sealed"],
@@ -68,8 +68,8 @@ const RULES = [
   [/^AdmPaul\/convos\/plan-/, "plan:drawer"],
   [/^AdmPaul\/convos\//, "source:transcript"],
   [/^convos\//, "source:transcript"],
-  [/^AdmPaul\/6EQUJ5\//, "research:evidence"],
-  [/^AdmPaul\/Proposal\//, "aspirational:proposal"],
+  [/^AdmPaul\/\.6EQUJ5\//, "archive:retired"],
+  [/^AdmPaul\/\.Proposal\//, "archive:retired"],
   /* AdmPaul root docs — mythos source material */
   [/^AdmPaul\/[^/]+$/, "mythos:star-command"],
   /* drawer-root operational maps (CANON-INDEX, BRIDGE-MAP, …) */

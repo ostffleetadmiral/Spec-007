@@ -65,7 +65,7 @@ const ROOTS = [
   { rel: "Documents/archive", name: "archive-corpus", cls: "first-party", realm: "research", role: "20GB corpus — tensor prototypes, quantum-latent/qubit engines, Governance, vendored llama.cpp/vulkan-zig", evidence: "doc-cited" },
   { rel: "Documents/models", name: "models-store", cls: "asset-store", realm: "assets", role: "GGUF weights — qwen 0.5B/3B/8B/9B", evidence: "census-static" },
   // — drawer sibling (codename only) —
-  { rel: "CascadeProjects/hardware/experiments/Spec-007/thoughts&convos/AdmPaul/Euqinom", name: "euqinome-drawer", cls: "first-party", realm: "drawer", role: "in-drawer sibling project — indexed, not subsumed", evidence: "drawer-cited" },
+  { rel: "CascadeProjects/hardware/experiments/Spec-007/thoughts&convos/AdmPaul/.Euqinom", name: "euqinome-drawer", cls: "first-party", realm: "drawer", role: "archived in-drawer sibling project — indexed, not subsumed", evidence: "drawer-cited" },
 ];
 
 function probe(rel) {

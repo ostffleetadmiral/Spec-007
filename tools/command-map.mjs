@@ -123,6 +123,10 @@ const TEAM_MAP = {
   PROD:    { duty: "content_integrity",      fleet: "education" },
   CURR:    { duty: "curriculum_integrity",   fleet: "education" },
   AIWO:    { duty: "comms_integrity",        fleet: "security_infrastructure" },
+  SVC:     { duty: "audit_integrity",        fleet: "security_infrastructure" },
+  DHT:     { duty: "custody",                fleet: "security_infrastructure" },
+  FILM:    { duty: "content_integrity",      fleet: "education" },
+  NE:      { duty: "content_integrity",      fleet: "education" },
 };
 
 /* ---------- live fleet parse ---------- */

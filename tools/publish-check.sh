@@ -60,8 +60,26 @@ echo "== vision ledger (deterministic, artifact-backed)"
 node tools/vision-audit.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "vision-ledger.json" || { say " FAIL" "vision-ledger.json"; FAIL=1; }
 
+echo "== continuity dht (deterministic projection)"
+node tools/dht-fs.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "dht-manifest.json" || { say " FAIL" "dht-manifest.json"; FAIL=1; }
+
+echo "== film manifest (hash-pinned artifacts)"
+node tools/film-render.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "film-manifest.json" || { say " FAIL" "film-manifest.json"; FAIL=1; }
+
+echo "== aiwo standing service (ledger integrity)"
+node security/aiwo-service.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "aiwo-service-ledger" || { say " FAIL" "aiwo-service-ledger"; FAIL=1; }
+
+echo "== nebula 3d module (scene shipped, desk-wired)"
+node --check site/assets/nebula-3d.js >/dev/null 2>&1 \
+  && grep -q 'getContext("webgl2"' site/assets/nebula-3d.js \
+  && grep -q 'nebula-3d.js' site/desktop.html \
+  && say " PASS" "nebula-3d.js" || { say " FAIL" "nebula-3d.js"; FAIL=1; }
+
 echo "== js syntax"
-for j in site/assets/fano-*.js security/*.mjs prototypes/*.mjs; do
+for j in site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }
 done
 

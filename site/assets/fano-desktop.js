@@ -1971,6 +1971,15 @@
   function slateSave(s) {
     try { localStorage.setItem(SLATE_KEY, JSON.stringify(s)); } catch (e) {}
   }
+  function openNebula3D() {
+    var title = t("neb3.title");
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div"); box.className = "win-body";
+    if (window.NEBULA3D && window.NEBULA3D.open) window.NEBULA3D.open(box);
+    else box.innerHTML = "<p><small>" + esc(t("term.nebula.down")) + "</small></p>";
+    makeWindow(title, box);
+  }
+
   function openDirector() {
     var title = "director.os — the production slate";
     if (openWins[title]) { focus(openWins[title]); return; }
@@ -1985,6 +1994,23 @@
     box.appendChild(pool);
     var h2 = document.createElement("p"); h2.innerHTML = "<strong>" + esc(t("dir.slate")) + "</strong>"; box.appendChild(h2);
     box.appendChild(slate);
+    var h3 = document.createElement("p"); h3.innerHTML = "<strong>" + esc(t("dir.screen")) + "</strong>"; box.appendChild(h3);
+    var screenNote = document.createElement("p");
+    screenNote.innerHTML = "<small>" + esc(t("dir.screen.note")) + "</small>";
+    box.appendChild(screenNote);
+    var screen = document.createElement("div"); box.appendChild(screen);
+    fetch("assets/film-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
+      (m.films || []).forEach(function (f) {
+        var v = document.createElement("video");
+        v.controls = true; v.preload = "metadata"; v.muted = true; v.loop = true;
+        v.style.cssText = "width:100%;max-width:320px;border:1px solid var(--edge,#345);display:block;margin:4px 0";
+        v.src = "assets/films/" + f.slug + ".mp4";
+        var cap = document.createElement("small");
+        cap.textContent = f.title + " — " + t("dir.screen.meta", String(f.frames), String(f.fps), String(f.bytes));
+        var wrap = document.createElement("p"); wrap.appendChild(v); wrap.appendChild(cap);
+        screen.appendChild(wrap);
+      });
+    }).catch(function () {});
     makeWindow(title, box);
     fetch("assets/production-ledger.json").then(function (r) { return r.json(); }).then(function (m) {
       var assets = m && Array.isArray(m.assets) ? m.assets : [];
@@ -2191,6 +2217,7 @@
     "  edit            editor.os — the desk's own typewriter",
     "  director        director.os — storyboard the canon into a shot list",
     "  nebula          the fleet ring — a 2D projection, not immersion",
+    "  nebula3d        the code nebula — real 3D on the glass",
     "  quplink         open the sandbox uplink",
     "  family          the sibling projects — fleet registry",
     "  lang [en|zh]    the desk's second tongue",
@@ -2247,6 +2274,7 @@
     "  edit            editor.os — 桌面自備之打字機",
     "  director        director.os — 將正典排成分鏡表",
     "  nebula          艦隊星環 — 2D 投影,非沉浸",
+    "  nebula3d        代碼星雲 — 玻璃上的真 3D",
     "  quplink         開啟沙盒上行鏈路",
     "  family          姊妹專案 — 艦隊名錄",
     "  lang [en|zh]    桌面之第二語言",
@@ -2603,6 +2631,7 @@
       case "nebula":
         if (window.QUVIZ && window.QUVIZ.openViz("nebula")) return t("term.nebula");
         return t("term.nebula.down");
+      case "nebula3d": openNebula3D(); return t("term.nebula3d");
       case "science": openScience(); return "q-branch inventory opened — honest labels only.";
       case "persona":
       case "casting": {
@@ -2794,6 +2823,7 @@
     { kind: "app", glyph: "◫", label: "continuity.os", sub: "the vault", act: openContinuity },
     { kind: "app", glyph: "✎", label: "editor.os", sub: "typewriter", act: openEditor },
     { kind: "app", glyph: "⧉", label: "director.os", sub: "the slate", act: openDirector },
+    { kind: "app", glyph: "✺", label: "nebula3d.os", sub: "the nebula", act: openNebula3D },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "locked", glyph: "✦", label: "admiralty.suite", sub: "flag tier", act: openAdmiralty },
     { kind: "locked", glyph: "▦", label: "7q.drawer", sub: "SEALED", act: deniedIcon },

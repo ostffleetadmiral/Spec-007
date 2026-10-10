@@ -1,47 +1,47 @@
 {
   "schema": "LAYER-CENSUS-v1",
   "note": "Sanitized projection of the drawer layer map — counts only. The per-file ledger is drawer-side by the SPEC-004 boundary.",
-  "file_count": 29073,
+  "file_count": 29088,
   "by_layer": {
     "archive:originals": {
       "files": 26,
       "bytes": 775641
     },
-    "archive:sealed": {
-      "files": 583,
-      "bytes": 3592064
+    "archive:retired": {
+      "files": 24004,
+      "bytes": 255982869
     },
-    "aspirational:proposal": {
-      "files": 9,
-      "bytes": 4451342
+    "archive:sealed": {
+      "files": 615,
+      "bytes": 3879291
     },
     "mythos:fiction": {
-      "files": 679,
-      "bytes": 63414163
+      "files": 671,
+      "bytes": 63397640
     },
     "mythos:star-command": {
-      "files": 47,
-      "bytes": 951890
+      "files": 51,
+      "bytes": 1038045
     },
     "plan:drawer": {
       "files": 4,
       "bytes": 20795
     },
     "research:evidence": {
-      "files": 74,
-      "bytes": 6222027
+      "files": 46,
+      "bytes": 6086138
     },
     "shelf:engineering": {
-      "files": 24310,
-      "bytes": 256225717
+      "files": 329,
+      "bytes": 4738680
     },
     "shelf:tooling": {
       "files": 2781,
       "bytes": 501957031
     },
     "source:transcript": {
-      "files": 11,
-      "bytes": 208158
+      "files": 12,
+      "bytes": 213028
     },
     "substrate:academy": {
       "files": 470,
@@ -57,7 +57,7 @@
     },
     "substrate:index": {
       "files": 8,
-      "bytes": 86778
+      "bytes": 87300
     }
   }
 }

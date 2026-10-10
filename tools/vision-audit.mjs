@@ -139,26 +139,29 @@ const ELEMENTS = [
     "continuity probes": held("CONT-01") && held("CONT-03"),
     "projection sanitized": held("CONT-02"),
   }},
-  /* --- honest partials: declared doctrine, artifact subset --- */
   { id: "sentience-engine", vision: "phase 1 — agent orchestration substrate", checks: {
     "agent engine exists (sibling)": ex(path.join(SIB, "..", "basic", "qstar-llm", "src", "agent.zig")),
     "corps exercise is the orchestrator cadence": held("AIWO-01"),
-    "standing service": false,  /* commissioned standing duty is pending Admiralty order */
+    "standing service exercised": held("SVC-01") && held("SVC-02"),
+    "service harness shipped": ex(path.join(ROOT, "security", "aiwo-service.mjs")),
   }},
   { id: "dht-persistence", vision: "phase 2 — decentralized dht file system + idaas", checks: {
     "continuity store exists": ex(path.join(SITE, "assets", "archive-manifest.json")),
-    "peer mesh code exists (qstar-llm, unwired)": ex(path.join(SIB, "..", "basic", "qstar-llm", "src", "mesh.zig")),
-    "dht filesystem live": false,  /* no real DHT in the shipped tree */
+    "peer mesh code exists (qstar-llm)": ex(path.join(SIB, "..", "basic", "qstar-llm", "src", "mesh.zig")),
+    "dht filesystem live": verify("tools/dht-fs.mjs") && held("DHT-01"),
+    "idaas records + clearance gate": held("DHT-02"),
   }},
   { id: "film-pipeline", vision: "phase 4 — generative film pipeline", checks: {
     "storyboard slate + ledger": ex(path.join(SITE, "assets", "production-ledger.json")),
     "director pane": read(path.join(SITE, "assets", "fano-desktop.js")).includes("openDirector"),
-    "generative video": false,  /* no Wan2.x-style generation shipped */
+    "generative video shipped": verify("tools/film-render.mjs") && held("FILM-01") &&
+      (J(path.join(SITE, "assets", "film-manifest.json")).films || []).length >= 4,
+    "honest scope labeled": held("FILM-02"),
   }},
   { id: "code-nebula", vision: "phase 5 — immersive 3d code nebula", checks: {
     "2d fleet-ring projection": read(path.join(SITE, "assets", "fano-desktop.js")).includes("openViz") && held("PROD-03"),
-    "tagged illustrative": true,
-    "real 3d / vr": false,  /* no WebGL/XR scene graph shipped */
+    "real 3d scene shipped": ex(path.join(SITE, "assets", "nebula-3d.js")) && held("NE-01"),
+    "xr boundary labeled": held("NE-04"),
   }},
   { id: "digit-two-organ", vision: "digit — e5/e6/e7/e0 two-organ brain, q4 wasm64 decoder",
     external: true, checks: {

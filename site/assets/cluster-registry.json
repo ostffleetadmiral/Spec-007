@@ -1,6 +1,6 @@
 {
   "schema": "CLUSTER-CENSUS-v1",
-  "generated": "2026-10-08T03:56:32.608Z",
+  "generated": "2026-10-10T05:58:26.357Z",
   "note": "sanitized projection — codenames + roles + evidence classes; source paths are $HOME-relative inside tools/, never absolute in the artifact",
   "root_count": 33,
   "by_class": {
@@ -17,7 +17,7 @@
       "role": "the desk — dossier, governance, security battery",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 31794
+      "file_count": 32921
     },
     {
       "name": "hardware-monorepo",
@@ -26,7 +26,7 @@
       "role": "E=mc² proof workspace — 713 ops, Lean 4 formalization",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 52271
+      "file_count": 52746
     },
     {
       "name": "qstar-llm",
@@ -35,7 +35,7 @@
       "role": "lattice-native inference engine — 421×8 nodes",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 9195
+      "file_count": 9197
     },
     {
       "name": "zig-k3-port",
@@ -44,7 +44,7 @@
       "role": "2.78T-param MoE in GBs RAM — token-identical Zig port",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 3592
+      "file_count": 2496
     },
     {
       "name": "zig-k3-port-preserved",
@@ -62,7 +62,7 @@
       "role": "immersive engine — 50-entry capability registry, 3,472-row public projection",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 1478
+      "file_count": 1522
     },
     {
       "name": "bs-analysis",
@@ -89,7 +89,7 @@
       "role": "browser-first offline platform — Zig→WASM, physical transports",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 25416
+      "file_count": 25440
     },
     {
       "name": "theplatform",
@@ -98,7 +98,7 @@
       "role": "multi-language proof platform — 605 tests cited",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 110467
+      "file_count": 110648
     },
     {
       "name": "octolab",
@@ -107,7 +107,7 @@
       "role": "Octolab — dockerized AI lab stack",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 1982
+      "file_count": 2003
     },
     {
       "name": "falsifible",
@@ -116,7 +116,7 @@
       "role": "falsifiability harness — zig + tests + archives",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 99
+      "file_count": 228
     },
     {
       "name": "digit-sheraton",
@@ -134,7 +134,7 @@
       "role": "donor shelf: codon, Falsifible, llama.cpp, neuraleak, an owner-named LLM tree, zotron",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 51329
+      "file_count": 51701
     },
     {
       "name": "qstar-llm-basic",
@@ -143,7 +143,7 @@
       "role": "second qstar-llm tree — dedup candidate vs experiments copy",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 7341
+      "file_count": 7485
     },
     {
       "name": "eu-version-z",
@@ -179,7 +179,7 @@
       "role": "64-codon → 6D Jordan routing test suite",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 62
+      "file_count": 83
     },
     {
       "name": "space-agent",
@@ -206,7 +206,7 @@
       "role": "HexRedox HIPF — hyper-informational physics framework (zig+latex+docs)",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 6306
+      "file_count": 6445
     },
     {
       "name": "qstar-corpus",
@@ -215,7 +215,7 @@
       "role": "QSTAR corpus — Book of Phi, Gov, Maypole firmware, public disclosure",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 12365
+      "file_count": 14199
     },
     {
       "name": "ralph-corpus",
@@ -224,7 +224,7 @@
       "role": "MOUND (axiom7revisited) + EU zig + lattice_computing + papers",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 22113
+      "file_count": 22465
     },
     {
       "name": "sheraton-shelf",
@@ -233,7 +233,7 @@
       "role": "HexRedOx + tinyoffice + vendored nullclaw/nullhub/zml + models",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 2670
+      "file_count": 4314
     },
     {
       "name": "tp-donor-shelf",
@@ -242,7 +242,7 @@
       "role": "hyper-token + number-systems (first-party) beside qdk/vulkan-zig/zlm/nullclaw/nullhub donors",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 4154
+      "file_count": 6042
     },
     {
       "name": "desi-llama",
@@ -251,7 +251,7 @@
       "role": "DESI-Llama — Vulkan llama build + RADV probe output",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 4156
+      "file_count": 4218
     },
     {
       "name": "fano-engine",
@@ -260,7 +260,7 @@
       "role": "Fano Engine — I256Q128.128 integer-only animation + networking pipeline",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 141
+      "file_count": 197
     },
     {
       "name": "ark-ivector",
@@ -269,7 +269,7 @@
       "role": "I-Vector polyglot — Zig+Vulkan+Q# geometric compression (LLM/edge/QEC)",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 24032
+      "file_count": 24094
     },
     {
       "name": "mosi-papertunes",
@@ -278,7 +278,7 @@
       "role": "Paper Tunes — audio→paper QR storage research",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 14243
+      "file_count": 14457
     },
     {
       "name": "archive-corpus",
@@ -287,7 +287,7 @@
       "role": "20GB corpus — tensor prototypes, quantum-latent/qubit engines, Governance, vendored llama.cpp/vulkan-zig",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 5937
+      "file_count": 6063
     },
     {
       "name": "models-store",
@@ -302,7 +302,7 @@
       "name": "euqinome-drawer",
       "class": "first-party",
       "realm": "drawer",
-      "role": "in-drawer sibling project — indexed, not subsumed",
+      "role": "archived in-drawer sibling project — indexed, not subsumed",
       "evidence": "drawer-cited",
       "present": true,
       "file_count": 24633
