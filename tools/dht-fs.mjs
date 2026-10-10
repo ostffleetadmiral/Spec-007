@@ -184,10 +184,54 @@ export function providers(cid, lanes = knownLanes()) {
   });
 }
 
-/* ---------- IDaaS: versioned, audited, clearance-gated records ---------- */
+/* ---------- IDaaS: versioned, audited, clearance-gated, signed records */
+
+/* fleet service key — ed25519, generated once under the DHT root (sk
+   mode 0600). Honest scope: records are FLEET-signed — the sig proves a
+   record was written through the service-key path (origin integrity +
+   tamper evidence). Per-lane identity attestation is a named bound:
+   lanes are patrol roles, not key-holding entities. */
+const KEY_DIR = () => path.join(DHT_ROOT, "keys");
+const SK_PATH = () => path.join(KEY_DIR(), "fleet-service.sk");
+const PK_PATH = () => path.join(KEY_DIR(), "fleet-service.pk");
+
+export function fleetServiceKeys() {
+  if (!fs.existsSync(SK_PATH())) {
+    fs.mkdirSync(KEY_DIR(), { recursive: true });
+    const kp = crypto.generateKeyPairSync("ed25519");
+    fs.writeFileSync(SK_PATH(), kp.privateKey.export({ type: "pkcs8", format: "der" }), { mode: 0o600 });
+    fs.writeFileSync(PK_PATH(), kp.publicKey.export({ type: "spki", format: "der" }));
+  }
+  return {
+    sk: crypto.createPrivateKey({ key: fs.readFileSync(SK_PATH()), type: "pkcs8", format: "der" }),
+    pk: crypto.createPublicKey({ key: fs.readFileSync(PK_PATH()), type: "spki", format: "der" }),
+    pubkey_b64: fs.readFileSync(PK_PATH()).toString("base64"),
+  };
+}
+
+/* canonical signing payload — field order fixed, sig excluded */
+function recCanon(rec) {
+  return Buffer.from(JSON.stringify({
+    id: rec.id, kind: rec.kind, name: rec.name, version: rec.version,
+    prev: rec.prev, author: rec.author, clearance: rec.clearance,
+    body: rec.body, sha256: rec.sha256,
+  }));
+}
+
+function verifyRecord(rec) {
+  if (!rec.sig || !rec.sig_kid) return "unsigned";
+  if (rec.sha256 !== shaHex(Buffer.from(JSON.stringify(rec.body)))) return "body-hash";
+  if (rec.sig_kid !== "fleet-service") return "foreign-kid";
+  try {
+    return crypto.verify(null, recCanon(rec), fleetServiceKeys().pk,
+      Buffer.from(rec.sig, "base64")) ? "ok" : "bad-sig";
+  } catch { return "bad-sig"; }
+}
+
 export function recordPut(lane, kind, name, body, clearance = 0, lanes = knownLanes()) {
   /* record id is stable across versions — it names the record, not the body */
   const id = shaHex(Buffer.from(kind + ":" + name));
+  const { sk } = fleetServiceKeys();
   const targets = closest(lanes, Buffer.from(id, "hex"), K_REPLICAS);
   for (const t of targets) {
     const rd = path.join(recordDir(t), id);
@@ -198,6 +242,8 @@ export function recordPut(lane, kind, name, body, clearance = 0, lanes = knownLa
     const rec = { id, kind, name, version, prev: version > 1 ? version - 1 : null,
       author: lane, clearance, body,
       sha256: shaHex(Buffer.from(JSON.stringify(body))) };
+    rec.sig_kid = "fleet-service";
+    rec.sig = crypto.sign(null, recCanon(rec), sk).toString("base64");
     fs.writeFileSync(path.join(rd, String(version).padStart(4, "0") + ".json"),
       JSON.stringify(rec, null, 2) + "\n");
   }
@@ -213,6 +259,11 @@ export function recordGet(id, readerClearance = 7, lanes = knownLanes()) {
       .sort().reverse();
     if (!versions.length) continue;
     const rec = J(path.join(rd, versions[0]));
+    const v = verifyRecord(rec);
+    if (v !== "ok") {
+      audit(lane, "record-get", id.slice(0, 16), "sig-refused", { reason: v });
+      return { ok: false, reason: "signature", detail: v };
+    }
     if (rec.clearance > readerClearance) {
       audit(lane, "record-get", id.slice(0, 16), "clearance-refused",
         { need: rec.clearance, reader: readerClearance });
@@ -234,6 +285,7 @@ export function recordQuery(kind, readerClearance = 7, lanes = knownLanes()) {
       const rd = path.join(rdir, id);
       const head = fs.readdirSync(rd).filter(f => f.endsWith(".json")).sort().pop();
       const rec = J(path.join(rd, head));
+      if (verifyRecord(rec) !== "ok") { audit(lane, "record-query", id.slice(0, 16), "sig-refused"); continue; }
       if (rec.kind === kind && rec.clearance <= readerClearance)
         seen.set(id, { id, kind, name: rec.name, version: rec.version, author: rec.author, clearance: rec.clearance });
     }
@@ -248,6 +300,7 @@ function emitManifest() {
     schema: "DHT-MANIFEST-v1",
     note: "Continuity DHT — content-addressed (sha256), XOR-routed (Kademlia metric), k-replicated, hash-verified on every read. IDaaS layer: versioned, audited, clearance-gated records. Persistence substrate: qstar-vfs vfs_distributed (consistent-hashing placement, quorum consistency, heartbeat registry — 83-test Zig suite verified in the sweep). Projection carries schema + parameters only — store contents live in the lane stores.",
     persistence_substrate: "qstar-vfs/vfs_distributed (NodeRegistry + consistent-hashing Placement + ConsistencyLevel quorum)",
+    record_signing: "ed25519 fleet-service key — records fleet-signed, verified on every read (unsigned/tampered/foreign-kid refused + audited); the store's verify key lives at <store>/keys/fleet-service.pk (sk 0600, never leaves the store)",
     content_addressing: "sha256",
     routing_metric: "xor-256",
     chunk_bytes: CHUNK_BYTES,
@@ -257,7 +310,8 @@ function emitManifest() {
     capabilities: ["put", "get", "providers", "churn-survival", "integrity-refusal",
       "record-put", "record-get", "record-query", "version-chain", "clearance-gate", "audit-log"],
     honest_bounds: ["single-host lane mesh — WAN block transport is a named bound",
-      "control plane rides the sealed 136-B wire; payload verified by hash"],
+      "control plane rides the sealed 136-B wire; payload verified by hash",
+      "records are fleet-signed — per-lane identity attestation is a bound: lanes are patrol roles, not key-holding entities"],
   };
   return JSON.stringify(m, null, 2) + "\n";
 }

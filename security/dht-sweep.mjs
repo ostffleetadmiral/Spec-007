@@ -21,6 +21,10 @@
                                    datagrams verified on the 136-B mesh
      DHT-09 manifest-verifies    — tools/dht-fs.mjs --verify GREEN
 
+     DHT-10 signature-validation — unsigned / bad-sig / foreign-kid
+                                   records refused on read + audited;
+                                   signed control resolves
+
    usage: node security/dht-sweep.mjs [--emit] [--lanes N]
    store root: FANO_DHT_ROOT env or a temp dir under security/out/. */
 import { spawnSync, spawn } from "node:child_process";
@@ -181,6 +185,40 @@ file("DHT-03", got ? "HELD" : "OPEN",
   const r = spawnSync("node", [DHT, "--verify"], { encoding: "utf8" });
   file("DHT-09", r.status === 0 ? "HELD" : "OPEN",
     `dht-fs --verify ${r.status === 0 ? "GREEN" : "FAIL"}`);
+}
+
+/* ---------- DHT-10: signature validation — forged records refused ---
+   records are fleet-signed ed25519 over the canonical body; a record
+   planted directly in a store lane (unsigned, bad sig, foreign kid)
+   must be refused on read AND audited — authorship is proven, not
+   asserted. */
+{
+  const dhtMod = await import(pathToFileURL(DHT).href);
+  const mkForged = (tag, extra) => {
+    const id = H(Buffer.from(`forged:${tag}`));
+    const rec = { id, kind: "forged-claim", name: tag, version: 1, prev: null,
+      author: "FLEET-ADMIRAL", clearance: 0, body: { claim: `planted ${tag}` },
+      sha256: H(Buffer.from(JSON.stringify({ claim: `planted ${tag}` }))), ...extra };
+    const rd = path.join(DHT_ROOT, "lanes", dhtMod.closest(lanes, Buffer.from(id, "hex"), 1)[0], "records", id);
+    fs.mkdirSync(rd, { recursive: true });
+    fs.writeFileSync(path.join(rd, "0001.json"), JSON.stringify(rec, null, 2) + "\n");
+    return id;
+  };
+  const unsigned = mkForged("unsigned", {});
+  const badsig   = mkForged("badsig", { sig_kid: "fleet-service", sig: Buffer.alloc(64, 7).toString("base64") });
+  const foreign  = mkForged("foreign", { sig_kid: "rogue-lane", sig: Buffer.alloc(64, 9).toString("base64") });
+  const refusals = [unsigned, badsig, foreign].map(id => {
+    const r = dhtMod.recordGet(id, 7);
+    return !r.ok && r.reason === "signature";
+  });
+  const queried = dhtMod.recordQuery("forged-claim", 7).length === 0;
+  /* control: a properly signed record still resolves */
+  const rp = dhtMod.recordPut(lanes[0], "sig-control", "control", { ok: true }, 0, lanes);
+  const ctrl = dhtMod.recordGet(rp.id, 7);
+  file("DHT-10", refusals.every(Boolean) && queried && ctrl.ok ? "HELD" : "OPEN",
+    refusals.every(Boolean) && queried && ctrl.ok
+      ? "unsigned/bad-sig/foreign-kid records all refused + audited; query returns none; signed control resolves"
+      : `refusals=[${refusals}] query-empty=${queried} ctrl=${ctrl.ok}`);
 }
 
 const ledger = {
