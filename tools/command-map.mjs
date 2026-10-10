@@ -129,6 +129,7 @@ const TEAM_MAP = {
   FILM:    { duty: "content_integrity",      fleet: "education" },
   NE:      { duty: "content_integrity",      fleet: "education" },
   GOVM:    { duty: "audit_integrity",        fleet: "security_infrastructure" },
+  ACAD:    { duty: "curriculum_integrity",   fleet: "education" },
 };
 
 /* ---------- live fleet parse ---------- */

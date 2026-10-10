@@ -196,6 +196,11 @@
   ],
   "security_roster": [
     {
+      "team": "ACAD",
+      "duty": "curriculum_integrity",
+      "fleet": "education"
+    },
+    {
       "team": "AGT",
       "duty": "anomaly_watch",
       "fleet": "security_infrastructure"
@@ -411,7 +416,7 @@
       "fleet": "security_infrastructure"
     }
   ],
-  "team_count": 43,
+  "team_count": 44,
   "cognition": {
     "runtime": "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
     "wasm_worker_module_bytes": 1366906,
@@ -441,16 +446,16 @@
     "capacity": {
       "resident_i4_models_per_node": 53,
       "plan_shared_trunk": {
-        "bytes": 1677200000,
+        "bytes": 1709200000,
         "fits": true,
         "note": "one verified trunk + per-team carried state — the doctrine form"
       },
       "plan_dedicated": {
-        "bytes": 12061200000,
+        "bytes": 12341200000,
         "fits": true,
         "note": "36 separate int4 instances — possible, wasteful"
       },
-      "teams": 43
+      "teams": 44
     }
   }
 }

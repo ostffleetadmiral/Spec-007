@@ -62,7 +62,13 @@ const brBlock = authSrc.slice(
 const BRANCHES = [...brBlock.matchAll(/"([^"]+)"/g)].map(m => m[1]);
 
 const academy = JSON.parse(fs.readFileSync(ACADEMY, "utf8"));
-const TOPICS = new Set((academy.lessons || []).map(l => l.topic));
+/* harvested lessons chunk into per-course files — the topic space is
+   the union of the curated shelf + the course-map topics + metrics */
+const TOPICS = new Set([
+  ...(academy.lessons || []).map(l => l.topic),
+  ...(academy.courses || []).flatMap(c => c.topics || []),
+  ...Object.keys((academy.metrics || {}).topics || {}),
+]);
 
 /* ---------- ingest the provisional Admiralty (drawer corpus) ---------- */
 /* each officer packet carries "Assigned Roles": Primary/Secondary/Tertiary */

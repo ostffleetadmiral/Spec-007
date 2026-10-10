@@ -128,6 +128,7 @@ const ELEMENTS = [
   { id: "academy", vision: "academy + generated curriculum", checks: {
     "academy manifest + lessons": ex(path.join(SITE, "assets", "academy-manifest.json")) && held("DESK-13"),
     "generated curriculum gated": held("CURR-01") && held("CURR-03"),
+    "corpus harvest + coverage": held("ACAD-02") && held("ACAD-03"),
   }},
   { id: "desk-command-center", vision: "the library — authenticated 2d command center", checks: {
     "desktop + panes": ex(path.join(SITE, "desktop.html")) &&

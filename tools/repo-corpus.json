@@ -1,0 +1,142 @@
+{
+  "schema": "REPO-CORPUS-v1",
+  "note": "Declared Academy harvest sources. class: first_party = fleet-owned projects; upstream = donor/fork corpora (provenance-labeled). mode: local = live clone under $HOME; pinned_clone = checkout under ~/.academy-corpus pinned to a recorded sha; declassified = public copies inside the repo (drawer originals never harvest). Private/local-only trees are excluded entirely by owner decision.",
+  "global_exclude": [
+    "**/node_modules/**", "**/.git/**", "**/vendor/**", "**/third_party/**",
+    "**/dist/**", "**/build/**", "**/target/**", "**/.zig-cache/**",
+    "**/zig-out/**", "**/coverage/**", "**/__pycache__/**",
+    "**/*.env", "**/*.env.*", "**/*secret*", "**/*credential*", "**/*.pem",
+    "**/*id_rsa*", "**/.npmrc", "**/.ssh/**"
+  ],
+  "global_include": ["**/*.md", "**/*.markdown", "**/*.txt", "**/*.rst"],
+  "sources": [
+    {
+      "root": "e-mc-2", "class": "first_party", "mode": "local",
+      "local": "CascadeProjects/hardware",
+      "url": "https://github.com/ostffleetadmiral/E-mc-2---i---E-mc--2-toy-model.git",
+      "include": ["**/*.md", "**/*.txt", "**/*.rst"],
+      "exclude": ["experiments/**", "codon/**", "neuraleak/**", "backups*/**"]
+    },
+    {
+      "root": "space-agent", "class": "first_party", "mode": "local",
+      "local": "Music/Paul/space-agent",
+      "url": "https://github.com/ostffleetadmiral/space-agent.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "spec-007", "class": "first_party", "mode": "local",
+      "local": "CascadeProjects/hardware/experiments/Spec-007",
+      "include": ["AGENTS.md", "README*", "docs/**/*.md", "prototypes/**/*.md"],
+      "exclude": ["docs/en/declassified-7q/**", "docs/en/declassified-gnm/**"]
+    },
+    {
+      "root": "nullclaw", "class": "upstream", "mode": "local",
+      "local": "Desktop/Sheraton/nullclaw",
+      "url": "https://github.com/ostffleetadmiral/nullclaw.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "gnm-ministry", "class": "first_party", "mode": "declassified",
+      "local": "CascadeProjects/hardware/experiments/Spec-007/docs/en/declassified-gnm",
+      "note": "Guerrilla National Ministries — Neo-Hindu corpus; declassified copies only, drawer originals never publish",
+      "include": ["*.md"]
+    },
+    {
+      "root": "fano-1", "class": "first_party", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/fano-1.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "project-nomad", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/project-nomad.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "quine.html", "class": "first_party", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/quine.html.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "cofounder", "class": "first_party", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/cofounder-v0.0.0.1.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "vphone-cli", "class": "first_party", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/vphone-cli.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "agent-builder", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/agent-builder.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "full-stack-school", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/full-stack-school.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "adk", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/adk.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "paperless-ngx", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/paperless-ngx.git",
+      "include": ["**/*.md", "**/*.txt", "**/*.rst"]
+    },
+    {
+      "root": "freenet-core", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/freenet-core.git",
+      "include": ["**/*.md", "**/*.txt", "**/*.rst"]
+    },
+    {
+      "root": "three-ws", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/three.ws.git",
+      "include": ["**/*.md"],
+      "exclude": ["contracts/lib/**", "data/skills/**", ".agents/skills/**",
+        "**/.changeset/**", "**/vendor/**", "**/test/fixtures/**"]
+    },
+    {
+      "root": "ukama", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/ukama.git",
+      "include": ["**/*.md", "**/*.rst"]
+    },
+    {
+      "root": "ukama-nodes", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/ukama-nodes.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "walter-esp-idf", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/walter-esp-idf.git",
+      "include": ["**/*.md", "**/*.txt", "**/*.rst"]
+    },
+    {
+      "root": "walter-hardware", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/walter-hardware.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "walter-micropython", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/walter-micropython.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "walter-uc", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/walter-uc.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "woof-ce", "class": "upstream", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/woof-CE.git",
+      "include": ["**/*.md", "**/*.txt"]
+    },
+    {
+      "root": "maypole-firmware", "class": "first_party", "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Maypole_firmware.git",
+      "include": ["**/*.md", "**/*.txt"]
+    }
+  ]
+}

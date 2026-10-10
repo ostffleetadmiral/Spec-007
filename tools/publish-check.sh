@@ -90,6 +90,18 @@ echo "== governance ledger (constitutional mandates realized)"
 node tools/gov-map.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "gov-ledger.json" || { say " FAIL" "gov-ledger.json"; FAIL=1; }
 
+echo "== academy harvest (corpus lessons deterministic)"
+node tools/academy-harvest.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "academy-manifest.json" || { say " FAIL" "academy-manifest.json"; FAIL=1; }
+
+echo "== curriculum map (course coverage enforced)"
+node tools/curriculum-map.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "curriculum-map.json" || { say " FAIL" "curriculum-map.json"; FAIL=1; }
+
+echo "== course generator (wave-report lessons deterministic)"
+node tools/course-gen.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "course-gen" || { say " FAIL" "course-gen"; FAIL=1; }
+
 echo "== js syntax"
 for j in site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }

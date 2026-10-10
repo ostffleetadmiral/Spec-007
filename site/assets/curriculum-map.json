@@ -1,0 +1,295 @@
+{
+  "schema": "CURRICULUM-MAP-v1",
+  "lesson_count": 43741,
+  "course_count": 13,
+  "shelf_lessons": 548,
+  "harvested_lessons": 43193,
+  "courses": [
+    {
+      "id": "ai-literacy",
+      "lesson_count": 8814,
+      "topics": [
+        "ai-literacy"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "ukama-nodes",
+        "vphone-cli"
+      ]
+    },
+    {
+      "id": "campaign-operations",
+      "lesson_count": 1638,
+      "topics": [
+        "campaign"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli"
+      ]
+    },
+    {
+      "id": "communications",
+      "lesson_count": 2025,
+      "topics": [
+        "communications"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "cofounder",
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "maypole-firmware",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli",
+        "walter-esp-idf",
+        "walter-hardware",
+        "walter-micropython",
+        "walter-uc",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "governance-ethics",
+      "lesson_count": 304,
+      "topics": [
+        "ethics"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "quine.html",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "hardware-fleet",
+      "lesson_count": 708,
+      "topics": [
+        "hardware"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "maypole-firmware",
+        "paperless-ngx",
+        "project-nomad",
+        "quine.html",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "ukama-nodes",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "identity-authority",
+      "lesson_count": 495,
+      "topics": [
+        "identity"
+      ],
+      "sources": [
+        "adk",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "lore-shelf",
+      "lesson_count": 151,
+      "topics": [
+        "lore"
+      ],
+      "sources": [
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws"
+      ]
+    },
+    {
+      "id": "ministry-neo-hindu",
+      "lesson_count": 91,
+      "topics": [
+        "ministry"
+      ],
+      "sources": [
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "gnm-ministry",
+        "paperless-ngx",
+        "three-ws"
+      ]
+    },
+    {
+      "id": "orientation",
+      "lesson_count": 5748,
+      "topics": [
+        "orientation"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "full-stack-school",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "quine.html",
+        "spec-007",
+        "three-ws",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "reference-stack",
+      "lesson_count": 15583,
+      "topics": [
+        "reference"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "science-lattice",
+      "lesson_count": 2489,
+      "topics": [
+        "science"
+      ],
+      "sources": [
+        "adk",
+        "e-mc-2",
+        "fano-1",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli"
+      ]
+    },
+    {
+      "id": "security-clearance",
+      "lesson_count": 1053,
+      "topics": [
+        "security"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "systems-engineering",
+      "lesson_count": 4094,
+      "topics": [
+        "systems"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws",
+        "woof-ce"
+      ]
+    }
+  ],
+  "required": [
+    "orientation",
+    "governance-ethics",
+    "identity-authority",
+    "systems-engineering",
+    "ai-literacy",
+    "security-clearance",
+    "communications",
+    "campaign-operations",
+    "ministry-neo-hindu",
+    "science-lattice",
+    "hardware-fleet",
+    "reference-stack",
+    "lore-shelf"
+  ],
+  "coverage_ok": true
+}

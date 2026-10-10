@@ -52,7 +52,7 @@ const TEAMS = ["DESK","WIRE","AUTH","BOT","ZIG","RED","BLUE","BLACK","GRAY","COM
   "SENT","HARN","FLEET","CLUSTER","ENGINE","CONT","LIBRARY","PROD","CURR","CENS",
   "SPEC004","OVR","SUP","KALI","BRG","SCI","EMG","SV","SVC","DHT","AGT","FILM",
   "NE","PAR","PARA","PRM","GLD","RF","QD","AST","LAWB","ARC","DOX","DEV","EVM",
-  "GOVM"];
+  "GOVM","ACAD"];
 const PROBE_RE = new RegExp("\\b(" + TEAMS.join("|") + ")-(\\d{1,2})\\b", "g");
 const ALIAS = { ENG: "ENGINE", LIB: "LIBRARY", CONT: "CONT" };
 /* expand range cites: "ENG-01..04" → the full range */

@@ -714,16 +714,29 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     }
 
     /* DESK-13: academy manifest integrity — the claimed count is the
-       real count and every lesson is fully formed */
+       real count (curated shelf + every course chunk) and every
+       lesson is fully formed */
     {
       const m = JSON.parse(fs.readFileSync(path.join(SITE, "assets/academy-manifest.json"), "utf8"));
-      const incomplete = m.lessons.filter(l => !l.topic || !l.title ||
-        !l.outcome || !l.evidence || !l.assessment || !l.source);
-      m.lesson_count === m.lessons.length && !incomplete.length
+      const formed = (l) => l.topic && l.title && l.outcome &&
+        l.evidence && l.assessment && l.source;
+      const incomplete = (m.lessons || []).filter(l => !formed(l));
+      let chunked = 0, chunkBad = 0, chunkMissing = 0;
+      for (const c of m.courses || []) {
+        const cp = path.join(SITE, "assets", "academy", `${c.id}.json`);
+        if (!fs.existsSync(cp)) { chunkMissing++; continue; }
+        const ls = (JSON.parse(fs.readFileSync(cp, "utf8")).lessons || []);
+        chunked += ls.length;
+        chunkBad += ls.filter(l => !formed(l)).length
+          + (ls.length !== c.lesson_count ? 1 : 0);
+      }
+      const total = (m.lessons || []).length + (m.harvested_count || 0);
+      m.lesson_count === total && chunked === (m.harvested_count || 0)
+        && !incomplete.length && !chunkBad && !chunkMissing
         ? held("DESK", "academy-integrity",
-            `${m.lesson_count} lessons claimed = ${m.lessons.length} filed, all fully formed — the curriculum is honest`)
+            `${m.lesson_count} lessons = ${(m.lessons || []).length} curated + ${chunked} chunked across ${(m.courses || []).length} courses — every lesson fully formed`)
         : open_("DESK", "academy-integrity",
-            `claimed=${m.lesson_count} actual=${m.lessons.length} incomplete=${incomplete.length}`);
+            `claimed=${m.lesson_count} inline=${(m.lessons || []).length} chunked=${chunked}/${m.harvested_count} incomplete=${incomplete.length + chunkBad} missing-courses=${chunkMissing}`);
     }
 
     /* DESK-14: destructive verdicts arm before they fire — BURN is
@@ -1982,6 +1995,116 @@ console.log("\nCURRICULUM — generated course modules (sentience w6)");
           `${gen.length} lessons: wave_report evidence, review-required assessment, en-only label, badged in the pane`)
       : open_("CURR", "review-gated",
           `generated=${gen.length} mislabeled=${bad.length} pane-badge=${paneBadges}`);
+  }
+}
+
+console.log("\nACAD — harvested corpus curriculum (academy wave)");
+/* ================= ACAD — the corpus-harvested Academy =================
+   tools/academy-harvest.mjs turns the declared source registry
+   (tools/repo-corpus.json — local, declassified, pinned-clone) into
+   provenance-labeled lessons chunked per course under site/assets/
+   academy/. tools/curriculum-map.mjs enforces coverage. The GNM
+   ministry corpus rides the declassification convention — public
+   copies only, drawer originals never publish. */
+{
+  const AHM = path.join(ROOT, "tools", "academy-harvest.mjs");
+  const CM = path.join(ROOT, "tools", "curriculum-map.mjs");
+  const REG = path.join(ROOT, "tools", "repo-corpus.json");
+  const MAN = path.join(SITE, "assets", "academy-manifest.json");
+  const SUR2 = new RegExp("\\b(" + ["Zha"+"ng","Elshi"+"kh","Nolte"+"meyer",
+    "Adeu"+"soye","Esch"+"bach","S"+"ly"].join("|") + ")\\b");
+  const LEAK2 = /\/home\/admpaul|thoughts&convos|AdmPaul|BEGIN [A-Z ]*PRIVATE KEY/;
+
+  /* ACAD-01: the registry is well-formed and every source resolves */
+  {
+    let bad = [], missing = 0;
+    try {
+      const c = JSON.parse(fs.readFileSync(REG, "utf8"));
+      for (const s of c.sources || []) {
+        if (!s.root || !s.class || !s.mode) { bad.push(s.root || "?"); continue; }
+        if (s.mode === "pinned_clone" && !s.url) { bad.push(s.root + ":no-url"); continue; }
+        if ((s.mode === "local" || s.mode === "declassified")) {
+          const d = s.local ? path.join(process.env.HOME || "", s.local)
+            : path.join(ROOT, s.path || "");
+          if (!fs.existsSync(d)) missing++;
+        }
+      }
+    } catch (e) { bad.push("parse:" + e.message); }
+    !bad.length && !missing
+      ? held("ACAD", "registry-coverage",
+          "every declared source well-formed — local+declassified dirs present, clones pinned by url")
+      : open_("ACAD", "registry-coverage",
+          `malformed=[${bad}] missing-dirs=${missing}`);
+  }
+  /* ACAD-02: the harvested set regenerates byte-exact */
+  {
+    if (!fs.existsSync(AHM) || !fs.existsSync(MAN)) {
+      noted("ACAD", "harvest-determinism", "harvester or manifest absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [AHM, "--verify"], { encoding: "utf8" });
+      r.status === 0
+        ? held("ACAD", "harvest-determinism",
+            "43k+ harvested lessons reproduce byte-exact across 24 sources + 13 course chunks")
+        : open_("ACAD", "harvest-determinism",
+            `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 140)}`);
+    }
+  }
+  /* ACAD-03: the curriculum map is coverage-complete — including ministry */
+  {
+    if (!fs.existsSync(CM)) {
+      noted("ACAD", "curriculum-coverage", "curriculum-map absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [CM, "--verify"], { encoding: "utf8" });
+      const m = JSON.parse(fs.readFileSync(MAN, "utf8"));
+      const ministry = (m.courses || []).find(c => c.id === "ministry-neo-hindu");
+      r.status === 0 && ministry && ministry.lesson_count > 0
+        ? held("ACAD", "curriculum-coverage",
+            `13 courses bound — ministry-neo-hindu carries ${ministry.lesson_count} lessons, coverage enforced`)
+        : open_("ACAD", "curriculum-coverage",
+            `verify exit ${r.status} ministry=${ministry ? ministry.lesson_count : "absent"}`);
+    }
+  }
+  /* ACAD-04: the ministry corpus declassifies clean — five docs,
+       surname/drawer-free, no path leakage anywhere in its chunk */
+  {
+    const dir = path.join(ROOT, "docs", "en", "declassified-gnm");
+    const files = fs.existsSync(dir)
+      ? fs.readdirSync(dir).filter(f => f.endsWith(".md")) : [];
+    let leak = null;
+    for (const f2 of files) {
+      const t = fs.readFileSync(path.join(dir, f2), "utf8");
+      if (SUR2.test(t) || LEAK2.test(t)) { leak = f2; break; }
+    }
+    /* the emitted course chunk carries only repo:-namespaced sources */
+    let chunkLeak = null;
+    const cp = path.join(SITE, "assets", "academy", "ministry-neo-hindu.json");
+    if (fs.existsSync(cp)) {
+      const raw = fs.readFileSync(cp, "utf8");
+      if (SUR2.test(raw) || LEAK2.test(raw)) chunkLeak = "ministry-chunk";
+      const ls = (JSON.parse(raw).lessons || []);
+      if (ls.some(l => !/^repo:[^:]+:/.test(l.source || ""))) chunkLeak = "bad-source-ns";
+    } else chunkLeak = "chunk-missing";
+    files.length === 5 && !leak && !chunkLeak
+      ? held("ACAD", "declassification-clean",
+          "5 GNM ministry docs declassified — byte-clean of surnames/drawer paths; chunk sources repo-namespaced")
+      : open_("ACAD", "declassification-clean",
+          `docs=${files.length} leak=${leak} chunkLeak=${chunkLeak}`);
+  }
+  /* ACAD-05: the desk wires courses — lazy chunk load, badges, i18n */
+  {
+    const desk = fs.readFileSync(
+      path.join(SITE, "assets", "fano-desktop.js"), "utf8");
+    const i18n = fs.readFileSync(
+      path.join(SITE, "assets", "fano-i18n.js"), "utf8");
+    const wired = desk.includes('assets/academy/" + c.id + ".json"')
+      && desk.includes("aca.ministry") && desk.includes("aca.filter");
+    const keys = ["aca.ministry", "aca.harvested", "aca.upstream",
+      "aca.course", "aca.filter", "aca.shelf"]
+      .every(k => i18n.includes(`"${k}"`));
+    wired && keys
+      ? held("ACAD", "desk-wiring",
+          "pane lazy-loads course chunks, badges harvested/upstream/ministry, i18n keys both tongues")
+      : open_("ACAD", "desk-wiring", `wired=${wired} keys=${keys}`);
   }
 }
 

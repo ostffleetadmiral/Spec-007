@@ -60,6 +60,7 @@ const RULES = [
   [/^gov\/(constitutional|specs|admiralty|legal_financial|security|ethics|strategy|research_ip)\//, "substrate:governance"],
   [/^gov\/[^/]+$/, "substrate:governance"], /* root instruments: OSTF.pdf EIN, narrative, Sigma, registries */
   /* Layer 3 — the fleet mythos and its research shelves */
+  [/^AdmPaul\/Neo-Hinduism\//, "substrate:governance"],
   [/^AdmPaul\/corpus\/sci-fi\//, "mythos:fiction"],
   [/^AdmPaul\/corpus\/(concepts|Reality)\//, "research:evidence"],
   [/^AdmPaul\/corpus\/Governance\//, "mythos:star-command"],

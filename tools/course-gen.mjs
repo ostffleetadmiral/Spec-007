@@ -33,18 +33,27 @@ function waveReports() {
     .sort();
 }
 
+/* the drawer boundary is absolute — wave reports are primary evidence
+   but their text must never carry drawer paths into the public lesson.
+   Same scrub as academy-harvest so both emitters file identical bytes. */
+const scrub = (t) => t
+  .replace(/thoughts&convos\S*/g, "[drawer]")
+  .replace(/\/home\/admpaul\S*/g, "[host]")
+  .replace(/AdmPaul\b/g, "[drawer]")
+  .replace(/BEGIN [A-Z ]*PRIVATE KEY[\s\S]*$/g, "[redacted]");
+
 function lessonFor(file) {
   const text = fs.readFileSync(path.join(OUT, file), "utf8");
   const lines = text.split("\n").map(l => l.trim());
-  const title = (lines.find(l => l.startsWith("# ")) || `# ${file}`)
-    .replace(/^#\s+/, "").trim();
+  const title = scrub((lines.find(l => l.startsWith("# ")) || `# ${file}`)
+    .replace(/^#\s+/, "").trim());
   /* Outcome: the first substantive paragraph after the header block —
      verdict line preferred when present, else first non-empty body line. */
   const verdict = lines.find(l => /verdict:/i.test(l));
   const body = lines.find(l => l && !l.startsWith("#") && !/^date:/i.test(l)
     && !/verdict:/i.test(l)) || "";
-  const outcome = ((verdict ? verdict.replace(/^.*verdict:\s*/i, "Verdict: ") + " — " : "") + body)
-    .replace(/\s+/g, " ").slice(0, 400).trim();
+  const outcome = scrub(((verdict ? verdict.replace(/^.*verdict:\s*/i, "Verdict: ") + " — " : "") + body)
+    .replace(/\s+/g, " ").slice(0, 400).trim());
   const source = `security/out/${file}`;
   const id = "lesson-" + crypto.createHash("sha256")
     .update(`course-gen|${source}|${title}`).digest("hex").slice(0, 16);
@@ -80,19 +89,21 @@ if (mode === "dry") {
 
 const m = JSON.parse(fs.readFileSync(MANIFEST, "utf8"));
 const human = (m.lessons || []).filter(l => l.origin !== "generated");
+const harvested = m.harvested_count || 0;
 const next = {
   ...m,
-  lesson_count: human.length + gen.length,
+  lesson_count: human.length + gen.length + harvested,
   lessons: [...human, ...gen],
 };
 
 if (mode === "verify") {
   const cur = (m.lessons || []).filter(l => l.origin === "generated");
+  const inline = (m.lessons || []).length;
   const ok = JSON.stringify(cur) === JSON.stringify(gen)
-    && m.lesson_count === m.lessons.length;
+    && m.lesson_count === inline + harvested;
   console.log(ok
     ? `course-gen verify OK — ${cur.length} generated lessons deterministic, count ${m.lesson_count} consistent`
-    : `course-gen verify FAIL — generated=${cur.length} regenerated=${gen.length} count=${m.lesson_count}/${m.lessons.length}`);
+    : `course-gen verify FAIL — generated=${cur.length} regenerated=${gen.length} count=${m.lesson_count}/${inline + harvested}`);
   process.exit(ok ? 0 : 1);
 }
 

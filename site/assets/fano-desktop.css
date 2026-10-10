@@ -433,6 +433,15 @@ body.booted .wall, body.booted .wall-caption { visibility: visible; }
   color: var(--acc-hi); font-family: inherit; font-size: .85rem; outline: none;
 }
 
+/* academy lesson filter — same ink, quieter chrome */
+.aca-filter {
+  width: 100%; margin: .2rem 0 .45rem; padding: .3rem .4rem;
+  background: rgba(var(--acc-rgb), .04); border: 1px solid var(--edge-strong);
+  border-radius: 3px; color: var(--acc-hi);
+  font-family: inherit; font-size: .8rem; outline: none;
+}
+.aca-filter::placeholder { color: var(--desk-dim); }
+
 /* context menu */
 .ctxmenu {
   position: fixed; min-width: 11rem; z-index: 9700; display: none;

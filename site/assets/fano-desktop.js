@@ -1395,16 +1395,14 @@
     var rd = sec(t("cmd.sec.readiness"));
     var rdRow = row(t("cmd.readiness.loading")); rd.appendChild(rdRow);
     fetch("assets/academy-manifest.json").then(function (r) { return r.json(); }).then(function (m) {
-      var topics = {}, langs = {}, access = {};
-      (m.lessons || []).forEach(function (l) {
-        topics[l.topic] = (topics[l.topic] || 0) + 1;
-        access[l.access] = (access[l.access] || 0) + 1;
-        (l.language || []).forEach(function (x) { langs[x] = (langs[x] || 0) + 1; });
-      });
+      var metrics = m.metrics || {}, topics = metrics.topics || {},
+        langs = metrics.languages || {}, access = metrics.access || {},
+        courses = m.courses || [];
       rdRow.textContent = t("cmd.readiness.line", m.lesson_count || (m.lessons || []).length,
           Object.keys(topics).length) +
         Object.keys(access).map(function (k) {
-          return access[k] + " " + k; }).join(" · ");
+          return access[k] + " " + k; }).join(" · ") +
+        (courses.length ? " · " + t("aca.courses.n", String(courses.length)) : "");
       var top = Object.keys(topics).sort(function (a, b) { return topics[b] - topics[a]; }).slice(0, 6);
       rd.appendChild(row(t("cmd.readiness.schools") + top.map(function (t) { return t + " (" + topics[t] + ")"; }).join(" · ")));
       rd.appendChild(row(t("cmd.readiness.langs") + Object.keys(langs).map(function (k) { return k + " ×" + langs[k]; }).join(" · ")));
@@ -1734,14 +1732,66 @@
     var box = document.createElement("div"); box.className = "win-body academy-pane";
     box.innerHTML = "<p><strong>ACADEMY.OS</strong> <small>— " + esc(t("aca.tag")) + "</small></p><p><small>" + esc(t("aca.note")) + "</small></p>";
     var list = document.createElement("div"), detail = document.createElement("pre"); list.className="academy-list"; detail.style.whiteSpace="pre-wrap"; box.appendChild(list); box.appendChild(detail); makeWindow(title, box);
+    function badge(l){
+      var b = [];
+      if (l.origin === "generated") b.push(t("aca.generated"));
+      if (l.origin === "harvested") b.push(t("aca.harvested"));
+      if (l.evidence === "declassified_corpus") b.push(t("aca.ministry"));
+      else if (l.provenance === "upstream") b.push(t("aca.upstream"));
+      else if (l.provenance === "first_party") b.push(t("aca.firstparty"));
+      return b.length ? b.join(" ") + " " : "";
+    }
+    function renderLessons(lessons, detailHead){
+      list.innerHTML = "";
+      var filter = document.createElement("input");
+      filter.className = "aca-filter"; filter.placeholder = t("aca.filter");
+      var btns = document.createElement("div"); list.appendChild(filter); list.appendChild(btns);
+      var shown = 0;
+      function paint(){
+        var q = (filter.value || "").toLowerCase();
+        btns.innerHTML = ""; shown = 0;
+        lessons.forEach(function(lesson){
+          if (q && (lesson.title + " " + (lesson.topic||"") + " " + (lesson.source||"")).toLowerCase().indexOf(q) < 0) return;
+          if (shown++ >= 400) return;
+          var b=document.createElement("button"); b.className="cmd-btn";
+          b.textContent=badge(lesson)+(lesson.topic||"")+" · "+lesson.title;
+          b.addEventListener("click",function(){
+            detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\n"+
+              t("aca.ev")+lesson.evidence+"\n"+t("aca.as")+lesson.assessment+"\n"+
+              t("aca.src")+lesson.source+
+              (lesson.provenance?"\n"+t("aca.prov")+lesson.provenance:"")+
+              ((lesson.language||[]).length?"\n"+t("aca.lang")+lesson.language.join(", "):"");
+          });
+          btns.appendChild(b);
+        });
+        detail.textContent = detailHead + t("aca.shown", String(Math.min(shown,400)), String(lessons.length)) + t("aca.pick");
+      }
+      filter.addEventListener("input", paint); paint();
+    }
     fetch("assets/academy-manifest.json").then(function(r){return r.json();}).then(function(m){
-      /* integrity: the count must match the lessons actually filed */
-      var real = m && Array.isArray(m.lessons) ? m.lessons : [];
-      var claimed = m && m.lesson_count;
-      detail.textContent = t("aca.filed", String(real.length)) +
-        (claimed === real.length ? "" : t("aca.mismatch", String(claimed))) +
-        t("aca.pick");
-      real.forEach(function(lesson){ var b=document.createElement("button"); b.className="cmd-btn"; b.textContent=(lesson.origin==="generated"?t("aca.generated")+" ":"")+lesson.topic+" · "+lesson.title; b.addEventListener("click",function(){ detail.textContent=lesson.title+"\n\n"+lesson.outcome+"\n\n"+t("aca.ev")+lesson.evidence+"\n"+t("aca.as")+lesson.assessment+"\n"+t("aca.src")+lesson.source; }); list.appendChild(b); });
+      var claimed = (m && m.lesson_count) || 0;
+      var curated = (m && Array.isArray(m.lessons)) ? m.lessons : [];
+      var chunked = (m && m.harvested_count) || 0;
+      var head = t("aca.filed", String(curated.length + chunked)) +
+        (claimed === curated.length + chunked ? "" : t("aca.mismatch", String(claimed))) + "\n";
+      /* the catalogue — curated shelf + one entry per course chunk */
+      var cat = document.createElement("button"); cat.className="cmd-btn";
+      cat.textContent = t("aca.shelf") + "  (" + curated.length + ")";
+      cat.addEventListener("click", function(){ renderLessons(curated, head); });
+      list.appendChild(cat);
+      (m.courses || []).forEach(function(c){
+        var b = document.createElement("button"); b.className="cmd-btn";
+        b.textContent = (c.id === "ministry-neo-hindu" ? t("aca.ministry") + " " : "") +
+          t("aca.course") + " " + c.id + "  (" + c.lesson_count + ")";
+        b.addEventListener("click", function(){
+          detail.textContent = t("aca.loading");
+          fetch("assets/academy/" + c.id + ".json").then(function(r){return r.json();})
+            .then(function(cc){ renderLessons(cc.lessons || [], head + t("aca.courseof", c.id)); })
+            .catch(function(e){ detail.textContent = t("sts.academy.down") + e; });
+        });
+        list.appendChild(b);
+      });
+      detail.textContent = head + t("aca.pick");
     }).catch(function(e){ detail.textContent=t("sts.academy.down")+e; });
   }
 

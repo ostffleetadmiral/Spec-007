@@ -1,5 +1,5 @@
 {
-  "lesson_count": 548,
+  "lesson_count": 43741,
   "lessons": [
     {
       "access": "public",
@@ -7444,7 +7444,7 @@
         "en"
       ],
       "origin": "generated",
-      "outcome": "Verdict: GREEN — - `AdmPaul/.covo1.md` registered — external review transcript; L5 design",
+      "outcome": "Verdict: GREEN — - `[drawer]/.covo1.md` registered — external review transcript; L5 design",
       "source": "security/out/sentience-w1-canon-map.md",
       "title": "Sentience Wave 1 — Canon Filing & Conformance Map",
       "topic": "campaign"
@@ -7674,5 +7674,341 @@
       "topic": "campaign"
     }
   ],
-  "schema": 1
+  "schema": 1,
+  "metrics": {
+    "open_access": true,
+    "origins": {
+      "human": 530,
+      "generated": 18,
+      "harvested": 43193
+    },
+    "topics": {
+      "orientation": 5847,
+      "ethics": 381,
+      "identity": 530,
+      "systems": 4171,
+      "ai-literacy": 8946,
+      "security": 1159,
+      "communications": 2029,
+      "campaign": 1656,
+      "reference": 15583,
+      "science": 2489,
+      "hardware": 708,
+      "ministry": 91,
+      "lore": 151
+    },
+    "languages": {
+      "en": 43291,
+      "zh-Hant": 980
+    },
+    "access": {
+      "public": 43741
+    },
+    "provenance": {
+      "curated": 548,
+      "upstream": 35767,
+      "first_party": 7426
+    }
+  },
+  "harvest_sources": [
+    {
+      "root": "e-mc-2",
+      "class": "first_party",
+      "mode": "local",
+      "pin": null,
+      "docs": 275,
+      "lessons": 4171
+    },
+    {
+      "root": "space-agent",
+      "class": "first_party",
+      "mode": "local",
+      "pin": null,
+      "docs": 339,
+      "lessons": 964
+    },
+    {
+      "root": "spec-007",
+      "class": "first_party",
+      "mode": "local",
+      "pin": null,
+      "docs": 53,
+      "lessons": 617
+    },
+    {
+      "root": "nullclaw",
+      "class": "upstream",
+      "mode": "local",
+      "pin": null,
+      "docs": 56,
+      "lessons": 733
+    },
+    {
+      "root": "gnm-ministry",
+      "class": "first_party",
+      "mode": "declassified",
+      "pin": null,
+      "docs": 5,
+      "lessons": 18
+    },
+    {
+      "root": "fano-1",
+      "class": "first_party",
+      "mode": "pinned_clone",
+      "pin": "c41652b72512b48275082dafcb1935f6f5d58022",
+      "docs": 35,
+      "lessons": 509
+    },
+    {
+      "root": "project-nomad",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "85da928019c428faf43cf96785f16f7da9efb0df",
+      "docs": 19,
+      "lessons": 321
+    },
+    {
+      "root": "quine.html",
+      "class": "first_party",
+      "mode": "pinned_clone",
+      "pin": "6e684e3dce4d8ffe5314e42ee8e6258bf2a4fcb2",
+      "docs": 3,
+      "lessons": 11
+    },
+    {
+      "root": "cofounder",
+      "class": "first_party",
+      "mode": "pinned_clone",
+      "pin": "19ba19f61737d654493175208df468395e2193f4",
+      "docs": 15,
+      "lessons": 27
+    },
+    {
+      "root": "vphone-cli",
+      "class": "first_party",
+      "mode": "pinned_clone",
+      "pin": "c2ae6d7c537236d3e91274162407cdb89ddfc353",
+      "docs": 64,
+      "lessons": 1091
+    },
+    {
+      "root": "agent-builder",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "136b6f96675a4f856eeb8fa8ad68c7d293a75c7e",
+      "docs": 4,
+      "lessons": 35
+    },
+    {
+      "root": "full-stack-school",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "6b6292f3f704db767bef88ce4322ab69f6caf3e2",
+      "docs": 1,
+      "lessons": 3
+    },
+    {
+      "root": "adk",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "038b8b2c9f30dd3d0802a14ba1767d53541345fe",
+      "docs": 72,
+      "lessons": 1745
+    },
+    {
+      "root": "paperless-ngx",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "3eb784b34d04eebb5897f8e42384b3e7e6d6a337",
+      "docs": 27,
+      "lessons": 1112
+    },
+    {
+      "root": "freenet-core",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "5b923edc83ca9d3d6e90bfcd2b953c754a38eef0",
+      "docs": 80,
+      "lessons": 1398
+    },
+    {
+      "root": "three-ws",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "309cb37e870e7bba2179cc55a2ad0936ed53f2fe",
+      "docs": 1696,
+      "lessons": 29628
+    },
+    {
+      "root": "ukama",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "0da45b7a478a4df89e4e3fedc3ac0fe00490337b",
+      "docs": 116,
+      "lessons": 495
+    },
+    {
+      "root": "ukama-nodes",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "263b0b8a7c90297ca4af0eb883982a48a0cd56c4",
+      "docs": 41,
+      "lessons": 22
+    },
+    {
+      "root": "walter-esp-idf",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "89f0536a10e47e4994cd9eb59e10928c48ff95fd",
+      "docs": 34,
+      "lessons": 87
+    },
+    {
+      "root": "walter-hardware",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "670e5753e8786a9f8747bea34714e2f394939fef",
+      "docs": 3,
+      "lessons": 6
+    },
+    {
+      "root": "walter-micropython",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a989103e70c22c7c4b4e47c482059fdad651e7d1",
+      "docs": 9,
+      "lessons": 49
+    },
+    {
+      "root": "walter-uc",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "ec76ff66cbf25f9adb49b517da054a2357b61e7c",
+      "docs": 11,
+      "lessons": 19
+    },
+    {
+      "root": "woof-ce",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "8f6744545b13c3745e20dff484258023d07c59bb",
+      "docs": 46,
+      "lessons": 114
+    },
+    {
+      "root": "maypole-firmware",
+      "class": "first_party",
+      "mode": "pinned_clone",
+      "pin": "ae8ffc750654993aeb344599feafca716fc4d7c8",
+      "docs": 4,
+      "lessons": 18
+    }
+  ],
+  "harvested_count": 43193,
+  "courses": [
+    {
+      "id": "ai-literacy",
+      "lesson_count": 8814,
+      "file": "assets/academy/ai-literacy.json",
+      "topics": [
+        "ai-literacy"
+      ]
+    },
+    {
+      "id": "campaign-operations",
+      "lesson_count": 1638,
+      "file": "assets/academy/campaign-operations.json",
+      "topics": [
+        "campaign"
+      ]
+    },
+    {
+      "id": "communications",
+      "lesson_count": 2025,
+      "file": "assets/academy/communications.json",
+      "topics": [
+        "communications"
+      ]
+    },
+    {
+      "id": "governance-ethics",
+      "lesson_count": 304,
+      "file": "assets/academy/governance-ethics.json",
+      "topics": [
+        "ethics"
+      ]
+    },
+    {
+      "id": "hardware-fleet",
+      "lesson_count": 708,
+      "file": "assets/academy/hardware-fleet.json",
+      "topics": [
+        "hardware"
+      ]
+    },
+    {
+      "id": "identity-authority",
+      "lesson_count": 495,
+      "file": "assets/academy/identity-authority.json",
+      "topics": [
+        "identity"
+      ]
+    },
+    {
+      "id": "lore-shelf",
+      "lesson_count": 151,
+      "file": "assets/academy/lore-shelf.json",
+      "topics": [
+        "lore"
+      ]
+    },
+    {
+      "id": "ministry-neo-hindu",
+      "lesson_count": 91,
+      "file": "assets/academy/ministry-neo-hindu.json",
+      "topics": [
+        "ministry"
+      ]
+    },
+    {
+      "id": "orientation",
+      "lesson_count": 5748,
+      "file": "assets/academy/orientation.json",
+      "topics": [
+        "orientation"
+      ]
+    },
+    {
+      "id": "reference-stack",
+      "lesson_count": 15583,
+      "file": "assets/academy/reference-stack.json",
+      "topics": [
+        "reference"
+      ]
+    },
+    {
+      "id": "science-lattice",
+      "lesson_count": 2489,
+      "file": "assets/academy/science-lattice.json",
+      "topics": [
+        "science"
+      ]
+    },
+    {
+      "id": "security-clearance",
+      "lesson_count": 1053,
+      "file": "assets/academy/security-clearance.json",
+      "topics": [
+        "security"
+      ]
+    },
+    {
+      "id": "systems-engineering",
+      "lesson_count": 4094,
+      "file": "assets/academy/systems-engineering.json",
+      "topics": [
+        "systems"
+      ]
+    }
+  ]
 }
