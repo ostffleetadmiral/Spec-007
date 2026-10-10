@@ -78,6 +78,14 @@ node --check site/assets/nebula-3d.js >/dev/null 2>&1 \
   && grep -q 'nebula-3d.js' site/desktop.html \
   && say " PASS" "nebula-3d.js" || { say " FAIL" "nebula-3d.js"; FAIL=1; }
 
+echo "== agency map (gov↔sci-fi binding + organ counterparts)"
+node tools/agency-map.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "agency-map.json" || { say " FAIL" "agency-map.json"; FAIL=1; }
+
+echo "== directive router (glyph table + signed receipts)"
+node tools/directive.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "directive" || { say " FAIL" "directive"; FAIL=1; }
+
 echo "== js syntax"
 for j in site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }

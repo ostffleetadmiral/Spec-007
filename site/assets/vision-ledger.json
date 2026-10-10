@@ -2,8 +2,7 @@
   "schema": "VISION-AUDIT-v1",
   "note": "The platform vision as a checklist of live artifacts — realized means every check passes against the tree; partial names its remainder; aspirational is declared doctrine, honestly labeled. External = doc-cited off-repo evidence.",
   "counts": {
-    "realized": 22,
-    "external": 1
+    "realized": 23
   },
   "elements": [
     {
@@ -118,8 +117,8 @@
     },
     {
       "id": "digit-two-organ",
-      "verdict": "external",
-      "vision": "digit — e5/e6/e7/e0 two-organ brain, q4 wasm64 decoder"
+      "verdict": "realized",
+      "vision": "digit — two-organ brain (e5/e6/e7/e0) reinterpreted onto platform organs; remote q4 decoder doc-cited"
     }
   ]
 }

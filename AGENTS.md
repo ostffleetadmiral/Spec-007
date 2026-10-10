@@ -82,6 +82,23 @@ sh tools/deploy-pages.sh        # atomic gh-pages deploy via detached worktree
   (human adjudication — never auto-burn).
 - **Classification boundary.** `thoughts&convos/` is the drawer — never
   published, never committed, surname tripwire enforced.
+- **Propagation rule.** Every discovery propagates; it is a mechanism,
+  not a hope. When a harness changes, every ledger row citing it must
+  re-verify (DOX: `harness-binding.mjs` — catches stale test counts,
+  unresolved citations, uncited harnesses). When a verdict shares a
+  mechanism with a new bound, the bound inherits (the three-bound
+  template — exotic matter / corridor pre-existence / chronology —
+  applies to every shortcut-geometry claim, not just Alcubierre).
+  The construction signature is scanned continuously (DOX:
+  `literal-return-scan.mjs` — the hydrogenLineLatticeCm pattern:
+  computed-looking functions returning hardcoded literals). New
+  claims grade against the checksum grammar: CONSISTENT (round-trip
+  verified) / INCONSISTENT (residual ≠ 0, refutation) / SELF-REFERENTIAL
+  (fixed point z* = √2−1 — passes trivially, carries zero bits).
+  Null results are answer-classes (e.g. orthogonal boundaries), filed
+  as such — never treated as tuning bugs. Generated artifacts re-seat
+  in dependency order: canon-verify → emergent → engine-manifest →
+  layer-map → vision-audit.
 - **`security/out/` is generated** — evidence, not source; gitignored.
 - **Archives.** Completed waves land in `~/.archives/spec-007-*` with
   NOTE.md + SHA256SUMS; tarball archives carry `.sha256` sidecars.

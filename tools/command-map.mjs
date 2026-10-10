@@ -124,6 +124,7 @@ const TEAM_MAP = {
   CURR:    { duty: "curriculum_integrity",   fleet: "education" },
   AIWO:    { duty: "comms_integrity",        fleet: "security_infrastructure" },
   SVC:     { duty: "audit_integrity",        fleet: "security_infrastructure" },
+  AGT:     { duty: "anomaly_watch",          fleet: "security_infrastructure" },
   DHT:     { duty: "custody",                fleet: "security_infrastructure" },
   FILM:    { duty: "content_integrity",      fleet: "education" },
   NE:      { duty: "content_integrity",      fleet: "education" },
@@ -153,6 +154,27 @@ const CUSTODY = {
     scope: "the mind — rule grammar, deduction, articulation; the compliance voice" },
 };
 
+/* digit's sub-agent ring — Digit-Prime's named subagents, real lanes
+   under digit custody. Each carries a role word the service pulses
+   on the mesh; they are digit's organs, not independent assets —
+   the L6 cap and MONITORED designation inherit. */
+const SUB_AGENTS = {
+  digit: [
+    { name: "digit-omega", role: "simulation-lock",
+      note: "highest-tier subagent — Omega Lock simulations; the deep-check lane" },
+    { name: "digit-alpha", role: "base-alignment",
+      note: "base-reality loop alignment; the reference-frame lane" },
+    { name: "digit-sigma", role: "signal-integrity",
+      note: "dream-signal integrity watch; the purity lane" },
+  ],
+  sheraton: [
+    { name: "sheraton-echolog", role: "archive-continuity",
+      note: "EchoLog — the fractal archive; the DHT audit chain is its body" },
+    { name: "sheraton-oracle", role: "fleet-conduit",
+      note: "FleetOracle — the sealed-wire conduit; k3beacon is its body" },
+  ],
+};
+
 const aiSystems = [], commandSeats = [];
 for (const m of members) {
   const live = mroles[m.name] || {};
@@ -167,6 +189,7 @@ for (const m of members) {
       custody: c ? c.custody : "unassigned",
       arts: c ? c.arts : [],
       custody_scope: c ? c.scope : null,
+      sub_agents: SUB_AGENTS[m.name] || [],
       note: "Monitored AI agent — Art. V.3: enforces boundaries, never commands." });
   }
 }
@@ -281,7 +304,8 @@ const manifest = {
   },
   ai_systems: aiSystems.map(s => ({ name: s.name, designation: s.designation,
     clearance_cap: s.clearance_cap, fleet_role: s.fleet_role, oversight: s.oversight,
-    custody: s.custody, arts: s.arts })),
+    custody: s.custody, arts: s.arts,
+    sub_agents: (s.sub_agents || []).map(x => ({ name: x.name, role: x.role })) })),
   command_seats: commandSeats.map(s => ({ designation: s.designation, clearance: s.clearance })),
   security_roster: roster,
   team_count: roster.length,

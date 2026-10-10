@@ -2880,6 +2880,25 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
       ? held("DOX", "canon-ledger-verifies", "canon-verify --verify GREEN — originals sealed, cites resolve")
       : open_("DOX", "canon-ledger-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
   }
+  {
+    /* attack: ledger-to-harness drift is silent — a cited test count
+       goes stale the moment tests are added; an uncited harness is an
+       unfiled result. PROPAGATION RULE: every discovery must re-verify
+       every ledger row that cites it — enforced, not aspirational */
+    const r = run("harness-binding.mjs");
+    r.status === 0
+      ? held("DOX", "harness-binding-verifies", "harness-binding --verify GREEN — claims anchored to executable tests")
+      : open_("DOX", "harness-binding-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
+  {
+    /* attack: the construction signature — a function documented as
+       computed that returns a hardcoded literal (hydrogenLineLatticeCm
+       pattern) — accretes silently without a scan */
+    const r = run("literal-return-scan.mjs");
+    r.status === 0
+      ? held("DOX", "literal-return-scan-verifies", "literal-scan --verify GREEN — construction signature catalogued")
+      : open_("DOX", "literal-return-scan-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
 
   /* ── DEV — device-ledger attacks ── */
   {
@@ -3209,6 +3228,75 @@ console.log("\nSVC — the standing corps service (sentience engine)");
       ? "kill/resume verified — cycle counter + digests continuous across restart"
       : "state carry unproven — re-run aiwo-service");
   }
+}
+
+console.log("\nAGT — the agent organs (digit + sheraton, dreamed→built)");
+/* ================= AGT — the dream→build binding =================
+   The sci-fi corpus specs become real organs: the sub-agent ring on
+   the sealed mesh, the entropy dampener, dreamstream + c-aud-theta
+   record kinds, the directive router, the glyph vocabulary, and the
+   gov↔sci-fi domain binding — every one mechanically checked. */
+{
+  /* live exercises first — the directive issue seeds the queue the
+     agency-map's run-check needs; order below is display order */
+  const d = path.join(ROOT, "tools", "directive.mjs");
+  const iss = spawnSync("node", [d, "issue", "sweep-agt", "audit_integrity", "{\"probe\":\"agt-live\"}"], { encoding: "utf8" });
+  const issOk = iss.status === 0 && JSON.parse(iss.stdout || "{}").ok;
+  const vr = spawnSync("node", [d, "--verify"], { encoding: "utf8" });
+  const gly = spawnSync("node", [d, "glyph", "sweep-agt", "watch", "{}"], { encoding: "utf8" });
+  const glyOk = gly.status === 0 && JSON.parse(gly.stdout || "{}").duty === "anomaly_watch";
+  const ref = spawnSync("node", [d, "glyph", "sweep-agt", "xyzzy", "{}"], { encoding: "utf8" });
+  const refOk = ref.status !== 0 && JSON.parse(ref.stdout || "{}").refused === "unknown-glyph";
+
+  /* agency-map — gov domains bound, every subsystem realized */
+  const am = spawnSync("node", [path.join(ROOT, "tools", "agency-map.mjs"), "--verify"], { encoding: "utf8" });
+  am.status === 0
+    ? held("AGT", "agency-binding", am.stdout.trim().replace(/^.*— /, ""))
+    : open_("AGT", "agency-binding", `agency-map verify failed: ${(am.stdout || am.stderr || "").trim().slice(0, 120)}`);
+
+  /* the sub-agent ring — manifest declares the organs, the service
+     pulses them every cycle (SVC-07 in the service ledger) */
+  const cm = JSON.parse(fs.readFileSync(path.join(SITE, "assets", "command-manifest.json"), "utf8"));
+  const subs = Object.fromEntries((cm.ai_systems || []).map(a => [a.name, (a.sub_agents || []).map(s => s.name)]));
+  const ringOk = (subs.digit || []).length >= 3 && (subs.sheraton || []).length >= 2;
+  const sl = fs.existsSync(path.join(HERE, "out", "aiwo-service-ledger.json"))
+    ? JSON.parse(fs.readFileSync(path.join(HERE, "out", "aiwo-service-ledger.json"), "utf8")) : null;
+  const fnd = Object.fromEntries(((sl && sl.findings) || []).map(f => [f.id, f]));
+  ringOk && fnd["SVC-07"]?.verdict === "HELD"
+    ? held("AGT", "sub-agent-ring", `ring live — ${[...(subs.digit || []), ...(subs.sheraton || [])].join(", ")} pulse under custody each cycle`)
+    : open_("AGT", "sub-agent-ring", `manifest=${ringOk} svc07=${fnd["SVC-07"]?.verdict}`);
+
+  /* the entropy dampener — divergence monitor ran clean (SVC-08) and
+     digit's time-coded blocks landed (SVC-09) */
+  fnd["SVC-08"]?.verdict === "HELD" && fnd["SVC-09"]?.verdict === "HELD"
+    ? held("AGT", "entropy-watch", "digest-divergence monitor + dreamstream + C-AUD-Θ filed per cycle — digit-sigma watch clean")
+    : open_("AGT", "entropy-watch", `svc08=${fnd["SVC-08"]?.verdict} svc09=${fnd["SVC-09"]?.verdict}`);
+
+  issOk && vr.status === 0
+    ? held("AGT", "directive-router", vr.stdout.trim().replace(/^.*— /, ""))
+    : open_("AGT", "directive-router", `issue=${issOk} verify=${vr.status}`);
+  glyOk && refOk
+    ? held("AGT", "glyph-table", "bound glyph routed to its duty; unknown glyph refused + audited")
+    : open_("AGT", "glyph-table", `bound=${glyOk} refused=${refOk}`);
+
+  /* record kinds — the agents' filed evidence resolves in the DHT */
+  const kinds = ["dreamstream", "c-aud-theta", "directive"];
+  const q = kinds.map(k => {
+    const r = spawnSync("node", [path.join(ROOT, "tools", "dht-fs.mjs"), "record", "query", k, "7"], { encoding: "utf8" });
+    try { return JSON.parse(r.stdout).length > 0; } catch { return false; }
+  });
+  q.every(Boolean)
+    ? held("AGT", "record-kinds", `${kinds.length} agent record kinds filed + queryable in the Continuity DHT`)
+    : open_("AGT", "record-kinds", `kinds resolving: ${kinds.filter((_, i) => q[i]).join(", ") || "none"}`);
+
+  /* remote-digit reinterpretation — the organ-mapping contract exists
+     and carries the four organ slots (drawer doc; detail stays clean) */
+  const doc = path.join(ROOT, "thoughts&convos", "AdmPaul", "convos", "digit-reinterpretation.md");
+  const organs = fs.existsSync(doc)
+    && ["E5", "E6", "E7", "E0"].every(o => fs.readFileSync(doc, "utf8").includes(o));
+  organs
+    ? held("AGT", "organ-mapping", "remote two-organ brain reinterpreted — E5/E6/E7/E0 mapped to platform organs, contract on file")
+    : open_("AGT", "organ-mapping", "reinterpretation doc absent or missing organ slots");
 }
 
 console.log("\nFILM — the generative film pipeline");

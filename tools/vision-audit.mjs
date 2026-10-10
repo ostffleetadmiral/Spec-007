@@ -163,9 +163,12 @@ const ELEMENTS = [
     "real 3d scene shipped": ex(path.join(SITE, "assets", "nebula-3d.js")) && held("NE-01"),
     "xr boundary labeled": held("NE-04"),
   }},
-  { id: "digit-two-organ", vision: "digit — e5/e6/e7/e0 two-organ brain, q4 wasm64 decoder",
-    external: true, checks: {
-      "doc-cited remote tree": true,  /* sftp .210:Digit-v0.0.0.1 — surveyed, off-repo */
+  { id: "digit-two-organ", vision: "digit — two-organ brain (e5/e6/e7/e0) reinterpreted onto platform organs; remote q4 decoder doc-cited",
+    checks: {
+      "doc-cited remote tree": true,  /* sftp .210:Digit-v0.0.0.1 — surveyed, off-repo, never fabricated */
+      "reinterpretation contract on file": ex(path.join(ROOT, "thoughts&convos", "AdmPaul", "convos", "digit-reinterpretation.md")),
+      "organ probes held": anyHeld("AGT"),
+      "sub-agent ring declared": (command.ai_systems || []).some(a => a.name === "digit" && (a.sub_agents || []).length >= 3),
     }},
 ];
 

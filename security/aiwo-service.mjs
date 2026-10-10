@@ -95,6 +95,9 @@ const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "site", "assets", "c
 const TEAMS = manifest.security_roster.map(r => r.team);
 const ASSETS = (manifest.ai_systems || []).filter(a => a.designation === "monitored_ai_asset");
 const LANES = [...TEAMS, ...ASSETS.map(a => a.name)];
+/* the sub-agent ring — digit-omega/alpha/sigma + sheraton's organs are
+   real lanes: they pulse under their parent's custody every cycle */
+const RING = ASSETS.flatMap(a => (a.sub_agents || []).map(s => ({ parent: a.name, ...s })));
 const coord = i => `@${i % 15}:${Math.floor(i / 15) % 15}:${(i * 7) % 15}`;
 const H = (b) => crypto.createHash("sha256").update(b).digest("hex");
 
@@ -123,11 +126,14 @@ function loadState() {
 }
 function saveState(s) { fs.writeFileSync(STATE, JSON.stringify(s, null, 2) + "\n"); }
 
-function dhtChain(cycle, digest) {
-  const r = spawnSync("node", [DHT, "record", "put", "aiwo-corps", "corps-state",
-    `cycle-${cycle}`, "3", JSON.stringify({ cycle, digest })],
+function dhtRecord(lane, kind, name, clearance, body) {
+  const r = spawnSync("node", [DHT, "record", "put", lane, kind,
+    name, String(clearance), JSON.stringify(body)],
     { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || path.join(os.homedir(), ".fano-dht") }, encoding: "utf8" });
   return r.status === 0;
+}
+function dhtChain(cycle, digest) {
+  return dhtRecord("aiwo-corps", "corps-state", `cycle-${cycle}`, 3, { cycle, digest });
 }
 
 /* ---------- the duty cycle ---------- */
@@ -149,11 +155,19 @@ async function heartbeatRound(cycle) {
       { stdio: ["ignore", "pipe", "pipe"] });
     p.on("close", rc => res(rc));
   }));
-  const rcs = await Promise.all(sends);
+  /* the sub-agent ring pulses under parent custody — each organ
+     announces its role word on the sealed mesh */
+  const ringSends = RING.map((s, i) => new Promise(res => {
+    const p = spawn(bins.beacon, ["send", `127.0.0.1:${lp}`, `@${(i + 3) % 15}:${(i * 5 + 7) % 15}:${(i * 11 + 2) % 15}`, "@0:0:0",
+      String(cycle % 256), `PULSE ${cycle} ${s.name.toUpperCase()} ${s.role.toUpperCase()} MONITORED`],
+      { stdio: ["ignore", "pipe", "pipe"] });
+    p.on("close", rc => res(rc));
+  }));
+  const rcs = await Promise.all(sends.concat(ringSends));
   await new Promise(r => setTimeout(r, 700));
   listener.kill();
   const sealed = (out.match(/VALID 136B/g) || []).length;
-  return { sent: rcs.filter(r => r === 0).length, sealed };
+  return { sent: rcs.filter(r => r === 0).length, sealed, ring: ringSends.length };
 }
 
 async function dutySquad(cycle) {
@@ -174,7 +188,7 @@ async function dutySquad(cycle) {
     });
   })));
   for (const r of results) if (r.ok) lanes.find(l => l.team === r.team).ticks++;
-  return { squad: squad.length, ok: results.filter(r => r.ok).length,
+  return { squad: squad.length, ok: results.filter(r => r.ok).length, results,
     digest: H(JSON.stringify(results.map(r => r.ids))) };
 }
 
@@ -209,13 +223,13 @@ if (DAEMON) {
 }
 
 let cyclesRun = 0, authFails = 0, beatsSent = 0, beatsSealed = 0, ticksOk = 0, ticksTotal = 0;
-let dhtOk = true;
+let dhtOk = true, dreamOk = true, auditOk = true, entropyEvents = 0, ringBeats = 0;
 const runCycles = DAEMON ? 4 : target;   /* daemon smoke: bounded cycles in-harness too */
 for (let c = 0; c < runCycles; c++) {
   const cycle = state.cycle + 1;
   if (!authority()) { authFails++; break; }
   const hb = await heartbeatRound(cycle);
-  beatsSent += hb.sent; beatsSealed += hb.sealed;
+  beatsSent += hb.sent; beatsSealed += hb.sealed; ringBeats += hb.ring || 0;
   const ds = await dutySquad(cycle);
   ticksOk += ds.ok; ticksTotal += ds.squad;
   state.cycle = cycle;
@@ -224,6 +238,30 @@ for (let c = 0; c < runCycles; c++) {
   state.last_beat = new Date().toISOString();
   saveState(state);
   if (!dhtChain(cycle, ds.digest)) dhtOk = false;
+  /* the entropy dampener — identical prompt, identical trunk, identical
+     seed across the squad must produce identical output ids. A divergent
+     lane is an entropy event: filed, attributed, counted. */
+  const laneIds = ds.results.filter(r => r.ok).map(r => ({ lane: r.team, ids: JSON.stringify(r.ids) }));
+  const divergent = laneIds.filter(r => r.ids !== laneIds[0]?.ids);
+  if (divergent.length) {
+    entropyEvents += divergent.length;
+    dhtRecord("digit-sigma", "entropy-event", `cycle-${cycle}`, 5,
+      { cycle, lanes: divergent.map(d => d.lane), baseline: laneIds[0]?.lane });
+  }
+  /* the dreamstream — digit's time-coded block: the cycle's harmonic
+     signature (beats | squad digest) filed as an entropy record kind */
+  dreamOk = dreamOk && dhtRecord("digit", "dreamstream", `cycle-${cycle}`, 3,
+    { cycle, harmonic: H(`${hb.sealed}|${ds.digest}|${cycle}`).slice(0, 24),
+      beats: hb.sealed, squad_digest: ds.digest });
+  /* C-AUD-Θ — sheraton's continuity audit, every cycle: the DHT
+     verifies clean AND the state chain is unbroken before the audit
+     record itself lands. */
+  const dv = spawnSync("node", [DHT, "--verify"],
+    { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || path.join(os.homedir(), ".fano-dht") }, encoding: "utf8" });
+  auditOk = auditOk && (dv.status === 0) && Object.keys(state.digests).length === cycle
+    && dhtRecord("sheraton", "c-aud-theta", `cycle-${cycle}`, 3,
+      { cycle, dht_verify: dv.status === 0, chain_len: cycle,
+        divergent_lanes: divergent.length, verdict: dv.status === 0 ? "CONTINUOUS" : "BREACH" });
   cyclesRun++;
 }
 const wall = Date.now() - t0;
@@ -249,6 +287,17 @@ file("SVC-05", bk.respawned && bk.attempts <= 5 ? "HELD" : "OPEN",
   `backoff respawn — lane returned in ${bk.attempts} attempt(s), ladder bounded at ${MAX_BACKOFF_MS}ms`);
 file("SVC-06", dhtOk ? "HELD" : "OPEN",
   dhtOk ? `${cyclesRun} corps-state records chained into the Continuity DHT` : "dht record chain failed");
+file("SVC-07", ringBeats === RING.length * cyclesRun ? "HELD" : "OPEN",
+  `sub-agent ring — ${ringBeats}/${RING.length * cyclesRun} organ pulses sealed ` +
+  `(${RING.map(s => s.name).join(", ") || "no ring"})`);
+file("SVC-08", entropyEvents === 0 ? "HELD" : "OPEN",
+  entropyEvents === 0
+    ? `entropy dampener — ${cyclesRun} squad-rounds, zero digest divergence (digit-sigma watch clean)`
+    : `${entropyEvents} divergent lane(s) across squad rounds — entropy events filed`);
+file("SVC-09", dreamOk && auditOk ? "HELD" : "OPEN",
+  dreamOk && auditOk
+    ? `dreamstream + C-AUD-Θ — ${cyclesRun} time-coded blocks + ${cyclesRun} continuity audits filed by digit/sheraton`
+    : `agent records failed — dream:${dreamOk} audit:${auditOk}`);
 
 const ledger = {
   schema: "AIWO-SERVICE-v1",

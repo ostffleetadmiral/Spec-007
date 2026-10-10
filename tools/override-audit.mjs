@@ -50,7 +50,8 @@ try {
 /* probe-id vocabulary — only real teams match; FANO-1/SHA-1/SPEC-007 excluded */
 const TEAMS = ["DESK","WIRE","AUTH","BOT","ZIG","RED","BLUE","BLACK","GRAY","COMM",
   "SENT","HARN","FLEET","CLUSTER","ENGINE","CONT","LIBRARY","PROD","CURR","CENS",
-  "SPEC004","OVR","SUP","KALI","BRG","SCI","EMG","SV"];
+  "SPEC004","OVR","SUP","KALI","BRG","SCI","EMG","SV","SVC","DHT","AGT","FILM",
+  "NE","PAR","PARA","PRM","GLD","RF","QD","AST","LAWB","ARC","DOX","DEV","EVM"];
 const PROBE_RE = new RegExp("\\b(" + TEAMS.join("|") + ")-(\\d{1,2})\\b", "g");
 const ALIAS = { ENG: "ENGINE", LIB: "LIBRARY", CONT: "CONT" };
 /* expand range cites: "ENG-01..04" → the full range */
