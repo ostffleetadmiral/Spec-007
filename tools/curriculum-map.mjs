@@ -35,6 +35,7 @@ const REQUIRED = [
   "systems-engineering", "ai-literacy", "security-clearance",
   "communications", "campaign-operations", "ministry-neo-hindu",
   "science-lattice", "hardware-fleet", "reference-stack", "lore-shelf",
+  "uiux-craft",
 ];
 /* tracks that also carry the curated shelf (human + generated lessons) */
 const SHELF_TOPICS = ["orientation", "ethics", "identity", "systems",
@@ -47,6 +48,7 @@ const COURSE_OF = {
   communications: "communications", campaign: "campaign-operations",
   ministry: "ministry-neo-hindu", science: "science-lattice",
   hardware: "hardware-fleet", reference: "reference-stack", lore: "lore-shelf",
+  uiux: "uiux-craft",
 };
 
 const m = J(MANIFEST), corpus = J(CORPUS);

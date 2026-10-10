@@ -2,141 +2,1468 @@
   "schema": "REPO-CORPUS-v1",
   "note": "Declared Academy harvest sources. class: first_party = fleet-owned projects; upstream = donor/fork corpora (provenance-labeled). mode: local = live clone under $HOME; pinned_clone = checkout under ~/.academy-corpus pinned to a recorded sha; declassified = public copies inside the repo (drawer originals never harvest). Private/local-only trees are excluded entirely by owner decision.",
   "global_exclude": [
-    "**/node_modules/**", "**/.git/**", "**/vendor/**", "**/third_party/**",
-    "**/dist/**", "**/build/**", "**/target/**", "**/.zig-cache/**",
-    "**/zig-out/**", "**/coverage/**", "**/__pycache__/**",
-    "**/*.env", "**/*.env.*", "**/*secret*", "**/*credential*", "**/*.pem",
-    "**/*id_rsa*", "**/.npmrc", "**/.ssh/**"
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/vendor/**",
+    "**/third_party/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/target/**",
+    "**/.zig-cache/**",
+    "**/zig-out/**",
+    "**/coverage/**",
+    "**/__pycache__/**",
+    "**/*.env",
+    "**/*.env.*",
+    "**/*secret*",
+    "**/*credential*",
+    "**/*.pem",
+    "**/*id_rsa*",
+    "**/.npmrc",
+    "**/.ssh/**"
   ],
-  "global_include": ["**/*.md", "**/*.markdown", "**/*.txt", "**/*.rst"],
+  "global_include": [
+    "**/*.md",
+    "**/*.markdown",
+    "**/*.txt",
+    "**/*.rst"
+  ],
   "sources": [
     {
-      "root": "e-mc-2", "class": "first_party", "mode": "local",
+      "root": "e-mc-2",
+      "class": "first_party",
+      "mode": "local",
       "local": "CascadeProjects/hardware",
       "url": "https://github.com/ostffleetadmiral/E-mc-2---i---E-mc--2-toy-model.git",
-      "include": ["**/*.md", "**/*.txt", "**/*.rst"],
-      "exclude": ["experiments/**", "codon/**", "neuraleak/**", "backups*/**"]
+      "include": [
+        "**/*.md",
+        "**/*.txt",
+        "**/*.rst"
+      ],
+      "exclude": [
+        "experiments/**",
+        "codon/**",
+        "neuraleak/**",
+        "backups*/**"
+      ]
     },
     {
-      "root": "space-agent", "class": "first_party", "mode": "local",
+      "root": "space-agent",
+      "class": "first_party",
+      "mode": "local",
       "local": "Music/Paul/space-agent",
       "url": "https://github.com/ostffleetadmiral/space-agent.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "spec-007", "class": "first_party", "mode": "local",
+      "root": "spec-007",
+      "class": "first_party",
+      "mode": "local",
       "local": "CascadeProjects/hardware/experiments/Spec-007",
-      "include": ["AGENTS.md", "README*", "docs/**/*.md", "prototypes/**/*.md"],
-      "exclude": ["docs/en/declassified-7q/**", "docs/en/declassified-gnm/**"]
+      "include": [
+        "AGENTS.md",
+        "README*",
+        "docs/**/*.md",
+        "prototypes/**/*.md"
+      ],
+      "exclude": [
+        "docs/en/declassified-7q/**",
+        "docs/en/declassified-gnm/**"
+      ]
     },
     {
-      "root": "nullclaw", "class": "upstream", "mode": "local",
+      "root": "nullclaw",
+      "class": "upstream",
+      "mode": "local",
       "local": "Desktop/Sheraton/nullclaw",
       "url": "https://github.com/ostffleetadmiral/nullclaw.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "gnm-ministry", "class": "first_party", "mode": "declassified",
+      "root": "gnm-ministry",
+      "class": "first_party",
+      "mode": "declassified",
       "local": "CascadeProjects/hardware/experiments/Spec-007/docs/en/declassified-gnm",
       "note": "Guerrilla National Ministries — Neo-Hindu corpus; declassified copies only, drawer originals never publish",
-      "include": ["*.md"]
+      "include": [
+        "*.md"
+      ]
     },
     {
-      "root": "fano-1", "class": "first_party", "mode": "pinned_clone",
+      "root": "fano-1",
+      "class": "first_party",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/fano-1.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "project-nomad", "class": "upstream", "mode": "pinned_clone",
+      "root": "project-nomad",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/project-nomad.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "quine.html", "class": "first_party", "mode": "pinned_clone",
+      "root": "quine.html",
+      "class": "first_party",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/quine.html.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "cofounder", "class": "first_party", "mode": "pinned_clone",
+      "root": "cofounder",
+      "class": "first_party",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/cofounder-v0.0.0.1.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "vphone-cli", "class": "first_party", "mode": "pinned_clone",
+      "root": "vphone-cli",
+      "class": "first_party",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/vphone-cli.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "agent-builder", "class": "upstream", "mode": "pinned_clone",
+      "root": "agent-builder",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/agent-builder.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "full-stack-school", "class": "upstream", "mode": "pinned_clone",
+      "root": "full-stack-school",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/full-stack-school.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "adk", "class": "upstream", "mode": "pinned_clone",
+      "root": "adk",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/adk.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "paperless-ngx", "class": "upstream", "mode": "pinned_clone",
+      "root": "paperless-ngx",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/paperless-ngx.git",
-      "include": ["**/*.md", "**/*.txt", "**/*.rst"]
+      "include": [
+        "**/*.md",
+        "**/*.txt",
+        "**/*.rst"
+      ]
     },
     {
-      "root": "freenet-core", "class": "upstream", "mode": "pinned_clone",
+      "root": "freenet-core",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/freenet-core.git",
-      "include": ["**/*.md", "**/*.txt", "**/*.rst"]
+      "include": [
+        "**/*.md",
+        "**/*.txt",
+        "**/*.rst"
+      ]
     },
     {
-      "root": "three-ws", "class": "upstream", "mode": "pinned_clone",
+      "root": "three-ws",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/three.ws.git",
-      "include": ["**/*.md"],
-      "exclude": ["contracts/lib/**", "data/skills/**", ".agents/skills/**",
-        "**/.changeset/**", "**/vendor/**", "**/test/fixtures/**"]
+      "include": [
+        "**/*.md"
+      ],
+      "exclude": [
+        "contracts/lib/**",
+        "data/skills/**",
+        ".agents/skills/**",
+        "**/.changeset/**",
+        "**/vendor/**",
+        "**/test/fixtures/**"
+      ]
     },
     {
-      "root": "ukama", "class": "upstream", "mode": "pinned_clone",
+      "root": "ukama",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/ukama.git",
-      "include": ["**/*.md", "**/*.rst"]
+      "include": [
+        "**/*.md",
+        "**/*.rst"
+      ]
     },
     {
-      "root": "ukama-nodes", "class": "upstream", "mode": "pinned_clone",
+      "root": "ukama-nodes",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/ukama-nodes.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "walter-esp-idf", "class": "upstream", "mode": "pinned_clone",
+      "root": "walter-esp-idf",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/walter-esp-idf.git",
-      "include": ["**/*.md", "**/*.txt", "**/*.rst"]
+      "include": [
+        "**/*.md",
+        "**/*.txt",
+        "**/*.rst"
+      ]
     },
     {
-      "root": "walter-hardware", "class": "upstream", "mode": "pinned_clone",
+      "root": "walter-hardware",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/walter-hardware.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "walter-micropython", "class": "upstream", "mode": "pinned_clone",
+      "root": "walter-micropython",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/walter-micropython.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "walter-uc", "class": "upstream", "mode": "pinned_clone",
+      "root": "walter-uc",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/walter-uc.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "woof-ce", "class": "upstream", "mode": "pinned_clone",
+      "root": "woof-ce",
+      "class": "upstream",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/woof-CE.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
     },
     {
-      "root": "maypole-firmware", "class": "first_party", "mode": "pinned_clone",
+      "root": "maypole-firmware",
+      "class": "first_party",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/Maypole_firmware.git",
-      "include": ["**/*.md", "**/*.txt"]
+      "include": [
+        "**/*.md",
+        "**/*.txt"
+      ]
+    },
+    {
+      "root": "winbox",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/winbox.git",
+      "upstream": "https://github.com/nextapps-de/winbox",
+      "surface": "window-manager",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "golden-layout",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/golden-layout.git",
+      "upstream": "https://github.com/golden-layout/golden-layout",
+      "surface": "dockable-layout",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "xterm-js",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/xterm.js.git",
+      "upstream": "https://github.com/xtermjs/xterm.js",
+      "surface": "terminal-emulator",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "ace",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/ace.git",
+      "upstream": "https://github.com/ajaxorg/ace",
+      "surface": "code-editor",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "quill",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/quill.git",
+      "upstream": "https://github.com/slab/quill",
+      "surface": "rich-text-editor",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "codemirror",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/codemirror-dev.git",
+      "upstream": "https://github.com/codemirror/dev",
+      "surface": "code-editor-kit",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "flexsearch",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/flexsearch.git",
+      "upstream": "https://github.com/nextapps-de/flexsearch",
+      "surface": "full-text-search",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "lunr",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/lunr.js.git",
+      "upstream": "https://github.com/olivernn/lunr.js",
+      "surface": "search-index",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "fuse",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Fuse.git",
+      "upstream": "https://github.com/krisk/Fuse",
+      "surface": "fuzzy-search",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "fuzzysort",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/fuzzysort.git",
+      "upstream": "https://github.com/farzher/fuzzysort",
+      "surface": "fuzzy-search",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "ninja-keys",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/ninja-keys.git",
+      "upstream": "https://github.com/ssleptsov/ninja-keys",
+      "surface": "command-palette",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "hotkeys-js",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/hotkeys-js.git",
+      "upstream": "https://github.com/jaywcjlove/hotkeys-js",
+      "surface": "keybindings",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "uplot",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/uPlot.git",
+      "upstream": "https://github.com/leeoniya/uPlot",
+      "surface": "charts",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "chartjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Chart.js.git",
+      "upstream": "https://github.com/chartjs/Chart.js",
+      "surface": "charts",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "d3",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/d3.git",
+      "upstream": "https://github.com/d3/d3",
+      "surface": "dataviz-kernel",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "echarts",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/echarts.git",
+      "upstream": "https://github.com/apache/echarts",
+      "surface": "charts",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "observable-plot",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/plot.git",
+      "upstream": "https://github.com/observablehq/plot",
+      "surface": "dataviz-grammar",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "threejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/three.js.git",
+      "upstream": "https://github.com/mrdoob/three.js",
+      "surface": "webgl-3d",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "globe-gl",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/globe.gl.git",
+      "upstream": "https://github.com/vasturiano/globe.gl",
+      "surface": "globe-viz",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "force-graph-3d",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/3d-force-graph.git",
+      "upstream": "https://github.com/vasturiano/3d-force-graph",
+      "surface": "nebula-graph",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "force-graph",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/force-graph.git",
+      "upstream": "https://github.com/vasturiano/force-graph",
+      "surface": "network-viz",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "cytoscape",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/cytoscape.js.git",
+      "upstream": "https://github.com/cytoscape/cytoscape.js",
+      "surface": "network-viz",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "sigmajs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/sigma.js.git",
+      "upstream": "https://github.com/jacomyal/sigma.js",
+      "surface": "network-viz",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "mermaid",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/mermaid.git",
+      "upstream": "https://github.com/mermaid-js/mermaid",
+      "surface": "diagramming",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "dagre",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/dagre.git",
+      "upstream": "https://github.com/dagrejs/dagre",
+      "surface": "graph-layout",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "tabulator",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/tabulator.git",
+      "upstream": "https://github.com/tabulator-tables/tabulator",
+      "surface": "data-grid",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "gridjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/gridjs.git",
+      "upstream": "https://github.com/grid-js/gridjs",
+      "surface": "data-grid",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "jspreadsheet",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/jspreadsheet-ce.git",
+      "upstream": "https://github.com/jspreadsheet/ce",
+      "surface": "spreadsheet",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "sortable",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Sortable.git",
+      "upstream": "https://github.com/SortableJS/Sortable",
+      "surface": "drag-drop",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "interactjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/interact.js.git",
+      "upstream": "https://github.com/taye/interact.js",
+      "surface": "gestures",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "jkanban",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/jkanban.git",
+      "upstream": "https://github.com/riktar/jkanban",
+      "surface": "kanban-board",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "animejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/anime.git",
+      "upstream": "https://github.com/juliangarnier/anime",
+      "surface": "animation",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "gsap",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/GSAP.git",
+      "upstream": "https://github.com/greensock/GSAP",
+      "surface": "animation-engine",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "particlesjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/particles.js.git",
+      "upstream": "https://github.com/VincentGarreau/particles.js",
+      "surface": "ambient-fx",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "canvas-confetti",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/canvas-confetti.git",
+      "upstream": "https://github.com/catdad/canvas-confetti",
+      "surface": "celebration-fx",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "marked",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/marked.git",
+      "upstream": "https://github.com/markedjs/marked",
+      "surface": "markdown-render",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "markdown-it",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/markdown-it.git",
+      "upstream": "https://github.com/markdown-it/markdown-it",
+      "surface": "markdown-render",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "dompurify",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/DOMPurify.git",
+      "upstream": "https://github.com/cure53/DOMPurify",
+      "surface": "xss-sanitizer",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "prismjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/prism.git",
+      "upstream": "https://github.com/PrismJS/prism",
+      "surface": "syntax-highlight",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "highlightjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/highlight.js.git",
+      "upstream": "https://github.com/highlightjs/highlight.js",
+      "surface": "syntax-highlight",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "sweetalert2",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/sweetalert2.git",
+      "upstream": "https://github.com/sweetalert2/sweetalert2",
+      "surface": "modal-dialogs",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "notyf",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/notyf.git",
+      "upstream": "https://github.com/caroso1222/notyf",
+      "surface": "toast-notify",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "driverjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/driver.js.git",
+      "upstream": "https://github.com/nilbuild/driver.js",
+      "surface": "guided-tours",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "shepherd",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/shepherd.git",
+      "upstream": "https://github.com/shipshapecode/shepherd",
+      "surface": "guided-tours",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "tippyjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/tippyjs.git",
+      "upstream": "https://github.com/atomiks/tippyjs",
+      "surface": "tooltips",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "floating-ui",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/floating-ui.git",
+      "upstream": "https://github.com/floating-ui/floating-ui",
+      "surface": "positioning",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "pickr",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/pickr.git",
+      "upstream": "https://github.com/simonwep/pickr",
+      "surface": "color-picker",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "flatpickr",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/flatpickr.git",
+      "upstream": "https://github.com/flatpickr/flatpickr",
+      "surface": "datetime-picker",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "simple-keyboard",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/simple-keyboard.git",
+      "upstream": "https://github.com/hodgef/simple-keyboard",
+      "surface": "virtual-keyboard",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "lucide",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/lucide.git",
+      "upstream": "https://github.com/lucide-icons/lucide",
+      "surface": "icon-set",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "tabler-icons",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/tabler-icons.git",
+      "upstream": "https://github.com/tabler/tabler-icons",
+      "surface": "icon-set",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "phosphor-icons",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/phosphor-icons.git",
+      "upstream": "https://github.com/phosphor-icons/core",
+      "surface": "icon-set",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "howler",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/howler.js.git",
+      "upstream": "https://github.com/goldfire/howler.js",
+      "surface": "audio",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "tonejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Tone.js.git",
+      "upstream": "https://github.com/Tonejs/Tone.js",
+      "surface": "audio-synth",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "localforage",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/localForage.git",
+      "upstream": "https://github.com/localForage/localForage",
+      "surface": "offline-storage",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "comlink",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/comlink.git",
+      "upstream": "https://github.com/GoogleChromeLabs/comlink",
+      "surface": "worker-rpc",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "sqljs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/sql.js.git",
+      "upstream": "https://github.com/sql-js/sql.js",
+      "surface": "wasm-sqlite",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "css-98",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/98.css.git",
+      "upstream": "https://github.com/jdan/98.css",
+      "surface": "retro-livery",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "system-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/system.css.git",
+      "upstream": "https://github.com/sakofchit/system.css",
+      "surface": "retro-livery",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "xp-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/XP.css.git",
+      "upstream": "https://github.com/botoxparty/XP.css",
+      "surface": "retro-livery",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "open-props",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/open-props.git",
+      "upstream": "https://github.com/argyleink/open-props",
+      "surface": "css-tokens",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "animate-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/animate.css.git",
+      "upstream": "https://github.com/animate-css/animate.css",
+      "surface": "css-animation",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "pico-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/pico.git",
+      "upstream": "https://github.com/picocss/pico",
+      "surface": "semantic-css",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "vanjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/van.git",
+      "upstream": "https://github.com/vanjs-org/van",
+      "surface": "reactive-dom",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "alpinejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/alpine.git",
+      "upstream": "https://github.com/alpinejs/alpine",
+      "surface": "declarative-dom",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "masonry",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/masonry.git",
+      "upstream": "https://github.com/desandro/masonry",
+      "surface": "card-layout",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "swiper",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/swiper.git",
+      "upstream": "https://github.com/nolimits4web/swiper",
+      "surface": "touch-slider",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "tui-calendar",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/tui.calendar.git",
+      "upstream": "https://github.com/nhn/tui.calendar",
+      "surface": "calendar",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "kaplay",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/kaplay.git",
+      "upstream": "https://github.com/kaplayjs/kaplay",
+      "surface": "game-engine",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "nipplejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/nipplejs.git",
+      "upstream": "https://github.com/yoannmoinet/nipplejs",
+      "surface": "joystick",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "leaflet",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Leaflet.git",
+      "upstream": "https://github.com/Leaflet/Leaflet",
+      "surface": "maps",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "wavesurfer",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/wavesurfer.js.git",
+      "upstream": "https://github.com/katspaugh/wavesurfer.js",
+      "surface": "audio-viz",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "html2canvas",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/html2canvas.git",
+      "upstream": "https://github.com/niklasvh/html2canvas",
+      "surface": "dom-capture",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "printjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/Print.js.git",
+      "upstream": "https://github.com/crabbly/Print.js",
+      "surface": "print-bridge",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "qrcodejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/qrcodejs.git",
+      "upstream": "https://github.com/davidshimjs/qrcodejs",
+      "surface": "qr-codes",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "revealjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/reveal.js.git",
+      "upstream": "https://github.com/hakimel/reveal.js",
+      "surface": "slide-decks",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "typedjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/typed.js.git",
+      "upstream": "https://github.com/mattboldt/typed.js",
+      "surface": "typewriter-fx",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
+    },
+    {
+      "root": "idb",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "url": "https://github.com/ostffleetadmiral/idb.git",
+      "upstream": "https://github.com/jakearchibald/idb",
+      "surface": "indexed-db",
+      "topic": "uiux",
+      "include": [
+        "**/*.md",
+        "**/*.markdown",
+        "**/*.txt",
+        "**/*.rst"
+      ]
     }
   ]
 }

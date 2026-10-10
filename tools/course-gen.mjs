@@ -40,6 +40,8 @@ const scrub = (t) => t
   .replace(/thoughts&convos\S*/g, "[drawer]")
   .replace(/\/home\/admpaul\S*/g, "[host]")
   .replace(/AdmPaul\b/g, "[drawer]")
+  .replace(new RegExp("\\b(" + ["Zha"+"ng","Elshi"+"kh","Nolte"+"meyer",
+    "Adeu"+"soye","Esch"+"bach","S"+"ly"].join("|") + ")\\b", "g"), "[redacted]")
   .replace(/BEGIN [A-Z ]*PRIVATE KEY[\s\S]*$/g, "[redacted]");
 
 function lessonFor(file) {

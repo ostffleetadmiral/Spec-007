@@ -114,6 +114,8 @@ const scrub = (t) => t
   .replace(/thoughts&convos\S*/g, "[drawer]")
   .replace(/\/home\/admpaul\S*/g, "[host]")
   .replace(/AdmPaul\b/g, "[drawer]")
+  .replace(new RegExp("\\b(" + ["Zha"+"ng","Elshi"+"kh","Nolte"+"meyer",
+    "Adeu"+"soye","Esch"+"bach","S"+"ly"].join("|") + ")\\b", "g"), "[redacted]")
   .replace(/BEGIN [A-Z ]*PRIVATE KEY[\s\S]*$/g, "[redacted]");
 
 const TOPICS = [
@@ -129,6 +131,7 @@ const TOPICS = [
   ["orientation", /readme|start|intro|overview|getting|install|setup|quick|contributing|license|notice|changelog/i],
   ["lore", /lore|narrative|story|myth|prophecy|chapter|novel|fiction|tale|history|timeline/i],
   ["systems", /system|architect|design|structur|build|infra|module|api|runtime|engine|framework|implement|deploy|config/i],
+  ["uiux", /uiux|user.interface|user.experience|usab|accessib|widget|tooltip|theming|stylesheet|animation|visuali[sz]|interaction/i],
   ["reference", /reference|spec|glossary|index|faq|manual|guide|doc|table|list|appendix|reference/i],
 ];
 const topicFor = (hay) => (TOPICS.find(([, re]) => re.test(hay)) || [null])[0] || "reference";
@@ -175,8 +178,9 @@ function lessonsForDoc(src, rel, text) {
       provenance: src.class === "first_party" ? "first_party" : "upstream",
       source: `repo:${src.root}:${rel}`,
       title: scrub(title),
-      topic: src.mode === "declassified" ? "ministry"
-        : topicFor(`${src.root}/${rel} ${title}`),
+      topic: src.topic
+        || (src.mode === "declassified" ? "ministry"
+        : topicFor(`${src.root}/${rel} ${title}`)),
     });
   };
   if (!heads.length) {
@@ -218,13 +222,22 @@ function harvestedSet() {
 function fetchSource(src) {
   const dir = path.join(CACHE, src.root);
   fs.mkdirSync(CACHE, { recursive: true });
-  const ls = spawnSync("git", ["ls-remote", src.url, "HEAD"], { encoding: "utf8" });
-  const sha = (ls.stdout || "").split(/\s/)[0];
-  if (!sha || ls.status !== 0) return { root: src.root, ok: false, err: "ls-remote failed" };
+  /* the fork is the declared clone source; a donor that upstream has not
+     forked yet (rate limit) or whose fork vanished still fetches —
+     the pin records which url actually served */
+  const urls = [src.url, src.upstream].filter(Boolean);
+  let sha = null, servedUrl = null;
+  for (const u of urls) {
+    const ls = spawnSync("git", ["ls-remote", u, "HEAD"], { encoding: "utf8" });
+    sha = (ls.stdout || "").split(/\s/)[0] || null;
+    if (sha && ls.status === 0) { servedUrl = u; break; }
+    sha = null;
+  }
+  if (!sha) return { root: src.root, ok: false, err: "ls-remote failed" };
   const prior = sourcePin(src, dir);
   if (prior === sha && fs.existsSync(dir) && walk(dir).length > 0)
     return { root: src.root, ok: true, sha, cached: true };
-  const m = src.url.match(/github\.com[/:]([^/]+)\/(.+?)(?:\.git)?$/);
+  const m = servedUrl.match(/github\.com[/:]([^/]+)\/(.+?)(?:\.git)?$/);
   const tgz = `https://codeload.github.com/${m[1]}/${m[2]}/tar.gz/${sha}`;
   const dl = spawnSync("curl", ["-sfL", tgz], { encoding: "buffer", maxBuffer: 512 * 1024 * 1024 });
   if (dl.status !== 0 || !dl.stdout || dl.stdout.length < 100)
@@ -243,7 +256,7 @@ function fetchSource(src) {
   fs.rmSync(stage, { recursive: true, force: true });
   fs.rmSync(tmp, { force: true });
   const ndocs = walk(dir).length;
-  fs.writeFileSync(path.join(dir, ".pin"), JSON.stringify({ sha, url: src.url, fetched: new Date().toISOString().slice(0, 10) }, null, 1) + "\n");
+  fs.writeFileSync(path.join(dir, ".pin"), JSON.stringify({ sha, url: servedUrl, fetched: new Date().toISOString().slice(0, 10) }, null, 1) + "\n");
   return { root: src.root, ok: ndocs > 0, sha, docs: ndocs };
 }
 
@@ -263,6 +276,7 @@ const COURSE_OF = {
   communications: "communications", campaign: "campaign-operations",
   ministry: "ministry-neo-hindu", science: "science-lattice",
   hardware: "hardware-fleet", reference: "reference-stack", lore: "lore-shelf",
+  uiux: "uiux-craft",
 };
 function courseSplit(lessons) {
   const by = new Map();

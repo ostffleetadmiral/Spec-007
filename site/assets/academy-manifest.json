@@ -1,5 +1,5 @@
 {
-  "lesson_count": 43741,
+  "lesson_count": 70561,
   "lessons": [
     {
       "access": "public",
@@ -7680,7 +7680,7 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 43193
+      "harvested": 70013
     },
     "topics": {
       "orientation": 5847,
@@ -7691,22 +7691,23 @@
       "security": 1159,
       "communications": 2029,
       "campaign": 1656,
-      "reference": 15583,
+      "reference": 15304,
+      "uiux": 27099,
       "science": 2489,
       "hardware": 708,
       "ministry": 91,
       "lore": 151
     },
     "languages": {
-      "en": 43291,
-      "zh-Hant": 980
+      "en": 70097,
+      "zh-Hant": 994
     },
     "access": {
-      "public": 43741
+      "public": 70561
     },
     "provenance": {
       "curated": 548,
-      "upstream": 35767,
+      "upstream": 62587,
       "first_party": 7426
     }
   },
@@ -7902,9 +7903,633 @@
       "pin": "ae8ffc750654993aeb344599feafca716fc4d7c8",
       "docs": 4,
       "lessons": 18
+    },
+    {
+      "root": "winbox",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "bbb453aca2c3c5122c06ae0c6446eea1730d9142",
+      "docs": 2,
+      "lessons": 46
+    },
+    {
+      "root": "golden-layout",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "b053a23e2d9ea308810559370553a592a0e4bfae",
+      "docs": 63,
+      "lessons": 697
+    },
+    {
+      "root": "xterm-js",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "c58ea3637f3968e0e6e79cd92cf9aace7ef89ee2",
+      "docs": 24,
+      "lessons": 105
+    },
+    {
+      "root": "ace",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "62d5ffd789b4eb29ef7c1acc17554c91c745a307",
+      "docs": 37,
+      "lessons": 172
+    },
+    {
+      "root": "quill",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "539cbffd0a13b18e9c65eb84dd35e6596e403158",
+      "docs": 9,
+      "lessons": 113
+    },
+    {
+      "root": "codemirror",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "c010426d06689a7115aa9df08425126b6d3ead2f",
+      "docs": 2,
+      "lessons": 6
+    },
+    {
+      "root": "flexsearch",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "f7ed963096a0792da7b2fd63bb7114b3fbac55ed",
+      "docs": 49,
+      "lessons": 162
+    },
+    {
+      "root": "lunr",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "aa5a878f62a6bba1e8e5b95714899e17e8150b38",
+      "docs": 3,
+      "lessons": 62
+    },
+    {
+      "root": "fuse",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "edf2fb608eca0461508d1d71317e6e58309ffada",
+      "docs": 21,
+      "lessons": 244
+    },
+    {
+      "root": "fuzzysort",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "ac4d42ec894a2125d78802ec9b5e74e43518d0fc",
+      "docs": 1,
+      "lessons": 10
+    },
+    {
+      "root": "ninja-keys",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "8a47b207371139dc265f781c0df308eb46c8ec94",
+      "docs": 4,
+      "lessons": 30
+    },
+    {
+      "root": "hotkeys-js",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "8a0e151e6c46e901931be806f6e123c1e61589bb",
+      "docs": 2,
+      "lessons": 47
+    },
+    {
+      "root": "uplot",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a116ae6035d4af11ef2745a9e10d5f77e0217a3d",
+      "docs": 24,
+      "lessons": 327
+    },
+    {
+      "root": "chartjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "7169e65147a47f3720957a6f156a33c838ab9f57",
+      "docs": 143,
+      "lessons": 592
+    },
+    {
+      "root": "d3",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "ca958d45217b4c15332d971b935451a6d4c978f4",
+      "docs": 119,
+      "lessons": 1386
+    },
+    {
+      "root": "echarts",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "34f4d927eafe251f26f63afd3aeefa30f2feba30",
+      "docs": 7,
+      "lessons": 46
+    },
+    {
+      "root": "observable-plot",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "535723d5e433727720d9b673c31622821bb03210",
+      "docs": 82,
+      "lessons": 489
+    },
+    {
+      "root": "threejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "11738a9d55e502fb484cefffcea3a66dc44e9fe9",
+      "docs": 902,
+      "lessons": 8977
+    },
+    {
+      "root": "globe-gl",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "6820a9c794bddde8e842bb203eaa698f6ed7adfe",
+      "docs": 4,
+      "lessons": 28
+    },
+    {
+      "root": "force-graph-3d",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "5ccd00f47d72a571319da70ccac080bb8e09709f",
+      "docs": 3,
+      "lessons": 17
+    },
+    {
+      "root": "force-graph",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "0f059c894bf5b7504460b7028b00bc6e4d95f0d9",
+      "docs": 3,
+      "lessons": 16
+    },
+    {
+      "root": "cytoscape",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "7ba634095d8954089ee5dc09ada0030f2dca134c",
+      "docs": 219,
+      "lessons": 379
+    },
+    {
+      "root": "sigmajs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a3e79f4d5103f8a56784f7d3304d3f043ce75c83",
+      "docs": 39,
+      "lessons": 278
+    },
+    {
+      "root": "mermaid",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "33d0a4997b742df0d04838cce3f572e674d1cf9d",
+      "docs": 210,
+      "lessons": 2874
+    },
+    {
+      "root": "dagre",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "32e7f30f97f029fbfc89ce50e072d4fc16145838",
+      "docs": 2,
+      "lessons": 10
+    },
+    {
+      "root": "tabulator",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "f50492e5dc86460876de4f13394a341451a87c66",
+      "docs": 9,
+      "lessons": 34
+    },
+    {
+      "root": "gridjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a8e41b91cb42a96dcd96da421ff578fa572ef07f",
+      "docs": 6,
+      "lessons": 20
+    },
+    {
+      "root": "jspreadsheet",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "765ea62f83e7ce4ac843f822421a0e9d56f4cf49",
+      "docs": 183,
+      "lessons": 922
+    },
+    {
+      "root": "sortable",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "48b626bbc61afbb0f179730c1dd3cca3dcc8b788",
+      "docs": 10,
+      "lessons": 85
+    },
+    {
+      "root": "interactjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a993eb8cd5cbc65f3a19e45ee24b7fedc026174f",
+      "docs": 34,
+      "lessons": 214
+    },
+    {
+      "root": "jkanban",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "963cf2031d0f2cf07e5edbe368978f59bb2e30fd",
+      "docs": 1,
+      "lessons": 9
+    },
+    {
+      "root": "animejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "01b81be1df6843ccfe0a71c0699a746bf740dd77",
+      "docs": 6,
+      "lessons": 27
+    },
+    {
+      "root": "gsap",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "13e2b790546426a1a2e0e9b409f3f8dc6d6611f2",
+      "docs": 2,
+      "lessons": 12
+    },
+    {
+      "root": "particlesjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "d01286d6dcd61f497d07cc62bd48e692f6508ad5",
+      "docs": 2,
+      "lessons": 6
+    },
+    {
+      "root": "canvas-confetti",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "20eebad51dde793070c373d594099a7ed8d96e22",
+      "docs": 1,
+      "lessons": 11
+    },
+    {
+      "root": "marked",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "6a57018fc906333d358981682fd693e4bb85940f",
+      "docs": 256,
+      "lessons": 147
+    },
+    {
+      "root": "markdown-it",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "3c51991c32aaa2b002a52c009334ebe5752c84b3",
+      "docs": 62,
+      "lessons": 311
+    },
+    {
+      "root": "dompurify",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a3a40610f6ba8e3ac348ab04340bac25b6980d32",
+      "docs": 9,
+      "lessons": 70
+    },
+    {
+      "root": "prismjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "5a02da9fc590052765c740270dd5e79367df6c20",
+      "docs": 32,
+      "lessons": 258
+    },
+    {
+      "root": "highlightjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "fc3f06392f189354eed922973635ab9e9268b983",
+      "docs": 1447,
+      "lessons": 1442
+    },
+    {
+      "root": "sweetalert2",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "0bdf7205a4b165f60d156cebf7a8aa304bd6d240",
+      "docs": 7,
+      "lessons": 433
+    },
+    {
+      "root": "notyf",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "d19f0abf35d3b785e8fec6c81a08e18087feac56",
+      "docs": 12,
+      "lessons": 62
+    },
+    {
+      "root": "driverjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "cc398049bde916d7e256f72a3f84e5eb4ba14506",
+      "docs": 3,
+      "lessons": 10
+    },
+    {
+      "root": "shepherd",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "cf36267bd034a4a457148f91a00a13c68435aca6",
+      "docs": 19,
+      "lessons": 374
+    },
+    {
+      "root": "tippyjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "ad85f6feb79cf6c5853c43bf1b2a50c4fa98e7a1",
+      "docs": 5,
+      "lessons": 53
+    },
+    {
+      "root": "floating-ui",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "dc62df23d72ad96d456c007d48d4541786fcd7eb",
+      "docs": 24,
+      "lessons": 206
+    },
+    {
+      "root": "pickr",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "e8ff88d9161ffc6e3c46a4430be8c328c42d6415",
+      "docs": 6,
+      "lessons": 28
+    },
+    {
+      "root": "flatpickr",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "548330e6e18871d6ca1ca78746c0e89cb12a0303",
+      "docs": 4,
+      "lessons": 13
+    },
+    {
+      "root": "simple-keyboard",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "5aaf04c88880316cbd8db0bad33847a35c04c480",
+      "docs": 7,
+      "lessons": 22
+    },
+    {
+      "root": "lucide",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "70562c1ee1c4fdcf736fe97bc893fb8511927934",
+      "docs": 190,
+      "lessons": 988
+    },
+    {
+      "root": "tabler-icons",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d",
+      "docs": 36,
+      "lessons": 170
+    },
+    {
+      "root": "phosphor-icons",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "2b75f3ad12b420c9504ef05df8d2564a28f8500e",
+      "docs": 3,
+      "lessons": 21
+    },
+    {
+      "root": "howler",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "1d3053576a860e9854645493ad6c4a72c6cc6e45",
+      "docs": 10,
+      "lessons": 169
+    },
+    {
+      "root": "tonejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "de9df332ca7573b90a9aaca10c0729a3091dda0a",
+      "docs": 9,
+      "lessons": 41
+    },
+    {
+      "root": "localforage",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "fb78c77ee583fb727a558c439b5174aca38c5924",
+      "docs": 5,
+      "lessons": 75
+    },
+    {
+      "root": "comlink",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "114a4a6448a855a613f1cb9a7c89290606c003cf",
+      "docs": 10,
+      "lessons": 18
+    },
+    {
+      "root": "sqljs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "00787b940c6c15164ed73f8f298009dfcbb42dc9",
+      "docs": 4,
+      "lessons": 27
+    },
+    {
+      "root": "css-98",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "b1d7a907371bbe523d6f64e3af97f714fdbd6d6a",
+      "docs": 5,
+      "lessons": 9
+    },
+    {
+      "root": "system-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "c95b95428021361eaa411ccb08fa3b1050cc606d",
+      "docs": 1,
+      "lessons": 5
+    },
+    {
+      "root": "xp-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "376f42eb274361939eaad3b0943204c053ad26c4",
+      "docs": 5,
+      "lessons": 8
+    },
+    {
+      "root": "open-props",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "530682d04327f842f56bb1ec33cf84a3cadb3876",
+      "docs": 2,
+      "lessons": 23
+    },
+    {
+      "root": "animate-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "3f8ab233dbbd9d2fe577528d2296382954be3d1a",
+      "docs": 14,
+      "lessons": 47
+    },
+    {
+      "root": "pico-css",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "a07563ddc856e6ed31a740e33b0397814227d469",
+      "docs": 4,
+      "lessons": 22
+    },
+    {
+      "root": "vanjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "31bc066e60aad07f87f7a70901414b6a0acf6f9c",
+      "docs": 14,
+      "lessons": 91
+    },
+    {
+      "root": "alpinejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "8d3d9a2f98385d4c879f4b5be080a0221279ed4d",
+      "docs": 62,
+      "lessons": 396
+    },
+    {
+      "root": "masonry",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "3b0883cf4a4a046896719b9cf282ea74be7ffecd",
+      "docs": 3,
+      "lessons": 9
+    },
+    {
+      "root": "swiper",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "fbf9ddb555edd2e0332e813dd69972ab9ee4b8b4",
+      "docs": 12,
+      "lessons": 397
+    },
+    {
+      "root": "tui-calendar",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "b53e765e8d896ab7c63d9b9b9515904119a72f46",
+      "docs": 39,
+      "lessons": 645
+    },
+    {
+      "root": "kaplay",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "e2fbeebb89e47269d14143a066ee10b909349303",
+      "docs": 5,
+      "lessons": 108
+    },
+    {
+      "root": "nipplejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "ea425b3e81deaed14e384a2edcfbbd6a9a50f45b",
+      "docs": 12,
+      "lessons": 171
+    },
+    {
+      "root": "leaflet",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "125bda1e24d74d6f06f4075b0dab7ac10f3b5c10",
+      "docs": 693,
+      "lessons": 1134
+    },
+    {
+      "root": "wavesurfer",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "086c8ba370c2146bc4c9e566b903346d7e0384d0",
+      "docs": 9,
+      "lessons": 56
+    },
+    {
+      "root": "html2canvas",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "6020386bbeed60ad68e675fdcaa6220e292fd35a",
+      "docs": 12,
+      "lessons": 121
+    },
+    {
+      "root": "printjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "08d002d43a9c383cc26fedbae3c8a6f597666917",
+      "docs": 2,
+      "lessons": 6
+    },
+    {
+      "root": "qrcodejs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "04f46c6a0708418cb7b96fc563eacae0fbf77674",
+      "docs": 1,
+      "lessons": 4
+    },
+    {
+      "root": "revealjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "e240e175232fa2de660a02bc0d7bf5f655b159bb",
+      "docs": 9,
+      "lessons": 29
+    },
+    {
+      "root": "typedjs",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "b2d6a7d9af6d9cd39830701f6b6a7cd98a37e13f",
+      "docs": 11,
+      "lessons": 113
+    },
+    {
+      "root": "idb",
+      "class": "upstream",
+      "mode": "pinned_clone",
+      "pin": "654c746bef13f9fe7f5871e03ac58015cebace5a",
+      "docs": 4,
+      "lessons": 35
     }
   ],
-  "harvested_count": 43193,
+  "harvested_count": 70013,
   "courses": [
     {
       "id": "ai-literacy",
@@ -7980,7 +8605,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 15583,
+      "lesson_count": 15304,
       "file": "assets/academy/reference-stack.json",
       "topics": [
         "reference"
@@ -8008,6 +8633,14 @@
       "file": "assets/academy/systems-engineering.json",
       "topics": [
         "systems"
+      ]
+    },
+    {
+      "id": "uiux-craft",
+      "lesson_count": 27099,
+      "file": "assets/academy/uiux-craft.json",
+      "topics": [
+        "uiux"
       ]
     }
   ]

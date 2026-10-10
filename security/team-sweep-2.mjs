@@ -2042,9 +2042,10 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
       noted("ACAD", "harvest-determinism", "harvester or manifest absent — deferred");
     } else {
       const r = spawnSync(process.execPath, [AHM, "--verify"], { encoding: "utf8" });
+      const m = JSON.parse(fs.readFileSync(MAN, "utf8"));
       r.status === 0
         ? held("ACAD", "harvest-determinism",
-            "43k+ harvested lessons reproduce byte-exact across 24 sources + 13 course chunks")
+            `${m.harvested_count} harvested lessons reproduce byte-exact across ${(m.harvest_sources || []).length} sources + ${(m.courses || []).length} course chunks`)
         : open_("ACAD", "harvest-determinism",
             `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 140)}`);
     }
@@ -2059,7 +2060,7 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
       const ministry = (m.courses || []).find(c => c.id === "ministry-neo-hindu");
       r.status === 0 && ministry && ministry.lesson_count > 0
         ? held("ACAD", "curriculum-coverage",
-            `13 courses bound — ministry-neo-hindu carries ${ministry.lesson_count} lessons, coverage enforced`)
+            `${(m.courses || []).length} courses bound — ministry-neo-hindu carries ${ministry.lesson_count} lessons, coverage enforced`)
         : open_("ACAD", "curriculum-coverage",
             `verify exit ${r.status} ministry=${ministry ? ministry.lesson_count : "absent"}`);
     }
