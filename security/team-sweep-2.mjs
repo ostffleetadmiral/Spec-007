@@ -2871,6 +2871,15 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
       ? held("DOX", "doc-census-verifies", "doc-census --verify GREEN — class map stable")
       : open_("DOX", "doc-census-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
   }
+  {
+    /* attack: canon drift is silent — a ledger file that diverges from
+       its sealed original, or a ledger cite that resolves nowhere, is
+       narrative accreting without a check */
+    const r = run("canon-verify.mjs");
+    r.status === 0
+      ? held("DOX", "canon-ledger-verifies", "canon-verify --verify GREEN — originals sealed, cites resolve")
+      : open_("DOX", "canon-ledger-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
+  }
 
   /* ── DEV — device-ledger attacks ── */
   {

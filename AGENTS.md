@@ -40,7 +40,7 @@ by editing this file, never by weakening the drawer boundary.
 ```bash
 tools/publish-check.sh          # the release gate — ALL of it, every time
 zig build test                  # deps + spec008 harnesses (integer-only)
-node security/team-sweep-2.mjs  # consolidated sweep — 171 probes, exits 1 on any OPEN
+node security/team-sweep-2.mjs  # consolidated sweep — 188 probes, exits 1 on any OPEN
 node security/comms-suite.mjs --docker   # Hydra WAN lab — REAL signaling (up → probe → down)
 node security/comms-suite.mjs --local    # same suite on localhost hydra nodes
 node security/capstone-audit.mjs
@@ -51,6 +51,7 @@ node security/k3-stress.mjs
 node security/comms-suite.mjs   # canonical mode needs the docker WAN lab
 node security/kali-sweep.mjs    # external-tooling replay
 node security/fleet-manifest.mjs --verify   # canon load gate (never signs)
+node tools/canon-verify.mjs --verify     # drawer canon: originals sealed + ledger cites resolve
 sh tools/deploy-pages.sh        # atomic gh-pages deploy via detached worktree
 ```
 
