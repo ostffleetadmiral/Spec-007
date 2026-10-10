@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 整合架構</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('architecture.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="discoveries-zh.html">發現帳本</a> &middot;
+<a href="bridge-map-zh.html">橋接圖譜</a> &middot;
+<a href="science-coverage-zh.html">科學覆蓋</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="architecture.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC-007 整合架構</h1>
+<p><strong>狀態:</strong> 草案 1
+<strong>範圍:</strong> 已驗證整數純核心(TheUE)與更廣之 Sentience 生態系藍圖
+之連接方式 — Sentience Engine(Phase 1)、The Library 指揮中心
+(Phase 3)及其餘封裝階段 — 不削弱已證明之邊界。</p>
+<p>協定規格之規則約束以下所有接縫:<strong>邊界須被執行,不被融合</strong>。
+封裝層中不得有任何事物繞過 <code>spec-007-protocol.*.md</code> §8 之一致性
+閘門。</p>
+<hr>
+<h2>1. 分層模型</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│ L4 體驗層      The Library · Code Nebula · 門戶 · 彩蛋       │
+│                (藍圖 Phase 3、5)                             │
+├─────────────────────────────────────────────────────────────┤
+│ L3 證據層      findings.json(112 條目 · 10 小隊)             │
+│     織體       context/*.json 審計 · 探針 stdout 串流         │
+│                SSE/WS 橋接 — Sentience-Engine 接縫           │
+├─────────────────────────────────────────────────────────────┤
+│ L2 指令層      theue-golden-vectors · descent_audit          │
+│     介面       cross_target_check · continuity/twenty-re     │
+│                決定性 CLI — API 契約                          │
+├─────────────────────────────────────────────────────────────┤
+│ L1 連續層      ~/.archives/* · SHA256SUMS · findings 語料    │
+│                (藍圖 Phase 2 — 已在運行)                      │
+├─────────────────────────────────────────────────────────────┤
+│ L0 核心        fixed_point(Q128.128)· science_*(65)          │
+│     (鎖定)     131 模組 DAG,0 環,0 浮點違規                  │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>L0 依契約不可變。</strong> 上層不得修改;上層僅得引用。所有 UI/代理層
+逐字消費 L2 輸出 — 絕不自行計算物理。</p>
+<h2>2. 藍圖階段映射</h2>
+<table>
+<thead>
+<tr>
+<th>藍圖階段</th>
+<th>SPEC-007 基底</th>
+<th>待閉合之缺口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P1 Sentience Engine</strong>(代理編排)</td>
+<td><code>findings.json</code> 語料、探針框架、審計工具 = 代理可調用之決定性能力集</td>
+<td><strong>能力配接器</strong>:每項代理動作映射至具名 L2 指令;代理絕不直接產出物理。GenesisAgency 計畫編譯為探針調用。</td>
+</tr>
+<tr>
+<td><strong>P2 Continuity Engine</strong>(持久層)</td>
+<td><code>~/.archives/</code> 校驗和驗證狀態 + <code>findings.json</code> + <code>context/*-audit.json</code></td>
+<td>封存層級已滿足。IDaaS/DMS 層可索引封存但 MUST NOT 修改(校驗和鎖定)。</td>
+</tr>
+<tr>
+<td><strong>P3 The Library</strong>(指揮中心、IDE、社群)</td>
+<td><code>site/</code> 檔案庫(26+ 頁)+ findings 語料</td>
+<td>新增 <code>command-deck</code> 頁:SSE 遙測、小隊/發現元件、晶格瀏覽器。IDE/聊天屬藍圖側工作,非核心範圍。</td>
+</tr>
+<tr>
+<td><strong>P4 生成式影視</strong></td>
+<td>—</td>
+<td>無核心依賴;可選封裝,不設閘。</td>
+</tr>
+<tr>
+<td><strong>P5 Code Nebula</strong>(3D 沉浸)</td>
+<td><code>science_ivector</code> 立方體(15³、421 普查)、Fano 線、雙梯 = 程序化幾何基底</td>
+<td>幾何服務將 <code>cellLabel</code>/<code>census</code>/<code>ladderRung</code> 暴露為可渲染資料 — 只出資料,不入數學。</td>
+</tr>
+<tr>
+<td><strong>P6 測試與安全</strong></td>
+<td>四支對抗小隊(PHILOTIC/BREAKER/FURNACE/EMERGENT)+ 鑑別器 + 下降審計</td>
+<td><strong>已建成。</strong> 本階段即核心之職責;藍圖安全工作經 L3 消費我方判定。</td>
+</tr>
+<tr>
+<td><strong>P7 教育</strong></td>
+<td>元件對照表、協定規格、本文件</td>
+<td>課程生成唯讀消費文件。</td>
+</tr>
+</tbody>
+</table>
+<h2>3. 證據織體(Sentience-Engine 接縫)</h2>
+<p>核心與代理間唯一合法資料路徑:</p>
+<pre><code>探針/審計 ──寫入──&gt; security/out/ + context/ + site/security/findings.json
+                        │
+              織體橋接(node .mjs)
+              讀檔;追蹤探針 stdout
+                        │
+        SSE /event-stream ──&gt; 指揮台元件
+        WS /command       &lt;── 受閘指令(閘表如下)
+</code></pre>
+<ul>
+<li><strong>讀取路徑:</strong> findings 語料、descent/continuity/twenty-re 報告、
+  黃金向量摘要。檔案支撐,校驗和錨定。</li>
+<li><strong>寫入路徑:</strong> 代理僅得<em>調用</em>受閘指令:<code>run-probe &lt;name&gt;</code>、
+  <code>run-audit &lt;name&gt;</code>、<code>emit-vectors</code>。不允許原始參數、檔案寫入或
+  核心變更。每次調用記入 AuditChain(現已位元組序安全)。</li>
+<li><strong>禁止:</strong> 直接模組調用、FFI 進入 <code>fixed_point</code>、寫入 <code>src/</code>、
+  無上限執行。執法者為織體 — 非代理。</li>
+</ul>
+<h2>4. 指揮台(Library Phase-3 切片)</h2>
+<p>首個可執行工件:<code>site/command-deck.html</code> + 橋接。元件與已驗證
+機制一一對應:</p>
+<table>
+<thead>
+<tr>
+<th>元件</th>
+<th>資料來源</th>
+<th>鑑別器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小隊/發現走馬燈</td>
+<td><code>findings.json</code>(team、verdict、id)</td>
+<td>任何 <code>OPEN</code> 判定即為告警燈</td>
+</tr>
+<tr>
+<td>紅利表</td>
+<td><code>webDividendMilli</code> 向量</td>
+<td>二次方對線性顯示</td>
+</tr>
+<tr>
+<td>氫鐘 HUD</td>
+<td><code>h1SlotBit</code>/<code>h1JitterSafe</code> 向量</td>
+<td>鬆弛邊界可視化</td>
+</tr>
+<tr>
+<td>晶格瀏覽器</td>
+<td><code>cellLabel</code>/<code>census</code> 資料</td>
+<td>渲染 421 個 e0 胞元</td>
+</tr>
+<tr>
+<td>擴張視界</td>
+<td><code>expandingDeliveryTicks</code> 向量</td>
+<td>可達 vs <code>null</code> 網格</td>
+</tr>
+<tr>
+<td>分流通訊模擬</td>
+<td><code>philotic-cluster</code>/<code>carrier-flight</code> 輸出</td>
+<td>每則訊息之線上成本徽章</td>
+</tr>
+<tr>
+<td>下降狀態</td>
+<td><code>descent-audit.json</code></td>
+<td>CLOSED/OPEN 旗幟</td>
+</tr>
+</tbody>
+</table>
+<p>角色視圖(Operator/Architect/Auditor)為<strong>同一證據之呈現過濾器</strong>
+— 絕非不同資料。Auditor 見原始校驗和;Operator 見健康聚合;
+Architect 見約束分類。存取控制現階段屬 UI 層面;真實認證落地時
+於織體橋接處設閘,非於頁面。</p>
+<h2>5. 彩蛋(僅呈現層)</h2>
+<p>Bond 層呈現可藏入 Codex 終端、Möbius 觸發與 Fano 鎖 — 唯一硬性
+規則:<strong>彩蛋為裝飾性狀態</strong>,本地持久化,絕不觸及 findings、閘門
+或核心。「God Mode」饋送僅係公開證據之無過濾視圖。若彩蛋能影響
+判定,即非彩蛋 — 是漏洞,歸熔爐管轄。</p>
+<h2>6. 順序</h2>
+<ol>
+<li><strong>織體橋接</strong>(<code>security/fabric-bridge.mjs</code>):檔案追蹤 +
+   受閘指令 SSE/WS 伺服器。最小可用切片。</li>
+<li><strong>指揮台頁面</strong>消費橋接(靜態優先:讀取已提交 JSON;橋接
+   運行時升級為即時)。</li>
+<li><strong>晶格瀏覽器</strong>由 <code>cellLabel</code>/<code>census</code> JSON 匯出(沿
+   <code>theue-golden-vectors</code> 工具模式)供給。</li>
+<li>依藍圖遞延:完整代理執行時期(P1)、DMS(P2)、影視管線
+   (P4)、UE5 星雲(P5)、課程(P7)— 各項建成時皆經同一
+   一致性閘門進入。</li>
+</ol>
+<p>每一切片皆經協定規格之七道一致性閘門發佈;不設「UI 例外」。</p>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

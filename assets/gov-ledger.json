@@ -1,0 +1,548 @@
+{
+  "schema": "GOV-LEDGER-v1",
+  "note": "The governance corpus, made executable: every constitutional/statutory mandate bound to a realized counterpart with mechanical checks. direct = the mandate itself in machinery; structural = the governance pattern in machinery.",
+  "domains": [
+    {
+      "domain": "constitutional",
+      "items": [
+        {
+          "id": "three-divisions",
+          "mandate": "Art I §3 — Academy + Sallirreug Tech + Research & Ethics divisions",
+          "real": "the fleet structure is the division structure — education, commercialization, research_ethics (+ security_infrastructure) fleets over the live roster",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        },
+        {
+          "id": "five-officers",
+          "mandate": "Art II §2 — Fleet Admiral + four flag officers constitute the Admiralty",
+          "real": "five council seats in the command manifest — the officer structure is the seat structure",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        },
+        {
+          "id": "advisory-technical",
+          "mandate": "Bylaws Art II §2 — advisory technical authority (AIWO, architects)",
+          "real": "four advisory seats beside the council — technical advice, never command",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        },
+        {
+          "id": "adopted-ten",
+          "mandate": "Art X — ten subordinate documents adopted under the Constitution",
+          "real": "all ten adopted-document families present in the corpus: bylaws, financial, procedure, ethics, research, academy, corporate, IP, SPEC framework, conduct",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 10,
+          "total": 10
+        },
+        {
+          "id": "amendment-mechanics",
+          "mandate": "Art VIII — 4/5 supermajority + circulation before amendment",
+          "real": "vote machinery is real and adversary-tested — forged, partial, misbound, stale and tampered votes all refuse (the supermajority is the unanimous-seat-vote enforcement)",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 5,
+          "total": 5
+        },
+        {
+          "id": "officer-protection",
+          "mandate": "Art VII — legal/administrative/technical protection of officers",
+          "real": "the classification boundary is the protection — officer names never reach the public tree; surname tripwire enforced on every publish",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "dissolution-clause",
+          "mandate": "Art IX — assets distribute to aligned nonprofits on dissolution",
+          "real": "corpus doc present; the clause is a legal instrument, not a machine state — bound by citation",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        }
+      ],
+      "realized": 7,
+      "total": 7
+    },
+    {
+      "domain": "admiralty",
+      "items": [
+        {
+          "id": "flag-executive",
+          "mandate": "Art IV — Fleet Admiral executive function + emergency powers",
+          "real": "flag-seat singularity — exactly one genesis flag key can anchor; the chair exists and is singular",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        },
+        {
+          "id": "voting-tiers",
+          "mandate": "Art V — standard/strategic/critical decision tiers",
+          "real": "the vote token mechanism enforces tiered consent — unanimous binding, seat-bound callsigns, expiry",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "ai-boundaries",
+          "mandate": "Art VI §2 — AI systems bounded; never hold governance authority",
+          "real": "L6 cap + monitored designation + prohibited list — AI assets enforce boundaries, never command (re-verified every service cycle)",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "no-governance-vote",
+          "mandate": "Rulebook Art III §4 — AI systems do not vote on SPEC governance",
+          "real": "prohibited actions include issuing binding orders and modifying governance documents — the wall is declared and enforced",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        },
+        {
+          "id": "immutable-logging",
+          "mandate": "Art IX — immutable logging of Admiralty actions",
+          "real": "the Continuity DHT audit chain — append-only per-lane audit + signed version-chained records",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "records-audit",
+          "mandate": "Art IX §2 — audit requirements on governance records",
+          "real": "the archive corpus verifies — zero broken seals across the passing-state corpus",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 6,
+      "total": 6
+    },
+    {
+      "domain": "specs",
+      "items": [
+        {
+          "id": "spec-000-equity",
+          "mandate": "SPEC-000 — equity, accessibility, democratization minimums",
+          "real": "accessibility is probed mechanically — contrast AA worst-case measured, reduced-motion honored, viewport clamps verified",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "spec-001-ethical-ai",
+          "mandate": "SPEC-001 — ethical AI governance, human oversight, decision review",
+          "real": "AIWO-02 authority cap + the prohibited list + per-cycle re-verification — the review architecture is the standing service",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "spec-002-interop",
+          "mandate": "SPEC-002 — consistent, secure, auditable, interoperable systems",
+          "real": "the second-implementation bridge resolves — every mechanism executes in a second codebase; golden vectors byte-identical",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "spec-003-addressing",
+          "mandate": "SPEC-003 — unified, verifiable, portable polyglot addressing",
+          "real": "@x:y:z lattice coordinates ride the sealed 136-B envelope — identity + location + context in one verified identifier",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "spec-004-clearance",
+          "mandate": "SPEC-004 — clearance hierarchy, override authority, audit",
+          "real": "clearance-gated IDaaS reads refuse below-level (audited); the drawer boundary holds in tree + history + deploy",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "spec-005-ethics-gate",
+          "mandate": "SPEC-005 — every command carries a valid address + passes an ethical gate",
+          "real": "the directive router — every order addresses a duty lane AND passes the glyph/duty gate; unknown or unbound commands refuse and the refusal is filed",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "spec-006-substrate",
+          "mandate": "SPEC-006 — falsifiable topological lattice + observer substrate",
+          "real": "the 15³ lattice under adversarial physics attack — falsifiability, wire-cost, no unseeded correlation all probed",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "rulebook-lifecycle",
+          "mandate": "Rulebook — SPEC creation/versioning/review/retirement, audit-traceable",
+          "real": "the claims lifecycle IS the rulebook in operation — 117 records graded proved/held/rejected/drifted, blocked arithmetic honest, promotion verify green",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "spec-registry",
+          "mandate": "Rulebook Art II — SPEC numbers assigned via the Registry, gaps allowed",
+          "real": "SPEC-000..006 + sub-specs present in the corpus; SPEC-007/008 live in the build; registry docs sealed",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 8,
+          "total": 8
+        }
+      ],
+      "realized": 9,
+      "total": 9
+    },
+    {
+      "domain": "ethics",
+      "items": [
+        {
+          "id": "ethics-review",
+          "mandate": "Commodore of Ethics & Equity oversees the Ethics Review Committee",
+          "real": "the ethics seat is in the council structure; SPEC-001 review architecture is the prohibited-actions wall + per-cycle audit",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "conduct-framework",
+          "mandate": "Code of Conduct + Anti-Harassment + Conflict of Interest",
+          "real": "conduct docs present; the containment regime is the mechanical conduct wall — bots contained, gates sealed",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 4,
+          "total": 4
+        },
+        {
+          "id": "human-rights",
+          "mandate": "UHDR integration — human rights binding on all systems",
+          "real": "the policy doc exists and the desk ships it — dignity is also a build rule: accessibility minimums probed, no native-dialog coercion",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 3,
+      "total": 3
+    },
+    {
+      "domain": "human_academic",
+      "items": [
+        {
+          "id": "academy-standards",
+          "mandate": "curriculum standards + credentialing rules",
+          "real": "548 lessons filed + review-gated badges + deterministic generation — the academy is live machinery",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "research-integrity",
+          "mandate": "Research Integrity Policy — honest methods, retained failures",
+          "real": "research integrity is the dossier itself — 117 claims graded, 5 rejected-held retained with reasons",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 2,
+      "total": 2
+    },
+    {
+      "domain": "legal_financial",
+      "items": [
+        {
+          "id": "audit-procedures",
+          "mandate": "Audit Procedures Manual — independent audit of operations",
+          "real": "the audit suite is the audit — 197-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "financial-stewardship",
+          "mandate": "budgeting, investment, equity issuance, revenue distribution policies",
+          "real": "the stewardship pattern is the conservation law — nothing created, nothing lost: promotion records == dossier claims exactly",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "realized": 2,
+      "total": 2
+    },
+    {
+      "domain": "research_ip",
+      "items": [
+        {
+          "id": "ip-framework",
+          "mandate": "IP + licensing + technology-transfer policies",
+          "real": "policy family present; provenance is mechanical — every sibling citation sha-pinned in the evidence manifest",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 4,
+          "total": 4
+        },
+        {
+          "id": "publication-integrity",
+          "mandate": "Research Publication Policy — honest publication",
+          "real": "the dossier publishes with twins in two tongues and every cite resolved — publication integrity probed",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 2,
+      "total": 2
+    },
+    {
+      "domain": "security",
+      "items": [
+        {
+          "id": "classification-regime",
+          "mandate": "Information Classification + Access Control + Records Retention",
+          "real": "the drawer boundary + clearance-gated records + per-read audit — classification is executable",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "incident-response",
+          "mandate": "Incident Response Plan — detection, containment, recovery",
+          "real": "incident response is live — tampered chunks detected and bypassed, forged directives refused, revocation machinery tested",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        },
+        {
+          "id": "aiwo-architecture",
+          "mandate": "aiwo_corps_technical_architecture — the warrant corps spec",
+          "real": "the corps is commissioned and standing — 44 lanes, 13 cycles, the ring live",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "whistleblower-channel",
+          "mandate": "Whistleblower Protection Policy — protected disclosure channel",
+          "real": "the audit trail protects disclosure — findings taxonomy has NOTED for honestly-reported weaknesses, never suppressed",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 4,
+      "total": 4
+    },
+    {
+      "domain": "strategy",
+      "items": [
+        {
+          "id": "continuity-dr",
+          "mandate": "Business Continuity & Disaster Recovery Plan",
+          "real": "continuity DR is measured — lanes killed mid-exercise still resolve content; archives are sealed and verifiable",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "risk-framework",
+          "mandate": "Risk Management Framework — identify, assess, mitigate",
+          "real": "the sweep IS the risk surface — 197 probes over offense/defense/insider/supply/desk, open items named not hidden",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "strategic-plan",
+          "mandate": "5-Year Strategic Plan — the vision made roadmap",
+          "real": "the vision audit is the plan executable — 23 elements, all realized, each mechanically bound",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
+        }
+      ],
+      "realized": 3,
+      "total": 3
+    },
+    {
+      "domain": "subsidiaries",
+      "items": [
+        {
+          "id": "academy-charter",
+          "mandate": "Sallirreug Tech Academy — education, apprenticeships, STEM initiatives",
+          "real": "the Academy is the education fleet — 548 lessons, review-gated, deterministic",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "tech-charter",
+          "mandate": "Sallirreug Tech — commercial research + product development",
+          "real": "the commercialization fleet — Rations bridge registered, cross-cluster products real",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 2,
+      "total": 2
+    },
+    {
+      "domain": "onboarding",
+      "items": [
+        {
+          "id": "officer-packets",
+          "mandate": "officer onboarding packets — DayZero, exams, checklists, NDAs",
+          "real": "457-file corpus of officer packets indexed and sealed drawer-side — intake machinery exists, names stay classified",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        },
+        {
+          "id": "cadet-track",
+          "mandate": "cadet enrollment → examination → commissioning path",
+          "real": "the desk enrollment is the cadet track — enrollments, grants, ranks, exams all mechanically gated",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "realized": 2,
+      "total": 2
+    },
+    {
+      "domain": "_root:AIWO-SIM-2026-001.md",
+      "items": [
+        {
+          "id": "aiwo-sim",
+          "mandate": "WO-8 stabilization sweep + WO-2 neuraleak battery (legacy template)",
+          "real": "the template's living descendant is the standing service + sweep battery — the sim ran and became the corps",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 1,
+      "total": 1
+    },
+    {
+      "domain": "_root:Sigma.md",
+      "items": [
+        {
+          "id": "sigma-methodology",
+          "mandate": "Sigma — measurement and evaluation methodology",
+          "real": "the findings taxonomy + verdict grammar is the methodology executable — controlled vocabulary enforced",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 1,
+      "total": 1
+    },
+    {
+      "domain": "_root:PREDICTIVE-REGISTRY-2026.md",
+      "items": [
+        {
+          "id": "predictive-registry",
+          "mandate": "locked predictive outputs — registry of framework predictions",
+          "real": "the canon-ledger verify pins locked outputs; the ephemeris probe carries 67 executable invariants",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 1,
+      "total": 1
+    },
+    {
+      "domain": "_root:AXIOMATIC-BASELINE-0.2.0.0.md",
+      "items": [
+        {
+          "id": "axiomatic-baseline",
+          "mandate": "immutable baseline snapshot — locked sources, regression rule",
+          "real": "the baseline doctrine is live — spec-007.md immutable + canon-verify + sealed originals",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "realized": 1,
+      "total": 1
+    },
+    {
+      "domain": "_root:narrative.md",
+      "items": [
+        {
+          "id": "overarching-narrative",
+          "mandate": "the cosmological draft — 0⁰=1, φ emergence, the interpretive frame",
+          "real": "the narrative's frame is the corpus twin — mapped to sci-fi reflections by the agency map; the math it interprets executes in the integer harnesses",
+          "mode": "structural",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "realized": 1,
+      "total": 1
+    }
+  ],
+  "counts": {
+    "domains": 16,
+    "gov_dirs": 11,
+    "gov_root_files": 5,
+    "mandates": 47,
+    "realized": 47
+  }
+}

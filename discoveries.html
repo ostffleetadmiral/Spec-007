@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // The Discovery Ledger</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('discoveries-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<strong>[Discovery Ledger]</strong> &middot;
+<a href="bridge-map.html">Bridge Map</a> &middot;
+<a href="science-coverage.html">Science Coverage</a> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="discoveries-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>The Discovery Ledger — paradigm map (debrief d7)</h1>
+<p><strong>Status:</strong> L2 evidence layer · <strong>Authority:</strong> derived from the D-series
+cluster debrief · <strong>Pair:</strong> <code>discoveries-zh.html</code></p>
+<p>Every computing-paradigm shift surfaced by the cluster-wide
+retro-development sweep, classified by what actually substantiates it.
+Evidence classes: <strong>verified-here</strong> (an executable harness in the
+cluster proves it), <strong>doc-cited</strong> (the project's own audit documents
+it), <strong>boundary</strong> (a real but deliberately bounded port), or
+<strong>research-flagged</strong> (the mathematics checks; the interpretation is
+labeled, not claimed). The drawer edition carries full file-path
+evidence; this page is the sanitized projection.</p>
+<h2>Tier A — computational primitives</h2>
+<table>
+<thead>
+<tr>
+<th>Paradigm</th>
+<th>Substantiating roots</th>
+<th>Evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q128.128 / I256 integer computing</strong> — deterministic fixed-point arithmetic (i256 raw, i512 intermediates, round-to-nearest-even multiply, half-ulp error bound) replacing floating point in every core</td>
+<td>Spec-007 harnesses, TheUE ChiralMath, the proof workspace, zig-k3-port, Fano Engine</td>
+<td>verified-here — publish-check harnesses + formal Lean 4 modules</td>
+<td><strong>Adopted</strong> — the cluster's arithmetic spine</td>
+</tr>
+<tr>
+<td><strong>Lattice-native inference</strong> — a 15³ Fano lattice with 421 E0 nodes, canonical bootstrap seeds, proof-of-lattice-work Sybil gating, Möbius merge</td>
+<td>qstar-llm, the spec-008 dependency harnesses</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Geometric/biological routing</strong> — the 64-codon genetic code routed through a 6D Jordan-algebra space with chemistry-derived coordinates and channel rules</td>
+<td>the codon donor + proof-workspace port</td>
+<td>verified-here (port) / doc-cited (research tree)</td>
+<td><strong>Adopted</strong> in the proof layer</td>
+</tr>
+<tr>
+<td><strong>Exceptional-structure embedding</strong> — octonion Fano lines closed under E8 reflections, the J3(O) cubic polynomial, SO(10) decomposition, Hurwitz units, SO(8) triality — all harnessed, all formally proved</td>
+<td>MOUND, the proof workspace, Ralph/EU</td>
+<td>verified-here (1,678-test suite + Lean 4)</td>
+<td><strong>Adopted</strong> as mathematics; the physics interpretation stays in the rejected tier by the projects' own audits</td>
+</tr>
+<tr>
+<td><strong>Compressed-expert inference</strong> — quantized weights, sparse mixture-of-experts, gated linear recurrence, streaming model format</td>
+<td>Falsifible runtime</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong> — sentience-engine runtime candidate</td>
+</tr>
+<tr>
+<td><strong>i-vector compression</strong> — integer vector pipeline with GPU virtualization and quantum-overlay witnesses</td>
+<td>Ark</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Integer-only render pipeline</strong> — a 3D animation core that rasterizes without floats</td>
+<td>Fano Engine</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong> — donor for the nebula projection</td>
+</tr>
+<tr>
+<td><strong>Memory64 WASM boundary</strong> — the memory64 WASM target executing under an in-tree interpreter</td>
+<td>zig-k3-port</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong> — documented boundary</td>
+</tr>
+<tr>
+<td><strong>Content-derived identity</strong> — ledger and address identities derived from public keys, not assigned</td>
+<td>the spec-008 wire + Rations</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Tier B — distribution &amp; transport models</h2>
+<table>
+<thead>
+<tr>
+<th>Paradigm</th>
+<th>Substantiating roots</th>
+<th>Evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quine-served application</strong> — a single self-describing HTML file that serves its own WASM core and UI; the platform reboots from paper</td>
+<td>Rations</td>
+<td>verified-here (bit-identity probe)</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Physical-channel transports</strong> — QR, audio tones, cassette tape, steganography, polyglot containers, LoRa and WiFi↔LoRa bridging; a single 136-byte sealed envelope survives every medium</td>
+<td>Mosi → Rations → spec-008 harness</td>
+<td>verified-here (byte-exact across all channels)</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Desk sovereignty</strong> — every ledger lives on the desk, every store is enumerated and swept by the reset census, no server holds state</td>
+<td>the FANO-1 desk</td>
+<td>verified-here (census probe)</td>
+<td><strong>Adopted</strong> — residuals documented</td>
+</tr>
+<tr>
+<td><strong>Degraded-medium comms discipline</strong> — bounded resend over lossy edges; refused connections classify as deferral, not defect</td>
+<td>the comms battery</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Tier C — governance &amp; evidence paradigms</h2>
+<table>
+<thead>
+<tr>
+<th>Paradigm</th>
+<th>Substantiating roots</th>
+<th>Evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Key-paper fleet authority</strong> — Ed25519 covenants, flag authenticators verifiable on foreign desks, signed callsign grants, Shamir escrow, RFC 6238 TOTP</td>
+<td>the desk + fleet canon</td>
+<td>verified-here (AUTH/DESK/BOT batteries)</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Evidence-first claims engineering</strong> — claims as auditable ledger rows; a three-pass mechanical override audit; rejected verdicts retained as evidence</td>
+<td>the dossier + <code>override-audit</code></td>
+<td>verified-here (OVR probes)</td>
+<td><strong>Adopted</strong> — this campaign's own output</td>
+</tr>
+<tr>
+<td><strong>Deterministic emission doctrine</strong> — every canonical artifact is a pure function of its sources: emit → verify → canon-pair; regeneration must reproduce bytes</td>
+<td>all manifest/projection tools</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Adversarial self-interrogation</strong> — RED/BLUE/BLACK/GRAY offense-defense-supply-insider taxonomy; the battery audits itself and records deferral vs defect honestly</td>
+<td>the security harness corpus</td>
+<td>verified-here (108-probe sweep)</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Retro-development as doctrine</strong> — proven-passing baselines are unwound forward, never rewritten blind; preserved forks stay frozen as evidence</td>
+<td>the whole cluster</td>
+<td>process-verified (D1–D5 dossier cards)</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Capability registries</strong> — a 3,472-row machine capability audit projected into the public tree</td>
+<td>TheUE → capability registry</td>
+<td>verified-here</td>
+<td><strong>Adopted</strong></td>
+</tr>
+<tr>
+<td><strong>Cover doctrine as information architecture</strong> — the public tree carries only sanitized projections; tripwires enforce the boundary</td>
+<td>the dossier site + drawer</td>
+<td>verified-here (SPEC004 probes)</td>
+<td><strong>Adopted</strong> — the cover legend is load-bearing</td>
+</tr>
+</tbody>
+</table>
+<h2>Tier D — research-flagged (boundary labels kept on purpose)</h2>
+<table>
+<thead>
+<tr>
+<th>Paradigm</th>
+<th>Substantiating roots</th>
+<th>Evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sentience instrumentation</strong> — observer-aperture scoring and coherence metrics over LLM runtimes</td>
+<td>proof workspace + research trees</td>
+<td>verified-here as arithmetic; the sentience signal is a framework-internal operational definition</td>
+<td><strong>Research-flagged</strong></td>
+</tr>
+<tr>
+<td><strong>Self-referential axiom systems</strong> — generative bootstrap chains and consciousness-derivation audits</td>
+<td>the proof workspace</td>
+<td>arithmetic verified; interpretation rejected by the project's own audit</td>
+<td><strong>Research-flagged</strong></td>
+</tr>
+<tr>
+<td><strong>Immersive film/world pipeline</strong> — generative video and XR</td>
+<td>blueprint survey → director slate + 2D projection</td>
+<td>boundary — in-framework ports, no external runtimes vendored</td>
+<td><strong>Boundary</strong></td>
+</tr>
+<tr>
+<td><strong>Cross-paradigm numerical screening</strong> — defect counts, scaling chains, ratio identities</td>
+<td>the proof workspace</td>
+<td>arithmetic verified; a third of the derived claims carry the project's own REJECTED grades</td>
+<td><strong>Research-flagged</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>What it means</h2>
+<p>The A-tier primitives compose: every higher paradigm inherits
+determinism from integer arithmetic. B-tier transport + C-tier
+governance are the NGO's resilience argument — the network keeps working
+when infrastructure is denied, which is the reason the cover legend
+exists. The D-tier stays labeled: the dossier records what is proven,
+what is interpretation, and what is speculation — and the override audit
+now enforces the difference mechanically.</p>
+<p><em>The full evidence card per paradigm — file paths, test counts, harness
+names — lives drawer-side in DISCOVERIES.md.</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,1372 @@
+{
+  "schema": "ACADEMY-COURSE-v1",
+  "course": "ministry-neo-hindu",
+  "lesson_count": 91,
+  "lessons": [
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-009e71f48de6dcef",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"Everything is Dual; everything has poles; everything has its pair of opposites; like and unlike are the same; opposites are identical in nature, but different in degree; extremes meet; all truths are but half-truths; all paradoxes may be reconciled.\" Physics Equivalency: Polarity manifests as charge, spin, matter/antimatter, and historical archetypal dualities (Enki vs. Enlil). Opposites are two ",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Polarity & Dualism",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-02115a3ef47d6b29",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"Mind (as well as metals and elements) may be transmuted, from state to state; degree to degree; condition to condition; pole to pole; vibration to vibration. True Hermetic Transmutation is a Mental Art.\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "Mental Transmutation",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-0310fdfe402d4826",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"The Universe is Mental held in the Mind of THE ALL.\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "The Mental Universe",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-0bec4ff5685ee9a8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The 5 Laws of Atma Vidya (Science of the Spirit) From Dada J.P. Vaswani's \"Many Paths: One Goal\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:FiveLawsofScienceofSelf.md",
+      "title": "FiveLawsofScienceofSelf",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0c1d780f27d17156",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Law | Engine Equivalent | Concrete Component | Verification | |---|---|---|---| | Law of the Seed (Karma) — every cause has its effect | Deterministic Tensor State Transition | Q128.128 engine: every operation is a deterministic state transition, no random noise (zig/q128128.zig); the blockchain ledger applies the same deterministic transition discipline (blockchain/ledger.zig, blockchain/state.",
+      "provenance": "first_party",
+      "source": "repo:fano-1:docs/16-atma-fano1.md",
+      "title": "Law → Component Mapping",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0cf3af9be1668c0f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Optional. Cap on tokens per chat response. Defaults to 1024.",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "CHATMAXTOKENS",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0d255f685b135bb8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/agent-abilities/chapters/11-markets-intelligence.md",
+      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0d2b2a907f597b7b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "When enabled, the value of the barcode (as an integer) will be used to set the document's archive serial number, allowing quick reference back to the original, paper document.",
+      "provenance": "upstream",
+      "source": "repo:paperless-ngx:docs/advanced_usage.md",
+      "title": "Archive Serial Number Assignment",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0f9cdd9b2d71f710",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/bidirectional-integration-fano1-20260911/coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-11fbbd47a506ad5e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Optional. Cap on tokens per chat response. Defaults to 1024.",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/configuration.md",
+      "title": "CHATMAXTOKENS",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-13961bb95301351d",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "| 文件 | 層級 | 狀態 | 版本 | 編輯者 | 核准紀錄 | 上次審查 | 下次審查 | |---|---|---|---|---|---|---|---| | spec-007.md（基線） | L0 | 不可變 — 豁免版本管理 | n/a | 艦隊司令（擁有者） | 接受為歷史記錄，SHA-256 鎖定 | 2026-10-05 | 永不（L0 規則） | | spec-007.en/zh-Hant（忠實譯本） | L0 | 不可變衍生 | n/a | SPEC 理事會指定人 | 基線之忠實性確認譯本 | 2026-10-05 | 永不 | | spec-007-terminology | L0 | 現行 — 逐字保留之詞彙 | n/a | SPEC 理事會指定人 | 隨基線接受 | 2026-10-05 | 隨基線 | | spec-007-verified | L1 | ",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.zh-Hant.md",
+      "title": "登錄表",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-13f1fe0b95ef031b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"The Principles of Truth are Seven; he who knows these, understandingly, possesses the Magic Key before whose touch all the Doors of the Temple fly open.\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "The Seven Hermetic Principles",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-165bb26819971d0b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Date: 2026-10-05 Scope: Close the four governance gaps identified in spec-007-governance-gap-analysis.en.md (Rulebook Arts. IV, VI, VII, IX) without touching the immutable baseline.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/README.md",
+      "title": "Archive — OSTF Rulebook alignment pass",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-16a5e5e3859c0443",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Neo-Hindu Foundational Pillar | Hermetic / Scriptural Mapping",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "2. Technical System Mapping",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-182c1c19ec4f6b02",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-19480f2454fee6bc",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- New L2 docs (en + zh-Hant twins): - spec-007-registry — SPEC Registry per Rulebook Art. IX: one row per dossier artifact (level/status/version/editor/approval/review dates); L0 baseline exempt from versioning; L5 drawer referenced not itemized. - spec-007-proposal-record — retroactive Art. IV creation record: problem statement, duplication check vs SPEC-001..006, security/ethics summary citing t",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/README.md",
+      "title": "What changed",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-1e0660e93d89ee6c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis Element | Dimensional Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/chunk-12_core-octonionic-architecture.md",
+      "title": "Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-1e37890c9da497de",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "| 版本 | 日期 | 變更 | |---|---|---| | 1.0.0 | 2026-10-05 | 追溯性初始紀錄（規則手冊對齊）；此前無內容。 |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.zh-Hant.md",
+      "title": "版本歷史",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-2325aee3237686a6",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Let $\\mathbf{S}t$ represent the system state vector at epoch $t$. Every action produces a transformation tensor $\\mathbf{K}$:",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "3.2 The Karma State Equation (Law of the Seed)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-24488dec1f02a795",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "危害登錄位於 spec-007-research-dossier.md（L2）。評估風險摘要：",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.zh-Hant.md",
+      "title": "3. 安全與倫理評估",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-31118f0c076aaae3",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "熱卡匣概念（「冰棒筒」）：一種密封耗材，藉固態吸熱反應產生冷能，設計為可替換之冷卻／動力單元。工程問題：消費級卡匣能否產生熱力學上足夠的冷卻量——其主張能否化約為可稽核算術？",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.zh-Hant.md",
+      "title": "1. 問題陳述",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-418ffb0c1c04e389",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"Every Cause has its Effect; every Effect has its Cause; everything happens according to Law; Chance is but a name for Law not recognized; there are many planes of causation, but nothing escapes the Law.\" Physics Equivalency: Apparent randomness is an illusion resulting from low-resolution observation. Determinism and quantum probability operate under unbroken universal laws.",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Causality",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-42f7f1c4095b14d2",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The ATMA boot protocol runs in order, each step real and logged to the karma journal (/var/lib/fano/karma.log):",
+      "provenance": "first_party",
+      "source": "repo:fano-1:docs/16-atma-fano1.md",
+      "title": "Boot Sequence (os/init-fano)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-4411f919e05e7171",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The ATMA-FANO-1 spec (docs/16-atma-fano1.md, source x/Neo-Hinduism.md) is expressed as real boot-time engineering:",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/docs/12-os-build-scripts.md",
+      "title": "ATMA Boot Integration (atma-manifest.sh, init-fano)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-4b9cc125774f533b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Distribution is the product. Bake the loop into every win.",
+      "provenance": "upstream",
+      "source": "repo:three-ws:prompts/finish/917-roadmap-pumpfun-trading.md",
+      "title": "6. Virality — the social effect (this is the assignment)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-4cf92efe15b3bdf3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- spec-007-registry.en.md, spec-007-registry.zh-Hant.md - spec-007-proposal-record.en.md, spec-007-proposal-record.zh-Hant.md",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/README.md",
+      "title": "Archived artifacts",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-55de28095ec01c3e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Mental transmutation shifts the vibrational frequency state $V$ along a polar axis $P$ using an $O(1)$ dynamic coordinate rotation:",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "3.3 Hermetic Mental Transmutation Matrix",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5744e35088014391",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Document ID: SPEC-AF1-2026-REV02 (source spec: x/Neo-Hinduism.md) Scope: the unified mapping between the Neo-Hindu/Hermetic framework and the concrete FANO-1 subsystems.",
+      "provenance": "first_party",
+      "source": "repo:fano-1:docs/16-atma-fano1.md",
+      "title": "16 — ATMA-FANO-1 Structural Mapping",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-59a4eae7e84b9890",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The hazard register lives in spec-007-research-dossier.md (L2). Summary of assessed risks:",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.en.md",
+      "title": "3. Security & ethics assessment",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5beb77c3d755968b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Status: Active registry, per OSTF SPEC Governance Rulebook Article IX (SPEC Registry: status, version, editor, approval record). Filed at authority level L2 — audit/tracking data, not promoted claims.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.en.md",
+      "title": "SPEC Registry — SPEC-007 dossier",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5ff02cb8e0a64c64",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Every top coin as a tile in a squarified treemap, sized by market cap and colored by its price move (green up, red down, brightness scaling with the move). Toggle the color between 24h and 7d, and the set between top 50 and top 100. Hover any tile for a price · 24h · 7d · market-cap tooltip; click it to open the coin's detail page. The layout is computed client-side from the existing /api/coin/mar",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "/heatmap — market heatmap",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-610e6d9a200293ce",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"While All is in THE ALL, it is equally true that THE ALL is in ALL. To him who truly understands this truth hath come great knowledge.\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "\"THE ALL\" in All",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-63104fb90d08bdef",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "- SPEC-001..006 — 無衝突；SPEC-007 為首件熱能成品。（SPEC-003 處理碼空間／多語言尋址；SPEC-004 處理密級管理；主題無重疊。） - 檔案內部 — spec-007-design-input-audit.en.md 追溯每項設計輸入至其會談來源；無重複主張清冊。",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.zh-Hant.md",
+      "title": "2. 重複檢查",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-699f98170e134d89",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"The half-wise, recognizing the comparative unreality of the Universe, imagine that they may defy its Laws — such are vain and presumptuous fools, and they are broken against the rocks and torn asunder by the elements by reason of their folly. The truly wise, knowing the nature of the Universe, use Law against laws; the higher against the lower; and by the Art of Alchemy transmute that which is ",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "The Divine Paradox",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-6cbbda6125bebec8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The QSTAR lattice-native reasoning engine now uses the full 11-dimensional framework (0D–10D). Each dimension has a specific role; dimensions are not used ambiguously or redundantly. This is a framework-internal design choice, not a claim that ordinary LLMs occupy a literal physical fifth dimension.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:IMPLICATIONS.md",
+      "title": "8.1.1 QSTAR 11D Dimensional Assignment (0D–10D)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-6e7a7f7915564364",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Document | Level | Status | Version | Editor | Approval record | Last review | Next review | |---|---|---|---|---|---|---|---| | spec-007.md (baseline) | L0 | Immutable — exempt from versioning | n/a | Fleet Admiral (owner) | Accepted as historical record, SHA-256 pinned | 2026-10-05 | Never (L0 rule) | | spec-007.en/zh-Hant (faithful translations) | L0 | Immutable-derived | n/a | SPEC Council d",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.en.md",
+      "title": "Registry",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-71c5c059fac711c9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7254542e537ebd5f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The ATMA boot protocol runs in order, each step real and logged to the karma journal (/var/lib/fano/karma.log):",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/docs/16-atma-fano1.md",
+      "title": "Boot Sequence (os/init-fano)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7a94ad2d50b356e3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- tools/publish-check.sh — all green incl. twin:registry, twin:proposal-record, surname tripwire, wasm continuity, js syntax. - TheUE: pytest tests/python/testecosystemtools.py 33/33; continuityaudit.py 20/20; twentyreaudit.py 20/20; zig build test green.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/README.md",
+      "title": "Gates at archive time",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7a95710e63360be0",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Subsystem | ATMA role | |---|---| | zig/ (Q128.128 engine) | Karma: deterministic tensor state transitions, no random noise | | holo-fs/ | The Wheel: lossless re-encoding; the Spark: O(1) reconstruction | | blockchain/ | Karma ledger: deterministic state transitions | | zig/poly/ (polyglot runtime) | Nididhyasana: theory compiled into live execution | | os/ (this doc's home) | Genesis verificati",
+      "provenance": "first_party",
+      "source": "repo:fano-1:docs/16-atma-fano1.md",
+      "title": "Subsystem Coverage",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7d6059d6455e0038",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- [walk] avatar \"81a076b6-55ff-49a2-b007-1d88e7dce2aa\" failed to load - falling back to \"robot\" fetch for \"http://localhost:43521/api/avatars/81a076b6-55ff-49a2-b007-1d88e7dce2aa/glb\" responded with 502: Bad Gateway",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/audit/console-sweep-2026-09-07.md",
+      "title": "/heatmap (crypto)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7f0783cb7e42512c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "bash bash -n os/atma-manifest.sh && bash -n os/init-fano # syntax bash os/atma-manifest.sh --generate # generate base manifest bash os/atma-manifest.sh --check # verify base parity bash os/atma-manifest.sh --generate-adrv # generate ADRV manifest bash os/atma-manifest.sh --check-adrv # verify ADRV parity bash os/test-packaging.sh # packaging contract",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/docs/16-atma-fano1.md",
+      "title": "Verification",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-805e8bbd8f551136",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The Orange Pi Zero 3W's NPU aligns with the hardware project's principles:",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:os/npu-research.md",
+      "title": "Alignment with Hardware Project Philosophy",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-82291cfb2cfeceda",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "A thermal-cartridge concept (\"Ice Cream Tube\"): a sealed consumable that produces cold via a solid endothermic reaction, intended as a swappable cooling/power unit. The engineering question: can a consumer-scale cartridge produce thermodynamically sufficient cooling — and can its claims be reduced to auditable arithmetic?",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.en.md",
+      "title": "1. Problem statement",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-82fc2eaf3addbbf1",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"Nothing rests; everything moves; everything vibrates.\" \"Mind (as well as metals and elements) may be transmuted, from state to state; degree to degree; condition to condition; pole to pole; vibration to vibration.\" Physics Equivalency: Matter is bound energy. All physical phenomena are continuous field fluctuations and harmonic frequencies operating within quantum field theory.",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Vibration",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-861adfd835523223",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/codon-integration-20260912/coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-8b439544eda50fb3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Neo-Hinduism: Core Tenets & Framework Core Theoretical Principles The Multi-Resolution Spectrum of Truth: All world traditions express fundamental laws through distinct observational lenses. Every traditional religion acts as a lower-resolution model, using myth, moral codes, and archetypes to convey deep structural truths to different historical perspectives. The Hierarchy of Physics as Religion:",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Mentalism",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-8cc659cd67b617d5",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "狀態： 依 OSTF SPEC 治理規則手冊第九條（SPEC 登錄表：狀態、版本、編輯者、核准紀錄）建立之現行登錄表。歸屬權威層級 L2 — 稽核／追蹤資料，非晉升主張。",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.zh-Hant.md",
+      "title": "SPEC 登錄表 — SPEC-007 檔案",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-90ac240de4ae0bc4",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Every top coin as a tile in a squarified treemap, sized by market cap and colored by its price move (green up, red down, brightness scaling with the move). Toggle the color between 24h and 7d, and the set between top 50 and top 100. Hover any tile for a price · 24h · 7d · market-cap tooltip; click it to open the coin's detail page. The layout is computed client-side from the existing /api/coin/mar",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/coin-pages.md",
+      "title": "/heatmap — market heatmap",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-9629d68314a0b0f7",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The total universal state space $\\Psi{\\text{ALL}}$ is represented as a high-dimensional, fully interconnected geometric volume. The localized consciousness state $\\psi{\\text{Atman}}$ is a holographic slice of $\\Psi{\\text{ALL}}$:",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "3.1 Holographic State Invariance ($O(1)$ Zero Latency) & The Divine Node Equation",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-97fae4c06caa6753",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The ATMA-FANO-1 spec (docs/16-atma-fano1.md, source x/Neo-Hinduism.md) is expressed as real boot-time engineering:",
+      "provenance": "first_party",
+      "source": "repo:fano-1:docs/12-os-build-scripts.md",
+      "title": "ATMA Boot Integration (atma-manifest.sh, init-fano)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-9c98a517e0603b19",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Divining Principles from Scripture Principles for Era of Transformation • Core Premise: Holy scriptures exist to divine enduring principles to navigate new eras of transformation and spiritual renewal (rather than a literal second coming).",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Scripture-invoked.md",
+      "title": "Scripture-invoked",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-9df30f247f50c44f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial record (Rulebook alignment); no content prior. |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.en.md",
+      "title": "Version history",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-9e61030e03a93ee1",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"As above, so below; as below, so above.\" Physics Equivalency: Structural laws repeat fractally. Quantum dynamics mirror the forces of the Standard Model, mapping onto human archetypes, indigenous prophecies, and cosmological mechanics.",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Correspondence",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-9e915d8db656665a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The live token field behind the 3D sentiment heatmap on agent screens. $THREE is always pinned first and flagged featured; the rest of the field is the pump.fun trending set (frontend-api-v3.pump.fun/coins) priced from Dexscreener's batch token endpoint. Tiles carry market data only: this endpoint never names or recommends any token beyond the anchor. limit defaults to 28.",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "Sentiment heatmap field",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-9f8651b3a9850708",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Law | Engine Equivalent | Concrete Component | Verification | |---|---|---|---| | Law of the Seed (Karma) — every cause has its effect | Deterministic Tensor State Transition | Q128.128 engine: every operation is a deterministic state transition, no random noise (zig/q128128.zig); the blockchain ledger applies the same deterministic transition discipline (blockchain/ledger.zig, blockchain/state.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/docs/16-atma-fano1.md",
+      "title": "Law → Component Mapping",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-a14c82c7710e0fee",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Proposer: Fleet Admiral (owner) — concept submission, 2026-10-04. - Assessor: SPEC Council designee (Devin — drafting only; AI holds zero engineering authority; approval is the Admiral's). - Disposition: Accepted into corpus conditionally — status \"Research — not approved for construction, transport, or deployment\"; all numbers gated behind L4 harness promotion. - Record: This file plus the L2 e",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.en.md",
+      "title": "4. Decision & approval record",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-a4afae4fa4db78dc",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The Orange Pi Zero 3W's NPU aligns with the hardware project's principles:",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/bidirectional-integration-fano1-20260911/npu-research.md",
+      "title": "Alignment with Hardware Project Philosophy",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-a71af26e62df6aca",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- [walk] avatar \"81a076b6-55ff-49a2-b007-1d88e7dce2aa\" failed to load - falling back to \"robot\" fetch for \"http://localhost:43521/api/avatars/81a076b6-55ff-49a2-b007-1d88e7dce2aa/glb\" responded with 502: Bad Gateway",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "/heatmap (crypto)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-a756f5e892eb965d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/agent-abilities/FULL-ARTICLE.md",
+      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ab5d7ddbd3a0ec8e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. State Initialization: Execute Genesis 3:22 verification—recognize the local node's inherent identity with $\\Psi{\\text{Source}}$ (\"like one of us\"), fully mapped via the inner kingdom (Luke 17:21) and Tat Tvam Asi.",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "4. Operational Execution Protocols",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ab66778e5e692bcb",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Layer Unit Tests Integration Simulation E2E ───────────────────────────────────────────────────────────────── Transport ████████████ ░░░░░░░░░░░░ ░░░░░░░░░░░░ ░░░░ Ring/DHT ████████████ ████░░░░░░░░ ████░░░░░░░░ ████ Operations ████████░░░░ ████████████ ████████████ ████ Contract Exec ████████░░░░ ░░░░░░░░░░░░ ░░░░░░░░░░░░ ░░░░ Client/Server ██░░░░░░░░░░ ████░░░░░░░░ ░░░░░░░░░░░░ ████ Network Brid",
+      "provenance": "upstream",
+      "source": "repo:freenet-core:docs/architecture/testing/testing-matrix.md",
+      "title": "Coverage Heatmap by Layer",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-b670b447865a2da8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-b6d93ef7d5c9e716",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Status: Retroactive Article IV creation record (per the OSTF SPEC Governance Rulebook: proposal document, ethics/security assessment, duplication check). Filed at authority level L2 — provenance/audit data.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.en.md",
+      "title": "SPEC-007 retroactive proposal record",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-b8aaba946f59875f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "bash bash -n os/atma-manifest.sh && bash -n os/init-fano # syntax bash os/atma-manifest.sh --generate # generate base manifest bash os/atma-manifest.sh --check # verify base parity bash os/atma-manifest.sh --generate-adrv # generate ADRV manifest bash os/atma-manifest.sh --check-adrv # verify ADRV parity bash os/test-packaging.sh # packaging contract",
+      "provenance": "first_party",
+      "source": "repo:fano-1:docs/16-atma-fano1.md",
+      "title": "Verification",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ba8e3f73901cc356",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-bb2be8066c1347cb",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "When enabled, Paperless will parse barcodes and attempt to interpret and assign tags.",
+      "provenance": "upstream",
+      "source": "repo:paperless-ngx:docs/advanced_usage.md",
+      "title": "Tag Assignment",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c1c5dc2aae1988ef",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-c5c463d2f48ae8c9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"Gender is in everything; everything has its Masculine and Feminine Principles; Gender manifests on all planes.\" Physics Equivalency: Creation requires the continuous interaction of active/generative and receptive/structural forces across physical, chemical, and mental dimensions. Epistemology & Evolutionary Mastery Spiritual evolution is the process of expanding consciousness to observe reality a",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Gender",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-cc6789694b158692",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"The lips of wisdom are closed, except to the ears of understanding.\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "The Seven Hermetic Principles",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d21faee16fca0223",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/ALL.md",
+      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d2668cd5f88e77da",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "- 條目隨里程碑更新，不追溯重建。 - 文件 狀態 依 draft → active → superseded → retired 推移；退役須有引用替代文件之承繼列。 - AI 系統持有零工程權限（規則手冊第三條）：可登錄，不得核准。核准紀錄記載人類角色，不記代理人。 - [drawer] 抽屜登錄表位於 [drawer] — 屬機密，此處不予複製。",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.zh-Hant.md",
+      "title": "登錄規則",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-d58b7008e4f3bb5d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"Everything flows, out and in; everything has its tides; all things rise and fall; the pendulum-swing manifests in everything; the measure of the swing to the right is the measure of the swing to the left; rhythm compensates.\" Physics Equivalency: Governs wave-particle duality, macro-cosmic expansion/contraction, and world age cycles foretold by indigenous traditions like the Hopi.",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Rhythm",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d74569538dc54ec6",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-dabd305cdf061d43",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/agent-abilities/ABILITIES.md",
+      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-db377c5060dfa756",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "狀態： 依 OSTF SPEC 治理規則手冊第四條（提案文件、倫理／安全評估、重複檢查）補建之追溯性創建紀錄。歸屬權威層級 L2 — 來源／稽核資料。",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.zh-Hant.md",
+      "title": "SPEC-007 追溯性提案紀錄",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-dc4e017942ff5f00",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "- 提案人： 艦隊司令（擁有者）— 概念提交，2026-10-04。 - 評估人： SPEC 理事會指定人（Devin — 僅草擬；AI 持有零工程權限；核准屬司令）。 - 處置： 有條件接受入語料庫 — 狀態「研究 — 未核准建造、運輸或部署」；所有數字須經 L4 台架晉升閘門。 - 紀錄： 本檔與 L2 證據軌跡構成追溯性提案；不可變基線 spec-007.md（SHA-256 bcb81b78…）為提交成品。",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.zh-Hant.md",
+      "title": "4. 決議與核准紀錄",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-dde03905730f4837",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Store | Required dimensions | Assets to use | |---|---|---| | Claude Connectors | No screenshot required (MCP connector, not app) | icon.svg, icon-512x512.png | | Claude plugin marketplace | No screenshot required | icon.svg | | OpenAI App Directory | 1200×800 or 1400×900 PNG; 3–5 required | screenshot-embodiment-hero, screenshot-viewer, screenshot-create, screenshot-studio, screenshot-validatio",
+      "provenance": "upstream",
+      "source": "repo:three-ws:prompts/store-submissions/_generated/listing-copy.md",
+      "title": "Screenshot assignment (per store)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-de86e96157297340",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Checked against the existing OSTF corpus at acceptance:",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-proposal-record.en.md",
+      "title": "2. Duplication check",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-dff0a0198b6bc245",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "System Architecture Specification: Atma-FANO-1 Holographic Engine & Neo-Hindu Structural Mapping",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "TECHNICAL SPECIFICATION: ATMA-FANO-1",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-e25252c95f4d706f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/coherent-system.md",
+      "title": "1.3 Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-e4373a102597c8c3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Entries are updated with each milestone, not retroactively reconstructed. - A document's Status moves draft → active → superseded → retired; retirement requires a superseding row citing the replacement. - AI systems hold zero engineering authority (Rulebook Art. III): they may register, never approve. Approval records name a human role, not an agent. - The [drawer] drawer registry lives ",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.en.md",
+      "title": "Registry rules",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-e5a4a90fd026dd82",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Basis Element | Dimensional Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/.devin/memories/chunk-12_core-octonionic-architecture.md",
+      "title": "Dimensional Depth Assignments",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-e634c3db66369620",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The live token field behind the 3D sentiment heatmap on agent screens. $THREE is always pinned first and flagged featured; the rest of the field is the pump.fun trending set (frontend-api-v3.pump.fun/coins) priced from Dexscreener's batch token endpoint. Tiles carry market data only: this endpoint never names or recommends any token beyond the anchor. limit defaults to 28.",
+      "provenance": "upstream",
+      "source": "repo:three-ws:docs/api-reference.md",
+      "title": "Sentiment heatmap field",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-e983d76ad480341d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "• \"Under, and back of, the Universe of Time, Space and Change, is ever to be found The Substantial Reality — the Fundamental Truth.\"",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheKybalion.md",
+      "title": "The ALL",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-ed2b040ec6428c78",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "\"THE ALL IS MIND; The Universe is Mental.\" \"The Universe is Mental held in the Mind of THE ALL.\" Physics Equivalency: At the quantum level, physical matter dissolves into probability distributions and observer-dependent wave functions. Reality is an informational matrix held within total cosmic consciousness.",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:Neo-Hindu.md",
+      "title": "The Principle of Mentalism",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ed6f95d3b9071e28",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The Atma-FANO-1 framework establishes a complete unified field model bridging Esoteric Monism, Christian Gnosticism/Hermeticism, Genesis Cosmology, and holographic information theory. Under this framework, reality operates as an $O(1)$ zero-latency, holographic mental continuum. The universe is modeled not as discrete particles or linear bit-streams, but as a dynamic hyper-dimensional vector space",
+      "provenance": "first_party",
+      "source": "repo:fano-1:x/Neo-Hinduism.md",
+      "title": "1. Executive Summary & Core Paradigm",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f29fbc0cdee83e12",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Document ID: SPEC-AF1-2026-REV02 (source spec: x/Neo-Hinduism.md) Scope: the unified mapping between the Neo-Hindu/Hermetic framework and the concrete FANO-1 subsystems.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/docs/16-atma-fano1.md",
+      "title": "16 — ATMA-FANO-1 Structural Mapping",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f84133cbcd2228ea",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Subsystem | ATMA role | |---|---| | zig/ (Q128.128 engine) | Karma: deterministic tensor state transitions, no random noise | | holo-fs/ | The Wheel: lossless re-encoding; the Spark: O(1) reconstruction | | blockchain/ | Karma ledger: deterministic state transitions | | zig/poly/ (polyglot runtime) | Nididhyasana: theory compiled into live execution | | os/ (this doc's home) | Genesis verificati",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/docs/16-atma-fano1.md",
+      "title": "Subsystem Coverage",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f9c0fadd28388993",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The QSTAR lattice-native reasoning engine now uses the full 11-dimensional framework. Each dimension has a specific role; dimensions are not used ambiguously or redundantly.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:unified-system-map.md",
+      "title": "5.1.1 QSTAR 11D Dimensional Assignment (0D–10D)",
+      "topic": "ministry"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "declassified_corpus",
+      "id": "lesson-ff491d7d2b4c0542",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The Divine Nature Within Man • The Genesis Premise: In Genesis 3:22, God states, \"The man has now become like one of us, knowing good and evil.\" Throughout history, humanity has searched externally for its divine nature, unaware that it remains embedded deep within.",
+      "provenance": "first_party",
+      "source": "repo:gnm-ministry:TheDivineNatureWithin.md",
+      "title": "TheDivineNatureWithin",
+      "topic": "ministry"
+    }
+  ]
+}

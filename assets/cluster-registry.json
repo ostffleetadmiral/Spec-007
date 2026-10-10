@@ -1,0 +1,311 @@
+{
+  "schema": "CLUSTER-CENSUS-v1",
+  "generated": "2026-10-10T05:58:26.357Z",
+  "note": "sanitized projection — codenames + roles + evidence classes; source paths are $HOME-relative inside tools/, never absolute in the artifact",
+  "root_count": 33,
+  "by_class": {
+    "first-party": 26,
+    "empty": 3,
+    "donor-vendored": 3,
+    "asset-store": 1
+  },
+  "entries": [
+    {
+      "name": "spec-007",
+      "class": "first-party",
+      "realm": "framework",
+      "role": "the desk — dossier, governance, security battery",
+      "evidence": "verified-here",
+      "present": true,
+      "file_count": 32921
+    },
+    {
+      "name": "hardware-monorepo",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "E=mc² proof workspace — 713 ops, Lean 4 formalization",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 52746
+    },
+    {
+      "name": "qstar-llm",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "lattice-native inference engine — 421×8 nodes",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 9197
+    },
+    {
+      "name": "zig-k3-port",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "2.78T-param MoE in GBs RAM — token-identical Zig port",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 2496
+    },
+    {
+      "name": "zig-k3-port-preserved",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "preserved pre-port snapshot",
+      "evidence": "census-static",
+      "present": true,
+      "file_count": 1400
+    },
+    {
+      "name": "theue",
+      "class": "first-party",
+      "realm": "render",
+      "role": "immersive engine — 50-entry capability registry, 3,472-row public projection",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 1522
+    },
+    {
+      "name": "bs-analysis",
+      "class": "first-party",
+      "realm": "research",
+      "role": "sharpshooter/cathedral analysis + prototype",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 93
+    },
+    {
+      "name": "family-empty",
+      "class": "empty",
+      "realm": "n/a",
+      "role": "empty directory — reserved slot",
+      "evidence": "census-empty",
+      "present": true,
+      "file_count": 0
+    },
+    {
+      "name": "rations",
+      "class": "first-party",
+      "realm": "comms",
+      "role": "browser-first offline platform — Zig→WASM, physical transports",
+      "evidence": "verified-here",
+      "present": true,
+      "file_count": 25440
+    },
+    {
+      "name": "theplatform",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "multi-language proof platform — 605 tests cited",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 110648
+    },
+    {
+      "name": "octolab",
+      "class": "first-party",
+      "realm": "research",
+      "role": "Octolab — dockerized AI lab stack",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 2003
+    },
+    {
+      "name": "falsifible",
+      "class": "first-party",
+      "realm": "research",
+      "role": "falsifiability harness — zig + tests + archives",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 228
+    },
+    {
+      "name": "digit-sheraton",
+      "class": "empty",
+      "realm": "n/a",
+      "role": "dangling symlink → Digit&sheraton (absent) — sheraton lives on the Desktop shelf",
+      "evidence": "census-empty",
+      "present": true,
+      "file_count": -1
+    },
+    {
+      "name": "abby-donor-shelf",
+      "class": "donor-vendored",
+      "realm": "donor",
+      "role": "donor shelf: codon, Falsifible, llama.cpp, neuraleak, an owner-named LLM tree, zotron",
+      "evidence": "donor-survey",
+      "present": true,
+      "file_count": 51701
+    },
+    {
+      "name": "qstar-llm-basic",
+      "class": "donor-vendored",
+      "realm": "donor",
+      "role": "second qstar-llm tree — dedup candidate vs experiments copy",
+      "evidence": "donor-survey",
+      "present": true,
+      "file_count": 7485
+    },
+    {
+      "name": "eu-version-z",
+      "class": "first-party",
+      "realm": "research",
+      "role": "Engineered Universe audit foundation — 6,372+ tests",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 102956
+    },
+    {
+      "name": "eu-legacy",
+      "class": "first-party",
+      "realm": "research",
+      "role": "legacy vX.4 tree — euz donor",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 26381
+    },
+    {
+      "name": "eu-vx4",
+      "class": "first-party",
+      "realm": "research",
+      "role": "vX4 single-file + consciousness.py snapshot",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 6
+    },
+    {
+      "name": "codon",
+      "class": "first-party",
+      "realm": "research",
+      "role": "64-codon → 6D Jordan routing test suite",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 83
+    },
+    {
+      "name": "space-agent",
+      "class": "first-party",
+      "realm": "framework",
+      "role": "DOX agent framework — Node app",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 4268
+    },
+    {
+      "name": "pi-empty",
+      "class": "empty",
+      "realm": "n/a",
+      "role": "empty directory — reserved slot",
+      "evidence": "census-empty",
+      "present": true,
+      "file_count": 0
+    },
+    {
+      "name": "pj-hexredox",
+      "class": "first-party",
+      "realm": "research",
+      "role": "HexRedox HIPF — hyper-informational physics framework (zig+latex+docs)",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 6445
+    },
+    {
+      "name": "qstar-corpus",
+      "class": "first-party",
+      "realm": "governance",
+      "role": "QSTAR corpus — Book of Phi, Gov, Maypole firmware, public disclosure",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 14199
+    },
+    {
+      "name": "ralph-corpus",
+      "class": "first-party",
+      "realm": "research",
+      "role": "MOUND (axiom7revisited) + EU zig + lattice_computing + papers",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 22465
+    },
+    {
+      "name": "sheraton-shelf",
+      "class": "first-party",
+      "realm": "mixed",
+      "role": "HexRedOx + tinyoffice + vendored nullclaw/nullhub/zml + models",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 4314
+    },
+    {
+      "name": "tp-donor-shelf",
+      "class": "donor-vendored",
+      "realm": "donor",
+      "role": "hyper-token + number-systems (first-party) beside qdk/vulkan-zig/zlm/nullclaw/nullhub donors",
+      "evidence": "donor-survey",
+      "present": true,
+      "file_count": 6042
+    },
+    {
+      "name": "desi-llama",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "DESI-Llama — Vulkan llama build + RADV probe output",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 4218
+    },
+    {
+      "name": "fano-engine",
+      "class": "first-party",
+      "realm": "render",
+      "role": "Fano Engine — I256Q128.128 integer-only animation + networking pipeline",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 197
+    },
+    {
+      "name": "ark-ivector",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "I-Vector polyglot — Zig+Vulkan+Q# geometric compression (LLM/edge/QEC)",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 24094
+    },
+    {
+      "name": "mosi-papertunes",
+      "class": "first-party",
+      "realm": "comms",
+      "role": "Paper Tunes — audio→paper QR storage research",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 14457
+    },
+    {
+      "name": "archive-corpus",
+      "class": "first-party",
+      "realm": "research",
+      "role": "20GB corpus — tensor prototypes, quantum-latent/qubit engines, Governance, vendored llama.cpp/vulkan-zig",
+      "evidence": "doc-cited",
+      "present": true,
+      "file_count": 6063
+    },
+    {
+      "name": "models-store",
+      "class": "asset-store",
+      "realm": "assets",
+      "role": "GGUF weights — qwen 0.5B/3B/8B/9B",
+      "evidence": "census-static",
+      "present": true,
+      "file_count": 7
+    },
+    {
+      "name": "euqinome-drawer",
+      "class": "first-party",
+      "realm": "drawer",
+      "role": "archived in-drawer sibling project — indexed, not subsumed",
+      "evidence": "drawer-cited",
+      "present": true,
+      "file_count": 24633
+    }
+  ]
+}

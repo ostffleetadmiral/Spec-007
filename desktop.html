@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+/* canonical loopback origin — localhost/[::1]/127.0.0.1 are separate
+   localStorage buckets; the desk keeps ONE identity store. LAN and
+   other hostnames pass through untouched. */
+if (location.hostname === "localhost" || location.hostname === "[::1]") {
+  location.replace("http://127.0.0.1:" + location.port +
+    location.pathname + location.search + location.hash);
+}
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FANO-1 // SPEC-007 Workstation</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="stylesheet" href="assets/fano-desktop.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body class="desk">
+<!-- M's desk had a leather blotter and a whisky. This one has a Fano plane and a locked drawer. Progress of a kind. -->
+<!-- The desktop is a metaphor; the drawer is not. -->
+
+<div class="wall">
+  <!-- The Fano plane: 7 points, 7 lines, the smallest projective geometry.
+       Same lattice the tensor module generates — here as wallpaper. -->
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+       stroke="#c9a44a" fill="none" stroke-width="1.2">
+    <polygon points="100,20 30,150 170,150" />
+    <line x1="100" y1="20" x2="100" y2="107" />
+    <line x1="30" y1="150" x2="135" y2="85" />
+    <line x1="170" y1="150" x2="65" y2="85" />
+    <circle cx="100" cy="107" r="37" />
+    <g fill="#c9a44a" stroke="none">
+      <circle cx="100" cy="20" r="3.5"/>
+      <circle cx="30" cy="150" r="3.5"/>
+      <circle cx="170" cy="150" r="3.5"/>
+      <circle cx="65" cy="85" r="3.5"/>
+      <circle cx="135" cy="85" r="3.5"/>
+      <circle cx="100" cy="150" r="3.5"/>
+      <circle cx="100" cy="107" r="3.5"/>
+    </g>
+  </svg>
+</div>
+<div class="wall-caption">FANO-1 WORKSTATION<br>OSTF FLEET COMMAND<br>SPEC-007 · v1.4.0<br>&copy; 8100 OSTF</div>
+
+<div id="boot"><pre id="boot-log"></pre><div class="boot-skip">press any key — the desk waits for no one</div></div>
+<div class="icons" id="icons"></div>
+<div id="windows"></div>
+<div id="toasts"></div>
+<nav id="ctxmenu" class="ctxmenu"></nav>
+<div id="saver">
+  <div class="saver-fano" id="saver-fano"></div>
+  <div class="saver-tape" id="saver-tape"></div>
+</div>
+
+<nav class="start-menu" id="start-menu">
+  <div class="sm-head">OSTF // START</div>
+  <input id="sm-run" class="sm-run" placeholder="run: dossier …" spellcheck="false">
+  <div class="sm-item" id="sm-about">About this workstation <span class="hint">sysinfo</span></div>
+  <div class="sm-item" id="sm-index">Dossier index <span class="hint">cover.html</span></div>
+  <div class="sm-item" id="sm-drawer">Open drawer 7q <span class="hint">try it</span></div>
+  <div class="sm-item" id="sm-lock">Lock workstation <span class="hint">sign out</span></div>
+</nav>
+
+<footer class="taskbar">
+  <span class="ostf-btn" id="ostf-btn">OSTF</span>
+  <div class="task-items" id="task-items"></div>
+  <span class="clr" id="clr">CLR L0 · 0xp</span>
+  <span class="clock" id="clock"></span>
+</footer>
+
+<script src="assets/fano-i18n.js"></script>
+<script src="assets/fano-auth.js"></script>
+<script src="assets/fano-comms.js"></script>
+<script src="assets/fano-desktop.js"></script>
+<script src="assets/quplink.js"></script>
+<script src="assets/quplink-viz.js"></script>
+<script src="assets/nebula-3d.js"></script>
+</body>
+</html>

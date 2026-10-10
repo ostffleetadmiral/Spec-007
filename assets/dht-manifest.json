@@ -1,0 +1,30 @@
+{
+  "schema": "DHT-MANIFEST-v1",
+  "note": "Continuity DHT — content-addressed (sha256), XOR-routed (Kademlia metric), k-replicated, hash-verified on every read. IDaaS layer: versioned, audited, clearance-gated records. Persistence substrate: qstar-vfs vfs_distributed (consistent-hashing placement, quorum consistency, heartbeat registry — 83-test Zig suite verified in the sweep). Projection carries schema + parameters only — store contents live in the lane stores.",
+  "persistence_substrate": "qstar-vfs/vfs_distributed (NodeRegistry + consistent-hashing Placement + ConsistencyLevel quorum)",
+  "record_signing": "ed25519 fleet-service key — records fleet-signed, verified on every read (unsigned/tampered/foreign-kid refused + audited); the store's verify key lives at <store>/keys/fleet-service.pk (sk 0600, never leaves the store)",
+  "content_addressing": "sha256",
+  "routing_metric": "xor-256",
+  "chunk_bytes": 65536,
+  "replication_k": 3,
+  "lane_count": 46,
+  "lanes_sha256": "74951bdf7e14197c",
+  "capabilities": [
+    "put",
+    "get",
+    "providers",
+    "churn-survival",
+    "integrity-refusal",
+    "record-put",
+    "record-get",
+    "record-query",
+    "version-chain",
+    "clearance-gate",
+    "audit-log"
+  ],
+  "honest_bounds": [
+    "single-host lane mesh — WAN block transport is a named bound",
+    "control plane rides the sealed 136-B wire; payload verified by hash",
+    "records are fleet-signed — per-lane identity attestation is a bound: lanes are patrol roles, not key-holding entities"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "payload": {
+    "spec": "ENGINEMANIFESTv1",
+    "ts": "2026-10-10T16:31:31.431Z",
+    "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
+    "runtime_count": 12,
+    "runtimes": {
+      "gov-bridge": {
+        "kind": "governance-gate",
+        "endpoint": "http://127.0.0.1:8765",
+        "evidence": "verified-here",
+        "note": "clearance/HRIS/evidence/audit gate — the desk never calls providers directly"
+      },
+      "ollama-local": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:11434",
+        "provider_id": "local",
+        "evidence": "bridge-mediated",
+        "note": "reachable only through gov-bridge"
+      },
+      "ollama-qstar": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:11435",
+        "provider_id": "qstar",
+        "evidence": "bridge-mediated",
+        "note": "lattice-native inference sibling — qstar-llm"
+      },
+      "ollama-remote": {
+        "kind": "llm-upstream",
+        "endpoint": "http://192.168.12.210:11434",
+        "provider_id": "remote",
+        "evidence": "doc-cited",
+        "note": "firingline host — reachability measured by the bridge, not promised here"
+      },
+      "spec007.wasm": {
+        "kind": "wasm-core",
+        "path": "site/assets/spec007.wasm",
+        "sha256": "sha256:4763cf41242a8c060d652dc1d201f6c6c450675678a91ceb74630bab00810067",
+        "evidence": "verified-here"
+      },
+      "rations.wasm": {
+        "kind": "wasm-core",
+        "path": "site/apps/rations/rations.wasm",
+        "sha256": "sha256:ca7ba4e6c3edbb294f51b2048d9837fc4dad496a3ff75906e4b4c5639e1d77cc",
+        "evidence": "verified-here",
+        "sidecar_agrees": true
+      },
+      "capability-registry": {
+        "kind": "registry",
+        "path": "site/assets/capability-registry.json",
+        "sha256": "sha256:fbac16e8ee925501ef791af360833836664cbb61c74390060549d0fa80b76e1d",
+        "evidence": "verified-here"
+      },
+      "zig-capability-registry": {
+        "kind": "registry",
+        "path": "site/assets/zig-capability-registry.json",
+        "sha256": "sha256:a40572625a6d159e89ca20cf9017e5e4a09abdeb0742194a0048a42fbadfde9f",
+        "evidence": "verified-here"
+      },
+      "spec-registry": {
+        "kind": "registry",
+        "path": "site/assets/spec-registry.json",
+        "sha256": "sha256:412a3562b0b02ee5b855b791d75311962f0d38b1c389586f720fd5e28cb331ea",
+        "evidence": "verified-here"
+      },
+      "academy-manifest": {
+        "kind": "registry",
+        "path": "site/assets/academy-manifest.json",
+        "sha256": "sha256:43649af14b7d2b19cf4cdf10b310249d2f98d83d5f7fc1d5b1f077638bf979d6",
+        "evidence": "verified-here"
+      },
+      "science-inventory": {
+        "kind": "registry",
+        "path": "site/assets/science-inventory.json",
+        "sha256": "sha256:d203c6ee35cfd1ac1d014ca652c921861f2055d468b026dd5fa862f90b99dead",
+        "evidence": "verified-here"
+      },
+      "security-battery": {
+        "kind": "harness",
+        "path": "security/",
+        "members": 45,
+        "anchor_sha256": "sha256:bf828adc12f232e1790594f3c50c7aa5a4f856b265a418037f336804d03372b1",
+        "evidence": "verified-here",
+        "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
+      }
+    }
+  },
+  "sig_ed25519": "jygM9XVnxyiVS6y9GtL39Ket1usFjrUMi8PbtJzHqX0GrUNE7218HiS1ts_CDcrTUpOn6Rw60QUFaY1vOR5eBA",
+  "pubkey_hint": "sha256:43b4429513e53ba9"
+}

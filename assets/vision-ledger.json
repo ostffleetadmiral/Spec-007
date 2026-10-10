@@ -1,0 +1,124 @@
+{
+  "schema": "VISION-AUDIT-v1",
+  "note": "The platform vision as a checklist of live artifacts — realized means every check passes against the tree; partial names its remainder; aspirational is declared doctrine, honestly labeled. External = doc-cited off-repo evidence.",
+  "counts": {
+    "realized": 23
+  },
+  "elements": [
+    {
+      "id": "immutable-baseline",
+      "verdict": "realized",
+      "vision": "immutable SPEC-007 L0 baseline"
+    },
+    {
+      "id": "integer-core",
+      "verdict": "realized",
+      "vision": "integer-only Zig calculations"
+    },
+    {
+      "id": "twins",
+      "verdict": "realized",
+      "vision": "english + traditional chinese dossier twins"
+    },
+    {
+      "id": "classification-drawer",
+      "verdict": "realized",
+      "vision": "SPEC-004 drawer separation, surname tripwire"
+    },
+    {
+      "id": "persona-matrix",
+      "verdict": "realized",
+      "vision": "three-tier persona matrix (mi6 / star command / constitutional)"
+    },
+    {
+      "id": "command-structure",
+      "verdict": "realized",
+      "vision": "admiralty council + aiwo corps over live fleet"
+    },
+    {
+      "id": "authority-cap",
+      "verdict": "realized",
+      "vision": "ai supports command, never commands — L6 cap"
+    },
+    {
+      "id": "custody-division",
+      "verdict": "realized",
+      "vision": "liberal-arts custody — trivium/quadrivium split whole"
+    },
+    {
+      "id": "meter-archvillain",
+      "verdict": "realized",
+      "vision": "the meter heads the closed ledger — scarcity loop canon"
+    },
+    {
+      "id": "corps-live",
+      "verdict": "realized",
+      "vision": "the corps runs as live agents — heartbeat mesh"
+    },
+    {
+      "id": "lattice-cognition",
+      "verdict": "realized",
+      "vision": "compressed models on the 15^3 lattice for the patrol teams"
+    },
+    {
+      "id": "canon-signed",
+      "verdict": "realized",
+      "vision": "signed canon pair + engine registry — verified loads"
+    },
+    {
+      "id": "archive-corpus",
+      "verdict": "realized",
+      "vision": "every passing state sealed under ~/.archives"
+    },
+    {
+      "id": "layer-map",
+      "verdict": "realized",
+      "vision": "per-file corpus layer map, coverage-enforced"
+    },
+    {
+      "id": "red-teams",
+      "verdict": "realized",
+      "vision": "red/blue/black/gray/kali testing"
+    },
+    {
+      "id": "academy",
+      "verdict": "realized",
+      "vision": "academy + generated curriculum"
+    },
+    {
+      "id": "desk-command-center",
+      "verdict": "realized",
+      "vision": "the library — authenticated 2d command center"
+    },
+    {
+      "id": "continuity",
+      "verdict": "realized",
+      "vision": "continuity engine — persistence + reset census"
+    },
+    {
+      "id": "sentience-engine",
+      "verdict": "realized",
+      "vision": "phase 1 — agent orchestration substrate"
+    },
+    {
+      "id": "dht-persistence",
+      "verdict": "realized",
+      "vision": "phase 2 — decentralized dht file system + idaas"
+    },
+    {
+      "id": "film-pipeline",
+      "verdict": "realized",
+      "vision": "phase 4 — generative film pipeline"
+    },
+    {
+      "id": "code-nebula",
+      "verdict": "realized",
+      "vision": "phase 5 — immersive 3d code nebula"
+    },
+    {
+      "id": "digit-two-organ",
+      "verdict": "realized",
+      "vision": "digit — two-organ brain (e5/e6/e7/e0) reinterpreted onto platform organs; remote q4 decoder doc-cited"
+    }
+  ]
+}

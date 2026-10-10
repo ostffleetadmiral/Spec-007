@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 科學覆蓋圖</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('science-coverage.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="discoveries-zh.html">發現帳本</a> &middot;
+<a href="bridge-map-zh.html">橋接圖譜</a> &middot;
+<strong>[科學覆蓋]</strong> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="science-coverage.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>科學覆蓋圖 — 每一領域、每一引文、每一爭議</h1>
+<p>本文件為框架的完整外部科學對映:主張觸及的每一科學領域、外部文獻之記錄、
+以及該記錄所處之層級。層級為誠實標籤,非讚辭:<strong>PEER-REVIEWED</strong>(期刊/
+正式場域)、<strong>PREPRINT</strong>(arXiv/Zenodo 預印本,未經同儕審查)、
+<strong>FRINGE-TIER</strong>(真實存在但證據權重低)、<strong>STANDARD/SETTLED</strong>(RFC、
+ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為證)、以及
+<strong>COUNTER-LEDGER</strong>(已發表之反證或實測約束)。</p>
+<p>出處:自兄弟文獻引擎 <code>sibling:hardware:src/literature_review.zig</code> 逐字提取之
+24 項引文(SCI-01 逐一釘定 DOI 原文),加上 2026-10-08 研究簡報
+(<code>security/out/research-debrief.md</code>)。</p>
+<h2>§1 分配代數與例外結構</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>八元數乘法、法諾平面</td>
+<td><code>sibling:hardware:src/octonion.zig</code>、<code>src/spec008_qstar_*</code> 方言</td>
+<td>定案代數 — Hurwitz 1898;法諾平面 PG(2,2)</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Aut(O)=G₂、Aut(J₃(O))=F₄</td>
+<td><code>sibling:hardware:src/jordan_algebra.zig</code></td>
+<td>Chevalley &amp; Schafer 1950</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>八元數 U(1) 電荷譜 (0,1/3,2/3,1)</td>
+<td><code>sibling:hardware:src/electric_charges.zig</code></td>
+<td>已發表之八元數模型結果(Todorov/Dubois-Violette 計畫)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>由 F₄ 極大子群交得 SM 規範群</td>
+<td>例外結構層</td>
+<td>Todorov &amp; Dubois-Violette,arXiv:1806.09450(Universe 4:117, 2018)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>三重性 → 三代,經 Albert 代數</td>
+<td><code>sibling:hardware:src/so8_triality.zig</code></td>
+<td>Dubois-Violette &amp; Todorov,arXiv:1604.01247(Nucl. Phys. B 912:426, 2016)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>複數八元數出三代</td>
+<td>物理解讀層</td>
+<td>Furey,arXiv:1910.08395(Phys. Lett. B 785:84, 2018)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>三重性三元組出三代與 Higgs</td>
+<td>文獻評審第 32/33 項</td>
+<td>Furey &amp; Hughes,Phys. Lett. B 865:139473 (2025),arXiv:2409.17948,doi 10.1016/j.physletb.2025.139473</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Spin(10)→SM 代數層疊</td>
+<td>SO(10) 層</td>
+<td>Furey,Annalen der Physik (2024),doi 10.1002/andp.202400323</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>SM 表示即 H₁₆(ℂ) 約當超代數</td>
+<td>16=15+1 層</td>
+<td>Furey,Annalen der Physik (2025),doi 10.1002/andp.202500229</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>E8(-24) SM 詮釋(「octions」)</td>
+<td>15×16=240 層</td>
+<td>Wilson, Dray &amp; Manogue,J. Math. Phys. 63:081703 (2022),doi 10.1063/5.0095484</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>E8 模型之手徵性</td>
+<td>E8 計畫</td>
+<td>Wilson,arXiv:2210.06029 (2022)</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>E8 之 SM 嵌入唯一性</td>
+<td>E8 計畫</td>
+<td>Wilson (2024),INSPIRE-HEP inspirehep.net/literature/2811411</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>E8(-24) 中之 SM+重力嵌入</td>
+<td>E8 計畫</td>
+<td>Wilson,arXiv:2404.18938 (2024)</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>J₃(O) 本徵值 → 費米子質量比</td>
+<td>文獻評審第 34 項</td>
+<td>Singh &amp; Teli et al.,arXiv:2508.10131,doi 10.48550/arxiv.2508.10131 — 閉式 √質量比、δ²=3/8、馬約拉納預言</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>J₃(O) → CKM 矩陣</td>
+<td>文獻評審第 35 項</td>
+<td>同上 — Cabibbo 相位 π/2;另 arXiv:2305.00668(獨立約當-CKM 推導,角度與實測差約 15%)</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>八元數空間出 α</td>
+<td>文獻評審第 36 項</td>
+<td>Singh (TIFR),EPJ Plus (2022);合併稿 arXiv:2603.28810;兄弟引文:APS meetings-archive.aps.org/smt/2026</td>
+<td>PREPRINT(場域旗標 — 見 §10)</td>
+</tr>
+<tr>
+<td>J₃(O) + 重力/MOND 基礎</td>
+<td>文獻評審第 7 項</td>
+<td>Singh,arXiv:2304.01213,doi 10.48550/arxiv.2304.01213</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>E8×E8 八元數統一</td>
+<td>文獻評審第 1 項</td>
+<td>Singh,arXiv:2501.18139,doi 10.48550/arxiv.2501.18139</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>E8 根系(240 根、反射閉包)</td>
+<td><code>sibling:hardware:src/e8_roots.zig</code>、<code>octavian.zig</code></td>
+<td>定案李理論 — E8 根數與 Weyl 反射閉包</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>SO(10) 16 維手徵旋子 = 15+1</td>
+<td><code>sibling:hardware:src/so10_decomposition.zig</code></td>
+<td>定案 GUT 表示論</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Pati-Salam SU(4)≅SO(6)</td>
+<td><code>sibling:hardware:src/pati_salam.zig</code></td>
+<td>Pati-Salam 1974;2024–25 活躍研究 arXiv:2504.01893,doi 10.48550/arxiv.2504.01893</td>
+<td>PEER-REVIEWED + PREPRINT</td>
+</tr>
+</tbody>
+</table>
+<h2>§2 遺傳密碼與代數結構</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密碼子簡併為李超代數多重集</td>
+<td>密碼路由先例</td>
+<td>Forger &amp; Sachse,J. Math. Phys. 41:5407 (2000)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>經 sl(6/1) 之遺傳密碼演化</td>
+<td>密碼路由先例</td>
+<td>Hornos &amp; Hornos et al.,PNAS 95:987 (1998)</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>64 密碼子 ↔ 8 維超複數</td>
+<td>文獻評審第 30 項</td>
+<td>Petoukhov,arXiv:1102.3596,doi 10.48550/arxiv.1102.3596</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>GF(4) 遺傳密碼李代數</td>
+<td>密碼路由先例</td>
+<td>Sánchez &amp; Grau,arXiv:q-bio/0501036</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>環面/量子密碼子表示</td>
+<td>文獻評審第 30 項</td>
+<td>Frontiers in Applied Mathematics (2024),doi 10.3389/fams.2024.1341158</td>
+<td>PEER-REVIEWED(期刊層級已註)</td>
+</tr>
+<tr>
+<td>E8 ↔ 八元數 ↔ RNA 基因矩陣同構</td>
+<td>文獻評審第 30 項</td>
+<td>theoryofeverything.org/theToE/2025/06/19/</td>
+<td>FRINGE-TIER(網頁來源)</td>
+</tr>
+<tr>
+<td>遺傳密碼 ↔ 分裂八元數</td>
+<td>密碼路由先例</td>
+<td>JIMS 期刊論文(rgnpublications)</td>
+<td>FRINGE-TIER(低層級期刊)</td>
+</tr>
+<tr>
+<td>真實基因組路由結果</td>
+<td><code>sibling:codon:results/ncbi/</code></td>
+<td>NCBI 組配 GCF_000005845.2(大腸桿菌 K12)、GRCh38、S288C — 真實資料集、框架自身路由</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>6 位元 base-4 密碼子編碼</td>
+<td><code>sibling:hardware:src/codon.zig</code></td>
+<td>64 = 2⁶ — 算術恆等;路由規則為框架建構</td>
+<td>SETTLED(算術)/ INTERNAL(路由)</td>
+</tr>
+</tbody>
+</table>
+<h2>§3 數系、算術與計算</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定點 Q 格式算術</td>
+<td><code>src/fixed_point_q128.zig</code></td>
+<td>定案計算機科學 — Q 記法;RNE 半 ulp 界於庫內證明(Lean 4,零 sorries)</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>i256 原始/i512 中間精確性</td>
+<td>純整數教義</td>
+<td>定案整數算術;框架實作</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Wasm memory64</td>
+<td><code>sibling:zig-k3-port</code> wasm64 部署</td>
+<td>Chrome 133(2025-02)、Firefox 134(2025-01)已釋出;Safari 待決</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Kimi K3 架構</td>
+<td><code>sibling:zig-k3-port</code> 移植目標</td>
+<td>官方釋出(2026-07-16):2.78T 參數、93 層、896 專家×16 路由、104B 激活、1M 上下文 — 獨立證實移植之要項數字</td>
+<td>PEER-REVIEWED(廠商技術報告 arXiv:2607.24653)</td>
+</tr>
+<tr>
+<td>Qwen1.5-0.5B 對照尺寸</td>
+<td><code>sibling:qstar-llm</code> 比較錨點</td>
+<td>真實模型;兄弟 README 錨點 75 MB → 53,888 B ≈ 1,392×(「~1,460×」隱含 ~78.7 MB — 見 §10 旗標)</td>
+<td>SETTLED(模型存在)/ 基準旗標數值</td>
+</tr>
+<tr>
+<td>tiktoken / BPE 分詞</td>
+<td><code>sibling:zig-k3-port</code> 45/45 同位</td>
+<td>OpenAI tiktoken — 真實分詞器,同位為內部測試</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>確定性 LLM 推論</td>
+<td><code>sibling:theue</code> 執行端</td>
+<td>教師強制同位、貪婪序列精確,對 torch 神諭 — 內部驗具</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>GGUF / Q4KM / MoE 稀疏</td>
+<td><code>sibling:Falsifible</code> 執行端</td>
+<td>標準量化格式;執行端為內部</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+</tbody>
+</table>
+<h2>§4 編碼理論與密碼學</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ed25519 簽章</td>
+<td>創世、封印、表決、創世對</td>
+<td>RFC 8032</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>承諾、封印、清單</td>
+<td>FIPS 180-4</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>HMAC-SHA256</td>
+<td>D12 通道標籤(frameAuth)</td>
+<td>RFC 2104</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>PBKDF2</td>
+<td>金鑰庫封裝</td>
+<td>RFC 8018 / RFC 2898</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>TOTP</td>
+<td>QStar.net 驗證</td>
+<td>RFC 6238</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>Shamir (k,n) 秘密分享</td>
+<td>分片/託管驗具</td>
+<td>Shamir,CACM 22(11),1979</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>GF(2⁸) 算術、Cauchy-MDS</td>
+<td><code>qentangle</code> 同位層</td>
+<td>Plank、編碼理論教科書 — 真實 MDS 技術;dep 之「RS」為 XOR 和(單抹除界,已記錄)</td>
+<td>SETTLED + 已標界</td>
+</tr>
+<tr>
+<td>XChaCha20-Poly1305 AEAD</td>
+<td><code>sibling:</code> 網格線路</td>
+<td>draft-irtf-cfrg-xchacha</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>SimHash 指紋</td>
+<td>晶格探針</td>
+<td>Charikar,STOC 2002</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Steane ⟦7,1,3⟧ 碼</td>
+<td><code>sibling:ark-ivector:qsharp/SteaneCode.qs</code></td>
+<td>Steane 1996</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>校驗和 ≠ MAC</td>
+<td>LAWB-09 教訓</td>
+<td>已發表原理 — 無金鑰完整標籤可偽造;已以金鑰層修復</td>
+<td>SETTLED + 已修復</td>
+</tr>
+<tr>
+<td>多埠 S 矩陣/四聯 Smith 圖</td>
+<td><code>sibling:hardware:src/smith.zig</code>、<code>src/spec008_medium_lattice.zig</code></td>
+<td>多埠網路分析屬定論工程(Pozar);框架自有四聯圖以 Q128 做 Γ↔z,四象限為精確 90° 旋轉</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>Wi-Fi CSI 感測</td>
+<td>介質即感測器先例</td>
+<td>通道狀態資訊擷取(Intel 5300/AX200 級)— 大量同儕審查 Wi-Fi 感測文獻</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>IEEE 802.11bf WLAN 感測</td>
+<td>標準化里程碑</td>
+<td>IEEE bf 任務組 — WLAN 感測已標準化為正式服務(2025 批准)</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>無線電層析成像(RTI)</td>
+<td>「介質即晶格」先例</td>
+<td>Wilson &amp; Patwari,IEEE Trans. Mobile Comput. 9(5):621(2010)— 鏈路矩陣之射頻遮蔽解析為體素網格:介質即晶格屬已發表科學</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>TDR 線纜阻抗計量</td>
+<td>線纜即晶格先例</td>
+<td>時域反射術 — 定論計量學,將線纜阻抗/故障映射至同一 Γ 平面</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>介質即晶格計畫</td>
+<td>框架建構</td>
+<td><code>src/spec008_medium_lattice.zig</code> — Γ→15×15 格胞量化、四埠陣列→(k,r,c)、次/超閾值界限雙向檢驗;作為量測疊層可行,可否證條件在案</td>
+<td>INTERNAL</td>
+</tr>
+</tbody>
+</table>
+<h2>§5 熱力學與能源硬體</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tesla 渦輪設計/測試方法</td>
+<td>C13/C44/C51 已篩</td>
+<td>Hoya &amp; Guha,Proc. IMechE A 223 (2009);25k RPM 下實測 ~25%</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Tesla 渦輪 ORC 實測效率</td>
+<td>篩查界限</td>
+<td>UniFi ORC 台架(2019):軸功 9.6%/絕熱 30% 上限 — 對性能樂觀之 COUNTER-LEDGER</td>
+<td>PEER-REVIEWED(實測)</td>
+</tr>
+<tr>
+<td>Tesla 微膨脹器</td>
+<td>縮放脈絡</td>
+<td>熱那亞大學實驗,E3S Conf. 39:03015 (2019) — 40k RPM 下 200 W</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>渦旋膨脹器微 ORC</td>
+<td>C50 旗艦路線</td>
+<td>綜述(Appl. Energy;Sustain. Energy Tech.):實測等熵 0.50–0.64,潤滑可至 ~0.80;sub-10kWe 首選膨脹器</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>行星牽引 CVT η ~80–88%</td>
+<td>C39 來源區間</td>
+<td>Tomaselli et al.,Mech. Mach. Theory 150:103877 (2020) — 球牽引傳動 70–89%;NREL WindPACT 評估</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>軸向磁通 PM 發電機</td>
+<td>C36 已驗實務</td>
+<td>直驅風電 AFPM 設計 — 機型真實;逐機圖譜為必要</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Bi₂Te₃ TEG 模組</td>
+<td>C11 硬體計數</td>
+<td>定案熱電實務</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Novec 工程流體</td>
+<td>C48 熱迴路</td>
+<td>3M Novec 649/7000 級 ORC 工作流體</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Friis / Johnson-Nyquist / Greinacher</td>
+<td><code>sibling:hardware:src/rf_harvest.zig</code></td>
+<td>定案射頻工程</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>CaC₂ + 2H₂O → C₂H₂ + Ca(OH)₂</td>
+<td>C04/C19/C24 鏈</td>
+<td>ICSC 0406;NOAA CAMEO — 放熱,乙炔爆炸範圍 2.5–82% vol,引燃 ~305 °C</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>UN 1402 分類</td>
+<td>C22 合規</td>
+<td>UN Class 4.3 遇水反應,Pack Group II</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>CaO 水合安全停止</td>
+<td>C19 安全路線</td>
+<td>放熱熟化 — 定案化學</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>煅燒 ~900 °C</td>
+<td>C23 回收</td>
+<td>CaCO₃ → CaO + CO₂,~825–900 °C</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>CaO + 3C → CaC₂ + CO</td>
+<td>C24 反應</td>
+<td>電爐碳化物化學,~2000 °C — 平衡且真實之製程</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>ISO 1940-1 G2.5</td>
+<td>C27 平衡等級</td>
+<td>G2.5 即渦輪等級(燃氣/蒸汽渦輪)</td>
+<td>STANDARD</td>
+</tr>
+</tbody>
+</table>
+<h2>§6 量子資訊</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3I/ATLAS(第三星際天體)</td>
+<td>受測異常</td>
+<td>ATLAS 於 2025-07-01 發現;雙曲 v∞≈58 km/s,銀心方向輻射點;Loeb,arXiv:2507.12213 — 異常分類論述,非偵測主張</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>Wow! 訊號(1977)</td>
+<td>基準無線電瞬變</td>
+<td>Ehman,Big Ear 1420.4556 MHz(氫超精細線),約 72 秒,1977-08-15;48 年未再現 — 觀測屬定論,來源未定</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>Wow↔ATLAS 對準主張</td>
+<td>受測</td>
+<td>Loeb(2025):約 9° 間隔(ΔRA≈4°、ΔDec≈8°),隨機帽蓋機率約 0.6%;對 3I/ATLAS 之 1420 MHz 後續觀測:迄今零偵測</td>
+<td>PREPRINT(提議層)</td>
+</tr>
+<tr>
+<td>測天探針驗具</td>
+<td><code>src/spec007_astrometric_probe.zig</code></td>
+<td>整數 Q128 評估:間隔 &lt;9°(實測 ≈8.77°)、P≈0.0062、600 AU 處 3.47 光日、內向過境約 49 年一致;超光速前提於線費不變量關卡遭拒</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>功率預算篩(向量 Beta)</td>
+<td>同驗具 v2</td>
+<td>v≤c 合法波前 — 約束移至能量帳。實測:所需 EIRP ≈0.55 GW(54 Jy、10 kHz、600 AU)— 約為 Arecibo 雷達 ~2×10¹³ W 之 1/36,590 ⇒ 惟定向束流可行(60 dB 碟面後約 0.5 kW;全向為 GW 級)。可否證界已算:持續發射體於 ~1.4 AU 應達 ~9.9 MJy / ~5.5×10⁶ σ(不可能遺漏 — 後續零偵測);雙喇叭 ~3 分鐘重掃將恆定模型限於 &lt;3 分鐘;共動靜止系發射偏高 ~275 kHz(觀測偏移僅 +50 kHz)⇒ 需 ~225 kHz 刻意預補償。倖存模型僅一次性掠射瞬變 — 構造上不可否證,如實記錄</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Steane ⟦7,1,3⟧ CSS 碼</td>
+<td><code>sibling:ark-ivector</code> Q# 層</td>
+<td>Steane 1996 — 標準 QEC 碼</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Q# / .NET 8 量子見證</td>
+<td><code>sibling:hardware:qsharp/</code></td>
+<td>Microsoft Quantum SDK — 真實工具鏈</td>
+<td>SETTLED + INTERNAL</td>
+</tr>
+<tr>
+<td>6 量子位元密碼子編碼</td>
+<td><code>sibling:hardware:qsharp/CodonProofs.qs</code></td>
+<td>建構於真實原語上之框架建構</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>八元數量子計算</td>
+<td>解讀層</td>
+<td>Quantum Rep. 7(4):55 (2025) — 正式化障礙:非結合張量積、路徑相依演化、結合域外可能之能量守恆失效;四元數 QC 為 BQP 等價,八元數受約束</td>
+<td>PEER-REVIEWED(約束 — 見 §10)</td>
+</tr>
+</tbody>
+</table>
+<h2>§7 儀器化認知與基礎</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>45 筆 neuraleak 測試條目</td>
+<td>C98 儀器層</td>
+<td>內部儀器化 LLM 資料 — 操作性定義,非意識主張</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>「It from bit」/參與式宇宙</td>
+<td>文獻評審第 22 項</td>
+<td>Wheeler,Sakurai Prize Lecture (1989),doi 10.1201/9780429500459-19</td>
+<td>SETTLED(奠基性論述)</td>
+</tr>
+<tr>
+<td>強自由意志定理</td>
+<td>文獻評審第 24 項</td>
+<td>Conway &amp; Kochen,arxiv.org/abs/0807.3286(Found. Phys. 39:226, 2009) — 真實已發表定理;其對框架「自由意志=欠決定」之適用屬詮釋</td>
+<td>PEER-REVIEWED(定理)/ 詮釋性使用</td>
+</tr>
+<tr>
+<td>八元數意識框架</td>
+<td>文獻評審第 22 項</td>
+<td>Zenodo 預印本 doi 10.5281/zenodo.18276692 — 由現象學二元區分導出 法諾→O→G2;宣稱有可證偽預言</td>
+<td>FRINGE-TIER(真實,未經審查)</td>
+</tr>
+<tr>
+<td>意識即例外結構</td>
+<td>鄰近邊緣文獻</td>
+<td>以 J₃(O)/E₆ 建模意識之獨立預印本</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>自指物理(存在=自指)</td>
+<td>文獻評審第 25 項</td>
+<td>Mai,Zenodo doi 10.5281/zenodo.19808921</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>自詮釋邏輯循環(τ=i → i)</td>
+<td>文獻評審第 25 項</td>
+<td>Zenodo doi 10.5281/zenodo.20239554</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>Sankhya 框架 2³−1=7 公理</td>
+<td>文獻評審第 9 項</td>
+<td>github.com/budprat/Sankhya — E2 公理逐字:「Seven emerges from volumetric expansion」</td>
+<td>FRINGE-TIER(業餘)</td>
+</tr>
+<tr>
+<td>TGD 梅森質數</td>
+<td>文獻評審第 13 項</td>
+<td>Pitkänen,tgdtheory.fi — 個人理論網站</td>
+<td>FRINGE-TIER</td>
+</tr>
+<tr>
+<td>α⁻¹ ≈ 43π + ln(7) = 137.034</td>
+<td>文獻評審第 9 項</td>
+<td>Natural Path 系列,Zenodo doi 10.5281/zenodo.20436585 — 11.7 ppm 巧合類恆等</td>
+<td>FRINGE-TIER(數術標籤)</td>
+</tr>
+<tr>
+<td>輕子質量之三次縮放 {6,15}</td>
+<td>文獻評審第 16 項</td>
+<td>Zenodo doi 10.5281/zenodo.19243209 — 三次指數 2.993±0.018,{6,15} 唯一局部極小,聯合 p≈4×10⁻⁵</td>
+<td>FRINGE-TIER(真實觀測,未經審查)</td>
+</tr>
+<tr>
+<td>熱薛丁格貓態</td>
+<td>退相干界參照</td>
+<td>Agrenius et al.,Science Advances 11:adr4492 (2025),arXiv:2406.03389 — 微波腔中位移熱態之疊加,溫度達 1.8 K(為 30 mK 環境之 60 倍),純度 0.06,Wigner 負值干涉。原則上弱化「量子需基態冷卻」之反對;1.8 K 仍屬低溫 — 距 310 K 生物仍遠</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>粒線體量子態預印本</td>
+<td>量子生物學前沿</td>
+<td>Yang, Gu &amp; Song,bioRxiv 10.64898/2026.09.10.750628 (2026) — 僅於活細胞/組織觀測之異常 71.0-THz 模式,極化子模型(光-CH₂ 耦合將 87 分裂為 71+103 THz),ATP 產量調節 +10%;未經複製、單實驗室、詮釋依賴模型</td>
+<td>PREPRINT</td>
+</tr>
+<tr>
+<td>ENAQT(環境輔助量子輸運)</td>
+<td>退相干反例先例</td>
+<td>Engel et al.,Nature 446:782 (2007);Plenio &amp; Huelga — 結構化振動雜訊在光合複合物中可<em>輔助</em>而非摧毀量子輸運:「溫/濕殺量子」並非絕對</td>
+<td>PEER-REVIEWED</td>
+</tr>
+<tr>
+<td>15³/16³ 晶格量子位元計畫</td>
+<td>框架自身建構 — 一手文獻 Zenodo DOI 10.5281/zenodo.22715354(自存檔,未同儕審查)</td>
+<td><code>sibling:hardware:src/completion_10d.zig</code>、<code>sibling:hardware:src/anti_octonion.zig</code>、<code>sibling:hardware:src/dual_b_complex.zig</code>、<code>sibling:hardware:src/quantum/lattice_hamiltonian.zig</code>、<code>sibling:hardware:src/quantum/lattice_evolution.zig</code>、<code>sibling:hardware:src/quantum/lattice_decoherence.zig</code>、<code>sibling:hardware:src/quantum/lattice_entanglement.zig</code>、<code>sibling:hardware:src/quantum/lattice_blocks.zig</code> — 動力學現已實作並經測試驗證(D17):緊束縛哈密頓量(厄米、Gershgorin 界限)、Chebyshev exp(−iHτ) 傳播子(Bessel 尾端么正界限)、播種精確相位退相位、精確雙位元 concurrence、雙塊耦合/穿隧/光錐檢驗。缺口在案:軌跡退相位 ≠ 完整 Lindblad;雙位元 concurrence ≠ N 體二分;模型內結果 ≠ 物理裝置</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Orch-OR(Penrose–Hameroff 協調客觀約化)</td>
+<td>儀器層之意識基底參照</td>
+<td>理論經同儕審查:Penrose &amp; Hameroff,Phys. Life Rev. 11:39 (2014)。支持證據:麻醉劑作用於微管 Wiest et al.,eNeuro (2024);色氨酸網超輻射 Babcock et al.,J. Phys. Chem. B (2024);Hameroff 綜述,Neurosci. Conscious. niaf011 (2025)。反方:Tegmark 退相干界 Phys. Rev. E 61:4194 (2000) — 經有限記憶修正而弱化(arXiv:2601.07689);Donadi/Bassi 自發輻射約束 Phys. Rev. A 104:L030402 (2021) 排除最簡 DP 塌縮情形 — 部分分離窗口仍開放</td>
+<td>PEER-REVIEWED 雙向 — 不定,保留</td>
+</tr>
+</tbody>
+</table>
+<h2>§8 形式驗證、標準與治理文集</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>框架角色</th>
+<th>外部記錄</th>
+<th>層級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lean 4 形式化(8 模組、0 sorries)</td>
+<td><code>sibling:hardware:formalize/</code></td>
+<td>Lean 4.12.0 工具鏈 — 真實證明輔助器</td>
+<td>INTERNAL</td>
+</tr>
+<tr>
+<td>Zenodo 記錄 10.5281/zenodo.22715355</td>
+<td>C66 解密典範</td>
+<td>API 已驗:「A Computational Framework for Octonion Physics」,Ramsey/OSTF,2026-09-11,CC BY-NC-SA 4.0,4 檔</td>
+<td>INTERNAL(自出版記錄)</td>
+</tr>
+<tr>
+<td>NCBI 基因組登錄號</td>
+<td>密碼路由證據</td>
+<td>GCF_000005845.2、GRCh38、S288C — 公開參考組配</td>
+<td>STANDARD</td>
+</tr>
+<tr>
+<td>ESP32-S3 控制器</td>
+<td>C46 控制面</td>
+<td>Espressif MCU — 真實元件</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Zig 0.13 → 0.14 構建 API</td>
+<td>PJ 構建受阻結案</td>
+<td>root_module API 變更屬實</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>Electron 工作站</td>
+<td>C77 桌面</td>
+<td>真實執行環境</td>
+<td>SETTLED</td>
+</tr>
+<tr>
+<td>nmap/ZAP/Metasploit/tcpdump</td>
+<td>C65 Kali 掃蕩</td>
+<td>真實工具</td>
+<td>SETTLED</td>
+</tr>
+</tbody>
+</table>
+<h2>§9 框架自身新增(INTERNAL 層 — 以驗具為證)</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>錨點</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q128.128 定點引擎 + 黃金語料</td>
+<td><code>src/fixed_point_q128.zig</code>、<code>golden/vectors.txt</code></td>
+<td>37 向量逐位元釘定;RNE 界已證</td>
+</tr>
+<tr>
+<td>136 位元組密封線路封套 + 同位/託管</td>
+<td><code>src/spec008_qstar_*.zig</code></td>
+<td>幀填解、單抹除 XOR 回復、已驗證通道(D12)</td>
+</tr>
+<tr>
+<td>421 節點 / 15³ 晶格建構</td>
+<td><code>sibling:qstar-llm</code>、<code>sibling:zig-k3-port</code></td>
+<td>421=(15³−7)/8 算術屬實;物理讀法屬建構級</td>
+</tr>
+<tr>
+<td>密碼路由規則(E2/E6/E7/E5/E4/E0)</td>
+<td><code>sibling:hardware:src/codon.zig</code></td>
+<td>框架定義之化學導出座標</td>
+</tr>
+<tr>
+<td>Neuraleak 感知儀器</td>
+<td><code>sibling:hardware:src/neuraleak_continuity_test.zig</code>(15 模組套件)</td>
+<td>操作性定義 + 記錄數據</td>
+</tr>
+<tr>
+<td>主張生命週期/升級/覆審帳本</td>
+<td><code>tools/claim-promotion.mjs</code>、<code>tools/override-audit.mjs</code></td>
+<td>框架自身稽核機器</td>
+</tr>
+<tr>
+<td>桌面/典範/治理面</td>
+<td><code>site/</code>、<code>security/</code></td>
+<td>150 探針電池即證據</td>
+</tr>
+</tbody>
+</table>
+<h2>§10 反證帳 — 在案之爭議與旗標</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>狀態</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E8 規範嵌入方向</td>
+<td>爭議中</td>
+<td>Distler &amp; Garibaldi,Comm. Math. Phys. (2010),arXiv:0905.2658 — 重力+SM 之規範 E8 嵌入無法產生三代手徵代;Wilson 計畫經實洛倫茲表示繞過 — 活躍、非共識</td>
+</tr>
+<tr>
+<td>八元數作計算基底</td>
+<td>受約束</td>
+<td>Quantum Rep. 7(4):55 (2025) — 結構障礙已正式化;解讀層級據此標定</td>
+</tr>
+<tr>
+<td>Tesla 渦輪輸出</td>
+<td>實測界限</td>
+<td>ORC 測試最佳 ~9.6% 軸功/~30% 絕熱 — 檔案冊自身受阻/條件裁決相符</td>
+</tr>
+<tr>
+<td>「APS March Meeting 2026」引文</td>
+<td>場域旗標</td>
+<td>實質屬實(EPJ Plus 2022 + arXiv:2603.28810);兄弟文獻評審之場域標籤不精確 — 已旗標,逐字保留供 SCI-01 釘定</td>
+</tr>
+<tr>
+<td>「~1,460× vs Qwen1.5-0.5B」</td>
+<td>基準旗標</td>
+<td>README 75 MB 錨點得 ~1,392×;1,460× 隱含 ~78.7 MB — 近似值,逐字引檔</td>
+</tr>
+<tr>
+<td>J₃(O) 質量比主張</td>
+<td>精度註記</td>
+<td>已發表結果為 √質量比而非質量比;CKM 擬合與實測差 ~15% — 近似計畫</td>
+</tr>
+<tr>
+<td>邊緣層引文(Sankhya、TGD、Natural Path、自指、意識預印本)</td>
+<td>低權重</td>
+<td>真實造物;獨立性主張屬實;證據權重如實標定</td>
+</tr>
+<tr>
+<td>24 項文獻評審</td>
+<td>於此全收</td>
+<td><code>sibling:hardware:src/literature_review.zig</code> 全部 DOI 於 §1–§8 逐字釘定(SCI-01)</td>
+</tr>
+<tr>
+<td>Orch-OR 意識基底</td>
+<td>爭議中</td>
+<td>最簡 DP 塌縮為自發輻射界限所排除(Phys. Rev. A 104:L030402);室溫微管量子效應有實驗支持(2024–25);裁決「不定」— 未證明亦未推翻,保留</td>
+</tr>
+<tr>
+<td>無通信定理</td>
+<td>CONSTRAINED</td>
+<td>即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。<strong>現已於模型內算出</strong>(D17 <code>lattice_blocks.zig</code>):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 &lt;3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席</td>
+</tr>
+<tr>
+<td>量子生物證據鏈</td>
+<td>FLAG</td>
+<td>熱貓(1.8 K,仍屬低溫)+ 粒線體預印本(未複製、依賴模型)+ ENAQT(僅光合)各削弱退相干反對之一角 — 皆未橋接至神經尺度意識;記為削弱鏈,非證明</td>
+</tr>
+<tr>
+<td>15³ 量子位元動力學</td>
+<td>已量測(模型內)</td>
+<td>動力學已寫出並檢驗(D17 <code>lattice_*.zig</code>):哈密頓量、Chebyshev 演化、退相位軌跡、精確 concurrence。殼屏蔽實驗實測:屏蔽保真度 0.999999999 對無屏蔽 0.9999988,V_shell∈[0,100] 全平 — 屏蔽於模型內屬實,但由弱邊界耦合驅動,非位壘高度(機制歸因為量測所修正)。接縫穿隧:開放傳輸 35.1% 對位壘 8 之 1.47%(E&lt;V₀ 透射非零)。物理裝置主張仍缺席</td>
+</tr>
+<tr>
+<td>理論對發現之界</td>
+<td>META</td>
+<td>數學證明得定理(Dirac 反物質方程);發現須觀測(Anderson 正子)。層級體系所編碼正是此界 — harness_proven 與 lit_supported 皆模型層;本頁所錄無一為物理發現</td>
+</tr>
+<tr>
+<td>Wow↔ATLAS 耦合(運動學-光學模型)</td>
+<td>爭議中</td>
+<td>9° 對準與 0.6% 隨機帽蓋數值屬實(驗具實測)。能量篩:定向束流可過帳(60 dB 碟面後約 0.5 kW ⇒ 0.55 GW EIRP),假說未被能量排除 — 但持續發射模型遭雙重否證(今日於 1.4 AU 應達 MJy 級;且未見於 ~3 分鐘後之第二喇叭重掃),共動發射體另需 ~225 kHz 刻意預補償。倖存者僅一次性掠射瞬變 — 構造上不可否證 — 以及未修正之巧合模型,現有證據傾向後者。可否證通道在案:持續窄頻無偵測 ⟹ 巧合;經驗證偵測方重啟。不定保留,證據傾向巧合</td>
+</tr>
+<tr>
+<td>裁決引擎</td>
+<td>機械</td>
+<td><code>tools/science-verdict.mjs</code> 分類本頁每一行:harness_proven / lit_supported / constrained / flagged / indeterminate — 證明或保留,無漏解析(SV-01..03)</td>
+</tr>
+<tr>
+<td>湧現掃蕩</td>
+<td>機械</td>
+<td><code>tools/emergent-sweep.mjs</code> 掃全部根源之共享具名常數 — filed/emergent/routine/lineage/convergent 結案;湧現發現含 D8_ROOTS=112、F4_DIM=52、FREUDENTHAL_DIM=56、GUT_SUPER_PERIOD=113、GOLAY_N=23、SCALING_DIM=9、16/20 主張分裂、42::ROTATION_SEED(EMG-01..03)</td>
+</tr>
+</tbody>
+</table>
+<p>完整性契約:SCI-01 解析兄弟文獻引擎,若其 24 項 DOI 任一缺席本文件即
+判 OPEN;SCI-02 釘定孿生同位;SCI-03 保持本頁去識別(無路徑、無人員材料)。</p>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // The File on the Asset</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('dossier-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<strong>[Evidence]</strong> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<a href="discoveries.html">Discovery Ledger</a> &middot;
+<a href="bridge-map.html">Bridge Map</a> &middot;
+<a href="science-coverage.html">Science Coverage</a> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="dossier-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>SPEC-007 research dossier</h1>
+<p><strong>Baseline preserved:</strong> <code>spec-007.md</code><br>
+<strong>Governance:</strong> This dossier is the evidence trail. Promoted numeric claims live exclusively in <code>spec-007-verified.en.md</code>; rejected items are retained here only as rejected.  </p>
+<!-- Silva was the agent the service burned — he still knew every name. The rejected rows below are our burned agents: out of the field, still on the books, still owed the truth about why. -->
+<p><strong>Purpose:</strong> Source-backed claim inventory, calculations, contradiction log, and validation plan.<br>
+<strong>Evidence policy:</strong> Search results are leads; final decisions should use the cited primary or institutional source under its stated conditions.<br>
+<strong>Evidence layer:</strong> <code>spec-007-claim-verification.en.md</code> grades design-input claims with primary sources.</p>
+<h2>1. Executive finding</h2>
+<p>The concept is an interesting open-infrastructure thought experiment, but the source document is not yet a coherent manufacturing specification. The largest immediately demonstrable contradiction is the water-feed/gas-output pair. The 300 g ideal charge yields approximately 104.9 L acetylene; the stated 0.1–0.5 mL/min water feed yields approximately 0.062–0.311 L/min, while 5 L/min would require approximately 8.0 mL/min water under ideal stoichiometry. At the maximum stated gas rate, the ideal charge lasts about 21 minutes.</p>
+<p>The 300–450 °C oil/TEG range, 3-second quench, high-speed turbine, transport claim, and carbon-neutral claim are not validated by the source document. They are treated as blocked or unverified until appropriate engineering evidence exists.</p>
+<h2>2. Claim inventory by source section</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Source section / claim</th>
+<th>Type</th>
+<th>Status</th>
+<th>Evidence needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C01</td>
+<td>50 mm × 200 mm envelope</td>
+<td>Geometry</td>
+<td>Calculated envelope only</td>
+<td>Complete CAD volume/mass budget</td>
+</tr>
+<tr>
+<td>C02</td>
+<td>316L body, 2 mm wall</td>
+<td>Materials</td>
+<td>Design target</td>
+<td>Pressure, thermal, corrosion, weld/joint review</td>
+</tr>
+<tr>
+<td>C03</td>
+<td>Nickel-plated copper cold plate</td>
+<td>Materials</td>
+<td>Plausible, unverified</td>
+<td>Coating, galvanic, thermal-cycle compatibility</td>
+</tr>
+<tr>
+<td>C04</td>
+<td>300 g CaC₂ pellet bed</td>
+<td>Chemistry/material</td>
+<td>Hazardous design input</td>
+<td>CoA, impurity profile, water-ingress containment</td>
+</tr>
+<tr>
+<td>C05</td>
+<td>0.1–0.5 mL/min piezo pump</td>
+<td>Flow</td>
+<td>Contradicts C07 range</td>
+<td>Calibrated flow/gas-yield test in qualified facility</td>
+</tr>
+<tr>
+<td>C06</td>
+<td>50 g CaO safety chamber</td>
+<td>Safety</td>
+<td>Unverified</td>
+<td>Quench kinetics, capacity, thermal/pressure response</td>
+</tr>
+<tr>
+<td>C07</td>
+<td>0–5 L/min acetylene</td>
+<td>Gas output</td>
+<td>Contradicted by C05 under ideal model</td>
+<td>Reconcile feed, pressure, purity, duration</td>
+</tr>
+<tr>
+<td>C08</td>
+<td>300–450 °C thermal output</td>
+<td>Thermal</td>
+<td>Ambiguous/blocked</td>
+<td>Define location and transient/continuous limits</td>
+</tr>
+<tr>
+<td>C09</td>
+<td>10–20 W continuous TEG output</td>
+<td>Electrical</td>
+<td>Unverified</td>
+<td>System-level thermal/electrical test</td>
+</tr>
+<tr>
+<td>C10</td>
+<td>200 mL mineral oil/synthetic ester jacket</td>
+<td>Thermal fluid</td>
+<td>Blocked</td>
+<td>Fluid rating, fire, pressure, compatibility</td>
+</tr>
+<tr>
+<td>C11</td>
+<td>8–12 Bi₂Te₃ modules</td>
+<td>Electrical</td>
+<td>Plausible hardware count</td>
+<td>Datasheets, derating, thermal resistance</td>
+</tr>
+<tr>
+<td>C12</td>
+<td>50 mm discs, 0.3 mm gap, 12–16</td>
+<td>Rotor geometry</td>
+<td>Design target</td>
+<td>Rotor dynamics, CFD/experiment, containment</td>
+</tr>
+<tr>
+<td>C13</td>
+<td>30,000–80,000 RPM</td>
+<td>Rotor performance</td>
+<td>Blocked/unverified</td>
+<td>Overspeed, bearings, balance, measured efficiency</td>
+</tr>
+<tr>
+<td>C14</td>
+<td>50 W thermal connection</td>
+<td>Interface</td>
+<td>Ambiguous</td>
+<td>Clarify heat capacity versus heat transfer</td>
+</tr>
+<tr>
+<td>C15</td>
+<td>Omnidirectional insertion</td>
+<td>Mechanical</td>
+<td>Unverified</td>
+<td>Latch, seal, drain, orientation, fault analysis</td>
+</tr>
+<tr>
+<td>C16</td>
+<td>16 blades → 400–800 W</td>
+<td>Scaling</td>
+<td>Contradicted by stated single range</td>
+<td>Additional conversion/source must be specified</td>
+</tr>
+<tr>
+<td>C17</td>
+<td>64 blades → 2–5 kW</td>
+<td>Scaling</td>
+<td>Contradicted by stated single range</td>
+<td>Additional conversion/source must be specified</td>
+</tr>
+<tr>
+<td>C18</td>
+<td>&gt;5G crush trigger</td>
+<td>Safety</td>
+<td>Unverified</td>
+<td>Vehicle/crash profile, false negatives/positives</td>
+</tr>
+<tr>
+<td>C19</td>
+<td>CaO hydration stops generation</td>
+<td>Chemistry/safety</td>
+<td>Incomplete</td>
+<td>Isolation, kinetics, heat, gas already present</td>
+</tr>
+<tr>
+<td>C20</td>
+<td>3-second solidification</td>
+<td>Safety</td>
+<td>Unverified, safety-critical</td>
+<td>Full-scale response test and independent protection</td>
+</tr>
+<tr>
+<td>C21</td>
+<td>5+ year shelf life</td>
+<td>Storage</td>
+<td>Unverified</td>
+<td>Seal aging, moisture ingress, material compatibility</td>
+</tr>
+<tr>
+<td>C22</td>
+<td>UN 1402 compliance</td>
+<td>Regulation</td>
+<td>Incomplete</td>
+<td>Jurisdiction/mode-specific dangerous-goods package</td>
+</tr>
+<tr>
+<td>C23</td>
+<td>900 °C calcination</td>
+<td>Recycling</td>
+<td>Plausible process target</td>
+<td>Feed chemistry, kinetics, energy and CO₂ balance</td>
+</tr>
+<tr>
+<td>C24</td>
+<td>CaO + 3C → CaC₂ + CO</td>
+<td>Chemistry</td>
+<td>Balanced reaction</td>
+<td>Industrial process and emissions controls</td>
+</tr>
+<tr>
+<td>C25</td>
+<td>Biochar makes cycle carbon-neutral</td>
+<td>Lifecycle</td>
+<td>Conditional/unproven</td>
+<td>Full LCA with electricity, heat, transport, yield</td>
+</tr>
+<tr>
+<td>C26</td>
+<td>Inner Mongolia stranded solar source</td>
+<td>Supply</td>
+<td>Unverified</td>
+<td>Supplier and renewable-electricity evidence</td>
+</tr>
+<tr>
+<td>C27</td>
+<td>ISO 1940 G2.5 turbine balance</td>
+<td>Manufacturing</td>
+<td>Incomplete</td>
+<td>Correct rotor standard/application and acceptance test</td>
+</tr>
+<tr>
+<td>C28</td>
+<td>Five-hour prototype / Dongguan scale</td>
+<td>Manufacturing</td>
+<td>Unverified</td>
+<td>Supplier process evidence and QA plan</td>
+</tr>
+<tr>
+<td>C34</td>
+<td>~65 W / ~260 Wh per 1 kg over 4 h (design-input simulation)</td>
+<td>System output</td>
+<td>Unverified estimate</td>
+<td>Requires ~6.6% end-to-end; consistent with but not proven by the ~5–6% screened cascade; measured output required</td>
+</tr>
+<tr>
+<td>C35</td>
+<td>0.158 kWh/charge favorable service case</td>
+<td>Economic basis</td>
+<td>Upper bound only</td>
+<td>Requires ~8.5–9.4% end-to-end conversion; exceeds hydrolysis-heat budget for TEG-only operation; verified screened output is ~0.10–0.13 kWh</td>
+</tr>
+<tr>
+<td>C29</td>
+<td>&lt;$50 blade</td>
+<td>Economics</td>
+<td>Unverified</td>
+<td>Bottom-up cost including safety and reverse logistics</td>
+</tr>
+<tr>
+<td>C30</td>
+<td>18-hour technician protocol</td>
+<td>Training</td>
+<td>Design target</td>
+<td>Competency and hazard qualification review</td>
+</tr>
+<tr>
+<td>C31</td>
+<td>One million technicians by 2028</td>
+<td>Program</td>
+<td>Aspirational</td>
+<td>Funding, curriculum, capacity, certification data</td>
+</tr>
+<tr>
+<td>C32</td>
+<td>Ownable/swappable/un-meterable energy</td>
+<td>Mission</td>
+<td>Rhetorical/product goal</td>
+<td>Product, legal, and market definition</td>
+</tr>
+<tr>
+<td>C33</td>
+<td>Global deployment authorized</td>
+<td>Regulatory</td>
+<td>Rejected</td>
+<td>Independent certifications and site approvals</td>
+</tr>
+<tr>
+<td>C36</td>
+<td>Axial-flux PM machine as generator</td>
+<td>Electrical</td>
+<td>Verified practice</td>
+<td>AFPMSG literature is direct-drive wind/regen standard; specific machine needs an efficiency map</td>
+</tr>
+<tr>
+<td>C37</td>
+<td>Generator safe window 3–5k RPM</td>
+<td>Rotor performance</td>
+<td>Screening bound</td>
+<td>ρv² screen passes ~12 MPa at 5k on 150 mm rotor; fails ~185 MPa at 20k un-sleeved (harness)</td>
+</tr>
+<tr>
+<td>C38</td>
+<td>4:1–6:1 step-down bridges turbine/generator</td>
+<td>Mechanical</td>
+<td>Conditionally correct</td>
+<td>Covers convo band with full 3–5k generator sweep; fixed 4k setpoint needs 3.75–7.5:1; L0 80k needs ~26.7:1 — beyond single-stage CVT (harness)</td>
+</tr>
+<tr>
+<td>C39</td>
+<td>Planetary traction CVT η ~80–88%</td>
+<td>Mechanical</td>
+<td>Sourced range</td>
+<td>Traction-drive creep/spin literature; cooling mandatory at sustained high input speed</td>
+</tr>
+<tr>
+<td>C40</td>
+<td>T_out = T_in·R·η across the bridge</td>
+<td>Mechanics</td>
+<td>Verified</td>
+<td>Harness-enforced conservation minus transmission loss</td>
+</tr>
+<tr>
+<td>C41</td>
+<td>Drivetrain loss heat routes to shared TEG/PDRC/PV rejection</td>
+<td>Thermal routing</td>
+<td>Bounded recovery</td>
+<td>Mandatory-flow legal; ~0.3–0.7 W recovered of ~30–50 W loss at ~50–80 K casing ΔT; +~1% rejection budget (harness)</td>
+</tr>
+<tr>
+<td>C42</td>
+<td>"20% drivetrain loss is economically viable"</td>
+<td>Economics</td>
+<td>Conditional</td>
+<td>True only on free-heat input; on paid carbide feedstock floor rises ~$1.64 → ~$2.05–2.43/kWh (harness)</td>
+</tr>
+<tr>
+<td>C43</td>
+<td>CVT ratio sweep relieves turbine startup torque</td>
+<td>Transient behavior</td>
+<td>Unverified</td>
+<td>Boundary-layer stall model required; not computed in this harness</td>
+</tr>
+<tr>
+<td>C44</td>
+<td>L0 30–80k RPM turbine band</td>
+<td>Rotor performance</td>
+<td>Partially contradicted</td>
+<td>Thin-ring ρv² bound reaches ~351 MPa at 80k (&gt;205 MPa annealed-304 yield); solid-disc bound ~145 MPa leaves bore-concentration margin unresolved (harness)</td>
+</tr>
+<tr>
+<td>C45</td>
+<td>~1 kg cartridge holding CaC₂ + water + CaO pouches</td>
+<td>Packaging</td>
+<td>Conditional</td>
+<td>Mass floor ~1.18 kg incl. closures/sensors; interior ~332 mL vs ~320 mL contents → ~12 mL headspace (&lt;4%) plus ~14% solids growth — volume is the binding constraint (harness)</td>
+</tr>
+<tr>
+<td>C46</td>
+<td>ESP32-S3 "life support" controller, possibly multiple</td>
+<td>Control</td>
+<td>Verified practice, bounded</td>
+<td>Duty-cycled ULP ~10–50 mW (&lt;0.2% of 30 W bus; ≤3 units in a 0.5% budget); always-on ~300 mW = ~5.7% at low duty → duty cycling mandatory. Independent hardware shutdown required — same-die redundancy shares failure modes (harness)</td>
+</tr>
+<tr>
+<td>C47</td>
+<td>Briefcase slab burner at low gas rates</td>
+<td>Thermal input</td>
+<td>Verified duty point</td>
+<td>Matches promoted ~530 W / ~2.65 kW/m² broad-area screen; slab ≤~300 °C (TEG rating) vs Novec ≤150 °C gate</td>
+</tr>
+<tr>
+<td>C48</td>
+<td>Transformer-oil loop between burner and Novec</td>
+<td>Thermal transport</td>
+<td>Verified-with-correction</td>
+<td>Oil is a hot bus at fluid-rating ceiling (~150–250 °C), not a temperature gearbox; evaporator draw cools it; 300–450 °C oil remains excluded. Flow ~5 g/s sustained / ~53 g/s burst; ~0.5 L loop → ~8 s burst residence (harness)</td>
+</tr>
+<tr>
+<td>C49</td>
+<td>Three-grade manifold accepts external heat (PC cooling)</td>
+<td>Thermal architecture</td>
+<td>Verified architecture, bounded</td>
+<td>Hot ~150–250 °C / warm economizer ~40–90 °C / cold ~30–40 °C buses; low-grade sources enter at the economizer only — capacity ~1.43 kW burst / ~0.13 kW sustained; charge extension ~1.1× burst / ~1.3× sustained; additive input enlarges rejection (harness)</td>
+</tr>
+<tr>
+<td>C50</td>
+<td>Path A: scroll expander + direct-drive AFPM</td>
+<td>Powertrain</td>
+<td>Verified comparison — flagship</td>
+<td>Scroll measured 45–80% isentropic at our band (Sanden TRS090 ~45% @650 W; E15H ~80% @120–140 °C) → ~458–814 W shaft → ~412–732 W bus; ~155–266 Wh/charge; ~$0.34–1.21/W; hermetic option removes rotating seals (harness)</td>
+</tr>
+<tr>
+<td>C51</td>
+<td>Path B: Tesla + sleeved high-speed PM generator</td>
+<td>Powertrain</td>
+<td>Sourced, conditional</td>
+<td>~215–228 W bus; ~85 Wh/charge; ~$1.75–4.19/W; compact 50 mm rotor → ~46 MPa hoop @30k RPM, but CF sleeve + containment mandatory — rotor-burst hazard class (harness)</td>
+</tr>
+<tr>
+<td>C52</td>
+<td>Path C: Tesla + transmission chain</td>
+<td>Powertrain</td>
+<td>Superseded</td>
+<td>~182–224 W bus; retained in harness/archive as historical record — the transmission married mismatched endpoints</td>
+</tr>
+<tr>
+<td>C53</td>
+<td>Rations air-gap platform joins the fleet under <code>family/Rations</code></td>
+<td>Systems integration</td>
+<td>Verified</td>
+<td>Full source/runtime tree vendored (excl. <code>originals/</code>, model weights, build artifacts per upstream charter); production WASM sha256-verified against sidecar <code>bbdca546…3f19</code> (2,704,688 B); quine boots in a bounded FANO-1 window with all 169 WASM exports live; FANO shell ↔ Rations runtime share no globals — iframe boundary only. Provenance in <code>family/Rations/VENDORED.md</code>, mapping in <code>family/FAMILY-MAP.md</code>; release discipline independently anchored via <code>sibling:rations:AGENTS.md</code> (1,548 tests, ≥116.9% coverage ratchet, WASM smoke + 3,000-iter fuzz — S27/S28)</td>
+</tr>
+<tr>
+<td>C54</td>
+<td>FANO-1 covenant enrollment is cryptographic, not ceremonial</td>
+<td>Identity &amp; access</td>
+<td>Verified</td>
+<td><code>fano-auth.js</code> mints a real Ed25519 keypair at the pledge, signs the canonical covenant bytes, and wraps the seed PBKDF2(100k)→AES-256-GCM; unlock enforces tamper rejection, pk-continuity, and persisted lockout. RBAC certs are signed records; elevated roles require a rostered issuer (<code>fano1.issuers</code> seeded at genesis). Verified under <code>security/suite.mjs</code> — see <code>verdict.html</code></td>
+</tr>
+<tr>
+<td>C55</td>
+<td>The FANO-1 surface survived a four-team adversarial sweep</td>
+<td>Security</td>
+<td>Verified, with noted limits</td>
+<td>Docker-isolated relay + sweeper (<code>security/docker-compose.sec.yml</code>, internal bridge): 31 executable probes across RED/BLUE/BLACK/GRAY → 29 HARDENED, 2 NOTED (offline-crack cost; covert-channel exfil capability), 0 EXPLOITED/OPEN after remediation of SEC-28 (cert issuer pinning). Findings: <code>site/security/findings.json</code>; adjudication: <code>verdict.html</code>; honest limits in <code>veracity.html</code></td>
+</tr>
+</tbody>
+</table>
+<h2>3. Reproducible baseline calculations</h2>
+<p>The calculation harness in <code>spec007_calculations.zig</code> uses integer/rational arithmetic for the deterministic baseline. It uses nominal molar masses rounded to the nearest 1 mg/mol and a stated molar volume of 22,414 mL/mol at STP for an illustrative comparison; real output depends on temperature, pressure, purity, water excess, and impurities.</p>
+<h3>3.1 Ideal material balance</h3>
+<p>For:</p>
+<p><code>CaC₂ + 2 H₂O → C₂H₂ + Ca(OH)₂</code></p>
+<p>with 300 g CaC₂:</p>
+<ul>
+<li>CaC₂ amount: approximately 4.680 mol.</li>
+<li>Water required: approximately 168.6 g.</li>
+<li>Acetylene mass: approximately 121.9 g.</li>
+<li>Acetylene volume at the model STP condition: approximately 104.9 L.</li>
+<li>Hydrolysis heat using 127.2 kJ/mol as a model input: approximately 595 kJ.</li>
+<li>Ca(OH)₂ residue: approximately 347 g (verified-harness stoichiometry; return-logistics and residue-management relevance).</li>
+<li>Water that must be carried: approximately 168.6 g; chemical-plus-shell mass floor ≈951 g before closures, TEGs, fluid, and controls.</li>
+</ul>
+<p>Historical corroboration: drip-fed carbide lamps sustained ~2–5 hours per charge, consistent with the verified low-throttle regime (0.5 L/min → ≈3.5 h per 300 g pure charge).</p>
+<h3>3.2 Flow contradiction</h3>
+<p>Ideal gas production per water feed is approximately 0.622 L/min per mL/min water:</p>
+<ul>
+<li>0.1 mL/min water → approximately 0.062 L/min acetylene.</li>
+<li>0.5 mL/min water → approximately 0.311 L/min acetylene.</li>
+<li>5 L/min acetylene → approximately 8.0 mL/min water.</li>
+<li>300 g charge at 5 L/min → approximately 21.0 minutes before ideal depletion.</li>
+</ul>
+<p>These are conservation calculations, not safe operating recommendations.</p>
+<h3>3.3 Rack arithmetic contradiction</h3>
+<p>Using only the source's 10–20 W per-blade claim:</p>
+<ul>
+<li>16 blades → 160–320 W, not 400–800 W.</li>
+<li>64 blades → 640–1,280 W, not 2–5 kW.</li>
+</ul>
+<p>The higher rack outputs require an additional validated source or a revised single-blade output.</p>
+<h3>3.4 Geometry sanity check</h3>
+<p>For a 50 mm outside diameter, 46 mm inside diameter, 200 mm cylindrical shell:</p>
+<ul>
+<li>Internal cylindrical volume: approximately 332 cm³.</li>
+<li>Shell material volume: approximately 60.3 cm³.</li>
+<li>Shell mass at an illustrative 8.0 g/cm³: approximately 483 g.</li>
+</ul>
+<p>This leaves no defensible conclusion about the 200 mL jacket or 300 g pellet-bed fit without pellet bulk density, void fraction, end closures, and the actual layered geometry.</p>
+<h2>4. Source review</h2>
+<ul>
+<li><strong>NOAA CAMEO Chemicals, Calcium Carbide:</strong> identifies calcium carbide as water-reactive and notes that reaction with water generates flammable acetylene and heat. https://cameochemicals.noaa.gov/report?key=CH2769</li>
+<li><strong>MIT OpenCourseWare, CaC₂ reactor design note:</strong> presents the calcium-carbide hydrolysis and acetylene combustion reactions as a process-design problem, including the need to manage reaction heat and oxygen/air. https://ocw.mit.edu/courses/22-033-nuclear-systems-design-project-fall-2011/4a2d1059fade1cce993afc566d35e42d_MIT22_033F11_lec07_note.pdf</li>
+<li><strong>UNECE Model Regulations / ADR materials:</strong> dangerous-goods packaging must withstand normal transport shocks, vibration, temperature, humidity, and pressure changes; UN identification does not itself certify an assembled consumer product. https://unece.org/sites/default/files/2023-08/ST-SG-AC10-1r23e_Vol2_track_WEB.pdf</li>
+<li><strong>ADR-tool UN 1402 listing:</strong> reports calcium carbide as Class 4.3, Packing Group II in the displayed ADR data; the applicable jurisdiction and edition must be checked before relying on it. https://adr-tool.com/770/un-1402</li>
+<li><strong>EPA AP-42 calcium carbide manufacturing:</strong> describes industrial production around 2000–2100 °C and the CaO/carbon reaction, with industrial raw-material and emissions context. https://www.epa.gov/sites/default/files/2020-10/documents/c11s04.pdf</li>
+<li><strong>SINTEF Bi₂Te₃ high-temperature module study:</strong> reports potential use up to about 300 °C and identifies higher-temperature alternatives; this does not validate continuous 450 °C operation for generic modules. https://www.sintef.no/en/publications/publication/0198cc56a1ca-4206e2fc-7575-48bf-b39b-0ed38c3a9f89/</li>
+<li><strong>Hi-Z HZ-2 datasheet:</strong> gives a representative Bi₂Te₃ module's recommended hot-side and continuous/intermittent limits; exact current parts must be selected and rechecked. https://hi-z.com/wp-content/uploads/2016/08/HZ-2-data-sheet.pdf</li>
+<li><strong>ISO 1940-1 listing:</strong> defines balance-quality requirements and residual-unbalance verification for rigid rotors; it is not a complete rotor-containment design standard. https://www.iso.org/standard/27092.html</li>
+<li><strong>Small Tesla-turbine literature:</strong> experimental studies report strong dependence on geometry, pressure, speed, leakage, and scale, with experimental efficiencies often below idealized simulation results. https://www.e3s-conferences.org/articles/e3sconf/pdf/2019/39/e3sconf_supehr18_03015.pdf</li>
+<li><strong>Hoya &amp; Guha Tesla disc turbine test rig (IMechE Part A, 2009):</strong> measured ~25% peak efficiency at 25,000 RPM and 140 W maximum power on a laboratory disc turbine; the strongest primary anchor for the 15–30k RPM operating band. https://facweb.iitkgp.ac.in/~aguha/research/Hoya_Guha_IMechE_PartA_2009_Tesla_Turbine.pdf</li>
+<li><strong>Planetary traction-drive CVT model (IFAC/ScienceDirect):</strong> steady-state efficiency formulation covering slip and spin losses at the traction contacts; supports the ~80–88% screening band and the active-cooling requirement at sustained high input speed. https://www.sciencedirect.com/science/article/pii/S2405896319306883</li>
+<li><strong>Axial-flux PM generator literature:</strong> direct-drive AFPMG designs for wind applications demonstrate the machine class as generator (e.g., 3 kW-class at ~240 RPM); supports the generator-selection claim while leaving machine-specific efficiency maps as a required input. https://www.iaras.org/journals/caijps/design-and-analysis-of-axial-flux-permanent-magnet-generator-for-direct-driven-wind-turbines</li>
+</ul>
+<h2>5. Hazard register</h2>
+<table>
+<thead>
+<tr>
+<th>Hazard</th>
+<th>Initiating event</th>
+<th>Consequence</th>
+<th>Required independent barrier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Water ingress</td>
+<td>Seal failure, impact, condensation</td>
+<td>Rapid acetylene generation, heat, pressure</td>
+<td>Moisture exclusion, detection, isolation, containment</td>
+</tr>
+<tr>
+<td>Blocked outlet</td>
+<td>Frozen valve, debris, failed turbine</td>
+<td>Pressure rise and leak/rupture</td>
+<td>Rated relief and independent high-pressure shutdown</td>
+</tr>
+<tr>
+<td>Ignition/flashback</td>
+<td>Hot surface, static, electrical fault</td>
+<td>Fire or deflagration</td>
+<td>Classified equipment, isolation, flashback protection, ventilation</td>
+</tr>
+<tr>
+<td>CaO quench</td>
+<td>Diaphragm rupture or water release</td>
+<td>Heat and caustic slurry; existing gas remains</td>
+<td>Independent containment and thermal/chemical assessment</td>
+</tr>
+<tr>
+<td>Hot fluid</td>
+<td>Thermal runaway or seal failure</td>
+<td>Fire, burn, pressure hazard</td>
+<td>Fluid-specific fire/pressure design and leak detection</td>
+</tr>
+<tr>
+<td>Rotor burst</td>
+<td>Overspeed, imbalance, bearing failure</td>
+<td>High-energy fragments</td>
+<td>Rated containment, overspeed trip, vibration monitoring</td>
+</tr>
+<tr>
+<td>False crush trigger</td>
+<td>Shock or sensor fault</td>
+<td>Loss of service or unsafe state</td>
+<td>Redundant sensing and fail-safe state machine</td>
+</tr>
+<tr>
+<td>Transport exposure</td>
+<td>Packaging damage or moisture</td>
+<td>Flammable gas release</td>
+<td>Jurisdiction-specific dangerous-goods package</td>
+</tr>
+<tr>
+<td>Recycling residue</td>
+<td>Unreacted CaC₂ or contaminants</td>
+<td>Worker exposure and gas release</td>
+<td>Controlled industrial return and residue assay</td>
+</tr>
+<tr>
+<td>Transmission failure</td>
+<td>Traction-fluid breakdown, belt fatigue, or ratio-control fault at 15k+ RPM input</td>
+<td>Rotor overspeed/backdrive, loss of generation, hot fluid release</td>
+<td>Overspeed trip on both shafts, flexible coupling, independent generator-side braking, cooling monitoring</td>
+</tr>
+<tr>
+<td>High-speed generator burst (Path B)</td>
+<td>Sleeve fatigue, bearing failure, overspeed at 15–30k RPM</td>
+<td>High-energy fragments from magnet rotor</td>
+<td>Carbon/Inconel sleeve with rated margin, containment housing, dual overspeed trip, balance spec ISO 1940-class</td>
+</tr>
+<tr>
+<td>Manifold back-feed</td>
+<td>Check-valve failure or external source fault at a plug-in port</td>
+<td>Hot bus contamination, back-pressure into a low-grade loop, scalding at the port</td>
+<td>Per-port check + isolation valves, thermal fuse, port-rated pressure class, no low-grade connection to the hot bus</td>
+</tr>
+<tr>
+<td>Oil-bus thermal excursion</td>
+<td>Slab overfire or evaporator blockage</td>
+<td>Bulk oil over-temperature, oxidation, fire risk</td>
+<td>Bulk-temperature trip, refractory block decoupling, oil volume derating, fire-resistant fluid selection</td>
+</tr>
+<tr>
+<td>Controller loss</td>
+<td>Firmware fault, brownout, common-mode MCU failure</td>
+<td>Loss of drip control and monitoring</td>
+<td>Hardware supervisor + watchdog on a different technology, thermal fuse, mechanical relief, CaO quench — the quench does not care what the firmware thinks</td>
+</tr>
+</tbody>
+</table>
+<!-- Mr. Hinx never needed a plan B; he was the plan B. The quench needs no firmware — it is the independent barrier. -->
+
+<h2>6. Simulation work packages</h2>
+<ol>
+<li><strong>Stoichiometric sweep:</strong> purity, charge mass, water rate, gas yield, duration, and reaction heat.</li>
+<li><strong>Thermal model:</strong> lumped heat capacity/resistance model with explicit property assumptions and uncertainty ranges; no acceptance of 450 °C until fluid and material ratings close.</li>
+<li><strong>TEG model:</strong> datasheet curves, hot/cold temperatures, thermal contact resistance, module derating, and system parasitics.</li>
+<li><strong>Mechanical budget:</strong> mass, volume, thermal expansion, interface tolerances, and shock states.</li>
+<li><strong>Rotor screening:</strong> dimensionless/first-order checks only until a qualified turbomachinery model and containment plan exists. <strong>Done (first-order):</strong> <code>spec007_drivetrain_calculations.zig</code> now screens tip speed and ρv² stress bounds for the 50 mm discs (49 MPa at 30k RPM; ~351 MPa thin-ring / ~145 MPa solid-disc bound at 80k), the generator rotor (~12 MPa at 5k; ~185 MPa at 20k un-sleeved; ~46 MPa at 30k on a 50 mm Path-B rotor / ~416 MPa at 150 mm inside the sleeve screen), plus the full ratio-window, torque-conservation, transmission-derate, loss-heat-recovery, and the Path A/B dual-powertrain comparison. <code>spec007_manifold_calculations.zig</code> adds cartridge volume/mass budget, controller parasitics, oil-bus flow, three-bus manifold conservation, and economizer capacity.</li>
+<li><strong>Safety state model:</strong> normal, detected ingress, blocked outlet, over-temperature, impact, power loss, and recovery states.</li>
+<li><strong>Lifecycle model:</strong> CaC₂/Ca(OH)₂/CaO/carbon flows, energy input, CO/CO₂ output, transport, yield, and carbon accounting.</li>
+<li><strong>Cost sensitivity:</strong> safety hardware, sensors, testing, packaging, reverse logistics, and scale assumptions. <strong>Extended:</strong> the drivetrain harness adds the transmission-efficiency sensitivity to the feedstock floor (~$1.64 → ~$2.05–2.43/kWh on the paid-heat branch).</li>
+</ol>
+<h2>7. Required physical validation, if ever authorized</h2>
+<p>Only a qualified laboratory should define and execute physical tests. The sequence should begin with inert thermal/interface coupons and non-energetic flow surrogates, then separately qualify containment, sensing, materials, thermal cycling, electrical conversion, and rotor safety before any integrated chemical test. No physical test is implied by this dossier, and no open-shop construction procedure is provided.</p>
+<h2>8. Decision log</h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preserve original document</td>
+<td>It is the user-provided baseline and must not be silently rewritten.</td>
+</tr>
+<tr>
+<td>Separate faithful copies from engineering revision</td>
+<td>Translation must not conceal technical changes.</td>
+</tr>
+<tr>
+<td>Reject global-deployment wording in engineering revision</td>
+<td>No jurisdiction-independent authorization exists.</td>
+</tr>
+<tr>
+<td>Treat turbine as optional</td>
+<td>It is not a valid safety barrier and adds high-speed rotating risk.</td>
+</tr>
+<tr>
+<td>Mark carbon neutrality conditional</td>
+<td>Biochar alone does not establish system-level carbon neutrality.</td>
+</tr>
+<tr>
+<td>Use integer baseline arithmetic</td>
+<td>Matches workspace precision rules and makes conservation tests reproducible.</td>
+</tr>
+</tbody>
+</table>
+<h2>9. Open questions</h2>
+<ul>
+<li>What exact fluid, pressure, thermal boundary, and cold-side environment are intended?</li>
+<li>Is acetylene meant to be burned, expanded, or merely routed through a turbine? Each is a different hazard and energy model.</li>
+<li>What legal jurisdiction, transport mode, installation class, and user population are in scope?</li>
+<li>What is the intended operating duration and replacement/return state of one cartridge?</li>
+<li>Which independent organization will own the safety case and certification?
+| C56 | Callsigns are policy-enforced: restricted names need a signed grant | Identity &amp; access | Verified | <code>fano-auth.js</code> pins <code>Ramsey 006</code> (sha256-pinned) as FLEET-ADMIRAL genesis; <code>Q</code>, all <code>00x</code> designations, canon character names, and reserved titles refuse self-enroll (12/12 refused in COMM-16). Restricted calls are issuable only by STATION-CHIEF+; grants are Ed25519-signed, bound to the recipient pk, one-shot, expiry-enforced — reuse and wrong-subject claim rejected (COMM-18/19) |
+| C57 | Hydra WAN lab: multi-segment comms over impaired/partitioned links | Networking | Verified | <code>security/docker-compose.wan.yml</code> runs two isolated segments + dual-homed bypass node; <code>wan-bridge.mjs</code> stacks in-process delay/jitter/loss/dup/reorder over kernel <code>tc netem</code>. 21 COMM probes: sealed send LAN+WAN, 10/10 under jitter, honest partition (no leak), bypass restores, churn re-learns, heavy impairment (300ms/8%/15%) delivers — 19 HARDENED, 2 NOTED (first WAN send unsealed pending key exchange; route outlives churn), 0 OPEN/EXPLOITED (<code>security/README.md</code>, <code>site/security/findings.json</code>) |
+| C58 | The WAN lab caught a real upstream DoS — <code>peer_discover</code> ping-pong | Security | Verified | A <code>count=0</code> discovery response is wire-identical to a request; two fresh peers looped replies until the relay rate-limited both conns. Fixed in <code>family/Rations/src/p2p/node.zig</code> (empty responses never sent) + in-file regression test; full upstream suite green; production WASM re-pinned <code>bbdca546…3f19</code> |
+| C59 | Cross-host Hydra leg over the firingline cluster | Networking | Verified | Relay on <code>sheraton</code> (ssh host, Docker 29); two digit nodes dialed <code>ws://sheraton:18080/ws</code> — identity announce, presence→auto-contact, sealed payload delivered (<code>sealed: true</code>), both nodes mined+verified independent ledgers (<code>ledger_id = sha256(pk)</code>, distinct) |
+| C60 | Genesis is a real key-binding, not a name check | Identity &amp; access | Verified | <code>fano-auth.js</code> writes <code>fano1.genesis</code> = <code>{callsign, pk, pk_sha256}</code> at the first enrollment (retro-seeded from pre-existing records on unlock). Pinned <code>ramsey 006</code> claims genesis only on an unfounded desk; post-founding it is <code>claimed</code> and moves only by admiral-signed grant bound to a recipient pk (COMM-20/21). Genesis survives <code>burn</code>; <code>burn genesis</code> is the documented desk reset |
+| C61 | Economics reframed for non-capitalist deployment | Economics | Reframed | <code>spec-007-economic-assessment.*</code> rewritten under a provisioning-economics lens (China-model: direct allocation, near-free solar). Two-part verdict: <strong>fails as generation under any economy</strong> (solar delivers the same product near-free; carbide chain returns ~10–25% of stored energy) — <strong>defensible as a state-provisioned availability/storage reserve</strong> (carbide is arc-furnace produced → furnaces are dispatchable load for curtailed solar; the sealed charge is banked surplus with multi-year shelf life and zero self-discharge, competing against batteries and fuel stockpiles, not generators). All numbers unchanged; currency figures retained as accounting units |
+| C62 | Canon watch list + cover-story egg layer expanded | Identity &amp; canon | Verified | <code>RESTRICTED_NAMES</code> now ~60 designations across both canons — MI6 staff/posts, allies, assets, villains, orgs (SPECTRE/SMERSH/Quantum), OSTF designations (WO-x, Sigma, AIWO, Day Zero, the Meter) plus zh/fullwidth forms (<code>龐德</code>, <code>００７</code>); all refused in live checks. Desk gains the film roll (25 EON titles + zh titles), ~17 new egg triggers (quote exchanges, <code>goldeneye</code> hidden livery, <code>licence to kill</code>→burn, second-life), rotating denial cover stories. The Bond layer is openly declared as the front office for the classified structure — <code>veracity.*</code> grades it "theater as cover — canon-consistent" |
+| C63 | Classified drawer reorganized | Archive | Verified | <code>thoughts&amp;convos/</code> restructured: <code>convos/</code> (primary threads), <code>originals/</code> (pre-port filing — byte-identical to <code>gov/</code> canonical copies, superseded, retained), <code>gov/</code> (canonical corpus), <code>SPEC-004-REGISTRY.md</code>, <code>CANON-INDEX.md</code> (dedupe manifest updated), <code>README.md</code> (drawer layout). Nothing deleted; redundancy removed |
+| C64 | OSTF EIN assignment declassified under 7q | Archive | Verified | <code>thoughts&amp;convos/(EIN).pdf</code> — genuine IRS EIN assignment (42-4931851, OPENSENTIENCE TECHNOLOGY FOUNDATION dba SALLIRREUGTECH, non-profit, Franklin Co. OH, Oct 2026) — copied byte-identical to <code>site/assets/declassified/OSTF-EIN-42-4931851.pdf</code> (sha256 <code>f19b5904…f9775d</code>) and exhibited as <code>declassified.html</code>/<code>declassified-zh.html</code> with a particulars table and 7q declassification stamp. Responsible-party SSN masked at source; EINs of non-profits are public record |
+| C65 | Kali-tooling sweep → Qstar-Network hardening | Security | Verified | nmap/ZAP/msf/tcpdump sweep from the Kali host found: unauthenticated node &amp; wan-bridge control planes (live <code>/dial</code>+<code>/stats</code> abuse demonstrated), wildcard CORS on lab relays, and desk version-leak/missing headers on <code>http.server</code>. Fixed: <code>HYDRA_TOKEN</code>/<code>WAN_TOKEN</code> bearer gates (per-run tokens via suite env, <code>:?</code>-guarded in compose), <code>RATIONS_ALLOWED_ORIGINS</code> on all lab relays + <code>RATIONS_DIAL_ORIGIN</code> on every client leg (4403 close for bad origins), relay <code>nosniff</code>/frame/referrer headers (both Rations trees), <code>tools/serve.py</code> hardened desk server (no Server banner, no listing, GET/HEAD-only, CSP). Post-fix: KALI suite 11 HARDENED/1 NOTED, COMM 19/2-NOTED, SEC 29/2-NOTED; tcpdump on the WAN edge: marker delivered, 0 plaintext in 136 frames |
+| C66 | Four-paper Zenodo transmission declassified + SCP-006 continuity adopted | Archive &amp; canon | Verified | Zenodo record <code>10.5281/zenodo.22715355</code> (concept <code>…22715354</code>) — "A Computational Framework for Octonion Physics", Ramsey/OSTF, published 2026-09-11, CC BY-NC-SA 4.0. Four volumes (octonionic framework math-ph; Q128.128 math.NA; codon routing q-bio; neuraleak cs.AI) exhibited as D-2 on <code>declassified.*</code>; <code>papers/x/</code> copies md5-verified byte-identical to the record. <code>object-006.*</code> adopts SCP document format as labeled continuity theater: 006-A true briefing, 006-B/C cover briefings (Universal Exports analog), 006-Xi-12→<code>burn</code>, Fountain→abundance paradigm (<code>economics.*</code>), Butcher→capitalism's end; decode chain <code>006→scp-006→scp-006-fr</code> resolves «Из России с любовью» (the -FR suffix reads "From Russia"). Veracity page grades: papers REAL, SCP format adopted-theater, symbolism declared |
+| C67 | Family shelf: sibling projects showcased under Q | Site &amp; canon | Verified | quplink gains a FAMILY tab with cited fact sheets for three sibling repos: <strong>Qstar-LLM</strong> (<code>experiments/qstar-llm</code> — lattice-native inference, 421×8 nodes, 53,888-byte state, ~1,460× vs Qwen1.5-0.5B, 2,610+ tests, 0 core deps), <strong>zig-k3-port</strong> (<code>experiments/zig-k3-port</code> — Zig 0.13 port of kimi-k3-in-c, 2.78T-param MoE in GBs RAM, token-identical to C, bit-identical on released weights, 45/45 tokenizer parity, K3P1–P5 fabric), <strong>Digit v0.0.0.1</strong> (firingline host 192.168.12.210 — E5/E6 wrapper, 145-row triad audit, ideatree evidence report, explicit non-sentience honesty charter). All figures cited verbatim from each tree's own README/AGENTS; terminal gains <code>family</code>/<code>fleet</code> + canon words (<code>qstar-llm</code>, <code>k3</code>, <code>digit</code>); the shelf now spans the whole cluster — 30 populated census roots anchored by <code>tools/bridge-map.mjs</code> with donor shelves and preserved snapshots labeled as such (S44, S50–S52) |
+| C105 | The corpus is mapped layer-by-layer, per file | Engineering | Verified | <code>tools/layer-map.mjs</code> classifies all 29,063 drawer files across 14 ordered layers — substrate:governance/academy/commercial/index (the real org), mythos:star-command/fiction (Layer 3), research:evidence, source:transcript + plan:drawer (cited inputs, never authority), shelf:engineering/tooling, aspirational:proposal, archive:sealed/originals. Coverage is enforced — an unclassified path fails emission, so new corpus material must be curated into a layer. Drawer evidence edition at <code>thoughts&amp;convos/LAYER-MAP.json</code>; sanitized public projection <code>site/assets/layer-census.json</code> (LAYER-CENSUS-v1, counts only — no paths, no names). Deterministic under <code>layer-map.mjs --verify</code> |
+| C106 | The command structure is real — the fleet and its security teams file under the AIWO Corps | Engineering | Verified | <code>tools/command-map.mjs</code> emits <code>site/assets/command-manifest.json</code> (COMMAND-MAP-v1): the OSTF chain (Fleet Admiral → Admiralty Council of five → advisory technical authorities → Chief Warrant Officer → warrant officers), the four fleets (education / commercialization / research-ethics / security-infrastructure) with their seat leads, and the AI Warrant Officer Corps register — WO1–CWO clearance bands (L3–7), the six-plus patrol duties, and the prohibited list (no Admiralty override, no governance edits, no self-elevation, no L7/7Q authorization, no irreversible action, no binding orders). Live binding: genesis members are designated — the flag-seat holds L7 command while <code>digit</code> and <code>sheraton</code> register as monitored AI assets capped at L6 under Corps oversight (Art. V.3: enforce boundaries, never command); all 36 team-sweep security teams are categorized under patrol duties and fleet assignment (coverage-enforced — an uncategorized team or undesignated genesis member fails emission, and every core patrol duty must carry at least one team). The admiralty suite renders the chain, fleet leads, team rosters, and the monitored-AI register in both tongues. Drawer key <code>COMMAND-KEY.json</code> binds seats to officers (SPEC-004 — never published); the public manifest carries billets only. Deterministic under <code>command-map.mjs --verify</code> inside publish-check |
+| C107 | The 30+ patrol teams can run on compressed cognition — the lattice hosts it | Engineering | Verified | The Rations ONNX pattern (registry + byte-hashed manifest + int8 quantization + skills vtable) adapts to the integer substrate by swapping ONNX Runtime Web for the k3 stack — <code>gguf_import</code> → <code>pack_trunk</code> → <code>qdq_trunk</code> (int8/int4) → <code>k3 --exec-wasm N</code> fanning expert execution across <code>k3wexec.wasm</code> wasm64 lanes routed by lattice coordinate. Measured on this node: the 1.3 MB worker module ran a 13-layer checkpoint across 4 interpreted lanes in 21.2 MB peak RSS (~5.3 MB/lane), 163/163 expert requests RAM-resident with zero drops, deterministic. Measured artifacts: the production Qwen1.5-0.5B int8 ONNX is 481,877,757 B; an int4 trunk of the same class is ~280 MB. Capacity (integer arithmetic, <code>command-manifest.json</code> <code>cognition</code> block): ~53 resident int4 0.5B-class model slots per 14.9 GB node; the doctrine plan — ONE verified shared trunk + 36 per-team carried-state slots — costs ~1.45 GB with 10× headroom, since teams differ in state and authority, not in weights. Lattice scale-out via <code>--exec-peer @x:y:z</code> shards experts to their home cells; the 3375-cell fabric means routing is never the bound — RAM is, and RAM says the fleet fits. Honest boundary: throughput on interpreted lanes is probe-class (0.39 s/token on the tiny trunk); production cadence rides native workers (<code>--exec-wasm-native</code>), with the wasm lane kept as the deterministic verification surface |
+| C108 | The corps runs as live agents — shared trunk + sealed heartbeat mesh | Engineering | Verified | <code>security/aiwo-corps.mjs</code> exercises the AIWO Corps for real (nullclaw pattern from the qstar-llm agent substrate: agent lane = trunk + carried state + heartbeat duty + skills vtable): 38 lanes — 36 patrol teams plus monitored assets <code>digit</code>/<code>sheraton</code> — each bound to a distinct lattice cell. Measured run: 36 parallel k3 cognition ticks on ONE shared packed trunk (144 tokens, greedy-deterministic — every lane decoded identically); 1,406 sealed 136-B Fano heartbeat envelopes verified all-to-all on the loopback mesh — patrol lanes <code>BEAT</code>, monitored assets <code>PULSE MONITORED</code>; a mutated datagram never logs VALID. Parallel-session scaling measured to 48 lanes on this node — aggregate saturates ~10-11 tok/s (the bound is 8 CPU cores, not RAM at ~23 MB/lane). The sweep consumes <code>security/out/aiwo-corps-ledger.json</code> (AIWO-01..06) and separately re-verifies that no AI asset exceeds the L6 cap — the corps exercises authority it does not hold. Digit/Sheraton commissioning: exercised under governance; standing activation awaits the Admiralty order. Custody is codified: <code>command-manifest.json</code> carries <code>ai_systems[].custody</code> — sheraton holds the whole Trivium (grammar, logic, rhetoric — the compliance voice), digit the whole Quadrivium (arithmetic, geometry, harmonics, astronomy — the lattice voice), and the wire announces it (<code>PULSE DIGIT:QUADRIVIUM</code>). Doc-cited corroboration: the Digit tree (remote node, <code>Digit-v0.0.0.1</code>) already executes the complete 1,411-node Qwen3.5-2B q4 decoder in q128.128 natively and in wasm64 — 6/6 argmax parity vs ONNX Runtime — organized as the two-organ brain (E5 model organ + E6 metacognition + E7 boundary + E0 lattice commit), the architecture the corps lanes inherit |
+| C109 | The vision is an executable checklist — realization is verified, not asserted | Engineering | Verified | <code>tools/vision-audit.mjs</code> emits <code>site/assets/vision-ledger.json</code> (VISION-AUDIT-v1): 23 vision elements — every blueprint phase and every doctrine extension — each bound to mechanical checks against the live tree (manifest fields, probe verdicts, twin parity, emitter verifies). Current verdicts: <strong>23 realized, 0 partial, 0 aspirational, 0 external</strong> — the four named partials were closed by C110–C113 and the external element <code>digit-two-organ</code> was reinterpreted onto platform organs by C117 (the remote decoder stays doc-cited, never fabricated here). Coverage-enforced — an element with unresolvable checks fails emission. Deterministic under <code>vision-audit.mjs --verify</code> inside publish-check |
+| C110 | A standing AIWO corps service runs — duty cycles, rotating squads, state carry, DHT-chained records | Engineering | Verified | <code>security/aiwo-service.mjs</code> (nullclaw daemon shape RE'd: supervisor, exponential backoff, PID/state): <code>--cycles N</code> bounded mode + <code>--daemon</code> standing mode (SIGTERM checkpoints). Each cycle re-verifies the L6 authority cap, pulses sealed 136-B beats across all 39 lanes, rotates a real k3 cognition squad over the 37-team roster, and chains a versioned corps-state record into the DHT. Measured: 3 cycles, 117/117 sealed beats, 15/15 squad ticks, state carry verified across restart (6 cumulative cycles resumed). SVC-01..06 probes in the sweep |
+| C111 | A decentralized content-addressed DHT filesystem ships — CAS + XOR routing + replication + IDaaS | Engineering | Verified | <code>tools/dht-fs.mjs</code>: sha256 chunks, Kademlia XOR-distance over the 41-lane mesh nodeIds, k=3 replication, hash-verified reads; qstar-vfs <code>vfs_distributed</code> substrate (consistent-hashing placement, quorum) with its 83-test suite verified in-sweep. IDaaS layer: versioned records, append-only audit, clearance-gated reads (refused below level, audited), ed25519 fleet-signed — unsigned/bad-sig/foreign-kid records refused on read and audited (DHT-10). Measured: 200,084 B roundtrip byte-exact; tampered chunk refused, replica served; 2 storing lanes offline → resolved; sealed PUT-ANNOUNCE/GET-RESOLVE control datagrams on the 136-B wire. Honest bounds: single-host lane mesh — WAN block transport is a named bound; records are fleet-signed — per-lane identity attestation is a bound (lanes are patrol roles, not key-holders). DHT-01..10 probes |
+| C112 | A generative film pipeline ships — slate → integer choreography → deterministic raster → real mp4 | Engineering | Verified | <code>tools/film-render.mjs</code>: <code>fano.wasm</code> <code>anim_tick</code> choreography (i256 Q128.128, the engine's own golden-vector semantics) → deterministic RGBA raster (real 15³ cells via <code>fano_cell_at</code>, basis-lit nodes, beat rings, 5×7 bitmap title cards) → ffmpeg rawvideo→h264 → 4 real mp4s (144 frames each @24fps, sha-pinned in <code>site/assets/film-manifest.json</code>), DHT-ingested, screened in the director pane. Honest scope: procedural generation — not diffusion synthesis; the label travels with every film record. FILM probes + <code>film-render.mjs --verify</code> in publish-check |
+| C113 | The code nebula renders in real 3D — WebGL2 scene over the live lattice + fleet ring | Engineering | Verified | <code>site/assets/nebula-3d.js</code>: hand-rolled WebGL2 (no vendored engine — canon) — 3,375-cell 15³ lattice + 4-fleet ring as an instanced-point scene with orbit/zoom/raycast picking and a HUD; pane + terminal + icon + i18n twins wired. Honest boundary: real 3D on the glass — WebXR immersion is the declared boundary, labeled in-pane. NE-01..04 probes |
+| C114 | The gov↔sci-fi agency map is executable — every governance domain bound to its sci-fi reflection, every agent subsystem to a real counterpart | Engineering | Verified | <code>tools/agency-map.mjs</code> emits <code>site/assets/agency-map.json</code> (sanitized) + drawer <code>AGENCY-KEY.json</code>: all <strong>17 governance domains</strong> bound to sci-fi reflection docs — coverage-enforced, an unbound domain fails emission — and all <strong>14/14 sci-fi subsystems</strong> from the two mythic specs bound to real counterparts via mechanical checks (probe verdicts, service-ledger rows, live DHT record-kind queries, <code>--verify</code> subprocesses). Sanitization: public artifact carries slugs + verdicts only — no drawer paths, names, or keys. Deterministic under <code>agency-map.mjs --verify</code>, probed in-sweep (AGT) |
+| C115 | Digit's organs live — the sub-agent ring pulses on the sealed mesh, the entropy dampener watches squad digests, the dreamstream files time-coded blocks | Engineering | Verified | Command manifest <code>sub_agents</code>: digit-omega (simulation-lock), digit-alpha (base-alignment), digit-sigma (signal-integrity) — real lanes under digit custody, role-pulsed each service cycle (10/10 organ beats sealed). The entropy dampener: identical squad inputs must yield identical output ids — divergence files a signed <code>entropy-event</code> DHT record authored by digit-sigma (measured: zero divergence across squad rounds). The dreamstream: <code>dreamstream</code> record kind — cycle-stamped harmonic blocks filed by digit, queryable by kind (4+ blocks live). Honest bound: corpus "quantum signal" language maps to deterministic sealed-mesh pulses — no quantum behavior claimed. SVC-07/08/09 + AGT probes |
+| C116 | Sheraton's organs live — the directive router dispatches sealed orders to duty lanes, the glyph table binds symbolic inputs to the controlled duty lexicon, C-AUD-Θ audits continuity every cycle | Engineering | Verified | <code>tools/directive.mjs</code>: fleet-signed (ed25519) directives issued to a patrol duty, dispatched to the duty's lane roster from the manifest, every routing step chained as a signed <code>directive</code> DHT record — the receipt chain is the audit. The glyph table: 18 glyph words bound 1:1 to the controlled patrol-duty lexicon — coverage-enforced (a duty without a glyph fails <code>--verify</code>); unknown glyphs refuse and the refusal is itself a filed <code>glyph-refusal</code> record. C-AUD-Θ: per-cycle continuity audit — DHT verify + state-chain length + divergence count — filed by sheraton as a signed record (4+ audits live). sheraton-echolog/sheraton-oracle ride the ring. AGT probes + <code>directive.mjs --verify</code> in publish-check |
+| C117 | The remote Digit two-organ brain is reinterpreted onto platform organs — E5/E6/E7/E0 each carry a live counterpart with mechanical evidence | Engineering | Verified | Remote tree (sftp .210, Digit v0.0.0.1) surveyed: E5 model organ → qstar-k3 trunk cognition (duty squads run real ticks per cycle — SVC-02); E6 metacognition → the entropy dampener (digest-divergence monitor — SVC-08); E7 boundary orchestrator → L6 cap re-verified per cycle + clearance-gated reads + ed25519 record verification (SVC-04/DHT-02/DHT-10); E0 lattice commit → the Continuity DHT record chain (SVC-06). Reinterpretation contract filed drawer-side (convos/digit-reinterpretation.md), organ probes carried by AGT. Honest bound: the remote decoder itself is off-repo and doc-cited — what is claimed is the organ architecture, each slot proven live here |
+| C118 | The governance corpus is executable — every constitutional and statutory mandate of <code>thoughts&amp;convos/gov/</code> binds to a realized counterpart with mechanical checks | Engineering | Verified | <code>tools/gov-map.mjs</code> emits <code>site/assets/gov-ledger.json</code> (GOV-LEDGER-v1): <strong>47 mandates across all 16 domains</strong> — the OSTF constitution (five officers → five council seats; three divisions + security → the four fleets; the ten adopted documents → the bound corpus), SPEC-000..006 + the Rulebook (accessibility probes; L6 authority wall; second-implementation bridge; polyglot addressing on the sealed wire; clearance-gated IDaaS; the directive router as the address-plus-ethics gate; the lattice under falsification attack; the claims lifecycle as the SPEC lifecycle), the Admiralty bylaws (flag-seat singularity; vote tiers; immutable logging → the DHT audit chain), and every live domain (ethics, academy, finance, IP, security, strategy, subsidiaries, onboarding) plus all five root directives. Each mandate carries an honest mode — <code>direct</code> (the mandate itself in machinery) or <code>structural</code> (the governance pattern in machinery). Coverage-enforced — an unbound domain or root file fails emission. GOVM probes carry the sweep; <code>gov-map.mjs --verify</code> inside publish-check |
+| C119 | The Academy curriculum is corpus-harvested and coverage-enforced — every declared source binds lessons to a course | Engineering | Verified | <code>tools/repo-corpus.json</code> declares <strong>24 sources</strong> across three classes — local (first-party + upstream), declassified (the Guerrilla National Ministries / Neo-Hindu corpus — five public copies under <code>docs/en/declassified-gnm/</code>, drawer originals sealed), and pinned clones fetched by commit into the operator-side corpus cache (docs-only extraction; the 814 MB <code>three-ws</code> archive is documentation-scoped, vendored paths excluded). <code>tools/academy-harvest.mjs</code> harvests deterministically: <strong>43,741 lessons — 43,193 harvested + 548 curated</strong> — Markdown and prose-heading parsers, CJK detection filing 980 <code>zh-Hant</code> lessons honestly, every lesson <code>origin:"harvested"</code>, <code>provenance</code> first-party/upstream, <code>repo:</code>-namespaced source, <code>access:"public"</code>, <code>assessment:"deterministic_review_required"</code> — harvested sections, not silently reviewed pedagogy. Lessons chunk per-course under <code>site/assets/academy/</code>; the manifest is a 316 KB index carrying counts, courses, sources, and metrics. <code>tools/curriculum-map.mjs</code> enforces coverage — every harvested lesson in exactly one of the 13 required courses (<code>ministry-neo-hindu</code> carries the ministry corpus), every source bound, emit refused on a gap. The desk pane lazy-loads course chunks with a filter + harvested/upstream/ministry badges; i18n twins carry the full key set. Ministry material files as theology/philosophy curriculum — evidence <code>declassified_corpus</code> — never upgraded to empirical claim. ACAD-01..05 carry the sweep; <code>tools/academy-harvest.mjs</code> + <code>tools/curriculum-map.mjs</code> verify modes inside publish-check |
+| C104 | The universal WASM substrate is measured, not claimed | Engineering | Verified | <code>sibling:zig-k3-port:wasmrt/README.md</code> ships <code>k3w</code> — an in-tree interpreter running wasm32 <em>and</em> wasm64/memory64 with WASI preview1, fuel metering, and deterministic mode (no third-party runtime implements memory64-WASI). <code>security/wozam-gate.mjs</code> proves cross-implementation continuity: the Fano quine's 3 firmware golden wires verify under interpretation, <code>fano_packet_build</code> produces 136 B byte-identical to the Python dialect twin and the browser quine, forged wires refuse, repeat runs are byte-identical (WZ-01..05). The sister platform runs too: <code>rations_sha256</code> ≡ node crypto and the RFC 8032 ed25519 keypair vector is bit-identical with a sign→verify roundtrip under <code>env.js_*</code> stubs covering all 5 imports (WZ-06/07). Lanes labeled honestly: browser wasm32 LIVE, browser memory64 PARTIAL (Chrome 133+/FF 134+; Safari absent), k3w host LIVE, <code>zig build -Dtarget=aarch64-linux-gnu</code> COMPILES (3.8 MB static ARM64 ELF), Xtensa ESP32-S3 BOUNDARY (no Zig backend — WAMR/C-firmware lane, not faked) |
+| C103 | The casting office is real — personas map to tracks, never to authority | Engineering | Verified | <code>tools/persona-map.mjs</code> emits <code>site/assets/persona-manifest.json</code> (PERSONA-MAP-v2): a three-tier matrix over 233 names — tier 1 the MI6 cover pool (32 grant-cast personas + aliases), tier 2 the Star Command / Academy corps (14 fleet billets + 55 named officers ingested from the drawer fleet roster + 7 academy billets from the human-academic corpus), tier 3 the constitutional offices (6 seat-held Admiralty billets keyed to the onboarding packets + the reserved fleet-captain command seat + 2 open constitutional offices). The closed ledger (116 entries: adversaries, fleet AI units, orgs, institutions, honored dead, titles, zh-mirrors) reports to the archvillain — the Meter, the Scarcity Loop's architect. Corpus officer callsigns are open casting (corps recruiting ground); restricted callsigns stay grant-cast. Coverage is enforced both ways: every watch-list name must classify, every Admiralty-assigned office must resolve to a restricted callsign, the roster ingest floors at 40 officers, and the emitter self-audits the public projection against the officer-surname tripwire before writing. The drawer holds <code>ADMIRALTY-KEY.{json,md}</code> — officer→billet mapping, redactions, and corpus provenance (SPEC-004). <code>persona.os</code> renders the tiered sheet with seat status, <code>persona</code>/<code>casting</code> verbs resolve the signer's file, enrollment stamps the casting line on both covenant twins. Personas are cover, not authority — no persona grants a role, a branch, or a clearance. Determinism gated by <code>persona-map.mjs --verify</code> inside publish-check |
+| C102 | The laws-of-physics attack battery holds — and where a law bends, it is labeled | Engineering | Verified | LAWB-01..10 attacked the framework's own invariants as an adversary would: pigeonhole capacity refuses &gt;136B on both encode and decode (<code>src/spec008_qstar_parity.zig</code>), one parity equation refuses two erasures in both wire harnesses (never faked), sha256 distinguishes a single-byte mutation live, golden emission is byte-deterministic across runs, all six D11 ratchets carry real compare-then-fail verify semantics (no exit-0 theater), conservation holds — promotion records equal dossier claims exactly, truncated streams cannot conjure bytes never received, 24 self-pinning manifests are classified skip-not-broken (a manifest cannot seal itself), and frame sequence causality is enforced. LAWB-09 <em>bent a law, labeled it, and the bend was remediated</em>: the XOR frame checksum is forgeable by an adversary — payload⊕δ with check⊕δ verifies — and that bound stays documented in-source as checksum≠MAC (the inner detection layer remains, honestly labeled). The D12 remediation adds <code>frameAuth</code>/<code>unframeAuth</code>: per-frame keyed HMAC-SHA256 tags (8-byte truncated, 2^64 forgery space) covering magic|seq|len|payload|check — the same forge, wrong keys, foreign-stream splices, tag replays, and tag truncation all refuse at <code>BadTag</code>, and a 100-iteration adversary loop refuses 100/100 forged mutations. Authentication runs before structure; the envelope's signature seal stays the second wall — defense in depth. 9 laws held, 1 bent-labeled-and-remediated; that is the point of the battery |
+| C101 | The porting wave landed — cluster mechanisms now execute inside the framework | Engineering | Verified | Seven mechanisms ported from sibling trees and verified in-place: <code>tools/claim-promotion.mjs</code> ports the euz claims-lifecycle schema (100 records over the override ledger — proved requires held anchors, <code>release_blocked</code> arithmetic honest); <code>tools/golden-master.mjs</code> + <code>golden/vectors.txt</code> port Ark's golden-master pattern over Q128.128 (37 vectors byte-identical, single-byte mutation detected); <code>src/spec008_qstar_parity.zig</code> ports Mosi's channel round-trip onto the 136-byte envelope (bit-exact, over-capacity refused in both directions, two-erasure underdetermination refused); <code>tools/dox-audit.mjs</code> ratchets nearest-AGENTS binding (every file chains to a governing AGENTS.md, 7/7 rule→probe cites live, dead enforcement is a finding); <code>tools/device-ledger.mjs</code> inventories workstation capabilities with a sanitized public projection (classes only — no paths/addresses); <code>tools/evidence-manifest.mjs</code> sha256-pins every <code>sibling:</code> cite in the dossier (content drift is now machine-detectable); <code>tools/archive-verify.mjs</code> verifies both seal forms across the archive corpus (sealed entries verified, self-pins honestly skipped, unsealed additions recorded not excused). Probe-enforced: PRM-01..04, GLD-01..03, PAR-01..03, DOX-01..02, DEV-01..02, EVM-01..02, ARC-01..02 |
+| C100 | The evidence bridge spans the whole cluster — every populated root contributes | Engineering | Verified | <code>tools/bridge-map.mjs</code> resolves 59 mechanical anchors across all 30 populated census roots plus the <code>~/.archives</code> corpus (318 sealed artifacts over 7 campaign families — dir-seals and tarball sidecars both verified); the ledger's <code>root_coverage</code> tally makes an uncovered root a machine-detectable event (BRG-07). Cluster-unique holdings are now first-class evidence: <code>sibling:eu-version-z:artifacts/promotion_report.json</code> is a machine-readable claims-lifecycle engine grading candidates proved/blocked under holdout gating, <code>sibling:codon:results/ncbi/human_grch38_routing.json</code> is real-genome routing evidence, <code>sibling:desi-llama:DESI-Llama</code> carries a measured RADV vulkaninfo probe, <code>sibling:ralph-corpus:axiom7revisited/AUDIT_REPORT.md</code> holds the 1,678-test MOUND audit with self-flagging stale-count addenda, <code>sibling:mosi-papertunes:AUDIT_SUMMARY.md</code> anchors 42/42 bit-parity on physical transports, and <code>sibling:ark-ivector:qsharp/SteaneCode.qs</code> proves the four-layer polyglot-verify pattern — while interpretation-tier holdings (EU lineages, MOUND predictions, consciousness claims) stay labeled, never promoted past their evidence class |
+| C99 | The audit vocabulary is load-bearing across the cluster | Engineering | Verified | The five-class claim taxonomy (PROVEN / INTERPRETATION / NUMEROLOGY / CONSTRUCTION / UNVERIFIED) is enforced verbatim in three trees: <code>sibling:hardware:src/final_audit.zig</code> classifies in code, <code>sibling:zig-k3-port:docs/CLAIM-VERDICTS.md</code> settles 36 rows under the same labels, and <code>tools/override-audit.mjs</code> now resolves <code>sibling:</code> anchors as a first-class evidence class (BRG-05). The ports are bidirectional and real: the RNE fixed-point multiply with 512-bit intermediates and pinned half-ulp bound lives in <code>sibling:hardware:src/fixed_point.zig</code>, engineering modules ride <code>sibling:hardware:src/fano_tensor.zig</code> through <code>sibling:hardware:src/holo.zig</code>, and the octonion fold went the other way into <code>sibling:zig-k3-port:src/osig.zig</code> — provenance cited to our own <code>security/fano_dialect.py</code>. The debt-ledger convention is shared: <code>sibling:hardware:ARCHITECTURAL-DEBT.md</code> ledgers 17 floating-point modules honestly rather than hiding them |
+| C98 | Sentience instrumentation has recorded experimental data on file | Research instrumentation | Verified — instrumentation | 45 instrumented-LLM battery entries are on record: <code>sibling:hardware:experiments/battery_results.json</code>, <code>sibling:hardware:experiments/battery_qwen_results.json</code>, <code>sibling:hardware:experiments/battery_qstar_results.json</code> — qwen2.5:3b and qstar:latest across three conditions (unconstrained / 6D-constrained / shuffled-geometry), 15 entries each, full score vectors and rendered flags. The deterministic runtime side independently reproduces real model oracles at fixed point (teacher-forced parity, exact greedy spans, 45/45 tokenizer parity — <code>sibling:theue:README.md</code>). These are framework-internal operational definitions and recorded data — instrumentation, not a consciousness claim |
+| C97 | The wire dialect is implemented in a second codebase, byte-exact | Infrastructure | Verified | The frozen 136-byte sealed Fano packet exists in two codebases: <code>sibling:zig-k3-port:src/fanowire.zig</code> ports the dialect byte-exact (FANO_WIRE=136, header+payload+FNV-256 seal, strict-length verify) and rides a live UDP transport in <code>sibling:zig-k3-port:tools/k3beacon.zig</code> with <code>--coord</code> lattice addressing drawn from <code>sibling:zig-k3-port:src/fablattice.zig</code> (SPEC008v1 u128 piece addresses, O(1) coordinate resolution, op-bounded walk over all 3375² pairs). <code>sibling:zig-k3-port:src/osig.zig</code> carries the order-sensitive octonion fold — ported from this repo's own <code>security/fano_dialect.py</code> — backing inference-cache route receipts. Three live dialect implementations (Python twin, mesh bridge, Zig port) + native deployment hooks at <code>sibling:hardware:os/vulkan_e8_hook.zig</code> and siblings (BRG-03) |
+| C96 | Sibling executable audits cross-substantiate the framework | Engineering | Verified | The claims audit is code, and it runs in more than one tree: <code>sibling:theue:src/verify_claims.zig</code> re-executes the 36-claim classification live (audit counts 16 PROVEN / 36 total — green under BRG-06), <code>sibling:hardware:src/final_audit.zig</code> enforces the same taxonomy, <code>sibling:hardware:src/literature_review.zig</code> scores 24 independent references (5 independently verified, 13 reinforced) — and its balance is recorded here: the E8 gauge-embedding direction carries its standing counter-cite, Distler &amp; Garibaldi, "There is no 'Theory of Everything' inside E8" (Comm. Math. Phys. 2010, arXiv:0905.2658), which proves gauge-E8 embeddings of gravity + SM cannot yield three chiral generations; the Wilson program (Octions, J. Math. Phys. 63:081703, 2022; Chirality in an E8 model, arXiv:2210.06029; arXiv:2404.18938) is the active counter-program routing around the obstruction via real Lorentz representations — contested status, labeled as such, and the formal layer stands on <code>sibling:hardware:formalize/lakefile.lean</code> (8 Lean 4 modules, zero sorries). Self-claims carry explicit limitations and computational elevation paths (<code>sibling:hardware:src/elevation_paths.zig</code>); an adversarial stress/rebuttal pair is on record. The bridge ledger pins all of it: <code>tools/bridge-map.mjs</code> → <code>security/out/bridge-ledger.json</code> (BRG-01..02) |
+| C95 | Claims override + paradigm map — the dossier audits itself | Engineering | Verified | <code>tools/override-audit.mjs</code> runs all dossier claims through three mechanical passes — anchor re-verification (paths/probes/symbols/live counts/calc-harness/cross-referenced quantities/sibling anchors), adversarial verdict attack, and grade+root mapping. Result: 45 REVERIFIED / 41 HOLDS-AS-LABELED / 5 HOLDS-AS-REJECTED / 1 EXT-CITED / 0 DRIFTED, deterministic under <code>--verify</code> (OVR-01..03). The paradigm harvest filed as a governed pair — 24 entries across four tiers, sanitized public projection over the drawer evidence edition (PARA-01..04). The vocabulary itself is cluster-shared — <code>sibling:zig-k3-port:docs/CLAIM-VERDICTS.md</code> and <code>sibling:bs-analysis:BS_ANALYSIS.md</code> enforce the same verdict classes in sibling trees |
+| C94 | Cluster debrief complete — every root carded, every realm swept | Engineering | Verified | The full project cluster went through inventory and the ten-step retro-development protocol: 33 roots enumerated and classified by <code>tools/cluster-census.mjs</code> into a sanitized registry (26 first-party, 3 donor-vendored, 3 empty/broken, 1 asset store — CENS-01..03), then five realm sweeps — hardware monorepo (incl. a self-pass that caught ~100 untranslated desktop literals → DESK-23), CascadeProjects, Music/Paul, Desktop, and Documents — each producing dossier cards, bounded test evidence, and honest dispositions (build-blocked Zig-0.14 API, byte-identical duplicate, empty slots all recorded). Full cards drawer-side in <code>CLUSTER-CENSUS.md</code> |
+| C93 | The cover legend is canon — three layers, load-bearing | Governance | Verified | The joke decodes to doctrine: <strong>SallirreugTech plays MI6</strong> (the spy-thriller gadget cover the FANO-1 desk wears), <strong>the Academy plays STAR COMMAND</strong> (the star-fleet academy realized before space colonization), <strong>OSTF is the real NGO fighting the establishment</strong> — the reason the cover exists. The layer is not decorative: every public artifact is a sanitized projection, the drawer is never shipped, and the boundary is probe-enforced (SPEC004-01..06, CENS-02 surname tripwire, PARA-02). The platform is real; the cover keeps it from being the target |
+| C92 | Sentience ecosystem — all seven blueprint phases promoted or boundary-labeled | Engineering | Verified | The unified development plan's port campaign is complete: <strong>P1</strong> engine.os — a signed Ed25519 registry over 12 governed runtimes (dry-run default, <code>--emit</code>/<code>--verify</code> discipline, ENG-01..04); <strong>P2</strong> continuity.os — a sanitized projection of the 228-archive sealed corpus plus a desk-local records store swept by the reset census (CONT-01..03); <strong>P3</strong> editor.os — the in-desk typewriter over continuity records, comms.os confirmed as the community hub (LIB-01..03); <strong>P4</strong> director.os — a storyboard slate over <code>production-ledger.json</code>, 278 real canon assets, desk-local shot lists, zero render claims (PROD-01..02); <strong>P5</strong> the nebula — a 2D projection over the real 18-domain / 3,472-capability registry and family roster, tagged ILLUSTRATIVE per the deck's truth model (PROD-03); <strong>P6</strong> the security battery itself, promoted outright at audit; <strong>P7</strong> <code>tools/course-gen.mjs</code> — the ArchitectAgent analog: 18 deterministic, source-linked lessons generated from the campaign's own wave reports, badged <code>[generated]</code>, gated <code>deterministic_review_required</code>, honestly labeled en-only (CURR-01..03). The academy now files 43,741 lessons. Generative video and immersive XR remain BOUNDARY — labeled, not faked. <code>BLUEPRINT-MAP.md</code> carries the post-port grades; the public tree carries what was built. Sweep: 101 probes — post-deploy findings on record. Sibling side: FANO-1 native deployment hooks live at <code>sibling:hardware:os/vulkan_e8_hook.zig</code> and siblings; instrumented battery data at <code>sibling:hardware:experiments/battery_results.json</code> |
+| C91 | Blueprint received — the seven phases graded against the fleet | Engineering | Verified | The owner's unified development plan (a 7-phase BTITD+RE program) entered the drawer and was audited phase-by-phase against the fleet rather than the reverse: <strong>P6</strong> security framework is PROMOTED outright — the 85-probe battery built across the 100-iteration campaign is that phase, already done; <strong>P1</strong> governed AI orchestration, <strong>P2</strong> persistence, <strong>P3</strong> command center, and <strong>P7</strong> curriculum grade PARTIAL — the governed provider bridge, the SHA256-chained archive corpus, the desk itself, and the 530-lesson academy already stand; their named gaps become governed surfaces (a single signed runtime registry, a continuity pane over archive integrity, an in-desk editor, generated course modules). <strong>P4</strong> generative film and <strong>P5</strong> immersive 3D grade BOUNDARY — the desk takes a storyboard slate and a 2D lattice projection, labeled projection-not-immersion, and the blueprint's external donor projects are survey citations, nothing vendored. <code>BLUEPRINT-MAP.md</code> files the full audit in the drawer; the public tree carries the claim and the build. Sweep: 85 probes — 82 HELD / 3 NOTED |
+| C90 | Continuity capstone — the twins are exact, the archives are sealed | Engineering | Verified | Wave 10 discharged the filed residuals and closed the campaign: <strong>(a)</strong> the anomaly codex was EN-canon — <code>ANOMALY_LORE_ZH</code> now carries all 139 entries one-to-one plus both fallbacks in the same verdict register (虛構檔案/冷案/已建/已對映/暫扣/後設), and the codex pane's own chrome is bilingual (DESK-21). <strong>(b)</strong> the terminal corpus — <code>TERM_HELP_ZH</code> is line-for-line (46==46), ~45 static prose answers carry zh twins in <code>TERM_ZH</code>, <code>termZh()</code> fronts the exec boundary, and a prefix table translates leading-label framing while lines carrying live identifiers stay command-canon (DESK-22). <strong>(c)</strong> archive inventory — 36 pre-existing checksum sets verify clean; sums backfilled for 110 directories + 47 tarball sidecars (labeled content-at-backfill). <strong>(d)</strong> <code>security/README.md</code> was five waves stale — file table completed (beacon/dialect/relay-link/gov-index/ipv6-derive), probe counts refreshed, wave taxonomy documented. <strong>(e)</strong> <code>AGENTS.md</code> created — the learned rules are now repo canon (publish gate, integer-only, twin parity, canon pair, seat singularity, taxonomy, containment, wave cadence). Full battery in sequence: capstone 25/25, sentinel 13H/1N, superpowers 34/34 (+9 honest limits), staleness 6/6, spec008-wire 6/6, route-o1 GREEN. Sweep: 85 probes — 82 HELD / 3 NOTED |
+| C89 | Cross-cluster integration — the family shelf cites real trees | Engineering | Verified | Wave 9 closed the cluster boundary under two evidence classes per the Admiral's directive (sibling status is doc-cited — no cross-repo rebuilds): <strong>(a) locally proven</strong> — the Rations bridge committed upstream (<code>e932053</code>: demodulator i16 saturation at −32768, invite-token fixed-tail bounds check, relay nosniff/frame/referrer headers; 106 SPEC-007 compat + degraded-medium stress tests wired into <code>tests.zig</code>, density ratchet 121.4% vs 116.9% baseline); CLUSTER-02 verifies the public capability projection — 3,472 rows × 18 domains, count-consistent, zero absolute paths or key material; CLUSTER-03 verifies the suites are registered in <code>Rations/src/tests.zig</code>. <strong>(b) doc-affidavit</strong> — CLUSTER-01 reads each sibling's own README/AGENTS and demands the shelf's numbers appear verbatim: 6/6 verify (qstar-llm 2,610+ tests; zig-k3-port Token-identical; TheUE 50-entry capability registry; ThePlatform Q# parity; euz 6,372+ tests; Rations 116.9% ratchet) — and caught two stale citations before landing, which is the point of the probe. FAMILY shelf extended 3→7 entries (TheUE, Rations, EU.VERSION.Z, ThePlatform, sheraton join qstar-llm/zig-k3/Digit). Neighbor-repo WIP left untouched — the ~200 dirty paths in the experiments monorepo predate the wave and are not campaign work. Sweep: 83 probes — 79 HELD / 3 NOTED. D9 bridged the doc-cited layer into mechanical anchors — <code>tools/bridge-map.mjs</code> resolves 26 sibling anchors (BRG-01..06), incl. <code>sibling:zig-k3-port:AGENTS.md</code> (wasm64/memory64, CPU≡GPU bit-exact, archived golden replay) and <code>sibling:qstar-llm:docs/E2E_AUDIT_RESULTS.md</code> |
+| C88 | SPEC-008/Fleet retro-pass — canon emit/load hardened | Engineering | Verified | Wave 8 unwound the fleet tooling and closed three findings: <strong>(a)</strong> <code>fleet-manifest.mjs</code> re-signed and rewrote canon on a bare read — emit is now <code>--emit</code>-gated (dry-run prints the unsigned payload and touches nothing), and <code>--verify</code> adds the missing load gate: spec field, ed25519 signature over canon(payload), genesis lineage, pubkey hint, timestamp, and root↔site parity all checked live (FLEET-01). <strong>(b)</strong> The bulletin signed ephemeral beacon source-ports as if they were dialable addresses and kept stale sightings forever — peers older than 24h are excluded from the signed doc (the ledger keeps them as evidence) and beacon ports emit labeled <code>observed_port</code>, never masquerading as service addresses. <strong>(c)</strong> <code>fleet-genesis-update.mjs</code> filtered only <code>name === "admiral"</code> — a flag-seat member under any other name survived and produced an ambiguous genesis that every desk's <code>bindFleetFlag</code> now refuses (wave-7 fix made this a live hazard); the update filters the seat by name OR role, self-verifies every collected signature over canon before writing, and warns when a <code>--no-sheraton</code> run emits a single-sig genesis. <code>--push</code> now stages BOTH halves of the canon pair — the old path committed only the root file and left <code>site/</code> stale against the parity gate. Battery refresh: route-o1 O(1) green (322× vs table scan), seed-drop 4 pairs 8/8 verified, philotic probe+cluster green, staleness-detect and spec008-wire gates green, emergence-watch green, carrier-flight re-confirms the Sommerfeld-Brillouin bound, fleet-audit spot-checks: downbeat zig-build HELD, euz determinism 2H/1B (unseeded-random surface honestly classified). FLEET-01..03 all HELD; sweep 80 probes — 77 HELD / 3 NOTED |
+| C87 | Security-harness retro-pass — the battery audits itself | Engineering | Verified | Wave 7 unwound the probe infrastructure and closed four findings plus one trust-chain defect: <strong>(a)</strong> <code>suite.mjs</code> reported ERROR for absent lab services — a refused socket is a deferral, not a defect; a <code>svcDown</code>/<code>catchVerdict</code> classifier now marks unreachable-service catches NOTED across 8 relay/edge sites while genuine harness breakage still ERRORs. <strong>(b)</strong> <code>kali-sweep</code> mishandled four edges — WS extended frame lengths (126/127) wedged the close-code parse, a dialed-timeout origin probe false-EXPLOITED on blackholed ports, <code>rawMethod</code>→"0" false-OPENed when the desk died mid-battery, and a bare <code>fetch</code> could crash the sweep; all now defer-or-guard correctly. <strong>(c)</strong> COMM-06's flake root cause — a single fire-and-forget frame can drop outright on the impaired edge; sealed-send-wan now resends on a bounded budget (the discipline the ordering probe already documents), and total-loss reads NOTED not OPEN. <strong>(d)</strong> SENTINEL gained the containment trust chain — SENT-11..14 prove flag-signed FANO-CONTAIN-v1 releases a contained desk, expired/tampered paper refuses, and <strong>the flag-seat ambiguity fix</strong>: <code>bindFleetFlag</code> silently bound the LAST flag-seat member, so a hostile genesis carrying two flag-seat keys could seat the attacker's; <code>done()</code> now counts distinct seats and refuses to bind ambiguous docs (probe-enforced). Findings taxonomy codified — <code>med</code>→<code>medium</code> normalized across 6 harnesses; HARN-01 validates every ledger row against controlled verdict/severity vocabularies (170 rows clean); HARN-02 treats the fleet-map like a manifest (FLEETMAPv1, &lt;24h fresh, all members measured — stale maps refused). Superpowers ledger refreshed: 34/34 PROVEN including admiral-member-live, stale <code>prompt()</code> limit retired; capstone 25/25, gov/k3-stress re-held. Sweep: 77 probes — 74 HELD / 3 NOTED |
+| C86 | Zig core/deps retro-pass — decoder boundary hardened | Engineering | Verified | Wave 6 unwound <code>deps/qstar-*</code> and <code>src/spec008_*</code> and closed three findings: <strong>(a)</strong> <code>transport_paperback.decode</code> freed uninitialized <code>Share.y</code> slices on the OOM path — the <code>defer for</code> was declared after the fill loop, so a mid-loop <code>dupe</code> failure iterated all three slots including undefined memory; now frees only <code>shares[0..filled]</code>. <strong>(b)</strong> <code>shamirReconstruct</code> interpolated crafted shares without validation — duplicate x coordinates make the Lagrange denominator zero (<code>gf256Inv(0)</code> silently returns 0, corrupting output) and mismatched <code>y.len</code> reads out of bounds at <code>byte_idx</code>; both refuse now (<code>InvalidShare</code>/<code>MismatchedShares</code>), x=0 rejected (the x=0 point IS the secret, not a share). <strong>(c)</strong> Unannotated f32 assertions in the mesh harness escaped the integer-only doctrine — marked as sidecar-boundary reads. Audited clean: <code>src/*.zig</code> carries zero unannotated float (probe-enforced), every other transport decoder bounds-checks, <code>capacity()</code> is a registry slot (documented, not a byte limit), <code>spec007.wasm</code> is pure scalar ABI. Mutation battery: 288 seeded truncation/corruption cases across 5 decoders — error-or-decode, never panic, zero leaks. The dep's <code>rsReconstruct</code> transpose and XOR-parity naming defects remain documented (recorded, worked around — upstream-bound). ZIG-01..03 all HELD |
+| C85 | Visuals &amp; i18n retro-pass — the desk passes AA and speaks both tongues | Presentation | Verified | Wave 5 unwound <code>fano-desktop.css</code>/<code>dossier.css</code>/<code>fano-i18n.js</code> and closed five findings: <strong>(a)</strong> <code>.lang-btn</code> referenced an undefined <code>--line</code> variable — border silently invalid, the button rendered borderless until hover; corrected to <code>--desk-line</code>. <strong>(b)</strong> Contrast audit measured every ink/accent against its own background across all five liveries — <code>desk-dim</code> failed WCAG AA 4.5:1 on four of five palettes (worst 3.34) and WHITEHALL's accent measured 3.09; all palette values raised so the worst ink ratio is now 4.66 (probe-enforced). <strong>(c)</strong> No <code>prefers-reduced-motion</code> handling existed — a 240s spinning Fano plane, boot fade, and window transitions ignored vestibular preference; reduced-motion now stills the desk and the paper. <strong>(d)</strong> No <code>@media print</code> rules — the dossier is paper-themed but printed dark and watermarked; print now strips chrome (nav, watermark, taskbar, icons) and keeps page-break discipline. <strong>(e)</strong> Chrome was English-only — ~200 literals across toasts, Command-suite sections, boot POST lines, field manual, sysmon, achievements and eggs now route through <code>t()</code>; dictionaries grew 160→356 keys per side with exact parity; achievements/eggs converted to id registries (no string drift possible). Narrow viewports: adm-chart wraps, LEDs cede, start-menu clamps. DESK-16..20 all HELD; residual: terminal command corpus + ANOMALY_LORE (139 entries) remain EN-canon pending the Wave-10 twin audit |
+| C84 | Desktop/DOM retro-pass — render boundary sealed | Identity &amp; access | Verified | Wave 4 unwound <code>fano-desktop.js</code>/<code>fano-reset.js</code>/<code>fano-i18n.js</code> and closed five findings: <strong>(a)</strong> user-controlled strings reached <code>innerHTML</code> unescaped — a callsign like <code>&lt;img onerror=…&gt;</code> is a legal unrestricted name and rendered as live markup in the unlock pane and every window titlebar; <code>esc()</code> now fronts the title chokepoint, ident block, folder rows, and icon labels. <strong>(b)</strong> The reset census swept 8 of 16 live <code>fano1.*</code> keys — containment, revoked, branchreqs, branches, auth.fail, directives, desk.v1, and lang survived an adjudication; the census is complete and probe-enforced. <strong>(c)</strong> A dead zh-only i18n key broke twin parity — removed; 160 keys each side, exact. <strong>(d)</strong> Academy lesson detail rendered literal <code>\n</code> text (escaped twice in source) — fixed; manifest gains a count-integrity check (530 claimed = 530 filed). <strong>(e)</strong> Containment BURN was one-click — now arms on first click, fires on second. DESK-10..15 all HELD |
+| C83 | Comms retro-pass — wire boundary hardened | Identity &amp; access | Verified | Wave 3 unwound <code>fano-comms.js</code> and closed seven findings: <strong>(a)</strong> every WASM-reported length now clamps to its output buffer — <code>jread</code>/<code>qrDec</code>/<code>stegaExtract</code>/<code>carrier*</code>/<code>inviteCreate</code> could previously pull adjacent heap into JS strings on an oversized <code>n</code>. <strong>(b)</strong> The dialer accepts <code>ws://</code>/<code>wss://</code> only and <code>pkOf</code> enforces real 64-hex keys on <code>connect</code>/<code>addContact</code>/<code>sendMsg</code>/invite net-id — <code>unhex</code> on garbage used to feed short buffers to WASM under a hardcoded length. <strong>(c)</strong> <code>inviteCreate</code> was dead code — it passed a phantom <code>network_id_len</code> shifting every argument into <code>rations_invite_create</code>, and <code>u64</code> expiry as a Number the ABI rejects (BigInt required). Realigned; invite roles are the network enum <code>0=admin 1=moderator 2=user</code>, issuance STATION-CHIEF+, admin invites flag-seat only. <strong>(d)</strong> Unsigned presence text can't impersonate — pinned/restricted callsigns render as <code>peer-&lt;id&gt;</code> in the roster. <strong>(e)</strong> Shamir allocation bounded (k≤n≤250, secret ≤64 KiB, ≤250 shares). <strong>(f)</strong> <code>prompt()</code> eliminated — MSG composes inline (Electron has no native dialogs). <strong>(g)</strong> Internals exported for sweep coverage. WIRE-01..07 all HELD; comms-suite 32H/1N zero regressions |
+| C82 | Auth/cert retro-pass — trust chain hardened end to end | Identity &amp; access | Verified | Operation CENTURY wave 2 unwound <code>verifyCert</code>/<code>verifyGrant</code>/<code>claimGrant</code>/roster/TOTP and closed six findings: <strong>(a)</strong> <code>addIssuer</code> was ungated — any session could roster a key, making a self-minted elevated cert verify; roster mutation is now STATION-CHIEF+ (internal raw path preserved for genesis/legacy/import) and <code>removeIssuer</code> exists with a founding-key anchor refusal. <strong>(b)</strong> <code>verifyCert</code> took no role bound — a valid-signature <code>role:99</code> verified; roles are now bound to <code>0..5</code>. <strong>(c)</strong> Flag trust was a persisted <code>_fleet</code> marker <code>importGrant</code> never wrote; elevated pinned certs now require the stored grant to <em>re-verify</em> (roster-or-fleet issuer, live expiry, unrevoked). <strong>(d)</strong> <code>claimGrant</code> rewrote <code>g.sub</code> and silently invalidated roaming-grant signatures — claims now record <code>g.claimed</code>; <code>verifyGrant</code> re-verifies the unbound body to accept legacy ledgers. <strong>(e)</strong> Expired grants never swept and no revocation existed — <code>grants()</code> prunes on read; <code>revokeCallsign</code> (STATION-CHIEF+) files the rescission while the dead paper stays as evidence, and desk transfer carries the revocation ledger. <strong>(f)</strong> <code>verifyTotp</code> had no throttle — the six-digit gate now shares the unlock backoff; <code>lock()</code>/<code>burn()</code> zero the unwrapped seed and reset the counter. AUTH-01..09 all HELD, comms-suite 31H/2N unchanged |
+| C81 | Bot containment — automation is a cadet under adjudication | Identity &amp; access | Verified | Per Fleet Admiral's order: bot-shaped activity is treated like a cadet — forced to learn in containment, cut off from the main network, released only by human adjudication. <code>detectAutomation()</code> fires strong signals (webdriver, selenium/phantom/cdc_ globals, headless/bot UA) on one hit, weak signals (no-languages/plugins/entropy, generic-bot UA) on two; absent navigator/document tolerated. Flagged enrollments pin role to CADET and stamp <code>rec.contained</code> — a bot claiming <code>ramsey 006</code> genesis still lands cadet. Contained sessions are sealed from grants, credentials, roaming, branch apply/assign, issuer roster, TOTP, desk export, comms connect/presence/send/invite, and the governed LLM bridge; unrostered inbound wire senders are flagged QUARANTINED; the WAN edge logs bad-seal drops and machine-rate senders to <code>bot-ledger.json</code> (flag-only). Release = signed <code>FANO-CONTAIN-v1</code> promotion paper from a rostered STATION-CHIEF+ or the fleet-anchored flag, presented at the contained desk — wrong-subject and untrusted-issuer paper refused. Command-suite CONTAINMENT panel lists flags with evidence; contained desks boot academy.os only. BOT-01..07 all HELD |
+| C80 | Cadet tier + OSTF offices on the watch list | Identity &amp; access | Verified | Per the Admiralty Strategic Command, the rank structure lands on the desk: <code>ROLE_LABEL[0]</code> is <strong>CADET</strong> — the base tier every unprivileged enrollment gets (the code constant <code>field_agent</code> is unchanged). OSTF offices joined the watch list: council seats (vice/rear admiral offices, commodore of ethics and equity, admiral of financial operations), advisory authorities (lead technical systems architect, lead security and fabrication officer, chief warrant officer, research lead), chief-of posts, org names (ostf, sallirreugtech + academy), and rank-prefix regexes (<code>admiral &lt;name&gt;</code>, <code>captain &lt;name&gt;</code>, <code>commander|lieutenant|ensign|midshipman &lt;name&gt;</code>, <code>warrant officer …</code>, <code>chief of …</code>) — all grant-gated at STATION-CHIEF+. A granted office still enrolls as CADET: title is a name, not a clearance — positions are applied for via <code>request-branch</code> → admiral-approved FANO-BRANCH-v1. DESK-08 refuses 6 office/rank callsigns cold; DESK-09 proves the grant path (single claim, role 0, reuse refused) |
+| C79 | Founding ≠ flag rank — self-anointment closed | Identity &amp; access | Verified | <code>enroll()</code> granted <code>fleet_admiral</code> to ANY first enrollment on an unfounded desk — a <code>marcus</code> signup on the public gh-pages deployment self-anointed the flag seat (reported by the Admiral, reproduced in-harness: role 5 + grant issuance open). Fixed: <code>role = isPinned &amp;&amp; (isGenesis || fleet-anchored grant)</code> — non-pinned founders still found the desk but land as FIELD-AGENT; the roster seed records the founding key while issuance stays session-gated below STATION-CHIEF. Elevation now enters only via rostered-issuer grants or the fleet anchor. New DESK-06/07 probes hold both sides: marcus→0 + issuance refused, ramsey 006→5. Note: pre-fix desks' stored certs keep their rank (minted under the old contract); the fix is enrollment-time |
+| C78 | Eight qstar-llm dependency libraries vendored + harnessed | Infrastructure | Verified | <code>deps/qstar-{collapse,compress,mesh,net,quantum,render,transport,vfs}</code> vendored with a Spec-007 <code>build.zig</code> module graph: <strong>799 dep tests + 41 harness assertions, zero leaks</strong>. Five harnesses prove real capability: flag-key Shamir escrow (3-of-3 reset vote, 2-of-3 seat-dark quorum, foreign-share refusal), the 136-B envelope byte-exact over QR/OPTAR/audio/cassette/stega/polyglot/LoRa + maypole WiFi↔LoRa bridge, canonical 25-E0 bootstrap seed + PoLW Sybil gate + Möbius merge, collapse→QR archive + VFS on the 421-node map, and u128 p2p Location routing with real XChaCha20-Poly1305. Honest defects recorded: <code>rsReconstruct</code> emits a column-major transpose (routed via <code>reassemble</code>), the "RS" parity is XOR-sum (exactly one erasure), <code>paperback.decode</code> needs the full container, <code>capacity()</code> returns registry slots — all in the spec-008 ledger. The lattice claims the deps implement are re-settled verbatim in a second codebase — <code>sibling:zig-k3-port:docs/CLAIM-VERDICTS.md</code> (421-node identity, mirror symmetry, 721 shell all VERIFIED) |
+| C77 | Admiralty Desk Electron workstation — real OS input stack | Workstation | Verified | <code>admiralty-desk/</code> ships the desk as a real workstation surface: hidden native Edit menu (Ctrl+C/X/V/A app-wide), native right-click cut/copy/paste/select-all, <code>ADMIRALTY_DESK.clipboard</code> IPC bridge, pointer-lock permission scoped to the desk origin (games/sandboxes), window controls F11/Esc/Ctrl+M/Ctrl+Shift+Q + Start-menu shell items. Identity in <code>persist:admiralty</code> partition — nuking Electron never touches the browser desk. Auto-copy on token mints (export-desk, authenticator, roaming paper) + COPY PK in GENESIS SEAT; selectable window content; ops-dark suite theme vs dossier-paper pages |
+| C76 | FANO-DESK-v1 bidirectional desk transfer | Identity &amp; access | Verified | <code>export-desk</code>/<code>import-desk</code> carries the wrapped keystore record + founding between desks either direction (browser↔Electron), signed by the exporting desk's key, keystore wrapped for the whole trip. DOM import path works under Electron (no <code>prompt()</code>). Refusals proven: import onto an already-founded desk, foreign-founding forgery, post-sign bundle tamper (<code>sig_invalid</code>) — DESK-03/04/05 in team-sweep-2 |
+| C75 | Roaming Fleet Admiral — sign in on any desk without founding it | Identity &amp; access | Verified | <code>issueRoaming</code> mints an unbound <code>FANO-ROOT-v1</code> authenticator (<code>sub:null</code>, 30-day expiry, flag-seat-only). Enrolling <code>ramsey 006</code> + the paper as grant token on a foreign <em>founded</em> desk binds the fleet anchor: <code>bindFleetFlag</code> resolves the <code>admiral</code>/<code>flag-seat</code> member in published <code>fleet-genesis.json</code> and verifies the Ed25519 signature — lands as FLEET-ADMIRAL, host founding untouched. Attacker-issued authenticators refused (<code>iss</code> ≠ fleet flag); foreign-genesis forgeries refused. Bearer-instrument warning documented — whoever holds the paper holds the seat. DESK-01/02 + GRAY probes in team-sweep-2 |
+| C74 | Flag seat anchored in published fleet genesis | Governance &amp; trust | Verified | <code>fleet-genesis.json</code> amended to 3 members: <code>digit</code> + <code>sheraton</code> genesis-roots + <code>admiral</code> flag-seat (pk <code>a7f4bcd4…9076f</code>, hint <code>sha256:c7bf5aac9378d199</code>), payload re-signed by both roots via <code>fleet-genesis-update.mjs --pk</code> (member endorsed, not a signer). Published copy is canon-gated: publish-check byte-compares root vs <code>site/</code> genesis AND manifest — the drift class that broke the first amendment cannot recur. Deliberate amendments surface as GENESIS CONFLICT on TOFU-pinned desks (guard working, re-pin is manual). Bootstrap verified live: signer-set + manifest lineage on sheraton |
+| C73 | Adoption-first family adapters and Academy projection | Governance, AI &amp; education | Verified | Shared <code>OSTF-GOV-v1</code> envelope plus dependency-light adapters now cover ThePlatform clearance/authority/A2A metadata, Qstar compatible-server metadata, Rations signed-skill/RAG/physical-channel events, and 56 capability registry entries. Academy manifest projects 530 source-linked public lessons from <code>human_academic</code> + active SPEC documents; FANO <code>academy</code> opens the curriculum with evidence/assessment labels. Runtime-dependent services remain explicitly runtime-gated; existing native suites remain adopted authorities rather than duplicated. Sibling side: <code>sibling:theue:tools/qstar_adapter.py</code>, <code>sibling:theue:tools/rations_adapter.py</code>, <code>sibling:theue:tools/academy_manifest.py</code>, <code>sibling:theue:src/capability_registry.zig</code> |
+| C72 | SPEC-driven governed Ollama bridge and port map | Governance &amp; AI | Verified | TheUE now owns a freestanding deterministic governance boundary (<code>src/governance.zig</code>) with compact address labels, clearance/tool-class checks, HRIS/evidence decisions, and SHA-256 audit chaining. Python Phase-0 tools hash/classify all 1,091 governance/canon files and reverse-engineer 10,331 section requirements into 10,191 mapped candidates and 140 explicit gaps across 711 active source/document files. <code>tools/governed_bridge.py</code> exposes token-gated <code>/health</code>, <code>/models</code>, and <code>/ask</code>; only local <code>127.0.0.1:11434</code> and remote <code>192.168.12.210:11434</code> are allowed. FANO <code>ask</code> now routes through the bridge, labels responses <code>modeled</code>, and prints audit IDs; the browser provider panel discovers models and stores the bridge token only in memory. Local and remote discovery plus a live browser ask succeeded; publish gate green. Sibling side: <code>sibling:theue:tools/governed_bridge.py</code>, <code>sibling:theue:tools/governance_envelope.py</code>, <code>sibling:theue:tools/ollama_discover.py</code> |
+| C71 | QStar.net time-based authentication | Identity &amp; access | Verified | Google Authenticator-compatible RFC 6238 TOTP is now instantiated for the desk. Setup generates a 160-bit local secret, encrypts it inside <code>fano1.identity</code> under the unlocked Ed25519 seed, and presents an <code>otpauth://totp/QStar.net:QStar.net</code> QR plus manual Base32 key only in the local setup view. SHA-1/HMAC, 6 digits, 30-second period, ±1-step clock window; setup confirmation must verify the current code. Returning sign-in now requires credential unlock <strong>and</strong> the six-digit QStar.net code. Desktop re-unlock follows the same two-step gate. No secret is sent to a server or placed in plaintext localStorage; live browser verified QR generation, Google-compatible HMAC output, encrypted record, and code verification |
+| C70 | Sign-in / sign-up split on the covenant page | Identity &amp; access | Verified | <code>index.html</code>/<code>index-zh.html</code> now carry two mechanisms on one page: <strong>SIGN IN</strong> (shown when the desk holds a record — credential unwraps the keystore via <code>FANO_AUTH.unlock</code>, lockout countdown surfaced, wrong credentials refused) and <strong>SIGN UP</strong> (the enroll path — new keypair, covenant signature, optional grant token + branch request). When a record exists the enroll block carries a caution: re-enrolling mints a new key and destroys the desk identity (founding survives, the operative does not). Fixes a real gap — a returning operative previously had no way back in; re-submitting the form could only mint a fresh key or refuse <code>claimed</code> |
+| C69 | Flag authenticator: FANO-ROOT-v1 credential for the pinned seat | Identity &amp; access | Verified | The flag seat's grant is now a real authenticator, not a coupon: <code>issueCredential</code> mints a signed FANO-ROOT-v1 artifact — self-rooted (<code>gen = sha256(iss_pk)</code>, provable on any desk), subject-bound, grant-embedded. <code>authenticate</code> verifies signature + rostered issuer + pinned callsign + admiral role + expiry on any desk with no shared state; a foreign desk verifies the paper by rostering the issuer. Forgery refused: role downgrade, forged gen-anchor, non-rostered issuer, non-flag-seat minting all rejected. Everyone else's callsigns keep FANO-CALLSIGN-v1 one-shot coupons. Command suite gains FLAG AUTHENTICATOR panel (issue/refresh, export, authenticate-a-token); terminal gains <code>credential</code> / <code>credential verify &lt;token&gt;</code>; <code>whoami</code> prints the verified-authenticator line. COMM-20..24 HARDENED |
+| C68 | 7q drawer → Command suite; branch assignments over the wire | Identity &amp; access | Verified | For FLEET-ADMIRAL sessions the 7q drawer opens the Command suite (flag registry, branch-request approvals, callsign-grant issuance, issuer roster); all other ranks still get ACCESS DENIED, icon sub flips SEALED→COMMAND under the flag. Branch flow: signup/<code>request-branch</code> signs a FANO-BRANCH-REQ-v1 token with the requester's own key → exported b64 token travels any channel (comms/dead drop) → admiral imports in the suite (signature verified on import; tampered refused) → approval issues a signed FANO-BRANCH-v1 cert; <code>branchOf</code> verifies signature + rostered issuer + expiry — a forged role-5 session signs but fails verification until the issuer is rostered. FIELD-AGENT and STATION-CHIEF both refused at assign/deny (admiral-only). New COMM probes: request-sign, tamper-refusal, admiral-only, roster-enforced — all HARDENED |</li>
+</ul>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>
