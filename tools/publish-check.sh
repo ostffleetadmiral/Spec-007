@@ -86,6 +86,10 @@ echo "== directive router (glyph table + signed receipts)"
 node tools/directive.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "directive" || { say " FAIL" "directive"; FAIL=1; }
 
+echo "== governance ledger (constitutional mandates realized)"
+node tools/gov-map.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "gov-ledger.json" || { say " FAIL" "gov-ledger.json"; FAIL=1; }
+
 echo "== js syntax"
 for j in site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs; do
   node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }

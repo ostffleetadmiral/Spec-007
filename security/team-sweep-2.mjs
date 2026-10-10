@@ -3299,6 +3299,36 @@ console.log("\nAGT — the agent organs (digit + sheraton, dreamed→built)");
     : open_("AGT", "organ-mapping", "reinterpretation doc absent or missing organ slots");
 }
 
+console.log("\nGOVM — the governance corpus, executable");
+/* ================= GOVM — constitutional mandates realized ==========
+   tools/gov-map.mjs binds every mandate of thoughts&convos/gov/ —
+   the OSTF constitution, SPEC-000..006 + Rulebook, Admiralty bylaws,
+   and every live domain — to a realized counterpart with mechanical
+   checks. direct = the mandate itself in machinery; structural = the
+   governance pattern in machinery. Coverage-enforced. */
+{
+  const gm = spawnSync("node", [path.join(ROOT, "tools", "gov-map.mjs"), "--verify"], { encoding: "utf8" });
+  const lp = path.join(SITE, "assets", "gov-ledger.json");
+  const led = fs.existsSync(lp) ? JSON.parse(fs.readFileSync(lp, "utf8")) : null;
+  gm.status === 0 && led
+    ? held("GOVM", "mandate-ledger", `gov-map verify green — ${led.counts.realized}/${led.counts.mandates} mandates realized, ${led.counts.domains} domains bound`)
+    : open_("GOVM", "mandate-ledger", `gov-map verify rc=${gm.status} — ${(gm.stdout || gm.stderr || "").trim().slice(0, 120)}`);
+  if (led) {
+    const get = (d, id) => (led.domains.find(x => x.domain === d)?.items || []).find(i => i.id === id)?.verdict === "realized";
+    ["five-officers", "three-divisions", "adopted-ten", "amendment-mechanics"].every(i => get("constitutional", i))
+      ? held("GOVM", "constitutional-core", "constitution realized — 5 council seats = the officers, 4 fleets = the divisions, adopted-doc corpus bound, vote machinery tested")
+      : open_("GOVM", "constitutional-core", "a constitutional mandate unresolved");
+    ["spec-000-equity", "spec-001-ethical-ai", "spec-002-interop", "spec-003-addressing",
+     "spec-004-clearance", "spec-005-ethics-gate", "spec-006-substrate", "rulebook-lifecycle"]
+      .every(i => get("specs", i))
+      ? held("GOVM", "spec-series", "SPEC-000..006 + Rulebook lifecycle all bound to live machinery")
+      : open_("GOVM", "spec-series", "a SPEC mandate unresolved");
+    led.domains.every(d => d.realized === d.total) && led.counts.gov_dirs >= 10
+      ? held("GOVM", "full-coverage", `all ${led.counts.domains} gov domains bound — every mandate realized, zero unbound`)
+      : open_("GOVM", "full-coverage", `${led.counts.realized}/${led.counts.mandates} realized — unbound domain or open mandate`);
+  }
+}
+
 console.log("\nFILM — the generative film pipeline");
 /* ================= FILM — procedural generative video ============
    tools/film-render.mjs: fano.wasm choreography → deterministic

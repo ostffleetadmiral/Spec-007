@@ -128,6 +128,7 @@ const TEAM_MAP = {
   DHT:     { duty: "custody",                fleet: "security_infrastructure" },
   FILM:    { duty: "content_integrity",      fleet: "education" },
   NE:      { duty: "content_integrity",      fleet: "education" },
+  GOVM:    { duty: "audit_integrity",        fleet: "security_infrastructure" },
 };
 
 /* ---------- live fleet parse ---------- */
