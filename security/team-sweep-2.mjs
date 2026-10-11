@@ -2215,6 +2215,25 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
           "pane lazy-loads course chunks, badges harvested/upstream/ministry, i18n keys both tongues")
       : open_("ACAD", "desk-wiring", `wired=${wired} keys=${keys}`);
   }
+
+  /* ACAD-06: the structural course review verifies — every course
+     graded on formed-fields, routing fidelity, provenance resolution,
+     and ministry composition; zero defect classes tolerated */
+  {
+    const AR = path.join(ROOT, "tools", "academy-review.mjs");
+    if (!fs.existsSync(AR)) {
+      noted("ACAD", "structural-review", "academy-review absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [AR, "--verify"], { encoding: "utf8" });
+      const rep = JSON.parse(fs.readFileSync(
+        path.join(SITE, "assets", "academy-review.json"), "utf8"));
+      r.status === 0
+        ? held("ACAD", "structural-review",
+            `${rep.courses_reviewed} courses / ${rep.lessons_reviewed} lessons — every course HELD, zero structural defects`)
+        : open_("ACAD", "structural-review",
+            `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 140)}`);
+    }
+  }
 }
 
 console.log("\nCENSUS — cluster inventory (debrief d0)");

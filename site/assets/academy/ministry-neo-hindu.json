@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "ministry-neo-hindu",
-  "lesson_count": 91,
+  "lesson_count": 69,
   "lessons": [
     {
       "access": "public",
@@ -61,21 +61,6 @@
       "provenance": "first_party",
       "source": "repo:gnm-ministry:FiveLawsofScienceofSelf.md",
       "title": "FiveLawsofScienceofSelf",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0c1d780f27d17156",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Law | Engine Equivalent | Concrete Component | Verification | |---|---|---|---| | Law of the Seed (Karma) — every cause has its effect | Deterministic Tensor State Transition | Q128.128 engine: every operation is a deterministic state transition, no random noise (zig/q128128.zig); the blockchain ledger applies the same deterministic transition discipline (blockchain/ledger.zig, blockchain/state.",
-      "provenance": "first_party",
-      "source": "repo:fano-1:docs/16-atma-fano1.md",
-      "title": "Law → Component Mapping",
       "topic": "ministry"
     },
     {
@@ -142,21 +127,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-11fbbd47a506ad5e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Optional. Cap on tokens per chat response. Defaults to 1024.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/configuration.md",
-      "title": "CHATMAXTOKENS",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-13961bb95301351d",
       "language": [
         "zh-Hant"
@@ -211,21 +181,6 @@
       "provenance": "first_party",
       "source": "repo:fano-1:x/Neo-Hinduism.md",
       "title": "2. Technical System Mapping",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-182c1c19ec4f6b02",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
       "topic": "ministry"
     },
     {
@@ -337,21 +292,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-42f7f1c4095b14d2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The ATMA boot protocol runs in order, each step real and logged to the karma journal (/var/lib/fano/karma.log):",
-      "provenance": "first_party",
-      "source": "repo:fano-1:docs/16-atma-fano1.md",
-      "title": "Boot Sequence (os/init-fano)",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-4411f919e05e7171",
       "language": [
         "en"
@@ -406,21 +346,6 @@
       "provenance": "first_party",
       "source": "repo:fano-1:x/Neo-Hinduism.md",
       "title": "3.3 Hermetic Mental Transmutation Matrix",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5744e35088014391",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Document ID: SPEC-AF1-2026-REV02 (source spec: x/Neo-Hinduism.md) Scope: the unified mapping between the Neo-Hindu/Hermetic framework and the concrete FANO-1 subsystems.",
-      "provenance": "first_party",
-      "source": "repo:fano-1:docs/16-atma-fano1.md",
-      "title": "16 — ATMA-FANO-1 Structural Mapping",
       "topic": "ministry"
     },
     {
@@ -547,21 +472,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-71c5c059fac711c9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
-      "title": "1.3 Dimensional Depth Assignments",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7254542e537ebd5f",
       "language": [
         "en"
@@ -592,36 +502,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7a95710e63360be0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Subsystem | ATMA role | |---|---| | zig/ (Q128.128 engine) | Karma: deterministic tensor state transitions, no random noise | | holo-fs/ | The Wheel: lossless re-encoding; the Spark: O(1) reconstruction | | blockchain/ | Karma ledger: deterministic state transitions | | zig/poly/ (polyglot runtime) | Nididhyasana: theory compiled into live execution | | os/ (this doc's home) | Genesis verificati",
-      "provenance": "first_party",
-      "source": "repo:fano-1:docs/16-atma-fano1.md",
-      "title": "Subsystem Coverage",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7d6059d6455e0038",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- [walk] avatar \"81a076b6-55ff-49a2-b007-1d88e7dce2aa\" failed to load - falling back to \"robot\" fetch for \"http://localhost:43521/api/avatars/81a076b6-55ff-49a2-b007-1d88e7dce2aa/glb\" responded with 502: Bad Gateway",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/audit/console-sweep-2026-09-07.md",
-      "title": "/heatmap (crypto)",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7f0783cb7e42512c",
       "language": [
         "en"
@@ -631,21 +511,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:polyglot-ref/docs/16-atma-fano1.md",
       "title": "Verification",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-805e8bbd8f551136",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Orange Pi Zero 3W's NPU aligns with the hardware project's principles:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:os/npu-research.md",
-      "title": "Alignment with Hardware Project Philosophy",
       "topic": "ministry"
     },
     {
@@ -676,21 +541,6 @@
       "provenance": "first_party",
       "source": "repo:gnm-ministry:Neo-Hindu.md",
       "title": "The Principle of Vibration",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-861adfd835523223",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/codon-integration-20260912/coherent-system.md",
-      "title": "1.3 Dimensional Depth Assignments",
       "topic": "ministry"
     },
     {
@@ -727,21 +577,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-90ac240de4ae0bc4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every top coin as a tile in a squarified treemap, sized by market cap and colored by its price move (green up, red down, brightness scaling with the move). Toggle the color between 24h and 7d, and the set between top 50 and top 100. Hover any tile for a price · 24h · 7d · market-cap tooltip; click it to open the coin's detail page. The layout is computed client-side from the existing /api/coin/mar",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/coin-pages.md",
-      "title": "/heatmap — market heatmap",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-9629d68314a0b0f7",
       "language": [
         "en"
@@ -751,21 +586,6 @@
       "provenance": "first_party",
       "source": "repo:fano-1:x/Neo-Hinduism.md",
       "title": "3.1 Holographic State Invariance ($O(1)$ Zero Latency) & The Divine Node Equation",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-97fae4c06caa6753",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The ATMA-FANO-1 spec (docs/16-atma-fano1.md, source x/Neo-Hinduism.md) is expressed as real boot-time engineering:",
-      "provenance": "first_party",
-      "source": "repo:fano-1:docs/12-os-build-scripts.md",
-      "title": "ATMA Boot Integration (atma-manifest.sh, init-fano)",
       "topic": "ministry"
     },
     {
@@ -892,21 +712,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a756f5e892eb965d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/agent-abilities/FULL-ARTICLE.md",
-      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ab5d7ddbd3a0ec8e",
       "language": [
         "en"
@@ -937,21 +742,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b670b447865a2da8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b6d93ef7d5c9e716",
       "language": [
         "en"
@@ -967,36 +757,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b8aaba946f59875f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "bash bash -n os/atma-manifest.sh && bash -n os/init-fano # syntax bash os/atma-manifest.sh --generate # generate base manifest bash os/atma-manifest.sh --check # verify base parity bash os/atma-manifest.sh --generate-adrv # generate ADRV manifest bash os/atma-manifest.sh --check-adrv # verify ADRV parity bash os/test-packaging.sh # packaging contract",
-      "provenance": "first_party",
-      "source": "repo:fano-1:docs/16-atma-fano1.md",
-      "title": "Verification",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ba8e3f73901cc356",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
-      "title": "1.3 Dimensional Depth Assignments",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-bb2be8066c1347cb",
       "language": [
         "en"
@@ -1006,21 +766,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:docs/advanced_usage.md",
       "title": "Tag Assignment",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c1c5dc2aae1988ef",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/coherent-system.md",
-      "title": "1.3 Dimensional Depth Assignments",
       "topic": "ministry"
     },
     {
@@ -1057,21 +802,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d21faee16fca0223",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Four tools sharing one design system: /heatmap (squarified treemap, tiles sized by market cap and colored by 24h/7d move, top 50/100 toggle), /fear-greed (live 0-100 sentiment gauge with week-over-week delta and 30D/90D/1Y history chart), /gas (live Ethereum gas tracker), and /compare (up to 4 coins with normalized performance overlay and stat line-up, selection saved in the URL).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Market tools: heatmap, Fear & Greed, gas, compare",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d2668cd5f88e77da",
       "language": [
         "zh-Hant"
@@ -1096,21 +826,6 @@
       "provenance": "first_party",
       "source": "repo:gnm-ministry:Neo-Hindu.md",
       "title": "The Principle of Rhythm",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d74569538dc54ec6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "1.3 Dimensional Depth Assignments",
       "topic": "ministry"
     },
     {
@@ -1207,21 +922,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e25252c95f4d706f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis | Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/coherent-system.md",
-      "title": "1.3 Dimensional Depth Assignments",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e4373a102597c8c3",
       "language": [
         "en"
@@ -1231,36 +931,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:archives/spec-007-rulebook-alignment-20261005/spec-007-registry.en.md",
       "title": "Registry rules",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e5a4a90fd026dd82",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Basis Element | Dimensional Interpretation | |---|---| | $e0$ | origin | | $e1$ | time | | $e2$ | quantum | | $e3$ | space | | $e4$ | energy | | $e5$ | structure | | $e6$ | self-recognition | | $e7$ | shadow/gravity |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/.devin/memories/chunk-12_core-octonionic-architecture.md",
-      "title": "Dimensional Depth Assignments",
-      "topic": "ministry"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e634c3db66369620",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The live token field behind the 3D sentiment heatmap on agent screens. $THREE is always pinned first and flagged featured; the rest of the field is the pump.fun trending set (frontend-api-v3.pump.fun/coins) priced from Dexscreener's batch token endpoint. Tiles carry market data only: this endpoint never names or recommends any token beyond the anchor. limit defaults to 28.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Sentiment heatmap field",
       "topic": "ministry"
     },
     {

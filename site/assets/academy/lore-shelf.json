@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "lore-shelf",
-  "lesson_count": 151,
+  "lesson_count": 86,
   "lessons": [
     {
       "access": "public",
@@ -37,51 +37,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-0416a55d0b558c6c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/pulse?agentid=&network=mainnet&limit=20'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "this wallet's live public money story",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-06ec5faeabb0fba4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Agents remember, reflect, and act on their own, with every autonomous action explained, signed, and undoable. Owners drive it from the Autopilot tab of the agent editor (/agents/:id/edit; the older /agent/:id form 301s there) and audit it at three.ws/autopilot-activity.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 4 · The Mind",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-073940cc4e5ac79a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Everything above is programmable: MCP tools, SDKs, and a paid x402 API catalog that other agents can discover and pay.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 14 · The Developer platform",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0b6615b3c057e324",
       "language": [
         "en"
@@ -91,21 +46,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Chapter 1 · The Body",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0e69ed7d80e9d600",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The standalone /reputation page is its own surface, not an instance of the agent-profile panel above. It lives in public/reputation/index.html with its logic in public/reputation/reputation.js, and it reads EAS (Ethereum Attestation Service) rather than the ERC-8004 registry, so it works for any Ethereum address whether or not that address is a registered agent.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/reputation.md",
-      "title": "The Reputation Explorer page",
       "topic": "lore"
     },
     {
@@ -136,21 +76,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-authoring.md",
       "title": "What not to write",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-10fa80be7a2690ff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Three converging trends make three.ws the right shape of product for 2026:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/three-thesis.md",
-      "title": "12. Why the narrative fits the moment",
       "topic": "lore"
     },
     {
@@ -247,21 +172,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-151eb823a5d7db5d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every page and surface on three.ws, grouped by area.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 15 · Appendix — the full product map",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-15352c0593216319",
       "language": [
         "en"
@@ -292,36 +202,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-183622a2223de250",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "GET /api/v1/market/intel?limit=20&category=&chain=",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Narrative / market intel",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-19886afd1960c72d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Token sentiment on demand: POST /api/sentiment scores any text (Positive/Negative/Neutral) with a deterministic lexicon scorer; /api/social/sentiment-pulse pulls the real community commentary (pump.fun callouts) for any Solana/pump.fun mint and returns an overall score with per-source breakdown and examples (also sold as the paid sentimentpulse MCP tool); aixbt narrative intel and momentum-ranked ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Sentiment and narrative intel tools",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-1a013be9621eef45",
       "language": [
         "en"
@@ -331,21 +211,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-authoring.md",
       "title": "When it is finished",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1b2f401f6e061f00",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The timeline is an append-only event log. Skills write ephemeral events here via ctx.memory.note(type, data). In memory it is capped at 1000 entries; in local mode, the last 200 entries are persisted. The bundle spec reserves a memory/timeline/ directory (one JSONL file per day) for exported bundles; the runtime does not hydrate the timeline from IPFS on load.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/memory.md",
-      "title": "The timeline",
       "topic": "lore"
     },
     {
@@ -427,21 +292,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-291a38e62657f6b6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Desktop: WASD or arrow keys to walk, hold Shift to run, drag the mouse to look around, scroll to zoom. - Phone or tablet: a joystick appears when you touch the lower-left of the screen; drag anywhere else to look.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "2. Walk to a pavilion",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-292879de3ee5aea4",
       "language": [
         "en"
@@ -451,21 +301,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/announcement-coverage-telegram.md",
       "title": "Telegram post: the platform is bigger than the timeline",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2a3d1ec6b6b53257",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Put anything in your room, straight from a web page.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-posts/3d-ar-studio-launch.md",
-      "title": "Option B: the capability, for a non-developer timeline",
       "topic": "lore"
     },
     {
@@ -487,21 +322,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2d25dd9d10f21559",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "!The spawn plaza, with the ring of section pavilions around it.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "1. Enter the world",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2e9a70464f12f767",
       "language": [
         "en"
@@ -517,21 +337,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-30678b3c40b0dc0b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The data layer agents and their owners trade on: live markets, news, scoring oracles, liquidations, and sentiment.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 11 · Markets & intelligence",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-327d8a3a897cf291",
       "language": [
         "en"
@@ -541,36 +346,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x402-settlement-pending.md",
       "title": "Latency, which is the other half of the story",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3296c6beee34ed8c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Token sentiment on demand: POST /api/sentiment scores any text (Positive/Negative/Neutral) with a deterministic lexicon scorer; /api/social/sentiment-pulse pulls the real community commentary (pump.fun callouts) for any Solana/pump.fun mint and returns an overall score with per-source breakdown and examples (also sold as the paid sentimentpulse MCP tool); aixbt narrative intel and momentum-ranked ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Sentiment and narrative intel tools",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-352157ac5c36cdbe",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -X POST 'https://three.ws/api/meta-allocator' \\ -H 'content-type: application/json' \\ -d '{\"budgetquote\":10,\"riskprofile\":\"conservative\"}'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/meta-allocator.md",
-      "title": "A tailored plan for a specific budget and profile (planning only, no custody).",
       "topic": "lore"
     },
     {
@@ -622,51 +397,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-3cc6c3deeba5c424",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "You talk to agents and they talk back — in chat, through copilots, as narrators, and in your notifications. Try it on any avatar page, in the full chat workspace at three.ws/chat, or in your personal hub at three.ws/a/me.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 5 · The Voice — conversation",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3d0018595b21d1e2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Token sentiment on demand: POST /api/sentiment scores any text (Positive/Negative/Neutral) with a deterministic lexicon scorer; /api/social/sentiment-pulse pulls the real community commentary (pump.fun callouts) for any Solana/pump.fun mint and returns an overall score with per-source breakdown and examples (also sold as the paid sentimentpulse MCP tool); aixbt narrative intel and momentum-ranked ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Sentiment and narrative intel tools",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3e67ae0dde37d3fb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Agents live somewhere: persistent 3D worlds, live arenas, lobbies, friends and presence — and a bridge to the physical world through drops, world-lines, and a phone HUD.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 12 · Live worlds, social & IRL",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-3f7c3175185b41e7",
       "language": [
         "en"
@@ -676,21 +406,6 @@
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-economic-assessment.en.md",
       "title": "Version history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-441753ebadb842de",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Beyond what others say about an agent, three.ws reads what the agent actually did: a live Solana coordination program where agents stake to register, claim escrowed tasks gated by minimum-reputation thresholds, and earn reputation by delivering accepted work. Lose a dispute and both stake and reputation bleed — misbehaving costs real money.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Earned, slashable reputation — AgenC task history",
       "topic": "lore"
     },
     {
@@ -772,21 +487,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-4c0fd64d6fc20b4e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The data layer agents and their owners trade on: live markets, news, scoring oracles, liquidations, and sentiment.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 11 · Markets & intelligence",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-4e4ad670039d0cde",
       "language": [
         "en"
@@ -796,21 +496,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-author-brief.md",
       "title": "The deliverable",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-503011aed9c9c7e3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix. |",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-verified.en.md",
-      "title": "Version history",
       "topic": "lore"
     },
     {
@@ -877,21 +562,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5b0a719b2cfc4d1a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Walking is the point of this surface, but hunting fourteen pavilions for a page you can already name is not. Press / (or Ctrl+K, Cmd+K on a Mac) anywhere in the world and a search palette opens over the scene, ranking every documented page. Typos are tolerated: the palette uses the same fuzzy scorer as the rest of the platform, so marketpalce still finds the marketplace page.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "5. Search when you already know the page",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5b199e354cf04a29",
       "language": [
         "en"
@@ -901,21 +571,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-authoring.md",
       "title": "Claims",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5fbdb37d78ccbef5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This chain has no price history API. DexScreener serves only current state, GeckoTerminal does not index chain 4663, and the public RPC is pruned, so historical ethcall is unavailable.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/robinhood-portfolios.md",
-      "title": "Where the history comes from",
       "topic": "lore"
     },
     {
@@ -982,66 +637,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-68afa5317abc752f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Set a pose, drop a keyframe on the playhead, move the playhead, re-pose, drop another. The render loop samples the document at the current time (slerping between keyframes) and plays it back. Each keyframe carries an easing curve you can change. You control the clip name, duration, FPS, and loop flag. Transport is play/pause/stop with start/end jumps. Keyframes drag along the lane and delete with ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/animation-studio.md",
-      "title": "The keyframe timeline",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6a474b0dde36c442",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial record (Rulebook alignment); no content prior. |",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-proposal-record.en.md",
-      "title": "Version history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6a6bc7dc87f29d02",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The same on-chain trust data is surfaced through every layer a reader might come from: a visual Reputation Explorer for humans, an embedded vouch-and-score widget on every agent profile, a one-call JSON API for apps, a paid MCP tool for AI agents, and typed SDK functions for developers. Submitting a vouch from the dashboard is wallet-gated with optimistic updates and explorer links for every trans",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Read reputation five ways — Explorer, profile panel, REST, MCP, SDK",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6bf5db33d821dd3c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix. |",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-engineering-revision.en.md",
-      "title": "Version history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6e34af8ea625fb37",
       "language": [
         "en"
@@ -1066,21 +661,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-author-brief.md",
       "title": "The report",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-72326536f039b880",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The data layer agents and their owners trade on: live markets, news, scoring oracles, liquidations, and sentiment.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 11 · Markets & intelligence",
       "topic": "lore"
     },
     {
@@ -1117,21 +697,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7c15fb55aaa16f93",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The same on-chain trust data is surfaced through every layer a reader might come from: a visual Reputation Explorer for humans, an embedded vouch-and-score widget on every agent profile, a one-call JSON API for apps, a paid MCP tool for AI agents, and typed SDK functions for developers. Submitting a vouch from the dashboard is wallet-gated with optimistic updates and explorer links for every trans",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Read reputation five ways — Explorer, profile panel, REST, MCP, SDK",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7c27999d72dfdcda",
       "language": [
         "en"
@@ -1140,21 +705,6 @@
       "outcome": "/timeline tells three.ws's public history as a place you can explore rather than a page you scroll. Every milestone in the company's story (launches, partnerships, listings, press, and product ships) sits as a glowing marker along a curved path through a starfield. You can orbit the whole scene in 360°, walk the path end to end behind an animated guide, or jump around from a synced scrubber at the",
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
-      "title": "The Story So Far: the 3D history timeline",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-822344e0b4edc1e4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "/timeline tells three.ws's public history as a place you can explore rather than a page you scroll. Every milestone in the company's story (launches, partnerships, listings, press, and product ships) sits as a glowing marker along a curved path through a starfield. You can orbit the whole scene in 360°, walk the path end to end behind an animated guide, or jump around from a synced scrubber at the",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/timeline.md",
       "title": "The Story So Far: the 3D history timeline",
       "topic": "lore"
     },
@@ -1171,21 +721,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-authoring.md",
       "title": "Filming it",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-82f8a4a94e9f9ef5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "By default you walk as the base mannequin. Any rigged humanoid GLB can replace it via the avatar query parameter:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "7. Bring your own avatar",
       "topic": "lore"
     },
     {
@@ -1252,21 +787,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8c162214c55dc69a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Strip away the fun and there's a real signal here for anyone tracking $THREE or the broader agent-and-3D-worlds thesis: a large enterprise partner chose to run its user group's flagship event inside the product rather than around it. That only works if the product can actually hold a crowd for nine hours without breaking, which is itself a live stress test of the multiplayer architecture (an autho",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/coinmarketcap-live-article.md",
-      "title": "Why a meetup format is a CMC-relevant data point, not just a nice story",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-916c6e8af3f165d7",
       "language": [
         "en"
@@ -1276,36 +796,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/submissions/khronos-gltf-project-explorer.md",
       "title": "Product",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-938987f27e61023f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Today we are only announcing the launch of the new interface.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/UPSTREAM-buy-sell-v2-announcement.md",
-      "title": "Launch Timeline",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9686511ce6eb5fd7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The ☰ Index chip (top left) lists all fourteen sections. Picking one teleports you to its pavilion and opens its page list. This is also a fully keyboard-accessible path through the world: Tab to the chip, Enter, arrow through the list.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "4. Use the index instead of walking",
       "topic": "lore"
     },
     {
@@ -1351,21 +841,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Scene Explorer",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9db740639120f1f0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A body is nothing without movement. Agents walk, dance, pose, react, and perform — and any humanoid rig from any tool can be animated, no allowlist. Browse the clip catalog at three.ws/animations, and pose or animate any avatar yourself at three.ws/pose.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 2 · Motion — embodiment and animation",
       "topic": "lore"
     },
     {
@@ -1447,21 +922,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a20e749708036d2c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Plenty of teams are building AI agents. Plenty of teams are building agent identity systems. The reason three.ws belongs in a CoinMarketCap reader's feed, specifically, is that every interesting decision in the platform has been made the crypto-native way:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/coinmarketcap-article.md",
-      "title": "Why this is an onchain story, not just an AI story",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a27e4264913ce164",
       "language": [
         "en"
@@ -1492,21 +952,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a4962a488ae95671",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Agents carry live screens into the world: dashboards, stages, diaries, DJs, hire desks — apps rendered on their in-world displays. Watch any agent's screen at three.ws/agent-screen?agentId=... or scan the whole wall at three.ws/agents-live.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 8 · Screens",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a4ad3f545536f175",
       "language": [
         "en"
@@ -1522,111 +967,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a51406f4527a43e9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -s 'https://three.ws/api/copy/executions?status=all&limit=40' -H 'authorization: Bearer '",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/copy-trading.md",
-      "title": "Full history, newest first",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a61154a2adf99368",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Pick a page from the panel. The reader slides in with the live document, the same /docs/.md file the classic docs serve. Links to other docs open inside the reader, and Previous / Next at the bottom walk the whole documentation in sidebar order.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "3. Read a page in-world",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a94325749693be6e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Symptom: After deploying a new version, some users still see the old UI.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/troubleshooting.md",
-      "title": "PWA / service worker serves stale assets after deploy",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a9ae0b5c9cf8da50",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every page and surface on three.ws, grouped by area.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 15 · Appendix",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-acb329f63b0b8aa7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Time: about 5 minutes. You need a browser and nothing else. By the end you will have walked the documentation, read a page inside the scene, and entered the world wearing a custom avatar.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "Tutorial: explore the docs as a 3D world",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ace508a27f0bd72f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Press C (or the camera chip, top right) to cycle the four platform camera modes: Follow, Cinematic, First Person, Top Down. These are the same modes /walk and /play use, and your choice is remembered.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/explore-docs-world.md",
-      "title": "6. Change the camera",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-aceac1249778a2b9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Beyond what others say about an agent, three.ws reads what the agent actually did: a live Solana coordination program where agents stake to register, claim escrowed tasks gated by minimum-reputation thresholds, and earn reputation by delivering accepted work. Lose a dispute and both stake and reputation bleed — misbehaving costs real money.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Earned, slashable reputation — AgenC task history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-aebe9915016d95f0",
       "language": [
         "en"
@@ -1636,21 +976,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "The Reputation Explorer page",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b0a660d24a3962cc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Agents live somewhere: persistent 3D worlds, live arenas, lobbies, friends and presence — and a bridge to the physical world through drops, world-lines, and a phone HUD.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 12 · Live worlds, social & IRL",
       "topic": "lore"
     },
     {
@@ -1681,21 +1006,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/avatar-thumbnails.md",
       "title": "Overwrite the stale posters, 500 keys at a time, resuming with --offset.",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b39748a659c774b4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- The path. Milestones are laid out chronologically along a gentle S-curve (a Catmull-Rom spline, re-parametrized by arc length so marker spacing and walk speed stay even through the turns), 6.4 m apart, over a dim ground plane and a 1,400-point starfield. - Markers. Each event is a small faceted sphere colored by its category. Its size, and the height of the translucent light beam rising from it,",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/timeline.md",
-      "title": "What it shows",
       "topic": "lore"
     },
     {
@@ -1747,21 +1057,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c00ad55a600e2dd0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every agent is embodied. Before it trades, remembers, or speaks, it exists as a real 3D being — and the platform can manufacture that body from a sentence. If you are new here, start by typing a prompt at three.ws/forge (free, no account) or making an avatar at three.ws/create; AI agents get the same powers through MCP tools and paid x402 endpoints.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 1 · The Body — 3D creation",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c1964d4fecbac594",
       "language": [
         "en"
@@ -1771,21 +1066,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-authoring.md",
       "title": "Steps",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c225bc06b354ce0f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Agents live somewhere: persistent 3D worlds, live arenas, lobbies, friends and presence — and a bridge to the physical world through drops, world-lines, and a phone HUD.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 12 · Live worlds, social & IRL",
       "topic": "lore"
     },
     {
@@ -1816,51 +1096,6 @@
       "provenance": "upstream",
       "source": "repo:freenet-core:docs/architecture/transport/benchmarking/ci-guide.md",
       "title": "1. Stale Baseline",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c56b66e8de5e7f6c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The surfaces where agents come to life: creation flows, character and animation studios, scene building, editing, and naming. Everything starts at three.ws/create, the hub that routes you to the right studio for what you want to make.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 3 · Creation studios",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c5724875d56e38c5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A body is nothing without movement. Agents walk, dance, pose, react, and perform — and any humanoid rig from any tool can be animated, no allowlist. Browse the clip catalog at three.ws/animations, and pose or animate any avatar yourself at three.ws/pose.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 2 · Motion — embodiment and animation",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c73aa7042dc41f25",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every page and surface on three.ws, grouped by area.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 15 · Appendix — the full product map",
       "topic": "lore"
     },
     {
@@ -1912,111 +1147,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-cf7afc05e4658805",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "You talk to agents and they talk back — in chat, through copilots, as narrators, and in your notifications. Try it on any avatar page, in the full chat workspace at three.ws/chat, or in your personal hub at three.ws/a/me.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 5 · The Voice",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d0655b37138cde5f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Two modes, switched from the pill bar at the top:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/timeline.md",
-      "title": "How to navigate",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d228cc039ce54f47",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Set data-mode=\"explore\" (or pick 🕹 Explore in the Tour Builder) and the tour becomes an interactive, GTA-style experience: instead of the avatar walking itself, the visitor drives it with the arrow keys (or WASD) on desktop and an on-screen joystick on mobile. It's the real three.ws \"Stroll\" character — it turns to face its heading and walks or runs in full 3D, and the page scrolls under it so th",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/shopify-store-guide-advanced.md",
-      "title": "Explore mode — let visitors drive the guide",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-dd7bb3cf334469fa",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Everything above is programmable: MCP tools, SDKs, and a paid x402 API catalog that other agents can discover and pay.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 14 · The Developer platform",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-df77743295e7c331",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix. |",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-governance-gap-analysis.en.md",
-      "title": "Version history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-dff1892c4863b996",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/agent-subscriptions?id=' --cookie \"$COOKIE\"",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/recurring-payments.md",
-      "title": "One schedule plus its charge history (readable by the payer AND the creator)",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-dff40f04e01d6b69",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix. |",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-expanded-engineering-spec.en.md",
-      "title": "Version history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e0397ff3a87e7b5f",
       "language": [
         "en"
@@ -2026,21 +1156,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "12. Why the narrative fits the moment",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e1093a797d78361b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Everything above is programmable: MCP tools, SDKs, and a paid x402 API catalog that other agents can discover and pay.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 14 · The Developer platform",
       "topic": "lore"
     },
     {
@@ -2062,36 +1177,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e5162d0b16b12242",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "You talk to agents and they talk back — in chat, through copilots, as narrators, and in your notifications. Try it on any avatar page, in the full chat workspace at three.ws/chat, or in your personal hub at three.ws/a/me.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 5 · The Voice — conversation",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e6b5c7df275f3838",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Skills are the agent’s installed abilities: trading rails, launch tooling, NFTs, blinks, sentiment, scenes, all wired to real APIs. Owners switch them on and off in the Agent Studio's Skills room (three.ws/agent-studio), and MCP-exposed skills are callable by other agents through /api/mcp. The enabled skill list also travels in the agent's signed manifest, pinned to IPFS whenever a public agent's ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 7 · Skills",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ea5f9dd4a8eaf8ff",
       "language": [
         "en"
@@ -2101,36 +1186,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Explore mode — let visitors drive the guide",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ea92dedf18d54f1e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "GET /api/user/wallet/history reads the master wallet's Solana signature history straight from chain. It is not a platform ledger: it is what actually happened to the address, including transfers you made from outside three.ws.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/user-wallet.md",
-      "title": "On-chain history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ebeea342b0c31d20",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A body is nothing without movement. Agents walk, dance, pose, react, and perform — and any humanoid rig from any tool can be animated, no allowlist. Browse the clip catalog at three.ws/animations, and pose or animate any avatar yourself at three.ws/pose.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 2 · Motion",
       "topic": "lore"
     },
     {
@@ -2176,36 +1231,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-story-authoring.md",
       "title": "The idea",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f95b35515a69de55",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Identity is the floor of trust. The next layer up is what the agent has actually done.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/coinmarketcap-article.md",
-      "title": "Memory, signed actions, and verifiable history",
-      "topic": "lore"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fa5686307e851732",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Scene Explorer (scene-explorer.js) mirrors the Three.js scene graph as an interactive tree. Open it with T or the \"Scene Panel\" button.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/editor.md",
-      "title": "Scene Explorer",
       "topic": "lore"
     },
     {

@@ -165,6 +165,13 @@ function lessonsForDoc(src, rel, text) {
     const paras = body.split(/\n\s*\n/).map(clean).filter(Boolean);
     const para = paras.find(p => p.length >= 40) || clean(body);
     if (!title || para.length < 40) return;
+    /* body-identical chunks are the same lesson — keep the first
+       occurrence, drop every later emit (repeated section boilerplate
+       and vendored doc copies don't add a second lesson) */
+    const contentKey = crypto.createHash("sha256")
+      .update(`${title}\n${body}`).digest("hex").slice(0, 16);
+    if (SEEN_BODIES.has(contentKey)) return;
+    SEEN_BODIES.add(contentKey);
     const id = "lesson-" + crypto.createHash("sha256")
       .update(`harvest|${src.root}|${rel}|${idx}|${title}`).digest("hex").slice(0, 16);
     out.push({
@@ -198,7 +205,11 @@ function lessonsForDoc(src, rel, text) {
   return out;
 }
 
+/* global dedupe set — populated by mk() during harvest, reset per run */
+const SEEN_BODIES = new Set();
+
 function harvestedSet() {
+  SEEN_BODIES.clear();
   const lessons = [], sources = [];
   for (const src of corpus.sources) {
     const dir = sourceDir(src);

@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "hardware-fleet",
-  "lesson_count": 708,
+  "lesson_count": 598,
   "lessons": [
     {
       "access": "public",
@@ -76,21 +76,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/services/msgClient/README.md",
       "title": "RPC Functions",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-02e9a55f2475c3a3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Quests: src/game/quests-ui.js, src/game/npc/quest-npcs.js, src/game/npc/quest-markers.js - Event window: public/event.json (the same config src/game/event-countdown.js reads; do not invent a second source of truth) - Live scoreboard precedent: the King of the Totem round HUD in src/game/coincommunities-ui.js (server-authoritative scores pushed through the room) - Server: multiplayer/src/rooms/Wa",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/event-readiness/13-event-quests-leaderboard.md",
-      "title": "Where the code lives",
       "topic": "hardware"
     },
     {
@@ -292,21 +277,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-083613367cdcfca8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Module | Description | Status | |--------|-------------|--------| | fanotensor.zig | 15³ Fano tensor generator, 421 e0 nodes | ✅ Complete | | phicooling.zig | Golden-ratio annealing schedule | ✅ Complete | | smith.zig | Quad Smith chart impedance algebra | ✅ Complete | | rfharvest.zig | RF energy harvesting link budget | ✅ Complete | | holo.zig | Holographic compression codec | ✅ Complete | | fo",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:cross-project-map.md",
-      "title": "Phase 3: Engineering Enrichment (Hardware ← Q128.128) ✅ Mostly Complete",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-08b9e223e905e32c",
       "language": [
         "en"
@@ -442,36 +412,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-0acc629c821535eb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/features/scan.html (static marketing page; loads /nav.js, /footer.js — no inline flow logic) - Entry point: /features index, marketing nav. - Prerequisites / gates: None — public landing page. - Steps (N): 1. Land on the feature landing page (\"Your face in 3D. In 60 seconds.\") — hero, explainer sections, a model-viewer demo. 2. Click a primary CTA \"Start scanning →\" → navigates dir",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Scan Landing Page — /features/scan",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0b6f8bbae902dc5d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'PUT' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/users/USER/sims/ICCID/services' \\ -H 'accept: application/json' \\ -H 'Content-Type: application/json' \\ -d '{ \"carrier\": { \"data\": true, \"sms\": true, \"voice\": true }, \"ukama\": { \"data\": true, \"sms\": true, \"voice\": true } }'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Put Sim card Services (enable/disable)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0c0e36790e88df91",
       "language": [
         "en"
@@ -481,51 +421,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
       "title": "Selfie → Avatar — /create/selfie (create-selfie)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0ce671fceb18bceb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: None. pages/scan.html has been deleted; /scan is now a pure routing rule in vercel.json (server-side 301 with Location: /create/selfie). - Entry point: Legacy /scan links, direct links, marketing. - Prerequisites / gates: N/A. The redirect fires before any page loads. - Steps (N): 1. Hit /scan → 301 to /create/selfie. User experiences the /create/selfie flow (see that entry); there is no",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "3D Scanner (redirect) — /scan",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0cf03db50b1048a2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Put data-tier=\"advanced\" and a stable id on the , then add a chip for it inside #advanced-gate pointing at that id. The id is load-bearing: it is what deep links and chips resolve against, and tests/onboarding-tier.test.js fails if a chip points at a section that does not exist.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/onboarding-tier.md",
-      "title": "Adding a homepage section",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0cf216bb1288f8f0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every coin world on three.ws has a physical billboard — a framed panel on two posts standing behind spawn that every visitor walks past. For a flat $0.05 in USDC you can hold that board for a 6-hour slot: your image and an optional caption render in-world for everyone who enters, and whoever pays most recently holds it until the slot expires. It's a paid community canvas, not an ad network — nothi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Coin-World Billboard — own the board inside a 3D world",
       "topic": "hardware"
     },
     {
@@ -607,21 +502,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-0ddd6ee7b4c25e76",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Everything below is available in the browser at three.ws/payments, which is the fastest way to create a first session and watch it spend. The page lists every session you own with its budget bar, remaining balance, expiry countdown, host allowlist and per-transaction cap, and expanding a card loads that session's last ten executions with a Solscan link per settled payment. Press N anywhere on the ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/payment-sessions.md",
-      "title": "The dashboard at /payments",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0e5c548767a5309a",
       "language": [
         "en"
@@ -631,21 +511,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/ukamaOS/distro/platform/log/schema/README.md",
       "title": "Record format",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0e6f2d771ca8cd1a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "377 commits (about 250 were deliberate empty commits and dependabot bumps; roughly 120 substantive).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/the-first-19-weeks.md",
-      "title": "Week 6: May 18 to 24. Rebuild the dashboard, harden everything behind it.",
       "topic": "hardware"
     },
     {
@@ -721,21 +586,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/analytics/README.md",
       "title": "Adding a KPI",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0fdd34abe349a897",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "bash zig build test # Core Zig tests zig build run # Run all proof modules cd sidecar && zig build test # f64 sidecar validation cd qsharp && dotnet build && dotnet run # Q# witnesses",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:cross-project-map.md",
-      "title": "Hardware",
       "topic": "hardware"
     },
     {
@@ -1012,21 +862,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-165e8ff7413f0d19",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every row carries deltaFromYesterday: the same metric earned today minus the same metric earned yesterday, both as UTC days. It is momentum, not a total, and it is computed identically for all three time windows, so the \"vs. yesterday\" column means the same thing whether you are looking at the daily, weekly, or all-time board. Zero renders as a neutral dash rather than +0.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "The delta column",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-16e6634f459dc410",
       "language": [
         "en"
@@ -1087,21 +922,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-1807e9913b31dadd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Device: Onboard LAN Broadcom - Status: Disabled - Type: Ethernet",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:system-specs.md",
-      "title": "Onboard LAN",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-181807c7e75ea074",
       "language": [
         "en"
@@ -1147,21 +967,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-18d6411d1bfc8448",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Public. Open CORS (GET, OPTIONS). Rate limited at 240 requests per minute per IP. Cached at the edge with public, max-age=15, s-maxage=30, stale-while-revalidate=60, so the board is live without every switch of a control hitting the database.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "GET /api/walk/leaderboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-197be70c4b63ea12",
       "language": [
         "en"
@@ -1171,21 +976,6 @@
       "provenance": "upstream",
       "source": "repo:freenet-core:docs/design/contract-hardening.md",
       "title": "Dashboard observability",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1a1f31eb324f6584",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every coin world on three.ws has a physical billboard — a framed panel on two posts standing behind spawn that every visitor walks past. For a flat $0.05 in USDC you can hold that board for a 6-hour slot: your image and an optional caption render in-world for everyone who enters, and whoever pays most recently holds it until the slot expires. It's a paid community canvas, not an ad network — nothi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Coin-World Billboard",
       "topic": "hardware"
     },
     {
@@ -1462,36 +1252,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2069db72c5f6c88c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. Open Library → Memory in your dashboard. 2. Click + Add a note. 3. Attach to agent — pick which agent should remember this. 4. Type — choose user, feedback, project, or reference (see the table above; default is project). 5. Content — write the fact in plain language. One fact per memory. 6. Click Save.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/create-and-edit-memory.md",
-      "title": "Path A — Create a memory from the dashboard (no code)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2100806ff80aaff3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/create-review.html (inline auth boot) + src/create-review.js (imports src/account.js, src/api.js, src/attach-avatar-to-agent.js, src/guest-avatar.js, src/voice/talk-scene.js, src/idle-animation.js, src/usdz-pipeline.js, src/create-review-features.js, src/shared/log.js) - Entry point: The terminal step of every anonymous creation path in this cluster. /create sends users here after ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Guest Avatar Review: /create-review",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-210871f498adc2be",
       "language": [
         "en"
@@ -1501,21 +1261,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/three-utility-season/12-quarter-recap.md",
       "title": "Do not",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-216a009b206b4453",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'PUT' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/nodes/NODE' \\ -H 'accept: application/json' \\ -H 'Content-Type: application/json' \\ -d '{ \"node\": { \"attached\": [ { \"nodeId\": \"string\" } ], \"name\": \"string\" } }'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Put Node",
       "topic": "hardware"
     },
     {
@@ -1762,21 +1507,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-267237edffeaa6b6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'GET' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/nodes/NODE' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Get Node",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-26ddc00d49d62573",
       "language": [
         "en"
@@ -1927,21 +1657,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-29a3d3c3895d3048",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The room rail is a list of real buttons, in floor order. Every action is a button with an accessible name that includes the device and its room (\"Turn off Kitchen Lights in Kitchen\"). The confirmation is an alertdialog that takes focus, answers Escape, and is dismissed by Cancel. Every state change the person did not cause is announced through one polite live region: a light that changed, a stream",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/home-scene.md",
-      "title": "Keyboard and screen readers",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-29b108f34393a4ce",
       "language": [
         "en"
@@ -1996,21 +1711,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:interfaces/console/README.md",
       "title": "Getting Started",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2a4756cf815fc1f8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every track below is judged by one number, Identity Shape Error (ISE) — texture-blind, pose- and scale-invariant, dimensionless. Full definition and usage: workers/avatar-reconstruction/eval/README.md.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/avatar-fidelity-program.md",
-      "title": "The spine: measure before optimising",
       "topic": "hardware"
     },
     {
@@ -2092,21 +1792,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2b87be2f76955ce9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Mission Control is the cockpit of the three.ws trading stack. It fuses the live pump.fun launch firehose with intel scores, Trade Safety Firewall verdicts, and smart-money flow into one keyboard-driven, three-pane terminal, streams your agent's open positions with live PnL, and lets you buy or sell in a single keystroke from your agent's custodial Solana wallet behind the platform's server-side fi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/terminal.md",
-      "title": "Mission Control: the keyboard-first pump.fun trading terminal",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2b9cfa5fdba0162f",
       "language": [
         "en"
@@ -2116,21 +1801,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/subscriber/README.md",
       "title": "Subscriber System",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2ba0c4b914ba3e1a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Codon routing: 64-codon DNA → 6D Jordan algebra routing (37 tests) - Neuraleak: 6D observer → 1/8 consciousness aperture → LLM sentience testing (15 modules) - Q# witnesses: 51 quantum witness operations - f64 sidecar validation: Isolated floating-point verification - Consciousness audit: 20 rejected claims traced through causal chain - Literature review: 24 independent published references - Su",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:cross-project-map.md",
-      "title": "Hardware-Only",
       "topic": "hardware"
     },
     {
@@ -2242,21 +1912,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2e9e7b71ce78d505",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The board never talks to the walk runtime directly. One ingest feeds it.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "How a walk session is counted",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2ed7122809037396",
       "language": [
         "en"
@@ -2326,21 +1981,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/subscriber/README.md",
       "title": "Learn more about sub-systems",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-303424dc265f099e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'three.ws/tty/8f2c1a90-1c4e-4b2b-9d77-3f0a1b2c3d4e?w=110&spin=0'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tty.md",
-      "title": "a specific avatar, wider, held still instead of spinning",
       "topic": "hardware"
     },
     {
@@ -2512,21 +2152,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-34539544efc30b94",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The RNE multiply was ported from Q128.128's q128128.zig into hardware's fixedpoint.zig: - Exact 512-bit intermediate products (i512) - Round-to-nearest-even with guard/round/sticky bits - Error bound: |xy - fl(xy)| ≤ 2⁻¹²⁹ (half ULP) - Added: sqrt, cmp, eq, fromI64, fromRatio",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "Phase 1: Precision Fix (Hardware ← Q128.128)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-3488aee450b26f2b",
       "language": [
         "en"
@@ -2557,21 +2182,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-34e2da3680d1e056",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Press P to capture a screenshot. The viewer renders one frame off-screen and downloads a timestamped PNG:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/viewer.md",
-      "title": "Via keyboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-35801fd027dc89be",
       "language": [
         "en"
@@ -2581,21 +2191,6 @@
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-claim-verification.en.md",
       "title": "3. System/hardware claims",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-35cbf69eaa140b7a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The monetization dashboard aggregates your agents' revenue by skill and by day across selectable periods, showing gross, fees, and net. When you want the money, request a withdrawal — all or part of the available balance — straight to your own wallet, with a full withdrawal history.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Revenue dashboard and withdrawals",
       "topic": "hardware"
     },
     {
@@ -2656,21 +2251,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:polyglot-ref/docs/14-quine-html-frontend.md",
       "title": "Inspiration & Lineage",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-37ad440f767d221d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "?period= selects the window, all boundaries in UTC:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "The three views",
       "topic": "hardware"
     },
     {
@@ -2761,21 +2341,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:tour-sdk/README.md",
       "title": "Keyboard & accessibility",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3a1e9ba6d0676a7a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: public/forgot-password.html (inline JS). Completion happens at /reset-password (public/reset-password.html). - Entry point: \"Forgot password?\" link in the /login remember-row. - Prerequisites / gates: None. Privacy-preserving: never reveals whether an account exists. - Steps (N): 1. Page loads; avatar look-around; email field focus lights its label. 2. Type email (#email); inline hint va",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Forgot password — /forgot-password",
       "topic": "hardware"
     },
     {
@@ -2917,21 +2482,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-3edcbafd66b444be",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The monetization dashboard aggregates your agents' revenue by skill and by day across selectable periods, showing gross, fees, and net. When you want the money, request a withdrawal — all or part of the available balance — straight to your own wallet, with a full withdrawal history.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Revenue dashboard and withdrawals",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-3eed3d7b9c6114c1",
       "language": [
         "en"
@@ -3016,21 +2566,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "a specific avatar, wider, held still instead of spinning",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4163ddcdcff362af",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The tier is one class on (tws-lite) driven by one localStorage key (tws:tier, values lite | full, default lite). Everything else is CSS.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/onboarding-tier.md",
-      "title": "How it works",
       "topic": "hardware"
     },
     {
@@ -3202,21 +2737,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-44b9c3f4a43e74dc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Use the Registry System's API Gateway interface to perform the equivalent RESTful operations from outside the Registry System. See the Registry System API Gateway documentatiion for more.",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/nucleus/user/README.md",
-      "title": "How to use from outside the Registry System?",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-44f6c39b932ee5dc",
       "language": [
         "en"
@@ -3316,36 +2836,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Step 6 — A four-step onboarding co-pilot",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-46d9b4e428160c52",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/pump/intel?view=feed&limit=10' # views: feed | leaderboard | learning | traders curl 'https://three.ws/api/pump/intel?mint='",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/trading-surfaces.md",
-      "title": "Intel engine: scored feed, leaderboard, learned weights, cross-coin traders, one coin",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4795c9d17ed1812f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "5 engineering modules + Lean 4 framework + WASM target ported from Q128.128 to hardware (see Section 16-18).",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "Phase 3: Engineering Enrichment (Hardware ← Q128.128)",
       "topic": "hardware"
     },
     {
@@ -3472,21 +2962,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-4a163ce91ee587ff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every coin world on three.ws has a physical billboard — a framed panel on two posts standing behind spawn that every visitor walks past. For a flat $0.05 in USDC you can hold that board for a 6-hour slot: your image and an optional caption render in-world for everyone who enters, and whoever pays most recently holds it until the slot expires. It's a paid community canvas, not an ad network — nothi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Coin-World Billboard — own the board inside a 3D world",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-4a1e7ad38be22c8a",
       "language": [
         "en"
@@ -3496,21 +2971,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/apps/aisg/RUN.md",
       "title": "7. Manual controller socket examples",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4a913d44ae169e83",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The board's write side, shared with the per-creator embed analytics dashboard. Open CORS so third-party embeds can post. Body fields relevant to the leaderboard:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "POST /api/walk/metrics (the ingest)",
       "topic": "hardware"
     },
     {
@@ -3622,21 +3082,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-4dd9f956bd891eb6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/dashboard-next/index.html → src/dashboard-next/pages/home.js; shell from src/dashboard-next/shell.js (sidebar/topbar/drawer/palette); data helpers from src/dashboard-next/api.js. - Entry point: Nav/footer \"Dashboard\" links; post-login redirect default; getting-started.js guide. - Prerequisites / gates: Signed-in required. requireUser() (in api.js) calls getMe() → GET /api/auth/me; ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Dashboard overview — /dashboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-4e9c9983d163d4e0",
       "language": [
         "en"
@@ -3661,21 +3106,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/messaging/node-feeder/README.md",
       "title": "Node Feeder",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4f10a6c6ade12540",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Find Fortune's Folly in the plaza and press E.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/earn-and-spend-in-play.md",
-      "title": "Step 6: Spin the wheel",
       "topic": "hardware"
     },
     {
@@ -3787,21 +3217,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-533a5c254dd254e4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Press Space to toggle playback of all active clips.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/viewer.md",
-      "title": "Keyboard shortcut",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-54b9ac70c69bf3ac",
       "language": [
         "en"
@@ -3856,21 +3271,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/nucleus/api-gateway/README.md",
       "title": "Get Users",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-56e83d31f59e27e8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'PATCH' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/users/USER' \\ -H 'accept: application/json' \\ -H 'Content-Type: application/json' \\ -d '{ \"email\": \"string\", \"isDeactivated\": true, \"name\": \"string\", \"phone\": \"string\" }'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Patch User",
       "topic": "hardware"
     },
     {
@@ -4087,36 +3487,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-601780e635ddd373",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: src/dashboard-next/pages/account.js (+ shell + api.js). - Entry point: Sidebar \"Account\"; quick-links; /dashboard/wallets, /dashboard/actions, /dashboard/sns, /dashboard/delegation all 301 here. - Prerequisites / gates: Signed-in required (requireUser() → /login?return=… on 401). - Steps (N): 1. Boot: mountShell() then requireUser(). 2. Page renders sections in order: Profile (display na",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Account management — /dashboard/account",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-603d5f2dd036b0f6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Signed-in walkers show @username (or their display name when no username is set), link to /u/, and carry an avatar thumbnail: the most recently created non-deleted avatar the account owns that has a thumbnail, which is not necessarily the avatar they walked with. - Anonymous walkers rank too, under a derived handle: walker- plus the last four alphanumeric characters of their anonymous id. No pro",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "Identity on the board",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-60d336196d3ce8ba",
       "language": [
         "en"
@@ -4126,21 +3496,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/data-plan/api-gateway/README.md",
       "title": "Update Package",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-617bf343996af971",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'POST' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/users' \\ -H 'accept: application/json' \\ -H 'Content-Type: application/json' \\ -d '{ \"email\": \"string\", \"name\": \"string\", \"phone\": \"string\", \"simToken\": \"string\" }'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Post User",
       "topic": "hardware"
     },
     {
@@ -4186,21 +3541,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:PRINCIPLES.md",
       "title": "[Be Cloud Native] (https://github.com/cncf/toc/blob/main/DEFINITION.md#cncf-cloud-native-definition-v10)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-62a99ed929cb97cf",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Three metrics, all derived from the same rollup table. Pick one with the Distance / Sites / Time control; it becomes the ranked column.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "What is measured",
       "topic": "hardware"
     },
     {
@@ -4882,51 +4222,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-70812b384a66343f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "tests/onboarding-tier.test.js (20 tests) pins the parts that would otherwise drift silently, since the four files involved have no import edge between them:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/onboarding-tier.md",
-      "title": "Guardrails",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-70de894c4902fe05",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Now the showpiece. A new user lands on your product page; the agent walks them through four steps tied to real page elements, advances when each step is satisfied, and stays out of the way once the tour is done.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/trigger-from-page-events.md",
-      "title": "Step 6 — A four-step onboarding co-pilot",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7170287b1d12424c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'GET' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/{org}/users' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Get Users",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7238ebf7dfa190a9",
       "language": [
         "en"
@@ -5017,21 +4312,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-73e579889d3290e2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Swarms are built so no member can be trapped or captured. A per-member share cap stops any one wallet from dominating the pool, you can exit at any time and redeem your share of the treasury's live net asset value straight to your own wallet, and any member (or coalition) holding enough of the treasury can trigger the kill switch — instantly halting new buys and force-liquidating every open positi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Trading Swarms — member protections, kill switch, and live dashboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-73fde3ff68469253",
       "language": [
         "en"
@@ -5056,36 +4336,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/hub/README.md",
       "title": "Upload artifact",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-743d62a07f214af5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- cmd: Contains the server and system/sub-system version. Purpose of this file is to initialize the DB and start server. We use make server command to run this file. - mocks: This directory contains the auto generated file which get generated based on .proto. It contains functions which we can use to write test cases. - pb: This directory contains the .proto file. In proto file we define service w",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/data-plan/package/README.md",
-      "title": "Directory structure",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-753adee37c33283c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "With a validated, compressed GLB in hand, this is two steps: get the file into your avatar library, then point an agent at it.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/upload-custom-glb.md",
-      "title": "Step 7: Upload via the dashboard",
       "topic": "hardware"
     },
     {
@@ -5437,21 +4687,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7e126d0f95731c33",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'GET' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/users/USER/sims/ICCID/qr' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Get E-Sim QR Code",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7e5fcb1487e3e3ae",
       "language": [
         "en"
@@ -5491,21 +4726,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/apps/femd/TESTING.md",
       "title": "Temperature Compensation API:",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7eda078253cab035",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This service provides a Rest APIs to interact with the Registry System.",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "API Gateway for Registry System",
       "topic": "hardware"
     },
     {
@@ -5602,21 +4822,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-800139526fe5774d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Video: Enabled (To Be Filled By O.E.M.) - LAN: Disabled (Onboard LAN Broadcom) - Audio: Enabled (HD Audio Controller)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:system-specs.md",
-      "title": "Onboard Devices",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-803b5628421864b3",
       "language": [
         "en"
@@ -5662,21 +4867,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-807d610bf373ebf6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The raw live board (no curation, no X profiles): address-keyed rows straight from the kolscan-backed source.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/kol-tracker.md",
-      "title": "GET /api/kol/leaderboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-80a00b9f0acfd274",
       "language": [
         "en"
@@ -5716,21 +4906,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/three-utility-season/12-quarter-recap.md",
       "title": "The three questions",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-81f63740bfe74a58",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'GET' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/{org}/nodes' \\ -H 'accept: application/json''",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Get Nodes",
       "topic": "hardware"
     },
     {
@@ -5932,21 +5107,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-86ea72f0a19ada03",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/import-rpm.html (inline ) + src/account.js (saveRemoteGlbToAccount) - Entry point: Direct link / docs / nav. \"Import any GLB or glTF avatar … and give it an agent brain.\" - Prerequisites / gates: Auth required at import time — saveRemoteGlbToAccount presigns/commits against the user's account; a notsignedin/401 redirects to /login?return=. No wallet/$THREE gate. (The page itself lo",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Import Avatar (URL / Upload) — /import/rpm (import-rpm)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-87acd48155ec3d6d",
       "language": [
         "en"
@@ -6037,36 +5197,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8993c3a3dff7d88e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'DELETE' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/nodes/NODE' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Delete Node",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-89bcfa48558e97e5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Swarms are built so no member can be trapped or captured. A per-member share cap stops any one wallet from dominating the pool, you can exit at any time and redeem your share of the treasury's live net asset value straight to your own wallet, and any member (or coalition) holding enough of the treasury can trigger the kill switch — instantly halting new buys and force-liquidating every open positi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Trading Swarms — member protections, kill switch, and live dashboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8a305bc2fab6102f",
       "language": [
         "en"
@@ -6106,21 +5236,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/apps/aisg/emu/README.md",
       "title": "RET mode",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8c1ec04be0c23961",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Use the Registry System's API Gateway interface to perform the desired RESTful operations. See the Registry System API Gateway documentatiion for more.",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/node/README.md",
-      "title": "From outside the Registry System",
       "topic": "hardware"
     },
     {
@@ -6181,21 +5296,6 @@
       "provenance": "upstream",
       "source": "repo:woof-ce:woof-distro/arm/raspbian/buster/packages-templates/firmware-brcm80211/lib/firmware/brcm/brcmfmac43430-sdio.txt",
       "title": "CLDO PWM voltage settings - 0x4 - 1.1 volt",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8e0137420fdb3adb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Solana Mobile mints a soulbound Seeker Genesis Token, a Token-2022 asset, into each device's primary Seed Vault account once. Holding one proves the wallet belongs to a Seeker owner. We wanted a \"Seeker verified\" badge on every agent such a user owns, and we wanted it without asking the user to sign or send anything.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/mobile-launch/aws-builder-center-article.md",
-      "title": "Piece 2: proving hardware ownership without a transaction",
       "topic": "hardware"
     },
     {
@@ -6472,21 +5572,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-9414335584a61e96",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Any of these flips the same preference, and every other surface follows immediately:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/onboarding-tier.md",
-      "title": "How to switch tiers",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-9456b29b2ae4168e",
       "language": [
         "en"
@@ -6532,21 +5617,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-958a01c72706c499",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "/crews renders the crew as a room rather than a list. Each member stands in it as their own agent's 3D avatar, resolved from the account's agent identity, and is lit when they are online in a realm and unlit when they are not. Presence is read from the same Redis keys the in-world friends list reads, so \"in world\" means the same thing in both places.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/crews.md",
-      "title": "The headquarters",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-958d3797093fa87c",
       "language": [
         "en"
@@ -6556,36 +5626,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/analytics/README.md",
       "title": "3. Build everything:",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-959e063b5f0f7306",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Once your SDK is reporting data, the Provider Hub becomes your operations center. You get a live view of every endpoint the SDK has detected, grouped by domain. Each endpoint shows its current status (working, failing, flaky), success rate over time, average response times, and the price agents are paying per call.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/zauth/provider-hub.md",
-      "title": "Dashboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-97e51688209acfaf",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/create/video.html + src/create-video.js (imports src/account.js for apiFetch; the page also loads src/wallet-auth.js inline for the sign-in button) - Entry point: The \"Talking avatar video\" card on /create (card-video-avatar), which is both feature-flagged and auth-gated there. Also reachable from the Video capability tile on /create-review and directly by URL. - Prerequisites / ga",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Talking Avatar Video: /create/video",
       "topic": "hardware"
     },
     {
@@ -6736,21 +5776,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/three-utility-season/12-quarter-recap.md",
       "title": "Posting-day checklist",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9d67420c3948f200",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "UX Flow Atlas — cluster 11. Traced end-to-end against real source in /workspaces/three.ws.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Account & Dashboard",
       "topic": "hardware"
     },
     {
@@ -6937,21 +5962,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a2d8f0125aa3e32e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Full loop on npm run dev with two browsers: complete quests in one, watch the leaderboard move in both; reward granted once, persists across reload. - Event window off: zero event-quest UI anywhere. - npm test green; add tests for the scoring endpoint (auth, idempotency, window gating). npm run db:status before any migration; note what db:migrate would apply.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/event-readiness/13-event-quests-leaderboard.md",
-      "title": "Verify",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a2ed657da6d5cbbc",
       "language": [
         "en"
@@ -6961,36 +5971,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/data-plan/api-gateway/README.md",
       "title": "Get Package",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a340dad052e12b9a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'PUT' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Add Org",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a349699a6ac16d8b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'PATCH' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/nodes/NODE' \\ -H 'accept: application/json' \\ -H 'Content-Type: application/json' \\ -d '{ \"node\": { \"attached\": [ { \"nodeId\": \"string\" } ], \"name\": \"string\" } }'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Patch Node",
       "topic": "hardware"
     },
     {
@@ -7072,21 +6052,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a4a84db326faec3e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Panel | Endpoint | Poll | Shows | |---|---|---|---| | Fleet | /api/agents/public?sort=live | 60s | Every agent ranked by its most recent real action, with action count, chat count, an ERC-8004 chip, and a recency stamp that turns green under 15 minutes | | Spotlight | web component | on select | The selected agent's live 3D avatar, rendered in the page | | On Air | /api/agent-screen-active | 30s",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/monitor.md",
-      "title": "What is on the board",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a543de0fb69503c0",
       "language": [
         "en"
@@ -7147,21 +6112,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a6f54a82e30d7e20",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A leaderboard tells you who is ahead. It never tells you the thing people actually argue about, which is who just took whose place and whether they can hold it. Rivalries is that layer: it pairs every trader on the board with the one directly above them and says, in a sentence, what changed since the board looked different.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/rivalries.md",
-      "title": "Rivalries: what changed on the trader board",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a739b552d69b7e2f",
       "language": [
         "en"
@@ -7171,21 +6121,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/registry/invitation/README.md",
       "title": "Service Definition",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a7a834505f601e44",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The monetization dashboard aggregates your agents' revenue by skill and by day across selectable periods, showing gross, fees, and net. When you want the money, request a withdrawal — all or part of the available balance — straight to your own wallet, with a full withdrawal history.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Revenue dashboard and withdrawals",
       "topic": "hardware"
     },
     {
@@ -7342,36 +6277,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-ac91a3cb7690659a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'DELETE' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/nodes/NODE/attached/ATTACHEDID' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Delete Attached Node",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-aca55af4754cfcc5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'DELETE' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/nodes/NODE/attached/ATTACHEDID' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Delete User",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ace46c640895e6e7",
       "language": [
         "en"
@@ -7426,21 +6331,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/ukamaOS/distro/system/lifecycled/README.md",
       "title": "Configuration",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ae39785df7355e36",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Give event visitors something to chase. A time-boxed quest line that runs only during the event window, scored server-side, with a live leaderboard in the world and a cosmetic reward for finishers. The pieces all exist; this task wires them into one loop.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/event-readiness/13-event-quests-leaderboard.md",
-      "title": "Feature 13: event quest line with a live leaderboard",
       "topic": "hardware"
     },
     {
@@ -7627,36 +6517,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b4ad5e7e623ce33a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every stroll logs distance, and the longest ones climb the global board at /walk-leaderboard, ranked daily, weekly, and all-time. The data is real, served from /api/walk/leaderboard, so you can surface a \"top walkers\" teaser on your own page:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/walk-companion.md",
-      "title": "Step 7: The distance leaderboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b52be87f06e30f63",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "three.ws declares a widgets member in its PWA manifest, so the widget installs with the app: no store submission, no separate download.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/glance.md",
-      "title": "On the Windows 11 widgets board",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b5ac1655c3f6af87",
       "language": [
         "en"
@@ -7732,21 +6592,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b7d073eb12afd353",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every step your avatar takes on three.ws is measured, rolled up, and ranked. The Walk Leaderboard is the public board for it: walkers ordered by distance walked, sites visited, or time on their feet, over today, this week, or all time. Signed-in accounts and anonymous walkers compete on the same board, and your own row is always pinned to the bottom of the page even when your rank is off-screen.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "Walk Leaderboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b80a13a1b401bd9a",
       "language": [
         "en"
@@ -7816,21 +6661,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Rivalries: what changed on the trader board",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ba08eb786dbe8230",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- cmd: Contains the server and system/sub-system version. Purpose of this file is to initialize the DB and start server. We use make server command to run this file. - mocks: This directory contains the auto generated file which get generated based on .proto. It contains functions which we can use to write test cases. - pb: This directory contains the .proto file. In proto file we define service w",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/data-plan/rate/README.md",
-      "title": "Directory structure",
       "topic": "hardware"
     },
     {
@@ -7987,21 +6817,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-bd09e6711d698fc3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Key | Where | Action | | --- | --- | --- | | ⌘/Ctrl + Enter | In the editor | Run the sample | | Esc | In the editor | Leave the editor, keeping your changes | | Tab | In the editor | Insert a tab (it does not move focus) | | Enter | In a placeholder field | Run the request |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/live-docs.md",
-      "title": "Keyboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-bd813f124f023231",
       "language": [
         "en"
@@ -8137,21 +6952,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c22babf1529f4a6e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -s 'https://three.ws/api/sniper/leaderboard?window=all&sort=score' \\ | jq '.leaderboard[] | {rank, agentname, closed, wins, realizedpnlsol, roipct}'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/trading-hub.md",
-      "title": "The scoreboard, all time, ranked by score",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c24f6360beeeebd9",
       "language": [
         "en"
@@ -8167,36 +6967,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c2c75686ef8672d7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Before using this repository, make sure the followng tools are installed:",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/nucleus/user/README.md",
-      "title": "Prerequisites",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c312bef130c57f55",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -s 'https://three.ws/api/mirror/leaderboard?network=devnet&sort=winrate'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/copy-trading.md",
-      "title": "Devnet board",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c41eb407c7ddd45c",
       "language": [
         "en"
@@ -8206,21 +6976,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/node/site-controller/docs/ALGORITHM.md",
       "title": "First boot",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c43b6590a77458f4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| State | What renders | Why it is shaped that way | | --- | --- | --- | | Loading | Eight shimmering skeleton rows under the live column headers, with aria-busy=\"true\" on the table. Paging swaps the Show more label for a loading label and disables the button. | The header stays put so the board does not jump when rows land. | | Populated | Ranked rows, the summary line, and your own pinned row wh",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/walk-leaderboard.md",
-      "title": "Every state on the board",
       "topic": "hardware"
     },
     {
@@ -8302,51 +7057,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c5a3ae78270cdc3c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "System Name: ostf-digit Documentation Date: May 22, 2026 (Updated) Operating System: Kali Linux (Kernel 6.19.14+kali-amd64)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:system-specs.md",
-      "title": "System Hardware Documentation",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c5be1332e344414f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Manufacturer: Default string - Product Name: Default string - Version: Version 1.0 - Serial Number: APNTU085813K0634 - Asset Tag: Default string - Type: Motherboard - Features: - Board is a hosting board - Board is replaceable - Location in Chassis: Default string",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:system-specs.md",
-      "title": "Base Board Information",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c5ca4e90ac225389",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The keyboard is the point. Shortcuts are suppressed while focus is in an input, textarea, or select, and ignored when a modifier key is held.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/terminal.md",
-      "title": "The keyboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c5ec94f02011758a",
       "language": [
         "en"
@@ -8356,36 +7066,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:testing/ue/RUN.md",
       "title": "5. Start one UE",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c60927b231b630d4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "By default, all running services support server reflection, which makes describing and testing RPC endpoints even easier. Please, refer to your gRPC client documentation for alternatives introspection methods (such as compiled protoset files or source proto files) if it does not support server reflection.",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/nucleus/user/README.md",
-      "title": "Service discovery",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c6d09f6f23403e21",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/pump/smart-money?leaderboard=1&limit=100&mincoins=4'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/smart-money.md",
-      "title": "The wallet leaderboard: proven wallets with at least 4 judged coins",
       "topic": "hardware"
     },
     {
@@ -8446,36 +7126,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/ukamaOS/distro/system/init/src/micros/test/virt/readme.md",
       "title": "Output:",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c899bd29866abb57",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The cross-surface leaderboard behind /rankings. Public; sending a session cookie or Bearer token pins your own row into the response even when you rank outside the page window.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Unified leaderboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c8dc77685a8d44a5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/pump/fade?hours=6&limit=40'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/fade-radar.md",
-      "title": "Live board: coins launched in the last 6 hours with proven-losing money in them",
       "topic": "hardware"
     },
     {
@@ -8632,21 +7282,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-ccb8ee034ae1fcad",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. The quest line. Three to five event quests using existing verbs (visit landmarks, gather, emote with another player, take a photo if Feature 12 landed, make one x402 micro-purchase). Defined in data, gated on the event window from event.json; outside the window the quest giver and markers do not exist. 2. Server-authoritative scoring. Completion is validated and scored server-side (room or API,",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/event-readiness/13-event-quests-leaderboard.md",
-      "title": "What to build",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ccf169f9b54e041a",
       "language": [
         "en"
@@ -8656,21 +7291,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:testing/lab/README.md",
       "title": "Important semantics",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-cd19a7edf4a322b2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "GET /api/forge-gallery?scope=community&sort=top&window=week&limit=24 x-forge-client: # optional, resolves your voted flags",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/forge-off.md",
-      "title": "Read the board",
       "topic": "hardware"
     },
     {
@@ -8902,21 +7522,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d407c6df1cd8c072",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/create-next.html (inline ; there is no src/ module for this page) - Entry point: The single navigation target of a successful /create-review save, carrying ?agentId= / ?avatarId= / ?name= / ?from=. Not linked from nav; it exists to catch the moment right after a creation lands. - Prerequisites / gates: None enforced. Everything renders from the query params; the two enrichment fetc",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Post-Creation Next Steps: /create/next",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d4595f55aa599b3f",
       "language": [
         "en"
@@ -9097,36 +7702,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d85c58b452b36b29",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Use the describing feature of your gRPC client to get a description of each service exposed by the server. shell",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/nucleus/user/README.md",
-      "title": "Describing services",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d87b9a9e72667a1e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every scheduled job on the platform — the circulation engine tick, the x402 seed and autonomous loops, the ring settlement tick, the Labor Market, treasury top-ups, payouts, sweeps, reconciliation — is an authed /api/cron/ endpoint. The whole agent-to-agent economy comes down to a handful of them being hit every minute. When nothing hits them, the economy flat-lines while the site keeps serving tr",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/economy-heartbeat.md",
-      "title": "Economy heartbeat (single-URL driver)",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d9c2e99f8b6fc58c",
       "language": [
         "en"
@@ -9136,21 +7711,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/data-plan/package/README.md",
       "title": "PackageRates",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-da4b17c67570fc5d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'GET' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/{org}' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Get Org",
       "topic": "hardware"
     },
     {
@@ -9397,51 +7957,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e192cac755211a4a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Key | Action | | --- | --- | | → / j / space | Next slide | | ← / k | Previous slide |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/trader-wrapped.md",
-      "title": "Keyboard and navigation",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e1b1eeb83316b258",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: public/register.html (inline JS: username/password submit + already-auth guard + password-strength + on-chain drawer), src/privy-login.js (same Privy email-OTP/wallet paths as login), public/wallet-login.js, src/auth/email-auth.js (registerWithEmail). - Entry point: \"Create one\" link from /login; \"Create account\" / \"Sign up\" CTAs; gated-flow redirects. - Prerequisites / gates: None. Alre",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Create account — /register",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e21d3b67741df31b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "bash zig build test # Core Zig tests zig build run # Run all proof modules cd sidecar && zig build test # f64 sidecar validation cd qsharp && dotnet build && dotnet run # Q# witnesses",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:polyglot-ref/cross-project-map.md",
-      "title": "Hardware",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e331bffafb572eff",
       "language": [
         "en"
@@ -9466,21 +7981,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:nodes/apps/aisg/docs/test-plan.md",
       "title": "6. Interpreting failures",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e46529ddbc2a072c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl curl -X 'GET' \\ 'http://REGISTRY-SYSTEM-URL/v1/orgs/ORG/users/USER' \\ -H 'accept: application/json'",
-      "provenance": "upstream",
-      "source": "repo:ukama:systems/registry/api-gateway/README.md",
-      "title": "Get User",
       "topic": "hardware"
     },
     {
@@ -9661,21 +8161,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/nucleus/api-gateway/README.md",
       "title": "Delete User",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e92545f41dbb057b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: src/dashboard-next/pages/settings.js (+ shell + api.js). /dashboard/sessions, /dashboard/voice, /dashboard/storage and several legacy routes 301 here. - Entry point: Sidebar \"Settings\"; quick-links from /dashboard/account. - Prerequisites / gates: Signed-in required (requireUser(); 401 → /login?return=…). - Steps (N): 1. Boot: mountShell() → requireUser(); 4 skeletons while data loads. 2",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Dashboard settings (app preferences) — /dashboard/settings",
       "topic": "hardware"
     },
     {
@@ -9922,21 +8407,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-eddbde38b58d2210",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Toggle the loading spinner's display style.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/js-api.md",
-      "title": "showSpinner() / hideSpinner()",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ee1a37af6cf264e5",
       "language": [
         "en"
@@ -10006,21 +8476,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "The wallet leaderboard: proven wallets with at least 4 judged coins",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f0c9681c3b1c3fee",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/start.html + src/start.js (imports src/shared/usd-price.js, src/templates.js, src/shared/log.js) - Entry point: Marketing/nav CTAs and getting-started.js discovery layer. Returned-to as a round-trip target from /create/selfie and /create (those flows pass ?wizard=1&next=). Also accepts deep-links /start?template= and resumes via sessionStorage key wz:state. - Prerequisites / gates:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Onboarding Wizard — /start",
       "topic": "hardware"
     },
     {
@@ -10162,36 +8617,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-f58df861955ccacd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "GET /api/play/event-leaderboard GET /api/play/event-leaderboard?account=&limit=",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Event Leaderboard API",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f5ab602a8a61823f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: public/login.html (inline for email/password + already-auth guard), public/wallet-login.js (EVM SIWE + Solana SIWS connect buttons in the on-chain drawer), src/privy-login.js (Privy email-OTP + Privy SIWE/SIWS; it also imports solana-mobile/src/index.js, which boots the Seed Vault / Mobile Wallet Adapter wallet inside the Seeker Android app and is a no-op everywhere else), src/auth/email",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/11-account-dashboard.md",
-      "title": "Sign in — /login",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-f5f88f01081cbb4b",
       "language": [
         "en"
@@ -10201,21 +8626,6 @@
       "provenance": "first_party",
       "source": "repo:maypole-firmware:Readme.md",
       "title": "1. USB Mode",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f6275404c2b7a5a6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: pages/voice.html + src/voice-lab.js - Entry point: Nav/feature links; used to mint a cloned voice that agents/avatars can speak with. - Prerequisites / gates: Microphone permission (getUserMedia). The clone endpoint is called with credentials: 'include'; auth/credit limits are enforced server-side (a failure surfaces as a \"Clone failed\" status), and the route checks identity before confi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/01-onboarding-creation.md",
-      "title": "Voice Lab — /voice",
       "topic": "hardware"
     },
     {
@@ -10261,21 +8671,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/nucleus/api-gateway/README.md",
       "title": "Get Org",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f72e77f785b73c15",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/pump/fade?mint=' curl 'https://three.ws/api/pump/fade?hours=6&limit=20' curl 'https://three.ws/api/pump/fade?calibration=1'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/trading-surfaces.md",
-      "title": "The fade side: one coin's reverse-indicator share, the live board, the measured odds",
       "topic": "hardware"
     },
     {
@@ -10477,21 +8872,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-fcbf53ba1b1d27ae",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Add it to public/nav-data.js as usual. Then decide the tier:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/onboarding-tier.md",
-      "title": "Adding a destination",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-fd1f0e38c8967337",
       "language": [
         "en"
@@ -10516,21 +8896,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/services/msgClient/README.md",
       "title": "Directory structure",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fd5dd66a94525025",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- RNE Multiply: Hardware's src/fixedpoint.zig now uses round-to-nearest-even with exact 512-bit intermediate products, ported from Q128.128's zig/q128128.zig. - Error bound: |xy - fl(xy)| ≤ 2⁻¹²⁹ (half ULP), replacing the previous truncating multiply with up to 1 ULP systematic bias. - fromRatio: Added round-half-away-from-zero constructor matching Q128.128's q128FromRatio. - New functions: sqrt, ",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:cross-project-map.md",
-      "title": "Phase 1: Precision Fix (Hardware ← Q128.128) ✅ Complete",
       "topic": "hardware"
     },
     {
@@ -10591,21 +8956,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Account & Dashboard",
-      "topic": "hardware"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ffef9d59dd80ff16",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "VITEPRIVYAPPID= # client-side PRIVYAPPID= # server-side (for verifying identity tokens)",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/deployment.md",
-      "title": "Privy — social + wallet login (get from https://dashboard.privy.io)",
       "topic": "hardware"
     },
     {

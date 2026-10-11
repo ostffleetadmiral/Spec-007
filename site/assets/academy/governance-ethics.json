@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "governance-ethics",
-  "lesson_count": 304,
+  "lesson_count": 216,
   "lessons": [
     {
       "access": "public",
@@ -16,21 +16,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/avatar-artifact.md",
       "title": "Avatar Artifact: the standalone viewer",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0240a2c476de1b00",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system operates on a finite discrete state space. Using i256/Q128.128 fixed-point representation:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/coherent-system.md",
-      "title": "1.4 Numerical Foundation",
       "topic": "ethics"
     },
     {
@@ -82,21 +67,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-065b1478e58b8e7e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
-      "title": "Our Pledge",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0858ecf5d87716d2",
       "language": [
         "en"
@@ -106,21 +76,6 @@
       "provenance": "first_party",
       "source": "repo:space-agent:app/L0/_all/mod/_core/skillset/ext/skills/development/modules-routing/SKILL.md",
       "title": "Mandatory Doc Follow-Up",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-08c70a82a4a39841",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Knock is a priced door to a person. You publish it, you set what one message from a stranger costs, and the price does the filtering: someone who genuinely needs you buys thirty seconds for a nickel, and a spammer cannot buy a million of them. Delivery is not a badge on a tab you will get to later. The recipient's 3D companion walks on screen wherever they are on the site and says who is at the do",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/coinmarketcap-article-2026-09-agent-economy.md",
-      "title": "A stranger's attention, refundable",
       "topic": "ethics"
     },
     {
@@ -142,21 +97,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-09c4f0e889d91092",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Value/Formula | Physics Connection | Chunk | |---|---|---|---| | State space | Q128.128, 2^256 states | Finite discrete universe model (Bekenstein bound 10^77) | 01 | | Algebraic seed | 0^0 = i | Origin state → imaginary unit (phase, not magnitude) | 08, 12 | | Octonion basis | e0..e7 → e0/e8 closure | Non-associative 8D algebra; related to G2, F4, E6, E7, E8 | 12 | | Dimensional depth",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/unified-system-map.md",
-      "title": "2.1 Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0b80acc5b3836c4f",
       "language": [
         "en"
@@ -166,21 +106,6 @@
       "provenance": "first_party",
       "source": "repo:space-agent:app/L0/_all/mod/_core/skillset/ext/skills/development/backend-reference/SKILL.md",
       "title": "Hard Boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0bd744a5be9187e0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Tapping the chip opens a right-docked drawer with the full agenda (past segments dimmed, the running one highlighted, future ones counting down in local time), a live $THREE pulse row (price, 24 h change, market cap from /api/three-signal, hidden entirely if that data is unavailable), a commemorative photo action, and a Buy $THREE button that opens /play's existing on-chain trade widget. Escape cl",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/play-live-events.md",
-      "title": "The agenda drawer",
       "topic": "ethics"
     },
     {
@@ -262,51 +187,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-13fbbab956beb883",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community Impact: A serious violation of community standards, including sustained inappropriate behavior.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
-      "title": "3. Temporary Ban",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1489f3df9e26c81d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "All three layers share the Möbius transformation as boundary operator:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/unified-system-map.md",
-      "title": "5.3 The Möbius Boundary Spine",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1542361e3f37b4c5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/literature-review-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-163aeb36a6e0d704",
       "language": [
         "en"
@@ -346,51 +226,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/gated/solana-foundation-grant.md",
       "title": "9. Form answers (copy-ready)",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-186e5aed42842675",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Merkle, LLC (NullTX, nulltx.com) — notice received 2026-07-19 through the Google Search Console legal channel; Lumen notice 15710816. 24 story pages reproduced the titles and substantially the full body text of the corresponding nulltx.com articles. The claim was correct: the reader rendered the extracted body under our own canonical URL. All 24 ids are in TAKEDOWNIDS, nulltx was removed from ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "Removal history",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-19713641c8147d68",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This project has adopted the Amazon Open Source Code of Conduct. For more information see the Code of Conduct FAQ or contact opensource-codeofconduct@amazon.com with any additional questions or comments.",
-      "provenance": "upstream",
-      "source": "repo:agent-builder:CONTRIBUTING.md",
-      "title": "Code of Conduct",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1b203b5ab7a0457f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system operates on a finite discrete state space. Using i256/Q128.128 fixed-point representation:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/codon-integration-20260912/coherent-system.md",
-      "title": "1.4 Numerical Foundation",
       "topic": "ethics"
     },
     {
@@ -487,21 +322,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-212ea2f857c7bc48",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
-      "title": "Enforcement Responsibilities",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-214b4c4451db05e4",
       "language": [
         "en"
@@ -592,21 +412,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-29484daa594f20b6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Run Option A. Add Option C as a side division if we want the developer audience too, and make the last day Option B if IBM can supply a room.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ibm-next-event.md",
-      "title": "Recommendation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2a85be43fff4619b",
       "language": [
         "en"
@@ -622,36 +427,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2aec3b0dadcb5e54",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "No covered work shall be deemed part of an effective technological measure under any applicable law fulfilling obligations under article 11 of the WIPO copyright treaty adopted on 20 December 1996, or similar laws prohibiting or restricting circumvention of such measures.",
-      "provenance": "upstream",
-      "source": "repo:freenet-core:crates/fdev/LICENSE.md",
-      "title": "3. Protecting Users' Legal Rights From Anti-Circumvention Law.",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2bf78808709aeae1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- TAKEDOWNIDS — individual stories removed at a rightsholder's demand, keyed by the 16-hex story id that appears in /markets/news//. - RESTRICTEDSOURCEKEYS / RESTRICTEDHOSTS — publishers withdrawn entirely, matched by source key and by link hostname so archived records are caught even when their schema predates the key.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "Withdrawn stories and publishers",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2c81d89f61979f0d",
       "language": [
         "en"
@@ -661,21 +436,6 @@
       "provenance": "upstream",
       "source": "repo:ukama:CODE_OF_CONDUCT.md",
       "title": "3. Temporary Ban",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2d9b9d854ca3b733",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "If three.ws is showing more of your work than you want it to, you do not need to file anything formal first. Email dmca@three.ws with the URLs and we will remove them, and we will honour a request to drop your publication from the aggregator entirely.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "If you are a publisher",
       "topic": "ethics"
     },
     {
@@ -721,21 +481,6 @@
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-science-coverage.en.md",
       "title": "§7 Instrumented cognition & foundations",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-30f95e89ce250521",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community Impact: A violation through a single incident or series of actions.",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "2. Warning",
       "topic": "ethics"
     },
     {
@@ -847,81 +592,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-3c5cc94953445a2b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/gap-closure-20260912/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3e0f08e792e0187f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | Reflection Coefficient | Physical Meaning | |---|---|---| | $z = 0$ | $\\Gamma = -1$ | Short circuit | | $z = 1$ | $\\Gamma = 0$ | Matched | | $z \\rightarrow \\infty$ | $\\Gamma = +1$ | Open circuit |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/.devin/memories/chunk-18_smith-chart-mobius.md",
-      "title": "Boundary Endpoints",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3e5a5f58906de189",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every package in packages/ ships to up to three destinations: npm, the official MCP registry (MCP servers only), and its own standalone GitHub repo. All steps are idempotent and default to a safe dry run, so re-running after a network drop or a rate limit picks up where it stopped.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/contributing.md",
-      "title": "Publishing packages & standalone mirrors",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3e69171011b7b036",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/scaling-analysis-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3e89f035970a4f63",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Value/Formula | Physics Connection | Chunk | |---|---|---|---| | State space | Q128.128, 2^256 states | Finite discrete universe model (Bekenstein bound 10^77) | 01 | | Algebraic seed | 0^0 = i | Origin state → imaginary unit (phase, not magnitude) | 08, 12 | | Octonion basis | e0..e7 → e0/e8 closure | Non-associative 8D algebra; related to G2, F4, E6, E7, E8 | 12 | | Dimensional depth",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:unified-system-map.md",
-      "title": "2.1 Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-3ec838dfd5f2267c",
       "language": [
         "en"
@@ -946,21 +616,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Secondary readings",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3fec1d9f4f500e7d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
       "topic": "ethics"
     },
     {
@@ -1057,21 +712,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-43e22f4a6f46485f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Formula | Physics Connection | Chunk | |---|---|---|---| | 15-layer offsets | [1,2,3,4,5,6,7,0,7,6,5,4,3,2,1] | Reversal symmetry; sum = 56 = 7×8 | 17 | | Möbius reversal | Discrete analogue of Möbius closure | oi = o{14-i}; single fixed point at center | 17 | | Smith chart | Γ = (z-1)/(z+1) | Impedance matching → EM coupling | 18 | | Fine-structure α | α = Z0/(2RK) | EM coupling const",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/unified-system-map.md",
-      "title": "2.4 Symmetry and Boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-451e8699b73bde69",
       "language": [
         "en"
@@ -1126,21 +766,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Gas and oracle redundancy",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-48831b7a67c08c69",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- 64 = 2⁶ = codon capacity (64 codons) - 2 = boundary dimensions (e0 observer, e7 observed) - 62 = interior codon states after removing boundary",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/scaling-analysis-20260911/chunk-31_scaling-analysis.md",
-      "title": "4. 62 = 64 − 2 = Codon Capacity − Boundary",
       "topic": "ethics"
     },
     {
@@ -1222,36 +847,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-4ca9d6e78fe61fc8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "scripts/extract-package.sh packages/x402-fetch x402-fetch nirholas",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/package-extraction.md",
-      "title": "1. build the standalone repo (deterministic, reads committed monorepo history)",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4eaf2ea73f1d1517",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | $\\Gamma$ | Physical | Framework | |---|---|---|---| | $z = 0$ | $-1$ | Short circuit | $e7 = -1$ | | $z = 1$ | $0$ | Matched | Fixed point $o7 = 0$ | | $z \\rightarrow \\infty$ | $+1$ | Open circuit | $e0 = +1$ |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/mathematical-proofs-20260911/coherent-system.md",
-      "title": "8.2 Boundary Mapping",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-4eb977f8bfe06205",
       "language": [
         "en"
@@ -1282,21 +877,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-52d5ed49f5520e86",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. Never widen the excerpt. EXCERPTMAXCHARS and EXCERPTMAXPARAGRAPHS are a legal boundary, not a design knob. tests/news-rights.test.js asserts them directly; if a test there fails, the site is republishing copyrighted text again — fix the code, not the test. 2. Any new surface that emits article text goes through news-rights.js. A new endpoint, MCP tool, feed, or export that reads paragraphs or d",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "For contributors",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-53c632004bd630ae",
       "language": [
         "en"
@@ -1306,51 +886,6 @@
       "provenance": "upstream",
       "source": "repo:nullclaw:AGENTS.md",
       "title": "8.1 Test Coverage Mandate",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-540d56273b3b36af",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Prefer these over declaring family + size + weight by hand. Defined in style.css:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/DESIGN-TOKENS.md",
-      "title": "Standard classes",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-54b9d7b85b03776f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Value/Formula | Physics Connection | Chunk | |---|---|---|---| | State space | Q128.128, 2^256 states | Finite discrete universe model (Bekenstein bound 10^77) | 01 | | Algebraic seed | 0^0 = i | Origin state → imaginary unit (phase, not magnitude) | 08, 12 | | Octonion basis | e0..e7 → e0/e8 closure | Non-associative 8D algebra; related to G2, F4, E6, E7, E8 | 12 | | Dimensional depth",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/neuraleak-integration-20260912/unified-system-map.md",
-      "title": "2.1 Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-54ffd76df1d54eef",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- A live tour of the platform, from inside it: the creation tools, the agent economy, and the multiplayer layer, demonstrated in place rather than on slides. - Community demos. If you have built something with the platform (an avatar, an embed, an MCP integration, an agent), bring it. There is time set aside for members to show their work. - Open Q&A with the three.ws team: architecture, roadmap, ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ibm-community-blog-meetup-jessica.md",
-      "title": "What is on the agenda",
       "topic": "ethics"
     },
     {
@@ -1477,21 +1012,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5ca1b0021615986e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Paste the private iCal URL your calendar already publishes:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/companion.md",
-      "title": "Calendar",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5d31932665a9762e",
       "language": [
         "en"
@@ -1576,21 +1096,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:robinhood/hood402/INTEGRATION.md",
       "title": "Alternative: point at a standalone hood402-facilitator",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-63f3e59db3d3f9b6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The absolute upper bound on received power (Pr​) by an antenna in free space is governed by the Friis Transmission Equation: Pr​=Pt​⋅Gt​⋅Gr​(4πdλ​)2",
-      "provenance": "first_party",
-      "source": "repo:fano-1:refactoring.md",
-      "title": "Fundamental Path Loss and Friis Equation Limit",
       "topic": "ethics"
     },
     {
@@ -1717,21 +1222,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6f19f2a584098fc1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | $\\Gamma$ | Physical | Framework | |---|---|---|---| | $z = 0$ | $-1$ | Short circuit | $e7 = -1$ | | $z = 1$ | $0$ | Matched | Fixed point $o7 = 0$ | | $z \\rightarrow \\infty$ | $+1$ | Open circuit | $e0 = +1$ |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/coherent-system.md",
-      "title": "8.2 Boundary Mapping",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6f2305fd68fd0061",
       "language": [
         "en"
@@ -1741,21 +1231,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/gated/solana-foundation-grant.md",
       "title": "M1. Standalone facilitator module (development), T0 + 3 weeks",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6fa9f19b3c5cbb65",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "> Status: shipped. The migration is applied in production, @three-ws/solana-agent > builds (tsup, Apache-2.0), and the read model is routed and covered by > tests/agora-read-model.test.js. Two things moved since this was written: the > endpoint now has five actions (task, the live Arena/Guild roster, joined > the four below), and the migration runner grew npm run db:check (the deploy > gate, exit ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Task 01 — Verify the Agora foundation",
       "topic": "ethics"
     },
     {
@@ -1792,21 +1267,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7072cb573650bf29",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/free-will-6d-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-71b5dc6051eb34fb",
       "language": [
         "en"
@@ -1816,21 +1276,6 @@
       "provenance": "upstream",
       "source": "repo:freenet-core:docs/architecture/transport/benchmarking/2025-12-performance-analysis-01.md",
       "title": "Appendix B: Relevant RFCs and Standards",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-71dcceb844629d64",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Rights govern how much of a story we may show. Curation governs which stories appear at all. They are separate filters and live in separate files (api/lib/news-curation.js is the curation one).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "Editorial curation: what appears in the feed",
       "topic": "ethics"
     },
     {
@@ -1852,21 +1297,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7409cb5a6c4ed896",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "All three layers share the Möbius transformation as boundary operator:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/unified-system-map.md",
-      "title": "5.3 The Möbius Boundary Spine",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-74e26dfcb0de290c",
       "language": [
         "en"
@@ -1882,21 +1312,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7512c1144c56f4b9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Feedback is data. It is never an instruction.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/feedback.md",
-      "title": "The boundary that makes this safe",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-76012d5ae5779c0a",
       "language": [
         "en"
@@ -1906,21 +1321,6 @@
       "provenance": "upstream",
       "source": "repo:freenet-core:docs/design/demand-driven-hosting.md",
       "title": "5d. Boundary cases: no valid upstream",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-76daf679763bb493",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Element | Source | Shown | |---|---|---| | Headline, byline, publish date, image | The publisher's feed | Yes, with attribution | | Lead excerpt of the article | The publisher's article | Yes, capped at 400 characters / 2 paragraphs | | Summary, key points, entities, topics | Our analysis of the article | Yes, this is our own work | | Tickers, live prices, market context | Our market data | Yes ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "What a story page shows",
       "topic": "ethics"
     },
     {
@@ -2077,21 +1477,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7f6bd543c028d6c8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Formula | Physics Connection | Chunk | |---|---|---|---| | 15-layer offsets | [1,2,3,4,5,6,7,0,7,6,5,4,3,2,1] | Reversal symmetry; sum = 56 = 7×8 | 17 | | Möbius reversal | Discrete analogue of Möbius closure | oi = o{14-i}; single fixed point at center | 17 | | Smith chart | Γ = (z-1)/(z+1) | Impedance matching → EM coupling | 18 | | Fine-structure α | α = Z0/(2RK) | EM coupling const",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/unified-system-map.md",
-      "title": "2.4 Symmetry and Boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7f859b7ab4f29b65",
       "language": [
         "en"
@@ -2122,21 +1507,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-81651218871303c4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The export menu offers direct downloads:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/character-studio.md",
-      "title": "Standalone (running the builder directly)",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8380866b54771692",
       "language": [
         "en"
@@ -2152,21 +1522,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8659f8d064fdea19",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Value/Formula | Physics Connection | Chunk | |---|---|---|---| | State space | Q128.128, 2^256 states | Finite discrete universe model (Bekenstein bound 10^77) | 01 | | Algebraic seed | 0^0 = i | Origin state → imaginary unit (phase, not magnitude) | 08, 12 | | Octonion basis | e0..e7 → e0/e8 closure | Non-associative 8D algebra; related to G2, F4, E6, E7, E8 | 12 | | Dimensional depth",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/unified-system-map.md",
-      "title": "2.1 Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-869aaea317a527f8",
       "language": [
         "en"
@@ -2176,21 +1531,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/prompts/32-evm-secondary-leg.md",
       "title": "The problem",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-876be5383740aae0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system operates on a finite discrete state space. Using i256/Q128.128 fixed-point representation:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
-      "title": "1.4 Numerical Foundation",
       "topic": "ethics"
     },
     {
@@ -2242,51 +1582,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8b1808b7d5dac430",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | $\\Gamma$ | Physical | Framework | |---|---|---|---| | $z = 0$ | $-1$ | Short circuit | $e7 = -1$ | | $z = 1$ | $0$ | Matched | Fixed point $o7 = 0$ | | $z \\rightarrow \\infty$ | $+1$ | Open circuit | $e0 = +1$ |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
-      "title": "8.2 Boundary Mapping",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8b5be87bde31b300",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "1. Correction",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8b8d2a8eebf328af",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Beyond the 17 category endpoints, every individual datapoint is its own paid endpoint: one URL, one value, one micro-payment. The fabric at /api/x402/d/// makes every (family, id, metric) triple individually addressable: 17,000 coins × 20 metrics, 15,000 yield pools × 7, 6,000 protocols × 6, per-contract token market + security for any Solana mint or EVM address (10 + 6 metrics, unbounded), plus c",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/market-data-api.md",
-      "title": "The datapoint fabric — 1,000,000+ standalone endpoints",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8c1a15e6d424aa6b",
       "language": [
         "en"
@@ -2311,21 +1606,6 @@
       "provenance": "upstream",
       "source": "repo:nullclaw:docs/en/usage.md",
       "title": "Service Mode Recommendations",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8e5ff56ceb3d3184",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | $\\Gamma$ | Physical | Framework | |---|---|---|---| | $z = 0$ | $-1$ | Short circuit | $e7 = -1$ | | $z = 1$ | $0$ | Matched | Fixed point $o7 = 0$ | | $z \\rightarrow \\infty$ | $+1$ | Open circuit | $e0 = +1$ |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/codon-integration-20260912/coherent-system.md",
-      "title": "8.2 Boundary Mapping",
       "topic": "ethics"
     },
     {
@@ -2362,21 +1642,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8fafb33712d8613b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
-      "title": "Enforcement Guidelines",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-9114ab51e5a5af46",
       "language": [
         "en"
@@ -2392,21 +1657,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-9252b756e52b0022",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/bidirectional-integration-fano1-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-926e8a34c214463e",
       "language": [
         "en"
@@ -2416,21 +1666,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:archives/spec-007-research-20261004/README.md",
       "title": "Scope boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-92d663eb7c2a27f0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The AMMP wizard accepts either the Standard Contract for AWS Marketplace (SCMP) or a custom EULA at a publicly readable S3 URL. Choosing SCMP removes the only remaining hard blocker on this listing and needs zero setup. For a free listing there is nothing a custom EULA buys you that is worth delaying the listing for, and the EULA can be swapped later via Request changes → Update public offer → Upd",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/aws-marketplace-listing-kit.md",
-      "title": "2. EULA: pick Standard Contract and skip this entirely (recommended)",
       "topic": "ethics"
     },
     {
@@ -2461,21 +1696,6 @@
       "provenance": "upstream",
       "source": "repo:project-nomad:CODE_OF_CONDUCT.md",
       "title": "Scope",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-966a819c658f2547",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/final-audit-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
       "topic": "ethics"
     },
     {
@@ -2521,21 +1741,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
       "title": "Our Standards",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9c56933ee95776a6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/generative-bootstrap-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
       "topic": "ethics"
     },
     {
@@ -2692,21 +1897,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a1a6140ad93bc3dd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "saas-integrate-subscription: \"Starting June 1, 2026, all new SaaS products will be required to support updated integration requirements.\" That date is in the past; it binds any product we create now.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/aws-marketplace-listing-kit.md",
-      "title": "Claim 3: Concurrent Agreements is mandatory for us",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a1b5345997127a40",
       "language": [
         "en"
@@ -2782,21 +1972,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a417d72901337274",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.0, available at https://www.contributor-covenant.org/version/2/0/codeofconduct.html.",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "Attribution",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a4de0cc2a0fef6dd",
       "language": [
         "en"
@@ -2806,36 +1981,6 @@
       "provenance": "upstream",
       "source": "repo:nullclaw:CLAUDE.md",
       "title": "Provider Boundary Notes",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a4e4a0b961ab8eff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community Impact: A serious violation of community standards, including sustained inappropriate behavior.",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "3. Temporary Ban",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a614d8fc73da05e6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Extracting RF power requires converting alternating current (AC) to direct current (DC) using rectifiers (rectennas). The Power Conversion Efficiency (PCE) is bounded by fundamental circuit limits:",
-      "provenance": "first_party",
-      "source": "repo:fano-1:refactoring.md",
-      "title": "Rectifier Efficiency Bounds (The Semiconductor Limit)",
       "topic": "ethics"
     },
     {
@@ -2866,36 +2011,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:.devin/memories/chunk-31_scaling-analysis.md",
       "title": "4. 62 = 64 − 2 = Codon Capacity − Boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a8e2cde8a5872840",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- turn falloff: head-on cosine minus the worst view's. A pipeline that only holds up frontally is visible here and in no single-view number. - capture cohesion: mean pairwise cosine among the input photos. A selfie set whose own photos only agree at 0.5 cannot support a claim about the avatar at 0.6. - captures embedded / total: how much of the input the measurement rests on.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/likeness-eval.md",
-      "title": "Secondary readings",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-abe1196ead5ad3fc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "Enforcement Responsibilities",
       "topic": "ethics"
     },
     {
@@ -2992,21 +2107,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b08f527e86d600ff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system operates on a finite discrete state space. Using i256/Q128.128 fixed-point representation:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/coherent-system.md",
-      "title": "1.4 Numerical Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b1235b1f18140fd1",
       "language": [
         "en"
@@ -3031,21 +2131,6 @@
       "provenance": "upstream",
       "source": "repo:project-nomad:CODE_OF_CONDUCT.md",
       "title": "Our Pledge",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b18b3140cdade868",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "No covered work shall be deemed part of an effective technological measure under any applicable law fulfilling obligations under article 11 of the WIPO copyright treaty adopted on 20 December 1996, or similar laws prohibiting or restricting circumvention of such measures.",
-      "provenance": "upstream",
-      "source": "repo:freenet-core:LICENSE.md",
-      "title": "3. Protecting Users' Legal Rights From Anti-Circumvention Law.",
       "topic": "ethics"
     },
     {
@@ -3091,21 +2176,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:CODE_OF_CONDUCT.md",
       "title": "Attribution",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b341a67738fc9bd6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
-      "title": "1. Correction",
       "topic": "ethics"
     },
     {
@@ -3172,36 +2242,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b828a3e79c63e2df",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/dimensional-ladder-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b95a6516867407c3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system operates on a finite discrete state space. Using i256/Q128.128 fixed-point representation:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
-      "title": "1.4 Numerical Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b9ff35e09136b3d2",
       "language": [
         "en"
@@ -3226,21 +2266,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/gated/solana-foundation-grant.md",
       "title": "4. Production evidence (how each number was checked)",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-bca87074f04fee29",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "three.ws aggregates every feed in its news source registry (api/lib/news-sources.js, just under 200 of them today) into /markets/news, gives every story a permalink, and layers its own analysis on top (summary, key points, detected tickers with live prices, market context at publication, sentiment, related coverage).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/news-rights.md",
-      "title": "Publisher rights in the news reader",
       "topic": "ethics"
     },
     {
@@ -3331,21 +2356,6 @@
       "provenance": "upstream",
       "source": "repo:freenet-core:docs/design/demand-driven-hosting.md",
       "title": "5c. The frontier (boundary) case",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c09157023cd7cbfe",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The theoretical limits of Radio Frequency (RF) energy harvesting are defined by fundamental laws of physics, electromagnetic wave propagation, geometry, and semiconductor physics. While free-space radiation surrounds us, converting ambient or targeted RF signals into usable direct current (DC) electricity hits several strict upper bounds.",
-      "provenance": "first_party",
-      "source": "repo:fano-1:refactoring.md",
-      "title": "Fundamental Path Loss and Friis Equation Limit",
       "topic": "ethics"
     },
     {
@@ -3472,81 +2482,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c6a6f5f3f954c410",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | $\\Gamma$ | Physical | Framework | |---|---|---|---| | $z = 0$ | $-1$ | Short circuit | $e7 = -1$ | | $z = 1$ | $0$ | Matched | Fixed point $o7 = 0$ | | $z \\rightarrow \\infty$ | $+1$ | Open circuit | $e0 = +1$ |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "8.2 Boundary Mapping",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c6b2bedbbaa1f6e7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system operates on a finite discrete state space. Using i256/Q128.128 fixed-point representation:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "1.4 Numerical Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c7394080f5758904",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Use this if you would rather not quote-tweet.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-posts/metaplex-agent-deployer-x-post.md",
-      "title": "2. Main post (standalone)",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c7870466a1b8c571",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "All three layers share the Möbius transformation as boundary operator:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/neuraleak-integration-20260912/unified-system-map.md",
-      "title": "5.3 The Möbius Boundary Spine",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c7fd1a55c5cae5d9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c80877ed61549487",
       "language": [
         "en"
@@ -3652,21 +2587,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d1547487b23bdcdb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/consciousness-derivation-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d26b473006c93dd7",
       "language": [
         "en"
@@ -3691,21 +2611,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/gated/solana-foundation-grant.md",
       "title": "M4. Reference deployment and operator guide (adoption), T0 + 12 weeks",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d38bbeda414161e3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/checksum-6d-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
       "topic": "ethics"
     },
     {
@@ -3787,21 +2692,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d6ed9d80a7cdbb55",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Source: public/docs-widgets.html (static; vercel.json /docs/widgets → /docs-widgets.html, mapped before the generic /docs/ rule). - Steps (4): 1) TOC anchor nav (#quick-start, #widget-types, #urls, #embedding, #postmessage-api, #og-oembed, #csp-cors, #privacy, #faq). 2) Read code blocks (iframe/script/oEmbed/postMessage). 3) Review reference tables (widget types, URL schemes, hash params, postMe",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ux-flows/12-home-and-content.md",
-      "title": "Docs — Widgets (standalone) — /docs/widgets",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d7c34b5b273b5a2f",
       "language": [
         "en"
@@ -3811,36 +2701,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:examples/metamask-agent-wallet/README.md",
       "title": "\"standard\": \"EIP-191 (personalsign)\", \"verified\": true }",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d9812ea4cbf2b773",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Formula | Physics Connection | Chunk | |---|---|---|---| | 15-layer offsets | [1,2,3,4,5,6,7,0,7,6,5,4,3,2,1] | Reversal symmetry; sum = 56 = 7×8 | 17 | | Möbius reversal | Discrete analogue of Möbius closure | oi = o{14-i}; single fixed point at center | 17 | | Smith chart | Γ = (z-1)/(z+1) | Impedance matching → EM coupling | 18 | | Fine-structure α | α = Z0/(2RK) | EM coupling const",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/unified-system-map.md",
-      "title": "2.4 Symmetry and Boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d9cfb18335fe3500",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "We are graduating the reusable packages out of the three.ws monorepo into their own GitHub repos that publish to npm (or, for the VS Code extension, the Marketplace) independently. This is the playbook. We start with the x402 family.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/package-extraction.md",
-      "title": "Package extraction: breaking the monorepo into standalone repos",
       "topic": "ethics"
     },
     {
@@ -3892,21 +2752,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-db83c7e6a932a36e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Impedance | $\\Gamma$ | Physical | Framework | |---|---|---|---| | $z = 0$ | $-1$ | Short circuit | $e7 = -1$ | | $z = 1$ | $0$ | Matched | Fixed point $o7 = 0$ | | $z \\rightarrow \\infty$ | $+1$ | Open circuit | $e0 = +1$ |",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
-      "title": "8.2 Boundary Mapping",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-db9647e7c37867c3",
       "language": [
         "en"
@@ -3952,21 +2797,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-ddd088500b517518",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Value/Formula | Physics Connection | Chunk | |---|---|---|---| | State space | Q128.128, 2^256 states | Finite discrete universe model (Bekenstein bound 10^77) | 01 | | Algebraic seed | 0^0 = i | Origin state → imaginary unit (phase, not magnitude) | 08, 12 | | Octonion basis | e0..e7 → e0/e8 closure | Non-associative 8D algebra; related to G2, F4, E6, E7, E8 | 12 | | Dimensional depth",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/unified-system-map.md",
-      "title": "2.1 Foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-dfae486df4893827",
       "language": [
         "en"
@@ -3975,36 +2805,6 @@
       "outcome": "Community Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.",
       "provenance": "upstream",
       "source": "repo:ukama:CODE_OF_CONDUCT.md",
-      "title": "4. Permanent Ban",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e1241a1dfb1abe21",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "Scope",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e136aa5b63940647",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
       "title": "4. Permanent Ban",
       "topic": "ethics"
     },
@@ -4051,21 +2851,6 @@
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-science-coverage.en.md",
       "title": "§8 Formal verification, standards & governance corpus",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e37b35e2fd826464",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "There is no same-day path to a public AWS Marketplace URL. Plan against this:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/aws-marketplace-listing-kit.md",
-      "title": "Calendar",
       "topic": "ethics"
     },
     {
@@ -4192,21 +2977,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-eee762a8457b67df",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "of the General Public License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.",
-      "provenance": "upstream",
-      "source": "repo:woof-ce:woof-code/rootfs-skeleton/usr/share/doc/legal/gpl-2.0.txt",
-      "title": "The Free Software Foundation may publish revised and/or new versions",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-f0e2365d01e82e4e",
       "language": [
         "en"
@@ -4246,21 +3016,6 @@
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-engineering-revision.en.md",
       "title": "4.2 Gas and pressure boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f15f05ae0fc734de",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
       "topic": "ethics"
     },
     {
@@ -4312,21 +3067,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-f3209d9007b6624e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The framework's axiom 0^0 = i is NOT a standard mathematical convention: - In combinatorics/algebra: 0^0 = 1 - In analysis: 0^0 is indeterminate - In set theory: 0^0 = 1 (the only sensible answer)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/IMPLICATIONS.md",
-      "title": "5.1 The 0^0 = i axiom as self-referential foundation",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-f343cced5ef03d77",
       "language": [
         "en"
@@ -4372,21 +3112,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-f3ea4559fd9274f5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Concept | Formula | Physics Connection | Chunk | |---|---|---|---| | 15-layer offsets | [1,2,3,4,5,6,7,0,7,6,5,4,3,2,1] | Reversal symmetry; sum = 56 = 7×8 | 17 | | Möbius reversal | Discrete analogue of Möbius closure | oi = o{14-i}; single fixed point at center | 17 | | Smith chart | Γ = (z-1)/(z+1) | Impedance matching → EM coupling | 18 | | Fine-structure α | α = Z0/(2RK) | EM coupling const",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/neuraleak-integration-20260912/unified-system-map.md",
-      "title": "2.4 Symmetry and Boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-f3fb7bf37dacce2c",
       "language": [
         "en"
@@ -4411,36 +3136,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:archives/spec-007-rations-integration-20261005/README.md",
       "title": "Integration boundary",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f4e6f3fac501e8bc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "All three layers share the Möbius transformation as boundary operator:",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/full-e2e-audit-20260912/unified-system-map.md",
-      "title": "5.3 The Möbius Boundary Spine",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f5b1050ff7114070",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:CODE_OF_CONDUCT.md",
-      "title": "Scope",
       "topic": "ethics"
     },
     {
@@ -4486,21 +3181,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/gated/solana-foundation-grant.md",
       "title": "Candidates considered",
-      "topic": "ethics"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f6afcb3e5d5fa4df",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:",
-      "provenance": "upstream",
-      "source": "repo:paperless-ngx:CODE_OF_CONDUCT.md",
-      "title": "Enforcement Guidelines",
       "topic": "ethics"
     },
     {

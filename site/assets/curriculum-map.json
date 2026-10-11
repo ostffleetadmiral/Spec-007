@@ -1,13 +1,13 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 70561,
+  "lesson_count": 56118,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 70013,
+  "harvested_lessons": 55570,
   "courses": [
     {
       "id": "ai-literacy",
-      "lesson_count": 8814,
+      "lesson_count": 6818,
       "topics": [
         "ai-literacy"
       ],
@@ -29,7 +29,7 @@
     },
     {
       "id": "campaign-operations",
-      "lesson_count": 1638,
+      "lesson_count": 843,
       "topics": [
         "campaign"
       ],
@@ -51,7 +51,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 2025,
+      "lesson_count": 1503,
       "topics": [
         "communications"
       ],
@@ -60,7 +60,6 @@
         "agent-builder",
         "cofounder",
         "e-mc-2",
-        "fano-1",
         "freenet-core",
         "maypole-firmware",
         "nullclaw",
@@ -80,7 +79,7 @@
     },
     {
       "id": "governance-ethics",
-      "lesson_count": 304,
+      "lesson_count": 216,
       "topics": [
         "ethics"
       ],
@@ -88,7 +87,6 @@
         "adk",
         "agent-builder",
         "e-mc-2",
-        "fano-1",
         "freenet-core",
         "nullclaw",
         "paperless-ngx",
@@ -104,7 +102,7 @@
     },
     {
       "id": "hardware-fleet",
-      "lesson_count": 708,
+      "lesson_count": 598,
       "topics": [
         "hardware"
       ],
@@ -127,7 +125,7 @@
     },
     {
       "id": "identity-authority",
-      "lesson_count": 495,
+      "lesson_count": 283,
       "topics": [
         "identity"
       ],
@@ -145,7 +143,7 @@
     },
     {
       "id": "lore-shelf",
-      "lesson_count": 151,
+      "lesson_count": 86,
       "topics": [
         "lore"
       ],
@@ -160,7 +158,7 @@
     },
     {
       "id": "ministry-neo-hindu",
-      "lesson_count": 91,
+      "lesson_count": 69,
       "topics": [
         "ministry"
       ],
@@ -175,7 +173,7 @@
     },
     {
       "id": "orientation",
-      "lesson_count": 5748,
+      "lesson_count": 5234,
       "topics": [
         "orientation"
       ],
@@ -197,7 +195,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 15304,
+      "lesson_count": 10807,
       "topics": [
         "reference"
       ],
@@ -217,7 +215,7 @@
     },
     {
       "id": "science-lattice",
-      "lesson_count": 2489,
+      "lesson_count": 1501,
       "topics": [
         "science"
       ],
@@ -236,7 +234,7 @@
     },
     {
       "id": "security-clearance",
-      "lesson_count": 1053,
+      "lesson_count": 642,
       "topics": [
         "security"
       ],
@@ -244,7 +242,6 @@
         "adk",
         "agent-builder",
         "e-mc-2",
-        "fano-1",
         "freenet-core",
         "nullclaw",
         "paperless-ngx",
@@ -258,7 +255,7 @@
     },
     {
       "id": "systems-engineering",
-      "lesson_count": 4094,
+      "lesson_count": 2653,
       "topics": [
         "systems"
       ],
@@ -277,7 +274,7 @@
     },
     {
       "id": "uiux-craft",
-      "lesson_count": 27099,
+      "lesson_count": 24317,
       "topics": [
         "uiux"
       ],

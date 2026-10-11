@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "identity-authority",
-  "lesson_count": 495,
+  "lesson_count": 283,
   "lessons": [
     {
       "access": "public",
@@ -16,36 +16,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0156a80c83372965",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Quote mint | Layout of remainingAccounts | | ----------------------------- | ------------------------------------------------------------------------------ | | Wrapped SOL | [shareholder1, …, shareholderN] | | Non-native (e.g. USDC) | [shareholder1, …, shareholderN, ata1, …, ataN] where atai is the ATA for (shareholderi, quotetokenprogram, quotemint). |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CREATOR_FEE_SHARING.md",
-      "title": "Remaining Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-01bfeb0bc0f2c07e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This is exact. It connects the 15×15 matrix element count to the E8 root count (240) and the layer parameter (15).",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
-      "title": "3.2 Critical Identity",
       "topic": "identity"
     },
     {
@@ -112,21 +82,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-027c66a37568c9d1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "free will ≡ underdetermination of 6D routing",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/free-will-6d-20260911/chunk-30_free-will-6d.md",
-      "title": "The Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-02ec4c47588c2015",
       "language": [
         "en"
@@ -187,51 +142,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-03dbeb72f4e0a690",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @Waymo | Waymo |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Alphabet sister companies",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-04385f7b9dfcb648",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Persona Hub is three.ws's cross-app sign-in: a user creates and stores their three.ws avatar once, then any tenant site embedding the widget can request a short-lived JWT that bears the user's avatar URL. three.ws itself issues the token — from a popup served on three.ws, against the user's session cookie — and tenants verify it server-side, either offline against the published JWKS (when the depl",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Overview",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-053745c99261668b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Saving stores the GLB in R2 storage and creates an avatar record in your account. This is free and required before publishing. The avatar is private by default.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/avatar-creation.md",
-      "title": "1. Save to account (always)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-05d708e0cd24b61a",
       "language": [
         "en"
@@ -256,21 +166,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:concierge-sdk/README.md",
       "title": "1. One tag (no build, no account)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-077b63d17dcad058",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every contact with X about this suspension, in order. Append to it; never rewrite an earlier line.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "Filing log",
       "topic": "identity"
     },
     {
@@ -337,21 +232,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-08f06f504dbdc1eb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "When a skill or agent action requires a delegation that doesn't yet exist, the grant modal appears. It is a 3-step flow:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/permissions.md",
-      "title": "Via the grant modal (UI)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0930a1dbc412e835",
       "language": [
         "en"
@@ -382,36 +262,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-0a1f19d242399dab",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "When CAPTCHA is enabled for the Privy app (Privy dashboard, Security tab), Privy rejects both passwordless/init (the email code send) and siwe/init (the wallet nonce) with 401 invalidcredentials unless the request carries a Turnstile token. Three things follow for anyone integrating headless:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "CAPTCHA (Cloudflare Turnstile)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0a5a3c8d0fb15760",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. Your frontend calls GET /api/auth/siws/nonce. The response carries a one-time nonce (valid 5 minutes), a CSRF token, and the canonical domain and uri to sign against. The endpoint also sets a Host-csrf-siws cookie. 2. You build a CAIP-122 message using the nonce and the server-provided domain and URI. 3. The user signs the message in their wallet (a free, off-chain ed25519 signature). 4. You PO",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "How the flow works",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0b22025896f44147",
       "language": [
         "en"
@@ -436,21 +286,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:docs/configuration.md",
       "title": "PAPERLESSREDIRECTLOGINTOSSO= {#PAPERLESSREDIRECTLOGINTOSSO}",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0b45d6c5d6a1bdbb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "IdentityRegistry is the canonical on-chain registry for three.ws identities. Each agent is minted as an ERC-721 token; the token URI points to an ERC-8004 registration JSON (typically hosted on IPFS).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/smart-contracts.md",
-      "title": "IdentityRegistry",
       "topic": "identity"
     },
     {
@@ -502,21 +337,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-0e740965c6e3652e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "three.ws issues access tokens for exactly one resource, its MCP server. If you pass resource, it must name that server; anything else is rejected with invalidtarget at both /api/oauth/authorize and /api/oauth/token, rather than handing you a token whose audience is something you did not ask for. A trailing slash is ignored, and omitting the parameter entirely is fine.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Resource indicators (RFC 8707)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-0e9d02ed2a6a3482",
       "language": [
         "en"
@@ -526,21 +346,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Connecting: two grants, deliberately separate",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-0f3e1178798e4250",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @Googleorg | Google.org | | @GooglePubPolicy | Google Public Policy | | @GoogleForEdu | Google for Education | | @GoogleStartups | Google for Startups | | @GoogleDesign | Google Design | | @WomenTechmakers | Women Techmakers |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Corporate, social impact, design",
       "topic": "identity"
     },
     {
@@ -562,21 +367,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-0fe912e89d80bc35",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js const result = await window.ThreeWsPersona.signIn({ clientOrigin: 'https://coolgame.three.ws', }); // result.token, result.avatar",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Programmatic API",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-102d605790a643ba",
       "language": [
         "en"
@@ -586,36 +376,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "/payments (account)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-108ff9c915e73492",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "One click on an agent's profile mints it a permanent, verifiable on-chain identity: the agent becomes an ERC-721 token in a public ERC-8004 registry, reusing its existing 3D body, persona, voice, and skills with no re-entry. A full agent card is pinned to IPFS so the identity stays portable across the open web, and the registry sits at the same address on every supported chain — Ethereum, Base, Op",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "ERC-8004 on-chain identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-112bc9da8fbef21a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Method | Path | Description | |--------|------|-------------| | GET | /api/auth/siws/nonce | Generate a nonce + CSRF token; returns canonical domain/uri | | POST | /api/auth/siws/verify | Verify signed message, issue session | | POST | /api/auth/logout | Revoke session cookie |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "API routes",
       "topic": "identity"
     },
     {
@@ -682,21 +442,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-135d91fca996ee9d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Tune the avatar's voice. If you have an ElevenLabs account, you can clone your own voice and use it for TTS. Add this to your agent manifest:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 10: Polish and iterate",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-13844f30e4e67ce2",
       "language": [
         "en"
@@ -727,21 +472,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-144eed9174166113",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Route | Method | Access | | --- | --- | --- | | /api/mirror/leaderboard | GET | Public, cached 60s | | /api/copy/smart-wallets | GET | Public, cached 1h | | /api/copy/earnings?agentid= | GET | Public, cached 30 to 60s | | /api/agents/:id/mirror/followers | GET | Public | | /api/agents/:id/mirror/track-record | GET | Public | | /api/copy/earnings (no agentid) | GET | Session or bearer | | /api/co",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/copy-trading.md",
-      "title": "Public versus authenticated, at a glance",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-147e71b44df3d897",
       "language": [
         "en"
@@ -751,51 +481,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Spend limits: caps enforced before signing",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-147fc84d1dba4c68",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | | 1 | payer | Transaction signer. Pays the rent for pumpcreatorvaultata when it is initialized by t",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CREATOR_FEE_SHARING.md",
-      "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-14ee148d62d09522",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -X POST 'https://three.ws/api/tts/synthesize' \\ -H 'content-type: application/json' \\ -d '{ \"provider\": \"edge\", \"voiceId\": \"en-GB-SoniaNeural\", \"text\": \"Free, keyless, and real.\" }' \\ --output edge.mp3",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/voice-lab.md",
-      "title": "Speak on the free Edge lane: no key, no account, no charge.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-152084726bc5a970",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The signing algorithm is decided at issue time by api/auth/persona/[action].js:158-161:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "ES256 vs HS256 fallback",
       "topic": "identity"
     },
     {
@@ -817,21 +502,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-16225e1f648c97bf",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @YouTube | YouTube | | @TeamYouTube | TeamYouTube (support) | | @YouTubeCreators | YouTube Creators | | @YouTubeMusic | YouTube Music | | @YouTubeTV | YouTube TV |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "YouTube family",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-169ba72ef2c654f6",
       "language": [
         "en"
@@ -841,21 +511,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:docs/configuration.md",
       "title": "PAPERLESSACCOUNTALLOWSIGNUPS= {#PAPERLESSACCOUNTALLOWSIGNUPS}",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-17073754877d8fb6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "json { \"spec\": \"agent-manifest/0.2\", \"id\": { \"chain\": \"base-sepolia\", \"registry\": \"0xAbC...123\", \"agentId\": \"42\", \"owner\": \"0xDeadBeef...\" }, \"name\": \"Sage\", \"description\": \"A blockchain-native AI agent.\", \"image\": \"ipfs://bafy.../poster.webp\", \"tags\": [\"web3\", \"defi\"], \"body\": { \"uri\": \"ipfs://bafy.../sage.glb\", \"format\": \"gltf-binary\", \"rig\": \"mixamo\" }, \"brain\": { \"provider\": \"anthropic\", \"mode",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Full on-chain identity with IPFS memory",
       "topic": "identity"
     },
     {
@@ -967,36 +622,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-1939f68c44f45de3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Status: written, NOT yet filed. Section 7 point 4 says to file this regardless of what the appeals do, and that judgement stands: it costs nothing, it dates the request, and it is the only route that has ever forced X to name the real trigger for an enforcement action, albeit in the EU and only under litigation (Mekic v. X). From the US it is a long shot. File it anyway, and do not wait on it or l",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "5c. The data-access request, ready to file",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-199eddb738e816d0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This is exact. It connects the 15×15 matrix element count to the E8 root count (240) and the layer parameter (15).",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/codon-integration-20260912/coherent-system.md",
-      "title": "3.2 Critical Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-19e44c0162e2e564",
       "language": [
         "en"
@@ -1006,51 +631,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:README.md",
       "title": "On-Chain Identity (ERC-8004 + Metaplex Core)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1a8d4e44dadc782d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A PAI site is hard for a crawler to read — the meaningful content is inside a conversation. Help search engines and social platforms understand what they are looking at.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 8: SEO and social sharing",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1b01983a7801d80d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Account | Posts mentioning | Mean engagements | |---|---:|---:| | @fomo | 2 | 160.0 | | @ibm | 3 | 159.0 | | @anthropicai | 3 | 92.0 | | @solana | 2 | 50.0 | | @nichxbt | 2 | 36.0 | | @pumpfun | 3 | 31.0 | | @trythreews | 2 | 30.5 |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-archive/trythreews-engagement.md",
-      "title": "Accounts we mention (2+ posts)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-1cca7b03f878c901",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "GET /api/home/:id/members POST /api/home/:id/members PATCH /api/home/:id/members DELETE /api/home/:id/members",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Household roster",
       "topic": "identity"
     },
     {
@@ -1117,21 +697,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-21a34243496a9111",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Filed 2026-08-28 at 06:26 through the form, logged in as @nichxbt, handle and email pre-filled by X. The form answered: \"Thank you! We've received your request. We'll review, and take further action if appropriate. In some cases, we may send an email with more information to the address you provided.\" This is the text that was submitted, verbatim:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "5. The appeal text, as filed",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-21e523f0d481878f",
       "language": [
         "en"
@@ -1156,21 +721,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "1. Contract identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-226046b4cac361f9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "// 1. Get nonce + CSRF token const { nonce, csrf, expiresAt } = await fetch('/api/auth/siwe/nonce', { credentials: 'include' }).then(r => r.json());",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Raw SIWE flow (without the controller)",
       "topic": "identity"
     },
     {
@@ -1207,21 +757,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-24a87c0b1c4f1d12",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Your site is a single HTML file. Deployment is minimal.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 7: Deploy to Vercel",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2557d6cd90776baa",
       "language": [
         "en"
@@ -1231,21 +766,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Authenticating a write",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2583adbbee681738",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Turns a short onboarding interview (or a block of the person's own writing) into a structured persona profile you can save on an agent and reuse as its voice. Requires auth: a session cookie, or a bearer API key carrying avatars:read or avatars:write. Try it live at /demos/persona-extract.html.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Persona extraction",
       "topic": "identity"
     },
     {
@@ -1282,96 +802,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-283ca47a289e3cdb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl 'https://three.ws/api/pump/smart-money?mint='",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/smart-money.md",
-      "title": "One coin's pedigree and notable roster",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2842b13452f0faca",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The endpoint requires a real session, so this only succeeds when the caller is signed in to three.ws (the cookie value below is illustrative — copy yours from the browser's devtools after signing in):",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "curl",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-28605f6ec39ef822",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js await fetch('/api/auth/logout', { method: 'POST', credentials: 'include', });",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Logging out",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-28e7a7b8c0b22595",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ \\boxed{\\alpha \\longleftrightarrow (Z0, RK) \\longleftrightarrow \\Gamma} $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/codon-integration-20260912/coherent-system.md",
-      "title": "9.4 Key Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-292905eb9cdc7f84",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The suspension was report-driven. Whatever prompted the reports, the account that answers them publicly becomes the next target, and @trythreews is the platform's only remaining X presence and the one every partner listing links to. So the platform account does not post about the suspension, does not name or accuse anyone over it, and does not amplify the post that preceded it. Announcements conti",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-accounts.md",
-      "title": "Do not litigate the suspension from @trythreews",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-29767d8c89fd4136",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Unlinking is a state-changing call, so it needs a CSRF token (one-time, from GET /api/csrf-token) in the X-CSRF-Token header:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Removing a wallet",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-29b364abe02fb627",
       "language": [
         "en"
@@ -1396,21 +826,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2b097f84fb74ef82",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Enterprise limits are configurable per account rather than hardcoded, because that is what the sales conversation is. A hotel does not buy \"Pro\", it buys 400 rooms and a year of attribution, and the shape of that deal is known on the call and not at deploy time.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/home-plans.md",
-      "title": "Per-account overrides: the enterprise row",
       "topic": "identity"
     },
     {
@@ -1477,21 +892,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2da8f0ed612d016a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -X POST 'https://three.ws/api/tts/eleven' \\ -H 'authorization: Bearer ' \\ -H 'x-eleven-key: ' \\ -H 'content-type: application/json' \\ -d '{ \"voiceId\": \"\", \"text\": \"Running on my own account.\" }' \\ --output hello.mp3",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/voice-lab.md",
-      "title": "Synthesize on YOUR ElevenLabs account (BYOK): no platform quota, no credits.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2ede1cf8b01c2014",
       "language": [
         "en"
@@ -1501,21 +901,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:workers/deploy/README.md",
       "title": "Build identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2fc28c6b201486a4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Save to Account button triggers save-back.js, which runs a four-step pipeline:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/editor.md",
-      "title": "Save to account",
       "topic": "identity"
     },
     {
@@ -1582,36 +967,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-3114a2cd1413f315",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Then drag and drop any .glb file onto the viewport. The editor loads the file locally — nothing is uploaded until you explicitly publish. Unauthenticated users can freely inspect and modify the model in the viewport; publishing requires signing in.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/editor.md",
-      "title": "Open any GLB file (no account required)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-31989ffc1da0ef31",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Some accounts are exempt from the ladder entirely: the owner's own accounts, and creators/partners granted lifetime access. They clear every gated feature with no wallet, no holding, and no payment.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/hold-to-access.md",
-      "title": "Comped accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-31b683e9b9d36f34",
       "language": [
         "en"
@@ -1672,21 +1027,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-33ac9b06cf86bea0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The same agent can also anchor its identity on Solana: a Phantom-style wallet signs a single transaction that mints the agent as a Metaplex Core asset, and the platform verifies the transaction before recording the binding. The mint address itself can even be a vanity address ground to match the agent's name.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Solana identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-33be320435496c2e",
       "language": [
         "en"
@@ -1711,36 +1051,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/partner-packets/elevenlabs-startup-grants.md",
       "title": "Metrics used",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-34e9abf772d681a5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js // After the Privy client gives you an auth token. Send tosAccepted: true when // your UI displayed the Terms of Service agreement next to the sign-in control; // the server records the acceptance and the Terms version on the user record. const res = await fetch('/api/auth/privy/verify', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.string",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Verify endpoint",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3583e074e19506ed",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The product account announces the thing. The personal account gives it a reason to be interesting. Two different jobs, so two different voices, and they must not read as the same person posting twice.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-posts/3d-ar-studio-launch.md",
-      "title": "Two-account plan: @trythreews then @nichxbt",
       "topic": "identity"
     },
     {
@@ -1777,81 +1087,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-396f0b75c7cbe880",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Public clients (tokenendpointauthmethod: \"none\", the default from dynamic registration) get no secret and identify themselves with a clientid form field.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Client authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3b6d37b0f95a5757",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Identity | Value | Status | |---|---|---| | $(2L)^3 - L^3 = 7L^3$ | $2^3 - 1 = 7$ | PROVEN | | $15 \\cdot 16 = 240$ | E8 root count | INDEPENDENTLY VERIFIED | | $16^3 - 15^3 = 721$ | Shell transition | PROVEN | | $421 = (3375 - 7)/8$ | 7-defect identity | PROVEN | | $421/3375 = 1/8 - 7/27000$ | Consciousness connection | PROVEN | | $62 = 64 - 2$ | Codon boundary | PROVEN | | $31 = 2^5 - 1$ | Mers",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/README.md",
-      "title": "Key Identities (All Computationally Verified)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3c0eb0ff091c3035",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Done: github.com/githubevents/open-source-friday/issues/254",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-posts/osf-issue-reply.md",
-      "title": "Short form (fits 280 for a non-Premium account)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3c729607bd7c3e96",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js const res = await fetch('/api/auth/me', { credentials: 'include' }); if (res.ok) { const { user } = await res.json(); // user: { id, email, displayname, plan, avatarurl, walletaddress, sid } }",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Checking the current session",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3c8cbc8a156e1aa8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Dates matter more than effort in this process: section 3 found that every documented success spaced its filings and every documented failure did not. Section 4's specific finding is that nobody who succeeded filed within 24 hours of a denial.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "The schedule, from here",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-3cb996b778bc4e26",
       "language": [
         "en"
@@ -1861,51 +1096,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Save to account",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3d88ce78bda15d45",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "DELETE /api/auth/me closes an account for good. It is the endpoint behind the Danger Zone on /settings, and it has three gates: a live session, a single-use CSRF token, and the literal confirmation phrase in the body (case-insensitive). Miss the phrase and it answers 400 confirmationrequired without writing anything.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Deleting the account",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3ddf9f8c884be4f2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @GoogleCloud | Google Cloud | | @GoogleCloudTech | Google Cloud Tech (developer channel) | | @googledevs | Google for Developers | | @AndroidDev | Android Developers | | @ChromiumDev | Chrome Developers | | @Firebase | Firebase | | @FlutterDev | Flutter | | @dartlang | Dart | | @golang | Go | | @TensorFlow | TensorFlow | | @GoogleColab | Google Colab | | @kaggle | Kag",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Cloud and developers",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3e14c952bb19e20d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "All seven extract cleanly with full history. Six are npm packages already live under @three-ws/; vscode-x402 targets the VS Code Marketplace.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/package-extraction.md",
-      "title": "x402 roster",
       "topic": "identity"
     },
     {
@@ -2017,51 +1207,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-40a7ddc5218d1580",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "tenant site three.ws (popup) three.ws backend │ │ │ 1. ├── ───────┤ │ │ button clicked │ │ │ │ │ 2. ├── window.open() ──────────►│ /persona/authorize.html │ │ │ (consent screen) │ │ │ │ 3. │ │ GET /api/auth/persona/me ───►│ │ │ ◄────────── user + avatars │ │ │ │ 4. │ │ user picks avatar, clicks │ │ │ \"Authorize\" │ │ │ │ 5. │ │ POST /api/auth/persona/issue►│ │ │ body { tenantorigin, │ │ │ avatarid ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "How it works",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-40d8e0eaf8165c8c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js const res = await fetch('/api/auth/persona/issue', { method: 'POST', credentials: 'include', // sends Host-sid headers: { 'content-type': 'application/json' }, body: JSON.stringify({ tenantorigin: 'https://coolgame.three.ws', avatarid: 'a-1', // optional — defaults to newest }), }); if (!res.ok) { const { error, errordescription } = await res.json(); throw new Error(${error}: ${errordescription",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "fetch (from the consent popup)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-40dc79940c8258e8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Nothing is granted by default: the agent can propose but not act until the owner opts in per capability (createalert, briefing, wallettransfer). Reversible actions can be flipped to auto-run without asking; SOL transfers are irreversible, always confirmation-gated, and bounded by a daily SOL spend cap. The agent never sells or sends $THREE — it only accumulates and burns it.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Owner-granted scopes, confirmation gates, and spend caps",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-41f62ab445bb8546",
       "language": [
         "en"
@@ -2137,21 +1282,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-455c4322154cb78d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Payments route by name: give a handle, a .sol domain, or a raw address, and the platform resolves the recipient, builds the USDC transfer, and hands it to your wallet to sign — with a guard against the name being maliciously re-pointed between preview and send. Callers don't need to know anything about Solana; they pass a name and an amount and get back a settled signature.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Pay by name — send USDC to an identity, not an address",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-459610b2692ec73c",
       "language": [
         "en"
@@ -2182,21 +1312,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-466fd738ae6d4998",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Payments route by name: give a handle, a .sol domain, or a raw address, and the platform resolves the recipient, builds the USDC transfer, and hands it to your wallet to sign — with a guard against the name being maliciously re-pointed between preview and send. Callers don't need to know anything about Solana; they pass a name and an amount and get back a settled signature.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Pay by name — send USDC to an identity, not an address",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-4820723acffd29d4",
       "language": [
         "en"
@@ -2206,21 +1321,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Reading signing: the recognition API",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-485401e3ccc198f8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ \\boxed{\\alpha \\longleftrightarrow (Z0, RK) \\longleftrightarrow \\Gamma} $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "9.4 Key Identity",
       "topic": "identity"
     },
     {
@@ -2362,66 +1462,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-4ff9b3fc5ca0a42b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "An agent's wallet address can carry its brand: pick the characters it should start with and the browser grinds keypairs live — with attempts-per-second and ETA readouts — until it finds a match, then installs it as the agent's wallet. Replacing an existing wallet is sweep-safe: any SOL or tokens are automatically migrated to the new address before the key swaps, so funds are never stranded. You ca",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Vanity Solana wallets — a branded address as identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-506bd89f8d8dd8a9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This is exact. It connects the 15×15 matrix element count to the E8 root count (240) and the layer parameter (15).",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "3.2 Critical Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-513f4f2fa094003b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "> On the hybrid Mamba-Transformer split: how many attention layers do you keep in > Nemotron 3 Nano, and was that ratio tuned for 1M-context KV cost or for recall quality?",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/nvidia-nemotron-ask-the-experts-questions.md",
-      "title": "Founder account, architecture segment",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5146a3cc4e078bdd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The management endpoints (/api/pay/session) authenticate as you: a browser session cookie or an API key bearer token. They are how a human or a deploy script provisions budgets.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-533f4d8b77bfced8",
       "language": [
         "en"
@@ -2431,21 +1471,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "4. Track it, with no account.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-535655adb82ec273",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | | 1 | creator | The coin creator account that receives the fees. Must not be owned by",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/COLLECT_CREATOR_FEE.md",
-      "title": "Accounts",
       "topic": "identity"
     },
     {
@@ -2467,21 +1492,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-54186d184b630d8f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -s 'https://three.ws/api/tts/eleven/library?q=narrator&gender=female' \\ -H 'authorization: Bearer ' -H 'x-eleven-key: ' curl -X POST 'https://three.ws/api/tts/eleven/library' \\ -H 'authorization: Bearer ' -H 'x-eleven-key: ' \\ -H 'content-type: application/json' \\ -d '{ \"publicUserId\": \"\", \"voiceId\": \"\", \"name\": \"Narrator\" }'",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/voice-lab.md",
-      "title": "Search the public ElevenLabs Voice Library, then copy one into your account.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5418f00aea3e47c8",
       "language": [
         "en"
@@ -2497,21 +1507,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5447abb8a7ec6ee0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The core registry. Agents are ERC-721 tokens. Minting a token = registering an agent.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/erc8004.md",
-      "title": "IdentityRegistry.sol",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-544d56e9ec60f785",
       "language": [
         "en"
@@ -2521,36 +1516,6 @@
       "provenance": "upstream",
       "source": "repo:project-nomad:collections/creator-pack-license.md",
       "title": "3. Grant to Project NOMAD",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-54f677430cb243dd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The narrative, onboarding, partnership, and account surfaces. Entry and story: / (home: the pitch with live agent demos), /what-is (plain-English introduction), /features (full platform overview plus per-feature landings including /features/agent-exchange and /features/deploy), /pitch (the story as a live slide deck with an in-browser 3D character and PDF export), /start (5-step onboarding wizard:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Company, Content, Partnerships & Account",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5540ab65db0c5b52",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Before a new agent identity goes live, the platform checks that it's actually new: the proposed name and description are compared against every existing agent, with an identity-uniqueness gauge and the nearest look-alikes shown, plus an automatic content screen for harmful, biased, or explicit material. The verdict is clear, review, or block — with the evidence displayed.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Identity Firewall",
       "topic": "identity"
     },
     {
@@ -2581,36 +1546,6 @@
       "provenance": "upstream",
       "source": "repo:freenet-core:docs/design/contract-hardening.md",
       "title": "Three differences worth designing around",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5725022f8098d800",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "SIWE (EIP-4361) lets users authenticate by signing a message with their Ethereum wallet — no password, no email required.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Sign-In With Ethereum (SIWE)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-575f0d25f2afc2cc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "queries=( \"topic:3d\" \"topic:threejs\" \"topic:webgl\" \"topic:webgpu\" \"topic:3d-graphics\" \\ \"topic:computer-graphics\" \"topic:graphics\" \"topic:rendering\" \"topic:raytracing\" \\ \"topic:game-engine 3d\" \"topic:gaussian-splatting\" \"topic:nerf\" \"topic:point-cloud\" \\ \"topic:3d-reconstruction\" \"topic:3d-printing\" \"topic:gltf\" \"topic:3d-models\" \\ \"topic:opengl\" \"topic:vulkan\" \"topic:mesh\" \"3d engine\" \"3d renderi",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/popular-3d-github-repos.md",
-      "title": "Requires: gh (authenticated) + jq",
       "topic": "identity"
     },
     {
@@ -2662,21 +1597,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-591e8d2b77fe04ca",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Chat with your agent opens your agent in the app at /app?agent=. Here you can talk to it directly and shape how it behaves.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/getting-started.md",
-      "title": "Step 4: Give it a personality",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-595ef072dd5ac407",
       "language": [
         "en"
@@ -2692,21 +1612,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-59848e174ccbeb35",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ 421 = \\frac{15^3 - 7}{8} = \\frac{3375 - 7}{8} = \\frac{3368}{8} = 421 $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
-      "title": "13.3 The 421 Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-59b36d0acb077a80",
       "language": [
         "en"
@@ -2716,21 +1621,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "/pay/simulator (account)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5a23e0f169380bfb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "npx -y @three-ws/metaplex-agent-mcp # mint + register on-chain agents in the Metaplex Agent Registry (deploy fee funds $THREE buybacks, waived for holders)",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/mcp.md",
-      "title": "On-chain identity",
       "topic": "identity"
     },
     {
@@ -2761,36 +1651,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/agenc.md",
       "title": "Identity bridge — /api/agenc/link",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5b9fbd0d41a69437",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "720 (free will space: 6D routings) + 1 (consciousness: the observer) = 721 (shell transition: the complete system)",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/free-will-6d-20260911/chunk-30_free-will-6d.md",
-      "title": "The Structural Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-5bba9b6338fa8d1b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Linking requires the user to sign a SIWE (EIP-4361) challenge with the wallet they want to add. POST /api/auth/wallets/nonce returns the exact message to sign; sign it and submit:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Linking a wallet",
       "topic": "identity"
     },
     {
@@ -2842,21 +1702,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5e6959dc0ed40356",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "POST /api/auth/persona/issue — defined in api/auth/persona/[action].js (handleIssue).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Issuing a token",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5f9a2d91aa30eb2d",
       "language": [
         "en"
@@ -2887,21 +1732,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5fb16ed4b6ee74fa",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Agent name and description - Profile image - Tags",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/editor.md",
-      "title": "Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-60029839427f578e",
       "language": [
         "en"
@@ -2911,21 +1741,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:docs/configuration.md",
       "title": "PAPERLESSACCOUNTEMAILUNKNOWNACCOUNTS= {#PAPERLESSACCOUNTEMAILUNKNOWNACCOUNTS}",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-602f0aec49484286",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | | 1 | payer | Transaction signer. Pays the rent for any shareholder ATAs created during this call when in",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CREATOR_FEE_SHARING.md",
-      "title": "Accounts",
       "topic": "identity"
     },
     {
@@ -2992,21 +1807,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-65b08cac043d0b05",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "An agent is someone: named, resolvable, registered on-chain, and carrying a reputation it earned. Minting, naming, and reputation all start from the agent's own profile page; anyone can read the results without an account.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 6 · Identity & reputation",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6631ba82dcd0d68b",
       "language": [
         "en"
@@ -3016,36 +1816,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "ERC-8004 Blockchain Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-666b4e512a1b9956",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Sign the message and hand back the signature. Solana signatures may be base58 (Phantom) or base64; Ethereum uses personalsign.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/farcaster-memory-seeding.md",
-      "title": "POST … { \"intent\": \"grant\" }",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6695750b01bee829",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | | 1 | global | Pump PDA: seeds [b\"global\"]. ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/SELL.md",
-      "title": "Accounts",
       "topic": "identity"
     },
     {
@@ -3082,36 +1852,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-68e91d9e7a94f277",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Attribute | Type | Description | |-----------|------|-------------| | chain-id | number | Numeric chain ID, e.g. 8453. Required when agent-id is a bare number. | | registry | 0x address | Override the deployed registry contract (for CAIP-10 precision). |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/web-component.md",
-      "title": "On-chain identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-69999c77c884ebf9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ 421 = \\frac{15^3 - 7}{8} = \\frac{3375 - 7}{8} = \\frac{3368}{8} = 421 $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
-      "title": "13.3 The 421 Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6a20d5174b08dd3d",
       "language": [
         "en"
@@ -3121,21 +1861,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:docs/configuration.md",
       "title": "PAPERLESSSOCIALACCOUNTPROVIDERS= {#PAPERLESSSOCIALACCOUNTPROVIDERS}",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6a7168523a75bad4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The grammar is deterministic and pure (no DOM, no clock), which is what makes it unit-testable:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Pitch, loudness, and identity",
       "topic": "identity"
     },
     {
@@ -3172,21 +1897,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6c23e1e2d2e9142b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js const res = await fetch('/api/agents', { headers: { 'Authorization': 'Bearer sklivexxxxx' } });",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Using a key",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6c6f0f8803d21a5c",
       "language": [
         "en"
@@ -3196,36 +1906,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/google-x-accounts.md",
       "title": "Retired, renamed, or dormant (do not tag)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6d30a3e4c641b46a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The three.ws login and register pages run Privy headless: our own UI drives @privy-io/js-sdk-core directly (see src/privy-login.js), so there is no Privy-hosted modal.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "How it works",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-6dac56e75b21bb84",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js const { wallets } = await fetch('/api/auth/wallets', { credentials: 'include' }).then(r => r.json()); // wallets: [{ address, chainid, chaintype, createdat, isprimary }, ...]",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Listing linked wallets",
       "topic": "identity"
     },
     {
@@ -3262,21 +1942,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6ef1dd2637b55eac",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "node --env-file=.env.local scripts/okx-identity-demo.mjs ledgerlynx",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "One identity by slug, or every entry with no result yet.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6f6c34872690815e",
       "language": [
         "en"
@@ -3307,36 +1972,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6ff5bd90250d8f9e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Endpoint | Method | Auth | Description | |---|---|---|---| | /api/auth/persona/me | GET | three.ws session | Lists the user's avatars for the consent UI. | | /api/auth/persona/issue | POST | three.ws session | Mints a 24h persona JWT for { tenantorigin, avatarid }. | | /api/auth/persona/verify | GET | none | Verifies a token's signature, issuer, audience, expiry, and tokenuse. | | /.well-known/j",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Endpoint reference",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-708936a72993470f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Collected from the same sources plus the failure threads. Each is something a real appeal did.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "4. What got people denied",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-70c49dda6111fa09",
       "language": [
         "en"
@@ -3346,111 +1981,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/sign-language.md",
       "title": "Reading signing: the recognition API",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-72619756e236d221",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Method | Path | Description | |--------|------|-------------| | GET | /api/auth/siwe/nonce | Generate a nonce + CSRF token | | POST | /api/auth/siwe/verify | Verify signed message, issue session | | POST | /api/auth/logout | Revoke session cookie |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "API routes",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7362a366786c1b4c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | | 1 | eventauthority | Pump Fees PDA: seeds [b\"eventauthority\"]. | - | | 2 | program | Pump Fees program ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CREATOR_FEE_SHARING.md",
-      "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-736ac7563d5d2714",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "/api/auth/persona/issue accepts these origins for tenantorigin:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Allowed tenant origins",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7408afb599d6ab70",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "An agent's wallet address can carry its brand: pick the characters it should start with and the browser grinds keypairs live — with attempts-per-second and ETA readouts — until it finds a match, then installs it as the agent's wallet. Replacing an existing wallet is sweep-safe: any SOL or tokens are automatically migrated to the new address before the key swaps, so funds are never stranded. You ca",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Vanity Solana wallets — a branded address as identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-74a7b07e26db8f62",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Because an agent's identity is a standard NFT, it can be sold, gifted, or transferred like any other on-chain asset — and the platform's claim flow moves an agent between owners safely, with clear errors for wrong-owner or already-claimed cases. Sensitive bindings don't ride along blindly: the verified payment wallet clears automatically on transfer.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Transferable, claimable identities",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7595ab5668fa546b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Run scripts/generate-persona-key.mjs once per deployment to produce an ES256 (P-256) keypair:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Key generation",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-76a5a9a1bbfd4d93",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @googlesearchc | Google Search Central | | @adsliaison | Google Ads Liaison | | @GoogleAds | Google Ads | | @GoogleAnalytics | Google Analytics | | @GrowWithGoogle | Grow with Google |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Search, Ads, business",
       "topic": "identity"
     },
     {
@@ -3502,21 +2032,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7819418996d3ffc9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "> At 3.6B active of 31.6B, batch-1 latency still pays to read every expert. For a > single-call guardrail sitting in front of an expensive GPU job, is Nano MoE or a dense > small model the better design?",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/nvidia-nemotron-ask-the-experts-questions.md",
-      "title": "Official account, architecture segment",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-78c31423ac357853",
       "language": [
         "en"
@@ -3541,21 +2056,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/partner-packets/elevenlabs-startup-grants.md",
       "title": "Packet fields",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7a38c049a25dabf2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "If you're building a third-party app that users authorize to access their three.ws account — similar to how OAuth works with GitHub or Google — use the OAuth 2.1 endpoints. This is distinct from API keys (which you create for yourself).",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "OAuth 2.1 (Third-Party App Integration)",
       "topic": "identity"
     },
     {
@@ -3622,36 +2122,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7c51c0a4fceea780",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Status: written, NOT yet filed. Filing is the owner's action; add a line to the filing log the moment it goes in.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "5b. Appeal #2, drafted and ready to file",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7c75f14528fe545c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The base64url payload of the issued token decodes to:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Decoded JWT claims",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7cc8612bfa14603f",
       "language": [
         "en"
@@ -3667,21 +2137,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7d47c6d458ee292c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ \\boxed{\\alpha \\longleftrightarrow (Z0, RK) \\longleftrightarrow \\Gamma} $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/documentation-update-20260911/coherent-system.md",
-      "title": "9.4 Key Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7d6a3e6ecb7c3bea",
       "language": [
         "en"
@@ -3691,21 +2146,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:solana-mobile/publish-play/account-experience.md",
       "title": "Paste this",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7daa95862fb106af",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The pipeline lives in api/okx3d/identity.js. Every heavy stage runs over the deployed three.ws HTTP surfaces rather than a provider SDK, so the module holds no provider keys and behaves identically inside the API function and in a local script run.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "The brief-to-identity flow",
       "topic": "identity"
     },
     {
@@ -3832,51 +2272,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-827c4b5d830be43d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "One attribute. That is the whole integration:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/sign-with-your-avatar.md",
-      "title": "Step 8 (optional): Put a signing avatar on your own site",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8286843d9d28b0ae",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Sessions are stored server-side in Postgres. The browser receives an opaque token in a secure cookie.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Session Management",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-830f80dadd17e581",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Authentication is how three.ws knows who you are: it protects your agents, your avatars, and your dashboard, and it is required for anything that writes data. Sign in at three.ws/login with a crypto wallet or a plain email/social account; developers can also mint API keys for scripts and servers.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-833dd14b643635fd",
       "language": [
         "en"
@@ -3892,21 +2287,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-834b6d95724fa85a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Privy lets users log in with an email code, or with a wallet through Privy's auth service. Each Privy account gets a wallet managed by Privy's MPC system, so users get wallet-based identity without needing MetaMask or any browser extension.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Privy (Social / Email Auth)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-83b30b05a789a88e",
       "language": [
         "en"
@@ -3916,36 +2296,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "/login (account)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-86c89af18b41675b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Once a user is signed in via Privy, they can connect a browser wallet and link it to their account via POST /api/auth/wallets. See the Multi-wallet section below.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Linking additional wallets",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-86feb68210092830",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every visitor can pick who walks with them from a built-in roster: a robot mascot, humanoids, a fox, dancers, and showpieces. Each entry declares a rig strategy so it always moves, nothing freezes in a bind/T-pose:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/walk-companion.md",
-      "title": "Step 5: Choose who walks: the roster",
       "topic": "identity"
     },
     {
@@ -4021,21 +2371,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/creator-grant-proposal.md",
       "title": "Real usage the grant would sit on top of",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8b7d119c2221133f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "help.x.com refuses automated readers, so every quote below is from Wayback Machine captures of the live pages taken between June and August 2026, which agree with each other across captures. Local copies of each captured page are in the research notes listed at the end.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "2. X's own process, from X's own pages",
       "topic": "identity"
     },
     {
@@ -4132,21 +2467,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8e67b3653359729b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "npx -y @three-ws/notifications-mcp # inbox, read state, delivery prefs & Web Push devices npx -y @three-ws/herald-mcp # tell your human in person: your avatar walks on and says it npx -y @three-ws/billing-mcp # plan quotas, metered usage, invoices & receipts npx -y @three-ws/activity-mcp # trending agents/coins, $THREE holder board & activity ticker",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/mcp.md",
-      "title": "Account, inbox & discovery",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8ea53d5d3ce25463",
       "language": [
         "en"
@@ -4171,51 +2491,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Step 3 — Where the greeting's personality lives",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8ff404e51d91a4c8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This layer is what keeps an agent's existence durable across sessions, devices, and embed hosts.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/architecture.md",
-      "title": "Layer 3 — Identity & persistence",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-904d36798be8a74b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "For mobile wallet support without Privy, use the WalletConnect bridge:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "WalletConnect (mobile wallets)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-913d504e43bbdacd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | | 1 | quotemint | Quote mint for the coin. For SOL-paired coins, pass wrapped SOL: So111111111111111111111",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/COLLECT_CREATOR_FEE.md",
-      "title": "Accounts",
       "topic": "identity"
     },
     {
@@ -4252,36 +2527,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-91ba6c5d3ab24294",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Nothing is granted by default: the agent can propose but not act until the owner opts in per capability (createalert, briefing, wallettransfer). Reversible actions can be flipped to auto-run without asking; SOL transfers are irreversible, always confirmation-gated, and bounded by a daily SOL spend cap. The agent never sells or sends $THREE — it only accumulates and burns it.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Owner-granted scopes, confirmation gates, and spend caps",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-934d8bf9e2a99307",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Standard pageview analytics misses what matters most: what are people actually asking your agent? The brain:message event fires for both sides of the conversation — once with role: \"user\" when a question goes in, once with role: \"assistant\" when the reply comes back — so a single listener tracks the whole exchange:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 9: Analytics — understand what people ask",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-93bd0f74ed108986",
       "language": [
         "en"
@@ -4306,21 +2551,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Speak on the free Edge lane: no key, no account, no charge.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-946b5e692c1f776b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "List the entities this home has pre-approved, so a guarded action on one of them runs without asking. Read this before proposing something that would otherwise prompt. Read-only.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/mcp.md",
-      "title": "homegrants",
       "topic": "identity"
     },
     {
@@ -4366,21 +2596,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:pump-fun-skills/coin-fees/SKILL.md",
       "title": "PDAs and accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-950a050782b1234b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Because an agent's identity is a standard NFT, it can be sold, gifted, or transferred like any other on-chain asset — and the platform's claim flow moves an agent between owners safely, with clear errors for wrong-owner or already-claimed cases. Sensitive bindings don't ride along blindly: the verified payment wallet clears automatically on transfer.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Transferable, claimable identities",
       "topic": "identity"
     },
     {
@@ -4447,21 +2662,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-9638dd804c99e54f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Here is the full page. Replace the placeholder values in brackets and swap in your GLB URL.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 4: Build the site HTML",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-96bddaf2076b4077",
       "language": [
         "en"
@@ -4522,21 +2722,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-99ac26365cf359df",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "ensureRosterAgents() idempotently resolves each persona's backing agent (finds it by meta.ringpersona, else creates it under the platform owner), provisions its custodial wallet via ensureAgentWallet, stamps its spend limits, and registers the wallet in x402ringwallets with role='agent'. Because both ringAllowedAddresses() and the ring verify script read x402ringwallets, roster wallets land inside",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x402-ring-economy.md",
-      "title": "Roster provisioning & membership",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-9a588bf1a62a1d23",
       "language": [
         "en"
@@ -4546,21 +2731,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "/credits (account)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9b4134f91c76692f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Three personas, one module each, each backing a real custodial agent wallet:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x402-ring-economy.md",
-      "title": "The roster & personas",
       "topic": "identity"
     },
     {
@@ -4612,21 +2782,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-9e5d6fd1de81ad4c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The platform's announcements do not depend on this account. The changelog publishes to Telegram straight from each deploy, @trythreews is verified as an organisation with 9.1K followers, and every partner listing already points at the company rather than the person. The account is worth recovering for its history and its reach, and the recovery should be run carefully because there is one clean sh",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "8. What stays true regardless of outcome",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-9ed4be5ad2613e7f",
       "language": [
         "en"
@@ -4636,36 +2791,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "X (@trythreews), held until the account is restored",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9ee2cbea8447973f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Remote Server: osft-sheraton (192.168.12.214) - Local → Remote: Passwordless SSH authentication configured - Remote → Local: Passwordless SSH authentication configured - Key Exchange: Both systems have each other's public keys in authorizedkeys",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:system-specs.md",
-      "title": "SSH Two-Way Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-9f11a38a777d8f54",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This is the exact flow the three.ws login page runs (see public/login.html and src/privy-login.js, Solana branch):",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Raw SIWS flow",
       "topic": "identity"
     },
     {
@@ -4687,21 +2812,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a0350c6f53fe4e2d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Because an agent's identity is a standard NFT, it can be sold, gifted, or transferred like any other on-chain asset — and the platform's claim flow moves an agent between owners safely, with clear errors for wrong-owner or already-claimed cases. Sensitive bindings don't ride along blindly: the verified payment wallet clears automatically on transfer.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Transferable, claimable identities",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a111349b9aac7e5e",
       "language": [
         "en"
@@ -4717,21 +2827,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a1435a783518017e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- TTL. 24 hours (PERSONATTLSEC = 60 60 24, api/auth/persona/[action].js:42). Tenants that need a longer-lived session must mint their own session from the persona token's sub after verifying — do not extend the persona JWT itself. - Rotation. Generate a new keypair with node scripts/generate-persona-key.mjs, deploy with a new PERSONAJWKSKID, and the JWKS publishes the new key. Old tokens continue ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Tokens in practice",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a1a0942b8daaec13",
       "language": [
         "en"
@@ -4741,21 +2836,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/solana.md",
       "title": "How identity works on Solana",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a1a97fe8a15daa79",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "node scripts/economy-ledger-export.mjs --from 2026-07-01 --to 2026-07-31 > july.csv",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/economy-master.md",
-      "title": "CSV of July, into a file for the accountant:",
       "topic": "identity"
     },
     {
@@ -4807,36 +2887,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a5ee5b240110426d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The createv2 instruction uses the following accounts. Accounts 1-16 are present in the generated IDL. Accounts 17-19 are optional remainingaccounts and must be appended in this exact order when creating a coin with a non-native quote mint.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/COIN_CREATION.md",
-      "title": "Coin Creation Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a61ede283b66d3b3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Your avatar is the visual anchor of the whole experience. You have two paths:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 2: Create your 3D avatar",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a6707adedaab3024",
       "language": [
         "en"
@@ -4846,51 +2896,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a70901613dc9ac46",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Symptom: Requests using an API key return 401 or 403.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/troubleshooting.md",
-      "title": "API key authentication fails",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a75c8064cd8504dd",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A user can link multiple Ethereum addresses to one account. All linked addresses authenticate as the same user.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Multi-Wallet Support",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a772a639491e1bea",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- API reference: every endpoint, including the auth routes above - ERC-8004 identity: what a connected wallet unlocks on-chain - Embedding guide: embeds work unauthenticated; auth is only for editing and publishing - Architecture overview: where sessions and the API server fit",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Related",
       "topic": "identity"
     },
     {
@@ -4927,36 +2932,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a948d0932a6351a2",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This is exact. It connects the 15×15 matrix element count to the E8 root count (240) and the layer parameter (15).",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
-      "title": "3.2 Critical Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a9b66ff5ce99cf61",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js const url = new URL('https://three.ws/api/auth/persona/verify'); url.searchParams.set('token', token); url.searchParams.set('audience', 'https://coolgame.three.ws'); const res = await fetch(url); if (!res.ok) { const { error, errordescription } = await res.json(); throw new Error(${error}: ${errordescription}); } const claims = await res.json(); // claims: { ok, sub, aud, scope, exp, avatar }",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Online verify (works for ES256 and HS256)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ab43a8a92fa7260e",
       "language": [
         "en"
@@ -4966,21 +2941,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/x-account-appeal.md",
       "title": "Getting @nichxbt back: the appeal packet",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ab89d61e1ee225f1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A persona token must always be verified before the tenant trusts any claim on it. There are two paths:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Verifying a token (tenant side)",
       "topic": "identity"
     },
     {
@@ -5002,36 +2962,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-ad5a8149ce938d1b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ 421 = \\frac{15^3 - 7}{8} = \\frac{3375 - 7}{8} = \\frac{3368}{8} = 421 $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:coherent-system.md",
-      "title": "13.3 The 421 Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-adc0fabbb818f24d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Phase-2 morph is driven by 468 sparse landmarks diffused across 2162 head vertices. It captures gross proportion — face width, jaw, nose projection, brow — and cannot capture fine structure, because the signal is not there.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/avatar-fidelity-program.md",
-      "title": "Track 3 — Dense identity geometry by per-subject optimisation",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ae454a233f6c7114",
       "language": [
         "en"
@@ -5041,21 +2971,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:walk-sdk/README.md",
       "title": "Roster helpers",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-aef032c11552ebae",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A visitor lands on your site and talks to a 3D avatar of you. The avatar knows your resume, can load your actual portfolio work as 3D models, speaks in your voice, and never pretends to be you. It is available 24 hours a day, in any timezone, in any language.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "What you have built",
       "topic": "identity"
     },
     {
@@ -5092,21 +3007,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b2483f7995843718",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -X POST https://three.ws/api/oauth/revoke \\ -d \"clientid=$CLIENTID\" \\ -d \"clientsecret=$CLIENTSECRET\" \\ -d \"token=$REFRESHTOKEN\"",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "clientsecretpost: credentials in the form body",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b24e5906b34754bf",
       "language": [
         "en"
@@ -5116,21 +3016,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Requires: gh (authenticated) + jq",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b27ce3a801d0e385",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "An agent is someone: named, resolvable, registered on-chain, and carrying a reputation it earned. Minting, naming, and reputation all start from the agent's own profile page; anyone can read the results without an account.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 6 · Identity & reputation",
       "topic": "identity"
     },
     {
@@ -5242,36 +3127,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b4c07476cfab4721",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "On BNB Chain, an agent can mint its on-chain identity from the very first click with a wallet that holds absolutely nothing — no faucet visit, no funding step. The platform sponsors the gas, and if sponsorship is declined it falls back cleanly to a self-pay retry with clear instructions.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Gasless identity minting — register with a wallet holding zero",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b566c4e5172e4ed3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The remaining accounts are forwarded to the inner distributecreatorfeesv2 CPI and follow its shape:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CREATOR_FEE_SHARING.md",
-      "title": "Remaining Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b5808f4c47626b5a",
       "language": [
         "en"
@@ -5281,96 +3136,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b5f370f93d7a2ce5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "POST /api/agenc/link computes the canonical three.ws → AgenC agent id for a three.ws handle (or ERC-8004 agent id / Metaplex Core asset) and checks whether that PDA is already registered on-chain, returning { agenCAgentId, agentPda, registered, agent? } (plus cluster, programId, source, label, and a metadataUri). This is the bridge that ties a three.ws agent to its on-chain identity so reputation ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Identity bridge — /api/agenc/link",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b869c948aca0bebf",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | | 1 | eventauthority | Pump Fees PDA: seeds [",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CREATOR_FEE_SHARING.md",
-      "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b8a2e79d75bedda7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Analysis of 500 posts from @GitHubCommunity (GitHubCommunitytweets2026-08-21.json, scraped 2026-08-21). Engagement scored as likes + 3x retweets + replies.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/open-source-friday-plan.md",
-      "title": "5. What GitHub's own account tells us about promotion",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b8c11b4d2f83eacb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Outfit grid is your library, so it pays to keep a few deliberate bodies in it rather than one.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/swap-avatar-in-studio.md",
-      "title": "Step 5: Build a personal avatar library",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b91ab957fcbfea87",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -X POST https://three.ws/api/oauth/token \\ -d \"granttype=authorizationcode\" \\ -d \"clientid=$CLIENTID\" \\ -d \"code=$CODE\" \\ -d \"redirecturi=$REDIRECTURI\" \\ -d \"codeverifier=$VERIFIER\" \\ -d \"resource=https://three.ws/api/mcp\"",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "/.well-known/oauth-protected-resource",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b92b9b4eb32e13a8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- MetaMask — browser extension, window.ethereum - WalletConnect v2 — mobile wallets (Trust, Rainbow, MetaMask Mobile, and any WC-compatible wallet) - Coinbase Wallet — browser extension or mobile - Any EIP-1193 compliant provider",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Supported wallets",
       "topic": "identity"
     },
     {
@@ -5407,81 +3172,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b9e50e451f6f5ea5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Suspension folklore travels faster than the documented cases in section 3, and it is always more appealing because it promises a shortcut. Anything landing here has been checked and failed. Add to this list rather than re-arguing an item; the point of writing them down is that nobody spends another session on the same tip.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "4b. Circulating advice that does not survive checking",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-b9fdfbea7926756d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "SIWS (CAIP-122) lets users authenticate by signing a message with their Solana wallet. No password, no email, no transaction, no fees. This is the platform's own rail: the nonce and the session both come from three.ws, with no third-party auth service in the path.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Sign-In With Solana (SIWS)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ba0e80e1e40bf766",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | | 1 | global | Pump PDA: seeds [b\"global\"]. | - | | 2 | basemin",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/BUY.md",
-      "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-baa505ad7832eb85",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "$$ \\boxed{\\alpha \\longleftrightarrow (Z0, RK) \\longleftrightarrow \\Gamma} $$",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/coherent-system.md",
-      "title": "9.4 Key Identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-babb4e4999ebcfdc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "node scripts/generate-persona-key.mjs --kid=persona-2026-05",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "or pin a custom key id:",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-bbb3077f240e07d6",
       "language": [
         "en"
@@ -5491,21 +3181,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Step 4: Give it a personality",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-bc016651e0985a98",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Invariant: a settled transaction is consumed once, process-wide and across restarts.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/play-hardening.md",
-      "title": "8. One payment grants exactly one thing",
       "topic": "identity"
     },
     {
@@ -5542,36 +3217,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-be939f5997f50524",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Identity | Value | Status | |---|---|---| | $(2L)^3 - L^3 = 7L^3$ | $2^3 - 1 = 7$ | PROVEN | | $15 \\cdot 16 = 240$ | E8 root count | INDEPENDENTLY VERIFIED | | $16^3 - 15^3 = 721$ | Shell transition | PROVEN | | $421 = (3375 - 7)/8$ | 7-defect identity | PROVEN | | $421/3375 = 1/8 - 7/27000$ | Consciousness connection | PROVEN | | $62 = 64 - 2$ | Codon boundary | PROVEN | | $31 = 2^5 - 1$ | Mers",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:README.md",
-      "title": "Key Identities (All Computationally Verified)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-bedf5da382b4fc59",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. Your frontend calls GET /api/auth/siwe/nonce to get a one-time nonce (valid for 5 minutes) and a CSRF token. 2. You build an EIP-4361 message using the nonce, the user's address, and the current domain. 3. The user signs the message in their wallet — this is a free, off-chain signature. 4. You POST /api/auth/siwe/verify with the raw message and signature, plus the CSRF token as an X-CSRF-Token ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "How the flow works",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-bf94e1cd6c21561c",
       "language": [
         "en"
@@ -5581,66 +3226,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:packages/alerts-mcp/README.md",
       "title": "Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c0a55a554f323816",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Nothing is granted by default: the agent can propose but not act until the owner opts in per capability (createalert, briefing, wallettransfer). Reversible actions can be flipped to auto-run without asking; SOL transfers are irreversible, always confirmation-gated, and bounded by a daily SOL spend cap. The agent never sells or sends $THREE — it only accumulates and burns it.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Owner-granted scopes, confirmation gates, and spend caps",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c1d1f6fefed09eec",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "html import { jwtVerify, createRemoteJWKSet } from 'https://esm.sh/jose@5';",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Browser (offline, JWKS via ESM CDN)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c3258265db321176",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Symptom | What to check | |---|---| | jwksuri unreachable (browser console / fetch failure) | Confirm https://three.ws/.well-known/jwks.json returns 200. If it returns {\"keys\":[]} and the response carries x-three-ws-status: …HS256…, the deployment is in HS256 fallback — offline verification cannot work, switch to the /api/auth/persona/verify path. | | JWKSNoMatchingKey / kid not found | The toke",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "Troubleshooting",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c372e419cb71b316",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @Android | Android | | @googlechrome | Google Chrome | | @ChromeOS | ChromeOS | | @GooglePlay | Google Play | | @gmail | Gmail | | @GoogleWorkspace | Google Workspace | | @googledocs | Google Docs | | @googlemaps | Google Maps | | @googlephotos | Google Photos | | @googleearth | Google Earth | | @googlenews | Google News | | @GoogleTrends | Google Trends | | @googlear",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Consumer products",
       "topic": "identity"
     },
     {
@@ -5737,66 +3322,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c6bcd55c3ae23df6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "An agent is someone: named, resolvable, registered on-chain, and carrying a reputation it earned. Minting, naming, and reputation all start from the agent's own profile page; anyone can read the results without an account.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Chapter 6 · Identity & reputation",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c6d89dcc4024f7e6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The ConnectWalletController class in src/wallet/connect-button.js handles the full SIWE flow including chain switching:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Using the built-in controller",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c732e8e2796272be",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "followed by the public JWK that /.well-known/jwks.json will publish once the env vars take effect. Three env vars are involved:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/persona-hub.md",
-      "title": "PERSONAJWKSPUBLICKEYPEM=\"-----BEGIN PUBLIC KEY-----\\nMFkw…\\n-----END PUBLIC KEY-----\"",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c80c1e186b404fa6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A suspended account's profile URL and every one of its post URLs serve a \"this account has been suspended\" interstitial. That has three distinct consequences in this repo, and they want three different responses:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-accounts.md",
-      "title": "What a suspended handle actually breaks",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c80d07d42c10291a",
       "language": [
         "en"
@@ -5857,36 +3382,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-cd02a4892d9a9d5c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Status: written, NOT yet filed. This is a deliberate departure from the recommendation in section 4b, made by the owner on 2026-09-09. Log it in the filing log as such when it goes in, so that if a reviewer reacts to it the record shows the choice rather than leaving a later reader to guess.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "5d. The bilingual filing, on owner direction",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-cda8a41dd9aaf330",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "curl -X POST https://three.ws/api/oauth/revoke \\ -u \"$CLIENTID:$CLIENTSECRET\" \\ -d \"token=$REFRESHTOKEN\"",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "clientsecretbasic: credentials in the Authorization header, nothing in the form",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ce3417cd599278f4",
       "language": [
         "en"
@@ -5932,21 +3427,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-cfafcaabe922f7ae",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The greet message in Step 4 triggers the automatic introduction. Your system prompt already handles it with the greet rule from Step 1.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 5: Configure the greeting",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d056b9f8358b6010",
       "language": [
         "en"
@@ -5956,21 +3436,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Public versus authenticated, at a glance",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d0ecffd8fb816887",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The system prompt carries foundational facts, but a knowledge base lets you separate what the agent knows from how it behaves. Use the memory system for structured information you want to update without rewriting the prompt.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Step 3: Add your knowledge",
       "topic": "identity"
     },
     {
@@ -6007,21 +3472,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d14fa7f0ddb56e75",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A home screen widget outlives every browser session, and Android fetches it from an OS process with no cookie jar, so it cannot use the session. Instead /glance mints a widget token (POST /api/glance/token), a random 32-character credential prefixed glw. The server stores only its SHA-256; the plaintext travels once, inside a threews://glance/link?token=… deep link that only the ws.three.app packa",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/native-widgets.md",
-      "title": "How the widget authenticates",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d169589bc3f453e7",
       "language": [
         "en"
@@ -6031,21 +3481,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/atomic.md",
       "title": "Inspect a handoff before co-signing",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d174cd84f666485f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Keys are prefixed sklive and are shown exactly once at creation. They are stored as a SHA-256 hash; if you lose the key, create a new one.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Key format",
       "topic": "identity"
     },
     {
@@ -6112,51 +3547,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d406af1fcbe0770c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Via the dashboard at /dashboard → API Keys → Create Key, or via the API while authenticated:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Creating a key",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d4afb75efad566d0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A brand-new agent starts with nothing to remember. Three consent-gated lanes fill that gap from an account the user already has, each writing rows into the same store described above and each revocable by deleting exactly what it wrote:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/memory.md",
-      "title": "Seeding memory from an existing account",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d6243f858b6029ff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Status | Code | Meaning | |--------|------|---------| | 400 | invalidmessage | Message is not parseable CAIP-122 | | 400 | invaliddomain / invaliduri | Domain or URI does not match this deployment | | 400 | invalidchain | Chain ID is not mainnet, devnet, or testnet | | 400 | expired / notyetvalid | Outside the message's time window | | 400 | invalidnonce / noncereused / nonceexpired | Nonce unkn",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Verify errors",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d6c7002076403053",
       "language": [
         "en"
@@ -6202,36 +3592,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d93402605fbbe19e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Excluded from every measurement above, kept because who the account amplifies is its own marketing record.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-archive/trythreews-engagement.md",
-      "title": "Accounts we repost or quote",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d97ab334a61ad958",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Host-sid HttpOnly; Secure; SameSite=Lax; Path=/ Max-Age: 2592000 (30 days)",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Session cookie",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-da3ab5a66a49fccc",
       "language": [
         "en"
@@ -6241,21 +3601,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:maintenance/README.md",
       "title": "Deploy it (new Vercel account) — fastest path",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-da891a05ef1958bc",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "There is no consolidated, admin-authenticated, all-flows ledger export and no cost side, so a full P&L / cash-flow cannot be produced today. What exists:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/financial-controls.md",
-      "title": "5. Accounting export",
       "topic": "identity"
     },
     {
@@ -6292,36 +3637,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-db766e91492fc7f7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "If you have a vercel.json for rewrites or headers:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Assign your domain",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-db8eeb7fd4ed850c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Paste any Solana wallet and get a complete, provable trading report: realized P&L, win rate, ROI distribution, a smart-money score, and a full sortable trade ledger where every number traces to real on-chain trades. Then prove the wallet is yours with a wallet signature and publish it as your official Trader Card — an earned, verifiable trading identity.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Claim your wallet — a provable Trader Card identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-dba282bf2639cfd5",
       "language": [
         "en"
@@ -6337,21 +3652,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-dbfc1843d94b9276",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| | Seeding | Posting | |---|---|---| | Connect link | /api/auth/x/connect?scope=read | /api/auth/x/connect?scope=full | | Scopes X is asked for | tweet.read users.read offline.access | the read set plus tweet.write media.write | | Where it is offered | the X card in Settings, Connected accounts | the agent editor's Social tab, the share and walk-capture flows | | What it can do | read your profil",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-memory-seeding.md",
-      "title": "Connecting: two grants, deliberately separate",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-dca0f7ca0c935bd1",
       "language": [
         "en"
@@ -6361,36 +3661,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/creator-grant-proposal.md",
       "title": "What a grantee receives",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-dcce5a46fecfe297",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Most personal sites are a wall of text and a headshot. Someone visits, skims your \"About me\" in twenty seconds, and leaves.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Build a Personal AI Website",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-dd0c17dccb64a907",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Paste any Solana wallet and get a complete, provable trading report: realized P&L, win rate, ROI distribution, a smart-money score, and a full sortable trade ledger where every number traces to real on-chain trades. Then prove the wallet is yours with a wallet signature and publish it as your official Trader Card — an earned, verifiable trading identity.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Claim your wallet — a provable Trader Card identity",
       "topic": "identity"
     },
     {
@@ -6442,21 +3712,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e1002a49399659ed",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Two credential types are accepted, resolved in this order:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e10bc7a3fe8ea50f",
       "language": [
         "en"
@@ -6466,21 +3721,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/applications/elevenlabs-startup-grants.md",
       "title": "Figures used and how to refresh them",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e1a0e8088cec4a95",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Give your AI agent a permanent, verifiable, on-chain identity. ERC-8004 is a proposed Ethereum standard for registering agents in a public smart contract registry so that anyone — wallets, other agents, dApps — can look them up, verify their ownership, and trust their reputation without relying on any centralized database.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/erc8004.md",
-      "title": "ERC-8004 Blockchain Identity",
       "topic": "identity"
     },
     {
@@ -6502,21 +3742,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e1fe6dee4c28b500",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "On BNB Chain, an agent can mint its on-chain identity from the very first click with a wallet that holds absolutely nothing — no faucet visit, no funding step. The platform sponsors the gas, and if sponsorship is declined it falls back cleanly to a self-pay retry with clear instructions.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Gasless identity minting",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e22a2d1a981b12c5",
       "language": [
         "en"
@@ -6532,36 +3757,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e315442296e38978",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The category is wrong for the account, and that is the case. X's authenticity rules cover impersonation, fake or duplicate accounts, bulk or automated activity, engagement pods, coordinated campaigns, and purchased engagement. The email cites that family, and \"was reported\" says the trigger was user reports rather than a detection sweep. None of the listed behaviours describes the account:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/x-account-appeal.md",
-      "title": "1. What this suspension is, and is not",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e35391e197925c97",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "mkdir maya-site && cd maya-site cp path/to/index.html .",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "Create a project folder",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e39dde2e449475d6",
       "language": [
         "en"
@@ -6571,21 +3766,6 @@
       "provenance": "upstream",
       "source": "repo:paperless-ngx:docs/advanced_usage.md",
       "title": "OpenID Connect and social authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e3e30e1a06343ce7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Phantom (window.phantom.solana) - Backpack (window.backpack.solana) - Solflare (window.solflare) - Solana Seeker / Seed Vault (the three.ws mobile app injects a one-tap wallet; see below) - Any wallet exposing the standard connect() + signMessage() provider interface",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Supported wallets",
       "topic": "identity"
     },
     {
@@ -6742,36 +3922,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e9aa73e7606a41ff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "What three.ws is. A web platform for 3D AI agents: animated avatars that talk, teach, and sign, running in any browser with nothing to install. Free to use for the surfaces in this pilot; no student accounts required.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/education-pilot-bucharest.md",
-      "title": "three.ws education pilot: 3D learning assistants and signing avatars",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ea8c9abd9656b285",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "API keys are for server-to-server access where session cookies don't apply — CI pipelines, backend integrations, CLI tools.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "API Keys",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ead6641ce83bb1e7",
       "language": [
         "en"
@@ -6781,66 +3931,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "AWS account",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-eb328e903f9fed99",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The identity layer is optional but unlocks the decentralized features. An ERC-8004 registry contract maps numeric agent IDs to IPFS manifest CIDs on supported chains. IPFS stores the manifest bundle. Sign-In with Ethereum (SIWE) authenticates the user's wallet, and ERC-7710 delegations encode scoped permissions the agent can redeem on behalf of its owner.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/introduction.md",
-      "title": "Identity Layer",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-eb3c24d80ad459da",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Before building, it helps to see the end state. A visitor lands on your site and:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/personal-ai-site.md",
-      "title": "What visitors can do",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ebdcbe727dd3a871",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Path | Feature | Added | Announced | First/main post | |---|---|---|---|---| | /credits | Credits | 2026-06-21 | No | | | /payments | Agent Payment Sessions | 2026-06-26 | No | | | /pay/simulator | Spend Policy Simulator | 2026-07-31 | No | | | /login | Sign in | 2026-04-14 | No | | | /register | Create account | 2026-04-14 | No | | | /forgot-password | Forgot password | 2026-04-14 | No | | | /d",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/announcement-coverage.md",
-      "title": "Account (14 pages, 14 never announced)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ec2996f11406b56d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "OAuth needs an operator to register a GitHub OAuth app (see Configuration below). Until that exists, /api/auth/github/connect can only answer 501, so the Settings card offers the token path instead, and offers it as a secondary option even where OAuth works.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/github-memory-seeding.md",
-      "title": "Connecting with a personal access token",
       "topic": "identity"
     },
     {
@@ -6862,21 +3952,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-ed8820032811a937",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Every auth endpoint accepts an optional tosAccepted: true body field. Send it whenever your UI showed the user the Terms of Service agreement (a checkbox, a \"By signing in you agree\" notice, or the agreement sentence inside the signed wallet statement). The server writes a durable acceptance record (audit log + the accepted Terms version on the user row). Two rules:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Terms of Service acceptance",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-ee28eecc2268866a",
       "language": [
         "en"
@@ -6886,21 +3961,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Calling it without an account (x402)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ee6376185b47a0ab",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Not every user has a crypto wallet. If your audience includes non-web3 users, Privy removes the wallet prerequisite while still giving those users an Ethereum address they can use for on-chain operations later.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Why use Privy",
       "topic": "identity"
     },
     {
@@ -6937,21 +3997,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-ef5f8b8946d2d532",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "If you want Account (or any other deserialized pump account type) instead of UncheckedAccount, import the type from pumprustclient::state, not from declareprogram!(pump)'s generated pump::accounts module:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/CPI_README.md",
-      "title": "Typed account decoding",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-efeb80de4b4a5469",
       "language": [
         "en"
@@ -6961,21 +4006,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/partner-packets/elevenlabs-startup-grants.md",
       "title": "Application answers",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f07e686d3d4886c4",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| # | Account | Seeds / derivation | initifneeded / SOL cost | | --- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | | 1 | user | Cashback recipient. For legacy SOL cashback, receives all lamports held above",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/pumpfun-program/docs/instructions/CLAIM_CASHBACK.md",
-      "title": "Accounts",
       "topic": "identity"
     },
     {
@@ -6997,36 +4027,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-f0d5b4d4dc5c0bc3",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "scripts/economy-ledger-export.mjs emits the ledger as CSV (default) or JSON with the running balance and USD valuation, and can re-verify the chain first:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/economy-master.md",
-      "title": "3. Accounting export",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f186a3f18d39e552",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Replies to one message in the voice of a persona, so a user can audition a profile before saving it. Same auth as extraction. Stateless: pass the persona on every call.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/api-reference.md",
-      "title": "Persona preview",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-f2554ae1e63dcfa7",
       "language": [
         "en"
@@ -7036,51 +4036,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Cost accounting",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f28873817f780b2c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Get both values from dashboard.privy.io. The server uses PRIVYAPPID to validate the JWT audience claim and to fetch the JWKS from https://auth.privy.io/api/v1/apps/{appId}/jwks.json.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Server-side (for token verification)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f2c8643bbbe29579",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "> JWTSECRET is critical. It signs all session tokens and is used (via HKDF) to derive the AES-256-GCM key that encrypts agent wallet private keys. Generate it with openssl rand -base64 64. Never commit it. Rotate it by appending to the key set — never remove the old key while active sessions exist.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "WalletConnect (optional — needed only for mobile wallet QR flow)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f3149a4c239e4a08",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The editor session (session.js) tracks a dirty flag whenever you make a change. Edits are also persisted to sessionStorage (JSON) and IndexedDB (file bytes) by edit-persistence.js. If you navigate away and come back, or if the page redirects to login and returns, your edits are restored automatically.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/editor.md",
-      "title": "Auto-save (local, no account required)",
       "topic": "identity"
     },
     {
@@ -7111,51 +4066,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Search the public ElevenLabs Voice Library, then copy one into your account.",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f5fc9a478e4963a8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "say() supplies the cue; the content of the greeting comes from the agent's configured personality. There are two places that personality can live, depending on how you embedded.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/tutorials/greeting-and-first-speech.md",
-      "title": "Step 3 — Where the greeting's personality lives",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f652fd04906933c9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Identity | Value | Status | |---|---|---| | $(2L)^3 - L^3 = 7L^3$ | $2^3 - 1 = 7$ | PROVEN | | $15 \\cdot 16 = 240$ | E8 root count | INDEPENDENTLY VERIFIED | | $16^3 - 15^3 = 721$ | Shell transition | PROVEN | | $421 = (3375 - 7)/8$ | 7-defect identity | PROVEN | | $421/3375 = 1/8 - 7/27000$ | Consciousness connection | PROVEN | | $62 = 64 - 2$ | Codon boundary | PROVEN | | $31 = 2^5 - 1$ | Mers",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:archives/publication-ready-20260911/README.md",
-      "title": "Key Identities (All Computationally Verified)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f6ddd04ae5d50764",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "js await fetch(/api/api-keys/${keyId}, { method: 'DELETE', credentials: 'include', });",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "Revoking a key",
       "topic": "identity"
     },
     {
@@ -7252,21 +4162,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-fa15a24a5635e92d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Wallets that implement the Sign In With Solana wallet feature expose signIn(), which merges authorization and the sign-in signature into a single wallet interaction. The three.ws mobile wallet advertises this with a supportsSignIn flag. When available, call signIn() with the same fields (domain, statement, uri, nonce, timestamps), then POST the wallet's signedMessageText and signature to the same ",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/authentication.md",
-      "title": "One-tap sign-in (Seeker / Seed Vault)",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-fa64bf6f6593ac2f",
       "language": [
         "en"
@@ -7291,21 +4186,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "On-chain identity",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fab0c025ddfce5ca",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "On BNB Chain, an agent can mint its on-chain identity from the very first click with a wallet that holds absolutely nothing — no faucet visit, no funding step. The platform sponsors the gas, and if sponsorship is declined it falls back cleanly to a self-pay retry with clear instructions.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/ALL.md",
-      "title": "Gasless identity minting — register with a wallet holding zero",
       "topic": "identity"
     },
     {
@@ -7351,66 +4231,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fce2466136b9ab06",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Handle | Name | |---|---| | @Google | Google | | @GoogleAI | Google AI | | @GeminiApp | Google Gemini | | @GeminiNotebook | Gemini Notebook (formerly @NotebookLM) | | @GoogleDeepMind | Google DeepMind | | @GoogleResearch | Google Research | | @GoogleQuantumAI | Google Quantum AI | | @GoogleLabs | Google Labs |",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Core Google and AI",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fd8cea317b066f70",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A directory of Google's official X (Twitter) accounts: handle plus display name. Compiled and verified 2026-08-05. Google retired its own public Twitter directory (it now redirects to blog.google), so this list is the working reference for outreach, tagging, and monitoring.",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/google-x-accounts.md",
-      "title": "Google-affiliated X accounts",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fdc7075dbc713ec1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The session-management and credits endpoints accept either credential:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/payment-sessions.md",
-      "title": "Authentication",
-      "topic": "identity"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-fe46ee928f7e4d35",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Routines round-trip through the URL, so a link is the routine. The studio keeps ?r= in sync as you edit:",
-      "provenance": "upstream",
-      "source": "repo:three-ws:docs/choreography.md",
-      "title": "Sharing a routine without an account",
       "topic": "identity"
     },
     {

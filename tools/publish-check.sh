@@ -98,6 +98,10 @@ echo "== curriculum map (course coverage enforced)"
 node tools/curriculum-map.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "curriculum-map.json" || { say " FAIL" "curriculum-map.json"; FAIL=1; }
 
+echo "== academy review (structural course review — zero defects)"
+node tools/academy-review.mjs --verify >/dev/null 2>&1 \
+  && say " PASS" "academy-review.json" || { say " FAIL" "academy-review.json"; FAIL=1; }
+
 echo "== course generator (wave-report lessons deterministic)"
 node tools/course-gen.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "course-gen" || { say " FAIL" "course-gen"; FAIL=1; }

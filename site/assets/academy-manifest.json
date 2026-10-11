@@ -1,5 +1,5 @@
 {
-  "lesson_count": 70561,
+  "lesson_count": 56118,
   "lessons": [
     {
       "access": "public",
@@ -7680,35 +7680,35 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 70013
+      "harvested": 55570
     },
     "topics": {
-      "orientation": 5847,
-      "ethics": 381,
-      "identity": 530,
-      "systems": 4171,
-      "ai-literacy": 8946,
-      "security": 1159,
-      "communications": 2029,
-      "campaign": 1656,
-      "reference": 15304,
-      "uiux": 27099,
-      "science": 2489,
-      "hardware": 708,
-      "ministry": 91,
-      "lore": 151
+      "orientation": 5333,
+      "ethics": 293,
+      "identity": 318,
+      "systems": 2730,
+      "ai-literacy": 6950,
+      "security": 748,
+      "communications": 1507,
+      "campaign": 861,
+      "reference": 10807,
+      "uiux": 24317,
+      "science": 1501,
+      "hardware": 598,
+      "ministry": 69,
+      "lore": 86
     },
     "languages": {
-      "en": 70097,
-      "zh-Hant": 994
+      "en": 55666,
+      "zh-Hant": 982
     },
     "access": {
-      "public": 70561
+      "public": 56118
     },
     "provenance": {
       "curated": 548,
-      "upstream": 62587,
-      "first_party": 7426
+      "upstream": 50865,
+      "first_party": 4705
     }
   },
   "harvest_sources": [
@@ -7718,7 +7718,7 @@
       "mode": "local",
       "pin": null,
       "docs": 275,
-      "lessons": 4171
+      "lessons": 2024
     },
     {
       "root": "space-agent",
@@ -7726,7 +7726,7 @@
       "mode": "local",
       "pin": null,
       "docs": 339,
-      "lessons": 964
+      "lessons": 938
     },
     {
       "root": "spec-007",
@@ -7734,7 +7734,7 @@
       "mode": "local",
       "pin": null,
       "docs": 53,
-      "lessons": 617
+      "lessons": 579
     },
     {
       "root": "nullclaw",
@@ -7742,7 +7742,7 @@
       "mode": "local",
       "pin": null,
       "docs": 56,
-      "lessons": 733
+      "lessons": 729
     },
     {
       "root": "gnm-ministry",
@@ -7758,7 +7758,7 @@
       "mode": "pinned_clone",
       "pin": "c41652b72512b48275082dafcb1935f6f5d58022",
       "docs": 35,
-      "lessons": 509
+      "lessons": 56
     },
     {
       "root": "project-nomad",
@@ -7766,7 +7766,7 @@
       "mode": "pinned_clone",
       "pin": "85da928019c428faf43cf96785f16f7da9efb0df",
       "docs": 19,
-      "lessons": 321
+      "lessons": 320
     },
     {
       "root": "quine.html",
@@ -7790,7 +7790,7 @@
       "mode": "pinned_clone",
       "pin": "c2ae6d7c537236d3e91274162407cdb89ddfc353",
       "docs": 64,
-      "lessons": 1091
+      "lessons": 1034
     },
     {
       "root": "agent-builder",
@@ -7798,7 +7798,7 @@
       "mode": "pinned_clone",
       "pin": "136b6f96675a4f856eeb8fa8ad68c7d293a75c7e",
       "docs": 4,
-      "lessons": 35
+      "lessons": 34
     },
     {
       "root": "full-stack-school",
@@ -7814,7 +7814,7 @@
       "mode": "pinned_clone",
       "pin": "038b8b2c9f30dd3d0802a14ba1767d53541345fe",
       "docs": 72,
-      "lessons": 1745
+      "lessons": 1511
     },
     {
       "root": "paperless-ngx",
@@ -7822,7 +7822,7 @@
       "mode": "pinned_clone",
       "pin": "3eb784b34d04eebb5897f8e42384b3e7e6d6a337",
       "docs": 27,
-      "lessons": 1112
+      "lessons": 1104
     },
     {
       "root": "freenet-core",
@@ -7830,7 +7830,7 @@
       "mode": "pinned_clone",
       "pin": "5b923edc83ca9d3d6e90bfcd2b953c754a38eef0",
       "docs": 80,
-      "lessons": 1398
+      "lessons": 1330
     },
     {
       "root": "three-ws",
@@ -7838,7 +7838,7 @@
       "mode": "pinned_clone",
       "pin": "309cb37e870e7bba2179cc55a2ad0936ed53f2fe",
       "docs": 1696,
-      "lessons": 29628
+      "lessons": 20967
     },
     {
       "root": "ukama",
@@ -7846,7 +7846,7 @@
       "mode": "pinned_clone",
       "pin": "0da45b7a478a4df89e4e3fedc3ac0fe00490337b",
       "docs": 116,
-      "lessons": 495
+      "lessons": 450
     },
     {
       "root": "ukama-nodes",
@@ -7862,7 +7862,7 @@
       "mode": "pinned_clone",
       "pin": "89f0536a10e47e4994cd9eb59e10928c48ff95fd",
       "docs": 34,
-      "lessons": 87
+      "lessons": 72
     },
     {
       "root": "walter-hardware",
@@ -7878,7 +7878,7 @@
       "mode": "pinned_clone",
       "pin": "a989103e70c22c7c4b4e47c482059fdad651e7d1",
       "docs": 9,
-      "lessons": 49
+      "lessons": 42
     },
     {
       "root": "walter-uc",
@@ -7886,7 +7886,7 @@
       "mode": "pinned_clone",
       "pin": "ec76ff66cbf25f9adb49b517da054a2357b61e7c",
       "docs": 11,
-      "lessons": 19
+      "lessons": 13
     },
     {
       "root": "woof-ce",
@@ -7894,7 +7894,7 @@
       "mode": "pinned_clone",
       "pin": "8f6744545b13c3745e20dff484258023d07c59bb",
       "docs": 46,
-      "lessons": 114
+      "lessons": 97
     },
     {
       "root": "maypole-firmware",
@@ -7918,7 +7918,7 @@
       "mode": "pinned_clone",
       "pin": "b053a23e2d9ea308810559370553a592a0e4bfae",
       "docs": 63,
-      "lessons": 697
+      "lessons": 115
     },
     {
       "root": "xterm-js",
@@ -7942,7 +7942,7 @@
       "mode": "pinned_clone",
       "pin": "539cbffd0a13b18e9c65eb84dd35e6596e403158",
       "docs": 9,
-      "lessons": 113
+      "lessons": 110
     },
     {
       "root": "codemirror",
@@ -7974,7 +7974,7 @@
       "mode": "pinned_clone",
       "pin": "edf2fb608eca0461508d1d71317e6e58309ffada",
       "docs": 21,
-      "lessons": 244
+      "lessons": 242
     },
     {
       "root": "fuzzysort",
@@ -8014,7 +8014,7 @@
       "mode": "pinned_clone",
       "pin": "7169e65147a47f3720957a6f156a33c838ab9f57",
       "docs": 143,
-      "lessons": 592
+      "lessons": 587
     },
     {
       "root": "d3",
@@ -8038,7 +8038,7 @@
       "mode": "pinned_clone",
       "pin": "535723d5e433727720d9b673c31622821bb03210",
       "docs": 82,
-      "lessons": 489
+      "lessons": 487
     },
     {
       "root": "threejs",
@@ -8046,7 +8046,7 @@
       "mode": "pinned_clone",
       "pin": "11738a9d55e502fb484cefffcea3a66dc44e9fe9",
       "docs": 902,
-      "lessons": 8977
+      "lessons": 8192
     },
     {
       "root": "globe-gl",
@@ -8062,7 +8062,7 @@
       "mode": "pinned_clone",
       "pin": "5ccd00f47d72a571319da70ccac080bb8e09709f",
       "docs": 3,
-      "lessons": 17
+      "lessons": 14
     },
     {
       "root": "force-graph",
@@ -8070,7 +8070,7 @@
       "mode": "pinned_clone",
       "pin": "0f059c894bf5b7504460b7028b00bc6e4d95f0d9",
       "docs": 3,
-      "lessons": 16
+      "lessons": 12
     },
     {
       "root": "cytoscape",
@@ -8078,7 +8078,7 @@
       "mode": "pinned_clone",
       "pin": "7ba634095d8954089ee5dc09ada0030f2dca134c",
       "docs": 219,
-      "lessons": 379
+      "lessons": 369
     },
     {
       "root": "sigmajs",
@@ -8086,7 +8086,7 @@
       "mode": "pinned_clone",
       "pin": "a3e79f4d5103f8a56784f7d3304d3f043ce75c83",
       "docs": 39,
-      "lessons": 278
+      "lessons": 267
     },
     {
       "root": "mermaid",
@@ -8094,7 +8094,7 @@
       "mode": "pinned_clone",
       "pin": "33d0a4997b742df0d04838cce3f572e674d1cf9d",
       "docs": 210,
-      "lessons": 2874
+      "lessons": 2188
     },
     {
       "root": "dagre",
@@ -8110,7 +8110,7 @@
       "mode": "pinned_clone",
       "pin": "f50492e5dc86460876de4f13394a341451a87c66",
       "docs": 9,
-      "lessons": 34
+      "lessons": 33
     },
     {
       "root": "gridjs",
@@ -8118,7 +8118,7 @@
       "mode": "pinned_clone",
       "pin": "a8e41b91cb42a96dcd96da421ff578fa572ef07f",
       "docs": 6,
-      "lessons": 20
+      "lessons": 7
     },
     {
       "root": "jspreadsheet",
@@ -8126,7 +8126,7 @@
       "mode": "pinned_clone",
       "pin": "765ea62f83e7ce4ac843f822421a0e9d56f4cf49",
       "docs": 183,
-      "lessons": 922
+      "lessons": 862
     },
     {
       "root": "sortable",
@@ -8142,7 +8142,7 @@
       "mode": "pinned_clone",
       "pin": "a993eb8cd5cbc65f3a19e45ee24b7fedc026174f",
       "docs": 34,
-      "lessons": 214
+      "lessons": 203
     },
     {
       "root": "jkanban",
@@ -8190,7 +8190,7 @@
       "mode": "pinned_clone",
       "pin": "6a57018fc906333d358981682fd693e4bb85940f",
       "docs": 256,
-      "lessons": 147
+      "lessons": 144
     },
     {
       "root": "markdown-it",
@@ -8198,7 +8198,7 @@
       "mode": "pinned_clone",
       "pin": "3c51991c32aaa2b002a52c009334ebe5752c84b3",
       "docs": 62,
-      "lessons": 311
+      "lessons": 310
     },
     {
       "root": "dompurify",
@@ -8222,7 +8222,7 @@
       "mode": "pinned_clone",
       "pin": "fc3f06392f189354eed922973635ab9e9268b983",
       "docs": 1447,
-      "lessons": 1442
+      "lessons": 1285
     },
     {
       "root": "sweetalert2",
@@ -8230,7 +8230,7 @@
       "mode": "pinned_clone",
       "pin": "0bdf7205a4b165f60d156cebf7a8aa304bd6d240",
       "docs": 7,
-      "lessons": 433
+      "lessons": 432
     },
     {
       "root": "notyf",
@@ -8246,7 +8246,7 @@
       "mode": "pinned_clone",
       "pin": "cc398049bde916d7e256f72a3f84e5eb4ba14506",
       "docs": 3,
-      "lessons": 10
+      "lessons": 5
     },
     {
       "root": "shepherd",
@@ -8254,7 +8254,7 @@
       "mode": "pinned_clone",
       "pin": "cf36267bd034a4a457148f91a00a13c68435aca6",
       "docs": 19,
-      "lessons": 374
+      "lessons": 363
     },
     {
       "root": "tippyjs",
@@ -8270,7 +8270,7 @@
       "mode": "pinned_clone",
       "pin": "dc62df23d72ad96d456c007d48d4541786fcd7eb",
       "docs": 24,
-      "lessons": 206
+      "lessons": 186
     },
     {
       "root": "pickr",
@@ -8278,7 +8278,7 @@
       "mode": "pinned_clone",
       "pin": "e8ff88d9161ffc6e3c46a4430be8c328c42d6415",
       "docs": 6,
-      "lessons": 28
+      "lessons": 26
     },
     {
       "root": "flatpickr",
@@ -8294,7 +8294,7 @@
       "mode": "pinned_clone",
       "pin": "5aaf04c88880316cbd8db0bad33847a35c04c480",
       "docs": 7,
-      "lessons": 22
+      "lessons": 17
     },
     {
       "root": "lucide",
@@ -8302,7 +8302,7 @@
       "mode": "pinned_clone",
       "pin": "70562c1ee1c4fdcf736fe97bc893fb8511927934",
       "docs": 190,
-      "lessons": 988
+      "lessons": 869
     },
     {
       "root": "tabler-icons",
@@ -8310,7 +8310,7 @@
       "mode": "pinned_clone",
       "pin": "a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d",
       "docs": 36,
-      "lessons": 170
+      "lessons": 129
     },
     {
       "root": "phosphor-icons",
@@ -8326,7 +8326,7 @@
       "mode": "pinned_clone",
       "pin": "1d3053576a860e9854645493ad6c4a72c6cc6e45",
       "docs": 10,
-      "lessons": 169
+      "lessons": 165
     },
     {
       "root": "tonejs",
@@ -8382,7 +8382,7 @@
       "mode": "pinned_clone",
       "pin": "376f42eb274361939eaad3b0943204c053ad26c4",
       "docs": 5,
-      "lessons": 8
+      "lessons": 4
     },
     {
       "root": "open-props",
@@ -8398,7 +8398,7 @@
       "mode": "pinned_clone",
       "pin": "3f8ab233dbbd9d2fe577528d2296382954be3d1a",
       "docs": 14,
-      "lessons": 47
+      "lessons": 45
     },
     {
       "root": "pico-css",
@@ -8422,7 +8422,7 @@
       "mode": "pinned_clone",
       "pin": "8d3d9a2f98385d4c879f4b5be080a0221279ed4d",
       "docs": 62,
-      "lessons": 396
+      "lessons": 389
     },
     {
       "root": "masonry",
@@ -8438,7 +8438,7 @@
       "mode": "pinned_clone",
       "pin": "fbf9ddb555edd2e0332e813dd69972ab9ee4b8b4",
       "docs": 12,
-      "lessons": 397
+      "lessons": 390
     },
     {
       "root": "tui-calendar",
@@ -8446,7 +8446,7 @@
       "mode": "pinned_clone",
       "pin": "b53e765e8d896ab7c63d9b9b9515904119a72f46",
       "docs": 39,
-      "lessons": 645
+      "lessons": 613
     },
     {
       "root": "kaplay",
@@ -8454,7 +8454,7 @@
       "mode": "pinned_clone",
       "pin": "e2fbeebb89e47269d14143a066ee10b909349303",
       "docs": 5,
-      "lessons": 108
+      "lessons": 103
     },
     {
       "root": "nipplejs",
@@ -8470,7 +8470,7 @@
       "mode": "pinned_clone",
       "pin": "125bda1e24d74d6f06f4075b0dab7ac10f3b5c10",
       "docs": 693,
-      "lessons": 1134
+      "lessons": 1124
     },
     {
       "root": "wavesurfer",
@@ -8486,7 +8486,7 @@
       "mode": "pinned_clone",
       "pin": "6020386bbeed60ad68e675fdcaa6220e292fd35a",
       "docs": 12,
-      "lessons": 121
+      "lessons": 120
     },
     {
       "root": "printjs",
@@ -8518,7 +8518,7 @@
       "mode": "pinned_clone",
       "pin": "b2d6a7d9af6d9cd39830701f6b6a7cd98a37e13f",
       "docs": 11,
-      "lessons": 113
+      "lessons": 73
     },
     {
       "root": "idb",
@@ -8529,11 +8529,11 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 70013,
+  "harvested_count": 55570,
   "courses": [
     {
       "id": "ai-literacy",
-      "lesson_count": 8814,
+      "lesson_count": 6818,
       "file": "assets/academy/ai-literacy.json",
       "topics": [
         "ai-literacy"
@@ -8541,7 +8541,7 @@
     },
     {
       "id": "campaign-operations",
-      "lesson_count": 1638,
+      "lesson_count": 843,
       "file": "assets/academy/campaign-operations.json",
       "topics": [
         "campaign"
@@ -8549,7 +8549,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 2025,
+      "lesson_count": 1503,
       "file": "assets/academy/communications.json",
       "topics": [
         "communications"
@@ -8557,7 +8557,7 @@
     },
     {
       "id": "governance-ethics",
-      "lesson_count": 304,
+      "lesson_count": 216,
       "file": "assets/academy/governance-ethics.json",
       "topics": [
         "ethics"
@@ -8565,7 +8565,7 @@
     },
     {
       "id": "hardware-fleet",
-      "lesson_count": 708,
+      "lesson_count": 598,
       "file": "assets/academy/hardware-fleet.json",
       "topics": [
         "hardware"
@@ -8573,7 +8573,7 @@
     },
     {
       "id": "identity-authority",
-      "lesson_count": 495,
+      "lesson_count": 283,
       "file": "assets/academy/identity-authority.json",
       "topics": [
         "identity"
@@ -8581,7 +8581,7 @@
     },
     {
       "id": "lore-shelf",
-      "lesson_count": 151,
+      "lesson_count": 86,
       "file": "assets/academy/lore-shelf.json",
       "topics": [
         "lore"
@@ -8589,7 +8589,7 @@
     },
     {
       "id": "ministry-neo-hindu",
-      "lesson_count": 91,
+      "lesson_count": 69,
       "file": "assets/academy/ministry-neo-hindu.json",
       "topics": [
         "ministry"
@@ -8597,7 +8597,7 @@
     },
     {
       "id": "orientation",
-      "lesson_count": 5748,
+      "lesson_count": 5234,
       "file": "assets/academy/orientation.json",
       "topics": [
         "orientation"
@@ -8605,7 +8605,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 15304,
+      "lesson_count": 10807,
       "file": "assets/academy/reference-stack.json",
       "topics": [
         "reference"
@@ -8613,7 +8613,7 @@
     },
     {
       "id": "science-lattice",
-      "lesson_count": 2489,
+      "lesson_count": 1501,
       "file": "assets/academy/science-lattice.json",
       "topics": [
         "science"
@@ -8621,7 +8621,7 @@
     },
     {
       "id": "security-clearance",
-      "lesson_count": 1053,
+      "lesson_count": 642,
       "file": "assets/academy/security-clearance.json",
       "topics": [
         "security"
@@ -8629,7 +8629,7 @@
     },
     {
       "id": "systems-engineering",
-      "lesson_count": 4094,
+      "lesson_count": 2653,
       "file": "assets/academy/systems-engineering.json",
       "topics": [
         "systems"
@@ -8637,7 +8637,7 @@
     },
     {
       "id": "uiux-craft",
-      "lesson_count": 27099,
+      "lesson_count": 24317,
       "file": "assets/academy/uiux-craft.json",
       "topics": [
         "uiux"
