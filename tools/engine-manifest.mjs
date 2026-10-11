@@ -78,6 +78,21 @@ const runtimes = {
     provider_id: "remote", evidence: "doc-cited",
     note: "firingline host — reachability measured by the bridge, not promised here",
   },
+  "k3serve": {
+    kind: "llm-upstream", endpoint: "http://127.0.0.1:8080",
+    evidence: "bridge-mediated",
+    note: "zig-k3-port OpenAI+Ollama surface — integer-exact engine; --sched-emit receipts fold into the Continuity DHT; --fast documented non-exact",
+  },
+  "space-agent": {
+    kind: "desk-organ", endpoint: "http://127.0.0.1:3000",
+    evidence: "bridge-mediated",
+    note: "spaces.os iframe boundary — donor's dynamic-eval engine stays inside its own origin; desk side is eval-free",
+  },
+  "agent-zero": {
+    kind: "monitored-agent", endpoint: "http://127.0.0.1:50080",
+    evidence: "bridge-mediated",
+    note: "sheraton-a0 + digit-a0 lanes under host custody — Art. V.3 monitored assets; agentzero-watch gates + folds every action",
+  },
 };
 
 for (const [id, rel] of ARTIFACTS) {

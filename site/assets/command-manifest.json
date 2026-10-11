@@ -161,6 +161,10 @@
         {
           "name": "digit-sigma",
           "role": "signal-integrity"
+        },
+        {
+          "name": "digit-a0",
+          "role": "quadrivium-executor"
         }
       ]
     },
@@ -184,6 +188,10 @@
         {
           "name": "sheraton-oracle",
           "role": "fleet-conduit"
+        },
+        {
+          "name": "sheraton-a0",
+          "role": "compliance-executor"
         }
       ]
     }
@@ -195,6 +203,11 @@
     }
   ],
   "security_roster": [
+    {
+      "team": "A0Z",
+      "duty": "anomaly_watch",
+      "fleet": "security_infrastructure"
+    },
     {
       "team": "ACAD",
       "duty": "curriculum_integrity",
@@ -381,6 +394,11 @@
       "fleet": "research_ethics"
     },
     {
+      "team": "RCT",
+      "duty": "custody",
+      "fleet": "security_infrastructure"
+    },
+    {
       "team": "RED",
       "duty": "offense_testing",
       "fleet": "security_infrastructure"
@@ -421,7 +439,7 @@
       "fleet": "security_infrastructure"
     }
   ],
-  "team_count": 45,
+  "team_count": 47,
   "cognition": {
     "runtime": "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
     "wasm_worker_module_bytes": 1366906,
@@ -451,16 +469,16 @@
     "capacity": {
       "resident_i4_models_per_node": 53,
       "plan_shared_trunk": {
-        "bytes": 1741200000,
+        "bytes": 1805200000,
         "fits": true,
         "note": "one verified trunk + per-team carried state — the doctrine form"
       },
       "plan_dedicated": {
-        "bytes": 12621200000,
+        "bytes": 13181200000,
         "fits": true,
         "note": "36 separate int4 instances — possible, wasteful"
       },
-      "teams": 45
+      "teams": 47
     }
   }
 }

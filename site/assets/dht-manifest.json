@@ -7,8 +7,8 @@
   "routing_metric": "xor-256",
   "chunk_bytes": 65536,
   "replication_k": 3,
-  "lane_count": 47,
-  "lanes_sha256": "5c5b03b17cfda2ac",
+  "lane_count": 49,
+  "lanes_sha256": "6a9c2fab44dc78a9",
   "capabilities": [
     "put",
     "get",

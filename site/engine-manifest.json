@@ -1,9 +1,9 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-11T17:20:10.642Z",
+    "ts": "2026-10-11T18:21:14.724Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
-    "runtime_count": 12,
+    "runtime_count": 15,
     "runtimes": {
       "gov-bridge": {
         "kind": "governance-gate",
@@ -31,6 +31,24 @@
         "provider_id": "remote",
         "evidence": "doc-cited",
         "note": "firingline host — reachability measured by the bridge, not promised here"
+      },
+      "k3serve": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:8080",
+        "evidence": "bridge-mediated",
+        "note": "zig-k3-port OpenAI+Ollama surface — integer-exact engine; --sched-emit receipts fold into the Continuity DHT; --fast documented non-exact"
+      },
+      "space-agent": {
+        "kind": "desk-organ",
+        "endpoint": "http://127.0.0.1:3000",
+        "evidence": "bridge-mediated",
+        "note": "spaces.os iframe boundary — donor's dynamic-eval engine stays inside its own origin; desk side is eval-free"
+      },
+      "agent-zero": {
+        "kind": "monitored-agent",
+        "endpoint": "http://127.0.0.1:50080",
+        "evidence": "bridge-mediated",
+        "note": "sheraton-a0 + digit-a0 lanes under host custody — Art. V.3 monitored assets; agentzero-watch gates + folds every action"
       },
       "spec007.wasm": {
         "kind": "wasm-core",
@@ -78,13 +96,13 @@
       "security-battery": {
         "kind": "harness",
         "path": "security/",
-        "members": 46,
-        "anchor_sha256": "sha256:17d7eafc5ffb84d04e6a521f63aef8863019572127ce5af2e60dbe2bae088e7d",
+        "members": 47,
+        "anchor_sha256": "sha256:712dcad3228a7826878fc7ef37dfcde8d3f1e951116bf250685b48299c1c57b2",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       }
     }
   },
-  "sig_ed25519": "-OuHq9RJT7P7OuSgAXLvJB_c2rQg0B-Lw_-5CmXFPSCc5voe5UHGhlLudpQEtn6waW1KDXVmv_LmI-AKCXjyDg",
+  "sig_ed25519": "5jqqO24aB9Cp6ItgNWrByh9YnwTzy8ygff_fRI1aD3iX8-ocVDTnqKJz3MG4YBSQ4_EjjPGa_vN9UYECUpeGDQ",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

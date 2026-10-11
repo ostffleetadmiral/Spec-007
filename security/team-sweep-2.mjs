@@ -3635,6 +3635,61 @@ console.log("\nSVC — the standing corps service (sentience engine)");
   }
 }
 
+console.log("\nA0Z — the Agent Zero wrap (Art. V.3 monitored assets)");
+/* ================= A0Z — agentzero-watch ledger =====================
+   security/agentzero-watch.mjs is the corps wrap: lanes bound under
+   host custody, docker log attach, provider-drift gate, DHT action
+   folding, honest deploy state. Sweep consumes the emitted ledger. */
+{
+  const lp = path.join(HERE, "out", "agentzero-watch-ledger.json");
+  if (!fs.existsSync(lp)) {
+    noted("A0Z", "watch-exercise", "agentzero-watch-ledger.json not emitted — run `security/agentzero-watch.mjs --emit`");
+  } else {
+    const m = JSON.parse(fs.readFileSync(lp, "utf8"));
+    const ageH = (Date.now() - Date.parse(m.ts || 0)) / 3600000;
+    const fnd = Object.fromEntries((m.findings || []).map(f => [f.id, f]));
+    const openIds = (m.findings || []).filter(f => f.verdict === "OPEN").map(f => f.id);
+    if (m.schema !== "A0W-v1") {
+      open_("A0Z", "watch-exercise", `bad schema ${m.schema}`);
+    } else if (ageH > 24) {
+      open_("A0Z", "watch-exercise", `watch ledger stale — ${ageH.toFixed(1)}h old, re-run`);
+    } else if (openIds.length) {
+      open_("A0Z", "watch-exercise", `open probes: ${openIds.join(" ")}`);
+    } else {
+      held("A0Z", "watch-exercise",
+        `${(m.lanes || []).length} lanes · ${m.summary.held}/${m.findings.length} held · ${m.actions_filed} actions + ${m.violations_filed} violations folded`);
+    }
+    held("A0Z", "containment-gate", fnd["A0Z-04"]?.verdict === "HELD"
+      ? "provider-drift caught and filed as violation — the agent cannot choose its own brain"
+      : "containment gate unproven — re-run agentzero-watch");
+  }
+}
+
+console.log("\nRCT — the sched-emit receipt bridge (phase D)");
+/* ================= RCT — receipts into continuity ===================
+   tools/receipt-bridge.mjs folds k3/k3serve --sched-emit JSONL into
+   signed DHT records — receipts, never tensors. The ledger + the
+   record kind must both exist; refused lines are counted, not lost. */
+{
+  const lp = path.join(HERE, "out", "receipt-bridge-ledger.json");
+  if (!fs.existsSync(lp)) {
+    noted("RCT", "receipt-bridge", "receipt-bridge-ledger.json not emitted — run `tools/receipt-bridge.mjs --fold FILE --emit`");
+  } else {
+    const m = JSON.parse(fs.readFileSync(lp, "utf8"));
+    const q = spawnSync(process.execPath,
+      [path.join(ROOT, "tools", "dht-fs.mjs"), "record", "query", "k3-sched-receipt", "3"],
+      { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || `${process.env.HOME}/.fano-dht` },
+        encoding: "utf8" });
+    let recs = 0;
+    try { recs = JSON.parse(q.stdout || "[]").length; } catch {}
+    m.schema === "RCT-BRIDGE-v1" && m.filed > 0 && recs >= m.filed
+      ? held("RCT", "receipt-bridge",
+          `${m.filed} sched-emit commits folded → ${recs} k3-sched-receipt records in the Continuity DHT — every token receipted`)
+      : open_("RCT", "receipt-bridge",
+          `schema=${m.schema} filed=${m.filed} queryable=${recs} — re-fold`);
+  }
+}
+
 console.log("\nAGT — the agent organs (digit + sheraton, dreamed→built)");
 /* ================= AGT — the dream→build binding =================
    The sci-fi corpus specs become real organs: the sub-agent ring on

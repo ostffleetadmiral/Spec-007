@@ -131,6 +131,8 @@ const TEAM_MAP = {
   NE:      { duty: "content_integrity",      fleet: "education" },
   GOVM:    { duty: "audit_integrity",        fleet: "security_infrastructure" },
   ACAD:    { duty: "curriculum_integrity",   fleet: "education" },
+  A0Z:     { duty: "anomaly_watch",          fleet: "security_infrastructure" },
+  RCT:     { duty: "custody",                fleet: "security_infrastructure" },
 };
 
 /* ---------- live fleet parse ---------- */
@@ -169,12 +171,16 @@ const SUB_AGENTS = {
       note: "base-reality loop alignment; the reference-frame lane" },
     { name: "digit-sigma", role: "signal-integrity",
       note: "dream-signal integrity watch; the purity lane" },
+    { name: "digit-a0", role: "quadrivium-executor",
+      note: "Agent Zero — modeling/codegen/sub-agent rings under digit custody; docker-contained, agentzero-watch monitored" },
   ],
   sheraton: [
     { name: "sheraton-echolog", role: "archive-continuity",
       note: "EchoLog — the fractal archive; the DHT audit chain is its body" },
     { name: "sheraton-oracle", role: "fleet-conduit",
       note: "FleetOracle — the sealed-wire conduit; k3beacon is its body" },
+    { name: "sheraton-a0", role: "compliance-executor",
+      note: "Agent Zero — Trivium compliance node: audit/filter/route under sheraton custody; docker-contained, agentzero-watch monitored" },
   ],
 };
 
