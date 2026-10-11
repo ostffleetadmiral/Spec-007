@@ -268,6 +268,7 @@
       t.classList.remove("show");
       setTimeout(function () { t.remove(); }, 400);
     }, 3400);
+    notifFeed(msg);
   }
 
   /* OS clipboard — Electron bridge first (system clipboard), then the
@@ -288,7 +289,7 @@
     } catch (e) { done(false); }
   }
 
-  var ACHIEVEMENTS = ["first_contact","archivist","full_read","denied","pyro","sworn","qclerk","decorator","nightowl","wardrobe","sysmon","curator","paladin","projectionist","historian","completionist","resupply","operator","reader_leak","film_buff","anomaly_hunter","fiction_scholar","floor_cartographer"];
+  var ACHIEVEMENTS = ["first_contact","archivist","full_read","denied","pyro","sworn","qclerk","decorator","nightowl","wardrobe","sysmon","curator","paladin","projectionist","historian","completionist","resupply","operator","reader_leak","film_buff","anomaly_hunter","fiction_scholar","floor_cartographer","multitasker"];
   function achieve(id) {
     if (state.achievements.indexOf(id) >= 0) return;
     state.achievements.push(id);
@@ -300,7 +301,7 @@
 
   /* ---------- egg hunt: seven hidden courtesies of the desk ---------- */
 
-  var EGGS = ["geom","fineprint","zulu","fengshui","askedtwice","impatient","konami","fano7","sisyphus","poweruser","importer","fastdrawer","gallery","waker","tiler","sesamist","standingwave","metered","mixologist","attentive","interrogated","licenced","satellite","residence","posture","sigil","corps","axiomatic","fraction","frontoffice","columbus","namesake","marathon","secondlife","interpreter","decoder","fountainhead","cleaver","transmission","sealbreaker","brotherhood","genealogist","flagplot","anomaly","fictionfile","codex"];
+  var EGGS = ["geom","fineprint","zulu","fengshui","askedtwice","impatient","konami","fano7","sisyphus","poweruser","importer","fastdrawer","gallery","waker","tiler","sesamist","standingwave","metered","mixologist","attentive","interrogated","licenced","satellite","residence","posture","sigil","corps","axiomatic","fraction","frontoffice","columbus","namesake","marathon","secondlife","interpreter","decoder","fountainhead","cleaver","transmission","sealbreaker","brotherhood","genealogist","flagplot","anomaly","fictionfile","codex","quad","bookkeeper","overseer","librarian"];
   /* ---------- anomaly codex: the honest floor, filed as lore ----------
      The corpus's uncomputable residue lives here as a collectible
      codex. Speculative terms are fiction-framed claims with REAL
@@ -781,6 +782,7 @@
   }
 
   function focus(win) {
+    if (win.dataset.ws !== undefined && String(win.dataset.ws) !== String(state.ws)) wsSwitch(+win.dataset.ws);
     win.style.zIndex = ++zTop;
     document.querySelectorAll(".win").forEach(function (w) {
       w.classList.toggle("focused", w === win);
@@ -816,6 +818,7 @@
     var win = document.createElement("div");
     win.className = "win";
     win.dataset.wid = "w" + Date.now() + Math.floor(Math.random() * 999);
+    win.dataset.ws = String(state.ws || 0);
     var w = Math.min(920, window.innerWidth - 60);
     var h = Math.min(640, window.innerHeight - 110);
     win.style.width = w + "px";
@@ -827,6 +830,7 @@
     var bar = document.createElement("div");
     bar.className = "win-titlebar";
     bar.innerHTML =
+      '<button class="win-menu-btn" title="' + t("win.menu") + '">≡</button>' +
       '<span class="win-title">' + esc(title) + "</span>" +
       '<span class="win-btn win-min" title="shelve it">−</span>' +
       '<span class="win-btn win-max" title="fill the desk">□</span>' +
@@ -850,12 +854,14 @@
 
     function shelveWin() {
       win.classList.add("shelving");
+      win.dataset.shelved = "1";
       task.classList.remove("active");
       task.classList.add("minimized");
       setTimeout(function () { win.style.display = "none"; win.classList.remove("shelving"); }, 170);
       sfx.min();
     }
     function restoreWin() {
+      delete win.dataset.shelved;
       win.style.display = "";
       win.classList.add("restoring");
       requestAnimationFrame(function () {
@@ -913,6 +919,41 @@
 
     win.addEventListener("pointerdown", function () { focus(win); });
     task.addEventListener("pointerdown", function () { focus(win); });
+    task.addEventListener("contextmenu", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      showCtx(e.clientX, e.clientY, [
+        { label: t("ctx.taskmin"), act: function () { shelveWin(); } },
+        { label: t("ctx.taskclose"), act: function () { win.querySelector(".win-close").click(); } },
+      ]);
+    });
+    /* window menu — the ≡ and the titlebar right-click share it (XP's icon) */
+    function winMenu(x, y) {
+      var items = [
+        { label: t("win.move") },
+        { sep: true, label: "—" },
+        { label: t("win.min"), act: shelveWin },
+        { label: win.dataset.maxed === "1" ? t("win.unmax") : t("win.max"),
+          act: function () { win.querySelector(".win-max").click(); } },
+        { sep: true, label: t("ws.move") },
+      ];
+      for (var wi = 0; wi < 4; wi++) (function (n) {
+        items.push({ label: (win.dataset.ws === String(n) ? "● " : "○ ") + t("ws.desk") + " " + (n + 1),
+          act: function () { win.dataset.ws = String(n); wsPaint(); } });
+      })(wi);
+      items.push({ sep: true, label: "—" });
+      items.push({ label: t("win.close"), act: function () { win.querySelector(".win-close").click(); } });
+      showCtx(x, y, items);
+    }
+    bar.querySelector(".win-menu-btn").addEventListener("click", function (e) {
+      e.stopPropagation();
+      var r = bar.getBoundingClientRect();
+      winMenu(r.left + 4, r.bottom + 2);
+    });
+    bar.addEventListener("contextmenu", function (e) {
+      if (e.target.classList.contains("win-btn") || e.target.classList.contains("win-menu-btn")) return;
+      e.preventDefault(); e.stopPropagation();
+      winMenu(e.clientX, e.clientY);
+    });
 
     /* resize via corner grip */
     grip.addEventListener("pointerdown", function (e) {
@@ -935,16 +976,18 @@
 
     /* drag by titlebar */
     bar.addEventListener("pointerdown", function (e) {
-      if (e.target.classList.contains("win-btn")) return;
+      if (e.target.classList.contains("win-btn") || e.target.classList.contains("win-menu-btn")) return;
       var sx = e.clientX - win.offsetLeft;
       var sy = e.clientY - win.offsetTop;
       function move(ev) {
         win.style.left = Math.max(0, Math.min(window.innerWidth - 80, ev.clientX - sx)) + "px";
         win.style.top = Math.max(0, Math.min(window.innerHeight - 80, ev.clientY - sy)) + "px";
+        ghostShow(edgeSnapMode(ev.clientX, ev.clientY));
       }
       function up(ev) {
         document.removeEventListener("pointermove", move);
         document.removeEventListener("pointerup", up);
+        ghostShow(null);
         /* edge-snap tiling: release near an edge, the desk files it neatly */
         var x = ev.clientX, y = ev.clientY, W = window.innerWidth, H = window.innerHeight - 42;
         win.dataset.maxed = "0";
@@ -994,7 +1037,8 @@
     var frame = document.createElement("iframe");
     frame.src = path;
     frame.title = title;
-    makeWindow(title + " — " + path, frame);
+    var dw = makeWindow(title + " — " + path, frame);
+    dw.dataset.rekey = "doc:" + path + "|" + title;
     /* game: reading is the grind */
     firstOpen("doc:" + path, 10, "filed " + path);
     achieve("first_contact");
@@ -1044,7 +1088,8 @@
     note.innerHTML = '<span class="g">·</span><span class="d">' +
       folder.items.length + " file(s) — single- or double-click to open</span>";
     list.appendChild(note);
-    makeWindow(title, list);
+    var fw = makeWindow(title, list);
+    fw.dataset.rekey = "folder:" + key;
     firstOpen("dir:" + key, 5, "opened " + key);
     if (state.dirsSeen.indexOf(key) < 0) {
       state.dirsSeen.push(key); save();
@@ -2792,6 +2837,7 @@
     box.appendChild(log);
     box.appendChild(inp);
     var win = makeWindow(title, box);
+    win.dataset.rekey = "app:term";
     win.style.width = "34rem";
     win.style.height = "26rem";
     function print(s) { log.textContent += s + "\n"; log.parentElement.scrollTop = 1e9; }
@@ -2875,6 +2921,10 @@
     { kind: "app", glyph: "⧉", label: "director.os", sub: "the slate", act: openDirector },
     { kind: "app", glyph: "✺", label: "nebula3d.os", sub: "the nebula", act: openNebula3D },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
+    { kind: "app", glyph: "▦", label: "files.os", sub: "file manager", act: function () { openFiles(); } },
+    { kind: "app", glyph: "✚", label: "control.os", sub: "settings", act: function () { openControl(); } },
+    { kind: "app", glyph: "±", label: "calc.os", sub: "calculator", act: function () { openCalc(); } },
+    { kind: "app", glyph: "≣", label: "taskman.os", sub: "task manager", act: function () { openTaskman(); } },
     { kind: "locked", glyph: "✦", label: "admiralty.suite", sub: "flag tier", act: openAdmiralty },
     { kind: "locked", glyph: "▦", label: "7q.drawer", sub: "SEALED", act: deniedIcon },
   ];
@@ -3056,6 +3106,10 @@
     if ("comms".indexOf(q) >= 0 || "comms.os".indexOf(q) >= 0) out.push({ n: "comms.os — tradecraft desk", act: function () { if (window.FANO_COMMS) window.FANO_COMMS.open(); } });
     if ("sysmon".indexOf(q) >= 0) out.push({ n: "sysmon — the instruments", act: openSysmon });
     if ("manual".indexOf(q) >= 0 || "field".indexOf(q) >= 0) out.push({ n: "field manual", act: openManual });
+    if ("files".indexOf(q) >= 0 || "files.os".indexOf(q) >= 0) out.push({ n: "files.os — the registry", act: openFiles });
+    if ("control".indexOf(q) >= 0 || "settings".indexOf(q) >= 0) out.push({ n: "control.os — settings", act: openControl });
+    if ("calc".indexOf(q) >= 0) out.push({ n: "calc.os — integers only", act: openCalc });
+    if ("taskman".indexOf(q) >= 0 || "task".indexOf(q) >= 0) out.push({ n: "taskman.os — processes", act: openTaskman });
     Object.keys(TITLES).forEach(function (p) {
       if (p.indexOf(q) >= 0 || TITLES[p].toLowerCase().indexOf(q) >= 0)
         out.push({ n: TITLES[p] + " — " + p, act: function () { openDoc(p, TITLES[p]); } });
@@ -3256,6 +3310,7 @@
       case "Escape":
         if (startMenu.classList.contains("open")) { startMenu.classList.remove("open"); break; }
         var top = [].slice.call(document.querySelectorAll(".win"))
+          .filter(function (w) { return w.style.display !== "none" && w.dataset.ws === String(state.ws); })
           .sort(function (a, b) { return (+b.style.zIndex || 0) - (+a.style.zIndex || 0); })[0];
         if (top) { top.querySelector(".win-close").click(); }
         break;
@@ -3324,6 +3379,7 @@
       document.body.appendChild(cycEl);
     }
     cycList = [].slice.call(document.querySelectorAll(".win"))
+      .filter(function (w) { return w.dataset.ws === String(state.ws); })
       .sort(function (a, b) { return (+b.style.zIndex || 0) - (+a.style.zIndex || 0); });
     cycEl.innerHTML = "";
     cycList.forEach(function (w, i) {
@@ -3745,6 +3801,590 @@
     if (e.key === "k" && e.ctrlKey) { e.preventDefault(); openPalette(); }
     if (e.key === "Escape" && palEl) { palEl.remove(); palEl = null; }
   });
+
+  /* ---------- desktop 2.0 — the real-desktop surface ---------- */
+
+  /* snap ghost: the desk shows the landing before you let go */
+  var snapGhost = document.getElementById("snap-ghost");
+  function edgeSnapMode(x, y) {
+    var W = window.innerWidth, H = window.innerHeight - 42;
+    if (y < 12) return "max";
+    if (x < 12 && y < H / 3) return "tl";
+    if (x < 12 && y > 2 * H / 3) return "bl";
+    if (x > W - 12 && y < H / 3) return "tr";
+    if (x > W - 12 && y > 2 * H / 3) return "br";
+    if (x < 12) return "l";
+    if (x > W - 12) return "r";
+    return null;
+  }
+  function ghostShow(m) {
+    if (!snapGhost) return;
+    if (!m) { snapGhost.style.display = "none"; return; }
+    var W = window.innerWidth, H = window.innerHeight - 42,
+        hw = Math.floor(W / 2), hh = Math.floor(H / 2);
+    var r = { max: [0,0,W,H], l: [0,0,hw,H], r: [hw,0,W-hw,H],
+      tl: [0,0,hw,hh], tr: [hw,0,W-hw,hh], bl: [0,hh,hw,H-hh], br: [hw,hh,W-hw,H-hh] }[m];
+    snapGhost.style.left = r[0] + "px"; snapGhost.style.top = r[1] + "px";
+    snapGhost.style.width = r[2] + "px"; snapGhost.style.height = r[3] + "px";
+    snapGhost.style.display = "block";
+  }
+
+  /* workspaces — four desks (XP never had these; GNOME does — we do too) */
+  state.ws = state.ws || 0;
+  var wsPager = document.getElementById("ws-pager");
+  function wsHasWins(n) {
+    return !!document.querySelector('.win[data-ws="' + n + '"]');
+  }
+  function wsPaint() {
+    document.querySelectorAll(".win").forEach(function (w) {
+      if (w.dataset.ws === String(state.ws)) {
+        if (w.dataset.shelved !== "1") w.style.display = "";
+      } else w.style.display = "none";
+    });
+    document.querySelectorAll(".task-item").forEach(function (ti) {
+      var w = document.querySelector('.win[data-wid="' + ti.dataset.wid + '"]');
+      ti.style.display = (w && w.dataset.ws === String(state.ws)) ? "" : "none";
+    });
+    if (wsPager) {
+      wsPager.innerHTML = "";
+      for (var i = 0; i < 4; i++) (function (n) {
+        var c = document.createElement("div");
+        c.className = "ws-cell" + (n === state.ws ? " on" : "");
+        c.innerHTML = String(n + 1) + (wsHasWins(n) ? ' <span class="ws-dot">•</span>' : "");
+        c.title = t("ws.desk") + " " + (n + 1);
+        c.addEventListener("click", function () { wsSwitch(n); });
+        wsPager.appendChild(c);
+      })(i);
+    }
+  }
+  function wsSwitch(n) {
+    if (n === state.ws) return;
+    state.ws = n; save(); wsPaint();
+    toast(t("ws.switch", String(n + 1)));
+    sfx.min();
+    var full = [0, 1, 2, 3].every(function (d) { return wsHasWins(d); });
+    if (full) { egg("quad"); achieve("multitasker"); }
+  }
+  document.addEventListener("keydown", function (e) {
+    if (!bootDone || !e.ctrlKey || !e.altKey) return;
+    var n = ["1", "2", "3", "4"].indexOf(e.key);
+    if (n < 0) return;
+    e.preventDefault();
+    if (e.shiftKey) {
+      var fw = document.querySelector(".win.focused");
+      if (fw) { fw.dataset.ws = String(n); wsPaint(); sfx.snap(); }
+    } else wsSwitch(n);
+  });
+
+  /* show desktop — Ctrl+Alt+D or the taskbar's own menu */
+  var deskShown = false;
+  function toggleDesktop() {
+    deskShown = !deskShown;
+    document.querySelectorAll(".win").forEach(function (w) {
+      if (w.dataset.ws !== String(state.ws)) return;
+      if (deskShown) {
+        if (w.style.display !== "none") { w.dataset.preShow = "1"; w.style.display = "none"; }
+      } else if (w.dataset.preShow === "1") { w.style.display = ""; delete w.dataset.preShow; }
+    });
+    sfx.min();
+  }
+  document.addEventListener("keydown", function (e) {
+    if (!bootDone) return;
+    if (e.ctrlKey && e.altKey && (e.key === "d" || e.key === "D")) {
+      e.preventDefault(); toggleDesktop();
+    }
+  });
+  function cascadeWins() {
+    var i = 0;
+    document.querySelectorAll(".win").forEach(function (w) {
+      if (w.dataset.ws !== String(state.ws) || w.style.display === "none") return;
+      w.dataset.maxed = "0"; w.classList.remove("snapped");
+      w.style.left = 40 + i * 36 + "px"; w.style.top = 24 + i * 30 + "px";
+      w.style.width = Math.min(920, window.innerWidth - 120) + "px";
+      w.style.height = Math.min(560, window.innerHeight - 140) + "px";
+      i++;
+    });
+    sfx.snap();
+  }
+  function tileWins() {
+    var ws = [].slice.call(document.querySelectorAll(".win")).filter(function (w) {
+      return w.dataset.ws === String(state.ws) && w.style.display !== "none";
+    });
+    if (!ws.length) return;
+    var W = window.innerWidth, H = window.innerHeight - 42;
+    var cols = Math.ceil(Math.sqrt(ws.length)), rows = Math.ceil(ws.length / cols);
+    var cw = Math.floor(W / cols), ch = Math.floor(H / rows);
+    ws.forEach(function (w, i) {
+      w.dataset.maxed = "0";
+      w.style.left = (i % cols) * cw + "px"; w.style.top = Math.floor(i / cols) * ch + "px";
+      w.style.width = cw + "px"; w.style.height = ch + "px";
+      w.classList.add("snapped");
+    });
+    sfx.snap(); egg("tiler");
+  }
+  var taskbarEl = document.querySelector(".taskbar");
+  if (taskbarEl) taskbarEl.addEventListener("contextmenu", function (e) {
+    if (!e.target.classList.contains("taskbar") && !e.target.classList.contains("task-items")) return;
+    e.preventDefault();
+    showCtx(e.clientX, e.clientY, [
+      { label: t("ctx.cascade"), act: cascadeWins },
+      { label: t("ctx.tile"), act: tileWins },
+      { sep: true, label: "—" },
+      { label: deskShown ? t("ctx.restoredesk") : t("ctx.showdesk"), act: toggleDesktop },
+    ]);
+  });
+
+  /* notification center — the toast stream keeps a ledger (GNOME parity) */
+  state.notifs = state.notifs || [];
+  state.notifUnread = state.notifUnread || 0;
+  var notifPanel = document.getElementById("notif-panel");
+  var calPanel = document.getElementById("cal-panel");
+  function notifFeed(msg) {
+    state.notifs.push({ m: msg, ts: Date.now() });
+    if (state.notifs.length > 60) state.notifs = state.notifs.slice(-60);
+    state.notifUnread++;
+    save(); paintTray();
+  }
+  function notifOpen() {
+    if (!notifPanel) return;
+    var opening = !notifPanel.classList.contains("open");
+    notifPanel.classList.toggle("open");
+    if (calPanel) calPanel.classList.remove("open");
+    if (!opening) return;
+    if (state.notifs.length) achieve("historian");
+    state.notifUnread = 0; save(); paintTray();
+    var head = document.createElement("div");
+    head.className = "p-head";
+    head.innerHTML = "<span>" + esc(t("notif.title")) + "</span>";
+    var clr = document.createElement("span");
+    clr.className = "p-act"; clr.textContent = t("notif.clear");
+    clr.addEventListener("click", function (e) {
+      e.stopPropagation();
+      state.notifs = []; state.notifUnread = 0; save();
+      notifOpen(); notifOpen();
+    });
+    head.appendChild(clr);
+    notifPanel.innerHTML = "";
+    notifPanel.appendChild(head);
+    if (!state.notifs.length) {
+      var em = document.createElement("div");
+      em.className = "np-empty"; em.textContent = t("notif.empty");
+      notifPanel.appendChild(em); return;
+    }
+    state.notifs.slice().reverse().forEach(function (n) {
+      var d = document.createElement("div");
+      d.className = "np-item";
+      var tm = new Date(n.ts);
+      d.innerHTML = '<div class="np-ts">' +
+        ("0" + tm.getHours()).slice(-2) + ":" + ("0" + tm.getMinutes()).slice(-2) +
+        "</div>" + esc(n.m);
+      notifPanel.appendChild(d);
+    });
+  }
+
+  /* system tray — sound, bell, gear, and a clock that opens a calendar */
+  var trayEl = document.getElementById("tray");
+  var icoSound, icoBell, icoGear;
+  function mkIco(glyph, tip, fn) {
+    var s = document.createElement("span");
+    s.className = "tray-ico"; s.textContent = glyph; s.title = tip;
+    s.addEventListener("click", function (e) { e.stopPropagation(); fn(); });
+    if (trayEl) trayEl.appendChild(s);
+    return s;
+  }
+  function paintTray() {
+    if (icoSound) {
+      icoSound.classList.toggle("off", !!state.muted);
+      icoSound.title = t("tray.sound") + ": " + (state.muted ? t("fm.muted") : t("fm.live"));
+    }
+    if (icoBell) {
+      var b = icoBell.querySelector(".tray-badge");
+      if (state.notifUnread > 0) {
+        if (!b) {
+          b = document.createElement("span");
+          b.className = "tray-badge"; icoBell.appendChild(b);
+        }
+        b.textContent = state.notifUnread > 99 ? "99" : String(state.notifUnread);
+      } else if (b) b.remove();
+    }
+  }
+  icoSound = mkIco("♪", t("tray.sound"), function () {
+    state.muted = !state.muted; save(); paintTray();
+    if (!state.muted) sfx.chime();
+  });
+  icoBell = mkIco("◈", t("tray.notif"), notifOpen);
+  icoGear = mkIco("⚙", t("tray.settings"), openControl);
+  paintTray();
+  if (notifPanel) notifPanel.addEventListener("click", function (e) { e.stopPropagation(); });
+  if (calPanel) calPanel.addEventListener("click", function (e) { e.stopPropagation(); });
+  document.addEventListener("click", function () {
+    if (notifPanel) notifPanel.classList.remove("open");
+    if (calPanel) calPanel.classList.remove("open");
+  });
+  var clockEl = document.getElementById("clock");
+  if (clockEl) clockEl.addEventListener("click", function (e) {
+    e.stopPropagation();
+    calOpen();
+  });
+  function calOpen() {
+    if (!calPanel) return;
+    var opening = !calPanel.classList.contains("open");
+    calPanel.classList.toggle("open");
+    if (notifPanel) notifPanel.classList.remove("open");
+    if (!opening) return;
+    var now = new Date(), y = now.getFullYear(), mo = now.getMonth();
+    var loc = state.lang === "zh" ? "zh-Hant" : "en";
+    var monthName = new Date(y, mo, 1).toLocaleDateString(loc, { year: "numeric", month: "long" });
+    var head = document.createElement("div");
+    head.className = "p-head";
+    head.innerHTML = "<span>" + esc(monthName) + "</span><span class='p-act'>" + esc(t("cal.title")) + "</span>";
+    var grid = document.createElement("div");
+    grid.className = "cal-grid";
+    t("cal.days").split(" ").forEach(function (d) {
+      var h = document.createElement("div");
+      h.className = "cal-dow"; h.textContent = d; grid.appendChild(h);
+    });
+    var first = (new Date(y, mo, 1).getDay() + 6) % 7;
+    var days = new Date(y, mo + 1, 0).getDate();
+    var prevDays = new Date(y, mo, 0).getDate();
+    for (var i = first - 1; i >= 0; i--) {
+      var pd = document.createElement("div");
+      pd.className = "cal-day dim"; pd.textContent = prevDays - i; grid.appendChild(pd);
+    }
+    for (var dd = 1; dd <= days; dd++) {
+      var c = document.createElement("div");
+      c.className = "cal-day" + (dd === now.getDate() ? " today" : "");
+      c.textContent = dd; grid.appendChild(c);
+    }
+    calPanel.innerHTML = "";
+    calPanel.appendChild(head); calPanel.appendChild(grid);
+  }
+
+  /* files.os — every folder, every file: the registry as a place */
+  function openFiles() {
+    var title = t("files.title");
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var wrap = document.createElement("div");
+    wrap.className = "fm-wrap";
+    var side = document.createElement("div");
+    side.className = "fm-side";
+    var main = document.createElement("div");
+    main.className = "fm-main";
+    var crumb = document.createElement("div");
+    crumb.className = "fm-crumb";
+    var crumbTxt = document.createElement("span");
+    var search = document.createElement("input");
+    search.className = "fm-search"; search.placeholder = t("files.search");
+    search.spellcheck = false;
+    crumb.appendChild(crumbTxt); crumb.appendChild(search);
+    var list = document.createElement("div");
+    list.className = "fm-list";
+    var foot = document.createElement("div");
+    foot.className = "fm-foot";
+    main.appendChild(crumb); main.appendChild(list); main.appendChild(foot);
+    wrap.appendChild(side); wrap.appendChild(main);
+    var curKey = null;
+    function rows() {
+      var q = search.value.trim().toLowerCase();
+      var items = curKey === "DESK"
+        ? ICONS.filter(function (i) { return i.kind !== "folder"; })
+            .map(function (i) { return [i.label, i.label, i.sub]; })
+        : (FS[curKey] ? FS[curKey].items : []);
+      list.innerHTML = "";
+      var n = 0;
+      items.forEach(function (it) {
+        if (q && (it[0] + " " + it[1] + " " + it[2]).toLowerCase().indexOf(q) < 0) return;
+        n++;
+        var r = document.createElement("div");
+        r.className = "fm-row";
+        r.innerHTML = '<span class="fm-name">' + esc(it[1]) + '</span><span class="fm-desc">' +
+          esc(it[2]) + " · " + esc(it[0]) + "</span>";
+        r.addEventListener("click", function () {
+          if (curKey === "DESK") {
+            var def = ICONS.find(function (i) { return i.label === it[0]; });
+            if (def && def.act) def.act();
+          } else openDoc(it[0], it[1]);
+        });
+        list.appendChild(r);
+      });
+      foot.textContent = t("files.items", String(n));
+    }
+    function dir(key, label) {
+      var d = document.createElement("div");
+      d.className = "fm-dir" + (key === curKey ? " on" : "");
+      d.textContent = label;
+      d.addEventListener("click", function () {
+        curKey = key;
+        crumbTxt.textContent = t("files.folders") + " / " + label;
+        side.querySelectorAll(".fm-dir").forEach(function (x) { x.classList.remove("on"); });
+        d.classList.add("on"); rows();
+      });
+      side.appendChild(d);
+      return d;
+    }
+    Object.keys(FS).forEach(function (k) { dir(k, FS[k].label); });
+    dir("DESK", t("files.records"));
+    search.addEventListener("input", rows);
+    var w = makeWindow(title, wrap);
+    w.dataset.rekey = "app:files";
+    w.style.width = "46rem"; w.style.height = "30rem";
+    side.querySelector(".fm-dir").click();
+    egg("librarian");
+  }
+
+  /* control.os — the desk's own controls */
+  function openControl() {
+    var title = t("ctl.title");
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div");
+    box.className = "win-body"; box.style.padding = ".7rem";
+    function sec(h) {
+      var s = document.createElement("div");
+      s.className = "ctl-sec";
+      s.innerHTML = '<div class="ctl-h">' + esc(h) + "</div>";
+      box.appendChild(s); return s;
+    }
+    function opt(parent, label, on, fn) {
+      var b = document.createElement("span");
+      b.className = "ctl-opt" + (on ? " on" : "");
+      b.textContent = label;
+      b.addEventListener("click", function () { fn(); openWins[title].querySelector(".win-close").click(); openControl(); });
+      parent.appendChild(b);
+    }
+    var th = sec(t("ctl.theme"));
+    var thRow = document.createElement("div"); thRow.className = "ctl-row";
+    th.appendChild(thRow);
+    Object.keys(THEMES).forEach(function (tk) {
+      opt(thRow, THEMES[tk].label, state.theme === tk, function () { setTheme(tk); });
+    });
+    var lg = sec(t("ctl.lang"));
+    var lgRow = document.createElement("div"); lgRow.className = "ctl-row";
+    lg.appendChild(lgRow);
+    opt(lgRow, "EN", state.lang === "en", function () { setLang("en"); });
+    opt(lgRow, "繁體中文", state.lang === "zh", function () { setLang("zh"); });
+    var sd = sec(t("ctl.sound"));
+    var sdRow = document.createElement("div"); sdRow.className = "ctl-row";
+    sd.appendChild(sdRow);
+    opt(sdRow, t("fm.live"), !state.muted, function () { state.muted = false; save(); paintTray(); sfx.chime(); });
+    opt(sdRow, t("fm.muted"), !!state.muted, function () { state.muted = true; save(); paintTray(); });
+    var ss = sec(t("ctl.session"));
+    var ssRow = document.createElement("div"); ssRow.className = "ctl-row";
+    ss.appendChild(ssRow);
+    opt(ssRow, t("ctl.sessionhint"), state.persistLayout !== false,
+      function () { state.persistLayout = state.persistLayout === false; save(); });
+    var nt = document.createElement("div");
+    nt.className = "ctl-note"; nt.textContent = t("ses.savehint");
+    ss.appendChild(nt);
+    var ks = sec(t("ctl.keys"));
+    var kl = document.createElement("div");
+    kl.className = "ctl-keys";
+    ["snap", "ws", "cycle", "desk", "close", "icons"].forEach(function (k) {
+      var r = document.createElement("div");
+      r.textContent = t("ctl.key." + k); kl.appendChild(r);
+    });
+    ks.appendChild(kl);
+    var w = makeWindow(title, box);
+    w.dataset.rekey = "app:control";
+    w.style.width = "34rem"; w.style.height = "auto";
+  }
+
+  /* calc.os — integer arithmetic, the only kind the desk trusts */
+  function openCalc() {
+    var title = t("calc.title");
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div");
+    var disp = document.createElement("input");
+    disp.className = "calc-disp"; disp.readOnly = true; disp.value = "0";
+    var sub = document.createElement("div");
+    sub.className = "calc-sub";
+    var grid = document.createElement("div");
+    grid.className = "calc-grid";
+    box.appendChild(sub); box.appendChild(disp); box.appendChild(grid);
+    var entry = "", acc = null, pend = null;
+    function compute() {
+      if (pend === null || entry === "") return;
+      var b = BigInt(entry), a = acc || 0n;
+      try {
+        acc = pend === "+" ? a + b : pend === "-" ? a - b :
+              pend === "×" ? a * b : pend === "÷" ? (b === 0n ? null : a / b) :
+              pend === "%" ? (b === 0n ? null : a % b) : b;
+      } catch (e) { acc = null; }
+      if (acc === null) { toast(t("tst.calc.div0")); entry = ""; pend = null; acc = null; sub.textContent = ""; disp.value = "0"; return; }
+      entry = ""; pend = null;
+      disp.value = String(acc); sub.textContent = "";
+      egg("bookkeeper");
+    }
+    function press(k) {
+      if (/^[0-9]$/.test(k)) {
+        entry = entry === "0" ? k : entry + k;
+        disp.value = entry || "0";
+      } else if (k === "C") { entry = ""; acc = null; pend = null; sub.textContent = ""; disp.value = "0"; }
+      else if (k === "⌫") { entry = entry.slice(0, -1); disp.value = entry || "0"; }
+      else if (k === "±") { if (entry) { entry = entry[0] === "-" ? entry.slice(1) : "-" + entry; disp.value = entry; } }
+      else if (k === "=") compute();
+      else {
+        if (pend !== null && entry !== "") compute();
+        if (acc === null) acc = entry === "" ? 0n : BigInt(entry);
+        entry = ""; pend = k;
+        sub.textContent = String(acc) + " " + k;
+        disp.value = String(acc);
+      }
+    }
+    [["7","8","9","÷"], ["4","5","6","×"], ["1","2","3","−"], ["±","0","⌫","+"], ["C","%","=","="]].forEach(function (row) {
+      row.forEach(function (k, idx) {
+        if (row[0] === "C" && idx === 3) return;
+        var b = document.createElement("div");
+        b.className = "calc-key" +
+          (/[÷×+\-%]/.test(k) || k === "−" ? " op" : "") +
+          (k === "=" ? " eq" : "") + (k === "C" ? " danger" : "");
+        b.textContent = k;
+        b.addEventListener("click", function () { press(k === "−" ? "-" : k); });
+        grid.appendChild(b);
+      });
+    });
+    disp.addEventListener("keydown", function (e) {
+      e.stopPropagation(); e.preventDefault();
+      var m = { "+": "+", "-": "-", "*": "×", "/": "÷", "%": "%", Enter: "=", "=": "=", Backspace: "⌫", Escape: "C" }[e.key];
+      if (/^[0-9]$/.test(e.key)) press(e.key); else if (m) press(m);
+    });
+    var w = makeWindow(title, box);
+    w.dataset.rekey = "app:calc";
+    w.style.width = "17rem"; w.style.height = "auto";
+    setTimeout(function () { disp.focus(); }, 50);
+  }
+
+  /* taskman.os — windows as processes: focus or terminate */
+  var bootTs = Date.now();
+  function openTaskman() {
+    var title = t("tm.title");
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var box = document.createElement("div");
+    var stats = document.createElement("div");
+    stats.className = "tm-stats";
+    var list = document.createElement("div");
+    box.appendChild(stats); box.appendChild(list);
+    function stateOf(w) {
+      if (w.classList.contains("focused")) return t("tm.state.focused");
+      if (w.style.display === "none" || w.dataset.shelved === "1") return t("tm.state.shelved");
+      if (w.dataset.maxed === "1") return t("tm.state.maxed");
+      if (w.classList.contains("snapped")) return t("tm.state.snapped");
+      return t("tm.state.open");
+    }
+    function draw() {
+      var wins = [].slice.call(document.querySelectorAll(".win"));
+      var up = Math.floor((Date.now() - bootTs) / 60000);
+      stats.textContent = t("tm.stats", String(wins.length), "4", String(state.xp || 0), up + "m");
+      list.innerHTML = "";
+      wins.forEach(function (w) {
+        var r = document.createElement("div");
+        r.className = "tm-row";
+        var nm = document.createElement("span");
+        nm.className = "tm-name";
+        nm.textContent = w.querySelector(".win-title").textContent;
+        var mt = document.createElement("span");
+        mt.className = "tm-meta";
+        mt.textContent = t("ws.desk") + " " + (+w.dataset.ws + 1) + " · " + stateOf(w);
+        var fb = document.createElement("span");
+        fb.className = "tm-btn"; fb.textContent = t("tm.focus");
+        fb.addEventListener("click", function () {
+          if (w.dataset.ws !== String(state.ws)) wsSwitch(+w.dataset.ws);
+          w.style.display = ""; delete w.dataset.shelved;
+          var ti = document.querySelector('.task-item[data-wid="' + w.dataset.wid + '"]');
+          if (ti) ti.classList.remove("minimized");
+          focus(w); draw();
+        });
+        var kb = document.createElement("span");
+        kb.className = "tm-btn kill"; kb.textContent = t("tm.kill");
+        kb.addEventListener("click", function () {
+          w.querySelector(".win-close").click(); draw();
+        });
+        r.appendChild(nm); r.appendChild(mt); r.appendChild(fb); r.appendChild(kb);
+        list.appendChild(r);
+      });
+    }
+    var w = makeWindow(title, box);
+    w.dataset.rekey = "app:taskman";
+    w.style.width = "38rem"; w.style.height = "26rem";
+    draw();
+    var iv = setInterval(function () {
+      if (!document.body.contains(w)) { clearInterval(iv); return; }
+      draw();
+    }, 1500);
+    egg("overseer");
+  }
+
+  /* session persistence — the desk remembers its own layout.
+     Only windows that carry a faithful rekey return; everything else
+     was a one-shot by design. Folded into fano1.desk.v1 — the census
+     already sweeps it. */
+  var layoutArmed = false;
+  function layoutSave() {
+    if (!layoutArmed) return;
+    state.layout = [];
+    document.querySelectorAll(".win").forEach(function (w) {
+      if (!w.dataset.rekey) return;
+      state.layout.push({
+        k: w.dataset.rekey,
+        wt: w.querySelector(".win-title").textContent,
+        ws: w.dataset.ws,
+        l: w.style.left, tp: w.style.top, wd: w.style.width, ht: w.style.height,
+        sh: w.dataset.shelved === "1",
+      });
+    });
+  }
+  var _saveCore = save;
+  save = function () { layoutSave(); _saveCore(); };
+  function reopenFor(k) {
+    if (k.indexOf("doc:") === 0) {
+      var p = k.slice(4).split("|");
+      return function () { openDoc(p[0], p[1]); };
+    }
+    if (k.indexOf("folder:") === 0) return function () { openFolder(k.slice(7)); };
+    return {
+      "app:term": openTerm, "app:files": openFiles,
+      "app:control": openControl, "app:calc": openCalc, "app:taskman": openTaskman,
+    }[k] || null;
+  }
+  function restoreLayout() {
+    layoutArmed = true;
+    if (state.persistLayout === false || !state.layout || !state.layout.length) return;
+    var restored = 0;
+    state.layout.forEach(function (L) {
+      var fn = reopenFor(L.k);
+      if (!fn) return;
+      var before = {};
+      document.querySelectorAll(".win").forEach(function (x) { before[x.dataset.wid] = 1; });
+      fn();
+      var w = null;
+      document.querySelectorAll(".win").forEach(function (x) {
+        if (!before[x.dataset.wid]) w = x;
+      });
+      if (!w) return;
+      w.dataset.ws = L.ws || "0";
+      if (L.l) w.style.left = L.l;
+      if (L.tp) w.style.top = L.tp;
+      if (L.wd) w.style.width = L.wd;
+      if (L.ht) w.style.height = L.ht;
+      if (L.sh) {
+        w.dataset.shelved = "1"; w.style.display = "none";
+        var ti = document.querySelector('.task-item[data-wid="' + w.dataset.wid + '"]');
+        if (ti) ti.classList.add("minimized");
+      }
+      restored++;
+    });
+    if (restored) {
+      wsPaint();
+      toast(t("ses.restore", String(restored)), "sys");
+    }
+  }
+  var _bootPoll = setInterval(function () {
+    if (typeof bootDone !== "undefined" && bootDone) {
+      clearInterval(_bootPoll);
+      restoreLayout();
+    }
+  }, 400);
+
+  wsPaint();
 
   window.FANO = {
     openConsole: openConsole, openDoc: openDoc, toast: toast, egg: egg,

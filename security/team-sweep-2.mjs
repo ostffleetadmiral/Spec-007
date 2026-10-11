@@ -908,6 +908,94 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
         : open_("DESK", "pane-literal-ratchet",
             `literal pool=${bad.length} ${bad.slice(0, 6).join(" | ")}`);
     }
+
+    /* DESK-24: workspaces — four desks, pager in the taskbar, per-desk
+       windows, Ctrl+Alt+1..4 switching, task-items filtered per desk */
+    {
+      const hsrc = fs.readFileSync(path.join(SITE, "desktop.html"), "utf8");
+      /id="ws-pager"/.test(hsrc) &&
+      /function wsSwitch/.test(dsrc) && /function wsPaint/.test(dsrc) &&
+      /dataset\.ws\s*=\s*String\(state\.ws/.test(dsrc) &&
+      /ctrlKey.*altKey/.test(dsrc) && /\["1",\s*"2",\s*"3",\s*"4"\]/.test(dsrc) &&
+      /task-item.*dataset\.ws|dataset\.ws.*task-item/s.test(dsrc)
+        ? held("DESK", "workspaces",
+            "4 desks — taskbar pager, per-desk windows + task items, Ctrl+Alt+1..4, ws-aware focus")
+        : open_("DESK", "workspaces", "workspace machinery incomplete");
+    }
+
+    /* DESK-25: snap ghost — the live edge preview exists in the shell,
+       is driven during titlebar drags, and cleared on release */
+    {
+      const hsrc = fs.readFileSync(path.join(SITE, "desktop.html"), "utf8");
+      /id="snap-ghost"/.test(hsrc) &&
+      /function edgeSnapMode/.test(dsrc) && /function ghostShow/.test(dsrc) &&
+      /ghostShow\(edgeSnapMode\(ev\.clientX, ev\.clientY\)\)/.test(dsrc) &&
+      /ghostShow\(null\)/.test(dsrc) &&
+      /"max"|max:/.test(dsrc) && /\btl\b/.test(dsrc) && /\bbr\b/.test(dsrc)
+        ? held("DESK", "snap-ghost",
+            "7-zone live preview — max, halves, quarters — shown during drag, cleared on release")
+        : open_("DESK", "snap-ghost", "snap-ghost preview not wired");
+    }
+
+    /* DESK-26: window + taskbar menus — the ≡ window menu, task-item
+       context, and taskbar cascade/tile/show-desktop all route through
+       the shared showCtx surface */
+    {
+      /win-menu-btn/.test(dsrc) &&
+      /function winMenu/.test(dsrc) &&
+      /contextmenu/.test(dsrc) &&
+      /taskbarEl\.addEventListener\("contextmenu"/.test(dsrc) &&
+      /ctx\.cascade/.test(dsrc) && /ctx\.tile/.test(dsrc) && /ctx\.showdesk/.test(dsrc) &&
+      /function cascadeWins|function tileWins|function toggleDesktop/.test(dsrc)
+        ? held("DESK", "window-menus",
+            "window menu + task-item ctx + taskbar ctx — cascade, tile, show-desktop, move-to-desk")
+        : open_("DESK", "window-menus", "window/taskbar menu surface incomplete");
+    }
+
+    /* DESK-27: tray + notification center — sound/bell/settings in the
+       tray, unread badge, toasts mirrored to the ledger, clock opens
+       the calendar popover */
+    {
+      const hsrc = fs.readFileSync(path.join(SITE, "desktop.html"), "utf8");
+      /id="tray"/.test(hsrc) && /id="notif-panel"/.test(hsrc) && /id="cal-panel"/.test(hsrc) &&
+      /function notifFeed/.test(dsrc) && /function notifOpen/.test(dsrc) &&
+      /tray-badge/.test(dsrc) && /notifUnread/.test(dsrc) &&
+      /cal-grid/.test(dsrc)
+        ? held("DESK", "tray-notif",
+            "tray trio + unread badge + notification ledger + clock-calendar popover")
+        : open_("DESK", "tray-notif", "tray/notification machinery incomplete");
+    }
+
+    /* DESK-28: the four new organs — files, control, integer calc,
+       taskman — icons wired, rekey'd for session, calc is BigInt-only */
+    {
+      const calcBlock = dsrc.match(/function openCalc\(\)[\s\S]*?\n  \}/);
+      const calcSrc = calcBlock ? calcBlock[0] : "";
+      /function openFiles/.test(dsrc) && /function openControl/.test(dsrc) &&
+      /function openCalc/.test(dsrc) && /function openTaskman/.test(dsrc) &&
+      /files\.os/.test(dsrc) && /control\.os/.test(dsrc) &&
+      /calc\.os/.test(dsrc) && /taskman\.os/.test(dsrc) &&
+      /app:files/.test(dsrc) && /app:calc/.test(dsrc) &&
+      /app:control/.test(dsrc) && /app:taskman/.test(dsrc) &&
+      /BigInt/.test(calcSrc) && !/parseFloat|Math\.round|\.toFixed/.test(calcSrc)
+        ? held("DESK", "organs-2",
+            "files + control + taskman + BigInt-only calc — all icon'd, all rekey'd for session restore")
+        : open_("DESK", "organs-2",
+            `organs=${/function openFiles/.test(dsrc)}/${/function openControl/.test(dsrc)}/${/function openTaskman/.test(dsrc)} calcBigInt=${/BigInt/.test(calcSrc)} calcFloat=${/parseFloat|\.toFixed/.test(calcSrc)}`);
+    }
+
+    /* DESK-29: session persistence — layout folds into fano1.desk.v1
+       (the census already sweeps it), rekey'd windows restore geometry,
+       desk and shelved state; the toggle is honored */
+    {
+      /function layoutSave/.test(dsrc) && /function restoreLayout/.test(dsrc) &&
+      /function reopenFor/.test(dsrc) && /dataset\.rekey/.test(dsrc) &&
+      /state\.layout\s*=\s*\[\]/.test(dsrc) && /persistLayout/.test(dsrc) &&
+      /ses\.restore/.test(dsrc)
+        ? held("DESK", "session-persist",
+            "layout ledger in desk.v1 — rekey'd organs restore position, desk, shelved state")
+        : open_("DESK", "session-persist", "session persistence incomplete");
+    }
   }
 
 console.log("\nBOT — containment doctrine");

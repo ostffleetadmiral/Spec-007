@@ -24,6 +24,9 @@ __pycache__/
 *.swp
 .DS_Store
 
+# ---- browser-test artifacts (playwright snapshots/console captures) ----
+.playwright-mcp/
+
 # ---- third-party vendored binary (lazy-loaded by the browser-LLM feature;
 #       restore from upstream onnxruntime-web CDN if needed:
 #       https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort-wasm-simd-threaded.jsep.wasm ) ----
