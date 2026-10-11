@@ -51,7 +51,8 @@ class DeskHandler(http.server.SimpleHTTPRequestHandler):
             "style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
             "font-src 'self' data:; connect-src 'self' http://127.0.0.1:8765 http://localhost:8765 ws: wss:; "
             "object-src 'self'; media-src 'self' blob:; worker-src 'self' blob:; "
-            "frame-ancestors 'self'; frame-src 'none'; form-action 'none'; "
+            "frame-ancestors 'self'; frame-src 'self' http://127.0.0.1:* http://localhost:*; "
+            "form-action 'none'; "
             "base-uri 'none'")
         super().end_headers()
 

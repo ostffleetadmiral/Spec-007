@@ -1052,6 +1052,81 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     }
   }
 
+console.log("\nSPC — the Space Agent bridge");
+/* ================= SPC — space-agent bridge =================
+   spaces.os iframes the donor's `space serve` (MIT, Jan Tomasek) —
+   the iframe boundary keeps the donor's dynamic-eval widget engine
+   inside its own origin so the desk's zero-eval ratchet is never
+   touched. The probes check the bridge is real, honest about
+   offline state, fully wired, and that OUR side runs no eval. */
+{
+  const dsrc = fs.readFileSync(path.join(SITE, "assets", "fano-desktop.js"), "utf8");
+
+  /* SPC-01: the organ exists and is fully wired — openSpaces, terminal
+     dispatch, icon strip, palette, search, sandboxed iframe, honest
+     liveness probe; and the desk side of the boundary contains no
+     dynamic-eval construction */
+  {
+    const desk = dsrc;
+    const wired = [
+      "function openSpaces()", 'case "spaces"', "openSpaces }",
+      'label: "spaces.os"', "document.createElement(\"iframe\")",
+      "sandbox", "no-cors", "SPC_URL",
+    ].every(k => desk.includes(k));
+    const spacesBody = desk.slice(
+      desk.indexOf("spaces.os: the Space Agent bridge"),
+      desk.indexOf("command palette: Ctrl+K"));
+    const clean = !/eval\(|new Function|AsyncFunction|\.setTimeout\([^,)]*['"`]/.test(spacesBody);
+    wired && clean
+      ? held("SPC", "spaces-organ",
+          "spaces.os wired — sandboxed iframe + no-cors liveness probe, desk side eval-free")
+      : open_("SPC", "spaces-organ",
+          `wired=${wired} clean=${clean}`);
+  }
+
+  /* SPC-02: i18n twins — every spc.* key exists in both dicts and every
+     t("spc.*") reference in the desk resolves */
+  {
+    const i18n = fs.readFileSync(
+      path.join(SITE, "assets", "fano-i18n.js"), "utf8");
+    const zhHalf = i18n.indexOf("此處每一數字皆為實測");
+    const fam = /"(?:spc\.|term\.spaces|tip\.spaces)[^"]*"/g;
+    const en = (i18n.slice(0, zhHalf).match(fam) || []);
+    const zhKeys = (i18n.slice(zhHalf).match(fam) || []);
+    const ic = i18n.includes('"ic.spaces.os"'); // icon labels are names — en-only by convention
+    const twins = en.length >= 6 && zhKeys.length === en.length;
+    const refs = (dsrc.match(/t\("spc\.[a-z.]+"/g) || [])
+      .map(s => s.slice(3, -1));
+    const resolve = refs.every(k => i18n.includes('"' + k + '"'));
+    twins && resolve && ic
+      ? held("SPC", "spaces-i18n",
+          `spaces key family twin parity — ${en.length} keys ×2 tongues + icon label`)
+      : open_("SPC", "spaces-i18n",
+          `en=${en.length} zh=${zhKeys.length} ic=${ic} resolve=${resolve}`);
+  }
+
+  /* SPC-03: the launcher is real and fails honestly — tools/space-serve.sh
+     exists, executable, binds loopback + SINGLE_USER_APP, and errors out
+     when the donor checkout or node is absent rather than faking a server */
+  {
+    const lp = path.join(ROOT, "tools", "space-serve.sh");
+    let ok = false, why = "";
+    try {
+      const st = fs.statSync(lp);
+      const src = fs.readFileSync(lp, "utf8");
+      const exec = !!(st.mode & 0o111);
+      const honest = ["SPACE_AGENT_DIR", "SINGLE_USER_APP=true",
+        "HOST=", "PORT=", "exit 1", "node"].every(k => src.includes(k));
+      ok = exec && honest;
+      why = `exec=${exec} honest=${honest}`;
+    } catch { why = "launcher absent"; }
+    ok
+      ? held("SPC", "space-serve-launcher",
+          "tools/space-serve.sh — loopback + single-user + honest absence failure")
+      : open_("SPC", "space-serve-launcher", why);
+  }
+}
+
 console.log("\nBOT — containment doctrine");
 /* ================= BOT — containment =================
    Any bot-shaped activity is a cadet in containment: pinned to role 0,

@@ -20,7 +20,7 @@ window.FANO_I18N = {
     "ic.files.os": "files.os", "ic.control.os": "control.os",
     "ic.calc.os": "calc.os", "ic.taskman.os": "taskman.os",
     "ic.comms.os": "comms.os", "ic.nebula3d.os": "nebula3d.os",
-    "ic.scopes.os": "scopes.os", "ic.admiralty.suite": "admiralty.suite",
+    "ic.scopes.os": "scopes.os", "ic.spaces.os": "spaces.os", "ic.admiralty.suite": "admiralty.suite",
     /* icon subs */
     "sub.release": "release", "sub.numbers": "numbers", "sub.the file": "the file",
     "sub.q branch": "q branch", "sub.fractions": "fractions",
@@ -481,6 +481,14 @@ window.FANO_I18N = {
     "term.scopes": "the telemetry agrees to be read.",
     "tip.scopes.os": "live telemetry — findings, mandates, vision, archives",
 
+    /* spaces.os — the space-agent bridge */
+    "spc.title": "spaces.os — the bridge",
+    "spc.offline": "space-agent not answering — start the local server:",
+    "spc.note": "the app inside the frame is space-agent (MIT) — the desk provides the window only; the bridge claims nothing about what runs inside.",
+    "spc.retry": "reconnect",
+    "term.spaces": "the bridge lowers — mind the eval boundary.",
+    "tip.spaces.os": "space-agent bridge — generative desk, local server required",
+
     /* POST boot */
     "boot.bios": "FANO-1 BIOS v7 — Q128.128 integer core",
     "boot.alu": "ALU check: u128 ………………… OK",
@@ -634,7 +642,7 @@ window.FANO_I18N = {
     "ic.files.os": "files.os", "ic.control.os": "control.os",
     "ic.calc.os": "calc.os", "ic.taskman.os": "taskman.os",
     "ic.comms.os": "comms.os", "ic.nebula3d.os": "nebula3d.os",
-    "ic.scopes.os": "scopes.os", "ic.admiralty.suite": "admiralty.suite",
+    "ic.scopes.os": "scopes.os", "ic.spaces.os": "spaces.os", "ic.admiralty.suite": "admiralty.suite",
     "sub.release": "公開釋出", "sub.numbers": "可信數字", "sub.the file": "檔案",
     "sub.q branch": "Q部門", "sub.fractions": "分數帳本",
     "sub.the pledge": "誓約", "sub.421 nodes": "421節點",
@@ -1085,6 +1093,14 @@ window.FANO_I18N = {
     "scp.measured": "每一數字皆讀自已產出之構件 — 無宣稱。",
     "term.scopes": "遙測同意被讀取。",
     "tip.scopes.os": "即時遙測 — 探針、授權、願景、封存",
+
+    /* spaces.os — Space Agent 橋接 */
+    "spc.title": "spaces.os — 橋接",
+    "spc.offline": "space-agent 未回應 — 請啟動本機伺服器:",
+    "spc.note": "框內應用為 space-agent(MIT)— 桌面僅提供視窗;橋接不對其內部運行作任何宣稱。",
+    "spc.retry": "重新連線",
+    "term.spaces": "橋樑降下 — 當心 eval 邊界。",
+    "tip.spaces.os": "Space Agent 橋接 — 生成式桌面,需本機伺服器",
 
     /* POST 開機 */
     "boot.bios": "FANO-1 BIOS v7 — Q128.128 整數核心",

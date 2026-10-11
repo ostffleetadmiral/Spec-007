@@ -2272,7 +2272,7 @@
     "credential", "auth", "provider", "academy", "science", "persona", "casting", "gate", "codex", "promotion",
     "lang", "unlock", "rekey", "burn", "grant", "grants", "branch", "request-branch",
     "export-desk", "import-desk",
-    "sysmon", "scopes", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
+    "sysmon", "scopes", "spaces", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
     "xyzzy", "look", "open sesame", "sudo", "clear", "lock"];
 
   var TERM_HELP = [
@@ -2288,6 +2288,7 @@
     "  theme [name]    station · crt · whitehall · spectre",
     "  sysmon          live desk monitor (fps, wasm, lattice)",
     "  scopes          platform telemetry — findings, mandates, vision",
+    "  spaces          space-agent bridge — the generative desk (needs local space serve)",
     "  viz [name]      open a render pane (sankey, e8, smith, claims …)",
     "  palette         Ctrl+K — the fast drawer",
     "  mute / unmute   the desk's voice",
@@ -2346,6 +2347,7 @@
     "  theme [name]    station · crt · whitehall · spectre",
     "  sysmon          即時桌面監測(fps、wasm、格架)",
     "  scopes          平台遙測——探針、授權、願景",
+    "  spaces          Space Agent 橋接 — 生成式桌面(需本機 space serve)",
     "  viz [name]      開啟渲染窗格(sankey、e8、smith、claims …)",
     "  palette         Ctrl+K — 快速抽屜",
     "  mute / unmute   桌面之聲",
@@ -2568,6 +2570,7 @@
         return t("term.liavry.cur") + THEMES[arg].label;
       case "sysmon": openSysmon(); return t("term.sysmon");
       case "scopes": openScopes(); return t("term.scopes");
+      case "spaces": openSpaces(); return t("term.spaces");
       case "viz":
         if (!window.QUVIZ) return "viz: deck absent";
         if (!arg) { window.QUVIZ.vizPaneList(); return t("term.vizpick"); }
@@ -2924,6 +2927,7 @@
     { kind: "app", glyph: "⧉", label: "director.os", sub: "the slate", act: openDirector },
     { kind: "app", glyph: "✺", label: "nebula3d.os", sub: "the nebula", act: openNebula3D },
     { kind: "app", glyph: "◉", label: "scopes.os", sub: "the telemetry", act: openScopes },
+    { kind: "app", glyph: "⬡", label: "spaces.os", sub: "the bridge", act: openSpaces },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "app", glyph: "▦", label: "files.os", sub: "file manager", act: function () { openFiles(); } },
     { kind: "app", glyph: "✚", label: "control.os", sub: "settings", act: function () { openControl(); } },
@@ -3110,6 +3114,7 @@
     if ("comms".indexOf(q) >= 0 || "comms.os".indexOf(q) >= 0) out.push({ n: "comms.os — tradecraft desk", act: function () { if (window.FANO_COMMS) window.FANO_COMMS.open(); } });
     if ("sysmon".indexOf(q) >= 0) out.push({ n: "sysmon — the instruments", act: openSysmon });
     if ("scopes".indexOf(q) >= 0 || "telemetry".indexOf(q) >= 0) out.push({ n: "scopes.os — the telemetry", act: openScopes });
+    if ("spaces".indexOf(q) >= 0 || "space agent".indexOf(q) >= 0 || "bridge".indexOf(q) >= 0) out.push({ n: "spaces.os — the bridge", act: openSpaces });
     if ("manual".indexOf(q) >= 0 || "field".indexOf(q) >= 0) out.push({ n: "field manual", act: openManual });
     if ("files".indexOf(q) >= 0 || "files.os".indexOf(q) >= 0) out.push({ n: "files.os — the registry", act: openFiles });
     if ("control".indexOf(q) >= 0 || "settings".indexOf(q) >= 0) out.push({ n: "control.os — settings", act: openControl });
@@ -3886,6 +3891,74 @@
     fetchAll();
   }
 
+  /* ---------- spaces.os: the Space Agent bridge (phase A) ----------
+     the desk provides the window; the app inside is the donor's own
+     space serve instance (MIT, Jan Tomasek). iframe boundary keeps the
+     donor's dynamic-eval widget engine inside its own origin — the desk
+     never runs it. liveness is probed honestly: no-cors fetch resolves
+     when the server answers, rejects when it does not. never fake
+     connected. */
+
+  var SPC_URL = (typeof window !== "undefined" && window.SPACE_AGENT_URL) ||
+    "http://127.0.0.1:3000";
+  function openSpaces() {
+    var title = "spaces.os — the bridge";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var bar = document.createElement("div");
+    bar.style.cssText = "display:flex;gap:.4rem;align-items:center;padding:.35rem .5rem;" +
+      "border-bottom:1px solid rgba(" + col("--acc-rgb", "79,195,232") + ",.2)";
+    var dot = document.createElement("span");
+    dot.style.cssText = "width:.55rem;height:.55rem;border-radius:50%;background:rgba(232,180,90,.9);flex:none";
+    var url = document.createElement("span");
+    url.className = "dim"; url.style.fontSize = ".72rem";
+    url.textContent = SPC_URL;
+    var reconnect = document.createElement("button");
+    reconnect.className = "ostf-btn";
+    reconnect.textContent = t("spc.retry");
+    bar.appendChild(dot); bar.appendChild(url); bar.appendChild(reconnect);
+    var box = document.createElement("div");
+    box.className = "win-body"; box.style.cssText = "padding:0;display:flex;flex-direction:column;flex:1;min-height:0";
+    box.appendChild(bar);
+    var body = document.createElement("div");
+    body.style.cssText = "flex:1;min-height:0;position:relative";
+    box.appendChild(body);
+    var win = makeWindow(title, box);
+    win.style.width = "52rem"; win.style.height = "36rem";
+
+    function paintOffline() {
+      body.innerHTML = "";
+      dot.style.background = "rgba(232,90,106,.9)";
+      var p = document.createElement("pre");
+      p.style.cssText = "margin:0;padding:1rem;white-space:pre-wrap;color:rgba(" +
+        col("--dim-rgb", "112,128,141") + ",.95);font-size:.78rem;line-height:1.6";
+      p.textContent = t("spc.offline") + "\n\n" +
+        "  cd $SPACE_AGENT_DIR\n" +
+        "  node space serve HOST=127.0.0.1 PORT=3000 SINGLE_USER_APP=true\n\n" +
+        t("spc.note");
+      body.appendChild(p);
+    }
+
+    function paintOnline() {
+      body.innerHTML = "";
+      dot.style.background = "rgba(61,214,140,.9)";
+      var fr = document.createElement("iframe");
+      fr.src = SPC_URL;
+      fr.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-downloads");
+      fr.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff";
+      fr.title = t("spc.title");
+      body.appendChild(fr);
+    }
+
+    function probe() {
+      dot.style.background = "rgba(232,180,90,.9)";
+      fetch(SPC_URL, { mode: "no-cors", cache: "no-store" })
+        .then(function () { if (win.isConnected) paintOnline(); })
+        .catch(function () { if (win.isConnected) paintOffline(); });
+    }
+    reconnect.addEventListener("click", probe);
+    probe();
+  }
+
   /* ---------- command palette: Ctrl+K, the fast drawer (iter 30) ---------- */
 
   var palEl = null;
@@ -3903,6 +3976,7 @@
     items.push({ n: "qstar.pet — the thinking cap", act: openPet });
     items.push({ n: "sysmon — the instruments", act: openSysmon });
     items.push({ n: "scopes.os — the telemetry", act: openScopes });
+    items.push({ n: "spaces.os — the bridge", act: openSpaces });
     items.push({ n: "field manual — service record", act: openManual });
     items.push({ n: "7q.drawer — SEALED", act: deniedMenu });
     Object.keys(THEMES).forEach(function (t) {

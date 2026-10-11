@@ -95,6 +95,7 @@ const TEAM_MAP = {
   PAR:     { duty: "comms_integrity",        fleet: "security_infrastructure" },
   DESK:    { duty: "identity_assurance",     fleet: "security_infrastructure" },
   CONT:    { duty: "identity_assurance",     fleet: "security_infrastructure" },
+  SPC:     { duty: "identity_assurance",     fleet: "security_infrastructure" },
   AUTH:    { duty: "clearance_enforcement",  fleet: "security_infrastructure" },
   BOT:     { duty: "clearance_enforcement",  fleet: "security_infrastructure" },
   SPEC004: { duty: "clearance_enforcement",  fleet: "security_infrastructure" },

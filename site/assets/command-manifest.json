@@ -396,6 +396,11 @@
       "fleet": "research_ethics"
     },
     {
+      "team": "SPC",
+      "duty": "identity_assurance",
+      "fleet": "security_infrastructure"
+    },
+    {
       "team": "SPEC004",
       "duty": "clearance_enforcement",
       "fleet": "security_infrastructure"
@@ -416,7 +421,7 @@
       "fleet": "security_infrastructure"
     }
   ],
-  "team_count": 44,
+  "team_count": 45,
   "cognition": {
     "runtime": "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
     "wasm_worker_module_bytes": 1366906,
@@ -446,16 +451,16 @@
     "capacity": {
       "resident_i4_models_per_node": 53,
       "plan_shared_trunk": {
-        "bytes": 1709200000,
+        "bytes": 1741200000,
         "fits": true,
         "note": "one verified trunk + per-team carried state — the doctrine form"
       },
       "plan_dedicated": {
-        "bytes": 12341200000,
+        "bytes": 12621200000,
         "fits": true,
         "note": "36 separate int4 instances — possible, wasteful"
       },
-      "teams": 44
+      "teams": 45
     }
   }
 }

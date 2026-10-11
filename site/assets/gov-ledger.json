@@ -399,8 +399,8 @@
           "mandate": "5-Year Strategic Plan — the vision made roadmap",
           "real": "the vision audit is the plan executable — 24 elements, all realized, each mechanically bound",
           "mode": "direct",
-          "verdict": "open",
-          "passed": 0,
+          "verdict": "realized",
+          "passed": 1,
           "total": 1
         },
         {
@@ -413,7 +413,7 @@
           "total": 6
         }
       ],
-      "realized": 3,
+      "realized": 4,
       "total": 4
     },
     {
@@ -552,6 +552,6 @@
     "gov_dirs": 11,
     "gov_root_files": 5,
     "mandates": 48,
-    "realized": 47
+    "realized": 48
   }
 }
