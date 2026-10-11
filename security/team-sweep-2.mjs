@@ -996,6 +996,26 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
             "layout ledger in desk.v1 — rekey'd organs restore position, desk, shelved state")
         : open_("DESK", "session-persist", "session persistence incomplete");
     }
+
+    /* DESK-30: the `tests` terminal line is a live claim — the pinned
+       tally must equal the real Zig harness count (blocks + modules),
+       or the desk is wearing a canned status badge (spec-014 §V.2) */
+    {
+      const srcDir = path.join(ROOT, "src");
+      let blocks = 0, mods = 0;
+      for (const sf of fs.readdirSync(srcDir).filter(f2 => f2.endsWith(".zig"))) {
+        const c = fs.readFileSync(path.join(srcDir, sf), "utf8");
+        const n2 = (c.match(/test "/g) || []).length;
+        if (n2) { blocks += n2; mods++; }
+      }
+      const m = dsrc.match(
+        /zig: (\d+) test blocks across (\d+) modules … GREEN\\ntotal: (\d+) verified operations/);
+      m && +m[1] === blocks && +m[2] === mods && +m[3] === blocks
+        ? held("DESK", "tests-tally-live",
+            `terminal tally matches harness — ${blocks} blocks across ${mods} modules`)
+        : open_("DESK", "tests-tally-live",
+            `terminal claims "${m ? m[0].slice(0, 60) : "absent"}", live harness carries ${blocks} blocks/${mods} modules`);
+    }
   }
 
 console.log("\nBOT — containment doctrine");

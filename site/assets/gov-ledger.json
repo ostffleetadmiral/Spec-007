@@ -211,11 +211,11 @@
         {
           "id": "spec-registry",
           "mandate": "Rulebook Art II — SPEC numbers assigned via the Registry, gaps allowed",
-          "real": "SPEC-000..006 + sub-specs present in the corpus; SPEC-007/008 live in the build; registry docs sealed",
+          "real": "SPEC-000..006 + sub-specs + development specs SPEC-007..014 sealed in the corpus; the immutable public baseline bound by file",
           "mode": "direct",
           "verdict": "realized",
-          "passed": 8,
-          "total": 8
+          "passed": 16,
+          "total": 16
         }
       ],
       "realized": 9,

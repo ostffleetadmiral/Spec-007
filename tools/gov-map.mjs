@@ -203,12 +203,15 @@ const MANDATES = [
         mode: "structural",
         checks: [C.held("PRM-01"), C.held("PRM-03"), C.held("OVR-03")] },
       { id: "spec-registry", mandate: "Rulebook Art II — SPEC numbers assigned via the Registry, gaps allowed",
-        real: "SPEC-000..006 + sub-specs present in the corpus; SPEC-007/008 live in the build; registry docs sealed",
+        real: "SPEC-000..006 + sub-specs + development specs SPEC-007..014 sealed in the corpus; the immutable public baseline bound by file",
         mode: "direct",
         checks: [
           C.govdoc("specs/SPEC-000.md"), C.govdoc("specs/SPEC-001.md"), C.govdoc("specs/SPEC-002.md"),
           C.govdoc("specs/SPEC-003.md"), C.govdoc("specs/SPEC-004.md"), C.govdoc("specs/SPEC-005.md"),
-          C.govdoc("specs/SPEC-006.md"), C.file("spec-007.md"),
+          C.govdoc("specs/SPEC-006.md"), C.govdoc("specs/SPEC-007.md"), C.govdoc("specs/SPEC-008.md"),
+          C.govdoc("specs/SPEC-009.md"), C.govdoc("specs/SPEC-010.md"), C.govdoc("specs/SPEC-011.md"),
+          C.govdoc("specs/SPEC-012.md"), C.govdoc("specs/SPEC-013.md"), C.govdoc("specs/SPEC-014.md"),
+          C.file("spec-007.md"),
         ] },
     ]},
 
