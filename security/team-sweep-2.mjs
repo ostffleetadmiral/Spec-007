@@ -1010,11 +1010,45 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
       }
       const m = dsrc.match(
         /zig: (\d+) test blocks across (\d+) modules … GREEN\\ntotal: (\d+) verified operations/);
+      /* the POST banner carries the same tally — a second canned pin */
+      const i18n = fs.readFileSync(
+        path.join(SITE, "assets", "fano-i18n.js"), "utf8");
+      const b = i18n.match(/"boot\.harness": "harness: (\d+) tests/);
+      const bzh = i18n.match(/"boot\.harness": "測試組:(\d+) 項/);
       m && +m[1] === blocks && +m[2] === mods && +m[3] === blocks
+        && b && +b[1] === blocks && bzh && +bzh[1] === blocks
         ? held("DESK", "tests-tally-live",
-            `terminal tally matches harness — ${blocks} blocks across ${mods} modules`)
+            `terminal + POST tally match harness — ${blocks} blocks across ${mods} modules`)
         : open_("DESK", "tests-tally-live",
-            `terminal claims "${m ? m[0].slice(0, 60) : "absent"}", live harness carries ${blocks} blocks/${mods} modules`);
+            `terminal "${m ? m[0].slice(0, 40) : "absent"}" boot "${b ? b[1] : "absent"}/${bzh ? bzh[1] : "absent"}" — live harness ${blocks}/${mods}`);
+    }
+
+    /* DESK-31: scopes.os — the telemetry organ is real and fully wired:
+       canvas organ reading the five emitted ledgers, registered in the
+       icon strip, terminal dispatch, command vocab, help twins, palette,
+       and search index; every scp.* key exists in both i18n dicts */
+    {
+      const desk = dsrc;
+      const i18n = fs.readFileSync(
+        path.join(SITE, "assets", "fano-i18n.js"), "utf8");
+      const wired = [
+        "function openScopes()", 'case "scopes"', "openScopes }",
+        'label: "scopes.os"', "security/findings.json", "assets/gov-ledger.json",
+        "assets/vision-ledger.json", "assets/archive-manifest.json",
+        "assets/layer-census.json", 'getContext("2d")',
+      ].every(k => desk.includes(k));
+      const zhHalf = i18n.indexOf("此處每一數字皆為實測");
+      const en = (i18n.slice(0, zhHalf).match(/"scp\./g) || []);
+      const zhKeys = (i18n.slice(zhHalf).match(/"scp\./g) || []);
+      const twins = en.length >= 12 && zhKeys.length === en.length;
+      const i18nRefs = (desk.match(/t\("scp\.[a-z.]+"/g) || [])
+        .map(s => s.slice(3, -1));
+      const keysResolve = i18nRefs.every(k => i18n.includes('"' + k + '"'));
+      wired && twins && keysResolve
+        ? held("DESK", "scopes-organ",
+            `scopes.os wired — canvas + 5 ledgers + ${en.length} i18n keys ×2 tongues`)
+        : open_("DESK", "scopes-organ",
+            `wired=${wired} en=${en.length} zh=${zhKeys.length} keysResolve=${keysResolve}`);
     }
   }
 
@@ -2232,6 +2266,51 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
             `${rep.courses_reviewed} courses / ${rep.lessons_reviewed} lessons — every course HELD, zero structural defects`)
         : open_("ACAD", "structural-review",
             `verify exit ${r.status}: ${(r.stdout || r.stderr || "").trim().slice(0, 140)}`);
+    }
+  }
+
+  /* ACAD-07: the pedagogy ledger verifies — the deterministic
+     content-signal tier (SPEC-011 grading) reproduces byte-exact and
+     keeps its honest caveat: heuristics, not pedagogical soundness;
+     assessment stays deterministic_review_required */
+  {
+    const AG = path.join(ROOT, "tools", "academy-grade.mjs");
+    const AP = path.join(SITE, "assets", "academy-pedagogy.json");
+    if (!fs.existsSync(AG) || !fs.existsSync(AP)) {
+      noted("ACAD", "pedagogy-ledger", "grader or ledger absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [AG, "--verify"], { encoding: "utf8" });
+      const rep = JSON.parse(fs.readFileSync(AP, "utf8"));
+      const honest = rep.assessment === "deterministic_review_required"
+        && /not pedagogical soundness/.test(rep.caveat || "");
+      r.status === 0 && honest
+        ? held("ACAD", "pedagogy-ledger",
+            `${rep.lessons_graded} lessons / ${rep.courses_graded} courses graded ${JSON.stringify(rep.grades)} corpus=${rep.corpus_grade} — caveat intact`)
+        : open_("ACAD", "pedagogy-ledger",
+            `verify exit ${r.status} honest=${honest}`);
+    }
+  }
+  /* ACAD-08: the near-dup instrument is alive — planted near-duplicates
+     MUST cluster (a flat-zero report would mean the shingle path died,
+     not that the corpus is clean); and the emitted ledger's neardup
+     ratios sit inside the plausible band for a harvested corpus */
+  {
+    const AG = path.join(ROOT, "tools", "academy-grade.mjs");
+    const AP = path.join(SITE, "assets", "academy-pedagogy.json");
+    if (!fs.existsSync(AG) || !fs.existsSync(AP)) {
+      noted("ACAD", "neardup-instrument", "grader or ledger absent — deferred");
+    } else {
+      const r = spawnSync(process.execPath, [AG, "--selfcheck"], { encoding: "utf8" });
+      const rep = JSON.parse(fs.readFileSync(AP, "utf8"));
+      const nd = (rep.courses || []).map(c => c.signals && c.signals.neardup && c.signals.neardup.v);
+      const plausible = nd.length === (rep.courses || []).length
+        && nd.every(v => typeof v === "number" && v >= 0 && v <= 1)
+        && nd.some(v => v > 0);
+      r.status === 0 && plausible
+        ? held("ACAD", "neardup-instrument",
+            `selfcheck GREEN (planted near-dups cluster); corpus ratios ${Math.min(...nd)}–${Math.max(...nd)} — instrument alive, boilerplate measured`)
+        : open_("ACAD", "neardup-instrument",
+            `selfcheck=${r.status} plausible=${plausible}`);
     }
   }
 }

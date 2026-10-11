@@ -99,8 +99,11 @@ function lastErr() {
   return { code, msg };
 }
 function phoneSend(targetHex, body) {
-  const tp = wr(unhex(targetHex)), bp = wr(enc.encode(body)), mp = outBuf(32);
-  const ok = ex.rations_phone_send2(tp, 0, bp, body.length, mp);
+  /* body.length is the JS char count — enc.encode's byte length differs
+     for non-ASCII (UTF-8 expands), which truncated multibyte bodies */
+  const eb = enc.encode(body);
+  const tp = wr(unhex(targetHex)), bp = wr(eb), mp = outBuf(32);
+  const ok = ex.rations_phone_send2(tp, 0, bp, eb.length, mp);
   const err = ok ? null : lastErr();
   const msgId = ok ? hex(mem(mp, 32)) : null;
   ex.rations_free(tp); ex.rations_free(bp); ex.rations_free(mp);

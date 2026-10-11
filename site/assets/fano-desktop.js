@@ -2272,7 +2272,7 @@
     "credential", "auth", "provider", "academy", "science", "persona", "casting", "gate", "codex", "promotion",
     "lang", "unlock", "rekey", "burn", "grant", "grants", "branch", "request-branch",
     "export-desk", "import-desk",
-    "sysmon", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
+    "sysmon", "scopes", "viz", "palette", "mute", "unmute", "echo", "whoami", "zulu",
     "xyzzy", "look", "open sesame", "sudo", "clear", "lock"];
 
   var TERM_HELP = [
@@ -2287,6 +2287,7 @@
     "  xp              clearance and field record",
     "  theme [name]    station · crt · whitehall · spectre",
     "  sysmon          live desk monitor (fps, wasm, lattice)",
+    "  scopes          platform telemetry — findings, mandates, vision",
     "  viz [name]      open a render pane (sankey, e8, smith, claims …)",
     "  palette         Ctrl+K — the fast drawer",
     "  mute / unmute   the desk's voice",
@@ -2344,6 +2345,7 @@
     "  xp              許可等級與戰地記錄",
     "  theme [name]    station · crt · whitehall · spectre",
     "  sysmon          即時桌面監測(fps、wasm、格架)",
+    "  scopes          平台遙測——探針、授權、願景",
     "  viz [name]      開啟渲染窗格(sankey、e8、smith、claims …)",
     "  palette         Ctrl+K — 快速抽屜",
     "  mute / unmute   桌面之聲",
@@ -2565,6 +2567,7 @@
         setTheme(arg); achieve("wardrobe");
         return t("term.liavry.cur") + THEMES[arg].label;
       case "sysmon": openSysmon(); return t("term.sysmon");
+      case "scopes": openScopes(); return t("term.scopes");
       case "viz":
         if (!window.QUVIZ) return "viz: deck absent";
         if (!arg) { window.QUVIZ.vizPaneList(); return t("term.vizpick"); }
@@ -2920,6 +2923,7 @@
     { kind: "app", glyph: "✎", label: "editor.os", sub: "typewriter", act: openEditor },
     { kind: "app", glyph: "⧉", label: "director.os", sub: "the slate", act: openDirector },
     { kind: "app", glyph: "✺", label: "nebula3d.os", sub: "the nebula", act: openNebula3D },
+    { kind: "app", glyph: "◉", label: "scopes.os", sub: "the telemetry", act: openScopes },
     { kind: "file", glyph: "≡", label: "self_destruct.txt", sub: "read once", act: openSelfDestruct },
     { kind: "app", glyph: "▦", label: "files.os", sub: "file manager", act: function () { openFiles(); } },
     { kind: "app", glyph: "✚", label: "control.os", sub: "settings", act: function () { openControl(); } },
@@ -3105,6 +3109,7 @@
     if ("rations".indexOf(q) >= 0 || "rations.os".indexOf(q) >= 0) out.push({ n: "rations.os — air-gap web", act: function () { openDoc("apps/rations/quine.html", "rations.os"); } });
     if ("comms".indexOf(q) >= 0 || "comms.os".indexOf(q) >= 0) out.push({ n: "comms.os — tradecraft desk", act: function () { if (window.FANO_COMMS) window.FANO_COMMS.open(); } });
     if ("sysmon".indexOf(q) >= 0) out.push({ n: "sysmon — the instruments", act: openSysmon });
+    if ("scopes".indexOf(q) >= 0 || "telemetry".indexOf(q) >= 0) out.push({ n: "scopes.os — the telemetry", act: openScopes });
     if ("manual".indexOf(q) >= 0 || "field".indexOf(q) >= 0) out.push({ n: "field manual", act: openManual });
     if ("files".indexOf(q) >= 0 || "files.os".indexOf(q) >= 0) out.push({ n: "files.os — the registry", act: openFiles });
     if ("control".indexOf(q) >= 0 || "settings".indexOf(q) >= 0) out.push({ n: "control.os — settings", act: openControl });
@@ -3728,6 +3733,159 @@
     achieve("sysmon");
   }
 
+  /* ---------- scopes.os: the platform telemetry organ (officer wave) ----------
+     reads the emitted artifacts — findings ledger, gov ledger, vision
+     ledger, archive manifest, layer census — and paints them. every
+     figure is read from the artifacts; nothing is claimed. */
+
+  var VERDICT_RGB = {
+    HELD: "61,214,140", HARDENED: "47,174,122", PROVEN: "47,174,122",
+    NOTED: "112,128,141", OPEN: "232,180,90",
+    EXPLOITED: "232,90,106", ERROR: "232,90,106", BLOCKED: "232,90,106",
+  };
+  function openScopes() {
+    var title = "scopes.os — the telemetry";
+    if (openWins[title]) { focus(openWins[title]); return; }
+    var bar = document.createElement("div");
+    bar.style.cssText = "display:flex;gap:.4rem;padding:.35rem .5rem;border-bottom:1px solid rgba(" +
+      col("--acc-rgb", "79,195,232") + ",.2)";
+    var rescan = document.createElement("button");
+    rescan.className = "ostf-btn";
+    rescan.textContent = t("scp.refresh");
+    bar.appendChild(rescan);
+    var cv = document.createElement("canvas");
+    cv.width = 640; cv.height = 430;
+    cv.style.cssText = "width:100%;display:block";
+    var box = document.createElement("div");
+    box.className = "win-body";
+    box.style.padding = "0";
+    box.appendChild(bar); box.appendChild(cv);
+    var win = makeWindow(title, box);
+    win.style.width = "42rem"; win.style.height = "30rem";
+
+    var data = null;
+    function fetchAll() {
+      var urls = {
+        findings: "security/findings.json",
+        gov: "assets/gov-ledger.json",
+        vision: "assets/vision-ledger.json",
+        archives: "assets/archive-manifest.json",
+        census: "assets/layer-census.json",
+      };
+      var out = {}, keys = Object.keys(urls), done = 0;
+      keys.forEach(function (k) {
+        fetch(urls[k]).then(function (r) { return r.json(); })
+          .then(function (j) { out[k] = j; })
+          .catch(function () { out[k] = null; })
+          .finally(function () { if (++done === keys.length) { data = out; paint(); } });
+      });
+    }
+
+    function gauge(ctx, x, y, w, label, num, den, rgb) {
+      ctx.font = "11px monospace"; ctx.fillStyle = "rgba(" + col("--dim-rgb", "112,128,141") + ",.9)";
+      ctx.fillText(label, x, y);
+      ctx.fillStyle = "rgba(" + col("--acc-rgb", "79,195,232") + ",.12)";
+      ctx.fillRect(x, y + 4, w, 10);
+      var f = den > 0 ? Math.min(1, num / den) : 0;
+      ctx.fillStyle = "rgba(" + rgb + ",.85)";
+      ctx.fillRect(x, y + 4, w * f, 10);
+      ctx.fillStyle = "rgba(" + col("--acc-rgb", "79,195,232") + ",.95)";
+      ctx.textAlign = "right";
+      ctx.fillText(num + "/" + den, x + w, y);
+      ctx.textAlign = "left";
+    }
+
+    function paint() {
+      var ctx = cv.getContext("2d");
+      var acc = col("--acc-rgb", "79,195,232"), dim = col("--dim-rgb", "112,128,141");
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.font = "bold 13px monospace"; ctx.fillStyle = "rgba(" + acc + ",.95)";
+      ctx.fillText(t("scp.title"), 16, 24);
+      ctx.font = "10px monospace"; ctx.fillStyle = "rgba(" + dim + ",.8)";
+      ctx.fillText(t("scp.measured"), 16, 40);
+
+      /* verdict donut */
+      ctx.font = "11px monospace"; ctx.fillStyle = "rgba(" + acc + ",.85)";
+      ctx.fillText(t("scp.findings"), 16, 66);
+      var tallies = {}, total = 0, gen = "";
+      if (data && data.findings && data.findings.findings) {
+        gen = data.findings.generated || "";
+        data.findings.findings.forEach(function (r) {
+          tallies[r.verdict] = (tallies[r.verdict] || 0) + 1; total++;
+        });
+      }
+      var cx = 96, cy = 150, R = 64, a0 = -Math.PI / 2;
+      if (!total) {
+        ctx.fillStyle = "rgba(" + dim + ",.7)";
+        ctx.fillText(t("scp.absent"), cx - 60, cy);
+      } else {
+        Object.keys(tallies).sort(function (a, b) { return tallies[b] - tallies[a]; })
+          .forEach(function (v, i) {
+            var frac = tallies[v] / total, a1 = a0 + frac * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, R, a0, a1 - 0.012);
+            ctx.closePath();
+            ctx.fillStyle = "rgba(" + (VERDICT_RGB[v] || dim) + ",.9)";
+            ctx.fill();
+            a0 = a1;
+            var ly = 92 + i * 15;
+            ctx.fillStyle = "rgba(" + (VERDICT_RGB[v] || dim) + ",1)";
+            ctx.fillRect(180, ly - 8, 8, 8);
+            ctx.fillStyle = "rgba(" + dim + ",.95)";
+            ctx.fillText(v + " " + tallies[v], 194, ly);
+          });
+        ctx.fillStyle = "rgba(" + acc + ",.95)"; ctx.textAlign = "center";
+        ctx.font = "bold 14px monospace"; ctx.fillText(String(total), cx, cy + 1);
+        ctx.font = "9px monospace"; ctx.fillStyle = "rgba(" + dim + ",.85)";
+        ctx.fillText(t("scp.probes"), cx, cy + 14);
+        ctx.textAlign = "left"; ctx.font = "11px monospace";
+      }
+
+      /* gauges: mandates · vision · archives */
+      var gx = 280, gw = 340, gy = 92;
+      ctx.fillStyle = "rgba(" + acc + ",.85)";
+      ctx.fillText(t("scp.gauges"), gx, 66);
+      var g = data && data.gov && data.gov.counts || {};
+      var v = data && data.vision && data.vision.counts || {};
+      var ar = data && data.archives || {};
+      var vTot = data && data.vision && data.vision.elements ? data.vision.elements.length : 0;
+      gauge(ctx, gx, gy, gw, t("scp.mandates"), g.realized || 0, g.mandates || 0, "61,214,140");
+      gauge(ctx, gx, gy + 40, gw, t("scp.vision"), v.realized || 0, vTot || v.realized || 0, "79,195,232");
+      gauge(ctx, gx, gy + 80, gw, t("scp.archives"), ar.sealed_count || 0, ar.archive_count || 0, "232,180,90");
+
+      /* layer census bars */
+      ctx.fillStyle = "rgba(" + acc + ",.85)";
+      ctx.fillText(t("scp.census"), 16, 252);
+      var layers = data && data.census && data.census.by_layer || {};
+      var ents = Object.keys(layers).map(function (k) { return [k, layers[k]]; })
+        .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 8);
+      var mx = ents.length ? ents[0][1] : 1;
+      if (!ents.length) {
+        ctx.fillStyle = "rgba(" + dim + ",.7)"; ctx.fillText(t("scp.absent"), 16, 274);
+      }
+      ents.forEach(function (e, i) {
+        var y = 268 + i * 19;
+        ctx.fillStyle = "rgba(" + dim + ",.9)"; ctx.font = "10px monospace";
+        ctx.fillText(e[0].slice(0, 28), 16, y + 8);
+        ctx.fillStyle = "rgba(" + acc + ",.14)";
+        ctx.fillRect(220, y, 340, 11);
+        ctx.fillStyle = "rgba(" + acc + ",.75)";
+        ctx.fillRect(220, y, 340 * (e[1] / mx), 11);
+        ctx.fillStyle = "rgba(" + acc + ",.95)";
+        ctx.fillText(String(e[1]), 566, y + 9);
+      });
+
+      /* footer */
+      ctx.fillStyle = "rgba(" + dim + ",.8)"; ctx.font = "9px monospace";
+      ctx.fillText(t("scp.generated", gen ? gen.slice(0, 19).replace("T", " ") : "—") +
+        (data && data.census ? "  ·  " + data.census.file_count + " " + t("scp.files") : ""), 16, 424);
+    }
+
+    rescan.addEventListener("click", function () { fetchAll(); });
+    fetchAll();
+  }
+
   /* ---------- command palette: Ctrl+K, the fast drawer (iter 30) ---------- */
 
   var palEl = null;
@@ -3744,6 +3902,7 @@
     items.push({ n: "persona.os — the casting office", act: openPersona });
     items.push({ n: "qstar.pet — the thinking cap", act: openPet });
     items.push({ n: "sysmon — the instruments", act: openSysmon });
+    items.push({ n: "scopes.os — the telemetry", act: openScopes });
     items.push({ n: "field manual — service record", act: openManual });
     items.push({ n: "7q.drawer — SEALED", act: deniedMenu });
     Object.keys(THEMES).forEach(function (t) {

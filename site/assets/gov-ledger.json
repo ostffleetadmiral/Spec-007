@@ -397,15 +397,24 @@
         {
           "id": "strategic-plan",
           "mandate": "5-Year Strategic Plan — the vision made roadmap",
-          "real": "the vision audit is the plan executable — 23 elements, all realized, each mechanically bound",
+          "real": "the vision audit is the plan executable — 24 elements, all realized, each mechanically bound",
+          "mode": "direct",
+          "verdict": "open",
+          "passed": 0,
+          "total": 1
+        },
+        {
+          "id": "revelation-milestone",
+          "mandate": "M-REV-1 — Phase V Revelation Protocols window dated 2026-10-25",
+          "real": "the tranche is sealed L7 in the registry, the AOP carries the dated milestone, and the machinery map is filed — doctrine bound to checks, never to claims",
           "mode": "direct",
           "verdict": "realized",
-          "passed": 1,
-          "total": 1
+          "passed": 6,
+          "total": 6
         }
       ],
       "realized": 3,
-      "total": 3
+      "total": 4
     },
     {
       "domain": "subsidiaries",
@@ -542,7 +551,7 @@
     "domains": 16,
     "gov_dirs": 11,
     "gov_root_files": 5,
-    "mandates": 47,
+    "mandates": 48,
     "realized": 47
   }
 }

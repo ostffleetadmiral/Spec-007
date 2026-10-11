@@ -47,7 +47,7 @@ Everything in this directory is public-release material — **except one drawer.
 - **Sealed wire dialect** — canonical 136-byte datagrams, Ed25519 signatures, per-frame keyed sealing, two-gate reassembly, first-contact messages filed honestly as unsealed. Golden-vector conformance, bit-exact.
 - **FANO-1 desk** — covenant-gated workstation: Ed25519 keystore (PBKDF2+AES-256-GCM), QStar.net TOTP, roaming flag authenticator, bot containment doctrine, four workspaces, seven-zone snap ghost, window/taskbar menus, tray + notification ledger + calendar, organ applications (files, control, integer `BigInt` calculator, task manager, editor, terminal, comms, academy, persona, engine, continuity, director, nebula, science, sysmon, palette, admiralty), session persistence, and a full EN ⇄ 繁體中文 twin (exact 1:1 key parity).
 - **Evidence engine** — 120 claims, each graded proved / held-as-labeled / rejected-held / external / blocked; records conserve against dossier rows in every twin. Rejected claims stay filed with reasons. The release gate refuses a green build while any check drifts.
-- **Executable governance** — the drawer SPEC corpus (SPEC-000…SPEC-014 + Rulebook) binds to machinery: 47 mandates across 16 domains, each realized by a running counterpart with a mechanical check. `thoughts&convos/` holds the instruments; the checks run public.
+- **Executable governance** — the drawer SPEC corpus (SPEC-000…SPEC-014 + Rulebook) binds to machinery: 48 mandates across 16 domains, each realized by a running counterpart with a mechanical check. `thoughts&convos/` holds the instruments; the checks run public.
 - **Academy** — 56,120 lessons (55,572 corpus-harvested + 548 curated) across 14 coverage-enforced courses, 102 declared sources, full-body dedupe, per-lesson provenance and `deterministic_review_required` labeling, structural course review graded and ratcheted, ministry material filed as theology/philosophy — never empirical.
 - **Adversarial self-audit** — 213-probe consolidated sweep (RED/BLUE/BLACK/GRAY/COMM/DESK/BOT/AUTH/WIRE/ZIG/SPEC004/HARN/FLEET/CLUSTER/ENGINE/CONTINUITY/LIBRARY/PRODUCTION/CURRICULUM/ACAD/GOVM/EMG/BRG/AIWO/DHT/SVC), Docker WAN lab under real `tc netem` impairment, 284 sealed archives, surname tripwire, canon-pair byte parity after every deploy.
 
@@ -80,8 +80,8 @@ Any agent can re-run the numbers. Integer arithmetic only — no floating point 
 ```sh
 zig build test                                # 290 test blocks / 26 modules — all green
 node security/team-sweep-2.mjs                # 213 probes → findings ledger
-node tools/vision-audit.mjs --verify          # 23 elements, all realized
-node tools/gov-map.mjs --verify               # 47/47 mandates realized
+node tools/vision-audit.mjs --verify          # 24 elements, all realized
+node tools/gov-map.mjs --verify               # 48/48 mandates realized
 node tools/academy-review.mjs --verify        # 14 courses, zero structural defects
 node security/comms-suite.mjs --local         # WAN lab — localhost hydra nodes
 node security/comms-suite.mjs --docker        # same suite, real tc netem impairment

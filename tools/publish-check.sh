@@ -102,6 +102,11 @@ echo "== academy review (structural course review — zero defects)"
 node tools/academy-review.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "academy-review.json" || { say " FAIL" "academy-review.json"; FAIL=1; }
 
+echo "== academy pedagogy (content-signal grading deterministic)"
+node tools/academy-grade.mjs --verify >/dev/null 2>&1 \
+  && node tools/academy-grade.mjs --selfcheck >/dev/null 2>&1 \
+  && say " PASS" "academy-pedagogy.json" || { say " FAIL" "academy-pedagogy.json"; FAIL=1; }
+
 echo "== course generator (wave-report lessons deterministic)"
 node tools/course-gen.mjs --verify >/dev/null 2>&1 \
   && say " PASS" "course-gen" || { say " FAIL" "course-gen"; FAIL=1; }

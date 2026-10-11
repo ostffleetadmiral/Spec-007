@@ -53,6 +53,7 @@ const C = {
   field: (file, key, pred) => ({ kind: "field", file, key, pred }),  /* manifest field check */
   svc: (id) => ({ kind: "svc", id }),                  /* service-ledger probe HELD */
   records: (rkind) => ({ kind: "records", rkind }),    /* DHT record kind non-empty */
+  grep: (rel, s) => ({ kind: "grep", rel, s }),        /* repo-relative file contains string */
 };
 
 const FIELD_PREDS = {
@@ -88,6 +89,10 @@ function resolve(check) {
         const ageH = (Date.now() - Date.parse(l.ts || 0)) / 3600000;
         return ageH < 24 && (l.findings || []).some(f => f.id === check.id && f.verdict === "HELD");
       } catch { return false; }
+    }
+    case "grep": {
+      try { return fs.readFileSync(path.join(ROOT, check.rel), "utf8").includes(check.s); }
+      catch { return false; }
     }
     case "records": {
       const r = spawnSync(process.execPath,
@@ -301,9 +306,20 @@ const MANDATES = [
         mode: "structural",
         checks: [C.held("HARN-01"), C.held("EMG-02")] },
       { id: "strategic-plan", mandate: "5-Year Strategic Plan — the vision made roadmap",
-        real: "the vision audit is the plan executable — 23 elements, all realized, each mechanically bound",
+        real: "the vision audit is the plan executable — 24 elements, all realized, each mechanically bound",
         mode: "direct",
         checks: [C.run("tools/vision-audit.mjs")] },
+      { id: "revelation-milestone", mandate: "M-REV-1 — Phase V Revelation Protocols window dated 2026-10-25",
+        real: "the tranche is sealed L7 in the registry, the AOP carries the dated milestone, and the machinery map is filed — doctrine bound to checks, never to claims",
+        mode: "direct",
+        checks: [
+          C.grep("thoughts&convos/gov/strategy/AnnualOperatingPlan.md", "2026-10-25"),
+          C.grep("thoughts&convos/gov/strategy/AnnualOperatingPlan.md", "M-REV-1"),
+          C.grep("thoughts&convos/gov/strategy/5YearStrategicPlan.md", "Revelation Protocols"),
+          C.grep("thoughts&convos/SPEC-004-REGISTRY.md", "Revelation tranche"),
+          C.file("thoughts&convos/AdmPaul/corpus/sci-fi/Merge_Timeline_Codex.md"),
+          C.file("thoughts&convos/AdmPaul/convos/merge-milestone-integration.md"),
+        ] },
     ]},
 
   { domain: "subsidiaries", source: "subsidiaries/Academy.md",

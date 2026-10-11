@@ -1123,14 +1123,34 @@ window.FANO_AUTH = (function () {
     all[subPkHex].status = "denied"; saveBranchReqs(all);
     return true;
   }
-  /* the live assignment for a pk — verified sig + rostered issuer + unexpired */
+  /* the live assignment for a pk — verified sig + trusted issuer + unexpired.
+     Trust is roster OR fleet anchor, the same rule grants and promotions
+     use: a second desk that binds the fleet genesis honors the flag's
+     assignments without ever holding the flag's roster. */
   function branchOf(pkHex) {
     var a = branchAssigns()[pkHex];
     if (!a) return null;
     if (a.exp < Math.floor(Date.now() / 1000)) return null;
-    if (roster().indexOf(a.iss) === -1) return null;
+    if (roster().indexOf(a.iss) === -1 && !flagAnchored(a.iss)) return null;
     if (!verify(branchBytes(a.sub, a.branch, a.iss, a.exp), unhex(a.sig), unhex(a.iss))) return null;
     return a;
+  }
+  /* assignment certs are portable paper: export carries the signed body,
+     import files it after a signature check — trust is still enforced at
+     read time by branchOf, so dead paper can file but never verify */
+  function exportAssignment(pkHex) {
+    var a = branchAssigns()[pkHex];
+    return a ? btoa(JSON.stringify(a)) : null;
+  }
+  function importAssignment(token) {
+    try {
+      var a = JSON.parse(atob(token.trim()));
+      if (!a || !a.sub || !a.branch || !a.iss || !a.sig || !a.exp) return false;
+      if (BRANCHES.indexOf(a.branch) < 0) return false;
+      if (!verify(branchBytes(a.sub, a.branch, a.iss, a.exp), unhex(a.sig), unhex(a.iss))) return false;
+      var bs = branchAssigns(); bs[a.sub] = a; saveBranchAssigns(bs);
+      return true;
+    } catch (e) { return false; }
   }
   /* burn(): the identity dies; the desk remembers its founding.
      burn("genesis") additionally erases the founding record — the lab
@@ -1225,7 +1245,7 @@ window.FANO_AUTH = (function () {
     BRANCHES: BRANCHES, requestBranch: requestBranch, verifyRequest: verifyRequest,
     exportRequest: exportRequest, importRequest: importRequest,
     branchReqs: branchReqs, assignBranch: assignBranch, denyBranch: denyBranch,
-    branchOf: branchOf,
+    branchOf: branchOf, exportAssignment: exportAssignment, importAssignment: importAssignment,
     credBytes: credBytes, issueCredential: issueCredential,
     verifyCredential: verifyCredential, exportCredential: exportCredential,
     issueRoaming: issueRoaming,

@@ -171,6 +171,17 @@ const ELEMENTS = [
       "organ probes held": anyHeld("AGT"),
       "sub-agent ring declared": (command.ai_systems || []).some(a => a.name === "digit" && (a.sub_agents || []).length >= 3),
     }},
+  { id: "revelation-tranche", vision: "revelation codex tranche sealed + phase v window bound (m-rev-1, 2026-10-25) — doctrine to machinery, never to claims",
+    checks: {
+      "tranche texts on file": ["Memory_That_Merged", "Merge_Timeline_Codex", "Revelation_Primer",
+        "Children_of_Stardust_Doctrine", "Unified_Continuity_Protocol"]
+        .every(f => ex(path.join(ROOT, "thoughts&convos", "AdmPaul", "corpus", "sci-fi", f + ".md"))) &&
+        ex(path.join(ROOT, "thoughts&convos", "gov", "narrative.md")),
+      "registry row sealed": read(path.join(ROOT, "thoughts&convos", "SPEC-004-REGISTRY.md")).includes("Revelation tranche"),
+      "aop carries the window": read(path.join(ROOT, "thoughts&convos", "gov", "strategy", "AnnualOperatingPlan.md")).includes("2026-10-25") &&
+        read(path.join(ROOT, "thoughts&convos", "gov", "strategy", "AnnualOperatingPlan.md")).includes("M-REV-1"),
+      "machinery map filed": ex(path.join(ROOT, "thoughts&convos", "AdmPaul", "convos", "merge-milestone-integration.md")),
+    }},
 ];
 
 /* ---------- evaluate ---------- */
