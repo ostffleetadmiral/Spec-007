@@ -190,6 +190,26 @@ pub fn build(b: *std.Build) void {
     depTest(b, test_step, "src/spec008_medium_lattice.zig", target, optimize, &.{});
     depTest(b, test_step, "src/spec008_seal.zig", target, optimize, &.{});
 
+    // ── T7 native DHT (dht_native on the vfs_distributed substrate,
+    //    sealed-wire ops via spec008_seal) ──────────────────────────
+    const s_seal = depMod(b, "src/spec008_seal.zig", target, optimize);
+    const n_dht = depMod(b, "src/dht_native.zig", target, optimize);
+    n_dht.addImport("spec008_seal", s_seal);
+    n_dht.addImport("vfs_distributed", v_dist);
+    depTest(b, test_step, "src/dht_native.zig", target, optimize, &.{
+        imp("spec008_seal", s_seal), imp("vfs_distributed", v_dist),
+    });
+    const dhtd = b.addExecutable(.{
+        .name = "dhtd",
+        .root_source_file = b.path("src/dhtd.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    dhtd.root_module.addImport("dht_native", n_dht);
+    dhtd.root_module.addImport("spec008_seal", s_seal);
+    dhtd.root_module.addImport("vfs_distributed", v_dist);
+    b.installArtifact(dhtd);
+
     // spec008_seal CLI — seal-hex/verify-hex/build-hex differential
     // probing surface for the JS↔Zig twin-parity harness. The core is a
     // separate root so it stays wasm32-freestanding-clean.
