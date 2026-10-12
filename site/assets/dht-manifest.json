@@ -21,7 +21,9 @@
     "kind-index",
     "version-chain",
     "clearance-gate",
-    "audit-log"
+    "audit-log",
+    "key-memo",
+    "verified-head-residency"
   ],
   "honest_bounds": [
     "single-host lane mesh — WAN block transport is a named bound",

@@ -221,6 +221,27 @@ file("DHT-03", got ? "HELD" : "OPEN",
       : `refusals=[${refusals}] query-empty=${queried} ctrl=${ctrl.ok}`);
 }
 
+/* ---------- DHT-11: residency-mutation — the verified-head cache must
+   never serve bytes that changed after verification. Put, read once
+   (populates the resident entry), then corrupt the head file on disk:
+   the next read MUST refuse — identical bytes carry the verdict, never
+   stale trust. */
+{
+  const dhtMod = await import(pathToFileURL(DHT).href);
+  const rp = dhtMod.recordPut(lanes[0], "residency-probe", "mut", { n: 1 }, 0, lanes);
+  const warm = dhtMod.recordGet(rp.id, 7, lanes);
+  const lane = dhtMod.closest(lanes, Buffer.from(rp.id, "hex"), 1)[0];
+  const rd = path.join(DHT_ROOT, "lanes", lane, "records", rp.id);
+  const head = fs.readdirSync(rd).filter(f => f.endsWith(".json")).sort().pop();
+  const hp = path.join(rd, head);
+  const bytes = fs.readFileSync(hp); bytes[20] ^= 0xff; fs.writeFileSync(hp, bytes);
+  const cold = dhtMod.recordGet(rp.id, 7, lanes);
+  file("DHT-11", warm.ok && !cold.ok && cold.reason === "signature" ? "HELD" : "OPEN",
+    warm.ok && !cold.ok && cold.reason === "signature"
+      ? "resident head verified once, tampered byte → content-hash key miss → re-verify → sig-refused (never stale trust)"
+      : `warm=${warm.ok} post-tamper ok=${cold.ok} reason=${cold.reason}`);
+}
+
 const ledger = {
   schema: "DHT-SWEEP-v1",
   ts: new Date().toISOString(),

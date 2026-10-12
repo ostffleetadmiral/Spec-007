@@ -195,6 +195,15 @@ const KEY_DIR = () => path.join(DHT_ROOT(), "keys");
 const SK_PATH = () => path.join(KEY_DIR(), "fleet-service.sk");
 const PK_PATH = () => path.join(KEY_DIR(), "fleet-service.pk");
 
+/* key memo — SPEED-AUDIT T3. verifyRecord called fleetServiceKeys per
+   record: 2 file reads + 2 DER parses every verify. Keys are stat'd
+   per call (cheap) and re-read only when (path,size,mtime) drifts —
+   a rotation is honored on the next stat tick, never silently stale. */
+let _keyMemo = null; // { skPath, skStat, pkStat, keys }
+function statSig(p) {
+  const s = fs.statSync(p);
+  return `${s.size}:${s.mtimeMs}`;
+}
 export function fleetServiceKeys() {
   if (!fs.existsSync(SK_PATH())) {
     fs.mkdirSync(KEY_DIR(), { recursive: true });
@@ -202,11 +211,16 @@ export function fleetServiceKeys() {
     fs.writeFileSync(SK_PATH(), kp.privateKey.export({ type: "pkcs8", format: "der" }), { mode: 0o600 });
     fs.writeFileSync(PK_PATH(), kp.publicKey.export({ type: "spki", format: "der" }));
   }
-  return {
-    sk: crypto.createPrivateKey({ key: fs.readFileSync(SK_PATH()), type: "pkcs8", format: "der" }),
-    pk: crypto.createPublicKey({ key: fs.readFileSync(PK_PATH()), type: "spki", format: "der" }),
-    pubkey_b64: fs.readFileSync(PK_PATH()).toString("base64"),
+  const skP = SK_PATH(), pkP = PK_PATH();
+  const sig = statSig(skP) + "|" + statSig(pkP);
+  if (_keyMemo && _keyMemo.path === skP && _keyMemo.sig === sig) return _keyMemo.keys;
+  const keys = {
+    sk: crypto.createPrivateKey({ key: fs.readFileSync(skP), type: "pkcs8", format: "der" }),
+    pk: crypto.createPublicKey({ key: fs.readFileSync(pkP), type: "spki", format: "der" }),
+    pubkey_b64: fs.readFileSync(pkP).toString("base64"),
   };
+  _keyMemo = { path: skP, sig, keys };
+  return keys;
 }
 
 /* canonical signing payload — field order fixed, sig excluded */
@@ -263,11 +277,39 @@ function kindIndexRead(lane, kind) {
   } catch { return null; }
 }
 
+/* verified-head residency — SPEED-AUDIT T3 (the K3 ExpertCache shape,
+   honest-bound variant). Head files are versioned write-once names; a
+   resident entry is keyed by the file's content hash, so a byte-level
+   tamper changes the key → full re-verify. The disk read stays —
+   verify-on-read posture is preserved exactly: identical bytes carry
+   an identical verdict; we only skip re-parsing + re-verifying
+   *unchanged* bytes. LRU-bounded; eviction only costs a re-verify. */
+const HEAD_LRU_CAP = 512;
+const headLRU = new Map(); // filePath → { bytesHash, rec, verdict }
+
+function loadVerifiedHead(fp) {
+  const bytes = fs.readFileSync(fp);
+  const bytesHash = shaHex(bytes);
+  const hit = headLRU.get(fp);
+  if (hit && hit.bytesHash === bytesHash) {
+    headLRU.delete(fp); headLRU.set(fp, hit);   /* touch → MRU */
+    return { rec: hit.rec, verdict: hit.verdict };
+  }
+  let rec = null, verdict = "bad-json";
+  try { rec = JSON.parse(bytes.toString("utf8")); verdict = verifyRecord(rec); }
+  catch { /* unparseable head — verdict stands, nothing resident-trusted */ }
+  headLRU.set(fp, { bytesHash, rec, verdict });
+  if (headLRU.size > HEAD_LRU_CAP) headLRU.delete(headLRU.keys().next().value);
+  return { rec, verdict };
+}
+
 function recordHead(lane, id) {
   const rd = path.join(recordDir(lane), id);
   if (!fs.existsSync(rd)) return null;
   const head = fs.readdirSync(rd).filter(f => f.endsWith(".json")).sort().pop();
-  return head ? { rec: J(path.join(rd, head)), head } : null;
+  if (!head) return null;
+  const { rec, verdict } = loadVerifiedHead(path.join(rd, head));
+  return { rec, head, verdict };
 }
 
 export function recordPut(lane, kind, name, body, clearance = 0, lanes = knownLanes()) {
@@ -301,8 +343,8 @@ export function recordGet(id, readerClearance = 7, lanes = knownLanes()) {
     const versions = fs.readdirSync(rd).filter(f => f.endsWith(".json"))
       .sort().reverse();
     if (!versions.length) continue;
-    const rec = J(path.join(rd, versions[0]));
-    const v = verifyRecord(rec);
+    const { rec, verdict: v } = loadVerifiedHead(path.join(rd, versions[0]));
+    if (!rec) { audit(lane, "record-get", id.slice(0, 16), "sig-refused", { reason: v }); return { ok: false, reason: "signature", detail: v }; }
     if (v !== "ok") {
       audit(lane, "record-get", id.slice(0, 16), "sig-refused", { reason: v });
       return { ok: false, reason: "signature", detail: v };
@@ -320,11 +362,12 @@ export function recordGet(id, readerClearance = 7, lanes = knownLanes()) {
 
 export function recordQuery(kind, readerClearance = 7, lanes = knownLanes()) {
   const seen = new Map();
-  const admit = (lane, id, rec) => {
-    if (seen.has(id) || verifyRecord(rec) !== "ok") {
+  const admit = (lane, id, h) => {
+    if (seen.has(id) || h.verdict !== "ok" || !h.rec) {
       if (!seen.has(id)) audit(lane, "record-query", id.slice(0, 16), "sig-refused");
       return;
     }
+    const rec = h.rec;
     if (rec.kind === kind && rec.clearance <= readerClearance)
       seen.set(id, { id, kind, name: rec.name, version: rec.version, author: rec.author, clearance: rec.clearance });
   };
@@ -334,7 +377,7 @@ export function recordQuery(kind, readerClearance = 7, lanes = knownLanes()) {
     if (indexed) {                       /* live complete index — bounded read */
       for (const id of indexed) {
         const h = recordHead(lane, id);
-        if (h) admit(lane, id, h.rec);
+        if (h) admit(lane, id, h);
       }
       continue;
     }
@@ -343,8 +386,8 @@ export function recordQuery(kind, readerClearance = 7, lanes = knownLanes()) {
     for (const id of fs.readdirSync(rdir)) {
       const h = recordHead(lane, id);
       if (!h) continue;
-      (kinds[h.rec.kind] ||= []).push(id);
-      admit(lane, id, h.rec);
+      if (h.rec) (kinds[h.rec.kind] ||= []).push(id);
+      admit(lane, id, h);
     }
     try { kindIndexWrite(lane, { complete: true, kinds }); }
     catch { /* index is an accelerator — the scan already answered */ }
@@ -367,7 +410,8 @@ function emitManifest() {
     lane_count: lanes.length,
     lanes_sha256: shaHex(Buffer.from(lanes.join(","))).slice(0, 16),
     capabilities: ["put", "get", "providers", "churn-survival", "integrity-refusal",
-      "record-put", "record-get", "record-query", "kind-index", "version-chain", "clearance-gate", "audit-log"],
+      "record-put", "record-get", "record-query", "kind-index", "version-chain", "clearance-gate", "audit-log",
+      "key-memo", "verified-head-residency"],
     honest_bounds: ["single-host lane mesh — WAN block transport is a named bound",
       "control plane rides the sealed 136-B wire; payload verified by hash",
       "records are fleet-signed — per-lane identity attestation is a bound: lanes are patrol roles, not key-holding entities"],
