@@ -51,6 +51,68 @@ u32 coords + in-stream signature/phase fold (no hops array — unbounded
 walks bounded only by |Δ|≤12286), and the hostile wire is embedded as a
 test vector so the class can't regress silently.
 
+## T7 — native DHT daemon (retro-dev wave)
+
+`src/dht_native.zig` (~1,450 lines) + `src/dhtd.zig` + `tools/dht-native.mjs`
+— a full twin of `tools/dht-fs.mjs`: same store bytes, same verdicts,
+served over the sealed 136-B FANO wire on loopback TCP instead of the
+CLI/filesystem surface.
+
+**Store layer (dht_native.zig):** sha256 content addressing, XOR-256
+Kademlia ordering, k=3 replication, hash-verify on every block read,
+indent-2 record files + compact kind-index + JSONL audit —
+byte-identical layouts. Ed25519 record sign/verify through the real
+PKCS8/SPKI DER keys. Custom JS-exact JSON canon (V8 number formatting —
+Zig std.json emits `1.5e0` where JS emits `1.5`; canon must match
+`JSON.stringify` byte-for-byte or every sig diverges). Verified-head
+residency same as the JS LRU: byte-hash per read, parse+sig memoized
+only on identical bytes.
+
+**Substrate wiring (honest boundary):** `vfs_distributed` supplies
+NodeRegistry liveness + Placement slots + quorum check/fetch-pick
+machinery — the DHT's own XOR-256 ordering fills Placement. The
+substrate's `assignPlacement` ring-hash (`h % online`) is a different
+metric and is deliberately NOT used for routing — the manifest records
+this boundary explicitly.
+
+**Wire layer (dhtd.zig):** loopback TCP, request stream = sealed 136-B
+envelopes with a more-flag in payload[0] and 63 B data/envelope;
+reply streams sealed back src=(7,7,7) → dst=requester cell. Persistent
+connections (request/dispatch/reply cycles until EOF), requester-cell
+pinning (first verified frame's src wins; foreign-src frames dropped),
+unsealed frames dropped without disturbing the conn, `MAX_STREAM`
+oversize bound, ops 0x00–0x09 dispatch into the store.
+
+**Client (tools/dht-native.mjs):** mirrors dht-fs.mjs return shapes so
+callers can swap transport; seal/verify rides the wasm-dispatched
+bridge with BigInt fallback; per-rpc timeout + id-format guards.
+
+**Parity evidence:** JS `recordGet` verifies a Zig-signed record
+(ok:true, fleet-service sig over real DER keys); Zig `recordGet`
+verifies a JS-signed record; Zig `get` returns a JS-written block
+hash-exact (servedBy correct XOR lane); version chains extend across
+implementations (Zig v1 → JS reads, JS writes → Zig reads). Tamper
+path over the wire: corrupted replica → `integrity-refused` audited,
+next replica serves (`tampered` counter honors walk-order — refused
+replicas count only when inspected, same as JS).
+
+**Measured (49-lane roster, warm store):** put 140KB → 3 chunks, 3
+replicas ~64–83ms; get same ~50–66ms (~2,223 sealed frames
+re-assembled); record ops + query round out a full probe cycle at
+~290ms total. No spawn-per-op anywhere — the JS twin's per-op cold
+start is gone from this path.
+
+**Bug the gate caught (this wave):** the reply-fragmentation loop
+panicked on any reply ≥ 64 B — `payload[1 .. 1 + n]` overflowed when
+`n` hit the 63-byte full frame (peer-typed arithmetic, panic only on
+the n=63 boundary; the lanes reply at n=42 masked it). Fixed by
+explicit `usize` n/plen.
+
+**Named bounds:** single-threaded accept loop — a stalled conn
+head-of-line blocks the next (loopback lab scope; threading is a
+later iteration). Client-side `recordPut` against a keyless store
+returns store-error (signing needs fleet-service.sk, never shipped).
+
 ## T6 — bounded probe prefetch in team-sweep-2 (retro-dev wave)
 
 A 4-wide async spawn pool launches the sweep's ~22 heaviest read-only

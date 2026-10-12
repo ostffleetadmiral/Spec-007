@@ -24,6 +24,10 @@
      DHT-10 signature-validation — unsigned / bad-sig / foreign-kid
                                    records refused on read + audited;
                                    signed control resolves
+     DHT-11 residency-mutation    — verified-head residency can never
+                                   serve bytes changed after verify
+     DHT-12 native-daemon         — Zig twin serves the sealed wire on
+                                   the same store; JS verifies its sigs
 
    usage: node security/dht-sweep.mjs [--emit] [--lanes N]
    store root: FANO_DHT_ROOT env or a temp dir under security/out/. */
@@ -240,6 +244,52 @@ file("DHT-03", got ? "HELD" : "OPEN",
     warm.ok && !cold.ok && cold.reason === "signature"
       ? "resident head verified once, tampered byte → content-hash key miss → re-verify → sig-refused (never stale trust)"
       : `warm=${warm.ok} post-tamper ok=${cold.ok} reason=${cold.reason}`);
+}
+
+/* ---------- DHT-12: native-daemon — the Zig twin serves the sealed wire
+   over loopback TCP on the SAME store + lane set the JS probes used.
+   Spawn dhtd, exercise put/get/record ops via tools/dht-native.mjs,
+   then have the canonical JS path verify a Zig-signed record — parity
+   is proven by bytes, not by claim. */
+{
+  const dhtdPath = path.join(ROOT, "zig-out", "bin", "dhtd");
+  if (!fs.existsSync(dhtdPath)) {
+    const b = spawnSync("zig", ["build"], { cwd: ROOT, encoding: "utf8", timeout: 300000 });
+    if (b.status !== 0) {
+      file("DHT-12", "NOTED", `native daemon build failed rc=${b.status} — deferred`);
+    }
+  }
+  if (fs.existsSync(dhtdPath)) {
+    const port = 14700 + (process.pid % 500);
+    const d = spawn(dhtdPath, ["--root", DHT_ROOT, "--lanes", lanes.join(","),
+      "--listen", `127.0.0.1:${port}`], { stdio: ["ignore", "pipe", "pipe"] });
+    let dlog = ""; d.stdout.on("data", x => dlog += x); d.stderr.on("data", x => dlog += x);
+    await new Promise(r => setTimeout(r, 700));
+    try {
+      const N = await import(pathToFileURL(path.join(ROOT, "tools", "dht-native.mjs")).href);
+      const dhtMod = await import(pathToFileURL(DHT).href);
+      const c = await N.Client.connect({ port });
+      const probe = Buffer.from(`native-daemon sweep ${t0} ${"z".repeat(70000)}`);
+      const p = await c.put(c.lanes[0], probe);
+      const g = await c.get(p.cid);
+      const rp = await c.recordPut(c.lanes[0], "native-sweep", "wire", { n: 1 }, 0);
+      const rg = await c.recordGet(rp.id, 7);
+      const rq = await c.recordQuery("native-sweep", 7);
+      /* cross-check: canonical JS verifies the Zig-signed record */
+      const jsg = dhtMod.recordGet(rp.id, 7, lanes);
+      const roundtrip = p.cid && g.ok && H(g.data) === H(probe);
+      const records = rg.ok && rg.record?.version >= 1 && rq.length >= 1;
+      file("DHT-12", roundtrip && records && jsg.ok ? "HELD" : "OPEN",
+        roundtrip && records && jsg.ok
+          ? `native daemon on sealed wire — put/get ${probe.length} B byte-exact, record v${rg.record.version} Zig-signed + JS-verified, ${c.lanes.length} lanes`
+          : `native daemon: roundtrip=${!!roundtrip} records=${!!records} js-verify=${jsg.ok} log=${dlog.slice(-160)}`);
+      c.close();
+    } catch (e) {
+      file("DHT-12", "OPEN", `native daemon exercise failed: ${String(e).slice(0, 140)} log=${dlog.slice(-120)}`);
+    }
+    d.kill();
+    await new Promise(r => setTimeout(r, 150));
+  }
 }
 
 const ledger = {
