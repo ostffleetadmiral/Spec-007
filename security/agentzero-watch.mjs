@@ -75,7 +75,9 @@ const LANES = {
   "digit-a0": {
     custody: "quadrivium", host: "127.0.0.1",
     providers: ["http://127.0.0.1:11435", "http://localhost:11435",
-      "http://host.docker.internal:11435", "ollama-qstar"],
+      "http://host.docker.internal:11435", "ollama-qstar",
+      "http://127.0.0.1:11436", "http://localhost:11436",
+      "http://host.docker.internal:11436", "qstar-native"],
     image: "frdel/agent-zero-run",
   },
 };

@@ -71,7 +71,12 @@ const runtimes = {
   "ollama-qstar": {
     kind: "llm-upstream", endpoint: "http://127.0.0.1:11435",
     provider_id: "qstar", evidence: "bridge-mediated",
-    note: "lattice-native inference sibling — qstar-llm",
+    note: "stock Ollama sibling (qwen2.5:3b + nomic-embed) — digit-a0 chat/embed lane; schema-constrained decoding lives here",
+  },
+  "qstar-native": {
+    kind: "llm-upstream", endpoint: "http://127.0.0.1:11436",
+    evidence: "bridge-mediated",
+    note: "lattice-native qstar serve — /api/* + /v1/* surfaces measured live; util-lane candidate (no json_schema, no nomic embeds)",
   },
   "ollama-remote": {
     kind: "llm-upstream", endpoint: "http://192.168.12.210:11434",

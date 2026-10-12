@@ -1,9 +1,9 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-12T00:33:03.310Z",
+    "ts": "2026-10-12T00:52:48.870Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
-    "runtime_count": 15,
+    "runtime_count": 16,
     "runtimes": {
       "gov-bridge": {
         "kind": "governance-gate",
@@ -23,7 +23,13 @@
         "endpoint": "http://127.0.0.1:11435",
         "provider_id": "qstar",
         "evidence": "bridge-mediated",
-        "note": "lattice-native inference sibling — qstar-llm"
+        "note": "stock Ollama sibling (qwen2.5:3b + nomic-embed) — digit-a0 chat/embed lane; schema-constrained decoding lives here"
+      },
+      "qstar-native": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:11436",
+        "evidence": "bridge-mediated",
+        "note": "lattice-native qstar serve — /api/* + /v1/* surfaces measured live; util-lane candidate (no json_schema, no nomic embeds)"
       },
       "ollama-remote": {
         "kind": "llm-upstream",
@@ -103,6 +109,6 @@
       }
     }
   },
-  "sig_ed25519": "mR6BNp6kmeeGqs_Eb1wFQUCZ_BKtYZl77FcdbOXegxKN7Bxqsfig45NS_iyNngcI-0fNx6eEYFRZnbQ6PryDBw",
+  "sig_ed25519": "-MwAnj4aNQuACvvV77EHip1Wt4xmgIXNyZ1nBqTiAu_ILwZyjkY9fD0lwx_YZdwo975AXpSOlZUUQiR3uyiRAg",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }
