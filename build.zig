@@ -188,4 +188,29 @@ pub fn build(b: *std.Build) void {
     });
     depTest(b, test_step, "src/spec008_qstar_parity.zig", target, optimize, &.{});
     depTest(b, test_step, "src/spec008_medium_lattice.zig", target, optimize, &.{});
+
+    // ── spec007 integer harnesses (was a serial zig-test loop in
+    //    publish-check — the build graph parallelizes + caches) ───────
+    const spec007_harnesses = [_][]const u8{
+        "src/spec007_alpha_probe.zig",
+        "src/spec007_astrometric_probe.zig",
+        "src/spec007_calculations.zig",
+        "src/spec007_checksum_audit.zig",
+        "src/spec007_ckm_probe.zig",
+        "src/spec007_coincidence_probe.zig",
+        "src/spec007_compute.zig",
+        "src/spec007_drivetrain_calculations.zig",
+        "src/spec007_dynamics_calculations.zig",
+        "src/spec007_ephemeris_probe.zig",
+        "src/spec007_expanded_calculations.zig",
+        "src/spec007_fixedpoint_prototype.zig",
+        "src/spec007_manifold_calculations.zig",
+        "src/spec007_portal_probe.zig",
+        "src/spec007_q_toys.zig",
+        "src/spec007_verified_calculations.zig",
+        "src/spec007_warp_probe.zig",
+        "src/spec007_wow_shape_probe.zig",
+        "src/fixed_point_q128.zig",
+    };
+    for (spec007_harnesses) |h| depTest(b, test_step, h, target, optimize, &.{});
 }

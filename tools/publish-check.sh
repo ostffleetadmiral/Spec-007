@@ -10,19 +10,13 @@ echo "== baseline"
 if echo "bcb81b78ebeab9e3762a806788a0c4c1bd3bbd1e8a7b9339030037efab6367b4  spec-007.md" | sha256sum -c - >/dev/null 2>&1
 then say " PASS" "spec-007.md immutable baseline"; else say " FAIL" "spec-007.md baseline"; FAIL=1; fi
 
-echo "== integer harnesses (L4)"
-for f in src/spec007_*.zig; do
-  case "$f" in
-    *q128*|*compute*|*prototype*) ;; # library/mirror modules — tested via importers
-    *) zig test "$f" >/dev/null 2>&1 && say " PASS" "$f" || { say " FAIL" "$f"; FAIL=1; } ;;
-  esac
-done
-zig test src/spec007_fixedpoint_prototype.zig >/dev/null 2>&1 && say " PASS" "src/spec007_fixedpoint_prototype.zig" || { say " FAIL" "prototype"; FAIL=1; }
-zig test src/fixed_point_q128.zig >/dev/null 2>&1 && say " PASS" "src/fixed_point_q128.zig" || { say " FAIL" "fixed_point_q128"; FAIL=1; }
-zig test src/spec007_compute.zig >/dev/null 2>&1 && say " PASS" "src/spec007_compute.zig" || { say " FAIL" "compute"; FAIL=1; }
-
-echo "== qstar dep suites + spec008 harnesses (zig build test)"
-zig build test >/dev/null 2>&1 && say " PASS" "zig build test (deps + spec008 harnesses)" || { say " FAIL" "zig build test"; FAIL=1; }
+echo "== integer harnesses (L4) — spec007 + deps + spec008 via build graph"
+if zig build test >/dev/null 2>&1; then
+  say " PASS" "zig build test (19 spec007 + deps + spec008 harnesses)"
+else
+  say " FAIL" "zig build test"; FAIL=1
+  zig build test 2>&1 | grep -E 'error|FAIL' | head -10 >&2 || true
+fi
 
 echo "== site build + twins"
 ( cd site && python3 build.py >/dev/null 2>&1 ) && say " PASS" "build.py" || { say " FAIL" "build.py"; FAIL=1; }
@@ -48,29 +42,30 @@ for c in fleet-genesis.json fleet-manifest.json engine-manifest.json; do
     && say " PASS" "canon:$c" || { say " FAIL" "canon:$c"; FAIL=1; }
 done
 
-echo "== casting ledger (Layer 2 — deterministic, watch-list complete)"
-node tools/persona-map.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "persona-manifest.json" || { say " FAIL" "persona-manifest.json"; FAIL=1; }
-
-echo "== command ledger (Layer 3 — deterministic, fleet + corps complete)"
-node tools/command-map.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "command-manifest.json" || { say " FAIL" "command-manifest.json"; FAIL=1; }
-
-echo "== vision ledger (deterministic, artifact-backed)"
-node tools/vision-audit.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "vision-ledger.json" || { say " FAIL" "vision-ledger.json"; FAIL=1; }
-
-echo "== continuity dht (deterministic projection)"
-node tools/dht-fs.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "dht-manifest.json" || { say " FAIL" "dht-manifest.json"; FAIL=1; }
-
-echo "== film manifest (hash-pinned artifacts)"
-node tools/film-render.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "film-manifest.json" || { say " FAIL" "film-manifest.json"; FAIL=1; }
-
-echo "== aiwo standing service (ledger integrity)"
-node security/aiwo-service.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "aiwo-service-ledger" || { say " FAIL" "aiwo-service-ledger"; FAIL=1; }
+echo "== deterministic ledgers (parallel —verify gates)"
+# each line: "label<tab>verify-command" — run in parallel, print in declaration order
+VCHK=$(cat <<'EOF'
+persona-manifest.json	node tools/persona-map.mjs --verify
+command-manifest.json	node tools/command-map.mjs --verify
+vision-ledger.json	node tools/vision-audit.mjs --verify
+dht-manifest.json	node tools/dht-fs.mjs --verify
+film-manifest.json	node tools/film-render.mjs --verify
+aiwo-service-ledger	node security/aiwo-service.mjs --verify
+agency-map.json	node tools/agency-map.mjs --verify
+directive	node tools/directive.mjs --verify
+gov-ledger.json	node tools/gov-map.mjs --verify
+academy-manifest.json	node tools/academy-harvest.mjs --verify
+curriculum-map.json	node tools/curriculum-map.mjs --verify
+academy-review.json	node tools/academy-review.mjs --verify
+academy-pedagogy.json	node tools/academy-grade.mjs --verify && node tools/academy-grade.mjs --selfcheck
+course-gen	node tools/course-gen.mjs --verify
+EOF
+)
+VRES=$(echo "$VCHK" | xargs -d '\n' -P 8 -I{} sh -c 'lbl=${1%%	*}; cmd=${1#*	}; eval "$cmd" >/dev/null 2>&1 && echo "$lbl|PASS" || echo "$lbl|FAIL"' _ {})
+echo "$VCHK" | cut -f1 | while IFS= read -r lbl; do
+  echo "$VRES" | grep -F "$lbl|" | sed "s/|PASS/ PASS/; s/|FAIL/ FAIL/"
+done
+echo "$VRES" | grep -q '|FAIL' && FAIL=1 || true
 
 echo "== nebula 3d module (scene shipped, desk-wired)"
 node --check site/assets/nebula-3d.js >/dev/null 2>&1 \
@@ -78,43 +73,12 @@ node --check site/assets/nebula-3d.js >/dev/null 2>&1 \
   && grep -q 'nebula-3d.js' site/desktop.html \
   && say " PASS" "nebula-3d.js" || { say " FAIL" "nebula-3d.js"; FAIL=1; }
 
-echo "== agency map (gov↔sci-fi binding + organ counterparts)"
-node tools/agency-map.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "agency-map.json" || { say " FAIL" "agency-map.json"; FAIL=1; }
-
-echo "== directive router (glyph table + signed receipts)"
-node tools/directive.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "directive" || { say " FAIL" "directive"; FAIL=1; }
-
-echo "== governance ledger (constitutional mandates realized)"
-node tools/gov-map.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "gov-ledger.json" || { say " FAIL" "gov-ledger.json"; FAIL=1; }
-
-echo "== academy harvest (corpus lessons deterministic)"
-node tools/academy-harvest.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "academy-manifest.json" || { say " FAIL" "academy-manifest.json"; FAIL=1; }
-
-echo "== curriculum map (course coverage enforced)"
-node tools/curriculum-map.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "curriculum-map.json" || { say " FAIL" "curriculum-map.json"; FAIL=1; }
-
-echo "== academy review (structural course review — zero defects)"
-node tools/academy-review.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "academy-review.json" || { say " FAIL" "academy-review.json"; FAIL=1; }
-
-echo "== academy pedagogy (content-signal grading deterministic)"
-node tools/academy-grade.mjs --verify >/dev/null 2>&1 \
-  && node tools/academy-grade.mjs --selfcheck >/dev/null 2>&1 \
-  && say " PASS" "academy-pedagogy.json" || { say " FAIL" "academy-pedagogy.json"; FAIL=1; }
-
-echo "== course generator (wave-report lessons deterministic)"
-node tools/course-gen.mjs --verify >/dev/null 2>&1 \
-  && say " PASS" "course-gen" || { say " FAIL" "course-gen"; FAIL=1; }
-
 echo "== js syntax"
-for j in site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs; do
-  node --check "$j" >/dev/null 2>&1 && say " PASS" "$j" || { say " FAIL" "$j"; FAIL=1; }
-done
+# parallel node --check — worker prints "PASS|FAIL file" per file, sorted for stable output
+JSCHK=$(ls site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs \
+  | xargs -P 8 -I{} sh -c 'node --check "$1" >/dev/null 2>&1 && echo "PASS $1" || echo "FAIL $1"' _ {} | sort)
+echo "$JSCHK" | sed 's/^PASS/ PASS/; s/^FAIL/ FAIL/'
+echo "$JSCHK" | grep -q '^FAIL' && FAIL=1 || true
 
 echo
 [ "$FAIL" -eq 0 ] && echo "PUBLISH CHECK: all gates green" || echo "PUBLISH CHECK: FAILURES PRESENT"

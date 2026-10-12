@@ -4,6 +4,19 @@ Documentation-only audit. Crawled this tree plus `../qstar-llm` (server,
 serve step, 2026-10-11 bench sweep numbers). No code changed. Every item
 lists the mechanism, the evidence path, the fix, and the honest bound.
 
+> **Implementation status (2026-10-12, commit 572ae0a + follow-on):**
+> items 1, 2, and 4 IMPLEMENTED with measured deltas below; item 3
+> partially done (in-process DHT queries landed; bounded probe pool
+> still open); item 5 (`ollama-qstar-native :11436`) still open.
+
+## Measured deltas
+
+| Path | Before | After | Factor |
+|---|---|---|---|
+| `recordQuery` ×10 (in-process, indexed) | 956.5ms spawn-per-query | 98.9ms | ~9.7× |
+| `zig build test` incl. 19 spec007 harnesses | 80.8s serial `zig test` loop | 54.6s cold / 0.2s warm-cache | 1.5× cold, ~400× warm |
+| `publish-check.sh` end-to-end | ~110s | ~19s | ~5.8× |
+
 ---
 
 ## 1. The live lanes pay a node cold-start per evidence record — THE hot path
