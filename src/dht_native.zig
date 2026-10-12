@@ -131,7 +131,7 @@ pub fn writeJsString(w: anytype, s: []const u8) !void {
 /// V8 Number::toString shape. Zig `{e}` already emits the shortest
 /// round-trip digits; we reparse mantissa+exponent and re-format under
 /// the ECMA rules (decimal if -6 < n <= 21, else scientific).
-fn writeJsNumber(w: anytype, f: f64) !void {
+fn writeJsNumber(w: anytype, f: f64) !void { // boundary — record-body JSON canon must emit V8 float text for sig parity
     if (std.math.isNan(f) or std.math.isInf(f)) return w.writeAll("null");
     if (f == 0) return w.writeAll("0");
     const neg = f < 0;
@@ -188,7 +188,7 @@ pub fn writeJsJson(w: anytype, v: std.json.Value) anyerror!void {
         .integer => |i| try w.print("{d}", .{i}),
         .float => |f| try writeJsNumber(w, f),
         .number_string => |s| {
-            const f = std.fmt.parseFloat(f64, s) catch return w.writeAll(s);
+            const f = std.fmt.parseFloat(f64, s) catch return w.writeAll(s); // boundary — number_string carries JS float text
             try writeJsNumber(w, f);
         },
         .string => |s| try writeJsString(w, s),
@@ -1276,7 +1276,7 @@ test "writeJsString escapes like JSON.stringify" {
 test "writeJsNumber matches V8 Number::toString" {
     var buf = std.ArrayList(u8).init(std.testing.allocator);
     defer buf.deinit();
-    const cases = [_]struct { f: f64, s: []const u8 }{
+    const cases = [_]struct { f: f64, s: []const u8 }{ // sidecar — canon boundary test vectors
         .{ .f = 1.5, .s = "1.5" },
         .{ .f = 0.1, .s = "0.1" },
         .{ .f = 1e21, .s = "1e+21" },
