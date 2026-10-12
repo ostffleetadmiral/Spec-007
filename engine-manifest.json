@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-12T12:29:06.232Z",
+    "ts": "2026-10-12T19:24:59.037Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 16,
     "runtimes": {
@@ -90,7 +90,7 @@
       "academy-manifest": {
         "kind": "registry",
         "path": "site/assets/academy-manifest.json",
-        "sha256": "sha256:36c2b9e9e35927833c7af4e5312011d290c66338138b04784248864925de9aee",
+        "sha256": "sha256:2e71680ab283b87857e239b629b34896c3d59310bac1b426d67698dcebb7aab4",
         "evidence": "verified-here"
       },
       "science-inventory": {
@@ -109,6 +109,6 @@
       }
     }
   },
-  "sig_ed25519": "ugG_5rfAPYsTlpzHwMIE9LxvECquRIKFHzO-FUyyS-hMoQQmebJebE-j79MfND5dqbpxrZNk6uaygGKIPuWTCw",
+  "sig_ed25519": "oAF4YlxtIQJH3zn3PALDRm3eY8ruQWSlTAluPoCElV6DxllE_lxnFMdbJH-I2KOHh0QFqptbGjOo6o_oDUkqCg",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }
