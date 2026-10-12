@@ -22,6 +22,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { recordQuery } from "./dht-fs.mjs";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = path.join(ROOT, "site", "assets");
@@ -95,10 +96,7 @@ function resolve(check) {
       catch { return false; }
     }
     case "records": {
-      const r = spawnSync(process.execPath,
-        [path.join(ROOT, "tools", "dht-fs.mjs"), "record", "query", check.rkind, "7"],
-        { encoding: "utf8" });
-      try { return r.status === 0 && JSON.parse(r.stdout).length > 0; }
+      try { return recordQuery(check.rkind, 7).length > 0; }
       catch { return false; }
     }
     default: return false;

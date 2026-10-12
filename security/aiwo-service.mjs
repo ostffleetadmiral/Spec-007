@@ -46,6 +46,7 @@ import path from "node:path";
 import os from "node:os";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { recordPut } from "../tools/dht-fs.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
@@ -127,10 +128,8 @@ function loadState() {
 function saveState(s) { fs.writeFileSync(STATE, JSON.stringify(s, null, 2) + "\n"); }
 
 function dhtRecord(lane, kind, name, clearance, body) {
-  const r = spawnSync("node", [DHT, "record", "put", lane, kind,
-    name, String(clearance), JSON.stringify(body)],
-    { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || path.join(os.homedir(), ".fano-dht") }, encoding: "utf8" });
-  return r.status === 0;
+  try { recordPut(lane, kind, name, body, clearance); return true; }
+  catch { return false; }
 }
 function dhtChain(cycle, digest) {
   return dhtRecord("aiwo-corps", "corps-state", `cycle-${cycle}`, 3, { cycle, digest });

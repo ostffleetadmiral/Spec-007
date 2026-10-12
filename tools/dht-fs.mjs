@@ -49,7 +49,7 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DHT_ROOT = process.env.FANO_DHT_ROOT || path.join(os.homedir(), ".fano-dht");
+const DHT_ROOT = () => process.env.FANO_DHT_ROOT || path.join(os.homedir(), ".fano-dht");
 const MANIFEST = path.join(ROOT, "site", "assets", "dht-manifest.json");
 const CHUNK_BYTES = 65536;
 const K_REPLICAS = 3;
@@ -70,7 +70,7 @@ export function closest(lanes, key, k = K_REPLICAS) {
     Buffer.compare(distance(nodeId(p), key), distance(nodeId(q), key))).slice(0, k);
 }
 
-const laneDir = (lane) => path.join(DHT_ROOT, "lanes", lane);
+const laneDir = (lane) => path.join(DHT_ROOT(), "lanes", lane);
 const blockDir = (lane) => path.join(laneDir(lane), "blocks");
 const blockPath = (lane, cid) =>
   path.join(blockDir(lane), cid.slice(0, 2), cid.slice(2, 4), cid);
@@ -191,7 +191,7 @@ export function providers(cid, lanes = knownLanes()) {
    record was written through the service-key path (origin integrity +
    tamper evidence). Per-lane identity attestation is a named bound:
    lanes are patrol roles, not key-holding entities. */
-const KEY_DIR = () => path.join(DHT_ROOT, "keys");
+const KEY_DIR = () => path.join(DHT_ROOT(), "keys");
 const SK_PATH = () => path.join(KEY_DIR(), "fleet-service.sk");
 const PK_PATH = () => path.join(KEY_DIR(), "fleet-service.pk");
 
@@ -228,6 +228,48 @@ function verifyRecord(rec) {
   } catch { return "bad-sig"; }
 }
 
+/* kind→record-id index — SPEED-AUDIT item 2. recordQuery walked every
+   record dir on every lane and sig-verified every head; the index
+   bounds reads to the matching set. Honest fallback: an absent or
+   incomplete index drops to the existing full scan (which then
+   backfills a complete index); index-write failure deletes the file,
+   never wrong answers. Verify-on-read integrity posture preserved —
+   indexed ids still get their head sig-checked. */
+const kindIndexPath = (lane) => path.join(laneDir(lane), "kind-index.json");
+
+function kindIndexWrite(lane, idx) {
+  const tmp = kindIndexPath(lane) + ".tmp";
+  fs.writeFileSync(tmp, JSON.stringify(idx) + "\n");
+  fs.renameSync(tmp, kindIndexPath(lane));
+}
+
+function kindIndexAdd(lane, kind, id) {
+  try {
+    const p = kindIndexPath(lane);
+    const idx = fs.existsSync(p) ? J(p) : { complete: false, kinds: {} };
+    (idx.kinds[kind] ||= []).includes(id) || idx.kinds[kind].push(id);
+    kindIndexWrite(lane, idx);
+  } catch {
+    try { fs.rmSync(kindIndexPath(lane), { force: true }); } catch { /* degraded → full scan */ }
+  }
+}
+
+function kindIndexRead(lane, kind) {
+  try {
+    const p = kindIndexPath(lane);
+    if (!fs.existsSync(p)) return null;
+    const idx = J(p);
+    return idx.complete ? (idx.kinds[kind] || []) : null;
+  } catch { return null; }
+}
+
+function recordHead(lane, id) {
+  const rd = path.join(recordDir(lane), id);
+  if (!fs.existsSync(rd)) return null;
+  const head = fs.readdirSync(rd).filter(f => f.endsWith(".json")).sort().pop();
+  return head ? { rec: J(path.join(rd, head)), head } : null;
+}
+
 export function recordPut(lane, kind, name, body, clearance = 0, lanes = knownLanes()) {
   /* record id is stable across versions — it names the record, not the body */
   const id = shaHex(Buffer.from(kind + ":" + name));
@@ -246,6 +288,7 @@ export function recordPut(lane, kind, name, body, clearance = 0, lanes = knownLa
     rec.sig = crypto.sign(null, recCanon(rec), sk).toString("base64");
     fs.writeFileSync(path.join(rd, String(version).padStart(4, "0") + ".json"),
       JSON.stringify(rec, null, 2) + "\n");
+    kindIndexAdd(t, kind, id);
   }
   audit(lane, "record-put", id.slice(0, 16), "accepted", { kind, clearance });
   return { id, kind, author: lane };
@@ -277,18 +320,34 @@ export function recordGet(id, readerClearance = 7, lanes = knownLanes()) {
 
 export function recordQuery(kind, readerClearance = 7, lanes = knownLanes()) {
   const seen = new Map();
+  const admit = (lane, id, rec) => {
+    if (seen.has(id) || verifyRecord(rec) !== "ok") {
+      if (!seen.has(id)) audit(lane, "record-query", id.slice(0, 16), "sig-refused");
+      return;
+    }
+    if (rec.kind === kind && rec.clearance <= readerClearance)
+      seen.set(id, { id, kind, name: rec.name, version: rec.version, author: rec.author, clearance: rec.clearance });
+  };
   for (const lane of lanes) {
     const rdir = recordDir(lane);
-    if (!fs.existsSync(rdir)) continue;
-    for (const id of fs.readdirSync(rdir)) {
-      if (seen.has(id)) continue;
-      const rd = path.join(rdir, id);
-      const head = fs.readdirSync(rd).filter(f => f.endsWith(".json")).sort().pop();
-      const rec = J(path.join(rd, head));
-      if (verifyRecord(rec) !== "ok") { audit(lane, "record-query", id.slice(0, 16), "sig-refused"); continue; }
-      if (rec.kind === kind && rec.clearance <= readerClearance)
-        seen.set(id, { id, kind, name: rec.name, version: rec.version, author: rec.author, clearance: rec.clearance });
+    const indexed = fs.existsSync(rdir) ? kindIndexRead(lane, kind) : null;
+    if (indexed) {                       /* live complete index — bounded read */
+      for (const id of indexed) {
+        const h = recordHead(lane, id);
+        if (h) admit(lane, id, h.rec);
+      }
+      continue;
     }
+    if (!fs.existsSync(rdir)) continue;
+    const kinds = {};                    /* backfill a complete index during the scan */
+    for (const id of fs.readdirSync(rdir)) {
+      const h = recordHead(lane, id);
+      if (!h) continue;
+      (kinds[h.rec.kind] ||= []).push(id);
+      admit(lane, id, h.rec);
+    }
+    try { kindIndexWrite(lane, { complete: true, kinds }); }
+    catch { /* index is an accelerator — the scan already answered */ }
   }
   return [...seen.values()];
 }
@@ -308,7 +367,7 @@ function emitManifest() {
     lane_count: lanes.length,
     lanes_sha256: shaHex(Buffer.from(lanes.join(","))).slice(0, 16),
     capabilities: ["put", "get", "providers", "churn-survival", "integrity-refusal",
-      "record-put", "record-get", "record-query", "version-chain", "clearance-gate", "audit-log"],
+      "record-put", "record-get", "record-query", "kind-index", "version-chain", "clearance-gate", "audit-log"],
     honest_bounds: ["single-host lane mesh — WAN block transport is a named bound",
       "control plane rides the sealed 136-B wire; payload verified by hash",
       "records are fleet-signed — per-lane identity attestation is a bound: lanes are patrol roles, not key-holding entities"],

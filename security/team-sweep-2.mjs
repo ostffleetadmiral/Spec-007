@@ -22,6 +22,7 @@ import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import * as F from "./fano-mesh-bridge.mjs";
+import { recordQuery } from "../tools/dht-fs.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
@@ -3676,12 +3677,8 @@ console.log("\nRCT — the sched-emit receipt bridge (phase D)");
     noted("RCT", "receipt-bridge", "receipt-bridge-ledger.json not emitted — run `tools/receipt-bridge.mjs --fold FILE --emit`");
   } else {
     const m = JSON.parse(fs.readFileSync(lp, "utf8"));
-    const q = spawnSync(process.execPath,
-      [path.join(ROOT, "tools", "dht-fs.mjs"), "record", "query", "k3-sched-receipt", "3"],
-      { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || `${process.env.HOME}/.fano-dht` },
-        encoding: "utf8" });
     let recs = 0;
-    try { recs = JSON.parse(q.stdout || "[]").length; } catch {}
+    try { recs = recordQuery("k3-sched-receipt", 3).length; } catch {}
     m.schema === "RCT-BRIDGE-v1" && m.filed > 0 && recs >= m.filed
       ? held("RCT", "receipt-bridge",
           `${m.filed} sched-emit commits folded → ${recs} k3-sched-receipt records in the Continuity DHT — every token receipted`)
@@ -3742,8 +3739,7 @@ console.log("\nAGT — the agent organs (digit + sheraton, dreamed→built)");
   /* record kinds — the agents' filed evidence resolves in the DHT */
   const kinds = ["dreamstream", "c-aud-theta", "directive"];
   const q = kinds.map(k => {
-    const r = spawnSync("node", [path.join(ROOT, "tools", "dht-fs.mjs"), "record", "query", k, "7"], { encoding: "utf8" });
-    try { return JSON.parse(r.stdout).length > 0; } catch { return false; }
+    try { return recordQuery(k, 7).length > 0; } catch { return false; }
   });
   q.every(Boolean)
     ? held("AGT", "record-kinds", `${kinds.length} agent record kinds filed + queryable in the Continuity DHT`)

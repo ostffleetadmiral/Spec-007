@@ -35,11 +35,11 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { recordPut } from "../tools/dht-fs.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const LEDGER = path.join(HERE, "out", "agentzero-watch-ledger.json");
-const DHT = path.join(ROOT, "tools", "dht-fs.mjs");
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : d; };
 const EMIT = process.argv.includes("--emit");
 const CONTAINER = arg("--container", null);
@@ -88,11 +88,8 @@ const t0 = Date.now();
 const H = (b) => crypto.createHash("sha256").update(b).digest("hex");
 
 function dhtRecord(lane, kind, name, clearance, body) {
-  const r = spawnSync("node", [DHT, "record", "put", lane, kind,
-    name, String(clearance), JSON.stringify(body)],
-    { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || `${process.env.HOME}/.fano-dht` },
-      encoding: "utf8" });
-  return r.status === 0;
+  try { recordPut(lane, kind, name, body, clearance); return true; }
+  catch { return false; }
 }
 
 /* ---------- A0Z-01 / A0Z-05: manifest binding — declared, capped, non-voting */

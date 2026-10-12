@@ -18,6 +18,7 @@
     "record-put",
     "record-get",
     "record-query",
+    "kind-index",
     "version-chain",
     "clearance-gate",
     "audit-log"

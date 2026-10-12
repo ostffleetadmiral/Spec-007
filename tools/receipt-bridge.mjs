@@ -14,16 +14,15 @@
      node tools/receipt-bridge.mjs --fold FILE.jsonl [--lane k3-serve]
      node tools/receipt-bridge.mjs --fold FILE.jsonl --emit
      node tools/receipt-bridge.mjs --verify            # ledger re-check */
-import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { recordPut } from "./dht-fs.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const LEDGER = path.join(ROOT, "security", "out", "receipt-bridge-ledger.json");
-const DHT = path.join(HERE, "dht-fs.mjs");
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : d; };
 const FOLD = arg("--fold", null);
 const LANE = arg("--lane", "k3-serve");
@@ -59,11 +58,8 @@ function validCommit(line) {
   } catch { return null; }
 }
 function dhtRecord(lane, kind, name, clearance, body) {
-  const r = spawnSync("node", [DHT, "record", "put", lane, kind,
-    name, String(clearance), JSON.stringify(body)],
-    { env: { ...process.env, FANO_DHT_ROOT: process.env.FANO_DHT_ROOT || `${process.env.HOME}/.fano-dht` },
-      encoding: "utf8" });
-  return r.status === 0;
+  try { recordPut(lane, kind, name, body, clearance); return true; }
+  catch { return false; }
 }
 
 const lines = fs.readFileSync(FOLD, "utf8").split("\n").map(l => l.trim()).filter(Boolean);
