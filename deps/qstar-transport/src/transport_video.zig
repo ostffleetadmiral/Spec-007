@@ -95,6 +95,8 @@ pub fn decode(allocator: std.mem.Allocator, encoded: []const u8) ![]u8 {
     return out.toOwnedSlice();
 }
 
+/// Frame capacity in raw channel bytes (W·H·bpp at defaults) — real
+/// byte count, unlike the registry-slot transports.
 pub fn capacity() usize {
     return DEFAULT_WIDTH * DEFAULT_HEIGHT * BYTES_PER_PIXEL;
 }

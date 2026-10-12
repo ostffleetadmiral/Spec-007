@@ -18,3 +18,13 @@ Rule: integer-only cores; qstar-mesh Location and qstar-render use f64
 internally — they are consumed at the boundary as sidecar semantics and
 documented as such in the harnesses. No float math enters wire formats,
 hashes, or governance.
+
+## Local deltas (vendored copy ahead of upstream pin)
+
+- `qstar-quantum/src/entangle.zig` — RS-FEC lifted to true systematic
+  Vandermonde: `parity_p[j] = Σ_d data_d[j]·α^{d·p}` with GF(2⁸)
+  Gauss-Jordan erasure decode. The pinned upstream encode made every
+  parity row a scalar multiple of the XOR sum (rank-1, one-erasure
+  bound) and `rsReconstruct` never read parity shards. Local tests:
+  1/2/3-erasure recovery incl. mixed data+parity loss, independence
+  probe, honest InsufficientShards. Upstream patch pending.

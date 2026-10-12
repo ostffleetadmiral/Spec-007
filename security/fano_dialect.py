@@ -76,7 +76,12 @@ def seal(wire: bytes) -> bytes:
     return h.to_bytes(32, "little")
 
 def verify(wire: bytes) -> bool:
-    return len(wire) == FANO_WIRE and seal(wire) == wire[104:136]
+    if len(wire) != FANO_WIRE: return False
+    # canonical form: the payload tail past plen is outside the seal —
+    # a nonzero byte there is refused, not tolerated as scratch.
+    plen = min(wire[39], FANO_CAP)
+    if any(wire[40+plen:104]): return False
+    return seal(wire) == wire[104:136]
 
 def build(sx, sy, sz, dx, dy, dz, seq, payload: bytes) -> bytes:
     wire = bytearray(FANO_WIRE)

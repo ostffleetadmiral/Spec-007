@@ -80,6 +80,9 @@ pub fn decode(allocator: std.mem.Allocator, polyglot: []const u8, fmt: Format) !
     return try allocator.dupe(u8, polyglot[start..end]);
 }
 
+/// Registry slot weight — one medium occupies one transport slot.
+/// Not a byte capacity: payload fitness is proven by round-trip,
+/// never claimed (see spec008_qstar_carriage.zig).
 pub fn capacity() usize {
     return 1;
 }

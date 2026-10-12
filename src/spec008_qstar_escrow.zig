@@ -8,13 +8,13 @@
 //
 // Honest capability notes (verified by test below, not assumed):
 //   * Dep API convention: shamirSplit(secret, n=THRESHOLD, k=SHARE_COUNT).
-//   * entangle.rsEncode emits "parity" that is g_p * (d0^d1^...^dn) — an
-//     XOR-sum scaled per parity shard, NOT a Vandermonde Reed-Solomon code.
-//     Exactly ONE data-shard erasure is recoverable; two or more are not.
-//   * entangle.rsReconstruct ignores parity entirely — it only concatenates
-//     present data shards and refuses when one is missing. Single-erasure
-//     recovery is implemented below as xorRecover() on top of the Galois
-//     field the dep exposes.
+//   * entangle.rsEncode is now a true systematic Vandermonde RS code —
+//     parity_p = Σ_d data_d·α^{d·p}, so up to parity_shards erasures
+//     recover. (Was: rank-1 scalar-XOR parity — remediated in the
+//     vendored dep, delta filed in deps/VENDORED.md.)
+//   * entangle.rsReconstruct now does real erasure decode — a t×t
+//     GF(2⁸) Gauss-Jordan solve over the surviving parity rows.
+//     (Was: ignored parity entirely, concatenated present shards only.)
 //   * Shamir shares carry no integrity tag — a substituted share silently
 //     corrupts the secret. The escrow wrapper therefore commits sha256(seed)
 //     so a corrupt reconstruction is detected, never accepted.
@@ -25,8 +25,6 @@ const ent = @import("qentangle");
 
 const WIRE_PACKET_BYTES: usize = 136; // FANO sealed envelope (canon)
 const FLAG_SEED_BYTES: usize = 32; // ed25519 seed length
-
-const gf = ent.GaloisField.init();
 
 /// Deterministic test flag seed (fixture, not a real key).
 fn testSeed() [FLAG_SEED_BYTES]u8 {
@@ -42,85 +40,12 @@ fn testPacket() [WIRE_PACKET_BYTES]u8 {
     return p;
 }
 
-/// Correct reassembly: rsEncode splits data contiguously (shard i =
-/// data[i*shard_size .. (i+1)*shard_size]), so reconstruction concatenates
-/// present data shards in order. The dep's rsReconstruct instead emits a
-/// column-major transpose (verified failing below) and is not used.
-fn reassemble(
-    allocator: std.mem.Allocator,
-    shards: []const []const u8,
-    present: []const bool,
-    data_shards: usize,
-) ![]u8 {
-    const shard_size = shards[0].len;
-    var out = try std.ArrayList(u8).initCapacity(allocator, data_shards * shard_size);
-    for (0..data_shards) |d| {
-        if (d < present.len and !present[d]) return error.InsufficientShards;
-        out.appendSliceAssumeCapacity(shards[d]);
-    }
-    return out.toOwnedSlice();
-}
-
 /// sha256 commitment over a recovered secret — the integrity layer Shamir
 /// lacks. Escrow callers must check this before trusting a reconstruction.
 fn commit(secret: []const u8) [32]u8 {
     var h: [32]u8 = undefined;
     std.crypto.hash.sha2.Sha256.hash(secret, &h, .{});
     return h;
-}
-
-/// Recover exactly one erased data shard from any parity shard.
-/// parity_p = g_p * (d0 ^ d1 ^ ... ^ d_{n-1})  =>  XOR_all = parity_p / g_p
-/// =>  missing = XOR_all ^ XOR(present data shards).
-/// Returns null when zero or more-than-one data shards are absent.
-fn xorRecover(
-    allocator: std.mem.Allocator,
-    shards: []const []const u8,
-    present: []const bool,
-    data_shards: usize,
-    gen_coef: u8,
-) !?[]u8 {
-    var missing_idx: ?usize = null;
-    for (0..data_shards) |i| {
-        if (!present[i]) {
-            if (missing_idx != null) return null; // two+ erasures: underdetermined
-            missing_idx = i;
-        }
-    }
-    const m = missing_idx orelse return null; // nothing to recover
-    _ = m;
-
-    const shard_size = shards[0].len;
-    const inv = gf.inv(gen_coef); // 1 / g_p
-    var out = try allocator.alloc(u8, shard_size);
-    for (0..shard_size) |j| {
-        var xor_all = gf.mul(shards[data_shards][j], inv); // parity[0] / g_0
-        for (0..data_shards) |d| {
-            if (present[d]) xor_all ^= shards[d][j];
-        }
-        out[j] = xor_all;
-    }
-    return out;
-}
-
-// ── generator coefficient extraction (mirrors rsEncode's generator) ─────
-// The dep builds gen_poly = prod_i (1 + exp_table[i]·x), so gen_poly[p] is the
-// elementary symmetric coefficient e_p of the roots and parity_p = g_p·XOR_all.
-fn buildGenPoly(allocator: std.mem.Allocator, degree: usize) ![]u8 {
-    var poly = try allocator.alloc(u8, degree + 1);
-    @memset(poly, 0);
-    poly[0] = 1;
-    var i: usize = 0;
-    while (i < degree) : (i += 1) {
-        var np = try allocator.alloc(u8, degree + 1);
-        @memset(np, 0);
-        defer allocator.free(np);
-        const coef = gf.exp_table[i];
-        for (0..degree + 1) |j| np[j] = poly[j];
-        for (0..degree) |j| np[j + 1] ^= gf.mul(poly[j], coef);
-        @memcpy(poly, np);
-    }
-    return poly;
 }
 
 test "shamir: 3-of-3 unanimous escrow reconstructs flag seed byte-exact" {
@@ -190,7 +115,7 @@ test "shamir: foreign share silently corrupts — commitment catches it" {
     try std.testing.expect(!std.mem.eql(u8, &commit(&seed), &commit(rec)));
 }
 
-test "wire shards: all-present reassembly is byte-exact over 136B envelope" {
+test "wire shards: all-present reconstruction is byte-exact over 136B envelope" {
     const a = std.testing.allocator;
     const pkt = testPacket();
     const cfg = ent.RsConfig.init(8, 4); // 8 data + 4 parity, shard = 17B
@@ -201,77 +126,66 @@ test "wire shards: all-present reassembly is byte-exact over 136B envelope" {
 
     const present = [_]bool{true} ** 12;
     const const_shards: [][]const u8 = shards;
-    const rec = try reassemble(a, const_shards, &present, cfg.data_shards);
+    const rec = try ent.rsReconstruct(a, cfg, const_shards, &present);
     defer a.free(rec);
     try std.testing.expectEqualSlices(u8, &pkt, rec[0..WIRE_PACKET_BYTES]);
 }
 
-test "wire defect: dep rsReconstruct transposes — recorded, not used" {
-    // entangle.rsReconstruct appends shards[d][j] interleaved over j, a
-    // column-major transpose of the encode layout; upstream ships no
-    // round-trip test for it. We record the defect and route around it.
+test "wire erasure: single data-shard loss recovers byte-exact via parity" {
     const a = std.testing.allocator;
     const pkt = testPacket();
     const cfg = ent.RsConfig.init(8, 4);
     const shards = try ent.rsEncode(a, cfg, &pkt);
     defer ent.freeShards(a, shards);
-    const present = [_]bool{true} ** 12;
+
+    var present = [_]bool{true} ** 12;
+    present[3] = false;
     const const_shards: [][]const u8 = shards;
     const rec = try ent.rsReconstruct(a, cfg, const_shards, &present);
     defer a.free(rec);
-    try std.testing.expect(!std.mem.eql(u8, &pkt, rec[0..WIRE_PACKET_BYTES]));
+    try std.testing.expectEqualSlices(u8, &pkt, rec[0..WIRE_PACKET_BYTES]);
 }
 
-test "wire parity: dep parity is XOR-sum — exactly one erasure recoverable" {
+test "wire erasure: multi-erasure recovery — up to parity_shards data losses" {
     const a = std.testing.allocator;
     const pkt = testPacket();
     const cfg = ent.RsConfig.init(8, 4);
     const shards = try ent.rsEncode(a, cfg, &pkt);
     defer ent.freeShards(a, shards);
 
-    // Reproduce the dep's generator to read g_0.
-    const gen = try buildGenPoly(a, cfg.parity_shards);
-    defer a.free(gen);
-    try std.testing.expect(gen[0] != 0);
-
-    // Verify the parity identity: parity_0 == g_0 * (d0^...^d7)
-    const shard_size = shards[0].len;
-    for (0..shard_size) |j| {
-        var x: u8 = 0;
-        for (0..cfg.data_shards) |d| x ^= shards[d][j];
-        try std.testing.expectEqual(gf.mul(gen[0], x), shards[cfg.data_shards][j]);
-    }
-
-    // rsReconstruct honestly refuses when a data shard is missing.
+    // 2 data erasures recover — the bound the rank-1 parity could not reach.
     var present = [_]bool{true} ** 12;
-    present[3] = false;
+    present[1] = false;
+    present[5] = false;
+    const const_shards: [][]const u8 = shards;
+    const rec = try ent.rsReconstruct(a, cfg, const_shards, &present);
+    defer a.free(rec);
+    try std.testing.expectEqualSlices(u8, &pkt, rec[0..WIRE_PACKET_BYTES]);
+
+    // mixed loss: 2 data + 1 parity shard gone → still inside the bound.
+    var present2 = [_]bool{true} ** 12;
+    present2[0] = false;
+    present2[6] = false;
+    present2[10] = false; // a parity shard
+    const rec2 = try ent.rsReconstruct(a, cfg, const_shards, &present2);
+    defer a.free(rec2);
+    try std.testing.expectEqualSlices(u8, &pkt, rec2[0..WIRE_PACKET_BYTES]);
+}
+
+test "wire erasure: beyond the parity bound refuses honestly" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+    const cfg = ent.RsConfig.init(8, 4);
+    const shards = try ent.rsEncode(a, cfg, &pkt);
+    defer ent.freeShards(a, shards);
+    // 5 data shards lost > 4 parity rows — underdetermined, must refuse.
+    var present = [_]bool{false} ** 12;
+    present[5] = true;
+    present[6] = true;
+    present[7] = true;
     const const_shards: [][]const u8 = shards;
     try std.testing.expectError(
         error.InsufficientShards,
         ent.rsReconstruct(a, cfg, const_shards, &present),
     );
-
-    // xorRecover completes the single erasure byte-exact.
-    const got = (try xorRecover(a, const_shards, &present, cfg.data_shards, gen[0])).?;
-    defer a.free(got);
-    try std.testing.expectEqualSlices(u8, shards[3], got);
-}
-
-test "wire parity: two erasures are underdetermined — refused, not faked" {
-    const a = std.testing.allocator;
-    const pkt = testPacket();
-    const cfg = ent.RsConfig.init(8, 4);
-    const shards = try ent.rsEncode(a, cfg, &pkt);
-    defer ent.freeShards(a, shards);
-    var present = [_]bool{true} ** 12;
-    present[1] = false;
-    present[5] = false;
-    const const_shards: [][]const u8 = shards;
-    const gen = try buildGenPoly(a, cfg.parity_shards);
-    defer a.free(gen);
-    try std.testing.expectEqual(
-        @as(?[]u8, null),
-        try xorRecover(a, const_shards, &present, cfg.data_shards, gen[0]),
-    );
-    // Honest bound: the parity set cannot recover 2+ data erasures.
 }

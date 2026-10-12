@@ -123,6 +123,9 @@ pub fn decode(allocator: std.mem.Allocator, encoded: []const u8) ![]u8 {
     return try rsDecode(allocator, encoded, RS_NSYM);
 }
 
+/// Registry slot weight — one medium occupies one transport slot.
+/// Not a byte capacity: payload fitness is proven by round-trip,
+/// never claimed (see spec008_qstar_carriage.zig).
 pub fn capacity() usize {
     return 1;
 }

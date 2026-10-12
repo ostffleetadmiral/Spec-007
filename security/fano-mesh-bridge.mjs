@@ -175,8 +175,17 @@ function seal_js(wire) {
 export function seal(wire) {
   return _native ? _native.seal(wire) : seal_js(wire);
 }
+/* canonical form — bytes past plen inside [40,104) are outside the
+   seal's coverage; a nonzero byte there is refused, not tolerated as
+   scratch. Enforced on both lanes so the fallback can't differ. */
+const canonicalTail = wire => {
+  const plen = Math.min(wire[39], FANO_CAP);
+  for (let i = 40 + plen; i < 104; i++) if (wire[i] !== 0) return false;
+  return true;
+};
 export const verify = wire =>
   wire.length === FANO_WIRE &&
+  canonicalTail(wire) &&
   (_native ? _native.verify(wire)
            : seal_js(wire).equals(wire.subarray(104, 136)));
 

@@ -101,6 +101,19 @@ probe("WIRE", "network-role invites — u64/BigInt ABI honored, admin=flag-only"
 probe("WIRE", "mesh AEAD — XChaCha20-Poly1305 on the envelope",
   has("src/spec008_qstar_mesh.zig", "encryptMessage", "AuthenticationFailed"),
   "tamper + wrong-key refused");
+probe("WIRE", "true Reed-Solomon erasure coding — Vandermonde parity, parity shards decode",
+  has("deps/qstar-quantum/src/entangle.zig", "exp_table[(d * p)", "Gauss-Jordan") &&
+  has("deps/qstar-quantum/src/entangle.zig", "two-eraser recovery"),
+  "L-01: 2-erasure + mixed-loss recovery proven — parity shards are real witnesses, not decor");
+{
+  const F = await import("./fano-mesh-bridge.mjs");
+  const w = F.build(1, 2, 3, 4, 5, 6, 9, Buffer.from("tail-probe"));
+  const canonical = F.verify(w);
+  w[103] = 0xaa; // payload tail — outside seal coverage
+  probe("WIRE", "payload tail enforced canonical-zero — scratch channel closed",
+    canonical && !F.verify(w),
+    "L-02: nonzero tail refuses on the live verify lane; golden vectors unaffected");
+}
 
 console.log("═══ ARCHIVE & SURVIVAL ═══");
 probe("ARCH", "lattice atomization — 3375 cells → 20,250 QR portals",
@@ -166,20 +179,33 @@ let ADM_PENDING = false;
 }
 
 console.log("═══ HONEST LIMITS (the things we cannot do — recorded) ═══");
+// Each limit carries a class so a doctrinal wall can never masquerade as a
+// physical bound (and vice versa):
+//   FUNDAMENTAL — physics/math/epistemic; routable around, never liftable
+//   ENGINEERING — real today, liftable with work (lift_ref tracks the lift)
+//   DOCTRINAL   — a chosen wall; lifted only by governance decision
 const LIMITS = [
-  "TOFU cold-boot: a fully hostile board can serve a self-consistent attacker genesis on first contact — defense is out-of-band pinning",
-  "entangle.rsEncode parity is XOR-sum (one-erasure bound), not Vandermonde RS — rsReconstruct transposes; both routed around, upstream never tested it",
-  "unlocked session sk lives in page memory — devtools/same-origin read is inherent to client-side keystore",
-  "roster injection is desk-local theater — fleet authority is published-key-gated, but a local UI can be spoofed",
-  "heuristic bot detection is not proof-of-humanity — containment gates desk privileges, and the contained flag is desk-local like all localStorage trust",
-  "ANOMALY_LORE corpus (139 paragraphs) untranslated — lore content deferred to the twin-parity audit, chrome is at parity",
-  "external IPv6 inbound to the WAN edge is UNVERIFIED; IPv4 inbound is CGNAT-blocked",
-  "136-B envelope payload tail is unauthenticated scratch — receivers MUST honor plen",
-  "capacity() in transport deps is a registry slot, not a byte count",
+  { text: "TOFU cold-boot: a fully hostile board can serve a self-consistent attacker genesis on first contact — defense is out-of-band pinning",
+    cls: "FUNDAMENTAL", liftable: false, lift_ref: null },
+  { text: "vendored RS delta not yet upstreamed — qstar-llm/deps carries the old scalar-XOR encode until the patch lands there",
+    cls: "ENGINEERING", liftable: true, lift_ref: "upstream delta filed in deps/VENDORED.md" },
+  { text: "unlocked session sk lives in page memory — devtools/same-origin read is inherent to the raw-seed lane. Non-extractable CryptoKey cannot lift it: the seed is load-bearing for TOTP wrap derivation, FANO-DESK-v1 transfer, and roaming anchor — seed-portable identity IS the feature. A desk-locked (non-portable) identity lane is a spec-level design trade, not a patch",
+    cls: "DOCTRINAL", liftable: false, lift_ref: "spec decision — desk-locked identity lane vs portable seed" },
+  { text: "roster injection is desk-local theater — fleet authority is published-key-gated, and every roster entry now displays its anchor class (FLEET-ANCHORED vs DESK-LOCAL) so a spoofed entry self-declares; the desk-sovereignty consequence is bounded and declared, not removed",
+    cls: "DOCTRINAL", liftable: false, lift_ref: null },
+  { text: "heuristic bot detection is not proof-of-humanity — containment gates desk privileges, and the contained flag is desk-local like all localStorage trust",
+    cls: "FUNDAMENTAL", liftable: false, lift_ref: null },
+  { text: "external IPv6 inbound to the WAN edge is UNVERIFIED (no off-net vantage); the v6 gateway path itself is verified — sealed forward, beacon ack, forged + noncanonical-tail drops all live on ::1; IPv4 inbound is CGNAT-blocked (external)",
+    cls: "ENGINEERING", liftable: true, lift_ref: "needs one off-net sender — lab path proven 2026-10-12" },
+  { text: "vendored/foreign verifiers without canonical-tail enforcement still accept nonzero scratch — inbound lanes here refuse, third-party receivers stay permissive",
+    cls: "ENGINEERING", liftable: false, lift_ref: "residual — enforce at our boundary; upstream dialect bump is the full close" },
+  { text: "capacity() slot-vs-byte semantics are documented at the dep signatures and the carriage consumer (registry slot weight vs real unit counts) — annotation closed, no bound remains",
+    cls: "ENGINEERING", liftable: false, lift_ref: "resolved 2026-10-12 — doc annotation, kept as a record" },
 ];
 if (ADM_PENDING)
-  LIMITS.push("admiral member not yet in genesis — roaming sign-in is built and probed but cannot anchor until the flag pk lands");
-for (const l of LIMITS) console.log(`  [LIMIT  ] ${l}`);
+  LIMITS.push({ text: "admiral member not yet in genesis — roaming sign-in is built and probed but cannot anchor until the flag pk lands",
+    cls: "ENGINEERING", liftable: true, lift_ref: "fleet-genesis-update.mjs --pk <hex> (operator action)" });
+for (const l of LIMITS) console.log(`  [LIMIT  ] ${l.text}  {${l.cls}${l.liftable ? ", lift→" + l.lift_ref : ""}}`);
 
 const n = R.filter(r => r.ok).length;
 console.log(`\nSUPERPOWERS: ${n}/${R.length} proven, ${R.length - n} pending/absent, ${LIMITS.length} honest limits`);

@@ -106,10 +106,16 @@ fn generateGeneratorPoly(allocator: std.mem.Allocator, gf: GaloisField, degree: 
     return poly;
 }
 
+/// Systematic Vandermonde encode: parity shard p carries
+///   parity_p[j] = XOR_d data_d[j] · α^{d·p}
+/// where α = 2 generates GF(2⁸). Each parity row is an independent
+/// equation — distinct shard indices give distinct coefficients, so any
+/// t ≤ parity_shards erased data shards recover from any t parity rows.
+/// (The previous form multiplied every data shard by the same scalar per
+/// parity row — all parity rows were linearly dependent, a one-erasure
+/// bound dressed as RS.)
 pub fn rsEncode(allocator: std.mem.Allocator, config: RsConfig, data: []const u8) ![][]u8 {
     const gf = GaloisField.init();
-    const gen_poly = try generateGeneratorPoly(allocator, gf, config.parity_shards);
-    defer allocator.free(gen_poly);
 
     const shard_size = (data.len + config.data_shards - 1) / config.data_shards;
     var shards = try allocator.alloc([]u8, config.total_shards);
@@ -137,12 +143,12 @@ pub fn rsEncode(allocator: std.mem.Allocator, config: RsConfig, data: []const u8
     while (p < config.parity_shards) : (p += 1) {
         var j: usize = 0;
         while (j < shard_size) : (j += 1) {
-            var feedback: u8 = 0;
+            var acc: u8 = 0;
             var d: usize = 0;
             while (d < config.data_shards) : (d += 1) {
-                feedback ^= gf.mul(shards[d][j], gen_poly[p]);
+                acc ^= gf.mul(shards[d][j], gf.exp_table[(d * p) % 255]);
             }
-            shards[config.data_shards + p][j] = feedback;
+            shards[config.data_shards + p][j] = acc;
         }
     }
 
@@ -154,8 +160,11 @@ pub fn freeShards(allocator: std.mem.Allocator, shards: [][]u8) void {
     allocator.free(shards);
 }
 
-/// Reconstructs data from available shards. `present_indices` marks which
-/// shards are available (true = present). Returns the reassembled data.
+/// Reconstructs data from available shards. `present` marks which of the
+/// total_shards are available. Erased data shards are recovered through
+/// the parity equations — a t×t Vandermonde system solved by GF(2⁸)
+/// Gauss-Jordan inversion of the coefficient matrix. Fails honestly with
+/// InsufficientShards when fewer than data_shards shards remain.
 pub fn rsReconstruct(
     allocator: std.mem.Allocator,
     config: RsConfig,
@@ -165,43 +174,117 @@ pub fn rsReconstruct(
     const gf = GaloisField.init();
     const shard_size = if (shards.len > 0) shards[0].len else 0;
 
-    // Collect present data shards
-    var present_data = std.ArrayList(u8).init(allocator);
-    defer present_data.deinit();
-    try present_data.ensureTotalCapacity(config.data_shards * shard_size);
+    var present_count: usize = 0;
+    for (0..config.total_shards) |i| {
+        if (i < present.len and present[i]) present_count += 1;
+    }
+    if (present_count < config.data_shards) return error.InsufficientShards;
 
-    // Build matrix rows for present data shards (identity rows)
-    var present_indices = std.ArrayList(usize).init(allocator);
-    defer present_indices.deinit();
-    try present_indices.ensureTotalCapacity(config.data_shards);
+    // view over every data shard: present shards are borrowed, erased
+    // shards are recovered into owned buffers below.
+    var view = try allocator.alloc([]const u8, config.data_shards);
+    defer allocator.free(view);
+    var rec_bufs = std.ArrayList([]u8).init(allocator);
+    defer {
+        for (rec_bufs.items) |b| allocator.free(b);
+        rec_bufs.deinit();
+    }
+    var erased = std.ArrayList(usize).init(allocator);
+    defer erased.deinit();
 
-    for (0..config.data_shards) |idx| {
-        if (idx < present.len and present[idx]) {
-            try present_indices.append(idx);
+    for (0..config.data_shards) |d| {
+        if (d < present.len and present[d]) {
+            view[d] = shards[d];
+        } else {
+            try erased.append(d);
+            view[d] = &[_]u8{};
         }
     }
 
-    if (present_indices.items.len < config.data_shards) return error.InsufficientShards;
+    const t = erased.items.len;
+    if (t > 0) {
+        // first t present parity rows supply the equations
+        var rows = std.ArrayList(usize).init(allocator);
+        defer rows.deinit();
+        var p: usize = 0;
+        while (p < config.parity_shards and rows.items.len < t) : (p += 1) {
+            const idx = config.data_shards + p;
+            if (idx < present.len and present[idx]) try rows.append(p);
+        }
+        if (rows.items.len < t) return error.InsufficientShards;
 
-    // Simple reconstruction: just use the first data_shards present data shards
-    var result = std.ArrayList(u8).init(allocator);
-    errdefer result.deinit();
-    try result.ensureTotalCapacity(shard_size);
+        // augmented [M | I], M[r][c] = α^{erased[c]·rows[r]} — Vandermonde
+        // over distinct evaluation points, invertible by construction.
+        const cols = 2 * t;
+        var m = try allocator.alloc(u8, t * cols);
+        defer allocator.free(m);
+        for (0..t) |r| {
+            for (0..t) |c| {
+                m[r * cols + c] = gf.exp_table[(erased.items[c] * rows.items[r]) % 255];
+                m[r * cols + t + c] = if (r == c) 1 else 0;
+            }
+        }
+        // Gauss-Jordan → right half becomes M⁻¹
+        for (0..t) |c| {
+            var piv: ?usize = null;
+            for (c..t) |r| {
+                if (m[r * cols + c] != 0) {
+                    piv = r;
+                    break;
+                }
+            }
+            const pr = piv orelse return error.SingularMatrix;
+            if (pr != c) {
+                for (0..cols) |k| {
+                    const tmp = m[c * cols + k];
+                    m[c * cols + k] = m[pr * cols + k];
+                    m[pr * cols + k] = tmp;
+                }
+            }
+            const inv_piv = gf.inv(m[c * cols + c]);
+            for (0..cols) |k| m[c * cols + k] = gf.mul(m[c * cols + k], inv_piv);
+            for (0..t) |r| {
+                if (r == c) continue;
+                const f = m[r * cols + c];
+                if (f == 0) continue;
+                for (0..cols) |k| m[r * cols + k] ^= gf.mul(f, m[c * cols + k]);
+            }
+        }
 
-    var j: usize = 0;
-    while (j < shard_size) : (j += 1) {
-        var d: usize = 0;
-        while (d < config.data_shards) : (d += 1) {
-            const shard_idx = present_indices.items[d];
-            if (shard_idx < shards.len and shards[shard_idx].len > j) {
-                try result.append(shards[shard_idx][j]);
-            } else {
-                try result.append(0);
+        for (erased.items) |d| {
+            const buf = try allocator.alloc(u8, shard_size);
+            try rec_bufs.append(buf);
+            view[d] = buf;
+        }
+        const rhs = try allocator.alloc(u8, t);
+        defer allocator.free(rhs);
+        var j: usize = 0;
+        while (j < shard_size) : (j += 1) {
+            // rhs[r] = parity_{rows[r]}[j] ⊕ known data contribution
+            for (0..t) |r| {
+                const pr = rows.items[r];
+                var acc: u8 = shards[config.data_shards + pr][j];
+                for (0..config.data_shards) |d| {
+                    if (d < present.len and present[d])
+                        acc ^= gf.mul(shards[d][j], gf.exp_table[(d * pr) % 255]);
+                }
+                rhs[r] = acc;
+            }
+            // x[c] = Σ_r M⁻¹[c][r] · rhs[r]
+            for (0..t) |c| {
+                var acc: u8 = 0;
+                for (0..t) |r| acc ^= gf.mul(m[c * cols + t + r], rhs[r]);
+                rec_bufs.items[c][j] = acc;
             }
         }
     }
 
-    _ = gf;
+    var result = std.ArrayList(u8).init(allocator);
+    errdefer result.deinit();
+    try result.ensureTotalCapacity(config.data_shards * shard_size);
+    for (0..config.data_shards) |d| {
+        try result.appendSlice(view[d]);
+    }
     return result.toOwnedSlice();
 }
 
@@ -1207,6 +1290,68 @@ test "KleinbergNetwork with alpha=2 (suboptimal)" {
     // With alpha=2, routing may or may not find the target
     // Just verify it doesn't crash
     try std.testing.expect(result.path.len > 0);
+}
+
+fn expectRoundTrip(allocator: std.mem.Allocator, config: RsConfig, data: []const u8, absent: []const usize) !void {
+    const shards = try rsEncode(allocator, config, data);
+    defer freeShards(allocator, shards);
+    var present = try allocator.alloc(bool, config.total_shards);
+    defer allocator.free(present);
+    @memset(present, true);
+    for (absent) |i| present[i] = false;
+    const recovered = try rsReconstruct(allocator, config, @ptrCast(shards), present);
+    defer allocator.free(recovered);
+    const shard_size = shards[0].len;
+    try std.testing.expectEqual(config.data_shards * shard_size, recovered.len);
+    try std.testing.expectEqualSlices(u8, data[0..@min(data.len, recovered.len)], recovered[0..@min(data.len, recovered.len)]);
+}
+
+test "Reed-Solomon one data-shard erasure recovers byte-exact" {
+    const allocator = std.testing.allocator;
+    const config = RsConfig.init(4, 2);
+    try expectRoundTrip(allocator, config, "Hello, Reed-Solomon erasure recovery!", &.{0});
+    try expectRoundTrip(allocator, config, "Hello, Reed-Solomon erasure recovery!", &.{2});
+}
+
+test "Reed-Solomon two-eraser recovery — the bound the old code could not reach" {
+    const allocator = std.testing.allocator;
+    const config = RsConfig.init(4, 2);
+    const data = "two-erasure recovery proves Vandermonde rows are independent";
+    try expectRoundTrip(allocator, config, data, &.{ 0, 2 });
+    try expectRoundTrip(allocator, config, data, &.{ 1, 3 });
+}
+
+test "Reed-Solomon mixed data+parity erasures recover" {
+    const allocator = std.testing.allocator;
+    const config = RsConfig.init(4, 3);
+    const data = "mixed-loss recovery across data and parity shards";
+    // lose data shards 0,1 and parity shard 4 → 2 erasures ≤ 3 parity rows remain
+    try expectRoundTrip(allocator, config, data, &.{ 0, 1, 4 });
+}
+
+test "Reed-Solomon parity-only loss is a no-op" {
+    const allocator = std.testing.allocator;
+    const config = RsConfig.init(4, 2);
+    try expectRoundTrip(allocator, config, "parity shards gone, data intact", &.{ 4, 5 });
+}
+
+test "Reed-Solomon too-few shards still refuses honestly" {
+    const allocator = std.testing.allocator;
+    const config = RsConfig.init(4, 2);
+    const shards = try rsEncode(allocator, config, "not enough");
+    defer freeShards(allocator, shards);
+    var present = [_]bool{ true, false, false, false, true, true };
+    try std.testing.expectError(error.InsufficientShards, rsReconstruct(allocator, config, @ptrCast(shards), &present));
+}
+
+test "Reed-Solomon parity rows are linearly independent" {
+    // the old encode made every parity row a scalar multiple of the XOR
+    // sum — rank 1. Vandermonde rows must differ non-trivially.
+    const allocator = std.testing.allocator;
+    const config = RsConfig.init(4, 2);
+    const shards = try rsEncode(allocator, config, "independence probe");
+    defer freeShards(allocator, shards);
+    try std.testing.expect(!std.mem.eql(u8, shards[4], shards[5]));
 }
 
 test "Reed-Solomon parity shards are non-trivial" {

@@ -199,6 +199,11 @@ pub fn seal(wire: *const [FANO_WIRE]u8) [32]u8 {
 }
 
 pub fn verify(wire: *const [FANO_WIRE]u8) bool {
+    // Canonical form: bytes past plen inside the payload area ride the
+    // wire outside the seal's coverage. Refusing any nonzero byte there
+    // keeps the scratch region from smuggling data under a valid seal.
+    const plen = @min(@as(usize, wire[39]), FANO_CAP);
+    for (wire[40 + plen .. 104]) |b| if (b != 0) return false;
     const s = seal(wire);
     return std.mem.eql(u8, &s, wire[104..136]);
 }
@@ -306,6 +311,15 @@ test "seal forgery: one flipped payload byte fails verification" {
     try std.testing.expect(verify(&w));
     w[50] ^= 0xff;
     try std.testing.expect(!verify(&w));
+}
+
+test "canonical tail: nonzero scratch byte refused under a valid seal" {
+    var w = build(1, 2, 3, 4, 5, 6, 9, "tail-probe");
+    try std.testing.expect(verify(&w));
+    w[103] = 0xaa; // beyond plen — seal does not cover it
+    try std.testing.expect(!verify(&w));
+    w[103] = 0;
+    try std.testing.expect(verify(&w));
 }
 
 test "plen clamp: oversized declared length reads ≤64 payload bytes" {

@@ -153,6 +153,8 @@ pub fn decode(allocator: std.mem.Allocator, encoded: []const u8, original_len: u
     return out;
 }
 
+/// Unit capacity in dots per page (not bytes — one dot encodes via its
+/// own channel mapping; see spec008_qstar_carriage.zig round-trips).
 pub fn capacity() usize {
     return DOTS_PER_PAGE;
 }

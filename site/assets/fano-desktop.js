@@ -1276,7 +1276,12 @@
     var ro = sec(t("cmd.sec.roster"));
     A.roster().forEach(function (fp) {
       var ir = document.createElement("div"); ir.className = "cmd-row";
-      ir.appendChild(row(t("cmd.roster.fp", fp.slice(0, 12).toUpperCase())));
+      /* anchor class is declared, not hidden: a desk-local issuer is
+         trusted only by this desk's say-so; the fleet flag key anchors
+         on the published genesis pk — a spoofed local entry cannot
+         wear the fleet label. */
+      var anchor = A.flagAnchored(fp) ? t("cmd.roster.fleet") : t("cmd.roster.local");
+      ir.appendChild(row(t("cmd.roster.fp", fp.slice(0, 12).toUpperCase()) + " · " + anchor));
       ir.appendChild(btn(t("flag.btn.remove"), function () {
         var rm = A.removeIssuer(fp);
         toast(rm === true ? t("flag.removed") : (rm && rm.error === "founding_key" ? t("flag.anchor") : t("flag.removerefused")), "sys");
@@ -2398,8 +2403,8 @@
   var TERM_ZH = {
     "run 'about' instead — it has a window": "改執行 'about' — 它有視窗",
     "sysinfo windowed.": "系統資訊已視窗化。",
-    "zig: 304 test blocks across 28 modules … GREEN\ntotal: 304 verified operations":
-      "zig: 304 項測試區塊橫跨 28 模組 … GREEN\n合計: 304 項已驗證操作",
+    "zig: 305 test blocks across 28 modules … GREEN\ntotal: 305 verified operations":
+      "zig: 305 項測試區塊橫跨 28 模組 … GREEN\n合計: 305 項已驗證操作",
     "export-desk: unlock first — the desk signs its own transfer": "export-desk:先解鎖 — 桌面親簽自身之轉移",
     "import-desk: needs a desk token": "import-desk:需要一枚桌面權杖",
     "import-desk: this desk is already founded — burn first": "import-desk:此桌已創始 — 先焚毀",
@@ -2514,7 +2519,7 @@
         return "cat: " + arg + ": try covenant";
       case "about": openAbout(); return "sysinfo windowed.";
       case "sha": return "bcb81b78ebeab9e3762a806788a0c4c1bd3bbd1e8a7b9339030037efab6367b4\nspec-007.md — UNCHANGED. the baseline holds.";
-      case "tests": return "zig: 304 test blocks across 28 modules … GREEN\ntotal: 304 verified operations";
+      case "tests": return "zig: 305 test blocks across 28 modules … GREEN\ntotal: 305 verified operations";
       case "xp":
         return t("fm.clearance") + " L" + clearance() + " (" + state.xp + "xp)" +
           "\n" + t("fm.achievements") + ": " + state.achievements.length + "/" + ACHIEVEMENTS.length +
