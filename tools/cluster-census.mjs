@@ -15,7 +15,8 @@
 */
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 
 const HOME = process.env.HOME;
@@ -68,7 +69,26 @@ const ROOTS = [
   { rel: "CascadeProjects/hardware/experiments/Spec-007/thoughts&convos/AdmPaul/.Euqinom", name: "euqinome-drawer", cls: "first-party", realm: "drawer", role: "archived in-drawer sibling project — indexed, not subsumed", evidence: "drawer-cited" },
 ];
 
-function probe(rel) {
+const execFileP = promisify(execFile);
+
+/* bounded pool — SPEED-AUDIT/T6: root probes were ~33 serial `find`
+   spawns (~11.5s); they are independent reads, so ~POOL-wide. Entries
+   assemble in ROOTS order either way — identical registry bytes. */
+const POOL = 8;
+async function pool(items, fn) {
+  const out = new Array(items.length);
+  let next = 0;
+  await Promise.all(Array.from({ length: Math.min(POOL, items.length) },
+    async () => {
+      while (next < items.length) {
+        const i = next++;
+        out[i] = await fn(items[i], i);
+      }
+    }));
+  return out;
+}
+
+async function probe(rel) {
   const p = path.join(HOME, rel);
   const exists = fs.existsSync(p) || (() => {
     try { return fs.lstatSync(p).isSymbolicLink(); } catch { return false; }
@@ -85,13 +105,16 @@ function probe(rel) {
   let files = 0;
   /* the registry itself lives inside spec-007 — exclude it so emit→verify
      doesn't race the artifact it just wrote */
-  try { files = Number(execSync(
-    `find "${p}" -type f ! -path "${OUT}" | wc -l`, { encoding: "utf8" }).trim()); }
-  catch { files = -1; }
+  try {
+    const { stdout } = await execFileP("find", [p, "-type", "f", "!", "-path", OUT],
+      { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    files = stdout.trim() === "" ? 0 : stdout.trim().split("\n").length;
+  } catch { files = -1; }
   return { exists: true, kind: lst.isDirectory() ? "dir" : "file", file_count: files };
 }
 
-const entries = ROOTS.map(r => ({ ...r, present: probe(r.rel) }));
+const presents = await pool(ROOTS, r => probe(r.rel));
+const entries = ROOTS.map((r, i) => ({ ...r, present: presents[i] }));
 const missing = entries.filter(e => !e.present.exists);
 const registry = {
   schema: "CLUSTER-CENSUS-v1",

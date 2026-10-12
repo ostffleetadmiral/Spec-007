@@ -1,6 +1,6 @@
 {
   "schema": "CLUSTER-CENSUS-v1",
-  "generated": "2026-10-10T05:58:26.357Z",
+  "generated": "2026-10-12T11:10:21.166Z",
   "note": "sanitized projection — codenames + roles + evidence classes; source paths are $HOME-relative inside tools/, never absolute in the artifact",
   "root_count": 33,
   "by_class": {
@@ -17,7 +17,7 @@
       "role": "the desk — dossier, governance, security battery",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 32921
+      "file_count": 33965
     },
     {
       "name": "hardware-monorepo",
@@ -26,7 +26,7 @@
       "role": "E=mc² proof workspace — 713 ops, Lean 4 formalization",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 52746
+      "file_count": 58372
     },
     {
       "name": "qstar-llm",
@@ -35,7 +35,7 @@
       "role": "lattice-native inference engine — 421×8 nodes",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 9197
+      "file_count": 13061
     },
     {
       "name": "zig-k3-port",
@@ -44,7 +44,7 @@
       "role": "2.78T-param MoE in GBs RAM — token-identical Zig port",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 2496
+      "file_count": 3203
     },
     {
       "name": "zig-k3-port-preserved",
@@ -116,7 +116,7 @@
       "role": "falsifiability harness — zig + tests + archives",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 228
+      "file_count": 229
     },
     {
       "name": "digit-sheraton",
@@ -134,7 +134,7 @@
       "role": "donor shelf: codon, Falsifible, llama.cpp, neuraleak, an owner-named LLM tree, zotron",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 51701
+      "file_count": 51841
     },
     {
       "name": "qstar-llm-basic",
@@ -143,7 +143,7 @@
       "role": "second qstar-llm tree — dedup candidate vs experiments copy",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 7485
+      "file_count": 7511
     },
     {
       "name": "eu-version-z",
