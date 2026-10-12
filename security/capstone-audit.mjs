@@ -107,20 +107,22 @@ console.log("B  seal boundary");
   const payload = Buffer.from("boundary-sweep");
   const wire = F.build(3, 4, 5, 10, 11, 12, 99, payload);
   // covered region: bytes 0..40 (cell+dst+seq+plen) + plen payload bytes
-  // + stored seal 104..136. Payload tail (40+plen..104) is unauthenticated
-  // scratch space BY CONTRACT — receivers must read only plen bytes.
-  let rejected = 0, covered = 40 + payload.length + 32, tailSealed = false;
+  // + stored seal 104..136. Payload tail (40+plen..104) is outside the
+  // seal's coverage but canonical-enforced: any nonzero byte refuses —
+  // closes the scratch-smuggling lane (0b9f867 limit-lift wave).
+  let rejected = 0, covered = 40 + payload.length + 32, tailRefused = 0;
   for (let i = 0; i < 136; i++) {
     const inTail = i >= 40 + payload.length && i < 104;
     const bad = Buffer.from(wire); bad[i] ^= 0xFF;
     const holds = F.verify(bad);
     if (!inTail && !holds) rejected++;
-    if (inTail && !holds) tailSealed = true;
+    if (inTail && !holds) tailRefused++;
   }
-  check("B1b", "payload tail documented as unauthenticated scratch",
-    !tailSealed, "tail flips pass verify — receivers read plen bytes only");
+  check("B1b", "payload tail canonical-zero enforced",
+    tailRefused === 104 - (40 + payload.length),
+    `${tailRefused}/${104 - (40 + payload.length)} tail bytes refuse nonzero — canonical form, not scratch`);
   check("B1", "per-byte forgery sweep (covered region)", rejected === covered,
-    `${rejected}/${covered} covered bytes rejected; tail 40+plen..104 is scratch (by contract)`);
+    `${rejected}/${covered} covered bytes rejected; tail 40+plen..104 is canonical-zero (refuses nonzero)`);
 
   const sizes = [0, 1, 104, 135, 137, 200];
   let sizeRejected = 0;
