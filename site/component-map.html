@@ -137,6 +137,66 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>Γ</td>
 <td>&gt;1 refuses), <code>resolveCoord</code> folds the array to (k,r,c) in O(1) per port. States its own failure boundary.</td>
 </tr>
+<tr>
+<td><code>spec008_seal.zig</code></td>
+<td>Integer-only Zig twin of the Fano mesh dialect's seal/verify path (<code>security/fano-mesh-bridge.mjs</code>, firmware <code>fano_packet.c</code>): u256 FNV-1a fold + octonion route signature mixed per-hop, pure integer math. Canonical-tail hardening (owner): declared-payload bytes are clamped to <code>FANO_CAP</code> and every unused byte in <code>wire[40+plen..104]</code> must be zero — a valid seal over a nonzero scratch tail is refused.</td>
+<td>7 tests</td>
+<td>canonical-tail refusal test added (owner wave — nonzero scratch byte under a valid seal fails)</td>
+</tr>
+<tr>
+<td><code>spec008_seal_cli.zig</code></td>
+<td>Hex CLI over the <code>spec008_seal</code> core for JS↔Zig differential probing (fano-wan-gateway staged consumption). The core stays host-dependency-free so it also builds as a wasm32-freestanding lib for in-process verify (<code>site/assets/spec008_seal.wasm.o</code>).</td>
+<td>exercised via gateway + wasm artifact</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_alpha_probe.zig</code></td>
+<td>Claim-#36 mechanism probe: alpha derivations from octonion U(1) → compare to 1/137.036 (final_audit's missing mechanism, made executable). Three candidate derivations on record — each executed, each graded.</td>
+<td>5 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_ckm_probe.zig</code></td>
+<td>Claim-#35 mechanism probe: CKM elements from J3(O) → compare to measured values (final_audit's missing mechanism). The audit's open item as an integer harness.</td>
+<td>4 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_coincidence_probe.zig</code></td>
+<td>Sharpshooter control group, integer-only: the subject's 5-event conjunction is rare AS A SPECIFIC TUPLE (~1.6e-10) but the probe computes the honest any-of-family probability — the probability ledger's open question made executable.</td>
+<td>7 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_ephemeris_probe.zig</code></td>
+<td>Canon ephemeris probe: the date chain and geometry previously verified session-ad-hoc are pinned as a standing harness — CANON-MATH-MAP §VI.b claims re-derived on every run.</td>
+<td>17 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_portal_probe.zig</code></td>
+<td>Flat-2D-portal / thin-shell probe: where the warp probe models a 3D tunnel, the portal is a different geometry class — a 2D surface — and gets its own cost arithmetic.</td>
+<td>10 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_warp_probe.zig</code></td>
+<td>Alcubierre metric probe, point-to-point (arXiv:gr-qc/0009013): the flat-interior bubble at superluminal coordinate speed, priced in integer arithmetic — the three-bound template's home harness.</td>
+<td>13 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_wow_shape_probe.zig</code></td>
+<td>Wow! signal profile-shape probe: does the observed intensity profile match the warp-bubble wall shape — the shape question made executable, distinct from the astrometric position probe.</td>
+<td>14 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_checksum_audit.zig</code></td>
+<td>Session-vs-checksum audit: re-checks everything the session's harnesses produced against the E=mc²↔i↔E=mc⁻² checksum grammar (CONSISTENT / INCONSISTENT / SELF-REFERENTIAL).</td>
+<td>8 tests</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2>SPEC-008 dep-bridge harnesses (<code>src/</code>)</h2>
@@ -185,6 +245,18 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>spec008_qstar_parity.zig</code></td>
 <td>Wire parity (D11/P3, Mosi LVCE): frame→channel→decode→re-seal bit-exact on the 136-B envelope; single-byte corruption detected at any offset; pigeonhole capacity enforced; truncation/splice refuse; XOR parity recovers exactly one erased frame.</td>
 <td>10 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht_native.zig</code></td>
+<td>The Continuity DHT, native (retro-dev T7): the manifest's <em>cited</em> substrate becomes the <em>wired</em> one. Same store, same wire, same verdicts as <code>tools/dht-fs.mjs</code> — a twin, not a port-with-drift — content-addressed records on the qstar-vfs <code>vfs_distributed</code> substrate.</td>
+<td>10 tests</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dhtd.zig</code></td>
+<td>The native Continuity DHT daemon: answers record/block ops over the sealed 136-byte FANO wire on loopback TCP, backed by <code>dht_native.zig</code>. Probed live by <code>security/dht-sweep.mjs</code> (DHT-01..12) via the <code>tools/dht-native.mjs</code> client.</td>
+<td>exercised via DHT sweep probes</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -550,6 +622,42 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>new — 4 EMERGENT, 2 HELD, 0 fractures</td>
 </tr>
 <tr>
+<td><code>agentzero-watch.mjs</code></td>
+<td><strong>AIWO wrap for Agent Zero (phase D)</strong> — observation harness binding an external agent runtime into the fleet's watch ledger: capacity, containment posture, and activity folds recorded under the same honest-label discipline as the corps.</td>
+<td>watch ledger rows</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo-corps.mjs</code></td>
+<td><strong>The AIWO Corps exercise, for real</strong> — multi-lane agent cohort run over the governed runtime: each lane's conduct folded into <code>out/aiwo-corps-ledger.json</code>, capacity measured not narrated.</td>
+<td><code>--emit</code> ledger + service probes</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo-service.mjs</code></td>
+<td><strong>The Sentience Engine as a standing service</strong> — the daemon shape of the corps exercise (RE sources: nullclaw <code>src/daemon.zig</code> supervisor pattern, qstar-llm <code>heartbeat.zig</code>): supervisor + exponential backoff + health registry; state in <code>out/aiwo-service-state.json</code>, pid in <code>out/aiwo-service.pid</code>.</td>
+<td>service ledger + state files</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht-sweep.mjs</code></td>
+<td><strong>The Continuity DHT exercised live over the lane mesh</strong> — DHT-01..12: substrate-verified (qstar-vfs <code>zig build test</code>), store/fetch round-trips, XOR routing, replication, head binding, and the native <code>dhtd</code> daemon over the sealed wire.</td>
+<td><code>node security/dht-sweep.mjs</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>officer-mesh.mjs</code></td>
+<td><strong>OFFR team — second-officer fleet operation.</strong> The thing that never ran before: a second real officer desk — commissioned by carried paper, speaking sealed traffic on a live shared relay, tokens founded not copied.</td>
+<td><code>node security/officer-mesh.mjs</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>wozam-gate.mjs</code></td>
+<td><strong>Layer-3 runtime continuity gate</strong> — the deployed wasm32 artifacts re-executed under <code>k3w</code> (zig-k3-port <code>wasmrt/</code>): the substrate claim is tested, not trusted — wasm bytes run and produce verdicts inside the interpreter.</td>
+<td><code>node security/wozam-gate.mjs</code></td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>docker-compose.{sec,wan}.yml</code></td>
 <td>Two isolated segments + dual-homed relay topology.</td>
 <td>—</td>
@@ -737,6 +845,132 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>—</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>doc-census.mjs</code></td>
+<td>D11/P5 cluster-wide documentation census — walks every populated sibling root, classifies each doc into the audit vocabulary, emits <code>security/out/doc-census.json</code> + the sanitized public class map.</td>
+<td><code>--verify</code> — 34,644 docs, stable map</td>
+<td>re-emit cadence folded into sweep</td>
+</tr>
+<tr>
+<td><code>harness-binding.mjs</code></td>
+<td>The claim↔harness binding gate — a ledger row may not claim VERIFIED without an executable anchor: every cited <code>*.zig</code> path must exist, every cited test count must reconcile, every bound harness must be cited.</td>
+<td><code>--verify</code> — 27 bound</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>canon-verify.mjs</code></td>
+<td>Drawer-canon integrity + citation resolution — canon docs byte-identical to sealed originals, ledger cites resolve to live paths.</td>
+<td><code>--verify</code> — sealed + 59/61 cites</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>gov-map.mjs</code></td>
+<td>The governance vision, made executable — binds every mandate of the <code>gov/</code> authority corpus (constitution, SPEC series, bylaws, policy domains) to a verifiable row.</td>
+<td><code>--verify</code> — 48/48 mandates, 16 domains</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>academy-grade.mjs</code></td>
+<td>The deterministic pedagogy-signal instrument — grades the academy ledger byte-exact; <code>--selfcheck</code> runs the instrument ratchet against itself.</td>
+<td><code>--verify</code> + <code>--selfcheck</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>academy-harvest.mjs</code></td>
+<td>The open corpus becomes the curriculum — harvests drawer-adjacent corpus into academy course material under deterministic ordering.</td>
+<td><code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>academy-review.mjs</code></td>
+<td>The course-level review instrument (SPEC-011) — reviews generated courses against the pedagogy ledger before promotion.</td>
+<td><code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>curriculum-map.mjs</code></td>
+<td>The Academy's coverage-enforced course map — every course must land on the map; uncovered courses are drift, not electives.</td>
+<td><code>--emit</code>/<code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agency-map.mjs</code></td>
+<td>The dream→build binding — maps agency-layer aspirations to the components that actually implement them; unbound ambition files honestly.</td>
+<td><code>--emit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent-capacity-sweep.mjs</code></td>
+<td>REAL measured agent capacity of the k3 trunk — capacity is measured by the harness, not asserted by the dossier.</td>
+<td><code>--emit</code> → out/agent-capacity.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>command-map.mjs</code></td>
+<td>The command-structure ledger — the officer/authority chain rendered as a verifiable map.</td>
+<td><code>--emit</code> → command-manifest.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>persona-map.mjs</code></td>
+<td>The casting-office ledger, three-tier matrix — persona assignments bound to real components.</td>
+<td><code>--emit</code> → persona-manifest.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>layer-map.mjs</code></td>
+<td>Per-document classification of the drawer corpus under the L0–L7Q ladder — emits the layer census the doc projections consume.</td>
+<td><code>--emit</code> → layer-census.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>literal-return-scan.mjs</code></td>
+<td>The construction-signature detector — scans for computed-looking functions returning hardcoded literals (the <code>hydrogenLineLatticeCm</code> pattern); a claim that is secretly a constant fails.</td>
+<td><code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>vision-audit.mjs</code></td>
+<td>The executable vision-realization ledger — blueprint promises bound to shipped evidence, vision rows graded not narrated.</td>
+<td><code>--emit</code>/<code>--verify</code> → vision-ledger.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>directive.mjs</code></td>
+<td>Sheraton's command execution, for real — the directive channel bound to gated execution under the same audit-chain discipline as the fabric bridge.</td>
+<td>gated invocations</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht-fs.mjs</code></td>
+<td>The Continuity DHT — content-addressed, XOR-routed record store over the filesystem substrate; the JS twin <code>dht_native.zig</code> mirrors verdict-for-verdict.</td>
+<td>in-process folds + DHT probes</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht-native.mjs</code></td>
+<td>Client for the native DHT daemon (<code>zig-out/bin/dhtd</code>) — speaks record/block ops over the sealed 136-byte wire on loopback TCP.</td>
+<td>DHT sweep probes</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>receipt-bridge.mjs</code></td>
+<td>Folds k3/k3serve <code>--sched-emit</code> JSONL receipts into the ledger — the engine's scheduling receipts become fleet evidence.</td>
+<td>receipt fold probes</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>film-render.mjs</code></td>
+<td>The Generative Film Pipeline, in-framework — renders the film manifests into roll artifacts under the production ledger.</td>
+<td><code>--emit</code> → film-manifest.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>space-serve.sh</code></td>
+<td>Launches the local Space Agent runtime that spaces.os iframes — donor checkout (MIT, Jan Tomasek), not a vendored subtree; binds loopback single-user on the organ's expected port; honest failure when the clone or node is absent.</td>
+<td>exercised via desk iframe</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2>Support trees</h2>
@@ -772,6 +1006,12 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>golden/vectors.txt</code></td>
 <td>The golden reference surface — committed canonical output of <code>golden_emit.zig</code>.</td>
 <td><code>golden-master.mjs --verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>build.zig</code></td>
+<td>The harness graph — <code>zig build test</code> aggregates every <code>src/</code> suite (spec007 proofs, spec008 qstar bridges, seal twins, native DHT) and builds <code>dhtd</code>; parallel test roots per wave-5 parallelization.</td>
+<td><code>zig build test</code></td>
 <td>—</td>
 </tr>
 <tr>

@@ -2,7 +2,7 @@
   "schema": "academy-pedagogy-v1",
   "scope": "deterministic-content-signals",
   "courses_graded": 14,
-  "lessons_graded": 55570,
+  "lessons_graded": 55578,
   "grades": {
     "STRONG": 0,
     "FAIR": 0,
@@ -14,7 +14,7 @@
   "courses": [
     {
       "course": "ai-literacy",
-      "lessons": 6818,
+      "lessons": 6819,
       "grade": "THIN",
       "signals": {
         "thin": {
@@ -22,11 +22,11 @@
           "band": "green"
         },
         "capped": {
-          "v": 0.2929,
+          "v": 0.293,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.2633,
+          "v": 0.2632,
           "band": "green"
         },
         "neardup": {
@@ -34,11 +34,11 @@
           "band": "red"
         },
         "term_cov": {
-          "v": 0.6147,
+          "v": 0.6148,
           "band": "green"
         },
         "src_conc": {
-          "v": 0.7716,
+          "v": 0.7715,
           "band": "amber"
         },
         "ids": {
@@ -96,7 +96,7 @@
     },
     {
       "course": "communications",
-      "lessons": 1503,
+      "lessons": 1504,
       "grade": "THIN",
       "signals": {
         "thin": {
@@ -104,23 +104,23 @@
           "band": "green"
         },
         "capped": {
-          "v": 0.2049,
+          "v": 0.2048,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.1637,
+          "v": 0.1636,
           "band": "green"
         },
         "neardup": {
-          "v": 0.2515,
+          "v": 0.2513,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3985,
+          "v": 0.3989,
           "band": "amber"
         },
         "src_conc": {
-          "v": 0.5988,
+          "v": 0.5984,
           "band": "green"
         },
         "ids": {
@@ -383,7 +383,7 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10807,
+      "lessons": 10812,
       "grade": "THIN",
       "signals": {
         "thin": {
@@ -399,15 +399,15 @@
           "band": "green"
         },
         "neardup": {
-          "v": 0.4012,
+          "v": 0.4013,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3364,
+          "v": 0.3367,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.8113,
+          "v": 0.811,
           "band": "amber"
         },
         "ids": {
@@ -415,7 +415,7 @@
           "band": "green"
         }
       },
-      "neardup_clusters": 1354,
+      "neardup_clusters": 1355,
       "neardup_biggest": 577,
       "top_source": [
         "three-ws",
@@ -506,7 +506,7 @@
     },
     {
       "course": "systems-engineering",
-      "lessons": 2653,
+      "lessons": 2654,
       "grade": "THIN",
       "signals": {
         "thin": {
@@ -514,7 +514,7 @@
           "band": "green"
         },
         "capped": {
-          "v": 0.2337,
+          "v": 0.234,
           "band": "amber"
         },
         "title_coll": {
@@ -522,15 +522,15 @@
           "band": "green"
         },
         "neardup": {
-          "v": 0.2307,
+          "v": 0.2306,
           "band": "amber"
         },
         "term_cov": {
-          "v": 0.2801,
+          "v": 0.2803,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.4572,
+          "v": 0.457,
           "band": "green"
         },
         "ids": {

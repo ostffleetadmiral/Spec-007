@@ -136,6 +136,66 @@
 <td>6 測試</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>spec008_seal.zig</code></td>
+<td>Fano 網狀方言 seal/verify 路徑之純整數 Zig 雙生(<code>security/fano-mesh-bridge.mjs</code>、韌體 <code>fano_packet.c</code>):u256 FNV-1a 摺疊 + 八元數路由簽章逐跳混疊,全整數運算。正典尾端強化(艦主):宣告酬載位元組箝制至 <code>FANO_CAP</code>,<code>wire[40+plen..104]</code> 內每個未用位元組必須為零 — 有效封存覆於非零草稿尾端者拒絕。</td>
+<td>7 測試</td>
+<td>新增正典尾端拒絕測試(艦主波段 — 有效封存下非零草稿位元組失敗)</td>
+</tr>
+<tr>
+<td><code>spec008_seal_cli.zig</code></td>
+<td><code>spec008_seal</code> 核心之 hex CLI,供 JS↔Zig 差分探測(fano-wan-gateway 分段消費)。核心不依賴宿主,亦建為 wasm32-freestanding 程式庫供行程內驗證(<code>site/assets/spec008_seal.wasm.o</code>)。</td>
+<td>經由閘道 + wasm 成品驗證</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_alpha_probe.zig</code></td>
+<td>主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。</td>
+<td>5 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_ckm_probe.zig</code></td>
+<td>主張 #35 機制探針:由 J3(O) 計算 CKM 元素,對比量測值(final_audit 缺失機制)。稽核開放項化為整數框架。</td>
+<td>4 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_coincidence_probe.zig</code></td>
+<td>神槍手謬誤對照組,純整數:主體五事件合取作為特定元組雖罕(約 1.6e-10),探針計算誠實之任一族群機率 — 機率帳之開放問題可執行化。</td>
+<td>7 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_ephemeris_probe.zig</code></td>
+<td>正典曆表探針:先前會話臨時驗證之日期鏈與幾何釘為常設框架 — CANON-MATH-MAP §VI.b 主張每次執行重新推導。</td>
+<td>17 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_portal_probe.zig</code></td>
+<td>平面二維門戶/薄殼探針:曲速探針建模三維隧道,門戶屬不同幾何類 — 二維曲面 — 自有成本算術。</td>
+<td>10 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_warp_probe.zig</code></td>
+<td>Alcubierre 度規探針,點對點(arXiv:gr-qc/0009013):超光速座標速度下平坦內部氣泡,以整數算術計價 — 三界限模板之歸屬框架。</td>
+<td>13 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_wow_shape_probe.zig</code></td>
+<td>Wow! 訊號波形探針:觀測強度輪廓是否符合曲速氣泡壁形 — 波形問題可執行化,異於天體測量位置探針。</td>
+<td>14 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>spec007_checksum_audit.zig</code></td>
+<td>會話對校驗稽核:以 E=mc²↔i↔E=mc⁻² 校驗語法(CONSISTENT / INCONSISTENT / SELF-REFERENTIAL)複查本會話各框架產出。</td>
+<td>8 測試</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2>SPEC-008 依賴橋接測試框架(<code>src/</code>)</h2>
@@ -184,6 +244,18 @@
 <td><code>spec008_qstar_parity.zig</code></td>
 <td>線路同位(D11/P3,Mosi LVCE):136-B 封包 frame→channel→decode→re-seal 逐位元一致;任意偏移單位元組毀損必被偵測;鴿籠容量強制執行;截斷/訊框拼接拒絕;XOR 同位恰好復原一個抹除訊框。</td>
 <td>10 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht_native.zig</code></td>
+<td>Continuity DHT 原生實作(retro-dev T7):清單中<em>被引用</em>的基層成為<em>被接線</em>的基層。與 <code>tools/dht-fs.mjs</code> 同存儲、同線路、同裁決 — 雙生而非帶漂移的移植 — 內容定址記錄立於 qstar-vfs <code>vfs_distributed</code> 基層。</td>
+<td>10 測試</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dhtd.zig</code></td>
+<td>原生 Continuity DHT 守護行程:於迴路 TCP 上以封緘 136-B FANO 線路回應 record/block 操作,底層為 <code>dht_native.zig</code>。由 <code>security/dht-sweep.mjs</code>(DHT-01..12)經 <code>tools/dht-native.mjs</code> 客戶端即時探測。</td>
+<td>經由 DHT 掃蕩探針驗證</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -507,6 +579,42 @@
 <td>新增 — 4 EMERGENT、2 HELD、0 裂縫</td>
 </tr>
 <tr>
+<td><code>agentzero-watch.mjs</code></td>
+<td><strong>Agent Zero 之 AIWO 包裝(D 相)</strong> — 觀測線束,將外部代理執行環境繫入艦隊監視帳:容量、圍堵態勢、活動摺疊,皆依 corps 同一誠實標籤紀律記錄。</td>
+<td>監視帳列</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo-corps.mjs</code></td>
+<td><strong>AIWO 兵團演習,真實執行</strong> — 於受治理執行環境上運行多道代理佇列:每道行為摺疊入 <code>out/aiwo-corps-ledger.json</code>,容量以量測而非敘述。</td>
+<td><code>--emit</code> 帳本 + 服務探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo-service.mjs</code></td>
+<td><strong>Sentience Engine 作為常駐服務</strong> — corps 演習之守護行程形態(RE 來源:nullclaw <code>src/daemon.zig</code> 監督者模式、qstar-llm <code>heartbeat.zig</code>):監督器 + 指數退避 + 健康註冊表;狀態存於 <code>out/aiwo-service-state.json</code>,pid 存於 <code>out/aiwo-service.pid</code>。</td>
+<td>服務帳本 + 狀態檔</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht-sweep.mjs</code></td>
+<td><strong>Continuity DHT 於通道網上實測</strong> — DHT-01..12:基層驗證(qstar-vfs <code>zig build test</code>)、存取往返、XOR 路由、複寫、head 繫結,以及原生 <code>dhtd</code> 守護行程於封緘線路之上。</td>
+<td><code>node security/dht-sweep.mjs</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>officer-mesh.mjs</code></td>
+<td><strong>OFFR 隊 — 第二軍官艦隊操作。</strong> 從未運行過之事:第二座真實軍官桌 — 以攜帶公文授任、於即時共享中繼上發送封緘流量,權杖為鑄造而非複製。</td>
+<td><code>node security/officer-mesh.mjs</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>wozam-gate.mjs</code></td>
+<td><strong>第三層執行環境連續性閘門</strong> — 已部署 wasm32 成品於 <code>k3w</code>(zig-k3-port <code>wasmrt/</code>)下重新執行:基層主張受測而非受信 — wasm 位元組於解譯器內運行並產出裁決。</td>
+<td><code>node security/wozam-gate.mjs</code></td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>docker-compose.{sec,wan}.yml</code></td>
 <td>兩個隔離網段 + 雙宿主中繼拓撲。</td>
 <td>—</td>
@@ -682,6 +790,132 @@
 <td>—</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>doc-census.mjs</code></td>
+<td>D11/P5 叢集文件普查 — 遍歷每個有內容之鄰近根,將每份文件分類至稽核詞彙,發射 <code>security/out/doc-census.json</code> + 淨化公開類別圖。</td>
+<td><code>--verify</code> — 34,644 文件,圖穩定</td>
+<td>重發射節奏併入掃蕩</td>
+</tr>
+<tr>
+<td><code>harness-binding.mjs</code></td>
+<td>主張↔框架繫結閘門 — 無可執行錨點之帳列不得宣稱 VERIFIED:引用之 <code>*.zig</code> 路徑必須存在、測試數必須對帳、被繫結之框架必須被引用。</td>
+<td><code>--verify</code> — 27 繫結</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>canon-verify.mjs</code></td>
+<td>抽屜正典完整性 + 引用解析 — 正典文件與封存原件逐位元一致,帳列引用解析至活路徑。</td>
+<td><code>--verify</code> — 封存 + 59/61 引用</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>gov-map.mjs</code></td>
+<td>治理願景可執行化 — 將 <code>gov/</code> 權威文集(憲章、SPEC 系列、附則、政策域)每項授命繫結至可驗證之列。</td>
+<td><code>--verify</code> — 48/48 授命,16 域</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>academy-grade.mjs</code></td>
+<td>決定性教學訊號儀器 — 逐位元評等學院帳本;<code>--selfcheck</code> 以儀器自身運行棘輪自檢。</td>
+<td><code>--verify</code> + <code>--selfcheck</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>academy-harvest.mjs</code></td>
+<td>開放文集化為課程 — 以決定性排序將抽屜鄰近文集採收為學院教材。</td>
+<td><code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>academy-review.mjs</code></td>
+<td>課程級審查儀器(SPEC-011) — 生成課程於晉升前對教學帳本審查。</td>
+<td><code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>curriculum-map.mjs</code></td>
+<td>學院覆蓋強制之課程圖 — 每門課必須落於圖上;未覆蓋之課程為漂移而非選修。</td>
+<td><code>--emit</code>/<code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agency-map.mjs</code></td>
+<td>夢想→建造之繫結 — 將 agency 層願景映射至實際實作之元件;未繫結之企圖誠實立案。</td>
+<td><code>--emit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent-capacity-sweep.mjs</code></td>
+<td>k3 trunk 之真實量測代理容量 — 容量由框架量測而非檔案宣稱。</td>
+<td><code>--emit</code> → out/agent-capacity.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>command-map.mjs</code></td>
+<td>指揮結構帳本 — 軍官/權威鏈渲染為可驗證之圖。</td>
+<td><code>--emit</code> → command-manifest.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>persona-map.mjs</code></td>
+<td>選角室帳本,三層矩陣 — 角色指派繫結至真實元件。</td>
+<td><code>--emit</code> → persona-manifest.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>layer-map.mjs</code></td>
+<td>抽屜文集逐文件之 L0–L7Q 分層 — 發射文件投影所消費之層普查。</td>
+<td><code>--emit</code> → layer-census.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>literal-return-scan.mjs</code></td>
+<td>構造特徵偵測器 — 掃描貌似計算實則回傳硬編碼字面量之函式(<code>hydrogenLineLatticeCm</code> 模式);實為常數之「主張」判定失敗。</td>
+<td><code>--verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>vision-audit.mjs</code></td>
+<td>可執行願景實現帳本 — 藍圖承諾繫結至已交付證據,願景列評級而非敘述。</td>
+<td><code>--emit</code>/<code>--verify</code> → vision-ledger.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>directive.mjs</code></td>
+<td>Sheraton 指令執行,真實 — 指令通道於與 fabric bridge 同一稽核鏈紀律下繫結至閘控執行。</td>
+<td>閘控調用</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht-fs.mjs</code></td>
+<td>Continuity DHT — 內容定址、XOR 路由之檔案系統基層記錄存儲;<code>dht_native.zig</code> 為其 JS 雙生,裁決逐一對映。</td>
+<td>行程內摺疊 + DHT 探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>dht-native.mjs</code></td>
+<td>原生 DHT 守護行程(<code>zig-out/bin/dhtd</code>)之客戶端 — 於迴路 TCP 上以封緘 136-B 線路執行 record/block 操作。</td>
+<td>DHT 掃蕩探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>receipt-bridge.mjs</code></td>
+<td>將 k3/k3serve <code>--sched-emit</code> JSONL 回執摺疊入帳本 — 引擎排程回執化為艦隊證據。</td>
+<td>回執摺疊探針</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>film-render.mjs</code></td>
+<td>生成式電影管線,框架內建 — 將影片清單渲染為產製帳本下之 roll 成品。</td>
+<td><code>--emit</code> → film-manifest.json</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>space-serve.sh</code></td>
+<td>啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。</td>
+<td>經由 desk iframe 驗證</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2>支援樹</h2>
@@ -717,6 +951,12 @@
 <td><code>golden/vectors.txt</code></td>
 <td>黃金參考面 — <code>golden_emit.zig</code> 之已提交正典輸出。</td>
 <td><code>golden-master.mjs --verify</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>build.zig</code></td>
+<td>框架圖 — <code>zig build test</code> 聚合所有 <code>src/</code> 套件(spec007 證明、spec008 qstar 橋接、封緘雙生、原生 DHT)並構建 <code>dhtd</code>;依 wave-5 平行化設並行測試根。</td>
+<td><code>zig build test</code></td>
 <td>—</td>
 </tr>
 <tr>

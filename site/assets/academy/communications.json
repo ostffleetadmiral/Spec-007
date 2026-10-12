@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "communications",
-  "lesson_count": 1503,
+  "lesson_count": 1504,
   "lessons": [
     {
       "access": "public",
@@ -10741,6 +10741,21 @@
       "provenance": "upstream",
       "source": "repo:walter-micropython:README.md",
       "title": "Introduction",
+      "topic": "communications"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7afe34a6ee883df6",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "b30e2f0 sweep fold · 0b9f867 limit-lift wave (true GF(256) RS + canonical wire tail — owner edit) · 611a0f6 native-DHT archive · 15a124e T7 wave close · 2a91832 DHT-12 probe · 9b5764f native DHT daemon · T6 speed wave af1c3d4/7cbd818/8329c3e/96ca0c8/cc4f0b4",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Commit spine (recent)",
       "topic": "communications"
     },
     {

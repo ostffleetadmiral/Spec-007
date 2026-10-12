@@ -2,13 +2,13 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55570,
+  "lessons_reviewed": 55578,
   "zh_lessons": 452,
   "defects": [],
   "courses": [
     {
       "course": "ai-literacy",
-      "lessons": 6818,
+      "lessons": 6819,
       "zh_lessons": 7,
       "declassified_lessons": 0,
       "topics": 1,
@@ -18,10 +18,10 @@
         "space-agent:859",
         "freenet-core:193",
         "adk:172",
-        "e-mc-2:149"
+        "e-mc-2:150"
       ],
       "top_topics": [
-        "ai-literacy:6818"
+        "ai-literacy:6819"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -48,7 +48,7 @@
     },
     {
       "course": "communications",
-      "lessons": 1503,
+      "lessons": 1504,
       "zh_lessons": 21,
       "declassified_lessons": 0,
       "topics": 1,
@@ -61,7 +61,7 @@
         "adk:68"
       ],
       "top_topics": [
-        "communications:1503"
+        "communications:1504"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -188,20 +188,20 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10807,
+      "lessons": 10812,
       "zh_lessons": 188,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 935,
       "top_sources": [
         "three-ws:8768",
-        "e-mc-2:634",
+        "e-mc-2:639",
         "adk:429",
         "nullclaw:227",
         "project-nomad:205"
       ],
       "top_topics": [
-        "reference:10807"
+        "reference:10812"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -248,7 +248,7 @@
     },
     {
       "course": "systems-engineering",
-      "lessons": 2653,
+      "lessons": 2654,
       "zh_lessons": 79,
       "declassified_lessons": 0,
       "topics": 1,
@@ -256,12 +256,12 @@
       "top_sources": [
         "three-ws:1213",
         "freenet-core:505",
-        "e-mc-2:433",
+        "e-mc-2:434",
         "paperless-ngx:186",
         "spec-007:109"
       ],
       "top_topics": [
-        "systems:2653"
+        "systems:2654"
       ],
       "defects": 0,
       "verdict": "HELD"

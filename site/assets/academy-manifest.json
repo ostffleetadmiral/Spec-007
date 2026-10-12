@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56118,
+  "lesson_count": 56126,
   "lessons": [
     {
       "access": "public",
@@ -7680,18 +7680,18 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55570
+      "harvested": 55578
     },
     "topics": {
       "orientation": 5333,
       "ethics": 293,
       "identity": 318,
-      "systems": 2730,
-      "ai-literacy": 6950,
+      "systems": 2731,
+      "ai-literacy": 6951,
       "security": 748,
-      "communications": 1507,
+      "communications": 1508,
       "campaign": 861,
-      "reference": 10807,
+      "reference": 10812,
       "uiux": 24317,
       "science": 1501,
       "hardware": 598,
@@ -7699,16 +7699,16 @@
       "lore": 86
     },
     "languages": {
-      "en": 55666,
+      "en": 55674,
       "zh-Hant": 982
     },
     "access": {
-      "public": 56118
+      "public": 56126
     },
     "provenance": {
       "curated": 548,
       "upstream": 50865,
-      "first_party": 4705
+      "first_party": 4713
     }
   },
   "harvest_sources": [
@@ -7717,8 +7717,8 @@
       "class": "first_party",
       "mode": "local",
       "pin": null,
-      "docs": 275,
-      "lessons": 2024
+      "docs": 276,
+      "lessons": 2032
     },
     {
       "root": "space-agent",
@@ -8529,11 +8529,11 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55570,
+  "harvested_count": 55578,
   "courses": [
     {
       "id": "ai-literacy",
-      "lesson_count": 6818,
+      "lesson_count": 6819,
       "file": "assets/academy/ai-literacy.json",
       "topics": [
         "ai-literacy"
@@ -8549,7 +8549,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 1503,
+      "lesson_count": 1504,
       "file": "assets/academy/communications.json",
       "topics": [
         "communications"
@@ -8605,7 +8605,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10807,
+      "lesson_count": 10812,
       "file": "assets/academy/reference-stack.json",
       "topics": [
         "reference"
@@ -8629,7 +8629,7 @@
     },
     {
       "id": "systems-engineering",
-      "lesson_count": 2653,
+      "lesson_count": 2654,
       "file": "assets/academy/systems-engineering.json",
       "topics": [
         "systems"

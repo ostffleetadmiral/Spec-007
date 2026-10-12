@@ -1,13 +1,13 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 56118,
+  "lesson_count": 56126,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 55570,
+  "harvested_lessons": 55578,
   "courses": [
     {
       "id": "ai-literacy",
-      "lesson_count": 6818,
+      "lesson_count": 6819,
       "topics": [
         "ai-literacy"
       ],
@@ -51,7 +51,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 1503,
+      "lesson_count": 1504,
       "topics": [
         "communications"
       ],
@@ -195,7 +195,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10807,
+      "lesson_count": 10812,
       "topics": [
         "reference"
       ],
@@ -255,7 +255,7 @@
     },
     {
       "id": "systems-engineering",
-      "lesson_count": 2653,
+      "lesson_count": 2654,
       "topics": [
         "systems"
       ],

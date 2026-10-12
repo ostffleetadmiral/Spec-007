@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "systems-engineering",
-  "lesson_count": 2653,
+  "lesson_count": 2654,
   "lessons": [
     {
       "access": "public",
@@ -6196,6 +6196,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:robinhood/learn-robinhood-chain/content/08-sell-your-api-for-usdg.md",
       "title": "A gap worth naming up front",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-2a7601d01324bf39",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| dir | files | role | |---|---|---| | src/ | 31 | integer-only Zig harnesses: fixedpointq128/spec007q128 (Q128.128 spine), spec007 proof/probe modules (calculations, alpha, astrometric, ckm, coincidence, drivetrain, dynamics, ephemeris, manifold, portal, qtoys, verified, warp, wowshape, checksumaudit, compute, expanded, fixedpointproto), spec008qstar (mesh/parity/carriage/escrow/fleet/mediumlatti",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Directory map (project-owned; deps/nodemodules/git excluded)",
       "topic": "systems"
     },
     {

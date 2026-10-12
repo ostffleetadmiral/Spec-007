@@ -22,6 +22,16 @@
 | `golden_emit.zig` | 正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 `tools/golden-master.mjs` 逐位元組比對的固定參考面。純整數輸出。 | `tools/golden-master.mjs --verify`(+ `--mutate` 自檢) | — |
 | `spec007_astrometric_probe.zig` | L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。每個數字皆附明確證偽條件。 | 15 測試 | — |
 | `spec008_medium_lattice.zig` | 介質即晶格之證偽框架:四埠 Γ 陣列(RTI/802.11bf 先例)解析為晶格座標 — `quantizeGamma` 將複反射係數映射至 15×15 格(\|Γ\|>1 拒絕),`resolveCoord` 以每埠 O(1) 摺疊為 (k,r,c)。自陳失敗邊界。 | 6 測試 | — |
+| `spec008_seal.zig` | Fano 網狀方言 seal/verify 路徑之純整數 Zig 雙生(`security/fano-mesh-bridge.mjs`、韌體 `fano_packet.c`):u256 FNV-1a 摺疊 + 八元數路由簽章逐跳混疊,全整數運算。正典尾端強化(艦主):宣告酬載位元組箝制至 `FANO_CAP`,`wire[40+plen..104]` 內每個未用位元組必須為零 — 有效封存覆於非零草稿尾端者拒絕。 | 7 測試 | 新增正典尾端拒絕測試(艦主波段 — 有效封存下非零草稿位元組失敗) |
+| `spec008_seal_cli.zig` | `spec008_seal` 核心之 hex CLI,供 JS↔Zig 差分探測(fano-wan-gateway 分段消費)。核心不依賴宿主,亦建為 wasm32-freestanding 程式庫供行程內驗證(`site/assets/spec008_seal.wasm.o`)。 | 經由閘道 + wasm 成品驗證 | — |
+| `spec007_alpha_probe.zig` | 主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。 | 5 測試 | — |
+| `spec007_ckm_probe.zig` | 主張 #35 機制探針:由 J3(O) 計算 CKM 元素,對比量測值(final_audit 缺失機制)。稽核開放項化為整數框架。 | 4 測試 | — |
+| `spec007_coincidence_probe.zig` | 神槍手謬誤對照組,純整數:主體五事件合取作為特定元組雖罕(約 1.6e-10),探針計算誠實之任一族群機率 — 機率帳之開放問題可執行化。 | 7 測試 | — |
+| `spec007_ephemeris_probe.zig` | 正典曆表探針:先前會話臨時驗證之日期鏈與幾何釘為常設框架 — CANON-MATH-MAP §VI.b 主張每次執行重新推導。 | 17 測試 | — |
+| `spec007_portal_probe.zig` | 平面二維門戶/薄殼探針:曲速探針建模三維隧道,門戶屬不同幾何類 — 二維曲面 — 自有成本算術。 | 10 測試 | — |
+| `spec007_warp_probe.zig` | Alcubierre 度規探針,點對點(arXiv:gr-qc/0009013):超光速座標速度下平坦內部氣泡,以整數算術計價 — 三界限模板之歸屬框架。 | 13 測試 | — |
+| `spec007_wow_shape_probe.zig` | Wow! 訊號波形探針:觀測強度輪廓是否符合曲速氣泡壁形 — 波形問題可執行化,異於天體測量位置探針。 | 14 測試 | — |
+| `spec007_checksum_audit.zig` | 會話對校驗稽核:以 E=mc²↔i↔E=mc⁻² 校驗語法(CONSISTENT / INCONSISTENT / SELF-REFERENTIAL)複查本會話各框架產出。 | 8 測試 | — |
 
 ## SPEC-008 依賴橋接測試框架(`src/`)
 
@@ -35,6 +45,8 @@
 | `spec008_qstar_fleet.zig` | qstar-net 接入艦隊:25-E0 BootstrapSeed 會合、proof-of-lattice-work 女巫閘(測試校準難度)、Möbius 合併解決並行格編輯、NAT/WebRTC 矩陣。`SeedNode.activation`/`CellEdit.activation` 僅為 f 邊界簿記。 | 9 測試 | — |
 | `spec008_qstar_mesh.zig` | qstar-mesh + qstar-render:Location u128 與 SPEC-008 tensor 位址同寬度級,PeerId = [32]u8;RelayRouter TTL 多跳為 42 跳步行的上界;136-B 封包上 XChaCha20-Poly1305 AEAD,竄改/錯鑰拒絕。 | 6 測試 | — |
 | `spec008_qstar_parity.zig` | 線路同位(D11/P3,Mosi LVCE):136-B 封包 frame→channel→decode→re-seal 逐位元一致;任意偏移單位元組毀損必被偵測;鴿籠容量強制執行;截斷/訊框拼接拒絕;XOR 同位恰好復原一個抹除訊框。 | 10 測試 | — |
+| `dht_native.zig` | Continuity DHT 原生實作(retro-dev T7):清單中*被引用*的基層成為*被接線*的基層。與 `tools/dht-fs.mjs` 同存儲、同線路、同裁決 — 雙生而非帶漂移的移植 — 內容定址記錄立於 qstar-vfs `vfs_distributed` 基層。 | 10 測試 | — |
+| `dhtd.zig` | 原生 Continuity DHT 守護行程:於迴路 TCP 上以封緘 136-B FANO 線路回應 record/block 操作,底層為 `dht_native.zig`。由 `security/dht-sweep.mjs`(DHT-01..12)經 `tools/dht-native.mjs` 客戶端即時探測。 | 經由 DHT 掃蕩探針驗證 | — |
 
 ## 韌體(`firmware/`)
 
@@ -94,6 +106,12 @@
 | `gov-index.mjs` | **甲板遵循治理文集** — `thoughts&convos/gov/` 的決定性索引(僅現行文集;`.archive` 已取代快照除外):每文件 sha256、分區統計,輸出至 `security/out/gov-index.json` — **僅橋接端**(官員姓氏不進入公開樹;姓氏絆線維持)。介面:閘控 `gov-index` 命令、`/gov` 端點、快照 `gov` 欄位 + SSE 監視。甲板渲染 Admiralty 鏈(依章程第二條五席位 — 艦隊上將、STEM 副上將、創業少將、財務上將、倫理與衡平准將)、SPEC-004 分級階梯(L0→L7Q;L6 AI-Core 由 WO 門控、L7 不得委任、7Q 合成觀察者層)、文集統計。 | `node gov-index.mjs` | 新增 — 541 文件、36 分區已索引 |
 | `seed-drop.mjs` + `seed-pairs.json` | **紙質腿 — 物理種子空投鑄造為 Rations 邀請令牌。** 閘控 `run-seed-drop`(固定 argv;配對計畫為檔案 — 無執行期參數)。種子為 u32(艦隊 `SEED:` 慣例),以 `PHSEED01` 魔術標頭置入令牌 shard 欄位;線格式與 Rations `token.serialize` 位元組精確一致(ep/shard 長度 u16 BE、expiry u64 LE);由持久織構金鑰 ed25519 簽章。原始種子僅存於 `out/seed-payloads/*.txt`(0600)— QR/optar/FSK 可列印工件;帳本與鏈僅錨定 `seedHash`/`tokenHash`。`run-audit seed-coverage` 重新解析每個 payload、重驗簽章、重算雙雜湊 — 4/4 覆蓋、4/4 驗證。**位元組相容已證**:Rations 自身的 `token.deserialize`+`verify` 接受該空投(`token_spec007_compat_test.zig`,2 測試)。橋接器新增 `/seed-ledger` 與快照 `seeds` 欄位。 | gate + audit | 新增 — 古典腿實體化 |
 | `emergence-watch.mjs` | **EMERGENT 隊:觀測線束** — 6 項即時觀測:philotic-dividend、seedless-pair-chance、sync-free-coordination、collective-desync、thermal-band-split、wire-accounting-closure。禁制湧現監視器:任何違反界限的巨觀態是裂縫而非發現。 | standalone(本地節點 + 中繼) | 新增 — 4 EMERGENT、2 HELD、0 裂縫 |
+| `agentzero-watch.mjs` | **Agent Zero 之 AIWO 包裝(D 相)** — 觀測線束,將外部代理執行環境繫入艦隊監視帳:容量、圍堵態勢、活動摺疊,皆依 corps 同一誠實標籤紀律記錄。 | 監視帳列 | — |
+| `aiwo-corps.mjs` | **AIWO 兵團演習,真實執行** — 於受治理執行環境上運行多道代理佇列:每道行為摺疊入 `out/aiwo-corps-ledger.json`,容量以量測而非敘述。 | `--emit` 帳本 + 服務探針 | — |
+| `aiwo-service.mjs` | **Sentience Engine 作為常駐服務** — corps 演習之守護行程形態(RE 來源:nullclaw `src/daemon.zig` 監督者模式、qstar-llm `heartbeat.zig`):監督器 + 指數退避 + 健康註冊表;狀態存於 `out/aiwo-service-state.json`,pid 存於 `out/aiwo-service.pid`。 | 服務帳本 + 狀態檔 | — |
+| `dht-sweep.mjs` | **Continuity DHT 於通道網上實測** — DHT-01..12:基層驗證(qstar-vfs `zig build test`)、存取往返、XOR 路由、複寫、head 繫結,以及原生 `dhtd` 守護行程於封緘線路之上。 | `node security/dht-sweep.mjs` | — |
+| `officer-mesh.mjs` | **OFFR 隊 — 第二軍官艦隊操作。** 從未運行過之事:第二座真實軍官桌 — 以攜帶公文授任、於即時共享中繼上發送封緘流量,權杖為鑄造而非複製。 | `node security/officer-mesh.mjs` | — |
+| `wozam-gate.mjs` | **第三層執行環境連續性閘門** — 已部署 wasm32 成品於 `k3w`(zig-k3-port `wasmrt/`)下重新執行:基層主張受測而非受信 — wasm 位元組於解譯器內運行並產出裁決。 | `node security/wozam-gate.mjs` | — |
 | `docker-compose.{sec,wan}.yml` | 兩個隔離網段 + 雙宿主中繼拓撲。 | — | — |
 
 ## 站點(`site/`)
@@ -129,6 +147,27 @@
 | `course-gen.mjs` | 藍圖 P7 課程生成器 — 由波段報告決定性產生課程;每課攜帶 `deterministic_review_required`。 | `--emit` → academy 清單 | — |
 | `science-verdict.mjs` | 證明或不確定通過 — 將 science-coverage 表解析為 `harness_proven`/`lit_supported`/`constrained`/`indeterminate`。 | — | — |
 | `slate-ledger.mjs` | 發射 `production-ledger.json` — 導演室分鏡所依據之正典資產清冊;每條目皆從真實來源檔案萃取。 | — | — |
+| `doc-census.mjs` | D11/P5 叢集文件普查 — 遍歷每個有內容之鄰近根,將每份文件分類至稽核詞彙,發射 `security/out/doc-census.json` + 淨化公開類別圖。 | `--verify` — 34,644 文件,圖穩定 | 重發射節奏併入掃蕩 |
+| `harness-binding.mjs` | 主張↔框架繫結閘門 — 無可執行錨點之帳列不得宣稱 VERIFIED:引用之 `*.zig` 路徑必須存在、測試數必須對帳、被繫結之框架必須被引用。 | `--verify` — 27 繫結 | — |
+| `canon-verify.mjs` | 抽屜正典完整性 + 引用解析 — 正典文件與封存原件逐位元一致,帳列引用解析至活路徑。 | `--verify` — 封存 + 59/61 引用 | — |
+| `gov-map.mjs` | 治理願景可執行化 — 將 `gov/` 權威文集(憲章、SPEC 系列、附則、政策域)每項授命繫結至可驗證之列。 | `--verify` — 48/48 授命,16 域 | — |
+| `academy-grade.mjs` | 決定性教學訊號儀器 — 逐位元評等學院帳本;`--selfcheck` 以儀器自身運行棘輪自檢。 | `--verify` + `--selfcheck` | — |
+| `academy-harvest.mjs` | 開放文集化為課程 — 以決定性排序將抽屜鄰近文集採收為學院教材。 | `--verify` | — |
+| `academy-review.mjs` | 課程級審查儀器(SPEC-011) — 生成課程於晉升前對教學帳本審查。 | `--verify` | — |
+| `curriculum-map.mjs` | 學院覆蓋強制之課程圖 — 每門課必須落於圖上;未覆蓋之課程為漂移而非選修。 | `--emit`/`--verify` | — |
+| `agency-map.mjs` | 夢想→建造之繫結 — 將 agency 層願景映射至實際實作之元件;未繫結之企圖誠實立案。 | `--emit` | — |
+| `agent-capacity-sweep.mjs` | k3 trunk 之真實量測代理容量 — 容量由框架量測而非檔案宣稱。 | `--emit` → out/agent-capacity.json | — |
+| `command-map.mjs` | 指揮結構帳本 — 軍官/權威鏈渲染為可驗證之圖。 | `--emit` → command-manifest.json | — |
+| `persona-map.mjs` | 選角室帳本,三層矩陣 — 角色指派繫結至真實元件。 | `--emit` → persona-manifest.json | — |
+| `layer-map.mjs` | 抽屜文集逐文件之 L0–L7Q 分層 — 發射文件投影所消費之層普查。 | `--emit` → layer-census.json | — |
+| `literal-return-scan.mjs` | 構造特徵偵測器 — 掃描貌似計算實則回傳硬編碼字面量之函式(`hydrogenLineLatticeCm` 模式);實為常數之「主張」判定失敗。 | `--verify` | — |
+| `vision-audit.mjs` | 可執行願景實現帳本 — 藍圖承諾繫結至已交付證據,願景列評級而非敘述。 | `--emit`/`--verify` → vision-ledger.json | — |
+| `directive.mjs` | Sheraton 指令執行,真實 — 指令通道於與 fabric bridge 同一稽核鏈紀律下繫結至閘控執行。 | 閘控調用 | — |
+| `dht-fs.mjs` | Continuity DHT — 內容定址、XOR 路由之檔案系統基層記錄存儲;`dht_native.zig` 為其 JS 雙生,裁決逐一對映。 | 行程內摺疊 + DHT 探針 | — |
+| `dht-native.mjs` | 原生 DHT 守護行程(`zig-out/bin/dhtd`)之客戶端 — 於迴路 TCP 上以封緘 136-B 線路執行 record/block 操作。 | DHT 掃蕩探針 | — |
+| `receipt-bridge.mjs` | 將 k3/k3serve `--sched-emit` JSONL 回執摺疊入帳本 — 引擎排程回執化為艦隊證據。 | 回執摺疊探針 | — |
+| `film-render.mjs` | 生成式電影管線,框架內建 — 將影片清單渲染為產製帳本下之 roll 成品。 | `--emit` → film-manifest.json | — |
+| `space-serve.sh` | 啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。 | 經由 desk iframe 驗證 | — |
 
 ## 支援樹
 
@@ -138,6 +177,7 @@
 | `fleet-genesis.json` / `fleet-manifest.json` / `engine-manifest.json` | 簽章正典根 — 創世契約、艦隊清單、受治理運行時註冊表 — 各具逐位元組一致之 `site/` 副本。 | FLEET/ENGINE 探針 | — |
 | `deps/` | 供應 qstar-* 依賴釘存(2026-10-07,zig 0.13 全綠):quantum、transport、net、mesh、vfs、compress、collapse、render。`deps/VENDORED.md` 載 LOC 表;f64 邊界限於 mesh/render sidecar。 | 8 個 spec008_qstar_* 框架 | — |
 | `golden/vectors.txt` | 黃金參考面 — `golden_emit.zig` 之已提交正典輸出。 | `golden-master.mjs --verify` | — |
+| `build.zig` | 框架圖 — `zig build test` 聚合所有 `src/` 套件(spec007 證明、spec008 qstar 橋接、封緘雙生、原生 DHT)並構建 `dhtd`;依 wave-5 平行化設並行測試根。 | `zig build test` | — |
 | `admiralty-desk/` | 旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;contextIsolation + sandbox + 無 nodeIntegration;`desk.sh` 剝除 `ELECTRON_RUN_AS_NODE`。 | 桌面探針 | — |
 | `apps/fano/` | Fano quine 方言工件(index.html + fano.wasm)— `site/apps/fano/` 存逐位元組一致之供應副本。 | wasm 身份 | — |
 | `prototypes/` | 行政覆權試驗場 — 封存路徑以隔離實驗執行;報告落於 `prototypes/out/`;生產不動。 | falsification-audit 之 OVR 列 | — |

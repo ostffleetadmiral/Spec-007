@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "ai-literacy",
-  "lesson_count": 6818,
+  "lesson_count": 6819,
   "lessons": [
     {
       "access": "public",
@@ -1842,7 +1842,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- Zig core: 601 tests (30 proof modules, 180 total proof checks, plus engineering modules, self-claims, probability log, elevation paths, src/octavian.zig E8 audit, quantum/ lattice dynamics suite incl. retrocausalprobe.zig two-boundary experiment) - Q#: 51 witness operations (.NET 8.0, 0 warnings) - Sidecar: 49 f64 validation tests - Lean 4: 8 formalization modules — compiles under Lean 4.12.0 (e",
+      "outcome": "- Zig core: 611 tests (30 proof modules, 180 total proof checks, plus engineering modules incl. src/fanotensor.zig, self-claims, probability log, elevation paths, src/octavian.zig E8 audit, quantum/ lattice dynamics suite incl. retrocausalprobe.zig two-boundary experiment) - Q#: 51 witness operations (.NET 8.0, 0 warnings) - Sidecar: 49 f64 validation tests - Lean 4: 8 formalization modules — comp",
       "provenance": "first_party",
       "source": "repo:e-mc-2:AGENTS.md",
       "title": "Current test counts",
@@ -23626,6 +23626,21 @@
       "provenance": "first_party",
       "source": "repo:space-agent:server/lib/tmp/AGENTS.md",
       "title": "Local Work Rules",
+      "topic": "ai-literacy"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-3c2cfadc3d9e5116",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. spec-007.md immutable — sha-pinned. 2. Integer-only Zig core — f32/f64 only in annotated sidecar/boundary lines (ZIG-01 enforced). 3. en/zh-Hant twin parity on every dossier + i18n dicts 1:1. 4. Canon pairs: fleet-genesis.json + fleet-manifest.json signed roots ≡ byte-identical site/ copies. 5. Findings taxonomy: HELD/HARDENED/NOTED/OPEN/EXPLOITED/ERROR/BLOCKED/CHANNEL/EMERGENT/PROVEN/ABSENT/PE",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Non-negotiable invariants (from AGENTS.md)",
       "topic": "ai-literacy"
     },
     {

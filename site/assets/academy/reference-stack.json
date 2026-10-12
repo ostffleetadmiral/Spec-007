@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "reference-stack",
-  "lesson_count": 10807,
+  "lesson_count": 10812,
   "lessons": [
     {
       "access": "public",
@@ -11191,6 +11191,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "6. What was actually verified",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-11b0a8be6d402a6d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "experiments/zig-k3-port (K3 engine: A3 c0f3d58, A4 e0f8607, A6 e1cdb5c done; A5 fleet-exec open) · experiments/qstar-llm (uncommitted WIP — never commit) · Rations/ · TheUE/ · hardware root (E=mc² proof suite, 601+51+49+37=738 verified ops).",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Sibling repos (workspace context)",
       "topic": "reference"
     },
     {
@@ -31231,6 +31246,21 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/docs/COMPONENTS.md",
       "title": "7. optar",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-314bc64f0511068c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "spec-007.md (IMMUTABLE — sha256 pinned, never edit), AGENTS.md, README.md, SECURITY.md, CONTRIBUTING.md, LICENSE, SPEED-AUDIT.md (speed-wave ledger: T1–T7 measured entries), engine-manifest.json, fleet-genesis.json + fleet-manifest.json (signed canon roots — byte-identical copies required in site/), build.zig (harness graph).",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Root files (12)",
       "topic": "reference"
     },
     {
@@ -56107,6 +56137,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-591d1c03ff67591a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- A5 (zig-k3-port): fleet exec — OPEXEC weights-stay-remote on qwen35 fused-expert path; needs second host for real test. - 3 NOTED probes: documented insider residuals — standing, not defects.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Open items",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-59233a0f5758f78a",
       "language": [
         "en"
@@ -70582,6 +70627,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-6ff2f7002fcce19c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- publish-check.sh: ALL GATES GREEN (incl. twin parity, canon pair, surname tripwire, no-eval, wasm twins) - zig build test: rc=0 — 304 tests / 28 files (tally pin updated in DESK-30 i18n both twins) - team-sweep-2.mjs: 220 HELD / 0 OPEN / 3 NOTED (documented insider residuals) - doc-census --verify: GREEN — 34,644 docs (includes drawer) - harness-binding --verify: OK — 27 bound - archive verify: ",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "Verification state (2026-10-12 post-fold)",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-70058c9bdd84cb40",
       "language": [
         "en"
@@ -85006,6 +85066,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Claim 1: the seller never supplies an SNS topic ARN",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-87af52b05b709e38",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Full top-to-bottom crawl of experiments/Spec-007, performed 2026-10-12 at main@b30e2f0, gh-pages 8802673. Final state: publish-check ALL GREEN, zig build test rc=0, team-sweep-2 223 probes → 220 HELD / 0 OPEN / 3 NOTED.",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:.devin/memories/spec007-project-census-20261012.md",
+      "title": "spec007-project-census-20261012 — full directory crawl + verification state",
       "topic": "reference"
     },
     {
