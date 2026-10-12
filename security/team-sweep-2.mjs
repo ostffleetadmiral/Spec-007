@@ -41,6 +41,67 @@ const open_ = (t, n2, d) => f(t, n2, "OPEN", d, "high");
 const canon = o => JSON.stringify(o, null, 2);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+/* ── bounded probe prefetch (retro-dev T6): the sweep's heavy leaf
+   checks are read-only subprocesses whose inputs are static for the
+   sweep's duration. Launching them ~4-wide at sweep start overlaps
+   their wall time (~70s of work serial); each still gets its own
+   process — crash containment is a feature — results are awaited at
+   the probe site, findings stay attributed per-probe. Emit→verify
+   hazards are untouched: only --verify / zig-test / stdout-only jobs
+   enter the pool, and every input is static mid-sweep. */
+const _pfJobs = new Map();
+{
+  const _T = path.join(ROOT, "tools");
+  const _Z = path.join(ROOT, "src");
+  const jobs = [
+    // heaviest first — the pool drains in launch order
+    ["archive-verify",   process.execPath, [path.join(_T, "archive-verify.mjs"), "--verify"], { timeout: 600000 }],
+    ["academy-harvest",  process.execPath, [path.join(_T, "academy-harvest.mjs"), "--verify"], { timeout: 120000 }],
+    ["zig:parity",       "zig",            ["test", path.join(_Z, "spec008_qstar_parity.zig")], { timeout: 180000 }],
+    ["zig:astrometric",  "zig",            ["test", path.join(_Z, "spec007_astrometric_probe.zig")], { timeout: 120000 }],
+    ["academy-grade:v",  process.execPath, [path.join(_T, "academy-grade.mjs"), "--verify"], { timeout: 120000 }],
+    ["academy-grade:s",  process.execPath, [path.join(_T, "academy-grade.mjs"), "--selfcheck"], { timeout: 120000 }],
+    ["zig:medium",       "zig",            ["test", path.join(_Z, "spec008_medium_lattice.zig")], { timeout: 120000 }],
+    ["doc-census",       process.execPath, [path.join(_T, "doc-census.mjs"), "--verify"], { timeout: 120000 }],
+    ["golden_emit:1",    "zig",            ["run", path.join(_Z, "golden_emit.zig")], { timeout: 120000 }],
+    ["golden_emit:2",    "zig",            ["run", path.join(_Z, "golden_emit.zig")], { timeout: 120000 }],
+    ["golden-master",    process.execPath, [path.join(_T, "golden-master.mjs"), "--verify"], { timeout: 120000 }],
+    ["gov-map",          process.execPath, [path.join(_T, "gov-map.mjs"), "--verify"], { timeout: 120000 }],
+    ["override-audit",   process.execPath, [path.join(_T, "override-audit.mjs"), "--verify"], { timeout: 120000 }],
+    ["dox-audit",        process.execPath, [path.join(_T, "dox-audit.mjs"), "--verify"], { timeout: 120000 }],
+    ["emergent-sweep",   process.execPath, [path.join(_T, "emergent-sweep.mjs"), "--verify"], { timeout: 120000 }],
+    ["device-ledger",    process.execPath, [path.join(_T, "device-ledger.mjs"), "--verify"], { timeout: 120000 }],
+    ["cluster-census",   process.execPath, [path.join(_T, "cluster-census.mjs"), "--verify"], { timeout: 120000 }],
+    ["claim-promotion",  process.execPath, [path.join(_T, "claim-promotion.mjs"), "--verify"], { timeout: 120000 }],
+    ["canon-verify",     process.execPath, [path.join(_T, "canon-verify.mjs"), "--verify"], { timeout: 120000 }],
+    ["harness-binding",  process.execPath, [path.join(_T, "harness-binding.mjs"), "--verify"], { timeout: 120000 }],
+    ["literal-return-scan", process.execPath, [path.join(_T, "literal-return-scan.mjs"), "--verify"], { timeout: 120000 }],
+    ["evidence-manifest", process.execPath, [path.join(_T, "evidence-manifest.mjs"), "--verify"], { timeout: 120000 }],
+  ];
+  const runOne = ([key, cmd, args, opts]) => new Promise(res => {
+    const p = spawn(cmd, args, { encoding: "utf8", ...opts });
+    let stdout = "", stderr = "";
+    p.stdout.on("data", d => stdout += d);
+    p.stderr.on("data", d => stderr += d);
+    p.on("error", e => res({ status: 1, stdout, stderr: String(e), error: e }));
+    p.on("close", status => res({ status, stdout, stderr }));
+  });
+  const POOLW = 4;
+  let next = 0;
+  const worker = async () => {
+    while (next < jobs.length) {
+      const j = jobs[next++];
+      const p = runOne(j);
+      _pfJobs.set(j[0], p);
+      await p;
+    }
+  };
+  Promise.all([worker(), worker(), worker(), worker()])
+    .catch(e => console.log("prefetch pool error:", e));
+}
+const pf = key => _pfJobs.get(key) ??
+  Promise.resolve({ status: 1, stdout: "", stderr: `prefetch ${key} missing` });
+
 /* ---------- fano-reset.js in a sandboxed browser ---------- */
 function loadResetModule({ hostname = "127.0.0.1", genesisLs = null,
                            genesisDoc = null } = {}) {
@@ -2259,7 +2320,7 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
     if (!fs.existsSync(AHM) || !fs.existsSync(MAN)) {
       noted("ACAD", "harvest-determinism", "harvester or manifest absent — deferred");
     } else {
-      const r = spawnSync(process.execPath, [AHM, "--verify"], { encoding: "utf8" });
+      const r = await pf("academy-harvest");
       const m = JSON.parse(fs.readFileSync(MAN, "utf8"));
       r.status === 0
         ? held("ACAD", "harvest-determinism",
@@ -2355,7 +2416,7 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
     if (!fs.existsSync(AG) || !fs.existsSync(AP)) {
       noted("ACAD", "pedagogy-ledger", "grader or ledger absent — deferred");
     } else {
-      const r = spawnSync(process.execPath, [AG, "--verify"], { encoding: "utf8" });
+      const r = await pf("academy-grade:v");
       const rep = JSON.parse(fs.readFileSync(AP, "utf8"));
       const honest = rep.assessment === "deterministic_review_required"
         && /not pedagogical soundness/.test(rep.caveat || "");
@@ -2376,7 +2437,7 @@ console.log("\nACAD — harvested corpus curriculum (academy wave)");
     if (!fs.existsSync(AG) || !fs.existsSync(AP)) {
       noted("ACAD", "neardup-instrument", "grader or ledger absent — deferred");
     } else {
-      const r = spawnSync(process.execPath, [AG, "--selfcheck"], { encoding: "utf8" });
+      const r = await pf("academy-grade:s");
       const rep = JSON.parse(fs.readFileSync(AP, "utf8"));
       const nd = (rep.courses || []).map(c => c.signals && c.signals.neardup && c.signals.neardup.v);
       const plausible = nd.length === (rep.courses || []).length
@@ -2403,7 +2464,7 @@ console.log("\nCENSUS — cluster inventory (debrief d0)");
     if (!fs.existsSync(CEN) || !fs.existsSync(CR)) {
       noted("CENS", "roots-consistent", "census tool or registry absent — deferred");
     } else {
-      const r = spawnSync(process.execPath, [CEN, "--verify"], { encoding: "utf8" });
+      const r = await pf("cluster-census");
       r.status === 0
         ? held("CENS", "roots-consistent",
             "registry == live roots — names, presence, class, evidence all match (counts snapshot-labeled)")
@@ -2489,7 +2550,7 @@ console.log("\nOVERRIDE — claims audit (debrief d6)");
     if (!fs.existsSync(OVR) || !fs.existsSync(OLG)) {
       noted("OVR", "deterministic", "audit tool or ledger absent — deferred");
     } else {
-      const r = spawnSync(process.execPath, [OVR, "--verify"], { encoding: "utf8" });
+      const r = await pf("override-audit");
       r.status === 0
         ? held("OVR", "deterministic",
             "re-running the 3-pass audit reproduces the ledger — verify mode green")
@@ -2885,8 +2946,7 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
     if (!fs.existsSync(EM) || !fs.existsSync(EL)) {
       noted("EMG", "sweep-verifies", "emergent tool/ledger absent — deferred");
     } else {
-      const r = spawnSync(process.execPath, [EM, "--verify"],
-        { encoding: "utf8", timeout: 120000 });
+      const r = await pf("emergent-sweep");
       r.status === 0
         ? held("EMG", "sweep-verifies",
             "cross-root constant scan reproduces — every emergent candidate dispositioned")
@@ -2934,8 +2994,7 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
     if (!fs.existsSync(ML)) {
       open_("RF", "medium-harness", "src/spec008_medium_lattice.zig absent");
     } else {
-      const r = spawnSync("zig", ["test", ML],
-        { encoding: "utf8", timeout: 120000 });
+      const r = await pf("zig:medium");
       r.status === 0
         ? held("RF", "medium-harness", "Gamma→cell→coord harness green — medium-as-lattice mapping proves under a bounded noise model")
         : open_("RF", "medium-harness", `rc=${r.status} ${(r.stderr || "").slice(0, 140)}`);
@@ -3042,8 +3101,7 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
     if (!fs.existsSync(AP)) {
       open_("AST", "probe-harness", "src/spec007_astrometric_probe.zig absent");
     } else {
-      const r = spawnSync("zig", ["test", AP],
-        { encoding: "utf8", timeout: 120000 });
+      const r = await pf("zig:astrometric");
       r.status === 0
         ? held("AST", "probe-harness", "integer-Q128 astrometric evaluation green — separation, cap probability, transit, invariant gate all computed")
         : open_("AST", "probe-harness", `rc=${r.status} ${(r.stderr || "").slice(0, 140)}`);
@@ -3106,13 +3164,14 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
   const OUTD = path.join(ROOT, "security", "out");
   const T = (name) => path.join(TOOLS, name);
   const run = (file, args = ["--verify"], ms = 120000) =>
-    spawnSync(process.execPath, [T(file), ...args],
-      { encoding: "utf8", timeout: ms });
+    _pfJobs.get(file.replace(/\.mjs$/, "")) ??
+    Promise.resolve(spawnSync(process.execPath, [T(file), ...args],
+      { encoding: "utf8", timeout: ms }));
   const jread = (f) => { try { return JSON.parse(fs.readFileSync(path.join(OUTD, f), "utf8")); } catch { return null; } };
 
   /* ── PRM — promotion ledger attacks ── */
   {
-    const r = run("claim-promotion.mjs");
+    const r = await run("claim-promotion.mjs");
     r.status === 0
       ? held("PRM", "ledger-verifies", "promotion --verify GREEN — records reproduce")
       : open_("PRM", "ledger-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3172,7 +3231,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
 
   /* ── GLD — golden-master attacks ── */
   {
-    const r = run("golden-master.mjs", ["--verify"]);
+    const r = await run("golden-master.mjs", ["--verify"]);
     const out = (r.stdout || "") + (r.stderr || "");
     r.status === 0 && out.includes("GREEN")
       ? held("GLD", "vectors-verify", out.trim().split("\n").pop()?.slice(0, 110) || "golden verify GREEN")
@@ -3196,10 +3255,8 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
   {
     /* attack: determinism — two fresh emissions must be byte-identical,
        otherwise the golden pins noise */
-    const r1 = spawnSync("zig", ["run", path.join(ROOT, "src", "golden_emit.zig")],
-      { encoding: "utf8", timeout: 120000 });
-    const r2 = spawnSync("zig", ["run", path.join(ROOT, "src", "golden_emit.zig")],
-      { encoding: "utf8", timeout: 120000 });
+    const r1 = await pf("golden_emit:1");
+    const r2 = await pf("golden_emit:2");
     r1.status === 0 && r2.status === 0 && r1.stdout === r2.stdout && r1.stdout.length > 0
       ? held("GLD", "emission-deterministic",
           `two emissions byte-identical (${r1.stdout.length}B) — the golden pins signal, not noise`)
@@ -3211,8 +3268,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
 
   /* ── PAR — wire/parity attacks ── */
   {
-    const r = spawnSync("zig", ["test", path.join(ROOT, "src", "spec008_qstar_parity.zig")],
-      { encoding: "utf8", timeout: 180000 });
+    const r = await pf("zig:parity");
     const out = (r.stdout || "") + (r.stderr || "");
     r.status === 0 && /All \d+ tests passed/.test(out)
       ? held("PAR", "channel-roundtrip",
@@ -3247,7 +3303,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
 
   /* ── DOX — documentation-binding attacks ── */
   {
-    const r = run("dox-audit.mjs");
+    const r = await run("dox-audit.mjs");
     r.status === 0
       ? held("DOX", "bindings-verify", "dox --verify GREEN — bindings reproduce")
       : open_("DOX", "bindings-verify", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3272,7 +3328,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
     /* attack: documentation drift is silent until censused — a doc that
        lands outside the class map is an unclassified subtree wearing a
        .md extension */
-    const r = run("doc-census.mjs");
+    const r = await run("doc-census.mjs");
     r.status === 0
       ? held("DOX", "doc-census-verifies", "doc-census --verify GREEN — class map stable")
       : open_("DOX", "doc-census-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3281,7 +3337,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
     /* attack: canon drift is silent — a ledger file that diverges from
        its sealed original, or a ledger cite that resolves nowhere, is
        narrative accreting without a check */
-    const r = run("canon-verify.mjs");
+    const r = await run("canon-verify.mjs");
     r.status === 0
       ? held("DOX", "canon-ledger-verifies", "canon-verify --verify GREEN — originals sealed, cites resolve")
       : open_("DOX", "canon-ledger-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3291,7 +3347,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
        goes stale the moment tests are added; an uncited harness is an
        unfiled result. PROPAGATION RULE: every discovery must re-verify
        every ledger row that cites it — enforced, not aspirational */
-    const r = run("harness-binding.mjs");
+    const r = await run("harness-binding.mjs");
     r.status === 0
       ? held("DOX", "harness-binding-verifies", "harness-binding --verify GREEN — claims anchored to executable tests")
       : open_("DOX", "harness-binding-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3300,7 +3356,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
     /* attack: the construction signature — a function documented as
        computed that returns a hardcoded literal (hydrogenLineLatticeCm
        pattern) — accretes silently without a scan */
-    const r = run("literal-return-scan.mjs");
+    const r = await run("literal-return-scan.mjs");
     r.status === 0
       ? held("DOX", "literal-return-scan-verifies", "literal-scan --verify GREEN — construction signature catalogued")
       : open_("DOX", "literal-return-scan-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3308,7 +3364,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
 
   /* ── DEV — device-ledger attacks ── */
   {
-    const r = run("device-ledger.mjs");
+    const r = await run("device-ledger.mjs");
     r.status === 0
       ? held("DEV", "capabilities-verify", "device --verify GREEN — no capability silently lost")
       : open_("DEV", "capabilities-verify", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3330,7 +3386,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
 
   /* ── EVM — evidence-manifest attacks ── */
   {
-    const r = run("evidence-manifest.mjs");
+    const r = await run("evidence-manifest.mjs");
     r.status === 0
       ? held("EVM", "manifest-verifies", "evidence --verify GREEN — all pinned cites hash-stable")
       : open_("EVM", "manifest-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 120)}`);
@@ -3356,7 +3412,7 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
 
   /* ── ARC — archive-integrity attacks ── */
   {
-    const r = run("archive-verify.mjs", ["--verify"], 600000);
+    const r = await run("archive-verify.mjs", ["--verify"], 600000);
     r.status === 0
       ? held("ARC", "corpus-verifies", "archive --verify GREEN — zero regressions, zero broken seals")
       : open_("ARC", "corpus-verifies", `rc=${r.status} ${(r.stdout || r.stderr || "").slice(0, 140)}`);
@@ -3763,7 +3819,7 @@ console.log("\nGOVM — the governance corpus, executable");
    checks. direct = the mandate itself in machinery; structural = the
    governance pattern in machinery. Coverage-enforced. */
 {
-  const gm = spawnSync("node", [path.join(ROOT, "tools", "gov-map.mjs"), "--verify"], { encoding: "utf8" });
+  const gm = await pf("gov-map");
   const lp = path.join(SITE, "assets", "gov-ledger.json");
   const led = fs.existsSync(lp) ? JSON.parse(fs.readFileSync(lp, "utf8")) : null;
   gm.status === 0 && led

@@ -24,6 +24,7 @@ lists the mechanism, the evidence path, the fix, and the honest bound.
 | `cluster-census.mjs` root probes | ~11.5s serial `find` | ~3.3s pooled | ~3.5× |
 | DHT `recordQuery` ×20 w/ verified-head LRU | 191.7ms | 40 gets 23.5ms / 40 resident 20.8ms | ~1.1× (audit-append floor; integrity preserved — mutation probe refuses tampered) |
 | FANO `seal`/`verify` hot path | 34.3µs / 24.7µs (BigInt) | ~6µs / ~4.3µs wasm-dispatched; ~675ns / ~639ns raw Zig | ~5.7× in-process, ~50× native |
+| `team-sweep-2.mjs` end-to-end (223 probes) | ~174s serial | ~36.6s — identical finding count/verdicts | ~4.8× |
 
 ## T4 — native FANO seal twin (retro-dev wave)
 
@@ -49,6 +50,22 @@ corruption (capstone B1b found it via the per-byte sweep). Fixed with
 u32 coords + in-stream signature/phase fold (no hops array — unbounded
 walks bounded only by |Δ|≤12286), and the hostile wire is embedded as a
 test vector so the class can't regress silently.
+
+## T6 — bounded probe prefetch in team-sweep-2 (retro-dev wave)
+
+A 4-wide async spawn pool launches the sweep's ~22 heaviest read-only
+leaf checks at sweep start (archive-verify 29s, academy-harvest 7.6s,
+the three standalone `zig test`s ~11s, academy-grade ×2, doc-census,
+golden_emit ×2, golden-master, gov-map, override-audit, dox-audit,
+emergent-sweep, device-ledger, cluster-census + the five fast LAWBREAK
+verifies for uniform keying). Probes `await pf(key)` at their original
+sites — findings stay attributed, per-process crash containment is
+unchanged, and emit→verify hazards were never pooled (DHT `issue`/
+`glyph` writes and all emitters stay synchronous). Inputs are static
+mid-sweep: GOVM reads the previous run's findings.json either way —
+the merge write happens at sweep end — so prefetch and serial see the
+same bytes. Measured: 174s → 36.6s (~4.8×), 223 probes, verdicts
+identical.
 
 ---
 
