@@ -4,10 +4,10 @@ Documentation-only audit. Crawled this tree plus `../qstar-llm` (server,
 serve step, 2026-10-11 bench sweep numbers). No code changed. Every item
 lists the mechanism, the evidence path, the fix, and the honest bound.
 
-> **Implementation status (2026-10-12, commit 572ae0a + follow-on):**
-> items 1, 2, and 4 IMPLEMENTED with measured deltas below; item 3
+> **Implementation status (2026-10-12, commits 572ae0a, 75649ac, c777bf1):**
+> items 1, 2, 4, and 5 IMPLEMENTED with measured deltas below; item 3
 > partially done (in-process DHT queries landed; bounded probe pool
-> still open); item 5 (`ollama-qstar-native :11436`) still open.
+> still open).
 
 ## Measured deltas
 
@@ -16,6 +16,7 @@ lists the mechanism, the evidence path, the fix, and the honest bound.
 | `recordQuery` ×10 (in-process, indexed) | 956.5ms spawn-per-query | 98.9ms | ~9.7× |
 | `zig build test` incl. 19 spec007 harnesses | 80.8s serial `zig test` loop | 54.6s cold / 0.2s warm-cache | 1.5× cold, ~400× warm |
 | `publish-check.sh` end-to-end | ~110s | ~19s | ~5.8× |
+| `qstar serve` A0-shaped `/v1/chat/completions` | instant SEGV / debug-build deadlock | 200 in ~13.8s, 5× concurrent all 200 | crash → stable |
 
 ---
 
@@ -147,6 +148,23 @@ decision (Art. V.3 custody); the endpoint + manifest + watch
 declaration can ship alone and the repoint applied whenever. If util
 calls ever expect parseable structure, the bound is already written in
 the manifest note.
+
+**Implemented (commit c777bf1 + qstar-llm sibling fix):**
+`ollama-qstar-native` on `0.0.0.0:11436` (systemd `qstar-native.service`),
+manifest-declared `bridge-mediated`, digit-a0 `util_model_api_base`
+repointed to `http://host.docker.internal:11436/v1` model `qstar:latest`;
+chat+embed stay on `:11435` per the schema/nomic gate above.
+
+**Upstream defect found and fixed during soak:** `qstar serve`
+initialized `agent_pool_size: 1` with `max_concurrent: 2` — a second
+connection's temp-agent init path (corpus + KG + bigram, ~20s) collided
+with the in-flight request: debug build deadlocked, ReleaseFast
+surfaced BrokenPipe→SEGV on client disconnect. Fix (qstar-llm
+`src/main.zig`): pool sized to concurrent capacity + optional
+`qstar serve <port> <host>` arg so the service can bind `0.0.0.0` for
+container reachability. Post-fix: A0-shaped system+user payloads that
+SEGV'd instantly now return 200 in ~13.8s; 5 concurrent such requests
+all return 200, zero restarts under soak.
 
 ---
 
