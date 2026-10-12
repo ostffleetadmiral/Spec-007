@@ -125,7 +125,37 @@ function cellWord(x, y, z) {
   return out;
 }
 
-export function seal(wire) {
+/* native twin — zig-out/bin/spec008_seal_wasm.wasm is the
+   wasm32-freestanding build of src/spec008_seal.zig (u256 FNV,
+   integer-only), produced by `zig build`. It is loaded once and used
+   for seal/verify when it instantiates; absence or a failed instantiate
+   falls back to the BigInt path — slower, never wrong (honest-
+   degradation contract). Bit-exactness is gated by the CLI differential
+   corpus and the embedded firmware golden vectors. */
+const _native = (() => {
+  try {
+    const inst = new WebAssembly.Instance(new WebAssembly.Module(
+      fs.readFileSync(new URL("../zig-out/bin/spec008_seal_wasm.wasm", import.meta.url))));
+    const ex = inst.exports;
+    if (typeof ex.fano_verify !== "function" || typeof ex.fano_seal !== "function" ||
+        typeof ex.fano_buf !== "function" || !ex.memory) return null;
+    const mem = new Uint8Array(ex.memory.buffer);
+    const base = ex.fano_buf();
+    const sealOf = wire => {
+      mem.set(wire.subarray(0, FANO_WIRE), base);
+      ex.fano_seal(base, base + FANO_WIRE);
+      return Buffer.from(mem.subarray(base + FANO_WIRE, base + FANO_WIRE + 32));
+    };
+    return {
+      seal: sealOf,
+      verify: wire => wire.length === FANO_WIRE &&
+        (mem.set(wire.subarray(0, FANO_WIRE), base), ex.fano_verify(base) === 1),
+    };
+  } catch { return null; }
+})();
+export const nativeSeal = _native !== null;
+
+function seal_js(wire) {
   const top = wire.readBigUInt64LE(24);
   const sx = Number((top >> 27n) & 0xfffn), sy = Number((top >> 39n) & 0xfffn),
         sz = Number((top >> 51n) & 0xfffn);
@@ -142,8 +172,13 @@ export function seal(wire) {
   for (let i = 0; i < 32; i++) out[i] = Number((h >> BigInt(8*i)) & 0xffn);
   return out;
 }
+export function seal(wire) {
+  return _native ? _native.seal(wire) : seal_js(wire);
+}
 export const verify = wire =>
-  wire.length === FANO_WIRE && seal(wire).equals(wire.subarray(104, 136));
+  wire.length === FANO_WIRE &&
+  (_native ? _native.verify(wire)
+           : seal_js(wire).equals(wire.subarray(104, 136)));
 
 export function build(sx, sy, sz, dx, dy, dz, seq, payload) {
   const wire = Buffer.alloc(FANO_WIRE);

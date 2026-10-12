@@ -188,6 +188,34 @@ pub fn build(b: *std.Build) void {
     });
     depTest(b, test_step, "src/spec008_qstar_parity.zig", target, optimize, &.{});
     depTest(b, test_step, "src/spec008_medium_lattice.zig", target, optimize, &.{});
+    depTest(b, test_step, "src/spec008_seal.zig", target, optimize, &.{});
+
+    // spec008_seal CLI — seal-hex/verify-hex/build-hex differential
+    // probing surface for the JS↔Zig twin-parity harness. The core is a
+    // separate root so it stays wasm32-freestanding-clean.
+    const seal_exe = b.addExecutable(.{
+        .name = "spec008_seal",
+        .root_source_file = b.path("src/spec008_seal_cli.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    b.installArtifact(seal_exe);
+
+    // spec008_seal.wasm — wasm32-freestanding build of the same core,
+    // consumed in-process by security/fano-mesh-bridge.mjs when present
+    // (BigInt twin remains the fallback — honest degradation).
+    const seal_wasm = b.addExecutable(.{
+        .name = "spec008_seal_wasm",
+        .root_source_file = b.path("src/spec008_seal.zig"),
+        .target = b.resolveTargetQuery(.{
+            .cpu_arch = .wasm32,
+            .os_tag = .freestanding,
+        }),
+        .optimize = .ReleaseSmall,
+    });
+    seal_wasm.entry = .disabled;
+    seal_wasm.rdynamic = true;
+    b.installArtifact(seal_wasm);
 
     // ── spec007 integer harnesses (was a serial zig-test loop in
     //    publish-check — the build graph parallelizes + caches) ───────

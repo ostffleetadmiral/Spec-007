@@ -4,10 +4,13 @@ Documentation-only audit. Crawled this tree plus `../qstar-llm` (server,
 serve step, 2026-10-11 bench sweep numbers). No code changed. Every item
 lists the mechanism, the evidence path, the fix, and the honest bound.
 
-> **Implementation status (2026-10-12, commits 572ae0a, 75649ac, c777bf1):**
-> items 1, 2, 4, and 5 IMPLEMENTED with measured deltas below; item 3
-> partially done (in-process DHT queries landed; bounded probe pool
-> still open).
+> **Implementation status (2026-10-12, commits 572ae0a, 75649ac, c777bf1,
+> a08dd87, 73dc92d, 7cbd818, af1c3d4, 8329c3e):** items 1, 2, 4, and 5
+> IMPLEMENTED; item 3 partially done (in-process DHT queries + bounded
+> probe pool inside the two dominant leaf tools landed — the 3,852-line
+> gate restructure stays open); plus the retro-dev wave: archive-verify
+> pooled hashing, cluster-census pooled probes, DHT verified-head
+> residency, and the native FANO seal twin (T4).
 
 ## Measured deltas
 
@@ -17,6 +20,35 @@ lists the mechanism, the evidence path, the fix, and the honest bound.
 | `zig build test` incl. 19 spec007 harnesses | 80.8s serial `zig test` loop | 54.6s cold / 0.2s warm-cache | 1.5× cold, ~400× warm |
 | `publish-check.sh` end-to-end | ~110s | ~19s | ~5.8× |
 | `qstar serve` A0-shaped `/v1/chat/completions` | instant SEGV / debug-build deadlock | 200 in ~13.8s, 5× concurrent all 200 | crash → stable |
+| `archive-verify.mjs` (270 sealed files) | ~80s serial sha256 | ~29s (bounded pool 8–16, I/O-bound) | ~2.7× |
+| `cluster-census.mjs` root probes | ~11.5s serial `find` | ~3.3s pooled | ~3.5× |
+| DHT `recordQuery` ×20 w/ verified-head LRU | 191.7ms | 40 gets 23.5ms / 40 resident 20.8ms | ~1.1× (audit-append floor; integrity preserved — mutation probe refuses tampered) |
+| FANO `seal`/`verify` hot path | 34.3µs / 24.7µs (BigInt) | ~6µs / ~4.3µs wasm-dispatched; ~675ns / ~639ns raw Zig | ~5.7× in-process, ~50× native |
+
+## T4 — native FANO seal twin (retro-dev wave)
+
+`src/spec008_seal.zig` — integer-only u256 FNV-1a seal/verify, byte-exact
+twin of `security/fano-mesh-bridge.mjs` and `security/fano_dialect.py`.
+Wired into `build.zig` three ways: depTest (6 tests), native CLI
+(`zig-out/bin/spec008_seal` — seal-hex/verify-hex/build-hex for
+differential probing), and wasm32-freestanding
+(`zig-out/bin/spec008_seal_wasm.wasm`, 2.2KB). The bridge loads the wasm
+once and dispatches `seal`/`verify` in-process (~5.7×); absent artifact
+or failed instantiate falls back to the BigInt twin — slower, never
+wrong (`nativeSeal` export reports the active lane).
+
+Parity corpus: 3/3 firmware golden vectors bit-exact · 170/170
+valid-wire JS↔Zig · 43/43 Python↔Zig · 2,720/2,720 byte-flip wasm↔CLI ·
+350/350 hostile-coord JS↔Zig · capstone-audit 25/25 · M-01–M-07 green
+through the native path.
+
+**Bug the gate caught:** the first port cast cell-word coords to u8 and
+walked with wraparound — a wire whose 12-bit coord fields read 4095
+overflowed `hops_buf[64]` → stack smash → nondeterministic verify
+corruption (capstone B1b found it via the per-byte sweep). Fixed with
+u32 coords + in-stream signature/phase fold (no hops array — unbounded
+walks bounded only by |Δ|≤12286), and the hostile wire is embedded as a
+test vector so the class can't regress silently.
 
 ---
 
