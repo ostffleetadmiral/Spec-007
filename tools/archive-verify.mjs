@@ -46,7 +46,30 @@ const sha256 = (abs) => new Promise((resolve, reject) => {
     .on("error", reject);
 });
 
-const results = []; // { name, form, status, detail }
+/* bounded async pool — SPEED-AUDIT item 3/T6. Hashing is the sweep's
+   dominant serial cost (~80s over ~270 files); jobs run ~POOL-wide, and
+   results land in submission order so verdicts stay deterministic.
+   Concurrency bounds open FDs/streams, never correctness. */
+const POOL = 16;
+async function pool(items, fn) {
+  const out = new Array(items.length);
+  let next = 0;
+  const workers = Array.from({ length: Math.min(POOL, items.length) },
+    async () => {
+      while (next < items.length) {
+        const i = next++;
+        out[i] = await fn(items[i], i);
+      }
+    });
+  await Promise.all(workers);
+  return out;
+}
+
+/* two passes: collect every hash job first (manifest parse is cheap
+   sync work), run them through one shared pool, then assemble results
+   in the original top-level order — verdict bytes identical. */
+const jobs = [];   // { abs } → hashed once, referenced by per-entry job lists
+const pending = []; // per top-level entry: null (no hashing) or { kind, ... }
 const top = fs.existsSync(ARCHIVES) ? fs.readdirSync(ARCHIVES).sort() : [];
 
 for (const name of top) {
@@ -55,65 +78,86 @@ for (const name of top) {
 
   if (st.isDirectory()) {
     const sums = path.join(abs, "SHA256SUMS");
-    if (name === "extracted") { /* scratch dir — recorded, not sealed */
-      results.push({ name, form: "dir", status: "unsealed", detail: "scratch dir" });
-      continue;
-    }
-    if (!fs.existsSync(sums)) {
-      results.push({ name, form: "dir", status: "unsealed", detail: "no SHA256SUMS" });
-      continue;
-    }
+    if (name === "extracted") { pending.push({ kind: "scratch", name }); continue; }
+    if (!fs.existsSync(sums)) { pending.push({ kind: "nosums", name }); continue; }
     const lines = fs.readFileSync(sums, "utf8").split("\n").filter(Boolean);
-    let broken = [], missing = [], ok = 0;
-    const listed = new Set();
+    const entry = { kind: "dir", name, abs, broken: [], missing: [], listed: new Set(), jobIdx: [] };
     for (const line of lines) {
       const m = line.match(/^([0-9a-f]{64})\s+(.+)$/);
-      if (!m) { broken.push(`<malformed:${line.slice(0, 24)}>`); continue; }
+      if (!m) { entry.broken.push(`<malformed:${line.slice(0, 24)}>`); continue; }
       const [, want, rel] = m;
-      listed.add(rel);
+      entry.listed.add(rel);
       /* a manifest cannot seal itself — the SHA256SUMS self-pin line is
          recorded, never counted as broken */
       if (rel === "SHA256SUMS") continue;
       const fp = path.join(abs, rel);
-      if (!fs.existsSync(fp)) { missing.push(rel); continue; }
-      if (await sha256(fp) === want) ok++;
-      else broken.push(rel);
+      if (!fs.existsSync(fp)) { entry.missing.push(rel); continue; }
+      entry.jobIdx.push({ i: jobs.length, want, rel });
+      jobs.push(fp);
     }
-    /* files present but not in the manifest → unsealed additions.
-       Only FILES count — directories are traversal structure (the
-       manifest lists nested paths like `src/foo`), and GITHEAD is the
-       post-seal commit stamp, not sealable content */
-    const present = fs.readdirSync(abs, { withFileTypes: true })
-      .filter(e => e.isFile() && e.name !== "SHA256SUMS" && e.name !== "GITHEAD")
-      .map(e => e.name);
-    const extra = present.filter(f => ![...listed].some(l => l === f || l.startsWith(f + "/")));
-    const status = broken.length || missing.length ? "broken"
-      : extra.length ? "unsealed-additions" : "sealed";
-    results.push({ name, form: "dir+SHA256SUMS", status,
-      detail: `${ok} files verified` +
-        (broken.length ? `, BROKEN: ${broken.join(",")}` : "") +
-        (missing.length ? `, MISSING: ${missing.join(",")}` : "") +
-        (extra.length ? `, unsealed: ${extra.join(",")}` : "") });
+    pending.push(entry);
     continue;
   }
 
-  /* files: tarball + sidecar, or strays */
-  if (name.endsWith(".sha256")) continue; // handled with its tarball
+  if (name.endsWith(".sha256")) { pending.push({ kind: "skip", name }); continue; }
   if (name.endsWith(".tar.gz")) {
     const sidecar = abs + ".sha256";
-    if (!fs.existsSync(sidecar)) {
-      results.push({ name, form: "tarball", status: "unsealed", detail: "no .sha256 sidecar" });
-      continue;
-    }
+    if (!fs.existsSync(sidecar)) { pending.push({ kind: "nosidecar", name }); continue; }
     const want = fs.readFileSync(sidecar, "utf8").match(/^([0-9a-f]{64})/)?.[1];
-    const got = await sha256(abs);
-    results.push({ name, form: "tarball+sidecar",
-      status: want === got ? "sealed" : "broken",
-      detail: want === got ? "hash verified" : `hash mismatch want=${want?.slice(0,12)}… got=${got.slice(0,12)}…` });
+    pending.push({ kind: "tarball", name, abs, want, jobIdx: jobs.length });
+    jobs.push(abs);
     continue;
   }
-  /* strays: NOTE files, loose artifacts — recorded */
-  results.push({ name, form: "file", status: "stray", detail: `${st.size}B` });
+  pending.push({ kind: "stray", name, size: st.size });
+}
+
+const hashes = await pool(jobs, sha256);
+
+const results = []; // { name, form, status, detail }
+for (const e of pending) {
+  switch (e.kind) {
+    case "scratch":
+      results.push({ name: e.name, form: "dir", status: "unsealed", detail: "scratch dir" });
+      break;
+    case "nosums":
+      results.push({ name: e.name, form: "dir", status: "unsealed", detail: "no SHA256SUMS" });
+      break;
+    case "dir": {
+      const { broken, missing } = e;
+      let ok = 0;
+      for (const j of e.jobIdx) (hashes[j.i] === j.want) ? ok++ : broken.push(j.rel);
+      /* files present but not in the manifest → unsealed additions.
+         Only FILES count — directories are traversal structure (the
+         manifest lists nested paths like `src/foo`), and GITHEAD is the
+         post-seal commit stamp, not sealable content */
+      const present = fs.readdirSync(e.abs, { withFileTypes: true })
+        .filter(x => x.isFile() && x.name !== "SHA256SUMS" && x.name !== "GITHEAD")
+        .map(x => x.name);
+      const extra = present.filter(f => ![...e.listed].some(l => l === f || l.startsWith(f + "/")));
+      const status = broken.length || missing.length ? "broken"
+        : extra.length ? "unsealed-additions" : "sealed";
+      results.push({ name: e.name, form: "dir+SHA256SUMS", status,
+        detail: `${ok} files verified` +
+          (broken.length ? `, BROKEN: ${broken.join(",")}` : "") +
+          (missing.length ? `, MISSING: ${missing.join(",")}` : "") +
+          (extra.length ? `, unsealed: ${extra.join(",")}` : "") });
+      break;
+    }
+    case "skip": break; // .sha256 sidecars — handled with their tarball
+    case "nosidecar":
+      results.push({ name: e.name, form: "tarball", status: "unsealed", detail: "no .sha256 sidecar" });
+      break;
+    case "tarball": {
+      const got = hashes[e.jobIdx];
+      results.push({ name: e.name, form: "tarball+sidecar",
+        status: e.want === got ? "sealed" : "broken",
+        detail: e.want === got ? "hash verified" : `hash mismatch want=${e.want?.slice(0,12)}… got=${got.slice(0,12)}…` });
+      break;
+    }
+    case "stray":
+      results.push({ name: e.name, form: "file", status: "stray", detail: `${e.size}B` });
+      break;
+  }
 }
 
 const sealed = results.filter(r => r.status === "sealed").length;
