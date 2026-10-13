@@ -237,6 +237,56 @@ pub fn build(b: *std.Build) void {
     seal_wasm.rdynamic = true;
     b.installArtifact(seal_wasm);
 
+    // ── Digit model-session donor (read-only source, native Spec-007 build) ─
+    const digit_fixed = depMod(b, "deps/digit/src/fixed_point.zig", target, optimize);
+    const digit_brain = depMod(b, "deps/digit/src/brain_contracts.zig", target, optimize);
+    digit_brain.addImport("fixed_point", digit_fixed);
+    const digit_onnx_graph = depMod(b, "deps/digit/src/onnx_graph.zig", target, optimize);
+    const digit_shape = depMod(b, "deps/digit/src/shape_ops.zig", target, optimize);
+    digit_shape.addImport("fixed_point", digit_fixed);
+    const digit_skip = depMod(b, "deps/digit/src/skip_layer_norm.zig", target, optimize);
+    digit_skip.addImport("fixed_point", digit_fixed);
+    const digit_worker = depMod(b, "deps/digit/src/worker_pool.zig", target, optimize);
+    const digit_tensor_ops = depMod(b, "deps/digit/src/tensor_ops.zig", target, optimize);
+    digit_tensor_ops.addImport("fixed_point", digit_fixed);
+    const digit_causal = depMod(b, "deps/digit/src/causal_conv.zig", target, optimize);
+    digit_causal.addImport("fixed_point", digit_fixed);
+    digit_causal.addImport("tensor_ops", digit_tensor_ops);
+    const digit_linear = depMod(b, "deps/digit/src/linear_attention.zig", target, optimize);
+    digit_linear.addImport("fixed_point", digit_fixed);
+    digit_linear.addImport("tensor_ops", digit_tensor_ops);
+    digit_linear.addImport("worker_pool", digit_worker);
+    const digit_graph = depMod(b, "deps/digit/src/graph_exec.zig", target, optimize);
+    digit_graph.addImport("fixed_point", digit_fixed);
+    digit_graph.addImport("tensor_ops", digit_tensor_ops);
+    digit_graph.addImport("shape_ops", digit_shape);
+    digit_graph.addImport("skip_layer_norm", digit_skip);
+    digit_graph.addImport("causal_conv", digit_causal);
+    digit_graph.addImport("linear_attention", digit_linear);
+    digit_graph.addImport("worker_pool", digit_worker);
+    digit_graph.addImport("onnx_graph", digit_onnx_graph);
+    const digit_package = depMod(b, "deps/digit/src/model_package.zig", target, optimize);
+    digit_package.addImport("onnx_graph", digit_onnx_graph);
+    const digit_upload = depMod(b, "deps/digit/src/tensor_upload.zig", target, optimize);
+    digit_upload.addImport("fixed_point", digit_fixed);
+    digit_upload.addImport("graph_exec", digit_graph);
+    const digit_bridge = depMod(b, "deps/digit/src/onnx_fixed_bridge.zig", target, optimize);
+    digit_bridge.addImport("fixed_point", digit_fixed);
+    const digit_session = depMod(b, "deps/digit/src/model_session.zig", target, optimize);
+    digit_session.addImport("fixed_point", digit_fixed);
+    digit_session.addImport("graph_exec", digit_graph);
+    digit_session.addImport("onnx_graph", digit_onnx_graph);
+    digit_session.addImport("model_package", digit_package);
+    digit_session.addImport("tensor_upload", digit_upload);
+    digit_session.addImport("brain_contracts", digit_brain);
+    digit_session.addImport("onnx_fixed_bridge", digit_bridge);
+    depTest(b, test_step, "deps/digit/src/model_session.zig", target, optimize, &.{
+        imp("fixed_point", digit_fixed),        imp("graph_exec", digit_graph),
+        imp("onnx_graph", digit_onnx_graph),    imp("model_package", digit_package),
+        imp("tensor_upload", digit_upload),     imp("brain_contracts", digit_brain),
+        imp("onnx_fixed_bridge", digit_bridge),
+    });
+
     // ── Native AIWO graft ──────────────────────────────────────────────
     // Policy, officer state, directive, heartbeat, and receipt adapters are
     // native Spec-007 modules. External AIWO services remain compatibility
@@ -258,7 +308,13 @@ pub fn build(b: *std.Build) void {
     const aiwo_cognitive = depMod(b, "src/aiwo_cognitive.zig", target, optimize);
     const aiwo_model_observation = depMod(b, "src/aiwo_model_observation.zig", target, optimize);
     aiwo_model_observation.addImport("aiwo_cognitive", aiwo_cognitive);
+    const aiwo_digit_bridge = depMod(b, "src/aiwo_digit_bridge.zig", target, optimize);
+    aiwo_digit_bridge.addImport("aiwo_cognitive", aiwo_cognitive);
+    aiwo_digit_bridge.addImport("digit_brain", digit_brain);
+    aiwo_digit_bridge.addImport("fixed_point", digit_fixed);
     const aiwo_runtime = depMod(b, "src/aiwo_runtime.zig", target, optimize);
+    aiwo_runtime.addImport("aiwo_digit_bridge", aiwo_digit_bridge);
+    aiwo_runtime.addImport("digit_brain", digit_brain);
     aiwo_runtime.addImport("aiwo_cognitive", aiwo_cognitive);
     aiwo_runtime.addImport("aiwo_types", aiwo_types);
     aiwo_runtime.addImport("aiwo_policy", aiwo_policy);
@@ -280,9 +336,14 @@ pub fn build(b: *std.Build) void {
     depTest(b, test_step, "src/aiwo_dht.zig", target, optimize, &.{imp("dht_native", n_dht)});
     depTest(b, test_step, "src/aiwo_cognitive.zig", target, optimize, &.{});
     depTest(b, test_step, "src/aiwo_model_observation.zig", target, optimize, &.{imp("aiwo_cognitive", aiwo_cognitive)});
+    depTest(b, test_step, "src/aiwo_digit_bridge.zig", target, optimize, &.{
+        imp("aiwo_cognitive", aiwo_cognitive), imp("digit_brain", digit_brain), imp("fixed_point", digit_fixed),
+    });
     depTest(b, test_step, "src/aiwo_runtime.zig", target, optimize, &.{
-        imp("aiwo_cognitive", aiwo_cognitive), imp("aiwo_types", aiwo_types),         imp("aiwo_policy", aiwo_policy),
-        imp("aiwo_state", aiwo_state),         imp("aiwo_directive", aiwo_directive), imp("aiwo_fano", aiwo_fano),
+        imp("aiwo_digit_bridge", aiwo_digit_bridge), imp("digit_brain", digit_brain),
+        imp("aiwo_cognitive", aiwo_cognitive),       imp("aiwo_types", aiwo_types),
+        imp("aiwo_policy", aiwo_policy),             imp("aiwo_state", aiwo_state),
+        imp("aiwo_directive", aiwo_directive),       imp("aiwo_fano", aiwo_fano),
     });
     depTest(b, test_step, "src/aiwo_heartbeat.zig", target, optimize, &.{
         imp("aiwo_types", aiwo_types), imp("aiwo_runtime", aiwo_runtime),

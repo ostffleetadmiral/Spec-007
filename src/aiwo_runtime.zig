@@ -6,6 +6,8 @@ const state_mod = @import("aiwo_state");
 const directive = @import("aiwo_directive");
 const fano = @import("aiwo_fano");
 const cognitive = @import("aiwo_cognitive");
+const digit_bridge = @import("aiwo_digit_bridge");
+const digit_brain = @import("digit_brain");
 
 pub const Runtime = struct {
     allocator: std.mem.Allocator,
@@ -53,6 +55,10 @@ pub const Runtime = struct {
         const wire = fano.heartbeat(self.cell, @intCast(self.state.sequence), self.officer.name, digest);
         if (!fano.verify(&wire)) return error.SealFailure;
         return .{ .decision = result.decision.decision, .commit = commit, .wire = wire, .sequence = self.state.sequence };
+    }
+
+    pub fn runDigitObservedCycle(self: *Runtime, observation: digit_brain.ModelObservation, action: t.Action) !struct { decision: t.Decision, commit: cognitive.Commit, wire: [fano.Wire]u8, sequence: u64 } {
+        return self.runObservedCycle(digit_bridge.adapt(observation), action);
     }
 
     pub fn save(self: *Runtime, path: []const u8) !void {

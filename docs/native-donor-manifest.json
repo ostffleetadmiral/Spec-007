@@ -15,7 +15,8 @@
         "src/e6_correction.zig": "b4994ea027086b1619739659160d1092c93ffbb65849e1753cab3333ccf7e1a9",
         "src/model_session.zig": "f1f3b0058cc54dc0df1a44a1786cd57029b963288de26f2e5197d03b45048d67",
         "src/reversible.zig": "9e231836b8dfa8eb9b9b3ce1ca61735388478a6d51919d2ff50cd091edd8d803",
-        "parity_checkpoint_report.json": "9ce3f8de603fe646f415a561a62525d7648239cb98cedf31b664c98846f5a55b"
+        "parity_checkpoint_report.json": "9ce3f8de603fe646f415a561a62525d7648239cb98cedf31b664c98846f5a55b",
+        "decoder_q4.dgqp": "b6bcd6b784fd10f3b79fe23585ef7cae6385ce8b057140e85632a815c9c985ac"
       }
     },
     {
