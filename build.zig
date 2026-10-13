@@ -255,7 +255,9 @@ pub fn build(b: *std.Build) void {
     aiwo_fano.addImport("spec008_seal", s_seal);
     const aiwo_dht = depMod(b, "src/aiwo_dht.zig", target, optimize);
     aiwo_dht.addImport("dht_native", n_dht);
+    const aiwo_cognitive = depMod(b, "src/aiwo_cognitive.zig", target, optimize);
     const aiwo_runtime = depMod(b, "src/aiwo_runtime.zig", target, optimize);
+    aiwo_runtime.addImport("aiwo_cognitive", aiwo_cognitive);
     aiwo_runtime.addImport("aiwo_types", aiwo_types);
     aiwo_runtime.addImport("aiwo_policy", aiwo_policy);
     aiwo_runtime.addImport("aiwo_state", aiwo_state);
@@ -274,10 +276,10 @@ pub fn build(b: *std.Build) void {
     });
     depTest(b, test_step, "src/aiwo_fano.zig", target, optimize, &.{imp("spec008_seal", s_seal)});
     depTest(b, test_step, "src/aiwo_dht.zig", target, optimize, &.{imp("dht_native", n_dht)});
+    depTest(b, test_step, "src/aiwo_cognitive.zig", target, optimize, &.{});
     depTest(b, test_step, "src/aiwo_runtime.zig", target, optimize, &.{
-        imp("aiwo_types", aiwo_types), imp("aiwo_policy", aiwo_policy),
-        imp("aiwo_state", aiwo_state), imp("aiwo_directive", aiwo_directive),
-        imp("aiwo_fano", aiwo_fano),
+        imp("aiwo_cognitive", aiwo_cognitive), imp("aiwo_types", aiwo_types),         imp("aiwo_policy", aiwo_policy),
+        imp("aiwo_state", aiwo_state),         imp("aiwo_directive", aiwo_directive), imp("aiwo_fano", aiwo_fano),
     });
     depTest(b, test_step, "src/aiwo_heartbeat.zig", target, optimize, &.{
         imp("aiwo_types", aiwo_types), imp("aiwo_runtime", aiwo_runtime),

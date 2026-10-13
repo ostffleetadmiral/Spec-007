@@ -2403,8 +2403,8 @@
   var TERM_ZH = {
     "run 'about' instead — it has a window": "改執行 'about' — 它有視窗",
     "sysinfo windowed.": "系統資訊已視窗化。",
-    "zig: 314 test blocks across 36 modules … GREEN\ntotal: 314 verified operations":
-      "zig: 314 項測試區塊橫跨 36 模組 … GREEN\n合計: 314 項已驗證操作",
+    "zig: 316 test blocks across 37 modules … GREEN\ntotal: 316 verified operations":
+      "zig: 316 項測試區塊橫跨 37 模組 … GREEN\n合計: 316 項已驗證操作",
     "export-desk: unlock first — the desk signs its own transfer": "export-desk:先解鎖 — 桌面親簽自身之轉移",
     "import-desk: needs a desk token": "import-desk:需要一枚桌面權杖",
     "import-desk: this desk is already founded — burn first": "import-desk:此桌已創始 — 先焚毀",
@@ -2519,7 +2519,7 @@
         return "cat: " + arg + ": try covenant";
       case "about": openAbout(); return "sysinfo windowed.";
       case "sha": return "bcb81b78ebeab9e3762a806788a0c4c1bd3bbd1e8a7b9339030037efab6367b4\nspec-007.md — UNCHANGED. the baseline holds.";
-      case "tests": return "zig: 314 test blocks across 36 modules … GREEN\ntotal: 314 verified operations";
+      case "tests": return "zig: 316 test blocks across 37 modules … GREEN\ntotal: 316 verified operations";
       case "xp":
         return t("fm.clearance") + " L" + clearance() + " (" + state.xp + "xp)" +
           "\n" + t("fm.achievements") + ": " + state.achievements.length + "/" + ACHIEVEMENTS.length +
