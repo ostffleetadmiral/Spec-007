@@ -33,6 +33,11 @@ check("scale-7-admission-refusal", rejected.chunk_count === 262144 && !rejected.
 check("scale-7-admission", admitted.chunk_count === 512 && admitted.admitted, `${admitted.chunk_count} chunks admitted`);
 const executed = JSON.parse(execFileSync(BIN, ["run", "--scale", "7", "--chunk-size", "4096", "--max-chunks", "1024", "--execute-chunks"], { encoding: "utf8" }));
 check("scale-7-chunk-execution", executed.executed_chunks === 512 && executed.receipt_fold !== "0", `${executed.executed_chunks} chunks executed`);
+const checkpoint = "/tmp/spec007-aiwo-native-parity.chk";
+const first = JSON.parse(execFileSync(BIN, ["run", "--scale", "7", "--chunk-size", "4096", "--max-chunks", "1024", "--execute-chunks", "--checkpoint", checkpoint], { encoding: "utf8" }));
+const resumed = JSON.parse(execFileSync(BIN, ["run", "--scale", "7", "--chunk-size", "4096", "--max-chunks", "1024", "--execute-chunks", "--checkpoint", checkpoint, "--resume"], { encoding: "utf8" }));
+try { fs.unlinkSync(checkpoint); } catch {}
+check("scale-7-checkpoint-resume", first.executed_chunks === 512 && resumed.resumed_from === 512 && resumed.receipt_fold === first.receipt_fold, `resume=${resumed.resumed_from}`);
 
 const failed = checks.filter(c => !c.ok).length;
 console.log(`AIWO native parity: ${checks.length - failed}/${checks.length} held`);

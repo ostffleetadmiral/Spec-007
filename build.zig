@@ -311,6 +311,7 @@ pub fn build(b: *std.Build) void {
     const aiwo_dht = depMod(b, "src/aiwo_dht.zig", target, optimize);
     aiwo_dht.addImport("dht_native", n_dht);
     const aiwo_cognitive = depMod(b, "src/aiwo_cognitive.zig", target, optimize);
+    const aiwo_chunk_checkpoint = depMod(b, "src/aiwo_chunk_checkpoint.zig", target, optimize);
     const aiwo_model_observation = depMod(b, "src/aiwo_model_observation.zig", target, optimize);
     aiwo_model_observation.addImport("aiwo_cognitive", aiwo_cognitive);
     const aiwo_digit_bridge = depMod(b, "src/aiwo_digit_bridge.zig", target, optimize);
@@ -340,6 +341,7 @@ pub fn build(b: *std.Build) void {
     depTest(b, test_step, "src/aiwo_fano.zig", target, optimize, &.{imp("spec008_seal", s_seal)});
     depTest(b, test_step, "src/aiwo_dht.zig", target, optimize, &.{imp("dht_native", n_dht)});
     depTest(b, test_step, "src/aiwo_cognitive.zig", target, optimize, &.{});
+    depTest(b, test_step, "src/aiwo_chunk_checkpoint.zig", target, optimize, &.{});
     depTest(b, test_step, "src/aiwo_model_observation.zig", target, optimize, &.{imp("aiwo_cognitive", aiwo_cognitive)});
     depTest(b, test_step, "src/aiwo_digit_bridge.zig", target, optimize, &.{
         imp("aiwo_cognitive", aiwo_cognitive), imp("digit_brain", digit_brain), imp("fixed_point", digit_fixed),
@@ -374,6 +376,7 @@ pub fn build(b: *std.Build) void {
     });
     aiwo_cli.root_module.addImport("aiwo_types", aiwo_types);
     aiwo_cli.root_module.addImport("aiwo_cognitive", aiwo_cognitive);
+    aiwo_cli.root_module.addImport("aiwo_chunk_checkpoint", aiwo_chunk_checkpoint);
     aiwo_cli.root_module.addImport("aiwo_runtime", aiwo_runtime);
     b.installArtifact(aiwo_cli);
 
