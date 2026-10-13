@@ -373,6 +373,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     aiwo_cli.root_module.addImport("aiwo_types", aiwo_types);
+    aiwo_cli.root_module.addImport("aiwo_cognitive", aiwo_cognitive);
     aiwo_cli.root_module.addImport("aiwo_runtime", aiwo_runtime);
     b.installArtifact(aiwo_cli);
 

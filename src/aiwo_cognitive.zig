@@ -24,6 +24,21 @@ pub const ScalePolicy = struct {
     }
 };
 
+pub const ChunkPlan = struct {
+    scale: u8,
+    theoretical_paths: usize,
+    chunk_size: usize,
+    chunk_count: usize,
+    max_chunks: usize,
+    admitted: bool,
+
+    pub fn forPolicy(policy: ScalePolicy, chunk_size: usize, max_chunks: usize) !ChunkPlan {
+        if (chunk_size == 0 or max_chunks == 0) return error.InvalidChunkBudget;
+        const chunks = (policy.max_total_paths + chunk_size - 1) / chunk_size;
+        return .{ .scale = policy.scale, .theoretical_paths = policy.max_total_paths, .chunk_size = chunk_size, .chunk_count = chunks, .max_chunks = max_chunks, .admitted = chunks <= max_chunks };
+    }
+};
+
 pub const Observation = struct {
     trajectory: u64,
     step: u64,
@@ -103,6 +118,16 @@ test "Digit-shaped scale policy has bounded E7 branch counts" {
     try std.testing.expectEqual(@as(usize, 2097152), scale7.max_total_paths);
     try std.testing.expect(!scale7.fully_enumerable);
     try std.testing.expectEqual(@as(usize, 8), scale7.boundedPrimaryPaths(8));
+}
+
+test "scale seven chunk plan refuses an undersized admission budget" {
+    const policy = try ScalePolicy.forScale(7);
+    const plan = try ChunkPlan.forPolicy(policy, 8, 1024);
+    try std.testing.expectEqual(@as(usize, 262144), plan.chunk_count);
+    try std.testing.expect(!plan.admitted);
+    const admitted = try ChunkPlan.forPolicy(policy, 4096, 1024);
+    try std.testing.expectEqual(@as(usize, 512), admitted.chunk_count);
+    try std.testing.expect(admitted.admitted);
 }
 
 test "E5 observation and E6 reflection are deterministic" {

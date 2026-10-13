@@ -27,6 +27,10 @@ for (let scale = 0; scale <= 7; scale++) {
   const result = JSON.parse(execFileSync(BIN, ["run", "--scale", String(scale)], { encoding: "utf8" }));
   check(`scale-${scale}`, result.scale === scale && result.theoretical_paths === theoretical[scale] && result.wire_bytes === 136, `${result.theoretical_paths} paths, enumerable=${result.fully_enumerable}`);
 }
+const rejected = JSON.parse(execFileSync(BIN, ["run", "--scale", "7", "--chunk-size", "8", "--max-chunks", "1024"], { encoding: "utf8" }));
+const admitted = JSON.parse(execFileSync(BIN, ["run", "--scale", "7", "--chunk-size", "4096", "--max-chunks", "1024"], { encoding: "utf8" }));
+check("scale-7-admission-refusal", rejected.chunk_count === 262144 && !rejected.admitted, `${rejected.chunk_count} chunks refused`);
+check("scale-7-admission", admitted.chunk_count === 512 && admitted.admitted, `${admitted.chunk_count} chunks admitted`);
 
 const failed = checks.filter(c => !c.ok).length;
 console.log(`AIWO native parity: ${checks.length - failed}/${checks.length} held`);
