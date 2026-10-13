@@ -39,6 +39,37 @@ pub const ChunkPlan = struct {
     }
 };
 
+pub const Chunk = struct {
+    index: usize,
+    start_path: usize,
+    end_path: usize,
+    path_count: usize,
+    receipt_fold: u256,
+};
+
+pub const ChunkCursor = struct {
+    plan: ChunkPlan,
+    next_index: usize = 0,
+    receipt_fold: u256 = 0,
+
+    pub fn init(policy: ScalePolicy, chunk_size: usize, max_chunks: usize) !ChunkCursor {
+        const plan = try ChunkPlan.forPolicy(policy, chunk_size, max_chunks);
+        if (!plan.admitted) return error.ChunkPlanRefused;
+        return .{ .plan = plan };
+    }
+
+    pub fn next(self: *ChunkCursor) ?Chunk {
+        if (self.next_index >= self.plan.chunk_count) return null;
+        const start = self.next_index * self.plan.chunk_size;
+        const end = @min(start + self.plan.chunk_size, self.plan.theoretical_paths);
+        const count = end - start;
+        self.receipt_fold = (self.receipt_fold +% @as(u256, @intCast(start)) +% count) *% 0x9e3779b97f4a7c15;
+        const chunk = Chunk{ .index = self.next_index, .start_path = start, .end_path = end, .path_count = count, .receipt_fold = self.receipt_fold };
+        self.next_index += 1;
+        return chunk;
+    }
+};
+
 pub const Observation = struct {
     trajectory: u64,
     step: u64,
@@ -128,6 +159,21 @@ test "scale seven chunk plan refuses an undersized admission budget" {
     const admitted = try ChunkPlan.forPolicy(policy, 4096, 1024);
     try std.testing.expectEqual(@as(usize, 512), admitted.chunk_count);
     try std.testing.expect(admitted.admitted);
+}
+
+test "admitted scale seven plan emits deterministic chunk receipts" {
+    const policy = try ScalePolicy.forScale(7);
+    var cursor = try ChunkCursor.init(policy, 4096, 1024);
+    var count: usize = 0;
+    var last_fold: u256 = 0;
+    while (cursor.next()) |chunk| {
+        count += 1;
+        last_fold = chunk.receipt_fold;
+        try std.testing.expect(chunk.path_count > 0);
+    }
+    try std.testing.expectEqual(@as(usize, 512), count);
+    try std.testing.expectEqual(last_fold, cursor.receipt_fold);
+    try std.testing.expect(cursor.next() == null);
 }
 
 test "E5 observation and E6 reflection are deterministic" {

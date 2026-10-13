@@ -19,15 +19,26 @@ pub fn main() !void {
     var scale: u8 = 1;
     var chunk_size: usize = 8;
     var max_chunks: usize = 1024;
+    var execute_chunks = false;
     while (args.next()) |arg| {
         if (std.mem.eql(u8, arg, "--scale")) scale = try std.fmt.parseInt(u8, args.next() orelse return error.MissingScale, 10);
         if (std.mem.eql(u8, arg, "--chunk-size")) chunk_size = try std.fmt.parseInt(usize, args.next() orelse return error.MissingChunkSize, 10);
         if (std.mem.eql(u8, arg, "--max-chunks")) max_chunks = try std.fmt.parseInt(usize, args.next() orelse return error.MissingMaxChunks, 10);
+        if (std.mem.eql(u8, arg, "--execute-chunks")) execute_chunks = true;
     }
     var h = try runtime_mod.Runtime.initWithScale(alloc, "digit", .wo3, 6, "core_integrity", "aiwo", .{ 1, 2, 3 }, scale);
     h.activate();
     const result = try h.runCycle(.{ .name = "patrol-observation" });
     const p = h.cognitive_engine.policy;
     const plan = try cognitive.ChunkPlan.forPolicy(p, chunk_size, max_chunks);
-    try std.io.getStdOut().writer().print("{{\"schema\":\"{s}\",\"decision\":\"{s}\",\"sequence\":{d},\"wire_bytes\":{d},\"scale\":{d},\"theoretical_paths\":{d},\"fully_enumerable\":{},\"chunk_size\":{d},\"chunk_count\":{d},\"max_chunks\":{d},\"admitted\":{}}}\n", .{ t.Schema, @tagName(result.decision), result.sequence, result.wire.len, p.scale, p.max_total_paths, p.fully_enumerable, plan.chunk_size, plan.chunk_count, plan.max_chunks, plan.admitted });
+    var executed_chunks: usize = 0;
+    var receipt_fold: u256 = 0;
+    if (execute_chunks) {
+        var cursor = try cognitive.ChunkCursor.init(p, chunk_size, max_chunks);
+        while (cursor.next()) |chunk| {
+            executed_chunks += 1;
+            receipt_fold = chunk.receipt_fold;
+        }
+    }
+    try std.io.getStdOut().writer().print("{{\"schema\":\"{s}\",\"decision\":\"{s}\",\"sequence\":{d},\"wire_bytes\":{d},\"scale\":{d},\"theoretical_paths\":{d},\"fully_enumerable\":{},\"chunk_size\":{d},\"chunk_count\":{d},\"max_chunks\":{d},\"admitted\":{},\"execute_chunks\":{},\"executed_chunks\":{d},\"receipt_fold\":\"{x}\"}}\n", .{ t.Schema, @tagName(result.decision), result.sequence, result.wire.len, p.scale, p.max_total_paths, p.fully_enumerable, plan.chunk_size, plan.chunk_count, plan.max_chunks, plan.admitted, execute_chunks, executed_chunks, receipt_fold });
 }
