@@ -2,8 +2,8 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55578,
-  "zh_lessons": 452,
+  "lessons_reviewed": 55582,
+  "zh_lessons": 453,
   "defects": [],
   "courses": [
     {
@@ -188,8 +188,8 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10812,
-      "zh_lessons": 188,
+      "lessons": 10816,
+      "zh_lessons": 189,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 935,
@@ -201,7 +201,7 @@
         "project-nomad:205"
       ],
       "top_topics": [
-        "reference:10812"
+        "reference:10816"
       ],
       "defects": 0,
       "verdict": "HELD"

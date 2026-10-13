@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-13T18:38:23.153Z",
+    "ts": "2026-10-13T20:39:56.160Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 17,
     "runtimes": {
@@ -9,6 +9,8 @@
         "kind": "native-aiwo",
         "path": "src/aiwo_runtime.zig",
         "evidence": "verified-here",
+        "primary": true,
+        "retirement": "native-primary",
         "note": "Spec-007 native policy-gated officer runtime; model output is advisory and irreversible actions require human approval"
       },
       "gov-bridge": {
@@ -22,6 +24,8 @@
         "endpoint": "http://127.0.0.1:11434",
         "provider_id": "local",
         "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
         "note": "reachable only through gov-bridge"
       },
       "ollama-qstar": {
@@ -29,12 +33,16 @@
         "endpoint": "http://127.0.0.1:11435",
         "provider_id": "qstar",
         "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
         "note": "stock Ollama sibling (qwen2.5:3b + nomic-embed) — digit-a0 chat/embed lane; schema-constrained decoding lives here"
       },
       "qstar-native": {
         "kind": "llm-upstream",
         "endpoint": "http://127.0.0.1:11436",
         "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
         "note": "lattice-native qstar serve — /api/* + /v1/* surfaces measured live; util-lane candidate (no json_schema, no nomic embeds)"
       },
       "ollama-remote": {
@@ -42,24 +50,32 @@
         "endpoint": "http://192.168.12.210:11434",
         "provider_id": "remote",
         "evidence": "doc-cited",
-        "note": "firingline host — reachability measured by the bridge, not promised here"
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "firingline host — compatibility fallback; reachability measured by the bridge, not promised here"
       },
       "k3serve": {
         "kind": "llm-upstream",
         "endpoint": "http://127.0.0.1:8080",
         "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
         "note": "zig-k3-port OpenAI+Ollama surface — integer-exact engine; --sched-emit receipts fold into the Continuity DHT; --fast documented non-exact"
       },
       "space-agent": {
         "kind": "desk-organ",
         "endpoint": "http://127.0.0.1:3000",
         "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
         "note": "spaces.os iframe boundary — donor's dynamic-eval engine stays inside its own origin; desk side is eval-free"
       },
       "agent-zero": {
         "kind": "monitored-agent",
         "endpoint": "http://127.0.0.1:50080",
         "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
         "note": "sheraton-a0 + digit-a0 lanes under host custody — Art. V.3 monitored assets; agentzero-watch gates + folds every action"
       },
       "spec007.wasm": {
@@ -96,7 +112,7 @@
       "academy-manifest": {
         "kind": "registry",
         "path": "site/assets/academy-manifest.json",
-        "sha256": "sha256:2e71680ab283b87857e239b629b34896c3d59310bac1b426d67698dcebb7aab4",
+        "sha256": "sha256:850670d907e83f18dd7b67ae5bec4d85f6b018f3d3178dd9f286b49cfddfaf24",
         "evidence": "verified-here"
       },
       "science-inventory": {
@@ -115,6 +131,6 @@
       }
     }
   },
-  "sig_ed25519": "3jRFunmAveXZilSs09TNZd2FKEF5qe12F0XP4wK8XOIn_0VBNx84XpzbbMkW15ueFADMMcRYXLGUSWPsDfKjCA",
+  "sig_ed25519": "G4rIu6e1Nd-r-Zb5dQVI7bf2_3H3baNeoVozIh0PGJYyP24OXhmK0hIQdsx3diEbOJTeFze9Vv28icd0LlNiBw",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

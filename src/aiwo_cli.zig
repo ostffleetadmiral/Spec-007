@@ -4,11 +4,10 @@ const runtime_mod = @import("aiwo_runtime");
 const t = @import("aiwo_types");
 const cognitive = @import("aiwo_cognitive");
 const checkpoint = @import("aiwo_chunk_checkpoint");
+const dht = @import("aiwo_dht");
 
 pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const alloc = gpa.allocator();
+    const alloc = std.heap.page_allocator;
     var args = std.process.args();
     _ = args.next();
     const command = args.next() orelse "status";
@@ -23,6 +22,7 @@ pub fn main() !void {
     var execute_chunks = false;
     var checkpoint_path: ?[]const u8 = null;
     var resume_run = false;
+    var dht_root: ?[]const u8 = null;
     while (args.next()) |arg| {
         if (std.mem.eql(u8, arg, "--scale")) scale = try std.fmt.parseInt(u8, args.next() orelse return error.MissingScale, 10);
         if (std.mem.eql(u8, arg, "--chunk-size")) chunk_size = try std.fmt.parseInt(usize, args.next() orelse return error.MissingChunkSize, 10);
@@ -30,6 +30,7 @@ pub fn main() !void {
         if (std.mem.eql(u8, arg, "--execute-chunks")) execute_chunks = true;
         if (std.mem.eql(u8, arg, "--checkpoint")) checkpoint_path = args.next() orelse return error.MissingCheckpointPath;
         if (std.mem.eql(u8, arg, "--resume")) resume_run = true;
+        if (std.mem.eql(u8, arg, "--dht-root")) dht_root = args.next() orelse return error.MissingDhtRoot;
     }
     var h = try runtime_mod.Runtime.initWithScale(alloc, "digit", .wo3, 6, "core_integrity", "aiwo", .{ 1, 2, 3 }, scale);
     h.activate();
@@ -39,6 +40,12 @@ pub fn main() !void {
     var executed_chunks: usize = 0;
     var receipt_fold: u256 = 0;
     var resumed_from: usize = 0;
+    var dht_receipts: usize = 0;
+    var receipt_store: ?dht.ReceiptStore = null;
+    defer if (receipt_store) |*store| store.deinit();
+    if (dht_root) |root| {
+        receipt_store = try dht.ReceiptStore.init(alloc, root, &.{ "aiwo-corps", "BLUE", "CONT", "GRAY" });
+    }
     if (execute_chunks) {
         var cursor = try cognitive.ChunkCursor.init(p, chunk_size, max_chunks);
         if (resume_run) {
@@ -54,7 +61,15 @@ pub fn main() !void {
             executed_chunks += 1;
             receipt_fold = chunk.receipt_fold;
             if (checkpoint_path) |path| try checkpoint.saveAtomic(alloc, path, .{ .scale = p.scale, .chunk_size = chunk_size, .max_chunks = max_chunks, .next_chunk = executed_chunks, .receipt_fold = receipt_fold });
+            if (receipt_store) |*store| {
+                const body = try std.fmt.allocPrint(alloc, "{{\"scale\":{d},\"chunk\":{d},\"start\":{d},\"end\":{d},\"paths\":{d},\"receipt_fold\":\"{x}\"}}", .{ p.scale, chunk.index, chunk.start_path, chunk.end_path, chunk.path_count, chunk.receipt_fold });
+                defer alloc.free(body);
+                const name = try std.fmt.allocPrint(alloc, "chunk-{d}", .{chunk.index});
+                defer alloc.free(name);
+                _ = try store.put(name, body, 3);
+                dht_receipts += 1;
+            }
         }
     }
-    try std.io.getStdOut().writer().print("{{\"schema\":\"{s}\",\"decision\":\"{s}\",\"sequence\":{d},\"wire_bytes\":{d},\"scale\":{d},\"theoretical_paths\":{d},\"fully_enumerable\":{},\"chunk_size\":{d},\"chunk_count\":{d},\"max_chunks\":{d},\"admitted\":{},\"execute_chunks\":{},\"executed_chunks\":{d},\"resumed_from\":{d},\"checkpoint_path\":\"{s}\",\"receipt_fold\":\"{x}\"}}\n", .{ t.Schema, @tagName(result.decision), result.sequence, result.wire.len, p.scale, p.max_total_paths, p.fully_enumerable, plan.chunk_size, plan.chunk_count, plan.max_chunks, plan.admitted, execute_chunks, executed_chunks, resumed_from, checkpoint_path orelse "", receipt_fold });
+    try std.io.getStdOut().writer().print("{{\"schema\":\"{s}\",\"decision\":\"{s}\",\"sequence\":{d},\"wire_bytes\":{d},\"scale\":{d},\"theoretical_paths\":{d},\"fully_enumerable\":{},\"chunk_size\":{d},\"chunk_count\":{d},\"max_chunks\":{d},\"admitted\":{},\"execute_chunks\":{},\"executed_chunks\":{d},\"resumed_from\":{d},\"checkpoint_path\":\"{s}\",\"dht_root\":\"{s}\",\"dht_receipts\":{d},\"receipt_fold\":\"{x}\"}}\n", .{ t.Schema, @tagName(result.decision), result.sequence, result.wire.len, p.scale, p.max_total_paths, p.fully_enumerable, plan.chunk_size, plan.chunk_count, plan.max_chunks, plan.admitted, execute_chunks, executed_chunks, resumed_from, checkpoint_path orelse "", dht_root orelse "", dht_receipts, receipt_fold });
 }

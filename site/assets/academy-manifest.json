@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56126,
+  "lesson_count": 56130,
   "lessons": [
     {
       "access": "public",
@@ -7680,7 +7680,7 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55578
+      "harvested": 55582
     },
     "topics": {
       "orientation": 5333,
@@ -7691,7 +7691,7 @@
       "security": 748,
       "communications": 1508,
       "campaign": 861,
-      "reference": 10812,
+      "reference": 10816,
       "uiux": 24317,
       "science": 1501,
       "hardware": 598,
@@ -7699,16 +7699,16 @@
       "lore": 86
     },
     "languages": {
-      "en": 55674,
-      "zh-Hant": 982
+      "en": 55677,
+      "zh-Hant": 983
     },
     "access": {
-      "public": 56126
+      "public": 56130
     },
     "provenance": {
       "curated": 548,
       "upstream": 50865,
-      "first_party": 4713
+      "first_party": 4717
     }
   },
   "harvest_sources": [
@@ -7733,8 +7733,8 @@
       "class": "first_party",
       "mode": "local",
       "pin": null,
-      "docs": 53,
-      "lessons": 579
+      "docs": 55,
+      "lessons": 583
     },
     {
       "root": "nullclaw",
@@ -8529,7 +8529,7 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55578,
+  "harvested_count": 55582,
   "courses": [
     {
       "id": "ai-literacy",
@@ -8605,7 +8605,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10812,
+      "lesson_count": 10816,
       "file": "assets/academy/reference-stack.json",
       "topics": [
         "reference"

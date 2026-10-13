@@ -61,6 +61,8 @@ const runtimes = {
     kind: "native-aiwo",
     path: "src/aiwo_runtime.zig",
     evidence: "verified-here",
+    primary: true,
+    retirement: "native-primary",
     note: "Spec-007 native policy-gated officer runtime; model output is advisory and irreversible actions require human approval",
   },
   "gov-bridge": {
@@ -72,36 +74,49 @@ const runtimes = {
   "ollama-local": {
     kind: "llm-upstream", endpoint: "http://127.0.0.1:11434",
     provider_id: "local", evidence: "bridge-mediated",
+    primary: false,
+    retirement: "compatibility-fallback",
     note: "reachable only through gov-bridge",
   },
   "ollama-qstar": {
     kind: "llm-upstream", endpoint: "http://127.0.0.1:11435",
     provider_id: "qstar", evidence: "bridge-mediated",
+    primary: false,
+    retirement: "compatibility-fallback",
     note: "stock Ollama sibling (qwen2.5:3b + nomic-embed) — digit-a0 chat/embed lane; schema-constrained decoding lives here",
   },
   "qstar-native": {
     kind: "llm-upstream", endpoint: "http://127.0.0.1:11436",
     evidence: "bridge-mediated",
+    primary: false,
+    retirement: "compatibility-fallback",
     note: "lattice-native qstar serve — /api/* + /v1/* surfaces measured live; util-lane candidate (no json_schema, no nomic embeds)",
   },
   "ollama-remote": {
     kind: "llm-upstream", endpoint: "http://192.168.12.210:11434",
-    provider_id: "remote", evidence: "doc-cited",
-    note: "firingline host — reachability measured by the bridge, not promised here",
+    provider_id: "remote", evidence: "doc-cited", primary: false,
+    retirement: "compatibility-fallback",
+    note: "firingline host — compatibility fallback; reachability measured by the bridge, not promised here",
   },
   "k3serve": {
     kind: "llm-upstream", endpoint: "http://127.0.0.1:8080",
     evidence: "bridge-mediated",
+    primary: false,
+    retirement: "compatibility-fallback",
     note: "zig-k3-port OpenAI+Ollama surface — integer-exact engine; --sched-emit receipts fold into the Continuity DHT; --fast documented non-exact",
   },
   "space-agent": {
     kind: "desk-organ", endpoint: "http://127.0.0.1:3000",
     evidence: "bridge-mediated",
+    primary: false,
+    retirement: "compatibility-fallback",
     note: "spaces.os iframe boundary — donor's dynamic-eval engine stays inside its own origin; desk side is eval-free",
   },
   "agent-zero": {
     kind: "monitored-agent", endpoint: "http://127.0.0.1:50080",
     evidence: "bridge-mediated",
+    primary: false,
+    retirement: "compatibility-fallback",
     note: "sheraton-a0 + digit-a0 lanes under host custody — Art. V.3 monitored assets; agentzero-watch gates + folds every action",
   },
 };
@@ -162,6 +177,8 @@ if (VERIFY) {
   checks.pubkey_hint = man.pubkey_hint ===
     "sha256:" + crypto.createHash("sha256").update(pub).digest("hex").slice(0, 16);
   checks.ts = Number.isFinite(Date.parse(man.payload.ts || ""));
+  const primary = Object.entries(man.payload.runtimes || {}).filter(([, rt]) => rt.primary === true).map(([id]) => id);
+  checks.native_primary = primary.length === 1 && primary[0] === "spec007-native-aiwo";
   checks.site_parity = fs.existsSync(SITE) &&
     fs.readFileSync(OUT).equals(fs.readFileSync(SITE));
   /* inventory: every registry artifact must still hash to its signed value —

@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "reference-stack",
-  "lesson_count": 10812,
+  "lesson_count": 10816,
   "lessons": [
     {
       "access": "public",
@@ -7441,6 +7441,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "What is worth studying first",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0bb4706a3be0dbce",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Date: 2026-10-13 · Decision: native primary / external compatibility fallback.",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/native-aiwo-cutover.en.md",
+      "title": "Native AIWO provider cutover",
       "topic": "reference"
     },
     {
@@ -15907,6 +15922,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-1991f6f512186c0b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "日期：2026-10-13 · 決策：原生 primary／外部 compatibility fallback。",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/native-aiwo-cutover.zh-Hant.md",
+      "title": "原生 AIWO provider cutover",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-19960b2894fd4cde",
       "language": [
         "en"
@@ -19426,6 +19456,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "For developers",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-1fcb6bfa15b53ce4",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "- 原生 AIWO parity：18/18；chunk admission、執行與 checkpoint/resume 亦已納入 scale parity - 原生 Digit q4：750 tensors 已索引/上傳；六步 ReleaseFast 路徑與供應 Digit parity 的前三個 ID 相符 - 原生 FANO：每步 136-byte heartbeat - 原生 DHT：每 chunk 簽章記錄、三份 replicas，既有 DHT query 可驗證 - governance：48/48 - team sweep：零 OPEN - publish-check：綠",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/native-aiwo-cutover.zh-Hant.md",
+      "title": "Cutover 證據",
       "topic": "reference"
     },
     {
@@ -155026,6 +155071,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "5. Write the work",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f46b966fa2154dd1",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- native AIWO parity: 18/18 before chunk/DHT extension; current scale parity includes chunk admission, execution, and checkpoint/resume - native Digit q4 path: 750 tensors indexed/uploaded; six-step ReleaseFast path matched the supplied first three Digit parity IDs - native FANO: 136-byte heartbeats - native DHT: signed per-chunk records, three replicas, verified through the existing DHT query sur",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/native-aiwo-cutover.en.md",
+      "title": "Cutover evidence",
       "topic": "reference"
     },
     {
