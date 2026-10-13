@@ -9,14 +9,18 @@ pub const ScalePolicy = struct {
     max_primary_paths: usize,
     reflections_per_path: usize,
     max_total_paths: usize,
+    fully_enumerable: bool,
 
     pub fn forScale(scale: u8) !ScalePolicy {
-        if (scale > 2) return error.ScaleUnsupported;
-        return switch (scale) {
-            0 => .{ .scale = 0, .max_primary_paths = 1, .reflections_per_path = 0, .max_total_paths = 1 },
-            1 => .{ .scale = 1, .max_primary_paths = 1, .reflections_per_path = 7, .max_total_paths = 8 },
-            else => .{ .scale = 2, .max_primary_paths = 8, .reflections_per_path = 7, .max_total_paths = 64 },
-        };
+        if (scale > 7) return error.ScaleUnsupported;
+        if (scale == 0) return .{ .scale = 0, .max_primary_paths = 1, .reflections_per_path = 0, .max_total_paths = 1, .fully_enumerable = true };
+        const primary: usize = @as(usize, 1) << @intCast(scale * 3 - 3);
+        const total: usize = @as(usize, 1) << @intCast(scale * 3);
+        return .{ .scale = scale, .max_primary_paths = primary, .reflections_per_path = 7, .max_total_paths = total, .fully_enumerable = scale <= 2 };
+    }
+
+    pub fn boundedPrimaryPaths(self: ScalePolicy, budget: usize) usize {
+        return @min(self.max_primary_paths, budget);
     }
 };
 
@@ -91,6 +95,14 @@ test "Digit-shaped scale policy has bounded E7 branch counts" {
     try std.testing.expectEqual(@as(usize, 1), (try ScalePolicy.forScale(0)).max_total_paths);
     try std.testing.expectEqual(@as(usize, 8), (try ScalePolicy.forScale(1)).max_total_paths);
     try std.testing.expectEqual(@as(usize, 64), (try ScalePolicy.forScale(2)).max_total_paths);
+    try std.testing.expectEqual(@as(usize, 512), (try ScalePolicy.forScale(3)).max_total_paths);
+    try std.testing.expectEqual(@as(usize, 4096), (try ScalePolicy.forScale(4)).max_total_paths);
+    try std.testing.expectEqual(@as(usize, 32768), (try ScalePolicy.forScale(5)).max_total_paths);
+    try std.testing.expectEqual(@as(usize, 262144), (try ScalePolicy.forScale(6)).max_total_paths);
+    const scale7 = try ScalePolicy.forScale(7);
+    try std.testing.expectEqual(@as(usize, 2097152), scale7.max_total_paths);
+    try std.testing.expect(!scale7.fully_enumerable);
+    try std.testing.expectEqual(@as(usize, 8), scale7.boundedPrimaryPaths(8));
 }
 
 test "E5 observation and E6 reflection are deterministic" {

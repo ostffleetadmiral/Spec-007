@@ -22,6 +22,11 @@ const run = JSON.parse(execFileSync(BIN, ["run"], { encoding: "utf8" }));
 check("cycle-allow", run.decision === "allow", run.decision);
 check("canonical-wire", run.wire_bytes === 136, `${run.wire_bytes} bytes`);
 check("sequence", run.sequence === 1, `sequence=${run.sequence}`);
+const theoretical = [1, 8, 64, 512, 4096, 32768, 262144, 2097152];
+for (let scale = 0; scale <= 7; scale++) {
+  const result = JSON.parse(execFileSync(BIN, ["run", "--scale", String(scale)], { encoding: "utf8" }));
+  check(`scale-${scale}`, result.scale === scale && result.theoretical_paths === theoretical[scale] && result.wire_bytes === 136, `${result.theoretical_paths} paths, enumerable=${result.fully_enumerable}`);
+}
 
 const failed = checks.filter(c => !c.ok).length;
 console.log(`AIWO native parity: ${checks.length - failed}/${checks.length} held`);

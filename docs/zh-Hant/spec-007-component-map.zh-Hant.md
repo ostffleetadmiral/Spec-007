@@ -170,7 +170,7 @@
 | `space-serve.sh` | 啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。 | 經由 desk iframe 驗證 | — |
 | `aiwo_policy.zig` / `aiwo_manifest.zig` | 原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議。 | 原生單元測試 + manifest 檢查 | — |
 | `aiwo_state.zig` / `aiwo_officer.zig` | 帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。 | snapshot 往返/竄改測試 | officer 模組待完成 |
-| `aiwo_cognitive.zig` | 以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；不持有 model tensor 或權限。 | 原生認知單元測試 | Digit donor contract 已適配 |
+| `aiwo_cognitive.zig` | 以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；scale 0–7 理論路徑數為 1、8、64、512、4096、32768、262144、2097152；不持有 model tensor 或權限。 | 原生認知單元測試 + scale parity | scale 3–7 採有界/chunked，不暴力枚舉 |
 | `aiwo_model_observation.zig` | 將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。 | 原生 model-observation 單元測試 | 真實 K3/Digit session 綁定待完成 |
 | `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。 | 原生 AIWO parity 探針 | 原生 K3 model observation 待完成 |
 | `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。 | FANO 竄改測試 + DHT 整合待完成 | — |

@@ -25,9 +25,13 @@ pub const Runtime = struct {
     cell: [3]u8,
 
     pub fn init(allocator: std.mem.Allocator, name: []const u8, rank: t.Rank, clearance: u8, duty: []const u8, custody: []const u8, cell: [3]u8) !Runtime {
+        return initWithScale(allocator, name, rank, clearance, duty, custody, cell, 1);
+    }
+
+    pub fn initWithScale(allocator: std.mem.Allocator, name: []const u8, rank: t.Rank, clearance: u8, duty: []const u8, custody: []const u8, cell: [3]u8, scale: u8) !Runtime {
         const policy = policy_mod.Policy.init();
         const officer = try policy.officer(name, rank, clearance, duty, custody);
-        return .{ .allocator = allocator, .policy = policy, .officer = officer, .state = .{ .officer = name, .policy_digest = policy.digest, .lifecycle = .commissioned }, .cognitive_engine = try cognitive.Engine.init(1), .cell = cell };
+        return .{ .allocator = allocator, .policy = policy, .officer = officer, .state = .{ .officer = name, .policy_digest = policy.digest, .lifecycle = .commissioned }, .cognitive_engine = try cognitive.Engine.init(scale), .cell = cell };
     }
 
     pub fn activate(self: *Runtime) void {
