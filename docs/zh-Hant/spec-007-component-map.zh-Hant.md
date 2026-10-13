@@ -169,10 +169,12 @@
 | `film-render.mjs` | 生成式電影管線,框架內建 — 將影片清單渲染為產製帳本下之 roll 成品。 | `--emit` → film-manifest.json | — |
 | `space-serve.sh` | 啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。 | 經由 desk iframe 驗證 | — |
 | `aiwo_policy.zig` / `aiwo_manifest.zig` | 原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議。 | 原生單元測試 + manifest 檢查 | — |
-| `aiwo_state.zig` / `aiwo_officer.zig` | 帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。 | snapshot 往返/竄改測試 | officer 模組待完成 |
+| `aiwo_state.zig` | 帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。 | snapshot 往返/竄改測試 | officer identity 由原生 runtime 持有 |
+| `aiwo_chunk_checkpoint.zig` | 已接納 AIWO chunk 計畫之原子、校驗和、版本化 checkpoint/resume 狀態。 | checkpoint 往返 + parity resume | — |
+| `aiwo_digit_bridge.zig` / `aiwo_digit_model_probe.zig` | 適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界。 | 750-tensor model probe + 真實一/六步路徑 | 多 token parity 擴展待完成 |
 | `aiwo_cognitive.zig` | 以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；scale 0–7 理論路徑數為 1、8、64、512、4096、32768、262144、2097152；不持有 model tensor 或權限。 | 原生認知單元測試 + scale parity | scale 3–7 採有界 chunk planning/admission，不暴力枚舉 |
-| `aiwo_model_observation.zig` | 將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。 | 原生 model-observation 單元測試 | 真實 K3/Digit session 綁定待完成 |
-| `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。 | 原生 AIWO parity 探針 | 原生 K3 model observation 待完成 |
+| `aiwo_model_observation.zig` | 將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。 | 原生 model-observation 單元測試 + 真實 Digit 探針 | 任意外部 model session 仍採有界執行 |
+| `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。 | 原生 AIWO parity 探針 + 真實 Digit model 探針 | 多 token/完整生成硬化待完成 |
 | `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。 | FANO 竄改測試 + DHT 整合待完成 | — |
 | `aiwo_heartbeat.zig` / `aiwo_cli.zig` | 獨立有界 AIWO heartbeat 與 `spec007-aiwo` 原生 canary CLI；不改變 training heartbeat。 | `node security/aiwo-native-parity.mjs` | 原生 cutover 待完成 |
 
@@ -183,7 +185,7 @@
 | `spec-007.md` | 不可變基線文件 — 終端機與 publish-check 內 sha256 釘定;檔案之 L0 根。 | sha 釘定 + publish-check | — |
 | `fleet-genesis.json` / `fleet-manifest.json` / `engine-manifest.json` | 簽章正典根 — 創世契約、艦隊清單、受治理運行時註冊表 — 各具逐位元組一致之 `site/` 副本。 | FLEET/ENGINE 探針 | — |
 | `deps/` | 供應 qstar-* 依賴釘存(2026-10-07,zig 0.13 全綠):quantum、transport、net、mesh、vfs、compress、collapse、render。`deps/VENDORED.md` 載 LOC 表;f64 邊界限於 mesh/render sidecar。 | 8 個 spec008_qstar_* 框架 | — |
-| `deps/digit/` | 唯讀 Digit model-session donor graft：Q128 graph/session 模組與 `decoder_q4.dgqp`；來源 hash 與 SFTP provenance 記於 `docs/native-donor-manifest.json`。 | Digit model-session 測試根 + Spec-007 build graph | 完整外部 model weights 仍在遠端 |
+| `deps/digit/` | 唯讀 Digit model-session donor graft：Q128 graph/session 模組與 `decoder_q4.dgqp`；來源 hash 與 SFTP provenance 記於 `docs/native-donor-manifest.json`。 | Digit model-session 測試根 + 750-tensor 原生探針 | q4 deployment weights 為 ignored 本地資產，不提交 |
 | `golden/vectors.txt` | 黃金參考面 — `golden_emit.zig` 之已提交正典輸出。 | `golden-master.mjs --verify` | — |
 | `build.zig` | 框架圖 — `zig build test` 聚合所有 `src/` 套件(spec007 證明、spec008 qstar 橋接、封緘雙生、原生 DHT)並構建 `dhtd`;依 wave-5 平行化設並行測試根。 | `zig build test` | — |
 | `admiralty-desk/` | 旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;contextIsolation + sandbox + 無 nodeIntegration;`desk.sh` 剝除 `ELECTRON_RUN_AS_NODE`。 | 桌面探針 | — |

@@ -978,10 +978,22 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>—</td>
 </tr>
 <tr>
-<td><code>aiwo_state.zig</code> / <code>aiwo_officer.zig</code></td>
+<td><code>aiwo_state.zig</code></td>
 <td>Versioned officer state boundary with policy digest, monotonic sequence, lifecycle, checksum, and atomic persistence.</td>
 <td>snapshot round-trip/tamper tests</td>
-<td>officer module pending</td>
+<td>officer identity is held by native runtime</td>
+</tr>
+<tr>
+<td><code>aiwo_chunk_checkpoint.zig</code></td>
+<td>Atomic, checksummed, versioned checkpoint/resume state for admitted AIWO chunk plans.</td>
+<td>checkpoint round-trip + parity resume</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo_digit_bridge.zig</code> / <code>aiwo_digit_model_probe.zig</code></td>
+<td>Adapts real Digit ModelObservation records and executes the native q4 package/session boundary before AIWO policy/FANO.</td>
+<td>750-tensor model probe + real one/six-step path</td>
+<td>multi-token parity expansion pending</td>
 </tr>
 <tr>
 <td><code>aiwo_cognitive.zig</code></td>
@@ -992,14 +1004,14 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tr>
 <td><code>aiwo_model_observation.zig</code></td>
 <td>Converts a host-supplied logits/recurrent-state summary into the compact E5 observation contract: argmax, margin, range, checksum, and state version.</td>
-<td>native model-observation unit test</td>
-<td>real K3/Digit session binding pending</td>
+<td>native model-observation unit test + real Digit probe</td>
+<td>arbitrary external model session still bounded</td>
 </tr>
 <tr>
 <td><code>aiwo_directive.zig</code> / <code>aiwo_runtime.zig</code></td>
 <td>Native policy-gated directive and officer-cycle canary; irreversible actions become human-approval requests and cognitive routing folds into the sealed event.</td>
-<td>native AIWO parity probe</td>
-<td>native K3 model observation pending</td>
+<td>native AIWO parity probe + real Digit model probe</td>
+<td>multi-token/full-generation hardening pending</td>
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
@@ -1047,8 +1059,8 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tr>
 <td><code>deps/digit/</code></td>
 <td>Read-only Digit model-session donor graft: Q128 graph/session modules plus <code>decoder_q4.dgqp</code>; source hashes and SFTP provenance are recorded in <code>docs/native-donor-manifest.json</code>.</td>
-<td>Digit model-session test root + Spec-007 build graph</td>
-<td>full external model weights remain remote</td>
+<td>Digit model-session test root + 750-tensor native probe</td>
+<td>q4 deployment weights are ignored local assets, not committed</td>
 </tr>
 <tr>
 <td><code>golden/vectors.txt</code></td>
