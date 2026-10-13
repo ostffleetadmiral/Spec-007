@@ -24,6 +24,9 @@ __pycache__/
 *.swp
 .DS_Store
 
+# ---- local model weights (retrieved from Digit host; never committed) ----
+models/digit-qwen3.5-2b-onnx-opt/
+
 # ---- browser-test artifacts (playwright snapshots/console captures) ----
 .playwright-mcp/
 

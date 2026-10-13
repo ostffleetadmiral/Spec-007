@@ -3642,6 +3642,18 @@ console.log("\nAIWO — the warrant corps as live agents");
     : open_("AIWO", "native-policy-wire", (r.stdout || r.stderr || "native parity failed").trim().slice(-240));
 }
 
+/* Real Digit package/session boundary. Large model assets are ignored
+   deployment inputs; absent assets defer honestly, never fabricate a pass. */
+{
+  const r = spawnSync(process.execPath, [path.join(HERE, "aiwo-digit-model-parity.mjs")], { encoding: "utf8" });
+  const text = (r.stdout || r.stderr || "").trim();
+  r.status === 0 && text.startsWith("[HELD]")
+    ? held("AIWO", "digit-model-session", text.slice(0, 240))
+    : text.startsWith("[NOTED]")
+      ? noted("AIWO", "digit-model-session", text.slice(0, 240))
+      : open_("AIWO", "digit-model-session", text.slice(0, 240) || "Digit model-session probe failed");
+}
+
 console.log("\nDHT — continuity filesystem + IDaaS");
 /* ================= DHT — the decentralized persistence layer =====
    tools/dht-fs.mjs is the store; security/dht-sweep.mjs is the

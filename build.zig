@@ -241,6 +241,7 @@ pub fn build(b: *std.Build) void {
     const digit_fixed = depMod(b, "deps/digit/src/fixed_point.zig", target, optimize);
     const digit_brain = depMod(b, "deps/digit/src/brain_contracts.zig", target, optimize);
     digit_brain.addImport("fixed_point", digit_fixed);
+    const digit_onnx_weights = depMod(b, "deps/digit/src/onnx_weights.zig", target, optimize);
     const digit_onnx_graph = depMod(b, "deps/digit/src/onnx_graph.zig", target, optimize);
     const digit_shape = depMod(b, "deps/digit/src/shape_ops.zig", target, optimize);
     digit_shape.addImport("fixed_point", digit_fixed);
@@ -348,6 +349,15 @@ pub fn build(b: *std.Build) void {
     depTest(b, test_step, "src/aiwo_heartbeat.zig", target, optimize, &.{
         imp("aiwo_types", aiwo_types), imp("aiwo_runtime", aiwo_runtime),
     });
+    const digit_probe = b.addExecutable(.{
+        .name = "spec007-digit-model-probe",
+        .root_source_file = b.path("src/aiwo_digit_model_probe.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    digit_probe.root_module.addImport("digit_model_session", digit_session);
+    digit_probe.root_module.addImport("digit_onnx_weights", digit_onnx_weights);
+    b.installArtifact(digit_probe);
     const aiwo_cli = b.addExecutable(.{
         .name = "spec007-aiwo",
         .root_source_file = b.path("src/aiwo_cli.zig"),

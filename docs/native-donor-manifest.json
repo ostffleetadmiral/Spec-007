@@ -16,7 +16,11 @@
         "src/model_session.zig": "f1f3b0058cc54dc0df1a44a1786cd57029b963288de26f2e5197d03b45048d67",
         "src/reversible.zig": "9e231836b8dfa8eb9b9b3ce1ca61735388478a6d51919d2ff50cd091edd8d803",
         "parity_checkpoint_report.json": "9ce3f8de603fe646f415a561a62525d7648239cb98cedf31b664c98846f5a55b",
-        "decoder_q4.dgqp": "b6bcd6b784fd10f3b79fe23585ef7cae6385ce8b057140e85632a815c9c985ac"
+        "decoder_q4.dgqp": "b6bcd6b784fd10f3b79fe23585ef7cae6385ce8b057140e85632a815c9c985ac",
+        "models/.../decoder_model_merged_q4.onnx": "8207fcf67d692e251eec7f24868be5b753f402fb84a259eb4578253692701405",
+        "models/.../decoder_model_merged_q4.onnx_data": "0c0f71175574f0060ed441acb1896825234ef27fcf008822c490dbfa6b0c90fe",
+        "models/.../embed_tokens_q4.onnx": "0255dd844858758f452d9678f1e2c91db178f21b7da254d29b12e7fe3d23e305",
+        "models/.../embed_tokens_q4.onnx_data": "9a6404d9b1c79ffc038d5c28deec04d419efb4594125453c991be38b4522ecb6"
       }
     },
     {
