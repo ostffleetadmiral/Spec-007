@@ -250,6 +250,10 @@ pub fn build(b: *std.Build) void {
     const digit_worker = depMod(b, "deps/digit/src/worker_pool.zig", target, optimize);
     const digit_tensor_ops = depMod(b, "deps/digit/src/tensor_ops.zig", target, optimize);
     digit_tensor_ops.addImport("fixed_point", digit_fixed);
+    const digit_qwen_embed = depMod(b, "deps/digit/src/qwen_embed.zig", target, optimize);
+    digit_qwen_embed.addImport("fixed_point", digit_fixed);
+    digit_qwen_embed.addImport("tensor_ops", digit_tensor_ops);
+    digit_qwen_embed.addImport("onnx_weights", digit_onnx_weights);
     const digit_causal = depMod(b, "deps/digit/src/causal_conv.zig", target, optimize);
     digit_causal.addImport("fixed_point", digit_fixed);
     digit_causal.addImport("tensor_ops", digit_tensor_ops);
@@ -357,6 +361,10 @@ pub fn build(b: *std.Build) void {
     });
     digit_probe.root_module.addImport("digit_model_session", digit_session);
     digit_probe.root_module.addImport("digit_onnx_weights", digit_onnx_weights);
+    digit_probe.root_module.addImport("digit_qwen_embed", digit_qwen_embed);
+    digit_probe.root_module.addImport("digit_fixed_point", digit_fixed);
+    digit_probe.root_module.addImport("aiwo_runtime", aiwo_runtime);
+    digit_probe.root_module.addImport("aiwo_types", aiwo_types);
     b.installArtifact(digit_probe);
     const aiwo_cli = b.addExecutable(.{
         .name = "spec007-aiwo",

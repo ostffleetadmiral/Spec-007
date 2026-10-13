@@ -15,6 +15,6 @@ if (missing.length) {
 const bin = path.join(ROOT, "zig-out", "bin", "spec007-digit-model-probe");
 const out = execFileSync(bin, { encoding: "utf8" });
 const result = JSON.parse(out);
-const ok = result.schema === "AIWO-DIGIT-MODEL-v1" && result.indexed_tensors > 0 && result.model_state === "native-session-loaded";
-console.log(`[${ok ? "HELD" : "OPEN"}] AIWO-DIGIT-MODEL package=${result.package_bytes} tensors=${result.indexed_tensors} execution=${result.execution}`);
+const ok = result.schema === "AIWO-DIGIT-MODEL-v3" && result.indexed_tensors === 750 && result.weights_uploaded === 750 && result.aiwo_decision === "allow" && result.wire_bytes === 136;
+console.log(`[${ok ? "HELD" : "OPEN"}] AIWO-DIGIT-MODEL package=${result.package_bytes} tensors=${result.indexed_tensors} uploaded=${result.weights_uploaded} decision=${result.aiwo_decision} execution=${result.execution}`);
 process.exit(ok ? 0 : 1);

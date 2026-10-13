@@ -9,6 +9,13 @@ const cognitive = @import("aiwo_cognitive");
 const digit_bridge = @import("aiwo_digit_bridge");
 const digit_brain = @import("digit_brain");
 
+pub const ObservedCycleResult = struct {
+    decision: t.Decision,
+    commit: cognitive.Commit,
+    wire: [fano.Wire]u8,
+    sequence: u64,
+};
+
 pub const Runtime = struct {
     allocator: std.mem.Allocator,
     policy: policy_mod.Policy,
@@ -44,7 +51,7 @@ pub const Runtime = struct {
 
     /// Runs an AIWO cycle over a real compact model observation supplied by a
     /// Digit/K3 session adapter. The runtime never receives model tensors.
-    pub fn runObservedCycle(self: *Runtime, observation: cognitive.Observation, action: t.Action) !struct { decision: t.Decision, commit: cognitive.Commit, wire: [fano.Wire]u8, sequence: u64 } {
+    pub fn runObservedCycle(self: *Runtime, observation: cognitive.Observation, action: t.Action) !ObservedCycleResult {
         if (self.state.lifecycle != .active) return error.NotActive;
         self.state.cycle += 1;
         self.state.sequence += 1;
@@ -57,7 +64,7 @@ pub const Runtime = struct {
         return .{ .decision = result.decision.decision, .commit = commit, .wire = wire, .sequence = self.state.sequence };
     }
 
-    pub fn runDigitObservedCycle(self: *Runtime, observation: digit_brain.ModelObservation, action: t.Action) !struct { decision: t.Decision, commit: cognitive.Commit, wire: [fano.Wire]u8, sequence: u64 } {
+    pub fn runDigitObservedCycle(self: *Runtime, observation: digit_brain.ModelObservation, action: t.Action) !ObservedCycleResult {
         return self.runObservedCycle(digit_bridge.adapt(observation), action);
     }
 
