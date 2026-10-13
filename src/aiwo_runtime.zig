@@ -39,6 +39,20 @@ pub const Runtime = struct {
         return .{ .decision = result.decision.decision, .wire = wire, .sequence = self.state.sequence };
     }
 
+    /// Runs an AIWO cycle over a real compact model observation supplied by a
+    /// Digit/K3 session adapter. The runtime never receives model tensors.
+    pub fn runObservedCycle(self: *Runtime, observation: cognitive.Observation, action: t.Action) !struct { decision: t.Decision, commit: cognitive.Commit, wire: [fano.Wire]u8, sequence: u64 } {
+        if (self.state.lifecycle != .active) return error.NotActive;
+        self.state.cycle += 1;
+        self.state.sequence += 1;
+        const result = directive.issue(&self.policy, self.officer, action, self.state.sequence);
+        const commit = self.cognitive_engine.commit(observation);
+        const digest = t.digestBytes(std.mem.asBytes(&commit.routing_fold));
+        const wire = fano.heartbeat(self.cell, @intCast(self.state.sequence), self.officer.name, digest);
+        if (!fano.verify(&wire)) return error.SealFailure;
+        return .{ .decision = result.decision.decision, .commit = commit, .wire = wire, .sequence = self.state.sequence };
+    }
+
     pub fn save(self: *Runtime, path: []const u8) !void {
         try state_mod.saveAtomic(self.allocator, path, self.state);
     }

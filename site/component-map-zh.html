@@ -935,6 +935,12 @@
 <td>Digit donor contract 已適配</td>
 </tr>
 <tr>
+<td><code>aiwo_model_observation.zig</code></td>
+<td>將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。</td>
+<td>原生 model-observation 單元測試</td>
+<td>真實 K3/Digit session 綁定待完成</td>
+</tr>
+<tr>
 <td><code>aiwo_directive.zig</code> / <code>aiwo_runtime.zig</code></td>
 <td>原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。</td>
 <td>原生 AIWO parity 探針</td>
