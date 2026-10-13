@@ -916,6 +916,36 @@
 <td>經由 desk iframe 驗證</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>aiwo_policy.zig</code> / <code>aiwo_manifest.zig</code></td>
+<td>原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議。</td>
+<td>原生單元測試 + manifest 檢查</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo_state.zig</code> / <code>aiwo_officer.zig</code></td>
+<td>帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。</td>
+<td>snapshot 往返/竄改測試</td>
+<td>officer 模組待完成</td>
+</tr>
+<tr>
+<td><code>aiwo_directive.zig</code> / <code>aiwo_runtime.zig</code></td>
+<td>原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求。</td>
+<td>原生 AIWO parity 探針</td>
+<td>原生認知 graft 待完成</td>
+</tr>
+<tr>
+<td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
+<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。</td>
+<td>FANO 竄改測試 + DHT 整合待完成</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
+<td>獨立有界 AIWO heartbeat 與 <code>spec007-aiwo</code> 原生 canary CLI；不改變 training heartbeat。</td>
+<td><code>node security/aiwo-native-parity.mjs</code></td>
+<td>原生 cutover 待完成</td>
+</tr>
 </tbody>
 </table>
 <h2>支援樹</h2>

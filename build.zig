@@ -237,6 +237,61 @@ pub fn build(b: *std.Build) void {
     seal_wasm.rdynamic = true;
     b.installArtifact(seal_wasm);
 
+    // ── Native AIWO graft ──────────────────────────────────────────────
+    // Policy, officer state, directive, heartbeat, and receipt adapters are
+    // native Spec-007 modules. External AIWO services remain compatibility
+    // oracles until the parity/cutover gates pass.
+    const aiwo_types = depMod(b, "src/aiwo_types.zig", target, optimize);
+    const aiwo_policy = depMod(b, "src/aiwo_policy.zig", target, optimize);
+    aiwo_policy.addImport("aiwo_types", aiwo_types);
+    const aiwo_manifest = depMod(b, "src/aiwo_manifest.zig", target, optimize);
+    aiwo_manifest.addImport("aiwo_types", aiwo_types);
+    const aiwo_state = depMod(b, "src/aiwo_state.zig", target, optimize);
+    aiwo_state.addImport("aiwo_types", aiwo_types);
+    const aiwo_directive = depMod(b, "src/aiwo_directive.zig", target, optimize);
+    aiwo_directive.addImport("aiwo_types", aiwo_types);
+    aiwo_directive.addImport("aiwo_policy", aiwo_policy);
+    const aiwo_fano = depMod(b, "src/aiwo_fano.zig", target, optimize);
+    aiwo_fano.addImport("spec008_seal", s_seal);
+    const aiwo_dht = depMod(b, "src/aiwo_dht.zig", target, optimize);
+    aiwo_dht.addImport("dht_native", n_dht);
+    const aiwo_runtime = depMod(b, "src/aiwo_runtime.zig", target, optimize);
+    aiwo_runtime.addImport("aiwo_types", aiwo_types);
+    aiwo_runtime.addImport("aiwo_policy", aiwo_policy);
+    aiwo_runtime.addImport("aiwo_state", aiwo_state);
+    aiwo_runtime.addImport("aiwo_directive", aiwo_directive);
+    aiwo_runtime.addImport("aiwo_fano", aiwo_fano);
+    const aiwo_heartbeat = depMod(b, "src/aiwo_heartbeat.zig", target, optimize);
+    aiwo_heartbeat.addImport("aiwo_types", aiwo_types);
+    aiwo_heartbeat.addImport("aiwo_runtime", aiwo_runtime);
+
+    depTest(b, test_step, "src/aiwo_types.zig", target, optimize, &.{});
+    depTest(b, test_step, "src/aiwo_policy.zig", target, optimize, &.{imp("aiwo_types", aiwo_types)});
+    depTest(b, test_step, "src/aiwo_manifest.zig", target, optimize, &.{imp("aiwo_types", aiwo_types)});
+    depTest(b, test_step, "src/aiwo_state.zig", target, optimize, &.{imp("aiwo_types", aiwo_types)});
+    depTest(b, test_step, "src/aiwo_directive.zig", target, optimize, &.{
+        imp("aiwo_types", aiwo_types), imp("aiwo_policy", aiwo_policy),
+    });
+    depTest(b, test_step, "src/aiwo_fano.zig", target, optimize, &.{imp("spec008_seal", s_seal)});
+    depTest(b, test_step, "src/aiwo_dht.zig", target, optimize, &.{imp("dht_native", n_dht)});
+    depTest(b, test_step, "src/aiwo_runtime.zig", target, optimize, &.{
+        imp("aiwo_types", aiwo_types), imp("aiwo_policy", aiwo_policy),
+        imp("aiwo_state", aiwo_state), imp("aiwo_directive", aiwo_directive),
+        imp("aiwo_fano", aiwo_fano),
+    });
+    depTest(b, test_step, "src/aiwo_heartbeat.zig", target, optimize, &.{
+        imp("aiwo_types", aiwo_types), imp("aiwo_runtime", aiwo_runtime),
+    });
+    const aiwo_cli = b.addExecutable(.{
+        .name = "spec007-aiwo",
+        .root_source_file = b.path("src/aiwo_cli.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    aiwo_cli.root_module.addImport("aiwo_types", aiwo_types);
+    aiwo_cli.root_module.addImport("aiwo_runtime", aiwo_runtime);
+    b.installArtifact(aiwo_cli);
+
     // ── spec007 integer harnesses (was a serial zig-test loop in
     //    publish-check — the build graph parallelizes + caches) ───────
     const spec007_harnesses = [_][]const u8{

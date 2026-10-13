@@ -1,10 +1,16 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-12T19:24:59.037Z",
+    "ts": "2026-10-13T04:17:28.042Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
-    "runtime_count": 16,
+    "runtime_count": 17,
     "runtimes": {
+      "spec007-native-aiwo": {
+        "kind": "native-aiwo",
+        "path": "src/aiwo_runtime.zig",
+        "evidence": "verified-here",
+        "note": "Spec-007 native policy-gated officer runtime; model output is advisory and irreversible actions require human approval"
+      },
       "gov-bridge": {
         "kind": "governance-gate",
         "endpoint": "http://127.0.0.1:8765",
@@ -102,13 +108,13 @@
       "security-battery": {
         "kind": "harness",
         "path": "security/",
-        "members": 47,
-        "anchor_sha256": "sha256:ad5986f5bfaddfe2322b7d780c1068cc983b2ac80acd8d93a5342be9f895f306",
+        "members": 48,
+        "anchor_sha256": "sha256:ef5349af7fb6c475d6338cb95835a7718cf9d8b4ed65e7391700c7c1aa20f879",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       }
     }
   },
-  "sig_ed25519": "oAF4YlxtIQJH3zn3PALDRm3eY8ruQWSlTAluPoCElV6DxllE_lxnFMdbJH-I2KOHh0QFqptbGjOo6o_oDUkqCg",
+  "sig_ed25519": "DRO1NWwB8UvqemEQbSUuwpNDX1IGvhoZPqCf3CthpP10sBRQAimLu8dQPxi4ckqTuVL5nabV2hax0GRKIemFAA",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

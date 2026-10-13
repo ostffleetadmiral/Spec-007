@@ -3632,6 +3632,16 @@ console.log("\nAIWO — the warrant corps as live agents");
   }
 }
 
+/* Native Spec-007 AIWO canary. This is intentionally separate from the
+   legacy corps/service ledgers: native policy and canonical-wire parity
+   must hold before the runtime becomes the primary AI path. */
+{
+  const r = spawnSync(process.execPath, [path.join(HERE, "aiwo-native-parity.mjs")], { encoding: "utf8" });
+  r.status === 0
+    ? held("AIWO", "native-policy-wire", "native policy-gated canary: 6/6 checks held")
+    : open_("AIWO", "native-policy-wire", (r.stdout || r.stderr || "native parity failed").trim().slice(-240));
+}
+
 console.log("\nDHT — continuity filesystem + IDaaS");
 /* ================= DHT — the decentralized persistence layer =====
    tools/dht-fs.mjs is the store; security/dht-sweep.mjs is the
@@ -3901,7 +3911,7 @@ const out = path.join(SITE, "security", "findings.json");
 const prior = JSON.parse(fs.readFileSync(out, "utf8"));
 const teams = new Set(findings.map(x => x.team));
 const merged = { generated: new Date().toISOString(),
-  findings: [...(prior.findings || []).filter(x => !teams.has(x.team)), ...findings] };
+  findings: [...(prior.findings || []).filter(x => !teams.has(x.team) && x.team !== "AIWO-NATIVE"), ...findings] };
 fs.writeFileSync(out, JSON.stringify(merged, null, 2));
 const tally = findings.reduce((a, x) => (a[x.verdict] = (a[x.verdict] || 0) + 1, a), {});
 console.log(`\nTEAM SWEEP 2: ${findings.length} probes — ${JSON.stringify(tally)}`);

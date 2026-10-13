@@ -57,6 +57,12 @@ const ARTIFACTS = [
 ];
 
 const runtimes = {
+  "spec007-native-aiwo": {
+    kind: "native-aiwo",
+    path: "src/aiwo_runtime.zig",
+    evidence: "verified-here",
+    note: "Spec-007 native policy-gated officer runtime; model output is advisory and irreversible actions require human approval",
+  },
   "gov-bridge": {
     kind: "governance-gate",
     endpoint: "http://127.0.0.1:8765",

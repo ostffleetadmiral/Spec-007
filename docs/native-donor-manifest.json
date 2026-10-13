@@ -1,0 +1,42 @@
+{
+  "schema": "SPEC007-NATIVE-DONORS-v1",
+  "retrieved_at": "2026-10-13",
+  "policy": "Read-only donor sources; imported code is reviewed and tested in Spec-007. No runtime dependency on SFTP.",
+  "sources": [
+    {
+      "uri": "sftp://192.168.12.210/home/admpaul/Desktop/Digit-v0.0.0.1",
+      "kind": "Digit",
+      "status": "inventoried",
+      "files": {
+        "src/brain_contracts.zig": "a047afd88ca292473bc6bab000f69472e4390e68e721f725e1ec8c7db59a2202",
+        "src/brain_orchestrator.zig": "2f8119727dedd788a58c4dc352123cdf08d7f2e080730e3eb8bf765309dfe722",
+        "src/e5_state.zig": "67282acef50bb40659a4d1a81fde6b6b340ce9e8be17c386d6579352ba4b929d",
+        "src/e6_adapter.zig": "67e7aba6c4a5d3e258244227436707e80c341f627c9d83d2e5d37a91628275a0",
+        "src/e6_correction.zig": "b4994ea027086b1619739659160d1092c93ffbb65849e1753cab3333ccf7e1a9",
+        "src/model_session.zig": "f1f3b0058cc54dc0df1a44a1786cd57029b963288de26f2e5197d03b45048d67",
+        "src/reversible.zig": "9e231836b8dfa8eb9b9b3ce1ca61735388478a6d51919d2ff50cd091edd8d803",
+        "parity_checkpoint_report.json": "9ce3f8de603fe646f415a561a62525d7648239cb98cedf31b664c98846f5a55b"
+      }
+    },
+    {
+      "uri": "local:/home/admpaul/CascadeProjects/hardware/experiments/qstar-llm",
+      "kind": "qstar-llm",
+      "status": "read-only donor",
+      "files": {
+        "src/agent.zig": "read-only source reviewed",
+        "src/metacognition_engine.zig": "read-only source reviewed",
+        "src/k3_bridge.zig": "read-only source reviewed",
+        "src/heartbeat.zig": "training heartbeat; not used as AIWO authority"
+      }
+    },
+    {
+      "uri": "local:/home/admpaul/CascadeProjects/hardware/experiments/zig-k3-port",
+      "kind": "zig-k3-port",
+      "status": "read-only donor",
+      "files": {
+        "src/spec008_seal.zig": "Spec-007-local authoritative wire retained",
+        "src/main.zig": "state save/load contract reviewed"
+      }
+    }
+  ]
+}

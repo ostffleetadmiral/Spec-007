@@ -178,6 +178,11 @@ Each harness binds one `deps/qstar-*` vendored tree onto dossier artifacts; boun
 | `receipt-bridge.mjs` | Folds k3/k3serve `--sched-emit` JSONL receipts into the ledger — the engine's scheduling receipts become fleet evidence. | receipt fold probes | — |
 | `film-render.mjs` | The Generative Film Pipeline, in-framework — renders the film manifests into roll artifacts under the production ledger. | `--emit` → film-manifest.json | — |
 | `space-serve.sh` | Launches the local Space Agent runtime that spaces.os iframes — donor checkout (MIT, Jan Tomasek), not a vendored subtree; binds loopback single-user on the organ's expected port; honest failure when the clone or node is absent. | exercised via desk iframe | — |
+| `aiwo_policy.zig` / `aiwo_manifest.zig` | Native AIWO rank, clearance, duty, prohibited-action, and sanitized command-manifest gate. Model output is advisory only. | native unit tests + manifest checks | — |
+| `aiwo_state.zig` / `aiwo_officer.zig` | Versioned officer state boundary with policy digest, monotonic sequence, lifecycle, checksum, and atomic persistence. | snapshot round-trip/tamper tests | officer module pending |
+| `aiwo_directive.zig` / `aiwo_runtime.zig` | Native policy-gated directive and officer-cycle canary; irreversible actions become human-approval requests. | native AIWO parity probe | native cognitive graft pending |
+| `aiwo_fano.zig` / `aiwo_dht.zig` | AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate. | FANO mutation tests + DHT integration pending | — |
+| `aiwo_heartbeat.zig` / `aiwo_cli.zig` | Separate bounded AIWO heartbeat and `spec007-aiwo` native canary CLI; does not alter the training heartbeat. | `node security/aiwo-native-parity.mjs` | native cutover pending |
 
 ## Support trees
 

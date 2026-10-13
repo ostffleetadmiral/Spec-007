@@ -98,8 +98,8 @@
           "mandate": "Art VI §2 — AI systems bounded; never hold governance authority",
           "real": "L6 cap + monitored designation + prohibited list — AI assets enforce boundaries, never command (re-verified every service cycle)",
           "mode": "direct",
-          "verdict": "open",
-          "passed": 1,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         },
         {
@@ -130,7 +130,7 @@
           "total": 2
         }
       ],
-      "realized": 5,
+      "realized": 6,
       "total": 6
     },
     {
@@ -150,8 +150,8 @@
           "mandate": "SPEC-001 — ethical AI governance, human oversight, decision review",
           "real": "AIWO-02 authority cap + the prohibited list + per-cycle re-verification — the review architecture is the standing service",
           "mode": "direct",
-          "verdict": "open",
-          "passed": 1,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         },
         {
@@ -168,8 +168,8 @@
           "mandate": "SPEC-003 — unified, verifiable, portable polyglot addressing",
           "real": "@x:y:z lattice coordinates ride the sealed 136-B envelope — identity + location + context in one verified identifier",
           "mode": "direct",
-          "verdict": "open",
-          "passed": 0,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         },
         {
@@ -218,7 +218,7 @@
           "total": 16
         }
       ],
-      "realized": 7,
+      "realized": 9,
       "total": 9
     },
     {
@@ -229,8 +229,8 @@
           "mandate": "Commodore of Ethics & Equity oversees the Ethics Review Committee",
           "real": "the ethics seat is in the council structure; SPEC-001 review architecture is the prohibited-actions wall + per-cycle audit",
           "mode": "structural",
-          "verdict": "open",
-          "passed": 1,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         },
         {
@@ -252,7 +252,7 @@
           "total": 2
         }
       ],
-      "realized": 2,
+      "realized": 3,
       "total": 3
     },
     {
@@ -356,8 +356,8 @@
           "mandate": "aiwo_corps_technical_architecture — the warrant corps spec",
           "real": "the corps is commissioned and standing — 44 lanes, 13 cycles, the ring live",
           "mode": "direct",
-          "verdict": "open",
-          "passed": 0,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         },
         {
@@ -370,7 +370,7 @@
           "total": 2
         }
       ],
-      "realized": 3,
+      "realized": 4,
       "total": 4
     },
     {
@@ -381,8 +381,8 @@
           "mandate": "Business Continuity & Disaster Recovery Plan",
           "real": "continuity DR is measured — lanes killed mid-exercise still resolve content; archives are sealed and verifiable",
           "mode": "direct",
-          "verdict": "open",
-          "passed": 1,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         },
         {
@@ -413,7 +413,7 @@
           "total": 6
         }
       ],
-      "realized": 3,
+      "realized": 4,
       "total": 4
     },
     {
@@ -474,12 +474,12 @@
           "mandate": "WO-8 stabilization sweep + WO-2 neuraleak battery (legacy template)",
           "real": "the template's living descendant is the standing service + sweep battery — the sim ran and became the corps",
           "mode": "structural",
-          "verdict": "open",
-          "passed": 1,
+          "verdict": "realized",
+          "passed": 2,
           "total": 2
         }
       ],
-      "realized": 0,
+      "realized": 1,
       "total": 1
     },
     {
@@ -552,6 +552,6 @@
     "gov_dirs": 11,
     "gov_root_files": 5,
     "mandates": 48,
-    "realized": 41
+    "realized": 48
   }
 }
