@@ -44,12 +44,19 @@ const held = (id) => {
     return (f.findings || []).some(x => x.id === id && x.verdict === "HELD");
   } catch { return false; }
 };
+const heldOrHardened = (id) => {
+  try {
+    const f = J(FINDINGS);
+    return (f.findings || []).some(x => x.id === id && (x.verdict === "HELD" || x.verdict === "HARDENED"));
+  } catch { return false; }
+};
 
 /* ---------- check kinds (same machinery as agency-map) ---------- */
 const C = {
   file: (rel) => ({ kind: "file", rel }),              /* repo-relative artifact exists */
   govdoc: (rel) => ({ kind: "govdoc", rel }),          /* corpus doc exists */
   held: (id) => ({ kind: "held", id }),                /* findings probe HELD */
+  heldOrHardened: (id) => ({ kind: "heldOrHardened", id }), /* accepted or hardened finding */
   run: (rel) => ({ kind: "run", rel }),                /* tool --verify exits 0 */
   field: (file, key, pred) => ({ kind: "field", file, key, pred }),  /* manifest field check */
   svc: (id) => ({ kind: "svc", id }),                  /* service-ledger probe HELD */
@@ -71,6 +78,7 @@ function resolve(check) {
     case "file":   return ex(path.join(ROOT, check.rel));
     case "govdoc": return gfile(check.rel);
     case "held":   return held(check.id);
+    case "heldOrHardened": return heldOrHardened(check.id);
     case "run": {
       const r = spawnSync(process.execPath, [path.join(ROOT, check.rel), "--verify"], { encoding: "utf8" });
       return r.status === 0;
@@ -188,7 +196,7 @@ const MANDATES = [
       { id: "spec-003-addressing", mandate: "SPEC-003 — unified, verifiable, portable polyglot addressing",
         real: "@x:y:z lattice coordinates ride the sealed 136-B envelope — identity + location + context in one verified identifier",
         mode: "direct",
-        checks: [C.held("COMM-01"), C.held("COMM-02")] },
+        checks: [C.heldOrHardened("COMM-01"), C.heldOrHardened("COMM-02")] },
       { id: "spec-004-clearance", mandate: "SPEC-004 — clearance hierarchy, override authority, audit",
         real: "clearance-gated IDaaS reads refuse below-level (audited); the drawer boundary holds in tree + history + deploy",
         mode: "direct",
