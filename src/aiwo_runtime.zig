@@ -18,7 +18,7 @@ pub const Runtime = struct {
     pub fn init(allocator: std.mem.Allocator, name: []const u8, rank: t.Rank, clearance: u8, duty: []const u8, custody: []const u8, cell: [3]u8) !Runtime {
         const policy = policy_mod.Policy.init();
         const officer = try policy.officer(name, rank, clearance, duty, custody);
-        return .{ .allocator = allocator, .policy = policy, .officer = officer, .state = .{ .officer = name, .policy_digest = policy.digest, .lifecycle = .commissioned }, .cognitive_engine = try cognitive.Engine.init(0), .cell = cell };
+        return .{ .allocator = allocator, .policy = policy, .officer = officer, .state = .{ .officer = name, .policy_digest = policy.digest, .lifecycle = .commissioned }, .cognitive_engine = try cognitive.Engine.init(1), .cell = cell };
     }
 
     pub fn activate(self: *Runtime) void {
@@ -32,7 +32,8 @@ pub const Runtime = struct {
         const result = directive.issue(&self.policy, self.officer, action, self.state.sequence);
         const action_digest = t.digestBytes(action.name);
         const observation = self.cognitive_engine.observe(0, 0, @as(u256, @bitCast(action_digest)), @as(u256, @bitCast(self.policy.digest)), @as(u256, self.state.sequence), self.state.cycle);
-        const commit = self.cognitive_engine.commit(observation);
+        var reflections: [7]cognitive.Reflection = undefined;
+        const commit = try self.cognitive_engine.reflect(observation, &reflections);
         const digest = t.digestBytes(std.mem.asBytes(&commit.routing_fold));
         const wire = fano.heartbeat(self.cell, @intCast(self.state.sequence), self.officer.name, digest);
         if (!fano.verify(&wire)) return error.SealFailure;
@@ -46,7 +47,8 @@ pub const Runtime = struct {
         self.state.cycle += 1;
         self.state.sequence += 1;
         const result = directive.issue(&self.policy, self.officer, action, self.state.sequence);
-        const commit = self.cognitive_engine.commit(observation);
+        var reflections: [7]cognitive.Reflection = undefined;
+        const commit = try self.cognitive_engine.reflect(observation, &reflections);
         const digest = t.digestBytes(std.mem.asBytes(&commit.routing_fold));
         const wire = fano.heartbeat(self.cell, @intCast(self.state.sequence), self.officer.name, digest);
         if (!fano.verify(&wire)) return error.SealFailure;
