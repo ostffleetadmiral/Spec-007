@@ -57,13 +57,13 @@ pub fn main() !void {
     var officer = try aiwo_runtime.Runtime.init(alloc, "digit", .wo3, 6, "core_integrity", "aiwo", .{ 1, 2, 3 });
     officer.activate();
     const steps: usize = if (std.posix.getenv("AIWO_DIGIT_STEPS")) |value| std.fmt.parseInt(usize, value, 10) catch 1 else 1;
-    if (steps == 0 or steps > 3) return error.InvalidStepCount;
+    if (steps == 0 or steps > 6) return error.InvalidStepCount;
     var token: usize = 248044;
     var total_uploads: usize = 0;
-    var outputs: [3]u32 = .{ 0, 0, 0 };
-    var folds: [3]u256 = .{ 0, 0, 0 };
-    var aiwo_sequences: [3]u64 = .{ 0, 0, 0 };
-    var aiwo_decisions: [3][]const u8 = .{ "", "", "" };
+    var outputs: [6]u32 = .{ 0, 0, 0, 0, 0, 0 };
+    var folds: [6]u256 = .{ 0, 0, 0, 0, 0, 0 };
+    var aiwo_sequences: [6]u64 = .{ 0, 0, 0, 0, 0, 0 };
+    var aiwo_decisions: [6][]const u8 = .{ "", "", "", "", "", "" };
     for (0..steps) |step| {
         if (step > 0) try session.advanceStep();
         total_uploads += try feed(alloc, session, &embedding, &index, &embed_cache, token);
@@ -75,5 +75,5 @@ pub fn main() !void {
         aiwo_decisions[step] = @tagName(aiwo.decision);
         token = observation.argmax_token;
     }
-    try std.io.getStdOut().writer().print("{{\"schema\":\"AIWO-DIGIT-MODEL-v4\",\"steps\":{d},\"package_bytes\":{d},\"indexed_tensors\":{d},\"weights_uploaded\":{d},\"input_token\":248044,\"generated_ids\":[{d},{d},{d}],\"checkpoint_folds\":[\"{x}\",\"{x}\",\"{x}\"],\"aiwo_sequences\":[{d},{d},{d}],\"aiwo_decisions\":[\"{s}\",\"{s}\",\"{s}\"],\"wire_bytes\":136,\"execution\":\"native-aiwo\"}}\n", .{ steps, package_bytes.len, index.tensors.items.len, total_uploads, outputs[0], outputs[1], outputs[2], folds[0], folds[1], folds[2], aiwo_sequences[0], aiwo_sequences[1], aiwo_sequences[2], aiwo_decisions[0], aiwo_decisions[1], aiwo_decisions[2] });
+    try std.io.getStdOut().writer().print("{{\"schema\":\"AIWO-DIGIT-MODEL-v4\",\"steps\":{d},\"package_bytes\":{d},\"indexed_tensors\":{d},\"weights_uploaded\":{d},\"input_token\":248044,\"generated_ids\":[{d},{d},{d},{d},{d},{d}],\"checkpoint_folds\":[\"{x}\",\"{x}\",\"{x}\",\"{x}\",\"{x}\",\"{x}\"],\"aiwo_sequences\":[{d},{d},{d},{d},{d},{d}],\"aiwo_decisions\":[\"{s}\",\"{s}\",\"{s}\",\"{s}\",\"{s}\",\"{s}\"],\"wire_bytes\":136,\"execution\":\"native-aiwo\"}}\n", .{ steps, package_bytes.len, index.tensors.items.len, total_uploads, outputs[0], outputs[1], outputs[2], outputs[3], outputs[4], outputs[5], folds[0], folds[1], folds[2], folds[3], folds[4], folds[5], aiwo_sequences[0], aiwo_sequences[1], aiwo_sequences[2], aiwo_sequences[3], aiwo_sequences[4], aiwo_sequences[5], aiwo_decisions[0], aiwo_decisions[1], aiwo_decisions[2], aiwo_decisions[3], aiwo_decisions[4], aiwo_decisions[5] });
 }
