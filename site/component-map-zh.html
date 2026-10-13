@@ -935,9 +935,15 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>aiwo_prompt.zig</code></td>
+<td>解析任意逗號分隔 token-id prompt 與重複 stop-token policy，供原生 Digit 執行。</td>
+<td>prompt/stop parser 單元測試</td>
+<td>text tokenizer 整合另行處理</td>
+</tr>
+<tr>
 <td><code>aiwo_digit_bridge.zig</code> / <code>aiwo_digit_model_probe.zig</code></td>
 <td>適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界。</td>
-<td>750-tensor model probe + 真實一/六步路徑</td>
+<td>750-tensor model probe + 真實一/六步路徑 + stop-token 測試</td>
 <td>多 token parity 擴展待完成</td>
 </tr>
 <tr>

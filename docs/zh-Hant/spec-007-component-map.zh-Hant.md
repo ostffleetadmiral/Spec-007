@@ -171,7 +171,8 @@
 | `aiwo_policy.zig` / `aiwo_manifest.zig` | 原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議。 | 原生單元測試 + manifest 檢查 | — |
 | `aiwo_state.zig` | 帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。 | snapshot 往返/竄改測試 | officer identity 由原生 runtime 持有 |
 | `aiwo_chunk_checkpoint.zig` | 已接納 AIWO chunk 計畫之原子、校驗和、版本化 checkpoint/resume 狀態。 | checkpoint 往返 + parity resume | — |
-| `aiwo_digit_bridge.zig` / `aiwo_digit_model_probe.zig` | 適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界。 | 750-tensor model probe + 真實一/六步路徑 | 多 token parity 擴展待完成 |
+| `aiwo_prompt.zig` | 解析任意逗號分隔 token-id prompt 與重複 stop-token policy，供原生 Digit 執行。 | prompt/stop parser 單元測試 | text tokenizer 整合另行處理 |
+| `aiwo_digit_bridge.zig` / `aiwo_digit_model_probe.zig` | 適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界。 | 750-tensor model probe + 真實一/六步路徑 + stop-token 測試 | 多 token parity 擴展待完成 |
 | `aiwo_cognitive.zig` | 以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；scale 0–7 理論路徑數為 1、8、64、512、4096、32768、262144、2097152；不持有 model tensor 或權限。 | 原生認知單元測試 + scale parity | scale 3–7 採有界 chunk planning/admission，不暴力枚舉 |
 | `aiwo_model_observation.zig` | 將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。 | 原生 model-observation 單元測試 + 真實 Digit 探針 | 任意外部 model session 仍採有界執行 |
 | `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。 | 原生 AIWO parity 探針 + 真實 Digit model 探針 | 多 token/完整生成硬化待完成 |

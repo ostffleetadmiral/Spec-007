@@ -990,9 +990,15 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>—</td>
 </tr>
 <tr>
+<td><code>aiwo_prompt.zig</code></td>
+<td>Parses arbitrary comma-separated token-id prompts and repeated stop-token policy for native Digit execution.</td>
+<td>prompt/stop parser unit test</td>
+<td>text tokenizer integration remains separate</td>
+</tr>
+<tr>
 <td><code>aiwo_digit_bridge.zig</code> / <code>aiwo_digit_model_probe.zig</code></td>
 <td>Adapts real Digit ModelObservation records and executes the native q4 package/session boundary before AIWO policy/FANO.</td>
-<td>750-tensor model probe + real one/six-step path</td>
+<td>750-tensor model probe + real one/six-step path + stop-token run</td>
 <td>multi-token parity expansion pending</td>
 </tr>
 <tr>
