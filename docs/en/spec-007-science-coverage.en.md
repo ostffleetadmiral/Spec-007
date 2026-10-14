@@ -71,7 +71,7 @@ verbatim), plus the 2026-10-08 research debrief (`security/out/research-debrief.
 |---|---|---|---|
 | Ed25519 signatures | genesis, seals, votes, genesis pair | RFC 8032 | STANDARD |
 | SHA-256 | commitments, seals, manifests | FIPS 180-4 | STANDARD |
-| HMAC-SHA256 | D12 channel tags (frameAuth) | RFC 2104 | STANDARD |
+| HMAC-SHA256 | D12 channel + packet tags (frameAuth/packetTag) | RFC 2104 | STANDARD |
 | PBKDF2 | keystore wrapping | RFC 8018 / RFC 2898 | STANDARD |
 | TOTP | QStar.net auth | RFC 6238 | STANDARD |
 | Shamir (k,n) secret sharing | shard/escrow harness | Shamir, CACM 22(11), 1979 | SETTLED |

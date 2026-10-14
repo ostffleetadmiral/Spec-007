@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 49
+    "completed_full_retrograde": 50
   },
   "components": [
     {
@@ -7043,9 +7043,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "d776d05073e2ec4b5e0e543f190f6b2956dac972d99cf4a8d4e899881f527efc",
-        "bytes": 201164,
-        "lines": 3931,
+        "sha256": "e58610626789ae7f81762d7fa080da76a8a7f64a515c53061d82c9a4910b381f",
+        "bytes": 201247,
+        "lines": 3933,
         "imports": [
           "../tools/dht-fs.mjs",
           "./fano-mesh-bridge.mjs",
@@ -8432,7 +8432,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "af69e80baf915eb16e8b00e41df1bad33d0189b71175ed95d34c515d34b643ee",
+        "sha256": "5ceda9e8c6eb74a6c5d8638364afe5cf81854e1e2e31dbbeef29b2720e70c677",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8474,7 +8474,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "8875b9880f5187d5f43d22718e3d03598264bdfcdb556ca3629a875a713cbf71",
+        "sha256": "76f41426e8690f086e2ead00d04f034db55d8a8858d65c092f9e59d96bd4608d",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11298,14 +11298,15 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "bb5b0fd9d6a9590f4e5671808152ef89a80d5a844d17eb5ce2884bb2a8563895",
-        "bytes": 19142,
-        "lines": 433,
+        "sha256": "75473e8fe86155277167fc1d62a0176d77b4ce3d3dc52606a6b7e9d287543e1c",
+        "bytes": 26513,
+        "lines": 583,
         "imports": [
           "std"
         ],
         "referenced_by": [
-          "security/team-sweep-2.mjs"
+          "security/team-sweep-2.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -11320,7 +11321,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 10,
+        "test_blocks": 12,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11331,9 +11332,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-qstar-parity-boundaries-20261014",
+        "decision": "packet-bound-authenticated-wire-parity"
       }
     },
     {
@@ -12080,9 +12081,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "54fa0debd4acef86cf4a7cc5d12b01bd64458f93811ffca4d0e6c9f45e37e4ab",
-        "bytes": 17776,
-        "lines": 437,
+        "sha256": "324e18a356c39f880db9a9b02da8e253a5f63b945722c72dc2ba541b59b29d44",
+        "bytes": 17932,
+        "lines": 441,
         "imports": [
           "node:crypto",
           "node:fs",

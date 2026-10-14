@@ -70,7 +70,7 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 |---|---|---|---|
 | Ed25519 簽章 | 創世、封印、表決、創世對 | RFC 8032 | STANDARD |
 | SHA-256 | 承諾、封印、清單 | FIPS 180-4 | STANDARD |
-| HMAC-SHA256 | D12 通道標籤(frameAuth) | RFC 2104 | STANDARD |
+| HMAC-SHA256 | D12 通道與封包標籤(frameAuth/packetTag) | RFC 2104 | STANDARD |
 | PBKDF2 | 金鑰庫封裝 | RFC 8018 / RFC 2898 | STANDARD |
 | TOTP | QStar.net 驗證 | RFC 6238 | STANDARD |
 | Shamir (k,n) 秘密分享 | 分片/託管驗具 | Shamir,CACM 22(11),1979 | SETTLED |

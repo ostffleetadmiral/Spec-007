@@ -5112,7 +5112,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Topic | Framework role | External record | Tier | |---|---|---|---| | Ed25519 signatures | genesis, seals, votes, genesis pair | RFC 8032 | STANDARD | | SHA-256 | commitments, seals, manifests | FIPS 180-4 | STANDARD | | HMAC-SHA256 | D12 channel tags (frameAuth) | RFC 2104 | STANDARD | | PBKDF2 | keystore wrapping | RFC 8018 / RFC 2898 | STANDARD | | TOTP | QStar.net auth | RFC 6238 | STANDARD ",
+      "outcome": "| Topic | Framework role | External record | Tier | |---|---|---|---| | Ed25519 signatures | genesis, seals, votes, genesis pair | RFC 8032 | STANDARD | | SHA-256 | commitments, seals, manifests | FIPS 180-4 | STANDARD | | HMAC-SHA256 | D12 channel + packet tags (frameAuth/packetTag) | RFC 2104 | STANDARD | | PBKDF2 | keystore wrapping | RFC 8018 / RFC 2898 | STANDARD | | TOTP | QStar.net auth | R",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-science-coverage.en.md",
       "title": "§4 Coding theory & cryptography",

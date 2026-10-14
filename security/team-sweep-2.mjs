@@ -3511,7 +3511,9 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
      it never received — the decoder must know its own bound */
   {
     const src = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
-    /error\.Truncated/.test(src) && /i \+ 5 \+ len > stream\.len/.test(src)
+    const bounded = /remaining < (frame_len|wire_len)/.test(src) ||
+      /i \+ 5 \+ len > stream\.len/.test(src);
+    /error\.Truncated/.test(src) && bounded
       ? held("LAWB", "no-free-information",
           "law held: declared-length overrun refuses — the decoder cannot conjure bytes it never received")
       : open_("LAWB", "no-free-information", "truncation bound absent");

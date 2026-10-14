@@ -25,11 +25,13 @@
 //   Layer 1 — frameCheck: unkeyed XOR, error DETECTION only (noise).
 //             Forgeable by an adversary (payload^delta + check^delta);
 //             that bound stays on record, tested and labeled.
-//   Layer 2 — frameTag: keyed HMAC-SHA256 tag truncated to 8 bytes over
-//             the entire raw frame (magic|seq|len|payload|check). Any
-//             modification to any covered byte fails authentication
-//             without the channel key — this is the adversary wall at
-//             transport level, defense-in-depth below the envelope seal.
+//   Layer 2 — frameTag + packetTag: keyed HMAC-SHA256 tags truncated to 8
+//             bytes. Each data frame tag covers its raw frame
+//             (magic|seq|len|payload|check); a packet terminator commits to
+//             the complete decoded envelope so a valid frame from another
+//             same-key packet cannot be spliced in. Any modification to a
+//             covered byte fails authentication without the channel key —
+//             the adversary wall below the envelope seal.
 //             frameAuth/unframeAuth are the authenticated channel;
 //             frame/unframe remain the inner detection layer.
 
@@ -40,6 +42,9 @@ const FRAME_PAYLOAD: usize = 56; // chunk size on the wire
 const TAG_BYTES: usize = 8; // truncated HMAC-SHA256 — 2^64 forgery space
 const MAGIC0: u8 = 0xF0;
 const MAGIC1: u8 = 0xA0;
+const END_MAGIC1: u8 = 0xA1;
+const END_FRAME_BYTES: usize = 2 + TAG_BYTES;
+const PACKET_TAG_DOMAIN = "spec008-qstar-parity-packet-v1";
 
 // frame layout: [MAGIC0, MAGIC1, seq, len, payload[len], check]
 //   check = XOR of seq ^ len ^ every payload byte — single-byte
@@ -55,62 +60,74 @@ fn frameCheck(seq: u8, len: u8, payload: []const u8) u8 {
 /// the envelope capacity (pigeonhole: the bound is enforced at encode).
 fn frame(packet: []const u8, out: []u8) !usize {
     if (packet.len > WIRE_PACKET_BYTES) return error.OverCapacity;
+    const frame_count = (packet.len + FRAME_PAYLOAD - 1) / FRAME_PAYLOAD;
+    const required = packet.len + frame_count * 5;
+    if (required > out.len) return error.OutputOverflow;
     var n: usize = 0;
     var seq: u8 = 0;
     var off: usize = 0;
     while (off < packet.len) : (seq += 1) {
         const len: u8 = @intCast(@min(FRAME_PAYLOAD, packet.len - off));
         const payload = packet[off .. off + len];
-        if (n + 5 + len > out.len) return error.OutputOverflow;
+        const frame_len = 5 + @as(usize, len);
+        const end = std.math.add(usize, n, frame_len) catch return error.OutputOverflow;
+        if (end > out.len) return error.OutputOverflow;
         out[n] = MAGIC0;
         out[n + 1] = MAGIC1;
         out[n + 2] = seq;
         out[n + 3] = len;
         @memcpy(out[n + 4 .. n + 4 + len], payload);
         out[n + 4 + len] = frameCheck(seq, len, payload);
-        n += 5 + len;
+        n = end;
         off += len;
     }
     return n;
 }
 
 /// Decode a framed transport stream back into the envelope.
-/// Refuses: non-frame bytes, out-of-order sequence, declared-len
-//   mismatch, truncation, corruption (check), and — the pigeonhole —
+/// Refuses: non-frame bytes, non-canonical/zero lengths, out-of-order
+/// sequence, truncation, corruption (check), and — the pigeonhole —
 /// more than 136 total payload bytes.
 fn unframe(stream: []const u8, out: []u8) !usize {
+    var decoded: [WIRE_PACKET_BYTES]u8 = undefined;
     var n: usize = 0;
     var i: usize = 0;
     var expect_seq: u8 = 0;
     while (i < stream.len) {
-        if (i + 5 > stream.len) return error.Truncated;
+        const remaining = stream.len - i;
+        if (remaining < 5) return error.Truncated;
         if (stream[i] != MAGIC0 or stream[i + 1] != MAGIC1)
             return error.BadMagic;
         const seq = stream[i + 2];
         const len: usize = stream[i + 3];
+        if (len == 0 or len > FRAME_PAYLOAD) return error.InvalidLength;
         if (seq != expect_seq) return error.OutOfOrder;
-        if (i + 5 + len > stream.len) return error.Truncated;
+        const frame_len = 5 + len;
+        if (remaining < frame_len) return error.Truncated;
         const payload = stream[i + 4 .. i + 4 + len];
         const check = stream[i + 4 + len];
         if (check != frameCheck(seq, @intCast(len), payload))
             return error.Corrupt;
-        if (n + len > WIRE_PACKET_BYTES) return error.OverCapacity;
-        if (n + len > out.len) return error.OutputOverflow;
-        @memcpy(out[n .. n + len], payload);
+        if (len > decoded.len - n) return error.OverCapacity;
+        @memcpy(decoded[n .. n + len], payload);
         n += len;
-        i += 5 + len;
+        i += frame_len;
         expect_seq += 1;
     }
+    if (n > out.len) return error.OutputOverflow;
+    @memcpy(out[0..n], decoded[0..n]);
     return n;
 }
 
 /// XOR-parity over fixed-size cells of the stream — one erased frame
 /// recovers, two are underdetermined. Mirrors the escrow harness's
 /// honest capacity note.
-fn streamParity(cells: []const []const u8, cell_size: usize, out: []u8) void {
+fn streamParity(cells: []const []const u8, cell_size: usize, out: []u8) !void {
+    if (cell_size == 0) return error.InvalidCellSize;
+    if (out.len < cell_size) return error.OutputOverflow;
+    for (cells) |cell| if (cell.len != cell_size) return error.MismatchedCell;
     @memset(out[0..cell_size], 0);
     for (cells) |cell| {
-        std.debug.assert(cell.len == cell_size);
         for (cell, 0..) |b, j| out[j] ^= b;
     }
 }
@@ -129,17 +146,45 @@ fn frameTag(key: []const u8, raw_frame: []const u8) [TAG_BYTES]u8 {
     return tag;
 }
 
+/// Keyed tag over the complete decoded packet. The terminator makes the
+/// authenticated lane packet-bound rather than only frame-bound: a valid
+/// frame from another stream keyed by the same secret cannot be spliced in
+/// without changing the packet commitment.
+fn packetTag(key: []const u8, packet: []const u8) [TAG_BYTES]u8 {
+    var mac: [32]u8 = undefined;
+    var hmac = std.crypto.auth.hmac.sha2.HmacSha256.init(key);
+    hmac.update(PACKET_TAG_DOMAIN);
+    hmac.update(packet);
+    hmac.final(&mac);
+    var tag: [TAG_BYTES]u8 = undefined;
+    @memcpy(&tag, mac[0..TAG_BYTES]);
+    return tag;
+}
+
+fn tagEql(got: []const u8, want: [TAG_BYTES]u8) bool {
+    if (got.len != TAG_BYTES) return false;
+    var got_array: [TAG_BYTES]u8 = undefined;
+    @memcpy(&got_array, got[0..TAG_BYTES]);
+    return std.crypto.utils.timingSafeEql([TAG_BYTES]u8, got_array, want);
+}
+
 /// Authenticated encode: same frames as `frame`, plus a keyed tag per
-/// frame. Layout: [magic magic seq len payload[len] check tag[8]].
+/// frame and a packet terminator. Data layout:
+/// [magic magic seq len payload[len] check tag[8]] ... [magic end tag[8]].
 fn frameAuth(key: []const u8, packet: []const u8, out: []u8) !usize {
     if (packet.len > WIRE_PACKET_BYTES) return error.OverCapacity;
+    const frame_count = (packet.len + FRAME_PAYLOAD - 1) / FRAME_PAYLOAD;
+    const required = packet.len + frame_count * (5 + TAG_BYTES) + END_FRAME_BYTES;
+    if (required > out.len) return error.OutputOverflow;
     var n: usize = 0;
     var seq: u8 = 0;
     var off: usize = 0;
     while (off < packet.len) : (seq += 1) {
         const len: u8 = @intCast(@min(FRAME_PAYLOAD, packet.len - off));
         const payload = packet[off .. off + len];
-        if (n + 5 + TAG_BYTES + len > out.len) return error.OutputOverflow;
+        const frame_len = 5 + TAG_BYTES + @as(usize, len);
+        const end = std.math.add(usize, n, frame_len) catch return error.OutputOverflow;
+        if (end > out.len) return error.OutputOverflow;
         out[n] = MAGIC0;
         out[n + 1] = MAGIC1;
         out[n + 2] = seq;
@@ -148,43 +193,62 @@ fn frameAuth(key: []const u8, packet: []const u8, out: []u8) !usize {
         out[n + 4 + len] = frameCheck(seq, len, payload);
         const tag = frameTag(key, out[n .. n + 5 + len]);
         @memcpy(out[n + 5 + len .. n + 5 + TAG_BYTES + len], &tag);
-        n += 5 + TAG_BYTES + len;
+        n = end;
         off += len;
     }
-    return n;
+    const end = std.math.add(usize, n, END_FRAME_BYTES) catch return error.OutputOverflow;
+    if (end > out.len) return error.OutputOverflow;
+    out[n] = MAGIC0;
+    out[n + 1] = END_MAGIC1;
+    const packet_tag = packetTag(key, packet);
+    @memcpy(out[n + 2 .. end], &packet_tag);
+    return end;
 }
 
-/// Authenticated decode: verify the keyed tag BEFORE trusting a frame's
-/// contents — forgery, splice, and tag truncation all refuse. Structural
-/// checks (magic, sequence, capacity, detection check) still apply after
-/// the tag verifies: authentication first, structure second.
+/// Authenticated decode: bound each frame's extents, verify its keyed tag
+/// before copying payload, then enforce sequence/check/capacity. The packet
+/// terminator refuses truncation, trailing bytes, and cross-packet splices;
+/// forgery and tag replay refuse at BadTag/BadPacketTag.
 fn unframeAuth(key: []const u8, stream: []const u8, out: []u8) !usize {
+    var decoded: [WIRE_PACKET_BYTES]u8 = undefined;
     var n: usize = 0;
     var i: usize = 0;
     var expect_seq: u8 = 0;
     while (i < stream.len) {
-        if (i + 5 + TAG_BYTES > stream.len) return error.Truncated;
-        if (stream[i] != MAGIC0 or stream[i + 1] != MAGIC1)
-            return error.BadMagic;
+        const remaining = stream.len - i;
+        if (remaining < 2) return error.Truncated;
+        if (stream[i] != MAGIC0) return error.BadMagic;
+        if (stream[i + 1] == END_MAGIC1) {
+            if (remaining < END_FRAME_BYTES) return error.Truncated;
+            if (remaining > END_FRAME_BYTES) return error.TrailingBytes;
+            const tag = stream[i + 2 .. i + END_FRAME_BYTES];
+            if (!tagEql(tag, packetTag(key, decoded[0..n]))) return error.BadPacketTag;
+            if (n > out.len) return error.OutputOverflow;
+            @memcpy(out[0..n], decoded[0..n]);
+            return n;
+        }
+        if (stream[i + 1] != MAGIC1) return error.BadMagic;
+        if (remaining < 5 + TAG_BYTES) return error.Truncated;
         const seq = stream[i + 2];
         const len: usize = stream[i + 3];
-        if (i + 5 + TAG_BYTES + len > stream.len) return error.Truncated;
-        const raw = stream[i .. i + 5 + len];
-        const tag = stream[i + 5 + len .. i + 5 + TAG_BYTES + len];
-        const want = frameTag(key, raw);
-        if (!std.mem.eql(u8, tag, &want)) return error.BadTag;
+        if (len == 0 or len > FRAME_PAYLOAD) return error.InvalidLength;
+        const frame_len = 5 + len;
+        const wire_len = frame_len + TAG_BYTES;
+        if (remaining < wire_len) return error.Truncated;
+        const raw = stream[i .. i + frame_len];
+        const tag = stream[i + frame_len .. i + wire_len];
+        if (!tagEql(tag, frameTag(key, raw))) return error.BadTag;
         const payload = stream[i + 4 .. i + 4 + len];
         if (seq != expect_seq) return error.OutOfOrder;
         if (raw[4 + len] != frameCheck(seq, @intCast(len), payload))
             return error.Corrupt;
-        if (n + len > WIRE_PACKET_BYTES) return error.OverCapacity;
-        if (n + len > out.len) return error.OutputOverflow;
-        @memcpy(out[n .. n + len], payload);
+        if (len > decoded.len - n) return error.OverCapacity;
+        @memcpy(decoded[n .. n + len], payload);
         n += len;
-        i += 5 + TAG_BYTES + len;
+        i += wire_len;
         expect_seq += 1;
     }
-    return n;
+    return error.Truncated;
 }
 
 // ─────────────────────────────── tests ───────────────────────────────
@@ -259,12 +323,12 @@ test "parity: truncation and splice refuse cleanly" {
     var bad: [512]u8 = undefined;
     @memcpy(bad[0..n], stream[0..n]);
     bad[0] = 0x00;
-    try std.testing.expectError(error.BadMagic, unframe(bad[0..], &back));
+    try std.testing.expectError(error.BadMagic, unframe(bad[0..n], &back));
     // swap seq order: duplicate frame 0's seq into frame 1
     var reseq: [512]u8 = undefined;
     @memcpy(reseq[0..n], stream[0..n]);
     reseq[5 + 56 + 2] = 0; // frame 1 seq field → 0, out of order
-    try std.testing.expectError(error.OutOfOrder, unframe(reseq[0..], &back));
+    try std.testing.expectError(error.OutOfOrder, unframe(reseq[0..n], &back));
 }
 
 test "parity: one erased frame recovers via XOR; two are underdetermined" {
@@ -283,7 +347,7 @@ test "parity: one erased frame recovers via XOR; two are underdetermined" {
     }
     var parity: [61]u8 = undefined;
     const refs = [_][]const u8{ &cells[0], &cells[1], &cells[2] };
-    streamParity(&refs, cell, &parity);
+    try streamParity(&refs, cell, &parity);
     // erase cell 1 → recover via XOR of parity ^ others
     var recovered: [61]u8 = undefined;
     for (0..cell) |j| recovered[j] = parity[j] ^ cells[0][j] ^ cells[2][j];
@@ -322,6 +386,60 @@ test "parity: empty envelope frames to zero-length stream" {
     try std.testing.expectEqual(@as(usize, 0), m);
 }
 
+test "parity: non-canonical frames and parity domains refuse cleanly" {
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+
+    // The encoder never emits a zero-length frame. Accepting one lets an
+    // attacker drive the u8 sequence cursor without consuming capacity.
+    const empty_frame = [_]u8{ MAGIC0, MAGIC1, 0, 0, frameCheck(0, 0, &[_]u8{}) };
+    try std.testing.expectError(error.InvalidLength, unframe(&empty_frame, &back));
+
+    // Canonical transport chunks are 1..56 bytes. A single 136-byte frame
+    // may fit the aggregate cap, but it is not this wire format.
+    var oversized: [5 + 57]u8 = undefined;
+    oversized[0] = MAGIC0;
+    oversized[1] = MAGIC1;
+    oversized[2] = 0;
+    oversized[3] = 57;
+    @memset(oversized[4 .. 4 + 57], 0x22);
+    oversized[4 + 57] = frameCheck(0, 57, oversized[4 .. 4 + 57]);
+    try std.testing.expectError(error.InvalidLength, unframe(&oversized, &back));
+
+    var auth_frame: [5 + 57 + TAG_BYTES]u8 = undefined;
+    const auth_raw_len = 5 + 57;
+    @memcpy(auth_frame[0..auth_raw_len], &oversized);
+    const auth_tag = frameTag(TEST_KEY, auth_frame[0..auth_raw_len]);
+    @memcpy(auth_frame[auth_raw_len..], &auth_tag);
+    try std.testing.expectError(error.InvalidLength, unframeAuth(TEST_KEY, &auth_frame, &back));
+
+    const c0 = [_]u8{ 1, 2 };
+    const c1 = [_]u8{3};
+    var parity: [2]u8 = undefined;
+    @memset(&parity, 0xAA);
+    try std.testing.expectError(error.InvalidCellSize, streamParity(&.{}, 0, &parity));
+    try std.testing.expectError(error.MismatchedCell, streamParity(&.{ &c0, &c1 }, 2, &parity));
+    try std.testing.expectError(error.OutputOverflow, streamParity(&.{&c0}, 2, parity[0..1]));
+    for (parity) |b| try std.testing.expectEqual(@as(u8, 0xAA), b);
+
+    const pkt = testPacket();
+    var encoded: [512]u8 = undefined;
+    const encoded_n = try frame(&pkt, &encoded);
+    var short_sink: [WIRE_PACKET_BYTES - 1]u8 = undefined;
+    @memset(&short_sink, 0xAA);
+    try std.testing.expectError(error.OutputOverflow, unframe(encoded[0..encoded_n], &short_sink));
+    for (short_sink) |b| try std.testing.expectEqual(@as(u8, 0xAA), b);
+
+    var encoded_auth: [640]u8 = undefined;
+    const auth_n = try frameAuth(TEST_KEY, &pkt, &encoded_auth);
+    var corrupt_auth: [640]u8 = undefined;
+    @memcpy(corrupt_auth[0..auth_n], encoded_auth[0..auth_n]);
+    corrupt_auth[auth_n - 1] ^= 0x01;
+    var sink: [WIRE_PACKET_BYTES]u8 = undefined;
+    @memset(&sink, 0xAA);
+    try std.testing.expectError(error.BadPacketTag, unframeAuth(TEST_KEY, corrupt_auth[0..auth_n], &sink));
+    for (sink) |b| try std.testing.expectEqual(@as(u8, 0xAA), b);
+}
+
 // ─── LAWB-09 remediation tests — the keyed layer is the adversary wall ───
 
 const TEST_KEY = "spec008-parity-channel-key-d12";
@@ -330,12 +448,44 @@ test "auth: keyed round-trip on the 136B envelope is bit-exact" {
     const pkt = testPacket();
     var stream: [640]u8 = undefined;
     const n = try frameAuth(TEST_KEY, &pkt, &stream);
-    // 3 frames × (5 + 8 tag) overhead + 136 payload
-    try std.testing.expectEqual(@as(usize, 3 * 13 + 136), n);
+    // 3 frames × (5 + 8 tag) overhead + 136 payload + terminator tag
+    try std.testing.expectEqual(@as(usize, 3 * 13 + 136 + END_FRAME_BYTES), n);
     var back: [WIRE_PACKET_BYTES]u8 = undefined;
     const m = try unframeAuth(TEST_KEY, stream[0..n], &back);
     try std.testing.expectEqual(WIRE_PACKET_BYTES, m);
     try std.testing.expectEqualSlices(u8, &pkt, &back);
+}
+
+test "auth: packet terminator binds frames and authenticates empty packets" {
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+
+    // Same-key cross-packet splice: every per-frame tag verifies, but the
+    // packet terminator commits to the complete decoded envelope.
+    var other = testPacket();
+    other[60] ^= 0x5A;
+    var foreign: [640]u8 = undefined;
+    _ = try frameAuth(TEST_KEY, &other, &foreign);
+    var spliced: [640]u8 = undefined;
+    @memcpy(spliced[0..n], stream[0..n]);
+    const f1 = 13 + 56;
+    @memcpy(spliced[f1 .. f1 + f1], foreign[f1 .. f1 + f1]);
+    try std.testing.expectError(error.BadPacketTag, unframeAuth(TEST_KEY, spliced[0..n], &back));
+
+    try std.testing.expectError(error.Truncated, unframeAuth(TEST_KEY, stream[0 .. n - 1], &back));
+    var trailing: [641]u8 = undefined;
+    @memcpy(trailing[0..n], stream[0..n]);
+    trailing[n] = 0x00;
+    try std.testing.expectError(error.TrailingBytes, unframeAuth(TEST_KEY, trailing[0 .. n + 1], &back));
+
+    var empty_stream: [END_FRAME_BYTES]u8 = undefined;
+    const empty_n = try frameAuth(TEST_KEY, &[_]u8{}, &empty_stream);
+    try std.testing.expectEqual(END_FRAME_BYTES, empty_n);
+    const empty_m = try unframeAuth(TEST_KEY, &empty_stream, &back);
+    try std.testing.expectEqual(@as(usize, 0), empty_m);
+    try std.testing.expectError(error.Truncated, unframeAuth(TEST_KEY, empty_stream[0 .. empty_n - 1], &back));
 }
 
 test "auth: the LAWB-09 forge dies at the tag — payload^delta+check^delta" {
