@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 31
+    "completed_full_retrograde": 32
   },
   "components": [
     {
@@ -10276,15 +10276,17 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "fbcacc89eaeea60bc4a29d87f64d317c6052ecc66fbb91d987b255c101f1aa1f",
-        "bytes": 10321,
-        "lines": 206,
+        "sha256": "cfd3ec61918f13d84e3e63563f684a092c0d22a3b929ee46e60ec2ec6b4e2dab",
+        "bytes": 11566,
+        "lines": 228,
         "imports": [
           "consistent because\n    // self-referential",
           "fixed_point_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10298,7 +10300,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 8,
+        "test_blocks": 9,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10309,9 +10311,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-checksum-pole-20261014",
+        "decision": "bounded-mobius-checksum"
       }
     },
     {
@@ -12053,9 +12055,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "1e351d017dd1f69f3a7dbe2066fd34b01807f414c9f0af1ce113f8563e713e89",
-        "bytes": 15241,
-        "lines": 365,
+        "sha256": "bf30a453a460af445c5f121286aa765ba4de82731ddad95d650ecfe53ada290c",
+        "bytes": 15374,
+        "lines": 369,
         "imports": [
           "node:crypto",
           "node:fs",

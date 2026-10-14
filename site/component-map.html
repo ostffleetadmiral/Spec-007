@@ -193,9 +193,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec007_checksum_audit.zig</code></td>
-<td>Session-vs-checksum audit: re-checks everything the session's harnesses produced against the E=mc²↔i↔E=mc⁻² checksum grammar (CONSISTENT / INCONSISTENT / SELF-REFERENTIAL).</td>
-<td>8 tests</td>
-<td>—</td>
+<td>Session-vs-checksum audit: re-checks everything the session's harnesses produced against the E=mc²↔i↔E=mc⁻² checksum grammar (CONSISTENT / INCONSISTENT / SELF-REFERENTIAL). The Möbius pole and out-of-range inputs now return typed errors instead of reaching <code>unreachable</code>.</td>
+<td>9 tests</td>
+<td>pole/input-domain boundary coverage added</td>
 </tr>
 </tbody>
 </table>

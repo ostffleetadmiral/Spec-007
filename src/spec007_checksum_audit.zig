@@ -57,36 +57,46 @@ fn try2(v: anytype) @TypeOf(v catch unreachable) {
     return v catch unreachable;
 }
 
+const ChecksumError = error{ InputDomain, Pole, Overflow };
+const MAX_CHECKSUM_Z = Q128.fromInteger(1_000_000);
+
 /// The self-inverse Mobius map: Gamma(z) = (1-z)/(1+z).
 /// Distinct from the Smith chart's (z-1)/(z+1), which is NOT self-inverse.
-fn mobius(z: Q128) Q128 {
-    return try2(Q128.one.sub(z).div(Q128.one.add(z)));
+fn mobius(z: Q128) ChecksumError!Q128 {
+    if (z.raw < -MAX_CHECKSUM_Z.raw or z.raw > MAX_CHECKSUM_Z.raw) return error.InputDomain;
+    const denominator = Q128.one.add(z);
+    if (denominator.raw == 0) return error.Pole;
+    return Q128.one.sub(z).div(denominator) catch |err| switch (err) {
+        error.DivisionByZero => error.Pole,
+        error.Overflow => error.Overflow,
+    };
 }
 
 /// The fixed point z* = sqrt(2) - 1 — where Gamma(z) = z.
 /// A claim at the fixed point maps to itself: trivially consistent.
-fn fixedPoint() Q128 {
-    const root2 = try2(Q128.fromInteger(2).sqrt());
+fn fixedPoint() ChecksumError!Q128 {
+    const root2 = Q128.fromInteger(2).sqrt() catch return error.Overflow;
     return root2.sub(Q128.one);
 }
 
 /// Round-trip residual: |Gamma(Gamma(z)) - z|.
-fn loopResidual(z: Q128) Q128 {
-    return mobius(mobius(z)).sub(z).abs();
+fn loopResidual(z: Q128) ChecksumError!Q128 {
+    return (try mobius(try mobius(z))).sub(z).abs();
 }
 
 /// Distance from the fixed point — the self-reference detector.
 /// Small => the input conserves trivially and carries ~zero new bits.
-fn selfReferenceScore(z: Q128) Q128 {
-    return z.sub(fixedPoint()).abs();
+fn selfReferenceScore(z: Q128) ChecksumError!Q128 {
+    if (z.raw < -MAX_CHECKSUM_Z.raw or z.raw > MAX_CHECKSUM_Z.raw) return error.InputDomain;
+    return z.sub(try fixedPoint()).abs();
 }
 
 // ============================ tests ============================
 
 test "the fixed point exists and is sqrt(2)-1 — the corpus's missing constant" {
-    const z = fixedPoint();
+    const z = try fixedPoint();
     // verify Gamma(z*) = z* — the map does nothing there
-    const gz = mobius(z);
+    const gz = try mobius(z);
     const diff = gz.sub(z).abs();
     const eps = try2(Q128.fromRatio(1, 1000000));
     try std.testing.expect(diff.raw < eps.raw);
@@ -107,7 +117,7 @@ test "CONSISTENT class: verified session results close the loop" {
     };
     const eps = try2(Q128.fromRatio(1, 10000));
     for (cases) |c| {
-        const r = loopResidual(c.z);
+        const r = try loopResidual(c.z);
         try std.testing.expect(r.raw < eps.raw); // Gamma(Gamma(z)) = z
     }
 }
@@ -147,13 +157,13 @@ test "SELF-REFERENTIAL class: fixed-point inputs pass trivially — zero bits" {
     // distinguish "consistent because true" from "consistent because
     // self-referential". M48's tautology and LLM-agreement verdicts live
     // in this class: the map returns the input, nothing learned.
-    const z = fixedPoint();
-    const gz = mobius(z);
+    const z = try fixedPoint();
+    const gz = try mobius(z);
     const diff = gz.sub(z).abs();
     const eps = try2(Q128.fromRatio(1, 1000000));
     try std.testing.expect(diff.raw < eps.raw); // passes — trivially
     // the detector: selfReferenceScore ~ 0 flags the class
-    const score = selfReferenceScore(z);
+    const score = try selfReferenceScore(z);
     try std.testing.expect(score.raw < eps.raw);
     // honest filing: checksum-pass is NECESSARY, never SUFFICIENT.
     // the tautology was caught by mechanism analysis (inert exponents),
@@ -185,6 +195,18 @@ test "Z=0 reads as the orthogonal-boundary signal — a missed answer class" {
     // the same grammar covers CTC refusal: a closed loop that cannot
     // self-consist is a checksum failure — chronology protection as
     // boundary-condition rejection (Novikov), same class as Z=0.
+}
+
+test "pole and out-of-domain checksum inputs fail closed" {
+    const pole = Q128.fromInteger(-1);
+    const edge = Q128.fromInteger(-2);
+    const beyond = Q128.fromInteger(1_000_001);
+    try std.testing.expectError(error.Pole, mobius(pole));
+    try std.testing.expectError(error.Pole, loopResidual(pole));
+    try std.testing.expectError(error.InputDomain, mobius(beyond));
+    try std.testing.expectError(error.InputDomain, selfReferenceScore(beyond));
+    try std.testing.expect((try mobius(edge)).cmp(Q128.fromInteger(-3)) == 0);
+    try std.testing.expect((try loopResidual(edge)).raw < @divTrunc(fixed.Scale, 10_000));
 }
 
 test "filed verdict: checksum works — and its failure modes are the missed physics" {

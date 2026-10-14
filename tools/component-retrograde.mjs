@@ -141,6 +141,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-astrometric-domains",
     archive: "spec007-astrometric-domain-boundaries-20261014",
   }],
+  ["src/spec007_checksum_audit.zig", {
+    decision: "bounded-mobius-checksum",
+    archive: "spec007-checksum-pole-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

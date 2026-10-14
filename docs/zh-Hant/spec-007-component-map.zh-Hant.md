@@ -31,7 +31,7 @@
 | `spec007_portal_probe.zig` | 平面二維門戶/薄殼探針:曲速探針建模三維隧道,門戶屬不同幾何類 — 二維曲面 — 自有成本算術。 | 10 測試 | — |
 | `spec007_warp_probe.zig` | Alcubierre 度規探針,點對點(arXiv:gr-qc/0009013):超光速座標速度下平坦內部氣泡,以整數算術計價 — 三界限模板之歸屬框架。 | 13 測試 | — |
 | `spec007_wow_shape_probe.zig` | Wow! 訊號波形探針:觀測強度輪廓是否符合曲速氣泡壁形 — 波形問題可執行化,異於天體測量位置探針。 | 14 測試 | — |
-| `spec007_checksum_audit.zig` | 會話對校驗稽核:以 E=mc²↔i↔E=mc⁻² 校驗語法(CONSISTENT / INCONSISTENT / SELF-REFERENTIAL)複查本會話各框架產出。 | 8 測試 | — |
+| `spec007_checksum_audit.zig` | 會話對校驗稽核:以 E=mc²↔i↔E=mc⁻² 校驗語法(CONSISTENT / INCONSISTENT / SELF-REFERENTIAL)複查本會話各框架產出。Möbius 極點與越界輸入現以型別錯誤回傳,不再落入 `unreachable`。 | 9 測試 | 新增極點/輸入定義域邊界覆蓋 |
 
 ## SPEC-008 依賴橋接測試框架(`src/`)
 

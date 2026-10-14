@@ -6112,7 +6112,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 8,
+        "blocks": 9,
         "registered": true
       },
       "documentation": {

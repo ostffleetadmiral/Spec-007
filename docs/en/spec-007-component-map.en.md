@@ -32,7 +32,7 @@ bottom; expansions since the map was drawn are noted per row.
 | `spec007_portal_probe.zig` | Flat-2D-portal / thin-shell probe: where the warp probe models a 3D tunnel, the portal is a different geometry class — a 2D surface — and gets its own cost arithmetic. | 10 tests | — |
 | `spec007_warp_probe.zig` | Alcubierre metric probe, point-to-point (arXiv:gr-qc/0009013): the flat-interior bubble at superluminal coordinate speed, priced in integer arithmetic — the three-bound template's home harness. | 13 tests | — |
 | `spec007_wow_shape_probe.zig` | Wow! signal profile-shape probe: does the observed intensity profile match the warp-bubble wall shape — the shape question made executable, distinct from the astrometric position probe. | 14 tests | — |
-| `spec007_checksum_audit.zig` | Session-vs-checksum audit: re-checks everything the session's harnesses produced against the E=mc²↔i↔E=mc⁻² checksum grammar (CONSISTENT / INCONSISTENT / SELF-REFERENTIAL). | 8 tests | — |
+| `spec007_checksum_audit.zig` | Session-vs-checksum audit: re-checks everything the session's harnesses produced against the E=mc²↔i↔E=mc⁻² checksum grammar (CONSISTENT / INCONSISTENT / SELF-REFERENTIAL). The Möbius pole and out-of-range inputs now return typed errors instead of reaching `unreachable`. | 9 tests | pole/input-domain boundary coverage added |
 
 ## SPEC-008 dep-bridge harnesses (`src/`)
 
