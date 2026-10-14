@@ -165,6 +165,10 @@ const FULL_RETROGRADE = new Map([
     decision: "verified-ckm-baseline",
     archive: "spec007-ckm-baseline-20261014",
   }],
+  ["src/spec007_coincidence_probe.zig", {
+    decision: "bounded-probability-domains",
+    archive: "spec007-coincidence-domains-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

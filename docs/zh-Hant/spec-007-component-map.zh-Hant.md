@@ -26,7 +26,7 @@
 | `spec008_seal_cli.zig` | `spec008_seal` 核心之 hex CLI,供 JS↔Zig 差分探測(fano-wan-gateway 分段消費)。核心不依賴宿主,亦建為 wasm32-freestanding 程式庫供行程內驗證(`site/assets/spec008_seal.wasm.o`)。 | 經由閘道 + wasm 成品驗證 | — |
 | `spec007_alpha_probe.zig` | 主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。有界整數 log 現以型別化 domain error 回報,不再以 `unreachable` 掩蓋失敗。 | 6 測試 | 新增 log/atanh domain guard |
 | `spec007_ckm_probe.zig` | 主張 #35 機制探針:由 J3(O) 計算 CKM 元素,對比量測值(final_audit 缺失機制)。稽核開放項化為整數框架;其部分 Cabibbo 扇區判定釘在固定 PDG/文獻常數上。 | 4 測試 | 已驗證常數基線 |
-| `spec007_coincidence_probe.zig` | 神槍手謬誤對照組,純整數:主體五事件合取作為特定元組雖罕(約 1.6e-10),探針計算誠實之任一族群機率 — 機率帳之開放問題可執行化。 | 7 測試 | — |
+| `spec007_coincidence_probe.zig` | 神槍手謬誤對照組,純整數:主體五事件合取作為特定元組雖罕(約 1.6e-10),探針計算誠實之任一族群機率 — 機率帳之開放問題可執行化。Bernoulli、指數/Poisson、分母乘積與二項式定義域現以型別錯誤拒絕。 | 8 測試 | 新增機率定義域與溢位覆蓋 |
 | `spec007_ephemeris_probe.zig` | 正典曆表探針:先前會話臨時驗證之日期鏈與幾何釘為常設框架 — CANON-MATH-MAP §VI.b 主張每次執行重新推導。無效日期、三角定義域、座標與曆法起點現以型別錯誤拒絕。 | 16 測試 | 新增日期/三角/座標/曆法邊界覆蓋 |
 | `spec007_portal_probe.zig` | 平面二維門戶/薄殼探針:曲速探針建模三維隧道,門戶屬不同幾何類 — 二維曲面 — 自有成本算術。半徑與接面定義域現以型別錯誤拒絕。 | 10 測試 | 新增喉部/接面邊界覆蓋 |
 | `spec007_warp_probe.zig` | Alcubierre 度規探針,點對點(arXiv:gr-qc/0009013):超光速座標速度下平坦內部氣泡,以整數算術計價 — 三界限模板之歸屬框架。氣泡幾何、半徑、形狀值與有限差分定義域現以型別錯誤拒絕。 | 13 測試 | 新增氣泡/半徑/形狀邊界覆蓋 |

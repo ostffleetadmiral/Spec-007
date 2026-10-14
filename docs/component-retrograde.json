@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 37
+    "completed_full_retrograde": 38
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "35de7e41d928be66a72b4961d5f0435613dd4c51f30e5575546e105b3d27bbcc",
+        "sha256": "240a46241343e0ae13d07204546528b164ebe0555c5be6b10125226f434ae851",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "9a7e6790dbc88f0b55574f51f675e100f4dbdb18561937bb5ee07dfa79679cdc",
+        "sha256": "23636f3362fee45f110c8525c56002d23ad6dfd307422a0957f9381546c99d1d",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -10365,15 +10365,17 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "f16122939ba0a57bdbe44bd58c8e941f129cc8d6a24cd30c2feaf6ebae2224ba",
-        "bytes": 11985,
-        "lines": 300,
+        "sha256": "c79ce9e40f1a76d89bc03ca67d2536d1b850d29a47629363e6c4662582cc50e9",
+        "bytes": 14474,
+        "lines": 347,
         "imports": [
-          " {\n    try std.testing.expectEqual(@as(u128, 2118760), binom(50, 5));\n    // the pick-5-of-50 space alone is ~2.1 million tuples before weighting;\n    // every selectable event class multiplies it further. (Owner note: the\n    // documented RPG complement is ",
+          " {\n    try std.testing.expectEqual(@as(u128, 2118760), try binom(50, 5));\n    // the pick-5-of-50 space alone is ~2.1 million tuples before weighting;\n    // every selectable event class multiplies it further. (Owner note: the\n    // documented RPG complement is ",
           "fixed_point_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10387,7 +10389,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 7,
+        "test_blocks": 8,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10398,9 +10400,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-coincidence-domains-20261014",
+        "decision": "bounded-probability-domains"
       }
     },
     {
@@ -12065,9 +12067,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "7b729d0ddc3abc32816f051ea60ec0bf902110eafde4622bd5df0ed85592448a",
-        "bytes": 16035,
-        "lines": 389,
+        "sha256": "6dc4013c2d3da4ee0e3a3e53b72f0d854a1b94f70b6f47d84b0641f9f9bb48f2",
+        "bytes": 16181,
+        "lines": 393,
         "imports": [
           "node:crypto",
           "node:fs",

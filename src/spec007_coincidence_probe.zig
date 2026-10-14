@@ -19,6 +19,10 @@ const std = @import("std");
 const fp = @import("fixed_point_q128.zig");
 const Q128 = fp.Q128;
 
+const CoincidenceError = error{ InputDomain, Overflow };
+const MAX_EXP_ARG: i64 = 32;
+const MAX_POISSON_K: i32 = 64;
+
 const PAUL_DEN: u128 = 80 * 153 * 30 * 333 * 50; // 6,113,880,000
 
 // ── Selection grammar: the ledger's event classes, fairly stocked ──
@@ -46,7 +50,33 @@ fn splitmix64(state: *u64) u64 {
     return z ^ (z >> 31);
 }
 
-fn bernoulli(state: *u64, num: u64, den: u64) bool {
+fn boundedQ(x: Q128) bool {
+    const max = Q128.fromInteger(1_000_000);
+    return x.raw >= -max.raw and x.raw <= max.raw;
+}
+
+fn divQ(a: Q128, b: Q128) CoincidenceError!Q128 {
+    return a.div(b) catch |err| switch (err) {
+        error.DivisionByZero => error.InputDomain,
+        error.Overflow => error.Overflow,
+    };
+}
+
+fn ratioQ(num: i256, den: i256) CoincidenceError!Q128 {
+    if (den == 0) return error.InputDomain;
+    return Q128.fromRatio(num, den) catch |err| switch (err) {
+        error.DivisionByZero => error.InputDomain,
+        error.Overflow => error.Overflow,
+    };
+}
+
+fn mulQ(a: Q128, b: Q128) CoincidenceError!Q128 {
+    if (!boundedQ(a) or !boundedQ(b)) return error.InputDomain;
+    return a.mul(b);
+}
+
+fn bernoulli(state: *u64, num: u64, den: u64) CoincidenceError!bool {
+    if (den == 0 or num > den) return error.InputDomain;
     // threshold = num/den scaled to u64 space; draw < threshold => hit
     const threshold: u128 = (@as(u128, num) << 64) / den;
     return @as(u128, splitmix64(state)) < threshold;
@@ -58,15 +88,15 @@ const Person = struct {
     cathedral_den: u128, // product of 5 largest-denominator hit classes (0 if <5 hits)
 };
 
-fn dealPerson(seed: u64) Person {
+fn dealPerson(seed: u64) CoincidenceError!Person {
     var state = seed;
     var p: Person = .{ .hits = [_]u16{0} ** CATALOG.len, .total = 0, .cathedral_den = 0 };
     for (CATALOG, 0..) |c, i| {
         var s: u16 = 0;
         while (s < c.slots) : (s += 1) {
-            if (bernoulli(&state, c.num, c.den)) {
-                p.hits[i] += 1;
-                p.total += 1;
+            if (try bernoulli(&state, c.num, c.den)) {
+                p.hits[i] = std.math.add(u16, p.hits[i], 1) catch return error.Overflow;
+                p.total = std.math.add(u16, p.total, 1) catch return error.Overflow;
             }
         }
     }
@@ -96,65 +126,69 @@ fn dealPerson(seed: u64) Person {
             if (best == CATALOG.len) break;
             dens[nd] = CATALOG[best].den;
             nd += 1;
-            prod *= best_den;
+            prod = std.math.mul(u128, prod, best_den) catch return error.Overflow;
         }
         if (nd == 5) p.cathedral_den = prod;
     }
     return p;
 }
 
-fn expectedHits() Q128 {
+fn expectedHits() CoincidenceError!Q128 {
     var e = Q128.fromInteger(0);
     for (CATALOG) |c| {
-        const pc = Q128.fromRatio(@intCast(c.num), @intCast(c.den)) catch unreachable;
-        e = e.add(pc.mul(Q128.fromInteger(@intCast(c.slots))));
+        const pc = try ratioQ(@intCast(c.num), @intCast(c.den));
+        e = e.add(try mulQ(pc, Q128.fromInteger(@intCast(c.slots))));
     }
     return e;
 }
 
-fn expectedRareHits() Q128 {
+fn expectedRareHits() CoincidenceError!Q128 {
     // "rare" = the classes that build Paul-grade cathedrals (p <= 1/40)
     var e = Q128.fromInteger(0);
     for (CATALOG) |c| {
         if (c.den < 40) continue;
-        const pc = Q128.fromRatio(@intCast(c.num), @intCast(c.den)) catch unreachable;
-        e = e.add(pc.mul(Q128.fromInteger(@intCast(c.slots))));
+        const pc = try ratioQ(@intCast(c.num), @intCast(c.den));
+        e = e.add(try mulQ(pc, Q128.fromInteger(@intCast(c.slots))));
     }
     return e;
 }
 
-fn expNeg(x: Q128) Q128 {
-    // e^{-x} via Taylor; x ~ O(2) converges fast
+fn expNeg(x: Q128) CoincidenceError!Q128 {
+    // e^{-x} via Taylor; bound the argument to the convergent integer lane.
+    if (x.raw < 0 or x.raw > Q128.fromInteger(MAX_EXP_ARG).raw) return error.InputDomain;
     var sum = Q128.fromInteger(1);
     var term = Q128.fromInteger(1);
     var n: i64 = 1;
     while (n <= 30) : (n += 1) {
-        term = term.mul(x).div(Q128.fromInteger(n)) catch unreachable;
+        term = try divQ(try mulQ(term, x), Q128.fromInteger(n));
         term = term.neg();
         sum = sum.add(term);
     }
     return sum;
 }
 
-fn poissonTailGeK(lambda: Q128, k: i32) Q128 {
+fn poissonTailGeK(lambda: Q128, k: i32) CoincidenceError!Q128 {
     // P(X>=k) = 1 - e^{-lambda} * sum_{i<k} lambda^i / i!
+    if (lambda.raw < 0 or lambda.raw > Q128.fromInteger(MAX_EXP_ARG).raw) return error.InputDomain;
+    if (k <= 0 or k > MAX_POISSON_K) return error.InputDomain;
     var inner = Q128.fromInteger(1);
     var term = Q128.fromInteger(1);
     var i: i32 = 1;
     while (i < k) : (i += 1) {
-        term = term.mul(lambda).div(Q128.fromInteger(@intCast(i))) catch unreachable;
+        term = try divQ(try mulQ(term, lambda), Q128.fromInteger(@intCast(i)));
         inner = inner.add(term);
     }
-    return Q128.fromInteger(1).sub(expNeg(lambda).mul(inner));
+    return Q128.fromInteger(1).sub(try mulQ(try expNeg(lambda), inner));
 }
 
-fn binom(n: u64, k: u64) u128 {
+fn binom(n: u64, k: u64) CoincidenceError!u128 {
     if (k > n) return 0;
     var r: u128 = 1;
     var i: u64 = 0;
     const kk = @min(k, n - k);
     while (i < kk) : (i += 1) {
-        r = r * (n - i) / (i + 1);
+        const next = std.math.mul(u128, r, n - i) catch return error.Overflow;
+        r = next / (i + 1);
     }
     return r;
 }
@@ -162,7 +196,7 @@ fn binom(n: u64, k: u64) u128 {
 // ── tests ──
 
 test "choose-space: C(50,5) = 2,118,760 — the pattern-space the cathedral was drawn from" {
-    try std.testing.expectEqual(@as(u128, 2118760), binom(50, 5));
+    try std.testing.expectEqual(@as(u128, 2118760), try binom(50, 5));
     // the pick-5-of-50 space alone is ~2.1 million tuples before weighting;
     // every selectable event class multiplies it further. (Owner note: the
     // documented RPG complement is "2 million human personnel" — codex 0168/
@@ -171,30 +205,43 @@ test "choose-space: C(50,5) = 2,118,760 — the pattern-space the cathedral was 
     // evidence; CONSTRUCTION as design-vocabulary coherence.)
 }
 
+test "probability helper domains fail closed" {
+    var state: u64 = 1;
+    try std.testing.expectError(error.InputDomain, bernoulli(&state, 1, 0));
+    try std.testing.expectError(error.InputDomain, bernoulli(&state, 2, 1));
+    try std.testing.expectError(error.InputDomain, ratioQ(1, 0));
+    try std.testing.expectError(error.InputDomain, expNeg(Q128.fromInteger(-1)));
+    try std.testing.expectError(error.InputDomain, expNeg(Q128.fromInteger(MAX_EXP_ARG + 1)));
+    try std.testing.expectError(error.InputDomain, poissonTailGeK(Q128.fromInteger(1), 0));
+    try std.testing.expectError(error.InputDomain, poissonTailGeK(Q128.fromInteger(1), MAX_POISSON_K + 1));
+    try std.testing.expectError(error.InputDomain, poissonTailGeK(Q128.fromInteger(MAX_EXP_ARG + 1), 5));
+    try std.testing.expectError(error.Overflow, binom(std.math.maxInt(u64), 3));
+}
+
 test "Paul tuple denominator = 6,113,880,000 exactly" {
     try std.testing.expectEqual(@as(u128, 6113880000), PAUL_DEN);
     // reciprocal ≈ 1.6356e-10 — the specific-tuple rarity, reproduced
 }
 
 test "expected hits per random person: ~6.3 total, ~1.8 in cathedral-grade classes" {
-    const e_all = expectedHits();
-    const e_rare = expectedRareHits();
+    const e_all = try expectedHits();
+    const e_rare = try expectedRareHits();
     // 40/153+20/80+40/40+40/10+10/50+2/333+30/500+1/2 ≈ 6.28
-    const lo = Q128.fromRatio(6, 1) catch unreachable;
-    const hi = Q128.fromRatio(13, 2) catch unreachable;
+    const lo = try Q128.fromRatio(6, 1);
+    const hi = try Q128.fromRatio(13, 2);
     try std.testing.expect(e_all.cmp(lo) >= 0 and e_all.cmp(hi) <= 0);
     // rare pool (p <= 1/40): 40/153+20/80+40/40+10/50+2/333+30/500 ≈ 1.78
-    const rlo = Q128.fromRatio(17, 10) catch unreachable;
-    const rhi = Q128.fromRatio(19, 10) catch unreachable;
+    const rlo = try Q128.fromRatio(17, 10);
+    const rhi = try Q128.fromRatio(19, 10);
     try std.testing.expect(e_rare.cmp(rlo) >= 0 and e_rare.cmp(rhi) <= 0);
 }
 
 test "analytic: P(>=5 rare hits | Poisson lambda~1.78) ~ 3.5% — cathedrals are common" {
-    const lam = expectedRareHits();
-    const tail = poissonTailGeK(lam, 5);
+    const lam = try expectedRareHits();
+    const tail = try poissonTailGeK(lam, 5);
     // Poisson(1.78) tail at 5 ≈ 0.0349 — bracket [0.03, 0.05]
-    const lo = Q128.fromRatio(3, 100) catch unreachable;
-    const hi = Q128.fromRatio(5, 100) catch unreachable;
+    const lo = try Q128.fromRatio(3, 100);
+    const hi = try Q128.fromRatio(5, 100);
     try std.testing.expect(tail.cmp(lo) >= 0 and tail.cmp(hi) <= 0);
 }
 
@@ -206,7 +253,7 @@ test "control group: fraction of randoms beating Paul's product" {
     var seed: u64 = 1;
     var i: u64 = 0;
     while (i < N) : (i += 1) {
-        const p = dealPerson(seed);
+        const p = try dealPerson(seed);
         seed = splitmix64(&seed);
         if (p.total > 0) any_hit += 1;
         if (p.total >= 5) five_plus += 1;
@@ -230,7 +277,7 @@ test "named controls: every seeded subject stacks a hit profile under identical 
     // Sagan, NdeGT, Jobs, Lovelace, random-day, Paul(JDN 1985-10-25)
     var nonzero: u8 = 0;
     for (subjects) |s| {
-        const p = dealPerson(s);
+        const p = try dealPerson(s);
         std.debug.print("seed={d} hits={d} best5_den={d}\n", .{ s, p.total, p.cathedral_den });
         if (p.total > 0) nonzero += 1;
     }
@@ -247,7 +294,7 @@ test "selection-space sensitivity: halving the pattern-space quarters the cathed
     var full: u64 = 0;
     var i: u64 = 0;
     while (i < N) : (i += 1) {
-        const p = dealPerson(seed);
+        const p = try dealPerson(seed);
         seed = splitmix64(&seed);
         if (p.cathedral_den >= PAUL_DEN) full += 1;
     }
@@ -264,9 +311,9 @@ test "selection-space sensitivity: halving the pattern-space quarters the cathed
         for (lean_cat, 0..) |c, ci| {
             var s: u16 = 0;
             while (s < c.slots) : (s += 1) {
-                if (bernoulli(&state, c.num, c.den)) {
-                    p.hits[ci] += 1;
-                    p.total += 1;
+                if (try bernoulli(&state, c.num, c.den)) {
+                    p.hits[ci] = std.math.add(u16, p.hits[ci], 1) catch return error.Overflow;
+                    p.total = std.math.add(u16, p.total, 1) catch return error.Overflow;
                 }
             }
         }
@@ -286,7 +333,7 @@ test "selection-space sensitivity: halving the pattern-space quarters the cathed
                 }
                 if (best == lean_cat.len) break;
                 used[best] += 1;
-                prod *= best_den;
+                prod = std.math.mul(u128, prod, best_den) catch return error.Overflow;
             }
             if (picked == 5) p.cathedral_den = prod;
         }
