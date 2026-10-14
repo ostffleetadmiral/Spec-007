@@ -13,6 +13,9 @@
 //     use_lattice / use_tq fields are stale and do not exist.
 //   * atomizeLattice divides the blob evenly over 3375 cells — a blob not
 //     divisible by 3375 truncates the tail; callers must pad. Tested.
+//   * VFS1 pages are exact-length: truncated or trailing bytes refuse.
+//   * Agent state is exact-shape: [421][7] activations and <=417 output
+//     tokens refuse rather than panic or silently truncate.
 // Integer-only: all payloads u8; LatticePage fields are u32/u8.
 
 const std = @import("std");
@@ -67,6 +70,30 @@ test "archive: full-lattice atomization covers 3375 cells / 20250 portals" {
     _ = n;
 }
 
+test "archive: non-divisible lattice atomization drops only the tail" {
+    const a = std.testing.allocator;
+    var atomizer = collapse.CellAtomizer.init(a);
+    defer atomizer.deinit();
+
+    var lattice: [CELL_COUNT + 1]u8 = [_]u8{0x5A} ** (CELL_COUNT + 1);
+    lattice[CELL_COUNT] = 0xA5; // The one-byte tail must not enter a portal.
+    try atomizer.atomizeLattice(&lattice);
+    try std.testing.expectEqual(CELL_COUNT * 6, atomizer.portalCount());
+
+    var carried: usize = 0;
+    for (atomizer.getPortals()) |*portal| {
+        const payload = portal.getPayload();
+        carried += payload.len;
+        for (payload) |b| try std.testing.expect(b != 0xA5);
+    }
+    try std.testing.expectEqual(CELL_COUNT, carried);
+
+    var out: [8]u8 = undefined;
+    const n = try atomizer.reassembleCell(14, 14, 14, &out);
+    try std.testing.expectEqual(@as(usize, 1), n);
+    try std.testing.expectEqual(@as(u8, 0x5A), out[0]);
+}
+
 test "archive: recursive QR nest round-trips a dossier-scale payload" {
     const a = std.testing.allocator;
     const blob = try dossierBlob(a, 8192); // forces subtree levels
@@ -109,6 +136,12 @@ test "archive: lattice page serialize/deserialize preserves the e0 map" {
     const back = try vfs.LatticePage.deserialize(bytes, 1_750_000_000_000);
     try std.testing.expect(back.key.eql(page.key));
     try std.testing.expectEqualSlices(vfs.E0Node, &page.nodes, &back.nodes);
+
+    const malformed = try a.alloc(u8, bytes.len + 1);
+    defer a.free(malformed);
+    @memcpy(malformed[0..bytes.len], bytes);
+    malformed[bytes.len] = 0xFF;
+    try std.testing.expectError(error.VFSTrailingBytes, vfs.LatticePage.deserialize(malformed, 1_750_000_000_000));
 }
 
 test "archive: VFS cache pins the flag page and evicts cold pages" {
@@ -160,6 +193,48 @@ test "archive: agent state round-trips through lattice pages" {
     try std.testing.expectEqual(@as(i64, 300), state.temperature);
     try std.testing.expectEqual(@as(i64, 290), state.base_temp);
     try std.testing.expectEqualSlices(i64, &acts[100], &out[100]);
+}
+
+test "archive: agent state validates shape and refuses forged token count" {
+    const a = std.testing.allocator;
+    var bridge = vfs.VFSBridge.init(a);
+    defer bridge.deinit();
+
+    var acts: [vfs.E0_NODE_COUNT][7]i64 = [_][7]i64{[_]i64{0} ** 7} ** vfs.E0_NODE_COUNT;
+    var short_acts: [vfs.E0_NODE_COUNT - 1][7]i64 = [_][7]i64{[_]i64{0} ** 7} ** (vfs.E0_NODE_COUNT - 1);
+    var too_many_tokens: [vfs.E0_NODE_COUNT - 3]u32 = [_]u32{0} ** (vfs.E0_NODE_COUNT - 3);
+
+    try std.testing.expectError(error.VFSInvalidAgentState, bridge.saveAgentState(&short_acts, 1, 300, 290, &.{}));
+    try std.testing.expectError(error.VFSTooManyOutputTokens, bridge.saveAgentState(&acts, 1, 300, 290, &too_many_tokens));
+    try std.testing.expectEqual(@as(usize, 0), bridge.store.pageCount());
+
+    var max_tokens: [vfs.E0_NODE_COUNT - 4]u32 = undefined;
+    for (&max_tokens, 0..) |*t, i| t.* = @intCast(i);
+    try bridge.saveAgentState(&acts, 7, 300, 290, &max_tokens);
+    const first_stats = bridge.cacheStats();
+    try std.testing.expectEqual(@as(usize, 8), first_stats.stored);
+
+    // Replacing all eight pages must not double-count stored bytes.
+    try bridge.saveAgentState(&acts, 7, 300, 290, &max_tokens);
+    const second_stats = bridge.cacheStats();
+    try std.testing.expectEqual(first_stats.stored, second_stats.stored);
+    try std.testing.expectEqual(first_stats.stored_bytes, second_stats.stored_bytes);
+
+    var out: [vfs.E0_NODE_COUNT][7]i64 = undefined;
+    const state = (try bridge.loadAgentState(&out)).?;
+    defer a.free(state.output_tokens);
+    try std.testing.expectEqualSlices(u32, &max_tokens, state.output_tokens);
+
+    const meta_key = vfs.PageKey.init(vfs.VFSBridge.AGENT_STATE_LEVEL, 7, 0, 0);
+    var forged = (try bridge.readDirect(meta_key)).?;
+    forged.nodes[3].x = vfs.E0_NODE_COUNT - 3;
+    try bridge.writeDirect(meta_key, forged);
+    try std.testing.expectError(error.VFSInvalidAgentState, bridge.loadAgentState(&out));
+
+    bridge.clearAgentState();
+    const cleared_stats = bridge.cacheStats();
+    try std.testing.expectEqual(@as(usize, 0), cleared_stats.stored);
+    try std.testing.expectEqual(@as(usize, 0), cleared_stats.stored_bytes);
 }
 
 test "archive: node registry tracks fleet peers with heartbeat liveness" {

@@ -39,7 +39,7 @@
 
 | 元件 | 契約 | 驗證 | 擴充 |
 |---|---|---|---|
-| `spec008_qstar_archive.zig` | qstar-collapse + qstar-compress + qstar-vfs 接入封存教義:blob→QR 門戶原子化、NestTree 遞迴、RMSY 容器往返、晶格頁 + LRU + 釘定桌面態。`atomizeLattice` 截斷非 3375 整除之尾 — 已測試並註明。 | 9 測試 | — |
+| `spec008_qstar_archive.zig` | qstar-collapse + qstar-compress + qstar-vfs 接入封存教義:blob→QR 門戶原子化、NestTree 遞迴、RMSY 容器往返、精確長度晶格頁、LRU + 釘定桌面態、精確形狀代理態。`atomizeLattice` 截斷非 3375 整除之尾 — 已測試並註明。 | 11 測試 | VFS 邊界已硬化 |
 | `spec008_qstar_carriage.zig` | 正典 136-B FANO 封包穿越 qstar-transport 全部介質:QR、OPTAR、音訊、卡帶、紙本 Shamir、LSB 隱寫、多語言載體、LoRa(MTU 255 B)、ESP32 WiFi↔LoRa 橋。`capacity()` 是註冊槽非位元界 — 適配由往返證明,超限拒絕。 | 12 測試 | — |
 | `spec008_qstar_escrow.zig` | qstar-quantum/entangle 接入 FANO-1 工件:旗幟 ed25519 種子之 Shamir 託管(3-of-3 重置、2-of-3 災備)、136-B 封包之分片條帶+同位。已驗證依賴真相:「RS」同位為縮放 XOR — 僅可復原一個抹除;分片無完整性標籤,故封裝器承諾 sha256(seed)。 | 8 測試 | — |
 | `spec008_qstar_fleet.zig` | qstar-net 接入艦隊:25-E0 BootstrapSeed 會合、proof-of-lattice-work 女巫閘(測試校準難度)、Möbius 合併解決並行格編輯、NAT/WebRTC 矩陣。`SeedNode.activation`/`CellEdit.activation` 僅為 f 邊界簿記。 | 9 測試 | — |

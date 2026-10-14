@@ -38,8 +38,8 @@ const hit = cache.get(key, now_ms);
 |----------|-------------|
 | `VFSBridge.init(allocator)` | Create VFS bridge |
 | `bridge.tick(dt_ms)` | Advance time |
-| `bridge.saveAgentState(...)` | Save agent state to VFS |
-| `bridge.loadAgentState(...)` | Load agent state from VFS |
+| `bridge.saveAgentState(...)` | Save exact agent state (421 activation rows, ≤417 output tokens) |
+| `bridge.loadAgentState(...)` | Load agent state; malformed stored token counts refuse |
 | `bridge.hasAgentState()` | Check if agent state exists |
 | `bridge.clearAgentState()` | Clear agent state |
 
@@ -61,7 +61,7 @@ const hit = cache.get(key, now_ms);
 |----------|-------------|
 | `LatticePage.init(key, now_ms)` | Create page |
 | `page.serialize(allocator)` | Serialize to bytes |
-| `LatticePage.deserialize(data, now_ms)` | Deserialize from bytes |
+| `LatticePage.deserialize(data, now_ms)` | Deserialize an exact 8,437-byte VFS1 page |
 
 ### VFS Distributed (`vfs_distributed.zig`)
 
@@ -81,7 +81,7 @@ const hit = cache.get(key, now_ms);
 
 | Module | Lines | Tests |
 |--------|-------|-------|
-| vfs_bridge.zig | 1,548 | 24 |
+| vfs_bridge.zig | 1,556 | 24 |
 | vfs_streaming.zig | 539 | 15 |
 | vfs_distributed.zig | 421 | 17 |
 | fixed_point.zig | 677 | 27 |

@@ -19,6 +19,9 @@ pub const E0_NODE_COUNT: usize = 421;
 /// Default page size: one 15³ cell = 421 E0 nodes × (3×u32 + 1×i64) = 8,420 bytes.
 pub const DEFAULT_PAGE_BYTES: usize = E0_NODE_COUNT * 20;
 
+/// Serialized page size: 17-byte VFS1 header + DEFAULT_PAGE_BYTES node data.
+pub const SERIALIZED_PAGE_BYTES: usize = 4 + 1 + 4 + 4 + 4 + DEFAULT_PAGE_BYTES;
+
 /// Default LRU cache capacity (number of pages).
 pub const DEFAULT_CACHE_CAPACITY: usize = 256;
 
@@ -93,8 +96,7 @@ pub const LatticePage = struct {
     /// Serialize the page to bytes for VFS storage.
     /// Format: [magic 4B][level 1B][bx 4B][by 4B][bz 4B][421 × (x:4B, y:4B, z:4B, act:8B)]
     pub fn serialize(self: LatticePage, allocator: std.mem.Allocator) ![]u8 {
-        const total = 4 + 1 + 4 + 4 + 4 + E0_NODE_COUNT * 20;
-        var buf = try allocator.alloc(u8, total);
+        var buf = try allocator.alloc(u8, SERIALIZED_PAGE_BYTES);
         var pos: usize = 0;
 
         @memcpy(buf[pos..][0..4], &VFS_MAGIC);
@@ -122,7 +124,7 @@ pub const LatticePage = struct {
         return buf;
     }
 
-    /// Deserialize a page from VFS bytes.
+    /// Deserialize a canonical exact-length VFS1 page.
     pub fn deserialize(data: []const u8, now_ms: u64) !LatticePage {
         if (data.len < 4 + 1 + 4 + 4 + 4) return error.VFSTruncatedHeader;
         if (!std.mem.eql(u8, data[0..4], &VFS_MAGIC)) return error.VFSBadMagic;
@@ -139,8 +141,8 @@ pub const LatticePage = struct {
 
         var page = LatticePage.init(.{ .level = level, .bx = bx, .by = by, .bz = bz }, now_ms);
 
-        const node_bytes = E0_NODE_COUNT * 20;
-        if (data.len < pos + node_bytes) return error.VFSTruncatedNodes;
+        if (data.len < SERIALIZED_PAGE_BYTES) return error.VFSTruncatedNodes;
+        if (data.len != SERIALIZED_PAGE_BYTES) return error.VFSTrailingBytes;
 
         for (0..E0_NODE_COUNT) |i| {
             const off = pos + i * 20;
@@ -431,6 +433,7 @@ pub const VFSCache = struct {
 
 pub const StoredPage = struct {
     compressed: []u8,
+    uncompressed_bytes: usize,
     allocator: std.mem.Allocator,
 
     pub fn deinit(self: StoredPage) void {
@@ -465,8 +468,10 @@ pub const VFSLatticeStore = struct {
     pub fn store(self: *VFSLatticeStore, key: PageKey, page: LatticePage) !void {
         const h = key.hash();
 
-        // Free existing page if present
+        // Free existing page if present and keep cumulative byte counters honest.
         if (self.pages.fetchRemove(h)) |kv| {
+            self.total_stored_bytes -= kv.value.compressed.len;
+            self.total_uncompressed_bytes -= kv.value.uncompressed_bytes;
             kv.value.deinit();
         }
 
@@ -479,6 +484,7 @@ pub const VFSLatticeStore = struct {
 
         try self.pages.put(h, .{
             .compressed = compressed,
+            .uncompressed_bytes = serialized.len,
             .allocator = self.allocator,
         });
 
@@ -506,6 +512,8 @@ pub const VFSLatticeStore = struct {
     pub fn remove(self: *VFSLatticeStore, key: PageKey) bool {
         const h = key.hash();
         if (self.pages.fetchRemove(h)) |kv| {
+            self.total_stored_bytes -= kv.value.compressed.len;
+            self.total_uncompressed_bytes -= kv.value.uncompressed_bytes;
             kv.value.deinit();
             return true;
         }
@@ -839,6 +847,7 @@ pub const VFSBridge = struct {
     /// Saves agent state to VFS. Stores 7 channel pages + 1 metadata page.
     /// Agent state = [421][7]i64 activations + cycle + temperature + base_temp + output_tokens.
     /// i64 activations are split into low32 (x) and high32 (y) of E0Node for bit-exact storage.
+    /// The input contract is exact: 421 activation rows and at most 417 output tokens.
     pub fn saveAgentState(
         self: *VFSBridge,
         activations: []const [7]i64,
@@ -847,6 +856,9 @@ pub const VFSBridge = struct {
         base_temp: i64,
         output_tokens: []const u32,
     ) !void {
+        if (activations.len != E0_NODE_COUNT) return error.VFSInvalidAgentState;
+        if (output_tokens.len > E0_NODE_COUNT - 4) return error.VFSTooManyOutputTokens;
+
         // Save 7 channel pages
         for (0..7) |ch| {
             const key = PageKey{
@@ -893,7 +905,7 @@ pub const VFSBridge = struct {
         const bt_high: u32 = @intCast(bt_bits >> 32);
         meta_page.nodes[2] = .{ .x = bt_low, .y = bt_high, .z = 0, .activation = 0 };
         // Encode output_tokens count in node 3, and tokens in subsequent nodes
-        const token_count: u32 = @intCast(@min(output_tokens.len, E0_NODE_COUNT - 4));
+        const token_count: u32 = @intCast(output_tokens.len);
         meta_page.nodes[3] = .{ .x = token_count, .y = 0, .z = 0, .activation = 0 };
         for (0..token_count) |i| {
             meta_page.nodes[4 + i] = .{
@@ -949,15 +961,12 @@ pub const VFSBridge = struct {
         const bt_bits: u64 = @as(u64, meta_page.nodes[2].x) | (@as(u64, meta_page.nodes[2].y) << 32);
         const base_temp: i64 = @bitCast(bt_bits);
         const token_count: usize = meta_page.nodes[3].x;
+        if (token_count > E0_NODE_COUNT - 4) return error.VFSInvalidAgentState;
 
         // Allocate and fill output tokens
         const tokens = try self.allocator.alloc(u32, token_count);
         for (0..token_count) |i| {
-            if (4 + i < E0_NODE_COUNT) {
-                tokens[i] = meta_page.nodes[4 + i].x;
-            } else {
-                tokens[i] = 0;
-            }
+            tokens[i] = meta_page.nodes[4 + i].x;
         }
 
         return .{

@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 44
+    "completed_full_retrograde": 45
   },
   "components": [
     {
@@ -4452,8 +4452,8 @@
       "workstream": "qstar-donor",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "74cfd9d11f8fe57a63f63e190ecaa65e0e529ef11738395f45ea604b220725f1",
-        "bytes": 2695,
+        "sha256": "90180670a01824889e1899ca0d93f7cdbe461cb5476fbe3ad6cbac353bea800a",
+        "bytes": 2786,
         "lines": 94,
         "imports": [
           "vfs_bridge"
@@ -4561,9 +4561,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "94681f8c5f4dcfa3e3de1b26d5420f2dcd9f605969de4e549bcb04bb748b143a",
-        "bytes": 55561,
-        "lines": 1549,
+        "sha256": "affd95cb4d8141b4630d07e6732fb867c0995693b9f4d2649b96fb8d032d217d",
+        "bytes": 56325,
+        "lines": 1558,
         "imports": [
           "fixed_point",
           "std"
@@ -4577,7 +4577,7 @@
           "src/spec008_qstar_archive.zig"
         ],
         "todo_markers": 0,
-        "public_surface": 77
+        "public_surface": 78
       },
       "contract": {
         "mapped": true,
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "8cbed01917eb61c3700553273e606c12002df001d7b779858f9ab5bc68ab2991",
+        "sha256": "c0cc56584bfb248de12176d41b032161c76aad26786850a584bf0f38b4497484",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "ae787dcb35c68622710c1d94e4c99a057dba04b2b21d86bc8cf9571d7ee5c72c",
+        "sha256": "f699c52dc6b100393ea6df4697ff2b17effd990cb4ee151f479e0b4cb544909b",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11039,9 +11039,9 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "0a02a62af1a675fd26e950c4aa6dc552e46e884344029f2e56b784d4924c695c",
-        "bytes": 7432,
-        "lines": 179,
+        "sha256": "9b8c1191d16106ffd08e45ecab17ea45efb85f6617b53c8df9506b7b6e809ee7",
+        "bytes": 11033,
+        "lines": 254,
         "imports": [
           "collapse",
           "compress",
@@ -11051,7 +11051,8 @@
           "vfs_streaming"
         ],
         "referenced_by": [
-          "security/superpowers-audit.mjs"
+          "security/superpowers-audit.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -11066,7 +11067,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 9,
+        "test_blocks": 11,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11077,9 +11078,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-qstar-archive-vfs-boundaries-20261014",
+        "decision": "exact-archive-persistence-boundaries"
       }
     },
     {
@@ -12072,9 +12073,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "240482d977a77c09e127d6a435c61e9bc1b9ea5a673da9a994541c0c15a2286d",
-        "bytes": 17017,
-        "lines": 417,
+        "sha256": "4015ae0588167c1c0a92b974d040399a3db6a6b1b8a7bededab358445cfac274",
+        "bytes": 17177,
+        "lines": 421,
         "imports": [
           "node:crypto",
           "node:fs",
