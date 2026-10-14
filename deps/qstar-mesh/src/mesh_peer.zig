@@ -42,7 +42,8 @@ pub const TlsConfig = struct {
 /// Encrypts a message using XChaCha20-Poly1305.
 /// Returns ciphertext + 16-byte auth tag appended.
 pub fn encryptMessage(key: [32]u8, nonce: [24]u8, plaintext: []const u8, out: []u8) !usize {
-    if (out.len < plaintext.len + 16) return error.BufferTooSmall;
+    const needed = std.math.add(usize, plaintext.len, 16) catch return error.BufferTooSmall;
+    if (out.len < needed) return error.BufferTooSmall;
     const crypto = std.crypto.aead.chacha_poly.XChaCha20Poly1305;
     var tag: [16]u8 = undefined;
     crypto.encrypt(out[0..plaintext.len], &tag, plaintext, &.{}, nonce, key);
@@ -66,8 +67,7 @@ pub fn decryptMessage(key: [32]u8, nonce: [24]u8, ciphertext: []const u8, out: [
 /// Generates a deterministic nonce from prefix + counter.
 fn makeNonce(prefix: [24]u8, counter: u64) [24]u8 {
     var nonce: [24]u8 = prefix;
-    const counter_bytes = std.mem.asBytes(&counter);
-    @memcpy(nonce[16..24], counter_bytes);
+    std.mem.writeInt(u64, nonce[16..24], counter, .little);
     return nonce;
 }
 
@@ -90,17 +90,21 @@ pub const MeshPeer = struct {
     received_messages: std.ArrayList([]u8),
     running: bool,
     mutex: std.Thread.Mutex,
-    peer_manager: p2p.PeerManager,
+    peer_manager: *p2p.PeerManager,
     relay: relay_router.RelayRouter,
     next_conn_id: u32,
     encrypt_counter: u64 = 0,
+    started_at_ms: u64 = 0,
 
     pub fn init(allocator: std.mem.Allocator, config: PeerConfig) !MeshPeer {
         const addr = try std.net.Address.parseIp("0.0.0.0", config.listen_port);
-        const server = try addr.listen(.{ .reuse_address = true });
+        var server = try addr.listen(.{ .reuse_address = true });
+        errdefer server.deinit();
 
-        var pm = p2p.PeerManager.init(allocator);
-        const router = relay_router.RelayRouter.init(allocator, config.peer_id, config.location, &pm);
+        const pm = try allocator.create(p2p.PeerManager);
+        errdefer allocator.destroy(pm);
+        pm.* = p2p.PeerManager.init(allocator);
+        const router = relay_router.RelayRouter.init(allocator, config.peer_id, config.location, pm);
 
         return .{
             .config = config,
@@ -124,6 +128,7 @@ pub const MeshPeer = struct {
         for (self.received_messages.items) |msg| self.allocator.free(msg);
         self.received_messages.deinit();
         self.peer_manager.deinit();
+        self.allocator.destroy(self.peer_manager);
         self.server.deinit();
     }
 
@@ -143,18 +148,39 @@ pub const MeshPeer = struct {
 
         self.mutex.lock();
         defer self.mutex.unlock();
+        if (self.next_conn_id == std.math.maxInt(u32)) {
+            stream.close();
+            return error.ConnectionIdExhausted;
+        }
         const conn_id = self.next_conn_id;
-        self.next_conn_id += 1;
-        try self.connections.append(stream);
+        self.connections.append(stream) catch |err| {
+            stream.close();
+            return err;
+        };
 
         // Register a placeholder peer — real identity will be learned via handshake
         var temp_id: p2p.PeerId = [_]u8{0} ** 32;
         var hash = std.hash.Wyhash.init(0);
         hash.update(addr_str);
         const h = hash.final();
-        @memcpy(temp_id[0..8], std.mem.asBytes(&h));
+        std.mem.writeInt(u64, temp_id[0..8], h, .little);
         const temp_loc = p2p.locationFromSeed(&temp_id);
-        self.peer_manager.addPeer(temp_id, temp_loc, conn_id);
+        if (self.peer_manager.getById(temp_id)) |existing| {
+            stream.close();
+            _ = self.connections.orderedRemove(self.connections.items.len - 1);
+            return existing.conn_id;
+        }
+        const added = self.peer_manager.addPeer(temp_id, temp_loc, conn_id) catch |err| {
+            _ = self.connections.orderedRemove(self.connections.items.len - 1);
+            stream.close();
+            return err;
+        };
+        if (!added) {
+            _ = self.connections.orderedRemove(self.connections.items.len - 1);
+            stream.close();
+            return error.PeerLimit;
+        }
+        self.next_conn_id += 1;
 
         return conn_id;
     }
@@ -170,7 +196,9 @@ pub const MeshPeer = struct {
     pub fn broadcastMessage(self: *MeshPeer, msg: []const u8) void {
         self.mutex.lock();
         defer self.mutex.unlock();
+        if (msg.len > MSG_BUF_SIZE) return;
         if (self.config.tls_config.enabled) {
+            if (self.encrypt_counter == std.math.maxInt(u64)) return;
             var encrypted_buf: [MSG_BUF_SIZE + 16]u8 = undefined;
             self.encrypt_counter += 1;
             const nonce = makeNonce(self.config.tls_config.nonce_prefix, self.encrypt_counter);
@@ -189,22 +217,24 @@ pub const MeshPeer = struct {
     pub fn sendToConn(self: *MeshPeer, conn_id: u32, msg: []const u8) bool {
         self.mutex.lock();
         defer self.mutex.unlock();
-        if (conn_id == 0 or conn_id > self.connections.items.len) return false;
+        if (conn_id == 0 or conn_id > self.connections.items.len or msg.len > MSG_BUF_SIZE) return false;
         const conn = &self.connections.items[conn_id - 1];
         if (self.config.tls_config.enabled) {
+            if (self.encrypt_counter == std.math.maxInt(u64)) return false;
             var encrypted_buf: [MSG_BUF_SIZE + 16]u8 = undefined;
             self.encrypt_counter += 1;
             const nonce = makeNonce(self.config.tls_config.nonce_prefix, self.encrypt_counter);
             const enc_len = encryptMessage(self.config.tls_config.shared_key, nonce, msg, &encrypted_buf) catch return false;
             _ = conn.write(encrypted_buf[0..enc_len]) catch return false;
-        return true;
+            return true;
         } else {
             _ = conn.write(msg) catch return false;
-        return true;
+            return true;
         }
     }
 
     pub fn run(self: *MeshPeer) !void {
+        self.started_at_ms = @intCast(@max(0, std.time.milliTimestamp()));
         self.running = true;
 
         // Start server thread FIRST so peer is responsive to queries
@@ -569,8 +599,12 @@ pub const MeshPeer = struct {
             .connections = self.connections.items.len,
             .received_messages = self.received_messages.items.len,
             .stored_messages = self.store_and_forward.messages.items.len,
-            .uptime_ms = 0,
-            .relay_queue_size = self.relay.queue.items.len,
+            .uptime_ms = blk: {
+                if (!self.running or self.started_at_ms == 0) break :blk 0;
+                const now: u64 = @intCast(@max(0, std.time.milliTimestamp()));
+                break :blk if (now > self.started_at_ms) now - self.started_at_ms else 0;
+            },
+            .relay_queue_size = self.store_and_forward.count(),
             .is_running = self.running,
         };
     }
@@ -590,6 +624,7 @@ pub fn main() !void {
     }
 
     const id = try std.fmt.parseInt(u32, args[1], 10);
+    if (id > std.math.maxInt(u16) - PEER_PORT) return error.InvalidPeerId;
     var peer_addrs = std.ArrayList([]const u8).init(allocator);
     defer peer_addrs.deinit();
     for (args[2..]) |addr| {
@@ -631,7 +666,7 @@ pub fn generatePeerId(numeric_id: u32) p2p.PeerId {
     hash.update(std.mem.asBytes(&numeric_id));
     hash.update("qstar-peer");
     const h = hash.final();
-    @memcpy(id[0..8], std.mem.asBytes(&h));
+    std.mem.writeInt(u64, id[0..8], h, .little);
     var i: usize = 8;
     var seed: u64 = h;
     while (i < 32) : (i += 1) {
@@ -702,4 +737,61 @@ test "TLS encrypt empty message" {
     var decrypted: [32]u8 = undefined;
     const pt_len = try decryptMessage(key, nonce, ciphertext[0..ct_len], &decrypted);
     try std.testing.expectEqual(@as(usize, 0), pt_len);
+}
+
+test "TLS encrypt rejects insufficient output capacity" {
+    const key: [32]u8 = [_]u8{0x42} ** 32;
+    const nonce: [24]u8 = [_]u8{0x03} ** 24;
+    const plaintext = "bounded ciphertext test";
+
+    var exact: [plaintext.len]u8 = undefined;
+    try std.testing.expectError(
+        error.BufferTooSmall,
+        encryptMessage(key, nonce, plaintext, &exact),
+    );
+
+    var one_short: [plaintext.len + p2p.AEAD_TAG_SIZE - 1]u8 = undefined;
+    try std.testing.expectError(
+        error.BufferTooSmall,
+        encryptMessage(key, nonce, plaintext, &one_short),
+    );
+}
+
+test "TLS decrypt rejects short ciphertext and small output" {
+    const key: [32]u8 = [_]u8{0x42} ** 32;
+    const nonce: [24]u8 = [_]u8{0x04} ** 24;
+    const plaintext = "bounded plaintext test";
+    var ciphertext: [64]u8 = undefined;
+    const ct_len = try encryptMessage(key, nonce, plaintext, &ciphertext);
+
+    var out: [64]u8 = undefined;
+    try std.testing.expectError(
+        error.MessageTooShort,
+        decryptMessage(key, nonce, ciphertext[0 .. p2p.AEAD_TAG_SIZE - 1], &out),
+    );
+    try std.testing.expectError(
+        error.BufferTooSmall,
+        decryptMessage(key, nonce, ciphertext[0..ct_len], out[0 .. plaintext.len - 1]),
+    );
+}
+
+test "mesh peer send rejects invalid connection and oversized message" {
+    const allocator = std.testing.allocator;
+    const config = PeerConfig{
+        .id = 1,
+        .listen_port = 0,
+        .peer_addresses = &.{},
+        .peer_id = generatePeerId(1),
+        .location = generateLocation(1),
+    };
+    var peer = try MeshPeer.init(allocator, config);
+    defer peer.deinit();
+
+    try std.testing.expect(!peer.sendToConn(1, "no connection"));
+    try std.testing.expect(!peer.sendToConn(0, "zero connection"));
+
+    const oversized = try allocator.alloc(u8, MSG_BUF_SIZE + 1);
+    defer allocator.free(oversized);
+    @memset(oversized, 0x55);
+    try std.testing.expect(!peer.sendToConn(1, oversized));
 }

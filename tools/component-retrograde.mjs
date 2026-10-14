@@ -209,6 +209,10 @@ const FULL_RETROGRADE = new Map([
     decision: "exact-fleet-wire-ownership-boundaries",
     archive: "spec008-qstar-fleet-boundaries-20261014",
   }],
+  ["src/spec008_qstar_mesh.zig", {
+    decision: "exact-relay-ownership-boundaries",
+    archive: "spec008-qstar-mesh-boundaries-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

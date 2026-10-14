@@ -1170,7 +1170,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 27,
+        "blocks": 30,
         "registered": true
       },
       "documentation": {
@@ -1199,7 +1199,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 5,
+        "blocks": 8,
         "registered": true
       },
       "documentation": {
@@ -1228,7 +1228,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 63,
+        "blocks": 68,
         "registered": true
       },
       "documentation": {
@@ -1257,7 +1257,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 38,
+        "blocks": 40,
         "registered": true
       },
       "documentation": {
@@ -1286,7 +1286,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 23,
+        "blocks": 25,
         "registered": true
       },
       "documentation": {
@@ -1949,7 +1949,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 55,
+        "blocks": 62,
         "registered": true
       },
       "documentation": {
@@ -6721,7 +6721,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 6,
+        "blocks": 7,
         "registered": true
       },
       "documentation": {

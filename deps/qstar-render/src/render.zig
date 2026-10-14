@@ -15,6 +15,7 @@ const fp = @import("fixed_point");
 // Inlined from lattice.zig for self-containment (checkpoint 5)
 const BASE_EDGE: u32 = 15;
 fn latticeEdge(level: u8) u32 {
+    if (level >= 29) return std.math.maxInt(u32);
     return BASE_EDGE * (@as(u32, 1) << @intCast(level));
 }
 
@@ -61,7 +62,7 @@ pub const Vec3 = struct {
 
     pub fn normalize(a: Vec3) Vec3 {
         const len = length(a);
-        if (len < 1e-10) return .{};
+        if (!std.math.isFinite(len) or len < 1e-10) return .{};
         return scale(a, 1.0 / len);
     }
 
@@ -121,14 +122,20 @@ pub const Mat4 = struct {
     }
 
     pub fn perspective(fov: f32, aspect: f32, near: f32, far: f32) Mat4 {
-        const f = 1.0 / @tan(fov * 0.5);
         const range = far - near;
+        if (!std.math.isFinite(fov) or !std.math.isFinite(aspect) or
+            !std.math.isFinite(near) or !std.math.isFinite(far) or
+            fov <= 0 or fov >= std.math.pi or aspect == 0 or range == 0)
+        {
+            return identity();
+        }
+        const f = 1.0 / @tan(fov * 0.5);
         return .{
             .m = .{
-                f / aspect, 0, 0, 0,
-                0, f, 0, 0,
-                0, 0, far / range, 1,
-                0, 0, -(far * near) / range, 0,
+                f / aspect, 0, 0,                     0,
+                0,          f, 0,                     0,
+                0,          0, far / range,           1,
+                0,          0, -(far * near) / range, 0,
             },
         };
     }
@@ -137,11 +144,16 @@ pub const Mat4 = struct {
         const rml = right - left;
         const tmb = top - bottom;
         const fmn = far - near;
+        if (!std.math.isFinite(rml) or !std.math.isFinite(tmb) or !std.math.isFinite(fmn) or
+            rml == 0 or tmb == 0 or fmn == 0)
+        {
+            return identity();
+        }
         return .{
             .m = .{
-                2.0 / rml, 0, 0, 0,
-                0, 2.0 / tmb, 0, 0,
-                0, 0, -2.0 / fmn, 0,
+                2.0 / rml,             0,                     0,                   0,
+                0,                     2.0 / tmb,             0,                   0,
+                0,                     0,                     -2.0 / fmn,          0,
                 -(right + left) / rml, -(top + bottom) / tmb, -(far + near) / fmn, 1,
             },
         };
@@ -211,7 +223,7 @@ pub const Mat4 = struct {
         inv.m[2] = m[1] * m[6] * m[15] - m[1] * m[7] * m[14] - m[5] * m[2] * m[15] + m[5] * m[3] * m[14] + m[13] * m[2] * m[7] - m[13] * m[3] * m[6];
         inv.m[3] = -m[1] * m[6] * m[11] + m[1] * m[7] * m[10] + m[5] * m[2] * m[11] - m[5] * m[3] * m[10] - m[9] * m[2] * m[7] + m[9] * m[3] * m[6];
         const det = m[0] * inv.m[0] + m[1] * inv.m[1] + m[2] * inv.m[2] + m[3] * inv.m[3];
-        if (@abs(det) < 1e-10) return identity();
+        if (!std.math.isFinite(det) or @abs(det) < 1e-10) return identity();
         const inv_det = 1.0 / det;
         for (0..16) |i| inv.m[i] *= inv_det;
         return inv;
@@ -301,6 +313,7 @@ pub const Scene = struct {
     }
 
     pub fn createEntity(self: *Scene, name: []const u8) !EntityId {
+        if (self.next_id == std.math.maxInt(EntityId)) return error.EntityIdExhausted;
         const id = self.next_id;
         self.next_id += 1;
         try self.entities.put(id, Entity{
@@ -315,12 +328,33 @@ pub const Scene = struct {
     }
 
     pub fn addChild(self: *Scene, parent: EntityId, child: EntityId) !void {
+        if (parent == child) return error.CyclicSceneGraph;
         const parent_entry = self.entities.getPtr(parent) orelse return error.EntityNotFound;
-        try parent_entry.children.append(child);
         const child_entry = self.entities.getPtr(child) orelse return error.EntityNotFound;
+
+        var ancestor: ?EntityId = parent;
+        var remaining = self.entities.count() + 1;
+        while (ancestor) |id| {
+            if (id == child or remaining == 0) return error.CyclicSceneGraph;
+            remaining -= 1;
+            ancestor = self.entities.getPtr(id).?.parent;
+        }
+
+        if (child_entry.parent) |old_parent| {
+            if (self.entities.getPtr(old_parent)) |old_entry| {
+                for (old_entry.children.items, 0..) |existing, i| {
+                    if (existing == child) {
+                        _ = old_entry.children.orderedRemove(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        try parent_entry.children.append(child);
         child_entry.parent = parent;
         child_entry.transform.parent = parent;
-        child_entry.transform.depth_order = parent_entry.transform.depth_order + 1;
+        child_entry.transform.depth_order = parent_entry.transform.depth_order +| 1;
         child_entry.transform.dirty = true;
     }
 
@@ -475,6 +509,8 @@ pub const RenderGraph = struct {
     }
 
     pub fn addPass(self: *RenderGraph, name: []const u8, pass_type: PassType) !PassId {
+        if (self.passes.items.len >= std.math.maxInt(PassId) or
+            self.next_insert == std.math.maxInt(u32)) return error.PassIdExhausted;
         const id: PassId = @intCast(self.passes.items.len);
         try self.passes.append(.{
             .id = id,
@@ -490,11 +526,13 @@ pub const RenderGraph = struct {
     }
 
     pub fn addRead(self: *RenderGraph, pass_id: PassId, resource: []const u8) !void {
+        if (pass_id >= self.passes.items.len) return error.InvalidPassId;
         try self.passes.items[pass_id].reads.append(resource);
         self.dirty = true;
     }
 
     pub fn addWrite(self: *RenderGraph, pass_id: PassId, resource: []const u8) !void {
+        if (pass_id >= self.passes.items.len) return error.InvalidPassId;
         try self.passes.items[pass_id].writes.append(resource);
         self.dirty = true;
     }
@@ -531,7 +569,7 @@ pub const RenderGraph = struct {
                     for (writer.writes.items) |w_res| {
                         if (std.mem.eql(u8, w_res, resource)) {
                             try adj[writer.id].append(reader.id);
-                            in_degree[reader.id] += 1;
+                            in_degree[reader.id] +|= 1;
                         }
                     }
                 }
@@ -799,8 +837,10 @@ pub const SmithChartUniform = struct {
 
 /// Converts impedance Z to reflection coefficient Γ = (Z - Z₀) / (Z + Z₀).
 pub fn impedanceToGamma(z: f32, z0: f32) struct { r: f32, i: f32 } {
-    if (z + z0 == 0) return .{ .r = 1.0, .i = 0.0 };
-    const gamma = (z - z0) / (z + z0);
+    const denom = z + z0;
+    if (!std.math.isFinite(denom) or denom == 0) return .{ .r = 1.0, .i = 0.0 };
+    const gamma = (z - z0) / denom;
+    if (!std.math.isFinite(gamma)) return .{ .r = 1.0, .i = 0.0 };
     return .{ .r = gamma, .i = 0.0 };
 }
 
@@ -809,7 +849,7 @@ pub fn impedanceToGamma(z: f32, z0: f32) struct { r: f32, i: f32 } {
 /// Γ = (Z - Z₀) / (Z + Z₀) = ((R-Z₀) + jX) / ((R+Z₀) + jX)
 pub fn impedanceComplexToGamma(r: f32, x: f32, z0: f32) struct { gr: f32, gi: f32 } {
     const denom = (r + z0) * (r + z0) + x * x;
-    if (denom == 0) return .{ .gr = 1.0, .gi = 0.0 };
+    if (!std.math.isFinite(denom) or denom == 0) return .{ .gr = 1.0, .gi = 0.0 };
     const gr = ((r - z0) * (r + z0) + x * x) / denom;
     const gi = (2.0 * x * z0) / denom;
     return .{ .gr = gr, .gi = gi };
@@ -820,22 +860,29 @@ pub fn impedanceComplexToGamma(r: f32, x: f32, z0: f32) struct { gr: f32, gi: f3
 /// The 7th channel is the observer (center of Smith chart).
 pub fn e0ActivationsToSailPoints(activations: []const [7]f32) [NUM_SAIL_POINTS]SailPoint {
     var points: [NUM_SAIL_POINTS]SailPoint = undefined;
-    const nodes_per_point = activations.len / NUM_SAIL_POINTS;
     const z0: f32 = 50.0;
 
     for (0..NUM_SAIL_POINTS) |i| {
         var total_r: f32 = 0;
         var total_x: f32 = 0;
         var total_activation: f32 = 0;
-        const start = i * nodes_per_point;
-        const end = if (i == NUM_SAIL_POINTS - 1) activations.len else start + nodes_per_point;
+        const start = i * activations.len / NUM_SAIL_POINTS;
+        const end = (i + 1) * activations.len / NUM_SAIL_POINTS;
+        var used: usize = 0;
         for (start..end) |n| {
             const node = activations[n];
+            if (!std.math.isFinite(node[0]) or !std.math.isFinite(node[1]) or
+                !std.math.isFinite(node[2])) continue;
             total_r += node[0] * 100.0;
             total_x += node[1] * 50.0;
             total_activation += node[2];
+            used += 1;
         }
-        const count: f32 = @floatFromInt(end - start);
+        if (used == 0) {
+            points[i] = .{ .gamma_r = 0, .gamma_i = 0, .impedance = 0, .activation = 0 };
+            continue;
+        }
+        const count: f32 = @floatFromInt(used);
         const avg_r = total_r / count;
         const avg_x = total_x / count;
         const avg_act = total_activation / count;
@@ -888,14 +935,14 @@ pub fn unitSphereVertices(allocator: std.mem.Allocator) ![]Vec3 {
 /// Generates index buffer for the unit sphere (12 triangles from octahedron).
 pub fn unitSphereIndices(allocator: std.mem.Allocator) ![]u16 {
     const tris = [_][3]u16{
-        .{ 0, 8, 14 }, .{ 0, 14, 10 }, .{ 0, 10, 18 }, .{ 0, 18, 22 }, .{ 0, 22, 8 },
-        .{ 1, 14, 8 }, .{ 1, 10, 14 }, .{ 1, 19, 10 }, .{ 1, 23, 19 }, .{ 1, 8, 23 },
+        .{ 0, 8, 14 },  .{ 0, 14, 10 }, .{ 0, 10, 18 }, .{ 0, 18, 22 }, .{ 0, 22, 8 },
+        .{ 1, 14, 8 },  .{ 1, 10, 14 }, .{ 1, 19, 10 }, .{ 1, 23, 19 }, .{ 1, 8, 23 },
         .{ 2, 22, 18 }, .{ 2, 18, 11 }, .{ 2, 11, 20 }, .{ 2, 20, 15 }, .{ 2, 15, 22 },
-        .{ 3, 23, 8 }, .{ 3, 19, 23 }, .{ 3, 11, 19 }, .{ 3, 21, 11 }, .{ 3, 15, 21 },
-        .{ 4, 16, 9 }, .{ 4, 10, 16 }, .{ 4, 18, 10 }, .{ 4, 9, 18 },
-        .{ 5, 9, 16 }, .{ 5, 16, 10 }, .{ 5, 10, 19 }, .{ 5, 19, 9 },
-        .{ 6, 9, 17 }, .{ 6, 17, 11 }, .{ 6, 11, 20 }, .{ 6, 20, 9 },
-        .{ 7, 17, 9 }, .{ 7, 9, 19 }, .{ 7, 19, 11 }, .{ 7, 11, 17 },
+        .{ 3, 23, 8 },  .{ 3, 19, 23 }, .{ 3, 11, 19 }, .{ 3, 21, 11 }, .{ 3, 15, 21 },
+        .{ 4, 16, 9 },  .{ 4, 10, 16 }, .{ 4, 18, 10 }, .{ 4, 9, 18 },  .{ 5, 9, 16 },
+        .{ 5, 16, 10 }, .{ 5, 10, 19 }, .{ 5, 19, 9 },  .{ 6, 9, 17 },  .{ 6, 17, 11 },
+        .{ 6, 11, 20 }, .{ 6, 20, 9 },  .{ 7, 17, 9 },  .{ 7, 9, 19 },  .{ 7, 19, 11 },
+        .{ 7, 11, 17 },
     };
     var indices = try allocator.alloc(u16, tris.len * 3);
     for (tris, 0..) |tri, i| {
@@ -959,15 +1006,20 @@ pub const ExpandedCell = struct {
 
 /// Computes the lattice edge at a given level (inlined from lattice.zig).
 fn latticeEdgeForLevel(level: u8) u32 {
+    if (level >= 29) return std.math.maxInt(u32);
     return 15 * (@as(u32, 1) << @intCast(level));
 }
 
 /// Computes the e-value for a cell at the target level (inlined from lattice.zig).
 fn computeEValueForCell(x: u32, y: u32, z: u32, edge: u32) u3 {
-    const dx = @min(x, edge - 1 - x);
-    const dy = @min(y, edge - 1 - y);
+    if (edge == 0) return 0;
+    const cx = @min(x, edge - 1);
+    const cy = @min(y, edge - 1);
+    const cz = @min(z, edge - 1);
+    const dx = @min(cx, edge - 1 - cx);
+    const dy = @min(cy, edge - 1 - cy);
     const half = edge / 2;
-    const dz = if (z >= half) z - half else half - z;
+    const dz = if (cz >= half) cz - half else half - cz;
     const raw: i64 = 6 + @as(i64, dz) - @as(i64, dx) - @as(i64, dy);
     const modded = @mod(raw, 8);
     return @intCast(modded);
@@ -975,30 +1027,51 @@ fn computeEValueForCell(x: u32, y: u32, z: u32, edge: u32) u3 {
 
 /// Checks if a cell is on the boundary of the lattice.
 fn isCellBoundary(x: u32, y: u32, z: u32, edge: u32) bool {
-    return x == 0 or x == edge - 1 or y == 0 or y == edge - 1 or z == 0 or z == edge - 1;
+    return edge != 0 and
+        (x == 0 or x == edge - 1 or y == 0 or y == edge - 1 or z == 0 or z == edge - 1);
 }
 
 /// Expands a single E0 node into sub-cells at the target level.
 /// Each E0 node at level s generates 4^3 = 64 sub-cells at level s+2.
 pub fn expandNode(node: E0SeedNode, target_edge: u32, expansion_factor: u32, out: []ExpandedCell) void {
+    if (out.len == 0) return;
+    if (expansion_factor != SEED_EXPANSION_FACTOR or out.len < SEED_EXPANSION_FACTOR or
+        target_edge < 15 or target_edge % 15 != 0 or (target_edge / 15) % 4 != 0)
+    {
+        for (out) |*cell| {
+            cell.* = .{
+                .x = 0,
+                .y = 0,
+                .z = 0,
+                .activation = 0,
+                .e_value = 0,
+                .is_boundary = false,
+            };
+        }
+        return;
+    }
+
     const scale = target_edge / 15;
     const sub_step = scale / 4;
+    const max_coord = target_edge - 1;
+    const nx = @min(node.x, BASE_EDGE - 1);
+    const ny = @min(node.y, BASE_EDGE - 1);
+    const nz = @min(node.z, BASE_EDGE - 1);
 
     const subX_count: u32 = 4;
     const subY_count: u32 = 4;
     const subZ_count: u32 = 4;
-    _ = expansion_factor;
 
-    var idx: u32 = 0;
+    var idx: usize = 0;
     var sz: u32 = 0;
     while (sz < subZ_count) : (sz += 1) {
         var sy: u32 = 0;
         while (sy < subY_count) : (sy += 1) {
             var sx: u32 = 0;
             while (sx < subX_count) : (sx += 1) {
-                const cell_x = node.x * scale + sx * sub_step;
-                const cell_y = node.y * scale + sy * sub_step;
-                const cell_z = node.z * scale + sz * sub_step;
+                const cell_x: u32 = @intCast(@min(@as(u64, nx) * scale + sx * sub_step, max_coord));
+                const cell_y: u32 = @intCast(@min(@as(u64, ny) * scale + sy * sub_step, max_coord));
+                const cell_z: u32 = @intCast(@min(@as(u64, nz) * scale + sz * sub_step, max_coord));
 
                 const e_val = computeEValueForCell(cell_x, cell_y, cell_z, target_edge);
                 const is_bnd = isCellBoundary(cell_x, cell_y, cell_z, target_edge);
@@ -1040,8 +1113,10 @@ pub fn frustumCull(allocator: std.mem.Allocator, cells: []const ExpandedCell, ca
     var visible = std.ArrayList(ExpandedCell).init(allocator);
     errdefer visible.deinit();
 
-    const cos_half_fov = @cos(fov * 0.5 * std.math.pi / 180.0);
-    const tan_half_fov = @tan(fov * 0.5 * std.math.pi / 180.0);
+    const fov_deg = if (std.math.isFinite(fov)) std.math.clamp(fov, 1.0, 179.0) else 90.0;
+    const safe_aspect = if (std.math.isFinite(aspect) and aspect > 0) aspect else 1.0;
+    const cos_half_fov = @cos(fov_deg * 0.5 * std.math.pi / 180.0);
+    const tan_half_fov = @tan(fov_deg * 0.5 * std.math.pi / 180.0);
     const right = Vec3.normalize(Vec3.cross(camera_dir, Vec3.new(0, 1, 0)));
     const up = Vec3.normalize(Vec3.cross(right, camera_dir));
 
@@ -1049,6 +1124,7 @@ pub fn frustumCull(allocator: std.mem.Allocator, cells: []const ExpandedCell, ca
         const cell_pos = Vec3.new(cell.x, cell.y, cell.z);
         const to_cell = Vec3.sub(cell_pos, camera_pos);
         const dist = Vec3.length(to_cell);
+        if (!std.math.isFinite(dist)) continue;
         if (dist < 0.001) {
             try visible.append(cell);
             continue;
@@ -1059,7 +1135,7 @@ pub fn frustumCull(allocator: std.mem.Allocator, cells: []const ExpandedCell, ca
 
         const dot_right = Vec3.dot(dir_to_cell, right);
         const dot_up = Vec3.dot(dir_to_cell, up);
-        const max_right = tan_half_fov * aspect;
+        const max_right = tan_half_fov * safe_aspect;
         if (@abs(dot_right) > max_right) continue;
         if (@abs(dot_up) > tan_half_fov) continue;
 
@@ -1073,26 +1149,38 @@ pub fn frustumCull(allocator: std.mem.Allocator, cells: []const ExpandedCell, ca
 pub fn unitCubeVertices(allocator: std.mem.Allocator) ![]Vec3 {
     var verts = try allocator.alloc(Vec3, 24);
     const s: f32 = 0.5;
-    verts[0] = Vec3.new(-s, -s, -s); verts[1] = Vec3.new(s, -s, -s);
-    verts[2] = Vec3.new(s, s, -s); verts[3] = Vec3.new(-s, s, -s);
-    verts[4] = Vec3.new(-s, -s, s); verts[5] = Vec3.new(s, -s, s);
-    verts[6] = Vec3.new(s, s, s); verts[7] = Vec3.new(-s, s, s);
-    verts[8] = Vec3.new(-s, -s, -s); verts[9] = Vec3.new(-s, s, -s);
-    verts[10] = Vec3.new(-s, s, s); verts[11] = Vec3.new(-s, -s, s);
-    verts[12] = Vec3.new(s, -s, -s); verts[13] = Vec3.new(s, s, -s);
-    verts[14] = Vec3.new(s, s, s); verts[15] = Vec3.new(s, -s, s);
-    verts[16] = Vec3.new(-s, -s, -s); verts[17] = Vec3.new(-s, -s, s);
-    verts[18] = Vec3.new(s, -s, s); verts[19] = Vec3.new(s, -s, -s);
-    verts[20] = Vec3.new(-s, s, -s); verts[21] = Vec3.new(-s, s, s);
-    verts[22] = Vec3.new(s, s, s); verts[23] = Vec3.new(s, s, -s);
+    verts[0] = Vec3.new(-s, -s, -s);
+    verts[1] = Vec3.new(s, -s, -s);
+    verts[2] = Vec3.new(s, s, -s);
+    verts[3] = Vec3.new(-s, s, -s);
+    verts[4] = Vec3.new(-s, -s, s);
+    verts[5] = Vec3.new(s, -s, s);
+    verts[6] = Vec3.new(s, s, s);
+    verts[7] = Vec3.new(-s, s, s);
+    verts[8] = Vec3.new(-s, -s, -s);
+    verts[9] = Vec3.new(-s, s, -s);
+    verts[10] = Vec3.new(-s, s, s);
+    verts[11] = Vec3.new(-s, -s, s);
+    verts[12] = Vec3.new(s, -s, -s);
+    verts[13] = Vec3.new(s, s, -s);
+    verts[14] = Vec3.new(s, s, s);
+    verts[15] = Vec3.new(s, -s, s);
+    verts[16] = Vec3.new(-s, -s, -s);
+    verts[17] = Vec3.new(-s, -s, s);
+    verts[18] = Vec3.new(s, -s, s);
+    verts[19] = Vec3.new(s, -s, -s);
+    verts[20] = Vec3.new(-s, s, -s);
+    verts[21] = Vec3.new(-s, s, s);
+    verts[22] = Vec3.new(s, s, s);
+    verts[23] = Vec3.new(s, s, -s);
     return verts;
 }
 
 pub fn unitCubeIndices(allocator: std.mem.Allocator) ![]u16 {
     var indices = try allocator.alloc(u16, 36);
     const tris = [_][3]u16{
-        .{ 0, 1, 2 }, .{ 0, 2, 3 },   // back
-        .{ 4, 5, 6 }, .{ 4, 6, 7 },   // front
+        .{ 0, 1, 2 }, .{ 0, 2, 3 }, // back
+        .{ 4, 5, 6 }, .{ 4, 6, 7 }, // front
         .{ 8, 9, 10 }, .{ 8, 10, 11 }, // left
         .{ 12, 13, 14 }, .{ 12, 14, 15 }, // right
         .{ 16, 17, 18 }, .{ 16, 18, 19 }, // bottom
@@ -1204,6 +1292,7 @@ pub const RenderGovernor = struct {
         if (owner_id.len == 0) return;
         if (!self.holds.contains(owner_id)) {
             const key = try self.allocator.dupe(u8, owner_id);
+            errdefer self.allocator.free(key);
             try self.holds.put(key, {});
         }
         self.applyMode();
@@ -1224,6 +1313,7 @@ pub const RenderGovernor = struct {
         if (!self.installed) return;
         if (self.holds.count() == 0) {
             const reason_copy = try self.allocator.dupe(u8, reason);
+            errdefer self.allocator.free(reason_copy);
             try self.recent_requests.append(.{
                 .reason = reason_copy,
                 .at_ms = self.clock_ms,
@@ -1237,7 +1327,7 @@ pub const RenderGovernor = struct {
 
     /// Advance the internal clock.
     pub fn tick(self: *RenderGovernor, dt_ms: u64) void {
-        self.clock_ms +%= dt_ms;
+        self.clock_ms +|= dt_ms;
     }
 
     /// Get the current render mode.
@@ -1330,7 +1420,7 @@ pub fn uiUpdateDue(now_ms: u64, last_update_ms: u64, interval_ms: u64) bool {
 
 /// Return whether a surface wait window has elapsed.
 pub fn surfaceWaitExpired(now_ms: u64, started_ms: u64, timeout_ms: u64) bool {
-    return now_ms - started_ms >= timeout_ms;
+    return now_ms >= started_ms and now_ms - started_ms >= timeout_ms;
 }
 
 /// Format a compass heading as a cardinal/intercardinal label.
@@ -1551,7 +1641,10 @@ test "Smith chart: E0 activations to sail points" {
             @as(f32, @floatFromInt(i % 7)) * 0.1,
             @as(f32, @floatFromInt(i % 5)) * 0.05,
             @as(f32, @floatFromInt(i % 3)) * 0.3,
-            0.5, 0.3, 0.2, 0.1,
+            0.5,
+            0.3,
+            0.2,
+            0.1,
         };
     }
     const points = e0ActivationsToSailPoints(&activations);
@@ -1925,4 +2018,90 @@ test "cockpit math: altitudeRulerStep" {
     try std.testing.expectEqual(@as(f32, 250), altitudeRulerStep(10000));
     try std.testing.expectEqual(@as(f32, 500), altitudeRulerStep(20000));
     try std.testing.expectEqual(@as(f32, 500), altitudeRulerStep(std.math.nan(f32)));
+}
+
+test "render sidecar rejects degenerate transforms" {
+    try std.testing.expectEqual(@as(f32, 0), Vec3.normalize(.{ .x = std.math.nan(f32) }).x);
+    const p = Mat4.perspective(0, 1, 0.1, 10);
+    try std.testing.expectEqual(@as(f32, 1), p.m[0]);
+    const o = Mat4.orthoOffCenter(1, 1, -1, 1, 0.1, 10);
+    try std.testing.expectEqual(@as(f32, 1), o.m[0]);
+    const singular = Mat4.scaling(0, 0, 0).invert();
+    try std.testing.expectEqual(@as(f32, 1), singular.m[0]);
+}
+
+test "scene graph rejects invalid and cyclic parenting" {
+    const allocator = std.testing.allocator;
+    var scene = Scene.init(allocator);
+    defer scene.deinit();
+
+    const parent = try scene.createEntity("parent");
+    const child = try scene.createEntity("child");
+    try std.testing.expectError(error.CyclicSceneGraph, scene.addChild(parent, parent));
+    try std.testing.expectError(error.EntityNotFound, scene.addChild(parent, 9999));
+    try scene.addChild(parent, child);
+    try std.testing.expectError(error.CyclicSceneGraph, scene.addChild(child, parent));
+}
+
+test "render graph rejects invalid pass IDs" {
+    const allocator = std.testing.allocator;
+    var graph = RenderGraph.init(allocator);
+    defer graph.deinit();
+
+    try std.testing.expectError(error.InvalidPassId, graph.addRead(0, "depth"));
+    try std.testing.expectError(error.InvalidPassId, graph.addWrite(0, "depth"));
+}
+
+test "E0 sail points handle empty and sparse activations" {
+    const empty = e0ActivationsToSailPoints(&.{});
+    for (empty) |p| {
+        try std.testing.expectEqual(@as(f32, 0), p.gamma_r);
+        try std.testing.expectEqual(@as(f32, 0), p.activation);
+    }
+
+    var sparse: [2][7]f32 = .{
+        .{ 1, 0, 0.5, 0, 0, 0, 0 },
+        .{ 0, 1, 0.5, 0, 0, 0, 0 },
+    };
+    const points = e0ActivationsToSailPoints(&sparse);
+    for (points) |p| {
+        try std.testing.expect(std.math.isFinite(p.gamma_r));
+        try std.testing.expect(std.math.isFinite(p.gamma_i));
+        try std.testing.expect(std.math.isFinite(p.activation));
+    }
+}
+
+test "E0 expandNode bounds forged coordinates and short output" {
+    var short: [32]ExpandedCell = undefined;
+    const node = E0SeedNode{
+        .x = std.math.maxInt(u32),
+        .y = std.math.maxInt(u32),
+        .z = std.math.maxInt(u32),
+        .activation = fp.MAX_VAL,
+    };
+    expandNode(node, 1920, 64, &short);
+    for (short) |cell| {
+        try std.testing.expectEqual(@as(f32, 0), cell.x);
+        try std.testing.expectEqual(@as(u3, 0), cell.e_value);
+    }
+
+    var full: [64]ExpandedCell = undefined;
+    expandNode(node, 1920, 64, &full);
+    for (full) |cell| {
+        try std.testing.expect(cell.x >= -1.0 and cell.x <= 1.0);
+        try std.testing.expect(cell.y >= -1.0 and cell.y <= 1.0);
+        try std.testing.expect(cell.z >= -1.0 and cell.z <= 1.0);
+    }
+}
+
+test "lattice torus saturates extreme level without shift overflow" {
+    const allocator = std.testing.allocator;
+    const vertices = try latticeTorusVertices(allocator, 255);
+    defer allocator.free(vertices);
+    try std.testing.expectEqual(@as(usize, 64 * 32), vertices.len);
+}
+
+test "surface wait rejects clock regression" {
+    try std.testing.expect(!surfaceWaitExpired(100, 200, 50));
+    try std.testing.expect(surfaceWaitExpired(200, 100, 50));
 }

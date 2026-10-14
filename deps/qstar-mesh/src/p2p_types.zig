@@ -24,7 +24,7 @@ fn timestamp() u64 {
         const f = @extern(*const fn () callconv(.C) u64, .{ .name = "js_time_now" });
         return f();
     } else {
-        return @intCast(std.time.timestamp());
+        return @intCast(@max(0, std.time.timestamp()));
     }
 }
 
@@ -89,27 +89,32 @@ pub const PeerManager = struct {
         self.peers.deinit(self.allocator);
     }
 
-    /// Add or update a peer.
-    pub fn addPeer(self: *PeerManager, id: PeerId, location: Location, conn_id: u32) void {
+    /// Add or update a peer. Returns false when the bounded peer table is full;
+    /// allocation failure is propagated instead of silently dropping a peer.
+    pub fn addPeer(self: *PeerManager, id: PeerId, location: Location, conn_id: u32) !bool {
         for (self.peers.items) |*p| {
             if (std.mem.eql(u8, &p.id, &id)) {
                 p.location = location;
                 p.conn_id = conn_id;
                 p.state = .connected;
-                p.connected_at = timestamp();
-                p.last_seen = p.connected_at;
-                return;
+                const now = timestamp();
+                p.connected_at = @max(p.connected_at, now);
+                p.last_seen = @max(p.last_seen, now);
+                return true;
             }
         }
-        self.peers.append(self.allocator, .{
+        if (self.peers.items.len >= self.max_connections) return false;
+        const now = timestamp();
+        try self.peers.append(self.allocator, .{
             .id = id,
             .location = location,
             .conn_id = conn_id,
             .state = .connected,
             .peer_state = .transient,
-            .connected_at = timestamp(),
-            .last_seen = timestamp(),
-        }) catch {};
+            .connected_at = now,
+            .last_seen = now,
+        });
+        return true;
     }
 
     /// Remove a peer by connection ID.
@@ -158,7 +163,7 @@ pub const PeerManager = struct {
     pub fn touch(self: *PeerManager, conn_id: u32) void {
         for (self.peers.items) |*p| {
             if (p.conn_id == conn_id) {
-                p.last_seen = timestamp();
+                p.last_seen = @max(p.last_seen, timestamp());
                 return;
             }
         }
@@ -179,6 +184,13 @@ pub const PeerManager = struct {
 // Message Protocol
 // ============================================================================
 
+/// Maximum TTL emitted by this mesh implementation.
+pub const MAX_RELAY_TTL: u8 = 16;
+/// The TCP/query peer reads at most one bounded message buffer per frame.
+pub const MAX_RELAY_PAYLOAD_BYTES: usize = 8192;
+/// XChaCha20-Poly1305 authentication tag length.
+pub const AEAD_TAG_SIZE: usize = 16;
+
 /// Message types for P2P protocol.
 pub const MessageType = enum(u8) {
     connect = 0,
@@ -198,6 +210,11 @@ pub const MessageType = enum(u8) {
     peer_discover = 14,
 };
 
+fn messageTypeFromByte(byte: u8) ?MessageType {
+    if (byte > @intFromEnum(MessageType.peer_discover)) return null;
+    return @enumFromInt(byte);
+}
+
 /// P2P message header — 41 bytes.
 pub const MessageHeader = struct {
     msg_type: MessageType,
@@ -214,12 +231,16 @@ pub const MessageHeader = struct {
     }
 
     /// Deserialize header from bytes.
+    /// `data` may include the message payload after this fixed-size header.
     pub fn deserialize(data: []const u8) ?MessageHeader {
         if (data.len < SIZE) return null;
+        const msg_type = messageTypeFromByte(data[0]) orelse return null;
+        const payload_len = std.mem.readInt(u32, data[33..][0..4], .little);
+        if (payload_len > MAX_RELAY_PAYLOAD_BYTES) return null;
         return MessageHeader{
-            .msg_type = @enumFromInt(data[0]),
+            .msg_type = msg_type,
             .sender_id = data[1..][0..32].*,
-            .payload_len = std.mem.readInt(u32, data[33..][0..4], .little),
+            .payload_len = payload_len,
         };
     }
 };
@@ -246,15 +267,19 @@ pub const RelayRouteHeader = struct {
     }
 
     /// Deserialize relay header from bytes.
+    /// `data` may include the relay payload after this fixed-size header.
     pub fn deserialize(data: []const u8) ?RelayRouteHeader {
         if (data.len < SIZE) return null;
+        const inner_msg_type = messageTypeFromByte(data[66]) orelse return null;
+        const inner_len = std.mem.readInt(u32, data[67..71], .little);
+        if (inner_len > MAX_RELAY_PAYLOAD_BYTES) return null;
         return RelayRouteHeader{
             .target_id = data[0..32].*,
             .origin_id = data[32..64].*,
             .ttl = data[64],
             .hop_count = data[65],
-            .inner_msg_type = @enumFromInt(data[66]),
-            .inner_len = std.mem.readInt(u32, data[67..71], .little),
+            .inner_msg_type = inner_msg_type,
+            .inner_len = inner_len,
         };
     }
 };
@@ -328,19 +353,19 @@ pub const Gossip = struct {
     pub fn nextBroadcast(self: *Gossip) ?[*]u8 {
         if (self.active_broadcasts >= self.max_concurrent) return null;
         const msg = self.broadcast_queue.readItem() orelse return null;
-        self.active_broadcasts += 1;
+        self.active_broadcasts +|= 1;
         return msg;
     }
 
     /// Mark a broadcast as complete.
     pub fn broadcastComplete(self: *Gossip) void {
         if (self.active_broadcasts > 0) self.active_broadcasts -= 1;
-        self.total_sent += 1;
+        self.total_sent +|= 1;
     }
 
     /// Record a received gossip message.
     pub fn messageReceived(self: *Gossip) void {
-        self.total_received += 1;
+        self.total_received +|= 1;
     }
 
     /// Get queue length.
@@ -356,9 +381,8 @@ pub const Gossip = struct {
 /// Compute ring distance between two locations.
 /// Distance is the minimum of clockwise and counter-clockwise.
 pub fn ringDistance(a: Location, b: Location) Location {
-    const ring_size: Location = std.math.maxInt(Location);
-    const d_cw = if (b >= a) b - a else ring_size - a + b;
-    const d_ccw = if (a >= b) a - b else ring_size - b + a;
+    const d_cw = b -% a;
+    const d_ccw = a -% b;
     return @min(d_cw, d_ccw);
 }
 
@@ -369,7 +393,7 @@ pub fn kleinbergGap(n: usize, index: usize) Location {
     var gap: Location = base;
     var i: usize = 0;
     while (i < index) : (i += 1) {
-        gap = gap * base;
+        gap = gap *| base;
     }
     return gap;
 }
@@ -377,13 +401,7 @@ pub fn kleinbergGap(n: usize, index: usize) Location {
 /// Add jitter to a location for exploration/bootstrap.
 /// Jitter is ±10% random perturbation.
 pub fn addJitter(loc: Location, jitter_amount: Location) Location {
-    const ring_size: Location = std.math.maxInt(Location);
-    if (jitter_amount == 0) return loc;
-    if (loc >= jitter_amount) {
-        return loc - jitter_amount;
-    } else {
-        return ring_size - (jitter_amount - loc);
-    }
+    return loc -% jitter_amount;
 }
 
 /// Find the closest peer to a target location from a list.
@@ -528,7 +546,7 @@ test "peer manager add and find" {
     defer pm.deinit();
 
     const id = [_]u8{0x42} ** 32;
-    pm.addPeer(id, 12345, 1);
+    try std.testing.expect(try pm.addPeer(id, 12345, 1));
 
     const peer = pm.getByConnId(1).?;
     try std.testing.expectEqualSlices(u8, &id, &peer.id);
@@ -539,8 +557,8 @@ test "peer manager remove" {
     var pm = PeerManager.init(std.testing.allocator);
     defer pm.deinit();
 
-    pm.addPeer([_]u8{0x01} ** 32, 100, 1);
-    pm.addPeer([_]u8{0x02} ** 32, 200, 2);
+    try std.testing.expect(try pm.addPeer([_]u8{0x01} ** 32, 100, 1));
+    try std.testing.expect(try pm.addPeer([_]u8{0x02} ** 32, 200, 2));
 
     try std.testing.expectEqual(@as(usize, 2), pm.peers.items.len);
     pm.removePeer(1);
@@ -554,8 +572,8 @@ test "peer manager update existing" {
     defer pm.deinit();
 
     const id = [_]u8{0x42} ** 32;
-    pm.addPeer(id, 100, 1);
-    pm.addPeer(id, 200, 1);
+    try std.testing.expect(try pm.addPeer(id, 100, 1));
+    try std.testing.expect(try pm.addPeer(id, 200, 1));
 
     try std.testing.expectEqual(@as(usize, 1), pm.peers.items.len);
     try std.testing.expectEqual(@as(Location, 200), pm.getById(id).?.location);
@@ -565,7 +583,7 @@ test "peer manager promote" {
     var pm = PeerManager.init(std.testing.allocator);
     defer pm.deinit();
 
-    pm.addPeer([_]u8{0x01} ** 32, 100, 1);
+    try std.testing.expect(try pm.addPeer([_]u8{0x01} ** 32, 100, 1));
     try std.testing.expectEqual(PeerState.transient, pm.getByConnId(1).?.peer_state);
     pm.promote(1);
     try std.testing.expectEqual(PeerState.ring_promoted, pm.getByConnId(1).?.peer_state);
@@ -575,9 +593,22 @@ test "peer manager connected count" {
     var pm = PeerManager.init(std.testing.allocator);
     defer pm.deinit();
 
-    pm.addPeer([_]u8{0x01} ** 32, 100, 1);
-    pm.addPeer([_]u8{0x02} ** 32, 200, 2);
+    try std.testing.expect(try pm.addPeer([_]u8{0x01} ** 32, 100, 1));
+    try std.testing.expect(try pm.addPeer([_]u8{0x02} ** 32, 200, 2));
     try std.testing.expectEqual(@as(usize, 2), pm.connectedCount());
+}
+
+test "peer manager bounded table fails closed" {
+    var pm = PeerManager.init(std.testing.allocator);
+    pm.max_connections = 2;
+    defer pm.deinit();
+
+    try std.testing.expect(try pm.addPeer([_]u8{0x01} ** 32, 100, 1));
+    try std.testing.expect(try pm.addPeer([_]u8{0x02} ** 32, 200, 2));
+    try std.testing.expect(!(try pm.addPeer([_]u8{0x03} ** 32, 300, 3)));
+    try std.testing.expect(try pm.addPeer([_]u8{0x01} ** 32, 400, 4));
+    try std.testing.expectEqual(@as(usize, 2), pm.peers.items.len);
+    try std.testing.expect(pm.getById([_]u8{0x03} ** 32) == null);
 }
 
 test "message header serialize/deserialize roundtrip" {
@@ -601,12 +632,28 @@ test "message header rejects short data" {
     try std.testing.expect(MessageHeader.deserialize(&short_data) == null);
 }
 
+test "message header rejects invalid type and oversized payload" {
+    var buf: [MessageHeader.SIZE]u8 = undefined;
+    const header = MessageHeader{
+        .msg_type = .data,
+        .sender_id = [_]u8{0x42} ** 32,
+        .payload_len = 1,
+    };
+    header.serialize(&buf);
+
+    buf[0] = @intFromEnum(MessageType.peer_discover) + 1;
+    try std.testing.expect(MessageHeader.deserialize(&buf) == null);
+
+    header.serialize(&buf);
+    std.mem.writeInt(u32, buf[33..][0..4], @as(u32, MAX_RELAY_PAYLOAD_BYTES) + 1, .little);
+    try std.testing.expect(MessageHeader.deserialize(&buf) == null);
+}
+
 test "message header all message types roundtrip" {
     const types = [_]MessageType{
-        .connect, .disconnect, .data, .control, .gossip,
-        .state_sync, .state_delta, .transaction, .block,
-        .ping, .pong, .relay_route, .rendezvous_req,
-        .rendezvous_res, .peer_discover,
+        .connect,    .disconnect,  .data,           .control,        .gossip,
+        .state_sync, .state_delta, .transaction,    .block,          .ping,
+        .pong,       .relay_route, .rendezvous_req, .rendezvous_res, .peer_discover,
     };
 
     for (types) |mt| {
@@ -649,7 +696,7 @@ test "relay route header rejects short data" {
     try std.testing.expect(RelayRouteHeader.deserialize(&short_buf) == null);
 }
 
-test "relay route header ttl zero and max" {
+test "relay route header ttl zero and bounded max" {
     const hdr_min = RelayRouteHeader{
         .target_id = [_]u8{0} ** 32,
         .origin_id = [_]u8{0} ** 32,
@@ -667,15 +714,23 @@ test "relay route header ttl zero and max" {
     const hdr_max = RelayRouteHeader{
         .target_id = [_]u8{0xFF} ** 32,
         .origin_id = [_]u8{0xFF} ** 32,
-        .ttl = 255,
-        .hop_count = 255,
+        .ttl = MAX_RELAY_TTL,
+        .hop_count = MAX_RELAY_TTL,
         .inner_msg_type = .peer_discover,
-        .inner_len = std.math.maxInt(u32),
+        .inner_len = MAX_RELAY_PAYLOAD_BYTES,
     };
     hdr_max.serialize(&buf);
     const restored_max = RelayRouteHeader.deserialize(&buf).?;
-    try std.testing.expectEqual(@as(u8, 255), restored_max.ttl);
-    try std.testing.expectEqual(@as(u32, std.math.maxInt(u32)), restored_max.inner_len);
+    try std.testing.expectEqual(MAX_RELAY_TTL, restored_max.ttl);
+    try std.testing.expectEqual(@as(u32, MAX_RELAY_PAYLOAD_BYTES), restored_max.inner_len);
+
+    hdr_min.serialize(&buf);
+    buf[66] = @intFromEnum(MessageType.peer_discover) + 1;
+    try std.testing.expect(RelayRouteHeader.deserialize(&buf) == null);
+
+    hdr_min.serialize(&buf);
+    std.mem.writeInt(u32, buf[67..71], @as(u32, MAX_RELAY_PAYLOAD_BYTES) + 1, .little);
+    try std.testing.expect(RelayRouteHeader.deserialize(&buf) == null);
 }
 
 test "gossip queue and broadcast" {
@@ -785,7 +840,7 @@ test "ring distance symmetric" {
 test "ring distance wrap-around" {
     const ring_size: Location = std.math.maxInt(Location);
     const d = ringDistance(ring_size - 10, 10);
-    try std.testing.expect(d <= 21);
+    try std.testing.expectEqual(@as(Location, 21), d);
 }
 
 test "ring distance to self is zero" {
@@ -909,7 +964,7 @@ test "add jitter wraps around ring" {
     const jitter: Location = 100;
     const result = addJitter(loc, jitter);
     const ring_size: Location = std.math.maxInt(Location);
-    try std.testing.expectEqual(ring_size - 50, result);
+    try std.testing.expectEqual(ring_size - 49, result);
 }
 
 test "add jitter zero is no-op" {

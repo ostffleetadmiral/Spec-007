@@ -6,8 +6,9 @@
 //!   - Fractional precision: 1/2^32 ≈ 2.33e-10
 //!   - ~9 decimal digits of precision
 //!
-//! No f32/f64/f16/f128 anywhere. Pure integer arithmetic with bit shifts.
-//! All operations are deterministic and cross-platform identical.
+//! Runtime operations are pure integer arithmetic. f64 appears only inside
+//! compile-time lookup-table construction, which is an approved sidecar lane.
+//! All runtime operations are deterministic and cross-platform identical.
 
 const std = @import("std");
 
@@ -23,22 +24,32 @@ pub const MIN_VAL: i64 = std.math.minInt(i64);
 
 /// Convert an integer to fixed-point.
 pub inline fn fromInt(v: i64) i64 {
+    const min_int: i64 = std.math.minInt(i32);
+    const max_int: i64 = std.math.maxInt(i32);
+    if (v <= min_int) return std.math.minInt(i64);
+    if (v >= max_int) return std.math.maxInt(i64);
     return v << FRAC_BITS;
 }
 
-/// Convert fixed-point to integer (truncates fractional part).
+/// Convert fixed-point to the containing signed integer (floor semantics).
 pub inline fn toInt(v: i64) i64 {
     return v >> FRAC_BITS;
 }
 
 /// Convert fixed-point to a string representation for debugging.
 pub fn format(allocator: std.mem.Allocator, v: i64) ![]u8 {
-    const int_part = toInt(v);
-    const frac_part = v & ((ONE) - 1);
+    const negative = v < 0;
+    const magnitude = absVal(v);
+    const int_part = magnitude >> FRAC_BITS;
+    const frac_part = magnitude & ((ONE) - 1);
     const frac_scaled: u64 = @intCast(frac_part);
     // Print as int.fraction with 4 decimal places
     const frac_4dp = (frac_scaled * 10000) >> FRAC_BITS;
-    return std.fmt.allocPrint(allocator, "{d}.{d:0>4}", .{ int_part, frac_4dp });
+    return std.fmt.allocPrint(allocator, "{s}{d}.{d:0>4}", .{
+        if (negative) "-" else "",
+        int_part,
+        frac_4dp,
+    });
 }
 
 // =============================================================================
@@ -47,37 +58,41 @@ pub fn format(allocator: std.mem.Allocator, v: i64) ![]u8 {
 
 /// Fixed-point addition: straightforward i64 add.
 pub inline fn add(a: i64, b: i64) i64 {
-    return a + b;
+    return a +| b;
 }
 
 /// Fixed-point subtraction.
 pub inline fn sub(a: i64, b: i64) i64 {
-    return a - b;
+    return a -| b;
 }
 
 /// Fixed-point multiplication: (a * b) >> FRAC_BITS.
 /// Uses 128-bit intermediate to prevent overflow.
 pub inline fn mul(a: i64, b: i64) i64 {
     const result: i128 = @as(i128, a) * @as(i128, b);
-    return @intCast(result >> FRAC_BITS);
+    return @intCast(std.math.clamp(result >> FRAC_BITS, std.math.minInt(i64), std.math.maxInt(i64)));
 }
 
 /// Fixed-point division: (a << FRAC_BITS) / b.
 /// Uses 128-bit intermediate to prevent overflow.
 pub inline fn div(a: i64, b: i64) i64 {
-    if (b == 0) return 0;
+    if (b == 0) {
+        if (a > 0) return MAX_VAL;
+        if (a < 0) return MIN_VAL;
+        return 0;
+    }
     const result: i128 = @divTrunc(@as(i128, a) << FRAC_BITS, @as(i128, b));
-    return @intCast(result);
+    return @intCast(std.math.clamp(result, std.math.minInt(i64), std.math.maxInt(i64)));
 }
 
 /// Absolute value.
 pub inline fn absVal(v: i64) i64 {
-    return if (v < 0) -v else v;
+    return if (v == std.math.minInt(i64)) std.math.maxInt(i64) else if (v < 0) -v else v;
 }
 
 /// Negate.
 pub inline fn negate(v: i64) i64 {
-    return -v;
+    return if (v == std.math.minInt(i64)) std.math.maxInt(i64) else -v;
 }
 
 /// Maximum of two values.
@@ -151,12 +166,12 @@ pub const FIB_NORM: i64 = 141733920768; // 33.0 * 2^32
 
 /// Fibonacci weights in Q32.32: [1, 1, 2, 3, 5, 8, 13]
 pub const FIB_WEIGHTS = [_]i64{
-    fromInt(1),  // 1.0
-    fromInt(1),  // 1.0
-    fromInt(2),  // 2.0
-    fromInt(3),  // 3.0
-    fromInt(5),  // 5.0
-    fromInt(8),  // 8.0
+    fromInt(1), // 1.0
+    fromInt(1), // 1.0
+    fromInt(2), // 2.0
+    fromInt(3), // 3.0
+    fromInt(5), // 5.0
+    fromInt(8), // 8.0
     fromInt(13), // 13.0
 };
 
@@ -310,10 +325,8 @@ const cos_table: [TRIG_TABLE_SIZE]i64 = blk: {
 /// Input: angle in Q32.32 radians. Output: sin(angle) in Q32.32.
 pub fn sin(angle: i64) i64 {
     // Normalize angle to [0, 2π)
-    var a = angle;
+    const a = @mod(angle, TWO_PI);
     const two_pi = TWO_PI;
-    while (a < 0) a += two_pi;
-    while (a >= two_pi) a -= two_pi;
 
     // Map to table index: index = (angle / 2π) * TRIG_TABLE_SIZE
     const idx: i128 = @divTrunc(@as(i128, a) * @as(i128, TRIG_TABLE_SIZE), @as(i128, two_pi));
@@ -325,10 +338,8 @@ pub fn sin(angle: i64) i64 {
 /// Input: angle in Q32.32 radians. Output: cos(angle) in Q32.32.
 pub fn cos(angle: i64) i64 {
     // Normalize angle to [0, 2π)
-    var a = angle;
+    const a = @mod(angle, TWO_PI);
     const two_pi = TWO_PI;
-    while (a < 0) a += two_pi;
-    while (a >= two_pi) a -= two_pi;
 
     // Map to table index
     const idx: i128 = @divTrunc(@as(i128, a) * @as(i128, TRIG_TABLE_SIZE), @as(i128, two_pi));
@@ -339,10 +350,8 @@ pub fn cos(angle: i64) i64 {
 /// Computes both sin and cos simultaneously (for DFT).
 /// Returns { .sin = s, .cos = c } in Q32.32.
 pub fn sincos(angle: i64) struct { sin_val: i64, cos_val: i64 } {
-    var a = angle;
+    const a = @mod(angle, TWO_PI);
     const two_pi = TWO_PI;
-    while (a < 0) a += two_pi;
-    while (a >= two_pi) a -= two_pi;
 
     const idx: i128 = @divTrunc(@as(i128, a) * @as(i128, TRIG_TABLE_SIZE), @as(i128, two_pi));
     const clamped: usize = @intCast(@mod(idx, @as(i128, TRIG_TABLE_SIZE)));
@@ -353,10 +362,11 @@ pub fn sincos(angle: i64) struct { sin_val: i64, cos_val: i64 } {
 /// Returns { .re, .im } in Q32.32 fixed-point.
 /// This is cos(-2πk/N) + i*sin(-2πk/N) = cos(2πk/N) - i*sin(2πk/N).
 pub fn twiddle(k: usize, N: usize) struct { re: i64, im: i64 } {
+    if (N == 0) return .{ .re = ONE, .im = 0 };
     // angle = -2π * k / N
     // In fixed-point: angle = -(TWO_PI * k) / N
     const angle: i128 = @divTrunc(-(@as(i128, TWO_PI) * @as(i128, @intCast(k))), @as(i128, @intCast(N)));
-    const angle_fp: i64 = @intCast(angle);
+    const angle_fp: i64 = @intCast(std.math.clamp(angle, std.math.minInt(i64), std.math.maxInt(i64)));
     const sc = sincos(angle_fp);
     // exp(i*angle) = cos(angle) + i*sin(angle)
     // angle is already -2πk/N, so this gives exp(-2πi*k/N) = W_N^k
@@ -404,7 +414,7 @@ pub fn sqrt(x: i64) i64 {
 
     // Newton iterations: guess = (guess + x/guess) / 2
     for (0..20) |_| {
-        const new_guess = (guess + div(x, guess)) >> 1;
+        const new_guess = (guess +| div(x, guess)) >> 1;
         if (absVal(new_guess - guess) <= 1) break;
         guess = new_guess;
     }
@@ -598,31 +608,28 @@ test "absVal works correctly" {
 
 /// Batch multiply: element-wise Q32.32 multiply for 4 values using @Vector.
 pub fn mulVec4(a: @Vector(4, i64), b: @Vector(4, i64)) @Vector(4, i64) {
-    const wide_a: @Vector(4, i128) = @intCast(a);
-    const wide_b: @Vector(4, i128) = @intCast(b);
-    const product = wide_a * wide_b;
-    const shifted = product >> @as(@Vector(4, u7), @splat(FRAC_BITS));
-    return @intCast(shifted);
+    return .{ mul(a[0], b[0]), mul(a[1], b[1]), mul(a[2], b[2]), mul(a[3], b[3]) };
 }
 
 /// Batch add: element-wise Q32.32 add for 4 values.
 pub fn addVec4(a: @Vector(4, i64), b: @Vector(4, i64)) @Vector(4, i64) {
-    return a + b;
+    return .{ add(a[0], b[0]), add(a[1], b[1]), add(a[2], b[2]), add(a[3], b[3]) };
 }
 
 /// Batch sub: element-wise Q32.32 subtract for 4 values.
 pub fn subVec4(a: @Vector(4, i64), b: @Vector(4, i64)) @Vector(4, i64) {
-    return a - b;
+    return .{ sub(a[0], b[0]), sub(a[1], b[1]), sub(a[2], b[2]), sub(a[3], b[3]) };
 }
 
 /// Batch fromInt: convert 4 integer values to Q32.32 fixed-point.
 pub fn fromIntVec4(v: @Vector(4, i64)) @Vector(4, i64) {
-    return v << @as(@Vector(4, u6), @splat(FRAC_BITS));
+    return .{ fromInt(v[0]), fromInt(v[1]), fromInt(v[2]), fromInt(v[3]) };
 }
 
-/// Batch multiply for arbitrary-length slices using @Vector(4, i64) lanes.
-pub fn mulBatch(dst: []i64, a: []const i64, b: []const i64) void {
-    const n = @min(dst.len, @min(a.len, b.len));
+/// Batch multiply for equal-length slices using @Vector(4, i64) lanes.
+pub fn mulBatch(dst: []i64, a: []const i64, b: []const i64) !void {
+    if (dst.len != a.len or dst.len != b.len) return error.MismatchedInput;
+    const n = dst.len;
     var i: usize = 0;
     while (i + 4 <= n) : (i += 4) {
         const va: @Vector(4, i64) = .{ a[i], a[i + 1], a[i + 2], a[i + 3] };
@@ -638,21 +645,22 @@ pub fn mulBatch(dst: []i64, a: []const i64, b: []const i64) void {
     }
 }
 
-/// Batch add for arbitrary-length slices.
-pub fn addBatch(dst: []i64, a: []const i64, b: []const i64) void {
-    const n = @min(dst.len, @min(a.len, b.len));
+/// Batch add for equal-length slices.
+pub fn addBatch(dst: []i64, a: []const i64, b: []const i64) !void {
+    if (dst.len != a.len or dst.len != b.len) return error.MismatchedInput;
+    const n = dst.len;
     var i: usize = 0;
     while (i + 4 <= n) : (i += 4) {
         const va: @Vector(4, i64) = .{ a[i], a[i + 1], a[i + 2], a[i + 3] };
         const vb: @Vector(4, i64) = .{ b[i], b[i + 1], b[i + 2], b[i + 3] };
-        const result = va + vb;
+        const result = addVec4(va, vb);
         dst[i] = result[0];
         dst[i + 1] = result[1];
         dst[i + 2] = result[2];
         dst[i + 3] = result[3];
     }
     while (i < n) : (i += 1) {
-        dst[i] = a[i] + b[i];
+        dst[i] = add(a[i], b[i]);
     }
 }
 
@@ -670,8 +678,48 @@ test "SIMD mulBatch matches scalar" {
     var dst: [10]i64 = undefined;
     const a = [_]i64{ fromInt(1), fromInt(2), fromInt(3), fromInt(4), fromInt(5), fromInt(6), fromInt(7), fromInt(8), fromInt(9), fromInt(10) };
     const b = [_]i64{ fromInt(10), fromInt(9), fromInt(8), fromInt(7), fromInt(6), fromInt(5), fromInt(4), fromInt(3), fromInt(2), fromInt(1) };
-    mulBatch(&dst, &a, &b);
+    try mulBatch(&dst, &a, &b);
     for (0..10) |i| {
         try std.testing.expectEqual(mul(a[i], b[i]), dst[i]);
     }
+}
+
+test "fixed point integer extrema saturate deterministically" {
+    try std.testing.expectEqual(MAX_VAL, fromInt(std.math.maxInt(i64)));
+    try std.testing.expectEqual(MIN_VAL, fromInt(std.math.minInt(i64)));
+    try std.testing.expectEqual(MAX_VAL, add(MAX_VAL, ONE));
+    try std.testing.expectEqual(MIN_VAL, sub(MIN_VAL, ONE));
+    try std.testing.expectEqual(MAX_VAL, absVal(MIN_VAL));
+    try std.testing.expectEqual(MAX_VAL, negate(MIN_VAL));
+    try std.testing.expectEqual(MAX_VAL, div(ONE, 0));
+    try std.testing.expectEqual(MIN_VAL, div(-ONE, 0));
+    try std.testing.expectEqual(@as(i64, 0), div(0, 0));
+}
+
+test "fixed point trig normalizes bounded extrema" {
+    try std.testing.expect(absVal(sin(std.math.maxInt(i64))) <= ONE);
+    try std.testing.expect(absVal(sin(std.math.minInt(i64))) <= ONE);
+    try std.testing.expect(absVal(cos(std.math.maxInt(i64))) <= ONE);
+    try std.testing.expect(absVal(cos(std.math.minInt(i64))) <= ONE);
+    const sc = sincos(std.math.maxInt(i64));
+    try std.testing.expect(absVal(sc.sin_val) <= ONE);
+    try std.testing.expect(absVal(sc.cos_val) <= ONE);
+    const t0 = twiddle(1, 0);
+    try std.testing.expectEqual(ONE, t0.re);
+    try std.testing.expectEqual(@as(i64, 0), t0.im);
+}
+
+test "fixed point batches require equal lengths and saturate" {
+    var dst: [4]i64 = undefined;
+    const a = [_]i64{ MAX_VAL, MIN_VAL, ONE, -ONE };
+    const b = [_]i64{ ONE, ONE, MAX_VAL, MAX_VAL };
+
+    try std.testing.expectError(error.MismatchedInput, mulBatch(dst[0..3], &a, &b));
+    try std.testing.expectError(error.MismatchedInput, addBatch(dst[0..3], &a, &b));
+
+    try addBatch(&dst, &a, &b);
+    try std.testing.expectEqual(MAX_VAL, dst[0]);
+    try std.testing.expectEqual(MIN_VAL + ONE, dst[1]);
+    try std.testing.expectEqual(MAX_VAL, dst[2]);
+    try std.testing.expectEqual(MAX_VAL - ONE, dst[3]);
 }

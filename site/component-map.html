@@ -237,9 +237,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec008_qstar_mesh.zig</code></td>
-<td>qstar-mesh + qstar-render: Location u128 matches the SPEC-008 tensor-address width class, PeerId = [32]u8; RelayRouter TTL multi-hop bounds the 42-hop walk; XChaCha20-Poly1305 AEAD on the 136-B envelope with tamper/wrong-key refusal.</td>
-<td>6 tests</td>
-<td>—</td>
+<td>qstar-mesh + qstar-render: Location u128 matches the SPEC-008 tensor-address width class, PeerId = [32]u8; RelayRouter TTL multi-hop bounds the 42-hop walk; XChaCha20-Poly1305 AEAD on the 136-B envelope with tamper/wrong-key refusal. Boundary hardened: exact relay/rendezvous/shared-face frames, enum/TTL/hop/domain checks, bounded AEAD buffers, heap-owned PeerManager, transactional connections and InterestSync deltas, owned store-and-forward payloads, checked lattice arithmetic, and render sidecar overflow/cycle/clock defenses.</td>
+<td>7 tests</td>
+<td>mesh boundary hardened</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_parity.zig</code></td>

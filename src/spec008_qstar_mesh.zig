@@ -100,7 +100,7 @@ test "mesh: relay delivers to target peer, forwards otherwise" {
     }
 
     // Packet addressed to a known peer -> forward toward their connection.
-    pm.addPeer(target_id, cellLocation(9, 9, 9), 77);
+    try std.testing.expect(try pm.addPeer(target_id, cellLocation(9, 9, 9), 77));
     const fwd = try router.buildRelayPacket(a, target_id, .data, &pkt);
     defer a.free(fwd);
     switch (router.handleRelayRoute(fwd)) {
@@ -130,6 +130,38 @@ test "mesh: relay delivers to target peer, forwards otherwise" {
     try std.testing.expect(router_empty.handleRelayRoute(lost) == .dropped);
 }
 
+test "mesh: malformed relay and bounded peer table fail closed" {
+    const a = std.testing.allocator;
+    var pm = p2p.PeerManager.init(a);
+    pm.max_connections = 1;
+    defer pm.deinit();
+
+    const self_id = peerIdFrom(0x10);
+    const target_id = peerIdFrom(0x20);
+    const spare_id = peerIdFrom(0x30);
+    var router = relay_router.RelayRouter.init(a, self_id, cellLocation(1, 1, 1), &pm);
+
+    try std.testing.expect(try pm.addPeer(target_id, cellLocation(9, 9, 9), 77));
+    try std.testing.expect(!(try pm.addPeer(spare_id, cellLocation(2, 2, 2), 78)));
+
+    const pkt = testPacket();
+    const wire = try router.buildRelayPacket(a, target_id, .data, &pkt);
+    defer a.free(wire);
+
+    const trailing = try a.dupe(u8, wire);
+    defer a.free(trailing);
+    const with_tail = try a.alloc(u8, trailing.len + 1);
+    defer a.free(with_tail);
+    @memcpy(with_tail[0..trailing.len], trailing);
+    with_tail[with_tail.len - 1] = 0;
+    try std.testing.expect(router.handleRelayRoute(with_tail) == .dropped);
+
+    var forged = try a.dupe(u8, wire);
+    defer a.free(forged);
+    forged[66] = @intFromEnum(p2p.MessageType.peer_discover) + 1;
+    try std.testing.expect(router.handleRelayRoute(forged) == .dropped);
+}
+
 test "mesh: TTL exhaustion drops rather than loops forever" {
     const a = std.testing.allocator;
     var pm = p2p.PeerManager.init(a);
@@ -138,7 +170,7 @@ test "mesh: TTL exhaustion drops rather than loops forever" {
     var router = relay_router.RelayRouter.init(a, self_id, cellLocation(1, 1, 1), &pm);
     const pkt = testPacket();
     const target = peerIdFrom(0x20);
-    pm.addPeer(target, cellLocation(9, 9, 9), 77);
+    try std.testing.expect(try pm.addPeer(target, cellLocation(9, 9, 9), 77));
 
     const wire = try router.buildRelayPacket(a, target, .data, &pkt);
     defer a.free(wire);

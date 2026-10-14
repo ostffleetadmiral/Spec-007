@@ -40,12 +40,13 @@ pub const RelayRouteResult = union(enum) {
 };
 
 /// Result of processing a rendezvous request.
+/// Payloads are returned by value so callers never receive stack-lifetime slices.
 pub const RendezvousResult = struct {
     /// Response to send back to the requesting connection.
-    response_payload: []u8,
+    response_payload: [49]u8,
     response_len: usize,
     /// Optional introduction to send to the target peer.
-    introduction_payload: ?[]u8 = null,
+    introduction_payload: ?[33]u8 = null,
     introduction_len: usize = 0,
     target_conn_id: ?u32 = null,
 };
@@ -83,13 +84,18 @@ pub const RelayRouter = struct {
     /// Returns the action the caller should take.
     pub fn handleRelayRoute(self: *RelayRouter, payload: []const u8) RelayRouteResult {
         const relay_hdr = RelayRouteHeader.deserialize(payload) orelse return .dropped;
-        if (payload.len < RelayRouteHeader.SIZE + relay_hdr.inner_len) return .dropped;
+        const inner_len = @as(usize, relay_hdr.inner_len);
+        const total_len = RelayRouteHeader.SIZE + inner_len;
+        if (payload.len != total_len) return .dropped;
+        if (relay_hdr.ttl == 0 or relay_hdr.ttl > p2p.MAX_RELAY_TTL) return .dropped;
+        if (relay_hdr.hop_count > p2p.MAX_RELAY_TTL) return .dropped;
+        if (@as(u16, relay_hdr.ttl) + @as(u16, relay_hdr.hop_count) > p2p.MAX_RELAY_TTL) return .dropped;
 
-        const inner_payload = payload[RelayRouteHeader.SIZE .. RelayRouteHeader.SIZE + relay_hdr.inner_len];
+        const inner_payload = payload[RelayRouteHeader.SIZE..total_len];
 
         if (std.mem.eql(u8, &relay_hdr.target_id, &self.peer_id)) {
             // Arrived at final destination
-            self.relayed_received += 1;
+            self.relayed_received +|= 1;
             return .{
                 .delivered = .{
                     .origin_id = relay_hdr.origin_id,
@@ -109,9 +115,8 @@ pub const RelayRouter = struct {
             // Build updated relay header with decremented TTL and incremented hop count
             var updated_hdr = relay_hdr;
             updated_hdr.ttl -= 1;
-            updated_hdr.hop_count += 1;
+            updated_hdr.hop_count +|= 1;
 
-            const total_len = RelayRouteHeader.SIZE + inner_payload.len;
             const buf = self.allocator.alloc(u8, total_len) catch return .dropped;
 
             var hdr_buf: [RelayRouteHeader.SIZE]u8 = undefined;
@@ -119,7 +124,7 @@ pub const RelayRouter = struct {
             @memcpy(buf[0..RelayRouteHeader.SIZE], &hdr_buf);
             @memcpy(buf[RelayRouteHeader.SIZE..], inner_payload);
 
-            self.relayed_forwarded += 1;
+            self.relayed_forwarded +|= 1;
             return .{
                 .forward = .{
                     .next_conn = next_conn,
@@ -132,14 +137,14 @@ pub const RelayRouter = struct {
     }
 
     /// Process a rendezvous request from a peer.
-    /// The payload is [target_id:32].
+    /// The payload is exactly [target_id:32].
     /// Returns response data to send back and optional introduction to target.
     pub fn handleRendezvousReq(
         self: *RelayRouter,
         sender_id: PeerId,
         payload: []const u8,
     ) ?RendezvousResult {
-        if (payload.len < 32) return null;
+        if (payload.len != 32) return null;
         var target_id: PeerId = undefined;
         @memcpy(&target_id, payload[0..32]);
 
@@ -164,9 +169,9 @@ pub const RelayRouter = struct {
                 @memcpy(intro_buf[1..33], &sender_id);
 
                 return RendezvousResult{
-                    .response_payload = &res_buf,
+                    .response_payload = res_buf,
                     .response_len = 49,
-                    .introduction_payload = &intro_buf,
+                    .introduction_payload = intro_buf,
                     .introduction_len = 33,
                     .target_conn_id = tp.conn_id,
                 };
@@ -179,31 +184,44 @@ pub const RelayRouter = struct {
         @memcpy(fail_buf[1..33], &target_id);
 
         return RendezvousResult{
-            .response_payload = &fail_buf,
+            .response_payload = blk: {
+                var response: [49]u8 = undefined;
+                response[0..33].* = fail_buf;
+                @memset(response[33..], 0);
+                break :blk response;
+            },
             .response_len = 33,
         };
     }
 
     /// Process a rendezvous response — register virtual peer.
-    pub fn handleRendezvousRes(self: *RelayRouter, conn_id: u32, payload: []const u8) void {
-        if (payload.len < 33) return;
+    /// Status frames are exact: status 0/2 are 33 bytes, status 1 is 49 bytes.
+    pub fn handleRendezvousRes(self: *RelayRouter, conn_id: u32, payload: []const u8) !bool {
+        if (payload.len < 1) return false;
         const status = payload[0];
+        const expected_len: usize = switch (status) {
+            0, 2 => 33,
+            1 => 49,
+            else => return false,
+        };
+        if (payload.len != expected_len) return false;
         var remote_id: PeerId = undefined;
         @memcpy(&remote_id, payload[1..33]);
 
-        if (status == 1 and payload.len >= 49) {
+        if (status == 1) {
             // Active relay: extract location
             var remote_loc: Location = 0;
             var pos: usize = 0;
             while (pos < 16) : (pos += 1) {
                 remote_loc = (remote_loc << 8) | payload[33 + pos];
             }
-            self.peers.addPeer(remote_id, remote_loc, conn_id);
+            return try self.peers.addPeer(remote_id, remote_loc, conn_id);
         } else if (status == 2) {
             // Introduction: derive location from peer ID
             const loc = p2p.locationFromSeed(&remote_id);
-            self.peers.addPeer(remote_id, loc, conn_id);
+            return try self.peers.addPeer(remote_id, loc, conn_id);
         }
+        return true;
     }
 
     /// Build a peer discovery response payload listing all known connected peers
@@ -258,7 +276,8 @@ pub const RelayRouter = struct {
         inner_msg_type: MessageType,
         payload: []const u8,
     ) ![]u8 {
-        const total_len = RelayRouteHeader.SIZE + payload.len;
+        if (payload.len > p2p.MAX_RELAY_PAYLOAD_BYTES) return error.PayloadTooLarge;
+        const total_len = std.math.add(usize, RelayRouteHeader.SIZE, payload.len) catch return error.PayloadTooLarge;
         var buf = try allocator.alloc(u8, total_len);
 
         var relay_hdr = RelayRouteHeader{
@@ -350,7 +369,7 @@ test "relay route forwarded to next hop" {
     const target_peer = [_]u8{0xCC} ** 32;
 
     // Add a peer that is the target (but via different conn_id)
-    pm.addPeer(target_peer, 2000, 5);
+    _ = try pm.addPeer(target_peer, 2000, 5);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -389,7 +408,7 @@ test "relay route dropped when TTL exhausted" {
     defer pm.deinit();
     const my_id = [_]u8{0xAA} ** 32;
     const target_id = [_]u8{0xCC} ** 32;
-    pm.addPeer(target_id, 2000, 5);
+    _ = try pm.addPeer(target_id, 2000, 5);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -473,6 +492,63 @@ test "relay route dropped when payload shorter than declared" {
     try std.testing.expect(result == .dropped);
 }
 
+test "relay route drops trailing bytes and TTL/hop overrun" {
+    var pm = PeerManager.init(std.testing.allocator);
+    defer pm.deinit();
+    const my_id = [_]u8{0xAA} ** 32;
+    var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
+
+    const inner = "ok";
+    var raw: [RelayRouteHeader.SIZE + 3]u8 = undefined;
+    var hdr_buf: [RelayRouteHeader.SIZE]u8 = undefined;
+    const hdr = RelayRouteHeader{
+        .target_id = my_id,
+        .origin_id = [_]u8{0xBB} ** 32,
+        .ttl = 2,
+        .hop_count = 0,
+        .inner_msg_type = .data,
+        .inner_len = 2,
+    };
+    hdr.serialize(&hdr_buf);
+    @memcpy(raw[0..RelayRouteHeader.SIZE], &hdr_buf);
+    @memcpy(raw[RelayRouteHeader.SIZE..][0..2], inner);
+    raw[raw.len - 1] = 0xAA;
+    try std.testing.expect(router.handleRelayRoute(&raw) == .dropped);
+
+    var overrun_hdr = hdr;
+    overrun_hdr.ttl = 9;
+    overrun_hdr.hop_count = 8;
+    overrun_hdr.serialize(&hdr_buf);
+    @memcpy(raw[0..RelayRouteHeader.SIZE], &hdr_buf);
+    try std.testing.expect(router.handleRelayRoute(raw[0 .. raw.len - 1]) == .dropped);
+}
+
+test "rendezvous response rejects malformed status and bounded table" {
+    var pm = PeerManager.init(std.testing.allocator);
+    pm.max_connections = 1;
+    defer pm.deinit();
+    const my_id = [_]u8{0xAA} ** 32;
+    var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
+
+    var malformed: [33]u8 = undefined;
+    malformed[0] = 9;
+    @memcpy(malformed[1..33], &([_]u8{0xBB} ** 32));
+    try std.testing.expect(!(try router.handleRendezvousRes(1, &malformed)));
+
+    var trailing: [34]u8 = undefined;
+    trailing[0] = 2;
+    @memcpy(trailing[1..33], &([_]u8{0xBB} ** 32));
+    trailing[33] = 0xAA;
+    try std.testing.expect(!(try router.handleRendezvousRes(1, &trailing)));
+
+    var intro: [33]u8 = undefined;
+    intro[0] = 2;
+    @memcpy(intro[1..33], &([_]u8{0xCC} ** 32));
+    try std.testing.expect(try router.handleRendezvousRes(1, &intro));
+    @memcpy(intro[1..33], &([_]u8{0xDD} ** 32));
+    try std.testing.expect(!(try router.handleRendezvousRes(2, &intro)));
+}
+
 test "rendezvous request finds target" {
     var pm = PeerManager.init(std.testing.allocator);
     defer pm.deinit();
@@ -481,7 +557,7 @@ test "rendezvous request finds target" {
     const requester_id = [_]u8{0xBB} ** 32;
     const target_id = [_]u8{0xCC} ** 32;
 
-    pm.addPeer(target_id, 5000, 3);
+    _ = try pm.addPeer(target_id, 5000, 3);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -546,7 +622,7 @@ test "rendezvous response registers virtual peer" {
     @memcpy(res_buf[1..33], &remote_id);
     @memset(res_buf[33..49], 0x05); // Location bytes
 
-    router.handleRendezvousRes(1, &res_buf);
+    try std.testing.expect(try router.handleRendezvousRes(1, &res_buf));
 
     try std.testing.expectEqual(@as(usize, 1), pm.connectedCount());
     try std.testing.expect(pm.getById(remote_id) != null);
@@ -565,7 +641,7 @@ test "rendezvous response introduction registers peer" {
     intro_buf[0] = 2; // Introduction
     @memcpy(intro_buf[1..33], &remote_id);
 
-    router.handleRendezvousRes(1, &intro_buf);
+    try std.testing.expect(try router.handleRendezvousRes(1, &intro_buf));
 
     try std.testing.expectEqual(@as(usize, 1), pm.connectedCount());
     try std.testing.expect(pm.getById(remote_id) != null);
@@ -578,7 +654,7 @@ test "rendezvous response rejects short payload" {
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
     const short = [_]u8{0} ** 10;
-    router.handleRendezvousRes(1, &short);
+    try std.testing.expect(!(try router.handleRendezvousRes(1, &short)));
     try std.testing.expectEqual(@as(usize, 0), pm.connectedCount());
 }
 
@@ -587,9 +663,9 @@ test "peer discover response lists connected peers" {
     defer pm.deinit();
 
     const my_id = [_]u8{0xAA} ** 32;
-    pm.addPeer([_]u8{0x01} ** 32, 100, 1);
-    pm.addPeer([_]u8{0x02} ** 32, 200, 2);
-    pm.addPeer([_]u8{0x03} ** 32, 300, 3);
+    _ = try pm.addPeer([_]u8{0x01} ** 32, 100, 1);
+    _ = try pm.addPeer([_]u8{0x02} ** 32, 200, 2);
+    _ = try pm.addPeer([_]u8{0x03} ** 32, 300, 3);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -606,8 +682,8 @@ test "peer discover response excludes requesting connection" {
     defer pm.deinit();
 
     const my_id = [_]u8{0xAA} ** 32;
-    pm.addPeer([_]u8{0x01} ** 32, 100, 1);
-    pm.addPeer([_]u8{0x02} ** 32, 200, 2);
+    _ = try pm.addPeer([_]u8{0x01} ** 32, 100, 1);
+    _ = try pm.addPeer([_]u8{0x02} ** 32, 200, 2);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -665,7 +741,7 @@ test "next hop for target finds direct connection" {
 
     const my_id = [_]u8{0xAA} ** 32;
     const target_id = [_]u8{0xCC} ** 32;
-    pm.addPeer(target_id, 2000, 5);
+    _ = try pm.addPeer(target_id, 2000, 5);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -697,7 +773,7 @@ test "relay route multiple hops decrement TTL correctly" {
     const my_id = [_]u8{0xAA} ** 32;
     const target_id = [_]u8{0xDD} ** 32;
     // Target is not directly connected, but we have a peer that might route
-    pm.addPeer([_]u8{0xEE} ** 32, 2000, 7);
+    _ = try pm.addPeer([_]u8{0xEE} ** 32, 2000, 7);
 
     var router = RelayRouter.init(std.testing.allocator, my_id, 1000, &pm);
 
@@ -739,7 +815,7 @@ test "rendezvous response with status 0 does not register peer" {
     buf[0] = 0; // Unreachable
     @memcpy(buf[1..33], &[_]u8{0xBB} ** 32);
 
-    router.handleRendezvousRes(1, &buf);
+    try std.testing.expect(try router.handleRendezvousRes(1, &buf));
     try std.testing.expectEqual(@as(usize, 0), pm.connectedCount());
 }
 
@@ -748,8 +824,8 @@ test "peer discover response skips disconnected peers" {
     defer pm.deinit();
 
     const my_id = [_]u8{0xAA} ** 32;
-    pm.addPeer([_]u8{0x01} ** 32, 100, 1);
-    pm.addPeer([_]u8{0x02} ** 32, 200, 2);
+    _ = try pm.addPeer([_]u8{0x01} ** 32, 100, 1);
+    _ = try pm.addPeer([_]u8{0x02} ** 32, 200, 2);
     // Remove peer 1 (sets to disconnected via swapRemove)
     pm.removePeer(1);
 

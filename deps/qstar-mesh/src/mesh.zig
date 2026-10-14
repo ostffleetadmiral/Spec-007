@@ -16,6 +16,7 @@ pub const Location = struct {
     value: f64,
 
     pub fn new(v: f64) Location {
+        if (!std.math.isFinite(v)) return .{ .value = 0.0 };
         return .{ .value = @mod(v, 1.0) };
     }
 
@@ -161,15 +162,19 @@ pub const ConnectionManager = struct {
     pub fn connect(self: *ConnectionManager, addr: []const u8, loc: Location, now_ms: u64) !?u64 {
         const loc_key = locationKey(loc);
 
-        if (self.ban_list.contains(loc_key)) return null;
+        if (addr.len == 0 or self.ban_list.contains(loc_key) or self.addr_to_id.contains(addr)) return null;
 
-        const current = self.connectionCount();
-        if (current >= self.max_connections + LATTICE_OVERMAX_SLACK) return null;
+        // Admission is bounded by every tracked connection, not only those that
+        // have completed establishment: pending sockets still consume resources.
+        const capacity = std.math.add(usize, self.max_connections, LATTICE_OVERMAX_SLACK) catch return null;
+        if (self.connections.count() >= capacity) return null;
+        if (self.next_id == std.math.maxInt(u64) or self.connections.contains(self.next_id)) {
+            return error.ConnectionIdExhausted;
+        }
 
         const id = self.next_id;
-        self.next_id += 1;
-
         const addr_copy = try self.allocator.dupe(u8, addr);
+        errdefer self.allocator.free(addr_copy);
         const conn = Connection{
             .id = id,
             .peer_addr = addr_copy,
@@ -180,34 +185,39 @@ pub const ConnectionManager = struct {
         };
 
         try self.connections.put(id, conn);
+        errdefer _ = self.connections.remove(id);
         try self.addr_to_id.put(addr_copy, id);
+        errdefer _ = self.addr_to_id.remove(addr_copy);
 
         const gop = try self.location_to_ids.getOrPut(loc_key);
-        if (!gop.found_existing) {
+        const created_list = !gop.found_existing;
+        if (created_list) {
             gop.value_ptr.* = std.ArrayList(u64).init(self.allocator);
         }
+        errdefer if (created_list) {
+            gop.value_ptr.deinit();
+            _ = self.location_to_ids.remove(loc_key);
+        };
         try gop.value_ptr.append(id);
 
+        self.next_id += 1;
         return id;
     }
 
     /// Mark a connection as established (handshake complete).
     pub fn markEstablished(self: *ConnectionManager, id: u64) !void {
-        if (self.connections.getPtr(id)) |conn| {
-            if (conn.state == .pending) {
-                conn.state = .established;
-            }
-        }
+        const conn = self.connections.getPtr(id) orelse return error.ConnectionNotFound;
+        if (conn.state != .pending) return error.InvalidConnectionState;
+        conn.state = .established;
     }
 
     /// Mark a connection as ready (peer advertised readiness).
     pub fn markReady(self: *ConnectionManager, id: u64) !void {
-        if (self.connections.getPtr(id)) |conn| {
-            if (conn.state != .ready) {
-                conn.state = .ready;
-                self.ready_count += 1;
-            }
-        }
+        const conn = self.connections.getPtr(id) orelse return error.ConnectionNotFound;
+        if (conn.state == .ready) return;
+        if (conn.state != .established) return error.InvalidConnectionState;
+        conn.state = .ready;
+        self.ready_count += 1;
     }
 
     /// Mark a connection as not ready.
@@ -403,13 +413,16 @@ pub const RateLimiter = struct {
             return true;
         }
 
-        if (now_ms - gop.value_ptr.window_start >= RATE_WINDOW_MS) {
+        if (now_ms >= gop.value_ptr.window_start and
+            now_ms - gop.value_ptr.window_start >= RATE_WINDOW_MS)
+        {
             gop.value_ptr.count = 1;
             gop.value_ptr.window_start = now_ms;
             return true;
         }
 
-        if (gop.value_ptr.count >= RATE_MAX_REQUESTS) return false;
+        if (now_ms < gop.value_ptr.window_start or
+            gop.value_ptr.count >= RATE_MAX_REQUESTS) return false;
         gop.value_ptr.count += 1;
         return true;
     }
@@ -468,7 +481,9 @@ pub const InterestSync = struct {
     /// Compute the delta between our interests and a peer's summaries.
     pub fn computeDelta(self: *InterestSync, peer_summaries: []const Summary) !Delta {
         var added = std.ArrayList(Summary).init(self.allocator);
+        defer added.deinit();
         var removed = std.ArrayList(u64).init(self.allocator);
+        defer removed.deinit();
         try added.ensureTotalCapacity(peer_summaries.len);
         try removed.ensureTotalCapacity(self.summaries.count());
 
@@ -493,19 +508,25 @@ pub const InterestSync = struct {
             }
         }
 
+        const added_slice = try added.toOwnedSlice();
+        errdefer self.allocator.free(added_slice);
+        const removed_slice = try removed.toOwnedSlice();
         return .{
-            .added = try added.toOwnedSlice(),
-            .removed = try removed.toOwnedSlice(),
+            .added = added_slice,
+            .removed = removed_slice,
         };
     }
 
-    /// Apply a delta to our summary store.
+    /// Apply a delta to our summary store. Capacity is reserved before mutation
+    /// so an allocation failure cannot leave a partially applied delta.
     pub fn applyDelta(self: *InterestSync, delta: Delta) !void {
-        for (delta.added) |s| {
-            try self.summaries.put(s.contract_key, s);
-        }
+        if (delta.added.len > std.math.maxInt(u32)) return error.DeltaTooLarge;
+        try self.summaries.ensureUnusedCapacity(@intCast(delta.added.len));
         for (delta.removed) |key| {
             _ = self.summaries.remove(key);
+        }
+        for (delta.added) |s| {
+            self.summaries.putAssumeCapacity(s.contract_key, s);
         }
     }
 
@@ -517,6 +538,7 @@ pub const InterestSync = struct {
     /// Get all summaries for export to peers.
     pub fn getSummaries(self: *InterestSync, allocator: std.mem.Allocator) ![]Summary {
         var list = std.ArrayList(Summary).init(allocator);
+        defer list.deinit();
         try list.ensureTotalCapacity(self.summaries.count());
         var it = self.summaries.iterator();
         while (it.next()) |entry| {
@@ -620,7 +642,9 @@ pub const TopologyManager = struct {
         }
 
         if (established_count > max_conn) {
-            var to_remove = try self.allocator.alloc(u64, established_count - max_conn);
+            var to_remove = std.ArrayList(u64).init(self.allocator);
+            defer to_remove.deinit();
+            try to_remove.ensureTotalCapacity(established_count - max_conn);
             const sorted = try self.allocator.dupe(Connection, connections);
             defer self.allocator.free(sorted);
 
@@ -630,21 +654,15 @@ pub const TopologyManager = struct {
                 }
             }.cmp);
 
-            var idx: usize = 0;
             for (sorted) |conn| {
                 if (!conn.isEstablished()) continue;
                 if (isLatticeEdgeSlice(own_loc, conn.location, sorted)) continue;
-                to_remove[idx] = conn.id;
-                idx += 1;
-                if (idx >= to_remove.len) break;
+                to_remove.appendAssumeCapacity(conn.id);
+                if (to_remove.items.len >= to_remove.capacity) break;
             }
 
-            if (idx == 0) {
-                self.allocator.free(to_remove);
-                return .no_change;
-            }
-
-            return .{ .remove_connections = to_remove[0..idx] };
+            if (to_remove.items.len == 0) return .no_change;
+            return .{ .remove_connections = try to_remove.toOwnedSlice() };
         }
 
         return .no_change;
@@ -658,7 +676,7 @@ pub const TopologyManager = struct {
     /// Average hop count across all recorded routes.
     pub fn averageHopCount(self: *const TopologyManager) f64 {
         if (self.hop_count_history.count() == 0) return 0.0;
-        var total: u64 = 0;
+        var total: u128 = 0;
         var count: usize = 0;
         var it = self.hop_count_history.iterator();
         while (it.next()) |entry| {
@@ -806,6 +824,12 @@ test "Location signed distance" {
     try std.testing.expectApproxEqAbs(@as(f64, -0.2), a.signedDistance(b), 0.001);
 }
 
+test "Location rejects non-finite input" {
+    try std.testing.expectEqual(@as(f64, 0), Location.new(std.math.nan(f64)).value);
+    try std.testing.expectEqual(@as(f64, 0), Location.new(std.math.inf(f64)).value);
+    try std.testing.expectEqual(@as(f64, 0), Location.new(-std.math.inf(f64)).value);
+}
+
 test "ConnectionManager connect and count" {
     const allocator = std.testing.allocator;
     var cm = ConnectionManager.init(allocator, Location.new(0.5), 2, 5, false);
@@ -860,6 +884,22 @@ test "ConnectionManager max capacity" {
         _ = cm.prune(entry.key_ptr.*);
         it = cm.connections.iterator();
     }
+}
+
+test "ConnectionManager rejects duplicate address and invalid state" {
+    const allocator = std.testing.allocator;
+    var cm = ConnectionManager.init(allocator, Location.new(0.5), 1, 5, false);
+    defer cm.deinit();
+
+    const id = (try cm.connect("peer1", Location.new(0.3), 1000)).?;
+    try std.testing.expect((try cm.connect("peer1", Location.new(0.4), 1000)) == null);
+    try std.testing.expect((try cm.connect("", Location.new(0.4), 1000)) == null);
+
+    try cm.markEstablished(id);
+    try std.testing.expectError(error.InvalidConnectionState, cm.markEstablished(id));
+    try std.testing.expectError(error.ConnectionNotFound, cm.markEstablished(9999));
+
+    try std.testing.expect(cm.prune(id));
 }
 
 test "ConnectionManager ready state" {
@@ -1245,7 +1285,7 @@ pub const TransportRouter = struct {
     /// Selects the best available transport mode for the given priority.
     pub fn selectTransport(self: TransportRouter) TransportMode {
         const priority = [_]TransportMode{
-            .p2p, .wifi, .video, .qr, .polyglot, .audio,
+            .p2p,   .wifi,  .video, .qr,        .polyglot, .audio,
             .stega, .paper, .optar, .paperback, .cassette, .quine,
         };
         for (priority) |mode| {
@@ -1273,7 +1313,8 @@ pub const TransportRouter = struct {
 /// Generates all 3,375 lattice cells (15³) with 6 faces each.
 /// Total: 3,375 × 6 = 20,250 face payloads per lattice unit.
 pub fn generateLatticeCells(allocator: std.mem.Allocator, edge: u32) ![]LatticeCell {
-    const total = edge * edge * edge;
+    const area = std.math.mul(usize, edge, edge) catch return error.LatticeTooLarge;
+    const total = std.math.mul(usize, area, edge) catch return error.LatticeTooLarge;
     var cells = try allocator.alloc(LatticeCell, total);
     errdefer allocator.free(cells);
 
@@ -1295,7 +1336,9 @@ pub fn generateLatticeCells(allocator: std.mem.Allocator, edge: u32) ![]LatticeC
 
 /// Counts total face payloads for a lattice of given edge.
 pub fn totalFacePayloads(edge: u32) u64 {
-    return @as(u64, edge) * edge * edge * 6;
+    const area = std.math.mul(u64, edge, edge) catch return std.math.maxInt(u64);
+    const cells = std.math.mul(u64, area, edge) catch return std.math.maxInt(u64);
+    return std.math.mul(u64, cells, 6) catch return std.math.maxInt(u64);
 }
 
 test "TransportMode availability" {
@@ -1400,6 +1443,8 @@ test "FaceComponent payload" {
 /// All states are Q32.32 fixed-point i64 — no floating-point in core state.
 pub const SharedFace = struct {
     peer_id: []const u8,
+    /// Owned copy when this face is managed by ConnectionPool.
+    peer_id_owned: ?[]u8 = null,
     face_axis: FaceAxis,
     edge: u32,
     /// E0 states on the shared face (15² = 225 cells per face) in Q32.32.
@@ -1420,29 +1465,29 @@ pub const SharedFace = struct {
         };
     }
 
-    /// Sets local E0 states from a slice of Q32.32 activations.
-    pub fn setLocalStates(self: *SharedFace, states: []const i64) void {
-        const n = @min(states.len, 225);
+    /// Sets local E0 states from a complete 225-cell Q32.32 frame.
+    pub fn setLocalStates(self: *SharedFace, states: []const i64) !void {
+        if (states.len != 225) return error.InvalidStateFrame;
         // Save previous states for delta computation
-        @memcpy(self.prev_local_states[0..n], self.local_states[0..n]);
-        for (0..n) |i| self.local_states[i] = states[i];
+        @memcpy(&self.prev_local_states, &self.local_states);
+        @memcpy(&self.local_states, states);
     }
 
     /// Sets remote E0 states received from peer.
-    pub fn setRemoteStates(self: *SharedFace, states: []const i64) void {
-        const n = @min(states.len, 225);
-        for (0..n) |i| self.remote_states[i] = states[i];
+    pub fn setRemoteStates(self: *SharedFace, states: []const i64) !void {
+        if (states.len != 225) return error.InvalidStateFrame;
+        @memcpy(&self.remote_states, states);
         self.synced = true;
     }
 
     /// Computes delta: returns indices and values of changed local states.
     /// Only entries that differ from prev_local_states are included.
     /// Output buffer must be large enough for up to 225 entries.
-    pub fn computeDelta(self: *const SharedFace, out_indices: []u8, out_values: []i64) usize {
+    pub fn computeDelta(self: *const SharedFace, out_indices: []u8, out_values: []i64) !usize {
+        if (out_indices.len < 225 or out_values.len < 225) return error.OutputBufferTooSmall;
         var count: usize = 0;
         for (0..225) |i| {
             if (self.local_states[i] != self.prev_local_states[i]) {
-                if (count >= out_indices.len or count >= out_values.len) break;
                 out_indices[count] = @intCast(i);
                 out_values[count] = self.local_states[i];
                 count += 1;
@@ -1452,21 +1497,22 @@ pub const SharedFace = struct {
     }
 
     /// Applies a delta received from a peer to remote_states.
-    pub fn applyDelta(self: *SharedFace, indices: []const u8, values: []const i64) void {
-        const n = @min(indices.len, values.len);
-        for (0..n) |i| {
-            const idx = indices[i];
-            if (idx < 225) {
-                self.remote_states[idx] = values[i];
-            }
+    /// Index/value frames must have equal length; out-of-face indices are refused.
+    pub fn applyDelta(self: *SharedFace, indices: []const u8, values: []const i64) !void {
+        if (indices.len != values.len) return error.MismatchedDelta;
+        for (indices) |idx| {
+            if (idx >= 225) return error.InvalidDeltaIndex;
+        }
+        for (indices, values) |idx, value| {
+            self.remote_states[idx] = value;
         }
         self.synced = true;
     }
 
     /// Serializes local states to a byte buffer (full 1800 bytes).
-    pub fn serializeFull(self: *const SharedFace, out: []u8) usize {
+    pub fn serializeFull(self: *const SharedFace, out: []u8) !usize {
         const size = 225 * @sizeOf(i64);
-        if (out.len < size) return 0;
+        if (out.len < size) return error.BufferTooSmall;
         for (0..225) |i| {
             const bytes = std.mem.asBytes(&self.local_states[i]);
             @memcpy(out[i * 8 .. i * 8 + 8], bytes);
@@ -1474,10 +1520,11 @@ pub const SharedFace = struct {
         return size;
     }
 
-    /// Deserializes full states from a byte buffer.
-    pub fn deserializeFull(self: *SharedFace, data: []const u8) void {
-        const n = @min(data.len / 8, 225);
-        for (0..n) |i| {
+    /// Deserializes exactly one full-state frame from a byte buffer.
+    pub fn deserializeFull(self: *SharedFace, data: []const u8) !void {
+        const size = 225 * @sizeOf(i64);
+        if (data.len != size) return error.InvalidStateFrame;
+        for (0..225) |i| {
             var val: i64 = 0;
             @memcpy(std.mem.asBytes(&val), data[i * 8 .. i * 8 + 8]);
             self.remote_states[i] = val;
@@ -1490,7 +1537,7 @@ pub const SharedFace = struct {
         var correlation: i64 = 0;
         for (0..225) |i| {
             const remote_idx = 224 - i;
-            correlation += fp.mul(self.local_states[i], self.remote_states[remote_idx]);
+            correlation +|= fp.mul(self.local_states[i], self.remote_states[remote_idx]);
         }
         return fp.div(correlation, fp.fromInt(225));
     }
@@ -1516,12 +1563,19 @@ pub const ConnectionPool = struct {
     }
 
     pub fn deinit(self: *ConnectionPool) void {
+        for (self.connections.items) |*face| {
+            if (face.peer_id_owned) |owned| self.allocator.free(owned);
+        }
         self.connections.deinit();
     }
 
     pub fn addConnection(self: *ConnectionPool, peer_id: []const u8, axis: FaceAxis, edge: u32) !void {
         if (self.connections.items.len >= self.max_connections) return error.PoolFull;
-        try self.connections.append(SharedFace.init(peer_id, axis, edge));
+        const peer_copy = try self.allocator.dupe(u8, peer_id);
+        errdefer self.allocator.free(peer_copy);
+        var face = SharedFace.init(peer_copy, axis, edge);
+        face.peer_id_owned = peer_copy;
+        try self.connections.append(face);
     }
 
     pub fn getConnection(self: *ConnectionPool, peer_id: []const u8) ?*SharedFace {
@@ -1535,7 +1589,8 @@ pub const ConnectionPool = struct {
         var i: usize = 0;
         while (i < self.connections.items.len) {
             if (std.mem.eql(u8, self.connections.items[i].peer_id, peer_id)) {
-                _ = self.connections.orderedRemove(i);
+                const removed = self.connections.orderedRemove(i);
+                if (removed.peer_id_owned) |owned| self.allocator.free(owned);
             } else {
                 i += 1;
             }
@@ -1547,10 +1602,10 @@ pub const ConnectionPool = struct {
     }
 
     /// Batch sync: updates all connections with local states and collects correlations.
-    pub fn batchSync(self: *ConnectionPool, local_states: []const i64) []i64 {
-        var correlations = self.allocator.alloc(i64, self.connections.items.len) catch return &[_]i64{};
+    pub fn batchSync(self: *ConnectionPool, local_states: []const i64) ![]i64 {
+        const correlations = try self.allocator.alloc(i64, self.connections.items.len);
         for (self.connections.items, 0..) |*face, i| {
-            face.setLocalStates(local_states);
+            try face.setLocalStates(local_states);
             correlations[i] = face.mobiusCorrelation();
         }
         return correlations;
@@ -1566,9 +1621,9 @@ pub fn connectLattices(peer_id: []const u8, axis: FaceAxis, edge: u32) SharedFac
 /// Synchronizes E0 states across a shared face.
 /// Local states are sent to peer, remote states are received.
 /// The Möbius twist creates the dual torus / wormhole structure.
-pub fn syncSharedFace(face: *SharedFace, local_states: []const i64, remote_states: []const i64) void {
-    face.setLocalStates(local_states);
-    face.setRemoteStates(remote_states);
+pub fn syncSharedFace(face: *SharedFace, local_states: []const i64, remote_states: []const i64) !void {
+    try face.setLocalStates(local_states);
+    try face.setRemoteStates(remote_states);
 }
 
 /// Computes the dual torus wormhole correlation between two connected lattices.
@@ -1577,7 +1632,7 @@ pub fn dualTorusCorrelation(face_a: *const SharedFace, face_b: *const SharedFace
     const corr_a = face_a.mobiusCorrelation();
     const corr_b = face_b.mobiusCorrelation();
     // Dual torus: average of both face correlations
-    return fp.div(corr_a + corr_b, fp.fromInt(2));
+    return fp.div(corr_a +| corr_b, fp.fromInt(2));
 }
 
 test "SharedFace initialization" {
@@ -1592,8 +1647,8 @@ test "SharedFace set states" {
     var face = SharedFace.init("peer1", .pos_x, 15);
     const local = [_]i64{fp.HALF_FP} ** 225;
     const remote = [_]i64{fp.div(fp.fromInt(3), fp.fromInt(10))} ** 225;
-    face.setLocalStates(&local);
-    face.setRemoteStates(&remote);
+    try face.setLocalStates(&local);
+    try face.setRemoteStates(&remote);
     try std.testing.expect(face.synced);
     try std.testing.expectEqual(fp.HALF_FP, face.local_states[0]);
     try std.testing.expectEqual(fp.div(fp.fromInt(3), fp.fromInt(10)), face.remote_states[0]);
@@ -1640,7 +1695,7 @@ test "syncSharedFace updates states" {
     var face = SharedFace.init("peer1", .pos_x, 15);
     const local = [_]i64{fp.div(fp.fromInt(1), fp.fromInt(10))} ** 225;
     const remote = [_]i64{fp.div(fp.fromInt(2), fp.fromInt(10))} ** 225;
-    syncSharedFace(&face, &local, &remote);
+    try syncSharedFace(&face, &local, &remote);
     try std.testing.expect(face.synced);
     try std.testing.expectEqual(fp.div(fp.fromInt(1), fp.fromInt(10)), face.local_states[0]);
     try std.testing.expectEqual(fp.div(fp.fromInt(2), fp.fromInt(10)), face.remote_states[0]);
@@ -1663,18 +1718,30 @@ test "dualTorusCorrelation averages two faces" {
     try std.testing.expectEqual(expected, corr);
 }
 
+test "SharedFace rejects short state frames" {
+    var face = SharedFace.init("peer1", .pos_x, 15);
+    const short = [_]i64{fp.ONE} ** 224;
+    const long = [_]i64{fp.ONE} ** 226;
+
+    try std.testing.expectError(error.InvalidStateFrame, face.setLocalStates(&short));
+    try std.testing.expectError(error.InvalidStateFrame, face.setLocalStates(&long));
+    try std.testing.expectError(error.InvalidStateFrame, face.setRemoteStates(&short));
+    try std.testing.expectError(error.InvalidStateFrame, syncSharedFace(&face, &short, &short));
+    try std.testing.expect(!face.synced);
+}
+
 test "SharedFace delta serialization" {
     var face = SharedFace.init("peer1", .pos_x, 15);
-    const states = [_]i64{fp.fromInt(1), fp.fromInt(2), fp.fromInt(3)} ++ [_]i64{0} ** 222;
-    face.setLocalStates(&states);
+    const states = [_]i64{ fp.fromInt(1), fp.fromInt(2), fp.fromInt(3) } ++ [_]i64{0} ** 222;
+    try face.setLocalStates(&states);
 
     // Now change a few states
-    const states2 = [_]i64{fp.fromInt(1), fp.fromInt(5), fp.fromInt(3)} ++ [_]i64{0} ** 222;
-    face.setLocalStates(&states2);
+    const states2 = [_]i64{ fp.fromInt(1), fp.fromInt(5), fp.fromInt(3) } ++ [_]i64{0} ** 222;
+    try face.setLocalStates(&states2);
 
     var indices: [225]u8 = undefined;
     var values: [225]i64 = undefined;
-    const delta_count = face.computeDelta(&indices, &values);
+    const delta_count = try face.computeDelta(&indices, &values);
 
     // Only index 1 changed
     try std.testing.expectEqual(@as(usize, 1), delta_count);
@@ -1682,12 +1749,35 @@ test "SharedFace delta serialization" {
     try std.testing.expectEqual(fp.fromInt(5), values[0]);
 }
 
+test "SharedFace delta boundaries" {
+    var face = SharedFace.init("peer1", .pos_x, 15);
+    var short_indices: [224]u8 = undefined;
+    var values: [225]i64 = undefined;
+    try std.testing.expectError(
+        error.OutputBufferTooSmall,
+        face.computeDelta(&short_indices, &values),
+    );
+
+    const bad_indices = [_]u8{225};
+    const bad_values = [_]i64{fp.ONE};
+    try std.testing.expectError(
+        error.InvalidDeltaIndex,
+        face.applyDelta(&bad_indices, &bad_values),
+    );
+
+    const mismatch_values = [_]i64{ fp.ONE, fp.ONE };
+    try std.testing.expectError(
+        error.MismatchedDelta,
+        face.applyDelta(&bad_indices, &mismatch_values),
+    );
+}
+
 test "SharedFace apply delta" {
     var face = SharedFace.init("peer1", .pos_x, 15);
     const indices = [_]u8{ 0, 5, 10 };
     const values = [_]i64{ fp.fromInt(10), fp.fromInt(20), fp.fromInt(30) };
 
-    face.applyDelta(&indices, &values);
+    try face.applyDelta(&indices, &values);
 
     try std.testing.expectEqual(fp.fromInt(10), face.remote_states[0]);
     try std.testing.expectEqual(fp.fromInt(20), face.remote_states[5]);
@@ -1695,17 +1785,32 @@ test "SharedFace apply delta" {
     try std.testing.expect(face.synced);
 }
 
+test "SharedFace full frame boundaries" {
+    var face = SharedFace.init("peer1", .pos_x, 15);
+    var small: [1799]u8 = undefined;
+    try std.testing.expectError(error.BufferTooSmall, face.serializeFull(&small));
+
+    var exact: [1800]u8 = undefined;
+    @memset(&exact, 0);
+    try face.deserializeFull(&exact);
+    try std.testing.expect(face.synced);
+
+    var trailing: [1801]u8 = undefined;
+    @memset(&trailing, 0);
+    try std.testing.expectError(error.InvalidStateFrame, face.deserializeFull(&trailing));
+}
+
 test "SharedFace full serialize/deserialize" {
     var face = SharedFace.init("peer1", .pos_x, 15);
     const states = [_]i64{fp.fromInt(42)} ++ [_]i64{0} ** 224;
-    face.setLocalStates(&states);
+    try face.setLocalStates(&states);
 
     var buf: [1800]u8 = undefined;
-    const written = face.serializeFull(&buf);
+    const written = try face.serializeFull(&buf);
     try std.testing.expectEqual(@as(usize, 1800), written);
 
     var face2 = SharedFace.init("peer2", .neg_x, 15);
-    face2.deserializeFull(&buf);
+    try face2.deserializeFull(&buf);
     try std.testing.expectEqual(fp.fromInt(42), face2.remote_states[0]);
     try std.testing.expect(face2.synced);
 }
@@ -1735,7 +1840,7 @@ test "ConnectionPool batch sync" {
     try pool.addConnection("peer2", .neg_x, 15);
 
     const states = [_]i64{fp.fromInt(1)} ++ [_]i64{0} ** 224;
-    const correlations = pool.batchSync(&states);
+    const correlations = try pool.batchSync(&states);
     defer std.testing.allocator.free(correlations);
 
     try std.testing.expectEqual(@as(usize, 2), correlations.len);
@@ -1819,14 +1924,24 @@ pub const StoreAndForward = struct {
     }
 
     pub fn deinit(self: *StoreAndForward) void {
+        for (self.messages.items) |msg| self.freeMessage(msg);
         self.messages.deinit();
     }
 
-    /// Queues a message for later delivery.
+    fn freeMessage(self: *StoreAndForward, msg: QueuedMessage) void {
+        self.allocator.free(msg.peer_id);
+        self.allocator.free(msg.payload);
+    }
+
+    /// Queues a message for later delivery. The queue owns both peer_id and payload.
     pub fn enqueue(self: *StoreAndForward, peer_id: []const u8, payload: []const u8, ttl: u64, priority: u8, mode: TransportMode) !void {
+        const peer_copy = try self.allocator.dupe(u8, peer_id);
+        errdefer self.allocator.free(peer_copy);
+        const payload_copy = try self.allocator.dupe(u8, payload);
+        errdefer self.allocator.free(payload_copy);
         try self.messages.append(.{
-            .peer_id = peer_id,
-            .payload = payload,
+            .peer_id = peer_copy,
+            .payload = payload_copy,
             .timestamp = @intCast(if (@import("builtin").os.tag == .freestanding) @as(u64, 0) else @as(u64, @intCast(std.time.timestamp()))),
             .ttl = ttl,
             .priority = priority,
@@ -1841,7 +1956,8 @@ pub const StoreAndForward = struct {
         var i: usize = 0;
         while (i < self.messages.items.len) {
             if (std.mem.eql(u8, self.messages.items[i].peer_id, peer_id)) {
-                _ = self.messages.swapRemove(i);
+                const msg = self.messages.swapRemove(i);
+                self.freeMessage(msg);
                 delivered += 1;
             } else {
                 i += 1;
@@ -1856,8 +1972,10 @@ pub const StoreAndForward = struct {
         var i: usize = 0;
         while (i < self.messages.items.len) {
             const msg = self.messages.items[i];
-            if (current_time > msg.timestamp + msg.ttl) {
-                _ = self.messages.swapRemove(i);
+            const expires_at = std.math.add(u64, msg.timestamp, msg.ttl) catch std.math.maxInt(u64);
+            if (current_time > expires_at) {
+                const expired = self.messages.swapRemove(i);
+                self.freeMessage(expired);
                 purged += 1;
             } else {
                 i += 1;
@@ -1867,12 +1985,12 @@ pub const StoreAndForward = struct {
     }
 
     /// Returns the number of queued messages.
-    pub fn count(self: StoreAndForward) usize {
+    pub fn count(self: *const StoreAndForward) usize {
         return self.messages.items.len;
     }
 
     /// Returns messages for a specific peer.
-    pub fn messagesForPeer(self: StoreAndForward, peer_id: []const u8) usize {
+    pub fn messagesForPeer(self: *const StoreAndForward, peer_id: []const u8) usize {
         var msg_count: usize = 0;
         for (self.messages.items) |msg| {
             if (std.mem.eql(u8, msg.peer_id, peer_id)) msg_count += 1;

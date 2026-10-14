@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 48
+    "completed_full_retrograde": 49
   },
   "components": [
     {
@@ -2003,12 +2003,13 @@
       "workstream": "qstar-donor",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "c5e047e18b3b725af0479f52cb2f804a5df9ae6303481fd8526f869dd4159aab",
-        "bytes": 2719,
-        "lines": 87,
+        "sha256": "d11f9586b6a9abca9ba7ca81cab7ef2ce9bb62c00e988664e28d67634ccc81f8",
+        "bytes": 4832,
+        "lines": 121,
         "imports": [
           "mesh",
-          "p2p_types"
+          "p2p_types",
+          "relay_router"
         ],
         "referenced_by": [
           "security/fleet-audit.mjs",
@@ -2055,9 +2056,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "b88378909b1e459f62540be996aed2ce2df23b8b04ab2b45ec840ad46a08979e",
-        "bytes": 23819,
-        "lines": 678,
+        "sha256": "09db66ba282a7c7706bc837357f3d04f3f2e577bd8d4d7d701e51e3a661ebe4d",
+        "bytes": 26495,
+        "lines": 726,
         "imports": [
           "std"
         ],
@@ -2092,7 +2093,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 27,
+        "test_blocks": 30,
         "registered": true,
         "documentation_mapped": true
       },
@@ -2113,9 +2114,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "56b51751aaffb4a2556f13511e37ffbb7df6eee5970bf5f2822b27a1f5e423d0",
-        "bytes": 28381,
-        "lines": 706,
+        "sha256": "6d7cbc2fd8814a050341e648ee690e9dc313381b99e2b72a94c23c83bb3ce702",
+        "bytes": 32017,
+        "lines": 798,
         "imports": [
           "mesh",
           "p2p_types",
@@ -2145,7 +2146,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 5,
+        "test_blocks": 8,
         "registered": true,
         "documentation_mapped": true
       },
@@ -2166,9 +2167,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "44dec142948961c07e27175d43ae56e25934e7e5b87dee8c78bf24f81a40915c",
-        "bytes": 71639,
-        "lines": 2027,
+        "sha256": "9c3ab73afb45387d68bb9eda452c628e1252aad80bd4b81017e33dc9e43c3b9a",
+        "bytes": 77856,
+        "lines": 2145,
         "imports": [
           "builtin",
           "fixed_point",
@@ -2183,6 +2184,7 @@
           "deps/qstar-net/src/sybil.zig",
           "deps/qstar-vfs/src/vfs_bridge.zig",
           "security/superpowers-audit.mjs",
+          "tools/component-retrograde.mjs",
           "tools/dht-fs.mjs",
           "tools/vision-audit.mjs"
         ],
@@ -2199,7 +2201,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 63,
+        "test_blocks": 68,
         "registered": true,
         "documentation_mapped": true
       },
@@ -2220,9 +2222,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "039b707a6c4940c948e060b2ef56a39b81a11eeb04531e0ba26f3160faae4f2d",
-        "bytes": 31258,
-        "lines": 935,
+        "sha256": "53a492cb14f55ac27d5bfcd022a9523c1987b57519b5860254af52cf0f5424cc",
+        "bytes": 34041,
+        "lines": 990,
         "imports": [
           "builtin",
           "std"
@@ -2239,7 +2241,7 @@
           "src/spec008_qstar_mesh.zig"
         ],
         "todo_markers": 0,
-        "public_surface": 48
+        "public_surface": 51
       },
       "contract": {
         "mapped": true,
@@ -2251,7 +2253,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 38,
+        "test_blocks": 40,
         "registered": true,
         "documentation_mapped": true
       },
@@ -2272,9 +2274,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "60b31753b0d3a4431bbc14f921ed36a4eb8ba479e8fb5fedec82501fdcfe04e9",
-        "bytes": 27700,
-        "lines": 764,
+        "sha256": "6cfb9da156c10c755f85bb6cc4a80dd60a960c0d039ff79db1a6015833291d48",
+        "bytes": 30981,
+        "lines": 840,
         "imports": [
           "p2p_types",
           "std"
@@ -2302,7 +2304,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 23,
+        "test_blocks": 25,
         "registered": true,
         "documentation_mapped": true
       },
@@ -3382,9 +3384,9 @@
       "workstream": "qstar-donor",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "20551ed09c925ce862cf2fbc2087edd61aafc1d828ff5bc4693ec72e3993d4da",
-        "bytes": 2507,
-        "lines": 93,
+        "sha256": "e7df6f221b8096e8d684532a4e2abc91e2cf02dc30a8f1b4dd37e33d98d6cf9b",
+        "bytes": 3876,
+        "lines": 115,
         "imports": [
           "render"
         ],
@@ -3491,9 +3493,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "9c0ea0d75f580db3b93f5f3e94b5cccdf606a747d200fd08ce22fb817e95ff72",
-        "bytes": 66856,
-        "lines": 1929,
+        "sha256": "42b1af5dacd42375af0ca03e3c21b52bdd8c4bd782ee8796e981bbe319e690ac",
+        "bytes": 73858,
+        "lines": 2108,
         "imports": [
           "fixed_point",
           "std"
@@ -3529,7 +3531,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 55,
+        "test_blocks": 62,
         "registered": true,
         "documentation_mapped": true
       },
@@ -8430,7 +8432,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "2ae241fa08e892b3b896e970b91fa49737870fa41b3a7c9d8a51fb81066efa4a",
+        "sha256": "af69e80baf915eb16e8b00e41df1bad33d0189b71175ed95d34c515d34b643ee",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8474,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "8632790eaaabb3a7e32b7e65aa5bbc7f962ca495113aeed629bf1448e955d188",
+        "sha256": "8875b9880f5187d5f43d22718e3d03598264bdfcdb556ca3629a875a713cbf71",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11247,9 +11249,9 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "bedad1d9788ac99d01834093b30622f69e2a9e500860409aef0cdc704894bb56",
-        "bytes": 8032,
-        "lines": 191,
+        "sha256": "c989f04a4623d7f798d6326c851ca5ef062402d57d27dfb687ef5896214f9301",
+        "bytes": 9312,
+        "lines": 223,
         "imports": [
           "mesh",
           "mesh_peer",
@@ -11259,7 +11261,8 @@
           "std"
         ],
         "referenced_by": [
-          "security/superpowers-audit.mjs"
+          "security/superpowers-audit.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -11274,7 +11277,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 6,
+        "test_blocks": 7,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11285,9 +11288,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-qstar-mesh-boundaries-20261014",
+        "decision": "exact-relay-ownership-boundaries"
       }
     },
     {
@@ -12077,9 +12080,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "e8a9905c13479959ab8cd4ad14e9f036800db56e3d0b35d052e96ddd749fd858",
-        "bytes": 17630,
-        "lines": 433,
+        "sha256": "54fa0debd4acef86cf4a7cc5d12b01bd64458f93811ffca4d0e6c9f45e37e4ab",
+        "bytes": 17776,
+        "lines": 437,
         "imports": [
           "node:crypto",
           "node:fs",

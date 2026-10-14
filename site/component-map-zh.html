@@ -236,9 +236,9 @@
 </tr>
 <tr>
 <td><code>spec008_qstar_mesh.zig</code></td>
-<td>qstar-mesh + qstar-render:Location u128 與 SPEC-008 tensor 位址同寬度級,PeerId = [32]u8;RelayRouter TTL 多跳為 42 跳步行的上界;136-B 封包上 XChaCha20-Poly1305 AEAD,竄改/錯鑰拒絕。</td>
-<td>6 測試</td>
-<td>—</td>
+<td>qstar-mesh + qstar-render:Location u128 與 SPEC-008 tensor 位址同寬度級,PeerId = [32]u8;RelayRouter TTL 多跳為 42 跳步行的上界;136-B 封包上 XChaCha20-Poly1305 AEAD,竄改/錯鑰拒絕。邊界已強化:精確 relay/rendezvous/shared-face 訊框、enum/TTL/hop/定義域檢查、受限 AEAD 緩衝區、堆積擁有的 PeerManager、交易式連線與 InterestSync delta、自有 store-and-forward 酬載、檢查式晶格運算,以及渲染側車溢位/循環/時鐘防禦。</td>
+<td>7 測試</td>
+<td>mesh 邊界已強化</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_parity.zig</code></td>
