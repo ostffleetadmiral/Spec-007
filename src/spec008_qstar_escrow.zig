@@ -18,6 +18,9 @@
 //   * Shamir shares carry no integrity tag — a substituted share silently
 //     corrupts the secret. The escrow wrapper therefore commits sha256(seed)
 //     so a corrupt reconstruction is detected, never accepted.
+//   * rsEncode/rsReconstruct validate config plus exact shard/present shape;
+//     split/encode OOM paths clean initialized allocations, and crafted x=0
+//     or length-drift shares refuse before interpolation.
 // Integer-only: every byte on the wire is u8; GF(256) arithmetic is integer.
 
 const std = @import("std");
@@ -187,5 +190,96 @@ test "wire erasure: beyond the parity bound refuses honestly" {
     try std.testing.expectError(
         error.InsufficientShards,
         ent.rsReconstruct(a, cfg, const_shards, &present),
+    );
+}
+
+test "escrow: malformed RS config and forged shard envelope refuse" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+
+    try std.testing.expectError(
+        error.InvalidConfig,
+        ent.rsEncode(a, ent.RsConfig.init(0, 4), &pkt),
+    );
+    try std.testing.expectError(
+        error.InvalidConfig,
+        ent.rsEncode(a, ent.RsConfig.init(std.math.maxInt(usize), 1), &pkt),
+    );
+    try std.testing.expectError(
+        error.InvalidConfig,
+        ent.rsEncode(a, ent.RsConfig.init(128, 128), &pkt),
+    );
+
+    const cfg = ent.RsConfig.init(8, 4);
+    const shards = try ent.rsEncode(a, cfg, &pkt);
+    defer ent.freeShards(a, shards);
+    const const_shards: [][]const u8 = shards;
+    const present = [_]bool{true} ** 12;
+
+    const short_shards: [][]const u8 = shards[0..11];
+    try std.testing.expectError(
+        error.MalformedShards,
+        ent.rsReconstruct(a, cfg, short_shards, &present),
+    );
+
+    const short_present = [_]bool{true} ** 11;
+    try std.testing.expectError(
+        error.MalformedShards,
+        ent.rsReconstruct(a, cfg, const_shards, &short_present),
+    );
+
+    var bad_shards: [12][]const u8 = undefined;
+    for (&bad_shards, shards) |*dst, src| dst.* = src;
+    bad_shards[11] = shards[11][0..16];
+    try std.testing.expectError(
+        error.MalformedShards,
+        ent.rsReconstruct(a, cfg, &bad_shards, &present),
+    );
+}
+
+test "escrow: RS encode frees initialized shards on the OOM path" {
+    var failing = std.testing.FailingAllocator.init(std.testing.allocator, .{ .fail_index = 2 });
+    const a = failing.allocator();
+    const pkt = testPacket();
+    try std.testing.expectError(
+        error.OutOfMemory,
+        ent.rsEncode(a, ent.RsConfig.init(8, 4), &pkt),
+    );
+}
+
+test "escrow: Shamir split frees initialized shares on the OOM path" {
+    var failing = std.testing.FailingAllocator.init(std.testing.allocator, .{ .fail_index = 2 });
+    const a = failing.allocator();
+    const seed = testSeed();
+    try std.testing.expectError(
+        error.OutOfMemory,
+        ent.shamirSplit(a, &seed, 3, 3),
+    );
+}
+
+test "escrow: crafted Shamir shares refuse zero coordinates and length drift" {
+    const a = std.testing.allocator;
+    const seed = testSeed();
+    var list = try ent.shamirSplit(a, &seed, 3, 3);
+    defer list.deinit();
+
+    const zero_x = [3]ent.Share{
+        .{ .x = 0, .y = list.shares[0].y },
+        list.shares[1],
+        list.shares[2],
+    };
+    try std.testing.expectError(
+        ent.ShamirError.InvalidShare,
+        ent.shamirRecover(a, &zero_x, 3),
+    );
+
+    const drifted = [3]ent.Share{
+        list.shares[0],
+        .{ .x = 2, .y = list.shares[1].y[0..31] },
+        list.shares[2],
+    };
+    try std.testing.expectError(
+        ent.ShamirError.InvalidShare,
+        ent.shamirRecover(a, &drifted, 3),
     );
 }

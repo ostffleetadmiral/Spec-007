@@ -5,7 +5,7 @@ Quantum computing simulation + cryptography — quantum gates, Grover search, DL
 ## Quick Start
 
 ```bash
-zig build test          # 129 tests
+zig build test          # 135 tests
 zig build run           # quantum gates + Bell state + Grover search demo
 ```
 
@@ -47,10 +47,10 @@ const result = state.measure(&rng);
 
 | Function | Description |
 |----------|-------------|
-| `rsEncode(allocator, config, data)` | Reed-Solomon encode |
-| `rsReconstruct(allocator, config, shards)` | Reconstruct from shards |
-| `shamirSplit(allocator, secret, n, k)` | Shamir secret sharing split |
-| `shamirRecover(allocator, shares)` | Recover secret from shares |
+| `rsEncode(allocator, config, data)` | Vandermonde RS encode; checked config and OOM-clean shard allocation |
+| `rsReconstruct(allocator, config, shards, present)` | Erasure reconstruction; exact shard/present shape and uniform shard length |
+| `shamirSplit(allocator, secret, n, k)` | Shamir split; OOM-clean initialized shares |
+| `shamirRecover(allocator, shares, n)` | Recover secret; rejects duplicate/zero coordinates and length drift |
 | `dlczEntangle(...)` | DLCZ entanglement protocol |
 
 ### Holographic (`holographic.zig`)
@@ -70,11 +70,11 @@ const result = state.measure(&rng);
 | Module | Lines | Tests |
 |--------|-------|-------|
 | quantum.zig | 1,272 | 37 |
-| entangle.zig | 1,253 | 33 |
+| entangle.zig | 1,427 | 39 |
 | holographic.zig | 1,065 | 32 |
 | fixed_point.zig | 677 | 27 |
 
-**Total: ~4,267 lines, 129 tests. Zero dependencies (std only).**
+**Total: ~4,441 lines, 135 tests. Zero dependencies (std only).**
 
 ## Origin
 

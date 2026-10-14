@@ -79,13 +79,21 @@ pub const RsConfig = struct {
     total_shards: usize,
 
     pub fn init(data: usize, parity: usize) RsConfig {
+        const total = std.math.add(usize, data, parity) catch 0;
         return .{
             .data_shards = data,
             .parity_shards = parity,
-            .total_shards = data + parity,
+            .total_shards = total,
         };
     }
 };
+
+fn validateRsConfig(config: RsConfig) !void {
+    if (config.data_shards == 0) return error.InvalidConfig;
+    if (config.total_shards < config.data_shards) return error.InvalidConfig;
+    if (config.total_shards - config.data_shards != config.parity_shards) return error.InvalidConfig;
+    if (config.total_shards > 255) return error.InvalidConfig;
+}
 
 fn generateGeneratorPoly(allocator: std.mem.Allocator, gf: GaloisField, degree: usize) ![]u8 {
     var poly = try allocator.alloc(u8, degree + 1);
@@ -115,15 +123,22 @@ fn generateGeneratorPoly(allocator: std.mem.Allocator, gf: GaloisField, degree: 
 /// parity row — all parity rows were linearly dependent, a one-erasure
 /// bound dressed as RS.)
 pub fn rsEncode(allocator: std.mem.Allocator, config: RsConfig, data: []const u8) ![][]u8 {
+    try validateRsConfig(config);
     const gf = GaloisField.init();
 
-    const shard_size = (data.len + config.data_shards - 1) / config.data_shards;
+    const padded_len = std.math.add(usize, data.len, config.data_shards - 1) catch return error.InvalidConfig;
+    const shard_size = padded_len / config.data_shards;
     var shards = try allocator.alloc([]u8, config.total_shards);
-    errdefer allocator.free(shards);
+    var initialized: usize = 0;
+    errdefer {
+        for (shards[0..initialized]) |s| allocator.free(s);
+        allocator.free(shards);
+    }
 
     var i: usize = 0;
     while (i < config.data_shards) : (i += 1) {
         shards[i] = try allocator.alloc(u8, shard_size);
+        initialized += 1;
         const start = i * shard_size;
         if (start < data.len) {
             const end = @min(start + shard_size, data.len);
@@ -136,6 +151,7 @@ pub fn rsEncode(allocator: std.mem.Allocator, config: RsConfig, data: []const u8
 
     while (i < config.total_shards) : (i += 1) {
         shards[i] = try allocator.alloc(u8, shard_size);
+        initialized += 1;
         @memset(shards[i], 0);
     }
 
@@ -171,12 +187,20 @@ pub fn rsReconstruct(
     shards: [][]const u8,
     present: []const bool,
 ) ![]u8 {
+    try validateRsConfig(config);
+    if (shards.len != config.total_shards) return error.MalformedShards;
+    if (present.len != config.total_shards) return error.MalformedShards;
+
     const gf = GaloisField.init();
-    const shard_size = if (shards.len > 0) shards[0].len else 0;
+    const shard_size = shards[0].len;
+    for (shards) |s| {
+        if (s.len != shard_size) return error.MalformedShards;
+    }
+    const result_len = std.math.mul(usize, config.data_shards, shard_size) catch return error.MalformedShards;
 
     var present_count: usize = 0;
-    for (0..config.total_shards) |i| {
-        if (i < present.len and present[i]) present_count += 1;
+    for (present) |p| {
+        if (p) present_count += 1;
     }
     if (present_count < config.data_shards) return error.InsufficientShards;
 
@@ -253,7 +277,10 @@ pub fn rsReconstruct(
 
         for (erased.items) |d| {
             const buf = try allocator.alloc(u8, shard_size);
-            try rec_bufs.append(buf);
+            rec_bufs.append(buf) catch |err| {
+                allocator.free(buf);
+                return err;
+            };
             view[d] = buf;
         }
         const rhs = try allocator.alloc(u8, t);
@@ -281,7 +308,7 @@ pub fn rsReconstruct(
 
     var result = std.ArrayList(u8).init(allocator);
     errdefer result.deinit();
-    try result.ensureTotalCapacity(config.data_shards * shard_size);
+    try result.ensureTotalCapacity(result_len);
     for (0..config.data_shards) |d| {
         try result.appendSlice(view[d]);
     }
@@ -336,8 +363,9 @@ pub fn shamirSplit(
 
     const gf = GaloisField.init();
     var shares = try allocator.alloc(Share, k);
+    var initialized: usize = 0;
     errdefer {
-        for (shares) |s| allocator.free(s.y);
+        for (shares[0..initialized]) |s| allocator.free(s.y);
         allocator.free(shares);
     }
 
@@ -345,6 +373,7 @@ pub fn shamirSplit(
     while (i < k) : (i += 1) {
         shares[i].x = i + 1;
         shares[i].y = try allocator.alloc(u8, secret.len);
+        initialized += 1;
         @memset(shares[i].y, 0);
     }
 
@@ -383,7 +412,7 @@ pub fn shamirRecover(
     const secret_len = shares[0].y.len;
 
     for (shares[0..n]) |s| {
-        if (s.y.len != secret_len) return ShamirError.InvalidShare;
+        if (s.x == 0 or s.y.len != secret_len) return ShamirError.InvalidShare;
     }
 
     var i: u8 = 0;

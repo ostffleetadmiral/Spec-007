@@ -224,9 +224,9 @@
 </tr>
 <tr>
 <td><code>spec008_qstar_escrow.zig</code></td>
-<td>qstar-quantum/entangle 接入 FANO-1 工件:旗幟 ed25519 種子之 Shamir 託管(3-of-3 重置、2-of-3 災備)、136-B 封包之分片條帶+同位。已驗證依賴真相:「RS」同位為縮放 XOR — 僅可復原一個抹除;分片無完整性標籤,故封裝器承諾 sha256(seed)。</td>
-<td>8 測試</td>
-<td>—</td>
+<td>qstar-quantum/entangle 接入 FANO-1 工件:旗幟 ed25519 種子之 Shamir 託管(3-of-3 重置、2-of-3 災備)、136-B 封包之分片條帶+Vandermonde 同位。邊界已強化:無效 RS 配置與畸形 shard/present 封套拒絕,同位最多復原 <code>parity_shards</code> 個抹除,OOM 路徑清理已初始化配置,<code>x=0</code>/長度漂移之偽造分片拒絕,sha256(seed) 承諾可揭穿外來分片污染。</td>
+<td>12 測試</td>
+<td>託管邊界已強化</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_fleet.zig</code></td>

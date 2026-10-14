@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 46
+    "completed_full_retrograde": 47
   },
   "components": [
     {
@@ -3007,8 +3007,8 @@
       "workstream": "qstar-donor",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "411543d16686822de66540b57fc4cb93836fd5d6b70ae6ef73ce93d58690375e",
-        "bytes": 2578,
+        "sha256": "4e3a7a0ca2d0e88a1bb9284eda3962817aec01cae12ba5665c265f8327beda22",
+        "bytes": 2746,
         "lines": 82,
         "imports": [
           "quantum"
@@ -3058,9 +3058,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "2974269dd64c44354318dc22b1b3b4696ddb84224512df334da0883c0b849f45",
-        "bytes": 47347,
-        "lines": 1399,
+        "sha256": "3e74542e1a9e98a050007b2ead72ba8d4dca1d2d80279102e9f6bd0859729318",
+        "bytes": 48505,
+        "lines": 1428,
         "imports": [
           "std"
         ],
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "919b3d14fba19143f24fcd9890566e7b7644ee109cb7d7d1c660d71fa8a403c5",
+        "sha256": "275a06f07ac8c560dc09af086ddaf9aa52cece037e8c09cdd71d47d22fddcc7c",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "d14013af6745e4b8adbc86a794fcc30c016c2bfad625a4fcf33a91c288b4f1bd",
+        "sha256": "de069036e5db1c23a791aa3d72cedcbcd63d0126065f66a2c2b67f452b0458a1",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11153,16 +11153,17 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "02fb52de554d7d7ee84e8f2922c9b7b799692021c1d762edb6f788c25c345dfa",
-        "bytes": 7934,
-        "lines": 192,
+        "sha256": "960db2f47ea665c86bb3cf05a83b8c5ca1d9ce485ee77721fdffeb7d9d4f2794",
+        "bytes": 10991,
+        "lines": 286,
         "imports": [
           "qentangle",
           "std"
         ],
         "referenced_by": [
           "security/superpowers-audit.mjs",
-          "security/team-sweep-2.mjs"
+          "security/team-sweep-2.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -11177,7 +11178,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 8,
+        "test_blocks": 12,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11188,9 +11189,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-qstar-escrow-boundaries-20261014",
+        "decision": "bounded-shamir-rs-envelopes"
       }
     },
     {
@@ -12074,9 +12075,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "b98281a5acd5fdfd3f1666d0465525a5704b6c5d8bd17cd26cdd5093dab21951",
-        "bytes": 17332,
-        "lines": 425,
+        "sha256": "3b07e9ea6e388ac5ea908b8eeabbbf1e27c922306a1ff3a2607d851c651f0e2c",
+        "bytes": 17477,
+        "lines": 429,
         "imports": [
           "node:crypto",
           "node:fs",

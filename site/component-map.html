@@ -225,9 +225,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec008_qstar_escrow.zig</code></td>
-<td>qstar-quantum/entangle onto FANO-1 artifacts: Shamir escrow of the flag's ed25519 seed (3-of-3 reset, 2-of-3 DR), shard striping + parity on the 136-B envelope. Verified dep truth: "RS" parity is scaled XOR — exactly one erasure; shares carry no tag, so the wrapper commits sha256(seed).</td>
-<td>8 tests</td>
-<td>—</td>
+<td>qstar-quantum/entangle onto FANO-1 artifacts: Shamir escrow of the flag's ed25519 seed (3-of-3 reset, 2-of-3 DR), shard striping + Vandermonde parity on the 136-B envelope. Boundary hardened: invalid RS configs and malformed shard/present envelopes refuse, parity recovers erasures up to <code>parity_shards</code>, OOM paths clean initialized allocations, crafted <code>x=0</code>/length-drift shares refuse, and sha256(seed) commits catch foreign-share corruption.</td>
+<td>12 tests</td>
+<td>escrow boundary hardened</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_fleet.zig</code></td>
