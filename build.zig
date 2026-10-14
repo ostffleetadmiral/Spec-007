@@ -241,6 +241,8 @@ pub fn build(b: *std.Build) void {
     const digit_fixed = depMod(b, "deps/digit/src/fixed_point.zig", target, optimize);
     const digit_brain = depMod(b, "deps/digit/src/brain_contracts.zig", target, optimize);
     digit_brain.addImport("fixed_point", digit_fixed);
+    const digit_e5 = depMod(b, "deps/digit/src/e5_state.zig", target, optimize);
+    digit_e5.addImport("fixed_point", digit_fixed);
     const digit_onnx_weights = depMod(b, "deps/digit/src/onnx_weights.zig", target, optimize);
     const digit_onnx_graph = depMod(b, "deps/digit/src/onnx_graph.zig", target, optimize);
     const digit_shape = depMod(b, "deps/digit/src/shape_ops.zig", target, optimize);
@@ -285,6 +287,7 @@ pub fn build(b: *std.Build) void {
     digit_session.addImport("tensor_upload", digit_upload);
     digit_session.addImport("brain_contracts", digit_brain);
     digit_session.addImport("onnx_fixed_bridge", digit_bridge);
+    depTest(b, test_step, "deps/digit/src/e5_state.zig", target, optimize, &.{imp("fixed_point", digit_fixed)});
     depTest(b, test_step, "deps/digit/src/model_session.zig", target, optimize, &.{
         imp("fixed_point", digit_fixed),        imp("graph_exec", digit_graph),
         imp("onnx_graph", digit_onnx_graph),    imp("model_package", digit_package),

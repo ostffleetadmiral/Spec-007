@@ -1009,8 +1009,8 @@
 </tr>
 <tr>
 <td><code>deps/digit/</code></td>
-<td>唯讀 Digit model-session donor graft：Q128 graph/session 模組與 <code>decoder_q4.dgqp</code>；來源 hash 與 SFTP provenance 記於 <code>docs/native-donor-manifest.json</code>。</td>
-<td>Digit model-session 測試根 + 750-tensor 原生探針</td>
+<td>唯讀 Digit model-session donor graft：Q128 graph/session 模組與 <code>decoder_q4.dgqp</code>;<code>e5_state.zig</code> 為確定性模型狀態邊界,<code>model_session.zig</code> 攜帶真實 observation 契約。來源 hash 與 SFTP provenance 記於 <code>docs/native-donor-manifest.json</code>。</td>
+<td>Digit model-session 與 <code>e5_state</code> 測試根 + 750-tensor 原生探針</td>
 <td>q4 deployment weights 為 ignored 本地資產，不提交</td>
 </tr>
 <tr>
@@ -1026,14 +1026,14 @@
 <td>—</td>
 </tr>
 <tr>
-<td><code>docs/component-census.json</code></td>
-<td>全部 Spec-007 component→contract→tests→docs→artifacts 之盤點；retrograde 狀態逐項明示。</td>
-<td><code>node tools/component-census.mjs --verify</code></td>
-<td>已盤點 277 components</td>
+<td><code>docs/component-census.json</code> / <code>docs/component-retrograde.json</code></td>
+<td>全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選)。</td>
+<td><code>node tools/component-census.mjs --verify</code> + <code>node tools/component-retrograde.mjs --verify</code></td>
+<td>已盤點 278 components;完整 retrograde 完成度保持明示</td>
 </tr>
 <tr>
 <td><code>admiralty-desk/</code></td>
-<td>旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;contextIsolation + sandbox + 無 nodeIntegration;<code>desk.sh</code> 剝除 <code>ELECTRON_RUN_AS_NODE</code>。</td>
+<td>旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;<code>main.js</code> 擁有 BrowserWindow 與 IPC 閘門;<code>preload.js</code> 為受沙箱隔離之 context bridge;<code>package.json</code>/<code>package-lock.json</code> 釘定 Electron;contextIsolation + sandbox + 無 nodeIntegration;<code>desk.sh</code> 剝除 <code>ELECTRON_RUN_AS_NODE</code>。</td>
 <td>桌面探針</td>
 <td>—</td>
 </tr>

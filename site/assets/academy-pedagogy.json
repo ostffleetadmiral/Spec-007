@@ -2,7 +2,7 @@
   "schema": "academy-pedagogy-v1",
   "scope": "deterministic-content-signals",
   "courses_graded": 14,
-  "lessons_graded": 55583,
+  "lessons_graded": 55587,
   "grades": {
     "STRONG": 0,
     "FAIR": 0,
@@ -383,31 +383,31 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10817,
+      "lessons": 10821,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.0704,
+          "v": 0.0703,
           "band": "green"
         },
         "capped": {
-          "v": 0.2376,
+          "v": 0.2375,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.3042,
+          "v": 0.304,
           "band": "green"
         },
         "neardup": {
-          "v": 0.4011,
+          "v": 0.401,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3366,
+          "v": 0.3368,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.8106,
+          "v": 0.8103,
           "band": "amber"
         },
         "ids": {

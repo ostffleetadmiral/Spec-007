@@ -1064,8 +1064,8 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>deps/digit/</code></td>
-<td>Read-only Digit model-session donor graft: Q128 graph/session modules plus <code>decoder_q4.dgqp</code>; source hashes and SFTP provenance are recorded in <code>docs/native-donor-manifest.json</code>.</td>
-<td>Digit model-session test root + 750-tensor native probe</td>
+<td>Read-only Digit model-session donor graft: Q128 graph/session modules plus <code>decoder_q4.dgqp</code>; <code>e5_state.zig</code> is the deterministic model-state boundary and <code>model_session.zig</code> carries the real observation contract. Source hashes and SFTP provenance are recorded in <code>docs/native-donor-manifest.json</code>.</td>
+<td>Digit model-session and <code>e5_state</code> test roots + 750-tensor native probe</td>
 <td>q4 deployment weights are ignored local assets, not committed</td>
 </tr>
 <tr>
@@ -1081,14 +1081,14 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>—</td>
 </tr>
 <tr>
-<td><code>docs/component-census.json</code></td>
-<td>Exhaustive component→contract→tests→docs→artifacts census for the full Spec-007 tree; retrograde status remains explicit per component.</td>
-<td><code>node tools/component-census.mjs --verify</code></td>
-<td>277 components inventoried</td>
+<td><code>docs/component-census.json</code> / <code>docs/component-retrograde.json</code></td>
+<td>Exhaustive component→contract→tests→docs→artifacts census plus the per-component reverse-engineering ledger (workstream, imports, references, verification class, and optimization candidate).</td>
+<td><code>node tools/component-census.mjs --verify</code> + <code>node tools/component-retrograde.mjs --verify</code></td>
+<td>278 components inventoried; full retrograde completion remains explicit</td>
 </tr>
 <tr>
 <td><code>admiralty-desk/</code></td>
-<td>The flag workstation as an Electron shell — embedded loopback server on fixed port 8901 (stable localStorage origin keeps the founding key across restarts); serve.py-identical headers; contextIsolation + sandbox + no nodeIntegration; <code>desk.sh</code> strips <code>ELECTRON_RUN_AS_NODE</code>.</td>
+<td>The flag workstation as an Electron shell — embedded loopback server on fixed port 8901 (stable localStorage origin keeps the founding key across restarts); serve.py-identical headers; <code>main.js</code> owns the BrowserWindow and IPC gates; <code>preload.js</code> is the sandboxed context bridge; <code>package.json</code>/<code>package-lock.json</code> pin Electron; contextIsolation + sandbox + no nodeIntegration; <code>desk.sh</code> strips <code>ELECTRON_RUN_AS_NODE</code>.</td>
 <td>desk probes</td>
 <td>—</td>
 </tr>

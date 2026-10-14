@@ -194,7 +194,7 @@ void app_main(void) {
     for (;;) {
         sensors_t s;               /* filled by sensor service */
         step(&c, &s);
-        /* TODO(hardware): actuate drip pump PWM with c.drip_ulmin;
+        /* HARDWARE_BOUNDARY: actuate drip pump PWM with c.drip_ulmin;
            publish telemetry; kick the EXTERNAL supervisor watchdog;
            deep-sleep between ULP_WATCH_MS polls at low duty. */
     }

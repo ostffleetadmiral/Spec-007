@@ -202,7 +202,7 @@
         {
           "id": "rulebook-lifecycle",
           "mandate": "Rulebook — SPEC creation/versioning/review/retirement, audit-traceable",
-          "real": "the claims lifecycle IS the rulebook in operation — 117 records graded proved/held/rejected/drifted, blocked arithmetic honest, promotion verify green",
+          "real": "the claims lifecycle IS the rulebook in operation — 125 records graded proved/held/rejected/external/instrumentation, blocked arithmetic honest, promotion verify green",
           "mode": "structural",
           "verdict": "realized",
           "passed": 3,
@@ -270,7 +270,7 @@
         {
           "id": "research-integrity",
           "mandate": "Research Integrity Policy — honest methods, retained failures",
-          "real": "research integrity is the dossier itself — 117 claims graded, 5 rejected-held retained with reasons",
+          "real": "research integrity is the dossier itself — 125 claims graded, 5 rejected-held retained with reasons",
           "mode": "structural",
           "verdict": "realized",
           "passed": 2,
@@ -286,7 +286,7 @@
         {
           "id": "audit-procedures",
           "mandate": "Audit Procedures Manual — independent audit of operations",
-          "real": "the audit suite is the audit — 197-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
+          "real": "the audit suite is the audit — 225-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
           "mode": "structural",
           "verdict": "realized",
           "passed": 3,

@@ -1,9 +1,9 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 56131,
+  "lesson_count": 56135,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 55583,
+  "harvested_lessons": 55587,
   "courses": [
     {
       "id": "ai-literacy",
@@ -195,7 +195,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10817,
+      "lesson_count": 10821,
       "topics": [
         "reference"
       ],

@@ -2,7 +2,7 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55583,
+  "lessons_reviewed": 55587,
   "zh_lessons": 453,
   "defects": [],
   "courses": [
@@ -188,7 +188,7 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10817,
+      "lessons": 10821,
       "zh_lessons": 189,
       "declassified_lessons": 0,
       "topics": 1,
@@ -201,7 +201,7 @@
         "project-nomad:205"
       ],
       "top_topics": [
-        "reference:10817"
+        "reference:10821"
       ],
       "defects": 0,
       "verdict": "HELD"

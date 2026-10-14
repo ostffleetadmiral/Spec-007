@@ -186,11 +186,11 @@
 | `spec-007.md` | 不可變基線文件 — 終端機與 publish-check 內 sha256 釘定;檔案之 L0 根。 | sha 釘定 + publish-check | — |
 | `fleet-genesis.json` / `fleet-manifest.json` / `engine-manifest.json` | 簽章正典根 — 創世契約、艦隊清單、受治理運行時註冊表 — 各具逐位元組一致之 `site/` 副本。 | FLEET/ENGINE 探針 | — |
 | `deps/` | 供應 qstar-* 依賴釘存(2026-10-07,zig 0.13 全綠):quantum、transport、net、mesh、vfs、compress、collapse、render。`deps/VENDORED.md` 載 LOC 表;f64 邊界限於 mesh/render sidecar。 | 8 個 spec008_qstar_* 框架 | — |
-| `deps/digit/` | 唯讀 Digit model-session donor graft：Q128 graph/session 模組與 `decoder_q4.dgqp`；來源 hash 與 SFTP provenance 記於 `docs/native-donor-manifest.json`。 | Digit model-session 測試根 + 750-tensor 原生探針 | q4 deployment weights 為 ignored 本地資產，不提交 |
+| `deps/digit/` | 唯讀 Digit model-session donor graft：Q128 graph/session 模組與 `decoder_q4.dgqp`;`e5_state.zig` 為確定性模型狀態邊界,`model_session.zig` 攜帶真實 observation 契約。來源 hash 與 SFTP provenance 記於 `docs/native-donor-manifest.json`。 | Digit model-session 與 `e5_state` 測試根 + 750-tensor 原生探針 | q4 deployment weights 為 ignored 本地資產，不提交 |
 | `golden/vectors.txt` | 黃金參考面 — `golden_emit.zig` 之已提交正典輸出。 | `golden-master.mjs --verify` | — |
 | `build.zig` | 框架圖 — `zig build test` 聚合所有 `src/` 套件(spec007 證明、spec008 qstar 橋接、封緘雙生、原生 DHT)並構建 `dhtd`;依 wave-5 平行化設並行測試根。 | `zig build test` | — |
-| `docs/component-census.json` | 全部 Spec-007 component→contract→tests→docs→artifacts 之盤點；retrograde 狀態逐項明示。 | `node tools/component-census.mjs --verify` | 已盤點 277 components |
-| `admiralty-desk/` | 旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;contextIsolation + sandbox + 無 nodeIntegration;`desk.sh` 剝除 `ELECTRON_RUN_AS_NODE`。 | 桌面探針 | — |
+| `docs/component-census.json` / `docs/component-retrograde.json` | 全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選)。 | `node tools/component-census.mjs --verify` + `node tools/component-retrograde.mjs --verify` | 已盤點 278 components;完整 retrograde 完成度保持明示 |
+| `admiralty-desk/` | 旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;`main.js` 擁有 BrowserWindow 與 IPC 閘門;`preload.js` 為受沙箱隔離之 context bridge;`package.json`/`package-lock.json` 釘定 Electron;contextIsolation + sandbox + 無 nodeIntegration;`desk.sh` 剝除 `ELECTRON_RUN_AS_NODE`。 | 桌面探針 | — |
 | `apps/fano/` | Fano quine 方言工件(index.html + fano.wasm)— `site/apps/fano/` 存逐位元組一致之供應副本。 | wasm 身份 | — |
 | `prototypes/` | 行政覆權試驗場 — 封存路徑以隔離實驗執行;報告落於 `prototypes/out/`;生產不動。 | falsification-audit 之 OVR 列 | — |
 | `thoughts&convos/` | 抽屜 — 機密邊界;絕不發佈、絕不於公開樹列舉;姓氏絆線強制執行。 | SPEC004 探針 | — |
