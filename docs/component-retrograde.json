@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 32
+    "completed_full_retrograde": 33
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "f7d3d45c977bb63aa6e6dbf2f78c24608620cf29a970caee7ff8c70eac8db42b",
+        "sha256": "9bb52aee0270557cce877f6ea289fb3d2be8ba0e3df817c48b2b6545b54a4b27",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "3a08b0fda5ed341662cd1fc3e07487efff70b9efc216994a2381c58ee8458df0",
+        "sha256": "985a20eed94bf734dfb342863e100528d950dcdf46f5f7eceea79fc3b8f5efbf",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -10538,17 +10538,19 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "ae93c2dc4fa37a303f1a1fcc43445c8fe36bc070ff280cd242691a8bf2c26212",
-        "bytes": 15803,
-        "lines": 371,
+        "sha256": "f2f17b90328f5ce8432ec7e38bd045a8e5fd011d06141833ce5b4da40e1529dd",
+        "bytes": 18619,
+        "lines": 421,
         "imports": [
           "fixed_point_q128.zig",
           "spec007_astrometric_probe.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
-        "public_surface": 1
+        "public_surface": 2
       },
       "contract": {
         "mapped": true,
@@ -10560,7 +10562,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 15,
+        "test_blocks": 16,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10571,9 +10573,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-ephemeris-domains-20261014",
+        "decision": "bounded-ephemeris-domains"
       }
     },
     {
@@ -12055,9 +12057,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "bf30a453a460af445c5f121286aa765ba4de82731ddad95d650ecfe53ada290c",
-        "bytes": 15374,
-        "lines": 369,
+        "sha256": "f6261a5a1db2bde99d95c427e1b7edbfe9c643e5f8ad3080c8eb31bfebe85204",
+        "bytes": 15514,
+        "lines": 373,
         "imports": [
           "node:crypto",
           "node:fs",

@@ -6286,7 +6286,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 15,
+        "blocks": 16,
         "registered": true
       },
       "documentation": {

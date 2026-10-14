@@ -43,7 +43,24 @@ const ECLIPSE_JDN: i64 = 2446367; // 1985-10-28
 const WOW_JDN: i64 = 2443371; // 1977-08-15
 const J212: i64 = 2456283; // 2012-12-21 = 4 Ajaw anchor
 
-pub fn jdn(y: i64, m: i64, d: i64) i64 {
+pub const EphemerisError = error{ InvalidDate, InputDomain, InvalidCalendar, Overflow };
+const MIN_JDN_YEAR: i64 = -1_000_000;
+const MAX_JDN_YEAR: i64 = 1_000_000;
+
+fn leapYear(y: i64) bool {
+    return @mod(y, 4) == 0 and (@mod(y, 100) != 0 or @mod(y, 400) == 0);
+}
+
+fn monthDays(y: i64, m: i64) i64 {
+    const days = [_]i64{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    return if (m == 2 and leapYear(y)) 29 else days[@intCast(m - 1)];
+}
+
+pub fn jdn(y: i64, m: i64, d: i64) EphemerisError!i64 {
+    if (y < MIN_JDN_YEAR or y > MAX_JDN_YEAR) return error.InputDomain;
+    if (m < 1 or m > 12) return error.InvalidDate;
+    const md = monthDays(y, m);
+    if (d < 1 or d > md) return error.InvalidDate;
     const a = @divTrunc(14 - m, 12);
     const y2 = y + 4800 - a;
     const m2 = m + 12 * a - 3;
@@ -51,29 +68,32 @@ pub fn jdn(y: i64, m: i64, d: i64) i64 {
         @divTrunc(y2, 100) + @divTrunc(y2, 400) - 32045;
 }
 
-fn phiQ() Q128 {
+fn phiQ() EphemerisError!Q128 {
     const five = Q128.fromInteger(5);
-    const r5 = five.sqrt() catch unreachable;
-    return r5.add(Q128.one).div(Q128.fromInteger(2)) catch unreachable;
+    const r5 = five.sqrt() catch return error.Overflow;
+    return r5.add(Q128.one).div(Q128.fromInteger(2)) catch return error.Overflow;
 }
 
 //acos via bisection on cosQ over [0, pi] — deterministic, monotone.
-fn acosQ(x: Q128) Q128 {
-    const pi = Q128.fromRatio(80143857, 25510582) catch unreachable;
+fn acosQ(x: Q128) EphemerisError!Q128 {
+    if (x.raw < -Q128.one.raw or x.raw > Q128.one.raw) return error.InputDomain;
+    const pi = Q128.fromRatio(80143857, 25510582) catch return error.Overflow;
     var lo = Q128.zero;
     var hi = pi;
     var i: usize = 0;
     while (i < 48) : (i += 1) {
-        const mid = lo.add(hi).div(Q128.fromInteger(2)) catch unreachable;
+        const mid = lo.add(hi).div(Q128.fromInteger(2)) catch return error.Overflow;
         const c = astro.cosQ(mid);
         // cos decreasing on [0,pi]: if cos(mid) > x, mid is left of answer
         if (c.raw > x.raw) lo = mid else hi = mid;
     }
-    return lo.add(hi).div(Q128.fromInteger(2)) catch unreachable;
+    return lo.add(hi).div(Q128.fromInteger(2)) catch return error.Overflow;
 }
 
 //asin via odd-power series — valid |x| < ~0.5 (cross-track x ~ 0.014).
-fn asinQ(x: Q128) Q128 {
+fn asinQ(x: Q128) EphemerisError!Q128 {
+    const max = Q128.fromRatio(1, 2) catch return error.Overflow;
+    if (x.raw < -max.raw or x.raw > max.raw) return error.InputDomain;
     // asin x = x + x^3/6 + 3x^5/40 + 15x^7/336 + 105x^9/3456 + ...
     // coeff_n = (2n-1)!! / ((2n+1) * 2^n * n!)
     const x2 = x.mul(x);
@@ -94,7 +114,7 @@ fn asinQ(x: Q128) Q128 {
             fact *= m;
         }
         den *= pow2 * fact;
-        const coef = Q128.fromRatio(odd, den) catch unreachable;
+        const coef = Q128.fromRatio(odd, den) catch return error.Overflow;
         sum = sum.add(term.mul(coef));
     }
     return sum;
@@ -102,9 +122,15 @@ fn asinQ(x: Q128) Q128 {
 
 const Vec3 = struct { x: Q128, y: Q128, z: Q128 };
 
-fn llToVec(lat_deg: i256, lat_milli: i256, lon_deg: i256, lon_milli: i256) Vec3 {
-    const lat = Q128.fromRatio(lat_deg * 1000000 + lat_milli, 1000000) catch unreachable;
-    const lon = Q128.fromRatio(lon_deg * 1000000 + lon_milli, 1000000) catch unreachable;
+fn llToVec(lat_deg: i256, lat_milli: i256, lon_deg: i256, lon_milli: i256) EphemerisError!Vec3 {
+    if (lat_deg < -90 or lat_deg > 90 or lat_milli < -999_999 or lat_milli > 999_999) return error.InputDomain;
+    if (lon_deg < -180 or lon_deg > 180 or lon_milli < -999_999 or lon_milli > 999_999) return error.InputDomain;
+    const lat_micro = lat_deg * 1_000_000 + lat_milli;
+    const lon_micro = lon_deg * 1_000_000 + lon_milli;
+    if (lat_micro < -90_000_000 or lat_micro > 90_000_000 or
+        lon_micro < -180_000_000 or lon_micro > 180_000_000) return error.InputDomain;
+    const lat = Q128.fromRatio(lat_micro, 1_000_000) catch return error.Overflow;
+    const lon = Q128.fromRatio(lon_micro, 1_000_000) catch return error.Overflow;
     const p = astro.deg2rad(lat);
     const t = astro.deg2rad(lon);
     const cp = astro.cosQ(p);
@@ -120,8 +146,10 @@ fn cross(a: Vec3, b: Vec3) Vec3 {
         .z = a.x.mul(b.y).sub(a.y.mul(b.x)),
     };
 }
-fn norm(a: Vec3) Q128 {
-    return dot(a, a).sqrt() catch unreachable;
+fn norm(a: Vec3) EphemerisError!Q128 {
+    const square = dot(a, a);
+    if (square.raw < 0) return error.InputDomain;
+    return square.sqrt() catch return error.Overflow;
 }
 
 //---------- Hebrew calendar (molad + postponements), i64 ----------
@@ -155,22 +183,27 @@ fn hebYearDays(y: i64) i64 {
 
 const HebDate = struct { y: i64, m: i64, d: i64 };
 
-fn hebFromJdn(j: i64) HebDate {
+fn hebFromJdn(j: i64) EphemerisError!HebDate {
+    const min = HEB_EPOCH + 1;
+    const max = HEB_EPOCH + 366_000_000;
+    if (j < min or j > max) return error.InputDomain;
     var y = @divTrunc(j - HEB_EPOCH, 366) + 1;
     while (roshJdn(y) > j) y -= 1;
     while (roshJdn(y + 1) <= j) y += 1;
     // month order from Tishrei: 1,2,3,...,13(leap) — civil year order
     var m: i64 = 1;
     var cursor = roshJdn(y);
-    while (true) {
-        const md = hebMonthDaysSeq(y, m);
+    while (m <= 14) {
+        const md = try hebMonthDaysSeq(y, m);
         if (j < cursor + md) break;
         cursor += md;
         m += 1;
     }
+    if (m > 14) return error.InvalidCalendar;
     return .{ .y = y, .m = m, .d = j - cursor + 1 };
 }
-fn hebMonthDaysSeq(y: i64, seq: i64) i64 {
+fn hebMonthDaysSeq(y: i64, seq: i64) EphemerisError!i64 {
+    if (seq < 1 or seq > 13) return error.InvalidCalendar;
     // seq counts months starting at Tishrei in year order:
     // Tishrei(1) Cheshvan Kislev Tevet Shevat AdarI AdarII Nisan Iyar Sivan Tammuz Av Elul
     const yd = hebYearDays(y);
@@ -186,7 +219,7 @@ fn hebMonthDaysSeq(y: i64, seq: i64) i64 {
         seen += 1;
         if (seen == seq) return md;
     }
-    unreachable;
+    return error.InvalidCalendar;
 }
 
 //---------- Islamic tabular calendar, i64 ----------
@@ -202,7 +235,10 @@ fn islToJdn(y: i64, m: i64, d: i64) i64 {
     return ISL_EPOCH + days;
 }
 const IslDate = struct { y: i64, m: i64, d: i64 };
-fn islFromJdn(j: i64) IslDate {
+fn islFromJdn(j: i64) EphemerisError!IslDate {
+    const min = ISL_EPOCH;
+    const max = ISL_EPOCH + 355_000_000;
+    if (j < min or j > max) return error.InputDomain;
     var y = @divTrunc((j - ISL_EPOCH) * 30, 10631) + 1;
     while (islToJdn(y + 1, 1, 1) <= j) y += 1;
     while (islToJdn(y, 1, 1) > j) y -= 1;
@@ -226,10 +262,10 @@ fn tzolkin(j: i64) struct { num: i64, name: i64 } {
 //================= tests =================
 
 test "JDN anchors: birth Oct-25 and eclipse Oct-28 are 3.0 days apart" {
-    try std.testing.expectEqual(@as(i64, 2446364), jdn(1985, 10, 25));
+    try std.testing.expectEqual(@as(i64, 2446364), try jdn(1985, 10, 25));
     try std.testing.expectEqual(@as(i64, 3), ECLIPSE_JDN - BIRTH_JDN);
-    try std.testing.expectEqual(WOW_JDN, jdn(1977, 8, 15));
-    try std.testing.expectEqual(J212, jdn(2012, 12, 21));
+    try std.testing.expectEqual(WOW_JDN, try jdn(1977, 8, 15));
+    try std.testing.expectEqual(J212, try jdn(2012, 12, 21));
 }
 
 test "birth->eclipse window: 74.0h (penumbral) .. 76.1h (greatest) brackets the claimed ~75h" {
@@ -266,67 +302,68 @@ test "birth is day 298 of 1985; 67 days remain" {
 }
 
 test "1985 carried exactly 4 eclipses — JDN chain check" {
-    try std.testing.expectEqual(@as(i64, 2446190), jdn(1985, 5, 4)); // total lunar
-    try std.testing.expectEqual(@as(i64, 2446205), jdn(1985, 5, 19)); // partial solar
-    try std.testing.expectEqual(@as(i64, 2446367), jdn(1985, 10, 28)); // total lunar
-    try std.testing.expectEqual(@as(i64, 2446382), jdn(1985, 11, 12)); // partial solar
+    try std.testing.expectEqual(@as(i64, 2446190), try jdn(1985, 5, 4)); // total lunar
+    try std.testing.expectEqual(@as(i64, 2446205), try jdn(1985, 5, 19)); // partial solar
+    try std.testing.expectEqual(@as(i64, 2446367), try jdn(1985, 10, 28)); // total lunar
+    try std.testing.expectEqual(@as(i64, 2446382), try jdn(1985, 11, 12)); // partial solar
 }
 
 test "perihelion 1986-01-04 is 71 days after birth; canon-claimed 67d relationship off by ~4" {
-    try std.testing.expectEqual(@as(i64, 71), jdn(1986, 1, 4) - BIRTH_JDN);
+    try std.testing.expectEqual(@as(i64, 71), (try jdn(1986, 1, 4)) - BIRTH_JDN);
 }
 
 test "40th anniversary lands inside the 2024-25 standstill window" {
     try std.testing.expectEqual(@as(i64, 2025), 1985 + 40);
-    try std.testing.expectEqual(@as(i64, 2460974), jdn(2025, 10, 25));
-    try std.testing.expectEqual(@as(i64, 14610), jdn(2025, 10, 25) - BIRTH_JDN);
+    try std.testing.expectEqual(@as(i64, 2460974), try jdn(2025, 10, 25));
+    try std.testing.expectEqual(@as(i64, 14610), (try jdn(2025, 10, 25)) - BIRTH_JDN);
 }
 
 test "rise azimuth at delta=+28.72deg, phi=40.05deg computes ~51.1deg vs measured ~52deg axis" {
     // cos A = (sin d - sin p sin alt) / (cos p cos alt), alt = 0
-    const dec = astro.deg2rad(Q128.fromRatio(287222, 10000) catch unreachable);
-    const lat = astro.deg2rad(Q128.fromRatio(4005, 100) catch unreachable);
-    const cosA = astro.sinQ(dec).div(astro.cosQ(lat)) catch unreachable;
-    const az = acosQ(cosA);
+    const dec = astro.deg2rad(try Q128.fromRatio(287222, 10000));
+    const lat = astro.deg2rad(try Q128.fromRatio(4005, 100));
+    const cosA = try astro.sinQ(dec).div(astro.cosQ(lat));
+    const az = try acosQ(cosA);
     // az in degrees ~ 51.11 — check radians in [0.891, 0.893]
-    const lo = Q128.fromRatio(891, 1000) catch unreachable;
-    const hi = Q128.fromRatio(893, 1000) catch unreachable;
+    const lo = try Q128.fromRatio(891, 1000);
+    const hi = try Q128.fromRatio(893, 1000);
     try std.testing.expect(az.raw > lo.raw and az.raw < hi.raw);
     // residual vs 52 deg axis: |51.11 - 52| < 1 deg
-    const axis = astro.deg2rad(Q128.fromRatio(52, 1) catch unreachable);
+    const axis = astro.deg2rad(try Q128.fromRatio(52, 1));
     const resid = az.sub(axis).abs();
     const oneDeg = astro.deg2rad(Q128.one);
     try std.testing.expect(resid.raw < oneDeg.raw);
 }
 
 test "Octagon->WPAFB great circle passes within ~1.6 km of Broad & High — ~1.1% of baseline" {
-    const a = llToVec(40, 52800, -82, -429400); // Octagon 40.0528 N, -82.4294
-    const b = llToVec(39, 824700, -84, -52600); // WPAFB
-    const p = llToVec(39, 961100, -82, -998700); // Broad & High
+    const a = try llToVec(40, 52800, -82, -429400); // Octagon 40.0528 N, -82.4294
+    const b = try llToVec(39, 824700, -84, -52600); // WPAFB
+    const p = try llToVec(39, 961100, -82, -998700); // Broad & High
     const n = cross(a, b);
-    const ln = norm(n);
-    const nx = n.x.div(ln) catch unreachable;
-    const ny = n.y.div(ln) catch unreachable;
-    const nz = n.z.div(ln) catch unreachable;
+    const ln = try norm(n);
+    try std.testing.expect(ln.raw > 0);
+    const nx = try n.x.div(ln);
+    const ny = try n.y.div(ln);
+    const nz = try n.z.div(ln);
     const nv = Vec3{ .x = nx, .y = ny, .z = nz };
     const s = dot(nv, p).abs();
-    const xt_rad = asinQ(s);
+    const xt_rad = try asinQ(s);
     // km = rad * 6371 ; expect ~1.58 km
     const xt_km = xt_rad.mul(Q128.fromInteger(6371));
-    const lo = Q128.fromRatio(15, 10) catch unreachable; // 1.5
-    const hi = Q128.fromRatio(17, 10) catch unreachable; // 1.7
+    const lo = try Q128.fromRatio(15, 10); // 1.5
+    const hi = try Q128.fromRatio(17, 10); // 1.7
     try std.testing.expect(xt_km.raw > lo.raw and xt_km.raw < hi.raw);
     // baseline ~140.7 km
     const cosAB = dot(a, b);
-    const ab_rad = acosQ(cosAB);
+    const ab_rad = try acosQ(cosAB);
     const ab_km = ab_rad.mul(Q128.fromInteger(6371));
-    const blo = Q128.fromRatio(139, 1) catch unreachable;
-    const bhi = Q128.fromRatio(142, 1) catch unreachable;
+    const blo = try Q128.fromRatio(139, 1);
+    const bhi = try Q128.fromRatio(142, 1);
     try std.testing.expect(ab_km.raw > blo.raw and ab_km.raw < bhi.raw);
 }
 
 test "Hebrew: birth JDN -> 10 Cheshvan 5746 — the claimed '11 Cheshvan' is REFUTED" {
-    const h = hebFromJdn(BIRTH_JDN);
+    const h = try hebFromJdn(BIRTH_JDN);
     try std.testing.expectEqual(@as(i64, 5746), h.y);
     try std.testing.expectEqual(@as(i64, 2), h.m); // Cheshvan (2nd civil month)
     try std.testing.expectEqual(@as(i64, 10), h.d); // 10, not 11
@@ -340,7 +377,7 @@ test "Hebrew anchors: rosh JDNs for 5746/5760/5786 match civil dates" {
 
 test "Islamic: birth JDN -> 11 Safar 1406 — '11 Rabi al-Thani' is REFUTED (month off by two)" {
     // civil-Thursday epoch: 1 Muharram 1406 = JDN 2446324 (Sep 15, 1985)
-    const h = islFromJdn(BIRTH_JDN);
+    const h = try islFromJdn(BIRTH_JDN);
     try std.testing.expectEqual(@as(i64, 1406), h.y);
     try std.testing.expectEqual(@as(i64, 2), h.m); // Safar
     try std.testing.expectEqual(@as(i64, 11), h.d);
@@ -356,14 +393,27 @@ test "Tzolk'in: birth JDN -> 4 Imix — '11 Ak'b'al' is REFUTED and unreachable"
     try std.testing.expectEqual(@as(i64, 19), a.name);
 }
 
+test "ephemeris domains fail closed at date, trig, coordinate, and calendar boundaries" {
+    try std.testing.expectError(error.InvalidDate, jdn(1985, 2, 29));
+    try std.testing.expectError(error.InvalidDate, jdn(1985, 13, 1));
+    try std.testing.expectError(error.InputDomain, jdn(MAX_JDN_YEAR + 1, 1, 1));
+    try std.testing.expectEqual(@as(i64, 2451604), try jdn(2000, 2, 29));
+    try std.testing.expectError(error.InputDomain, acosQ(Q128.fromInteger(2)));
+    try std.testing.expectError(error.InputDomain, asinQ(Q128.one));
+    try std.testing.expectError(error.InputDomain, llToVec(91, 0, 0, 0));
+    try std.testing.expectError(error.InputDomain, llToVec(0, 0, 181, 0));
+    try std.testing.expectError(error.InputDomain, hebFromJdn(HEB_EPOCH));
+    try std.testing.expectError(error.InputDomain, islFromJdn(ISL_EPOCH - 1));
+    try std.testing.expectError(error.InvalidCalendar, hebMonthDaysSeq(5746, 14));
+}
+
 test "phi-correlation matrix is NOT circulant: C(0,1) != C(0,6) in fixed point" {
     // C(i,j) = cos(2*pi*|i-j| / (7*phi))
-    const phi = phiQ();
+    const phi = try phiQ();
     const denom = Q128.fromInteger(7).mul(phi);
-    const two_pi = (Q128.fromRatio(80143857, 25510582) catch unreachable)
-        .mul(Q128.fromInteger(2));
-    const c01 = astro.cosQ(two_pi.div(denom) catch unreachable); // |i-j|=1
-    const c06 = astro.cosQ(two_pi.mul(Q128.fromInteger(6)).div(denom) catch unreachable); // |i-j|=6
+    const two_pi = (try Q128.fromRatio(80143857, 25510582)).mul(Q128.fromInteger(2));
+    const c01 = astro.cosQ(try two_pi.div(denom)); // |i-j|=1
+    const c06 = astro.cosQ(try two_pi.mul(Q128.fromInteger(6)).div(denom)); // |i-j|=6
     // circulant 7x7 requires C(0,1) == C(0,6); they differ -> NOT circulant
     try std.testing.expect(c01.raw != c06.raw);
     // but symmetric Toeplitz holds: C(0,k) == C(0,7-k) only if cos symmetric — check C(0,1) vs C(0,6) differ in raw bits

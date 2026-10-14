@@ -145,6 +145,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-mobius-checksum",
     archive: "spec007-checksum-pole-20261014",
   }],
+  ["src/spec007_ephemeris_probe.zig", {
+    decision: "bounded-ephemeris-domains",
+    archive: "spec007-ephemeris-domains-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
