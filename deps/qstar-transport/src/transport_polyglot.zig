@@ -31,11 +31,16 @@ pub const FORMAT_TABLE = [_]FormatMagic{
     .{ .format = .pyz, .magic = "PK\x03\x04", .trailer = "" },
 };
 
-/// JAR manifest header injected as the first ZIP entry.
-pub const JAR_MANIFEST_HEADER = "META-INF/MANIFEST.MF\nManifest-Version: 1.0\nCreated-By: Qstar polyglot transport\nMain-Class: Main\n\n";
+/// ZIP entry names used by executable containers.
+pub const JAR_MANIFEST_NAME = "META-INF/MANIFEST.MF";
+pub const PYZ_MAIN_NAME = "__main__.py";
+pub const PYZ_DATA_NAME = "data.py";
 
-/// PYZ entry point header injected as the first ZIP entry.
-pub const PYZ_MAIN_HEADER = "__main__.py\n# Qstar polyglot Python executable\nimport sys\n";
+/// JAR manifest body prefix injected as the first ZIP entry.
+pub const JAR_MANIFEST_HEADER = "Manifest-Version: 1.0\nCreated-By: Qstar polyglot transport\nMain-Class: ";
+
+/// PYZ entry point body injected as the first ZIP entry.
+pub const PYZ_MAIN_HEADER = "# Qstar polyglot Python executable\nimport sys\n";
 
 fn findFormat(fmt: Format) ?FormatMagic {
     for (FORMAT_TABLE) |entry| {
@@ -46,6 +51,12 @@ fn findFormat(fmt: Format) ?FormatMagic {
 
 /// Encodes data as a polyglot file valid in the specified format.
 pub fn encode(allocator: std.mem.Allocator, data: []const u8, fmt: Format) ![]u8 {
+    switch (fmt) {
+        .jar => return encodeJAR(allocator, data, "Main"),
+        .pyz => return encodePYZ(allocator, data, PYZ_MAIN_HEADER),
+        else => {},
+    }
+
     const entry = findFormat(fmt) orelse return error.UnknownFormat;
 
     var out = std.ArrayList(u8).init(allocator);
@@ -62,6 +73,12 @@ pub fn encode(allocator: std.mem.Allocator, data: []const u8, fmt: Format) ![]u8
 
 /// Decodes a polyglot file by stripping the format header and trailer.
 pub fn decode(allocator: std.mem.Allocator, polyglot: []const u8, fmt: Format) ![]u8 {
+    switch (fmt) {
+        .jar => return decodeJAR(allocator, polyglot),
+        .pyz => return decodePYZ(allocator, polyglot),
+        else => {},
+    }
+
     const entry = findFormat(fmt) orelse return error.UnknownFormat;
 
     if (polyglot.len < entry.magic.len) return error.TooShort;
@@ -91,103 +108,253 @@ pub fn name() []const u8 {
     return "polyglot";
 }
 
+fn appendU16(out: *std.ArrayList(u8), value: u16) !void {
+    var bytes: [2]u8 = undefined;
+    std.mem.writeInt(u16, &bytes, value, .little);
+    try out.appendSlice(&bytes);
+}
+
+fn appendU32(out: *std.ArrayList(u8), value: u32) !void {
+    var bytes: [4]u8 = undefined;
+    std.mem.writeInt(u32, &bytes, value, .little);
+    try out.appendSlice(&bytes);
+}
+
+fn checkedU16(value: usize) !u16 {
+    if (value > std.math.maxInt(u16)) return error.PayloadTooLarge;
+    return @intCast(value);
+}
+
+fn checkedU32(value: usize) !u32 {
+    if (value > std.math.maxInt(u32)) return error.PayloadTooLarge;
+    return @intCast(value);
+}
+
+fn appendStoredZipEntry(out: *std.ArrayList(u8), entry_name: []const u8, body: []const u8) !u32 {
+    const offset = try checkedU32(out.items.len);
+    const crc = std.hash.Crc32.hash(body);
+    const name_len = try checkedU16(entry_name.len);
+    const body_len = try checkedU32(body.len);
+
+    try out.appendSlice("PK\x03\x04");
+    try appendU16(out, 20);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU32(out, crc);
+    try appendU32(out, body_len);
+    try appendU32(out, body_len);
+    try appendU16(out, name_len);
+    try appendU16(out, 0);
+    try out.appendSlice(entry_name);
+    try out.appendSlice(body);
+    return offset;
+}
+
+fn appendCentralZipEntry(
+    out: *std.ArrayList(u8),
+    entry_name: []const u8,
+    body: []const u8,
+    local_offset: u32,
+) !void {
+    const crc = std.hash.Crc32.hash(body);
+    const name_len = try checkedU16(entry_name.len);
+    const body_len = try checkedU32(body.len);
+
+    try out.appendSlice("PK\x01\x02");
+    try appendU16(out, 20);
+    try appendU16(out, 20);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU32(out, crc);
+    try appendU32(out, body_len);
+    try appendU32(out, body_len);
+    try appendU16(out, name_len);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU32(out, 0);
+    try appendU32(out, local_offset);
+    try out.appendSlice(entry_name);
+}
+
+fn appendZipEnd(out: *std.ArrayList(u8), entry_count: u16, cd_size: usize, cd_offset: usize) !void {
+    try out.appendSlice("PK\x05\x06");
+    try appendU16(out, 0);
+    try appendU16(out, 0);
+    try appendU16(out, entry_count);
+    try appendU16(out, entry_count);
+    try appendU32(out, try checkedU32(cd_size));
+    try appendU32(out, try checkedU32(cd_offset));
+    try appendU16(out, 0);
+}
+
+const ZipPayload = struct {
+    start: usize,
+    len: usize,
+};
+
+const ZipEnd = struct {
+    entry_count: u16,
+    directory_start: usize,
+    directory_end: usize,
+};
+
+const LocalZipEntry = struct {
+    offset: u32,
+    name: []const u8,
+    data_start: usize,
+    data_len: usize,
+    crc: u32,
+    matched: bool = false,
+};
+
+fn zipEnd(zip_data: []const u8) !ZipEnd {
+    if (zip_data.len < 22) return error.InvalidZip;
+    const end_pos = zip_data.len - 22;
+    if (std.mem.readInt(u32, zip_data[end_pos..][0..4], .little) != 0x06054B50) return error.InvalidZip;
+    if (std.mem.readInt(u16, zip_data[end_pos + 4 ..][0..2], .little) != 0) return error.InvalidZip;
+    if (std.mem.readInt(u16, zip_data[end_pos + 6 ..][0..2], .little) != 0) return error.InvalidZip;
+    const disk_entries = std.mem.readInt(u16, zip_data[end_pos + 8 ..][0..2], .little);
+    const entry_count = std.mem.readInt(u16, zip_data[end_pos + 10 ..][0..2], .little);
+    if (disk_entries != entry_count) return error.InvalidZip;
+    const directory_size = std.mem.readInt(u32, zip_data[end_pos + 12 ..][0..4], .little);
+    const directory_offset = std.mem.readInt(u32, zip_data[end_pos + 16 ..][0..4], .little);
+    if (std.mem.readInt(u16, zip_data[end_pos + 20 ..][0..2], .little) != 0) return error.InvalidZip;
+    const directory_start: usize = directory_offset;
+    const directory_end = std.math.add(usize, directory_start, @as(usize, directory_size)) catch return error.InvalidZip;
+    if (directory_end != end_pos) return error.InvalidZip;
+    return .{
+        .entry_count = entry_count,
+        .directory_start = directory_start,
+        .directory_end = directory_end,
+    };
+}
+
+fn findStoredZipPayload(
+    allocator: std.mem.Allocator,
+    zip_data: []const u8,
+    required_entry: []const u8,
+    payload_name: []const u8,
+) !ZipPayload {
+    const end = try zipEnd(zip_data);
+    var locals = std.ArrayList(LocalZipEntry).init(allocator);
+    defer locals.deinit();
+    try locals.ensureTotalCapacity(end.entry_count);
+
+    var saw_required = false;
+    var payload: ?ZipPayload = null;
+    var pos: usize = 0;
+    while (pos < end.directory_start) {
+        if (end.directory_start - pos < 30) return error.InvalidZip;
+        if (std.mem.readInt(u32, zip_data[pos..][0..4], .little) != 0x04034B50) return error.InvalidZip;
+        const flags = std.mem.readInt(u16, zip_data[pos + 6 ..][0..2], .little);
+        const method = std.mem.readInt(u16, zip_data[pos + 8 ..][0..2], .little);
+        const expected_crc = std.mem.readInt(u32, zip_data[pos + 14 ..][0..4], .little);
+        const compressed_len = std.mem.readInt(u32, zip_data[pos + 18 ..][0..4], .little);
+        const uncompressed_len = std.mem.readInt(u32, zip_data[pos + 22 ..][0..4], .little);
+        const name_len = std.mem.readInt(u16, zip_data[pos + 26 ..][0..2], .little);
+        const extra_len = std.mem.readInt(u16, zip_data[pos + 28 ..][0..2], .little);
+        if (flags != 0) return error.InvalidZip;
+        if (method != 0) return error.UnsupportedCompression;
+        if (compressed_len != uncompressed_len) return error.InvalidZip;
+
+        const name_start = pos + 30;
+        const name_end = std.math.add(usize, name_start, name_len) catch return error.InvalidZip;
+        const data_start = std.math.add(usize, name_end, extra_len) catch return error.InvalidZip;
+        const data_len: usize = compressed_len;
+        const data_end = std.math.add(usize, data_start, data_len) catch return error.InvalidZip;
+        if (data_end > end.directory_start) return error.InvalidZip;
+        if (std.hash.Crc32.hash(zip_data[data_start..data_end]) != expected_crc) return error.BadChecksum;
+
+        const entry: LocalZipEntry = .{
+            .offset = try checkedU32(pos),
+            .name = zip_data[name_start..name_end],
+            .data_start = data_start,
+            .data_len = data_len,
+            .crc = expected_crc,
+        };
+        try locals.append(entry);
+        if (std.mem.eql(u8, entry.name, required_entry)) {
+            if (saw_required) return error.InvalidZip;
+            saw_required = true;
+        }
+        if (std.mem.eql(u8, entry.name, payload_name)) {
+            if (payload != null) return error.InvalidZip;
+            payload = .{ .start = data_start, .len = data_len };
+        }
+        pos = data_end;
+    }
+    if (locals.items.len != end.entry_count) return error.InvalidZip;
+
+    pos = end.directory_start;
+    for (0..end.entry_count) |_| {
+        if (end.directory_end - pos < 46) return error.InvalidZip;
+        if (std.mem.readInt(u32, zip_data[pos..][0..4], .little) != 0x02014B50) return error.InvalidZip;
+        const flags = std.mem.readInt(u16, zip_data[pos + 8 ..][0..2], .little);
+        const method = std.mem.readInt(u16, zip_data[pos + 10 ..][0..2], .little);
+        const expected_crc = std.mem.readInt(u32, zip_data[pos + 16 ..][0..4], .little);
+        const compressed_len = std.mem.readInt(u32, zip_data[pos + 20 ..][0..4], .little);
+        const uncompressed_len = std.mem.readInt(u32, zip_data[pos + 24 ..][0..4], .little);
+        const name_len = std.mem.readInt(u16, zip_data[pos + 28 ..][0..2], .little);
+        const extra_len = std.mem.readInt(u16, zip_data[pos + 30 ..][0..2], .little);
+        const comment_len = std.mem.readInt(u16, zip_data[pos + 32 ..][0..2], .little);
+        const disk_start = std.mem.readInt(u16, zip_data[pos + 34 ..][0..2], .little);
+        const local_offset = std.mem.readInt(u32, zip_data[pos + 42 ..][0..4], .little);
+        if (flags != 0 or disk_start != 0) return error.InvalidZip;
+        if (method != 0) return error.UnsupportedCompression;
+        if (compressed_len != uncompressed_len) return error.InvalidZip;
+
+        const name_start = pos + 46;
+        const name_end = std.math.add(usize, name_start, name_len) catch return error.InvalidZip;
+        const next_pos = std.math.add(usize, std.math.add(usize, name_end, extra_len) catch return error.InvalidZip, comment_len) catch return error.InvalidZip;
+        if (next_pos > end.directory_end) return error.InvalidZip;
+
+        var matched = false;
+        for (locals.items) |*entry| {
+            if (entry.offset != local_offset) continue;
+            if (entry.matched) return error.InvalidZip;
+            if (!std.mem.eql(u8, entry.name, zip_data[name_start..name_end])) return error.InvalidZip;
+            if (entry.data_len != compressed_len or entry.crc != expected_crc) return error.InvalidZip;
+            entry.matched = true;
+            matched = true;
+            break;
+        }
+        if (!matched) return error.InvalidZip;
+        pos = next_pos;
+    }
+    if (pos != end.directory_end) return error.InvalidZip;
+    for (locals.items) |entry| {
+        if (!entry.matched) return error.InvalidZip;
+    }
+
+    if (!saw_required) return error.MissingContainerEntry;
+    return payload orelse error.NoPayload;
+}
+
 /// Encode data as an executable JAR container.
 /// A JAR is a ZIP file with a META-INF/MANIFEST.MF entry.
-/// The output is a valid ZIP structure: local file header + manifest data + data + central directory + end record.
 pub fn encodeJAR(allocator: std.mem.Allocator, data: []const u8, main_class: []const u8) ![]u8 {
+    if (main_class.len == 0 or std.mem.indexOfAny(u8, main_class, "\r\n") != null) return error.InvalidMainClass;
+    _ = try checkedU32(data.len);
+
     var out = std.ArrayList(u8).init(allocator);
     errdefer out.deinit();
 
-    // Local file header for META-INF/MANIFEST.MF
-    try out.appendSlice("PK\x03\x04"); // Local file header signature
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 }); // Version needed (2.0)
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // General purpose bit flag
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Compression method (stored)
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 }); // Last mod time
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 }); // CRC-32 (0 for simplicity)
-    const manifest_len: u32 = @intCast(JAR_MANIFEST_HEADER.len + main_class.len + 1);
-    try out.appendSlice(&[_]u8{ @truncate(manifest_len), @truncate(manifest_len >> 8), @truncate(manifest_len >> 16), @truncate(manifest_len >> 24) }); // Compressed size
-    try out.appendSlice(&[_]u8{ @truncate(manifest_len), @truncate(manifest_len >> 8), @truncate(manifest_len >> 16), @truncate(manifest_len >> 24) }); // Uncompressed size
-    const manifest_name_len: u16 = @intCast(JAR_MANIFEST_HEADER.len);
-    try out.appendSlice(&[_]u8{ @truncate(manifest_name_len), @truncate(manifest_name_len >> 8) }); // Filename length
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Extra field length
-    try out.appendSlice(JAR_MANIFEST_HEADER);
-    try out.appendSlice(main_class);
-    try out.append('\n');
+    const manifest = try std.fmt.allocPrint(allocator, "{s}{s}\n\n", .{ JAR_MANIFEST_HEADER, main_class });
+    defer allocator.free(manifest);
 
-    // Local file header for the payload data
-    const data_offset = out.items.len;
-    try out.appendSlice("PK\x03\x04");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    const data_len: u32 = @intCast(data.len);
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ 0x07, 0x00 }); // "Main.cl" = 7 bytes
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice("Main.cl");
-    try out.appendSlice(data);
+    var entries: [2]struct { name: []const u8, body: []const u8, offset: u32 } = undefined;
+    entries[0] = .{ .name = JAR_MANIFEST_NAME, .body = manifest, .offset = try appendStoredZipEntry(&out, JAR_MANIFEST_NAME, manifest) };
+    entries[1] = .{ .name = "Main.cl", .body = data, .offset = try appendStoredZipEntry(&out, "Main.cl", data) };
 
-    // Central directory entries
     const cd_start = out.items.len;
-    // CD entry for manifest
-    try out.appendSlice("PK\x01\x02");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 }); // Version made by
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 }); // Version needed
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Flags
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Method
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 }); // Mod time
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 }); // CRC
-    try out.appendSlice(&[_]u8{ @truncate(manifest_len), @truncate(manifest_len >> 8), @truncate(manifest_len >> 16), @truncate(manifest_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(manifest_len), @truncate(manifest_len >> 8), @truncate(manifest_len >> 16), @truncate(manifest_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(manifest_name_len), @truncate(manifest_name_len >> 8) });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Extra
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Comment
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Disk start
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Internal attrs
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 }); // External attrs
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 }); // Local header offset = 0
-    try out.appendSlice(JAR_MANIFEST_HEADER);
-    try out.appendSlice(main_class);
-    try out.append('\n');
-
-    // CD entry for data
-    try out.appendSlice("PK\x01\x02");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ 0x07, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    const data_offset_u32: u32 = @intCast(data_offset);
-    try out.appendSlice(&[_]u8{ @truncate(data_offset_u32), @truncate(data_offset_u32 >> 8), @truncate(data_offset_u32 >> 16), @truncate(data_offset_u32 >> 24) });
-    try out.appendSlice("Main.cl");
-    try out.appendSlice(data);
-
-    const cd_size = out.items.len - cd_start;
-
-    // End of central directory record
-    try out.appendSlice("PK\x05\x06");
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Disk number
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Disk with CD
-    try out.appendSlice(&[_]u8{ 0x02, 0x00 }); // Entries on this disk (2)
-    try out.appendSlice(&[_]u8{ 0x02, 0x00 }); // Total entries (2)
-    const cd_size_u16: u16 = @intCast(cd_size);
-    try out.appendSlice(&[_]u8{ @truncate(cd_size_u16), @truncate(cd_size_u16 >> 8) }); // CD size
-    const cd_start_u16: u16 = @intCast(cd_start);
-    try out.appendSlice(&[_]u8{ @truncate(cd_start_u16), @truncate(cd_start_u16 >> 8) }); // CD offset
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 }); // Comment length
+    for (entries) |entry| try appendCentralZipEntry(&out, entry.name, entry.body, entry.offset);
+    try appendZipEnd(&out, @intCast(entries.len), out.items.len - cd_start, cd_start);
 
     return out.toOwnedSlice();
 }
@@ -195,87 +362,35 @@ pub fn encodeJAR(allocator: std.mem.Allocator, data: []const u8, main_class: []c
 /// Encode data as an executable Python .pyz (zipapp) container.
 /// A PYZ is a ZIP file with a __main__.py entry point.
 pub fn encodePYZ(allocator: std.mem.Allocator, data: []const u8, python_preamble: []const u8) ![]u8 {
+    _ = try checkedU32(data.len);
+    _ = try checkedU32(python_preamble.len);
+
     var out = std.ArrayList(u8).init(allocator);
     errdefer out.deinit();
 
-    // Local file header for __main__.py
-    const main_content = python_preamble;
-    try out.appendSlice("PK\x03\x04");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    const main_len: u32 = @intCast(main_content.len);
-    try out.appendSlice(&[_]u8{ @truncate(main_len), @truncate(main_len >> 8), @truncate(main_len >> 16), @truncate(main_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(main_len), @truncate(main_len >> 8), @truncate(main_len >> 16), @truncate(main_len >> 24) });
-    try out.appendSlice(&[_]u8{ 0x0B, 0x00 }); // "__main__.py" = 11 bytes
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice("__main__.py");
-    try out.appendSlice(main_content);
+    var entries: [2]struct { name: []const u8, body: []const u8, offset: u32 } = undefined;
+    entries[0] = .{ .name = PYZ_MAIN_NAME, .body = python_preamble, .offset = try appendStoredZipEntry(&out, PYZ_MAIN_NAME, python_preamble) };
+    entries[1] = .{ .name = PYZ_DATA_NAME, .body = data, .offset = try appendStoredZipEntry(&out, PYZ_DATA_NAME, data) };
 
-    // Local file header for payload data
-    const data_offset = out.items.len;
-    try out.appendSlice("PK\x03\x04");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00 });
-    const data_len: u32 = @intCast(data.len);
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ 0x07, 0x00 }); // "data.py" = 7 bytes
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
-    try out.appendSlice("data.py");
-    try out.appendSlice(data);
-
-    // Central directory
     const cd_start = out.items.len;
-    // CD for __main__.py
-    try out.appendSlice("PK\x01\x02");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ @truncate(main_len), @truncate(main_len >> 8), @truncate(main_len >> 16), @truncate(main_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(main_len), @truncate(main_len >> 8), @truncate(main_len >> 16), @truncate(main_len >> 24) });
-    try out.appendSlice(&[_]u8{ 0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice("__main__.py");
-    try out.appendSlice(main_content);
-
-    // CD for data.py
-    try out.appendSlice("PK\x01\x02");
-    try out.appendSlice(&[_]u8{ 0x14, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ @truncate(data_len), @truncate(data_len >> 8), @truncate(data_len >> 16), @truncate(data_len >> 24) });
-    try out.appendSlice(&[_]u8{ 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-    const data_offset_u32: u32 = @intCast(data_offset);
-    try out.appendSlice(&[_]u8{ @truncate(data_offset_u32), @truncate(data_offset_u32 >> 8), @truncate(data_offset_u32 >> 16), @truncate(data_offset_u32 >> 24) });
-    try out.appendSlice("data.py");
-    try out.appendSlice(data);
-
-    const cd_size = out.items.len - cd_start;
-
-    // End of central directory
-    try out.appendSlice("PK\x05\x06");
-    try out.appendSlice(&[_]u8{ 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02, 0x00 });
-    const cd_size_u16: u16 = @intCast(cd_size);
-    try out.appendSlice(&[_]u8{ @truncate(cd_size_u16), @truncate(cd_size_u16 >> 8) });
-    const cd_start_u16: u16 = @intCast(cd_start);
-    try out.appendSlice(&[_]u8{ @truncate(cd_start_u16), @truncate(cd_start_u16 >> 8) });
-    try out.appendSlice(&[_]u8{ 0x00, 0x00 });
+    for (entries) |entry| try appendCentralZipEntry(&out, entry.name, entry.body, entry.offset);
+    try appendZipEnd(&out, @intCast(entries.len), out.items.len - cd_start, cd_start);
 
     return out.toOwnedSlice();
+}
+
+fn zipContainerMatches(zip_data: []const u8, required_entry: []const u8, payload_name: []const u8) bool {
+    _ = findStoredZipPayload(std.heap.page_allocator, zip_data, required_entry, payload_name) catch return false;
+    return true;
 }
 
 /// Detect the format of a polyglot file by checking magic bytes.
 pub fn detectFormat(data: []const u8) ?Format {
     if (data.len < 4) return null;
 
-    // Check ZIP-based formats (JAR, PYZ, ZIP all start with PK\x03\x04)
     if (std.mem.startsWith(u8, data, "PK\x03\x04")) {
-        // Look for __main__.py to identify PYZ
-        if (std.mem.indexOf(u8, data, "__main__.py") != null) return .pyz;
-        // Look for META-INF/MANIFEST.MF to identify JAR
-        if (std.mem.indexOf(u8, data, "META-INF/MANIFEST.MF") != null) return .jar;
+        if (zipContainerMatches(data, PYZ_MAIN_NAME, PYZ_DATA_NAME)) return .pyz;
+        if (zipContainerMatches(data, JAR_MANIFEST_NAME, "Main.cl")) return .jar;
         return .zip;
     }
     if (std.mem.startsWith(u8, data, "\x89PNG")) return .png;
@@ -287,37 +402,23 @@ pub fn detectFormat(data: []const u8) ?Format {
 }
 
 /// Extract payload data from a JAR container.
-/// Finds the data after the manifest entry.
 pub fn decodeJAR(allocator: std.mem.Allocator, jar_data: []const u8) ![]u8 {
     if (!std.mem.startsWith(u8, jar_data, "PK\x03\x04")) return error.NotJAR;
-    // Find Main.cl entry in the data
-    const idx = std.mem.indexOf(u8, jar_data, "Main.cl") orelse return error.NoPayload;
-    // Data starts after the filename (7 bytes) — extra field length is 0
-    const data_start = idx + 7;
-    if (data_start >= jar_data.len) return error.NoPayload;
-
-    // Find the end of data — look for the central directory signature
-    const cd_idx = std.mem.indexOf(u8, jar_data[data_start..], "PK\x01\x02") orelse return error.NoPayload;
-    const data_end = data_start + cd_idx;
-
-    return try allocator.dupe(u8, jar_data[data_start..data_end]);
+    const payload = findStoredZipPayload(allocator, jar_data, JAR_MANIFEST_NAME, "Main.cl") catch |err| switch (err) {
+        error.InvalidZip, error.UnsupportedCompression, error.MissingContainerEntry, error.NoPayload, error.BadChecksum => return error.InvalidJAR,
+        else => return err,
+    };
+    return try allocator.dupe(u8, jar_data[payload.start .. payload.start + payload.len]);
 }
 
 /// Extract payload data from a PYZ container.
-/// Finds the data after the __main__.py entry.
 pub fn decodePYZ(allocator: std.mem.Allocator, pyz_data: []const u8) ![]u8 {
     if (!std.mem.startsWith(u8, pyz_data, "PK\x03\x04")) return error.NotPYZ;
-    // Find data.py entry
-    const idx = std.mem.indexOf(u8, pyz_data, "data.py") orelse return error.NoPayload;
-    // Data starts after the filename (7 bytes) — extra field length is 0
-    const data_start = idx + 7;
-    if (data_start >= pyz_data.len) return error.NoPayload;
-
-    // Find the end of data — look for the central directory signature
-    const cd_idx = std.mem.indexOf(u8, pyz_data[data_start..], "PK\x01\x02") orelse return error.NoPayload;
-    const data_end = data_start + cd_idx;
-
-    return try allocator.dupe(u8, pyz_data[data_start..data_end]);
+    const payload = findStoredZipPayload(allocator, pyz_data, PYZ_MAIN_NAME, PYZ_DATA_NAME) catch |err| switch (err) {
+        error.InvalidZip, error.UnsupportedCompression, error.MissingContainerEntry, error.NoPayload, error.BadChecksum => return error.InvalidPYZ,
+        else => return err,
+    };
+    return try allocator.dupe(u8, pyz_data[payload.start .. payload.start + payload.len]);
 }
 
 // Tests

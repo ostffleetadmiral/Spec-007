@@ -54,17 +54,21 @@ pub fn shamirSplit(allocator: std.mem.Allocator, data: []const u8, n: u8, t: u8)
     if (n == 0) return error.InvalidShareCount;
 
     var shares = try allocator.alloc(Share, n);
-    errdefer allocator.free(shares);
+    var filled: usize = 0;
+    errdefer {
+        for (shares[0..filled]) |s| allocator.free(s.y);
+        allocator.free(shares);
+    }
 
-    for (1..n + 1) |i| {
+    for (1..@as(usize, n) + 1) |i| {
         shares[i - 1] = .{
             .x = @intCast(i),
             .y = try allocator.alloc(u8, data.len),
         };
+        filled += 1;
     }
 
-    var rng = std.Random.DefaultPrng.init(42);
-    const random = rng.random();
+    const random = std.crypto.random;
 
     for (data, 0..) |byte, byte_idx| {
         var coeffs = try allocator.alloc(u8, t);
@@ -145,7 +149,7 @@ pub fn encode(allocator: std.mem.Allocator, data: []const u8) ![]u8 {
 
 /// Decodes concatenated shares back to original data.
 pub fn decode(allocator: std.mem.Allocator, encoded: []const u8) ![]u8 {
-    if (encoded.len < 6) return error.TooShort;
+    if (encoded.len < 3) return error.TooShort;
     const share_total = encoded.len / 3;
     const share_len = share_total - 1;
     if (encoded.len != 3 * share_total) return error.InvalidEncoding;

@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 45
+    "completed_full_retrograde": 46
   },
   "components": [
     {
@@ -3658,8 +3658,8 @@
       "workstream": "qstar-donor",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "01a19372c5adb7ad889a9ddb4c89f3d5d94e6b36132bbf1cf84e7d931dbde629",
-        "bytes": 2101,
+        "sha256": "7b27340dad92352eb1184c147502b83a4656b97b540945a87336f1e8f85030b6",
+        "bytes": 2319,
         "lines": 59,
         "imports": [
           "transport_lora",
@@ -3711,8 +3711,8 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "c91d7d136a62c69b23662ba810878c2c157ea9b1e0d1f7f456b5bc6dce39b88f",
-        "bytes": 23606,
+        "sha256": "ec9f6e35435869b778804780c006e058f7cb202c94cd89f6b9f3018d6de28ea8",
+        "bytes": 23643,
         "lines": 696,
         "imports": [
           "std",
@@ -3758,9 +3758,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "85fec737edf13beec2d82b5a91c04d2e84fb1686862f41a8abb5b40f0049e8a9",
-        "bytes": 4372,
-        "lines": 165,
+        "sha256": "d2e2e7a057691dcde13e1b34a4d17b2a39ad360892fb3d5d4b4dd91a3e34b5e8",
+        "bytes": 4495,
+        "lines": 152,
         "imports": [
           "std"
         ],
@@ -3803,9 +3803,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "aef5dbd5ba807c6c073ad1ed1a9c4d43597fb7b1f7f223ebea87bd813e9e7181",
-        "bytes": 5782,
-        "lines": 170,
+        "sha256": "2dd590b83bb591f41ef2b06656f7b41e0a7d0283d8ddf292a6c5718c24775315",
+        "bytes": 6884,
+        "lines": 184,
         "imports": [
           "std"
         ],
@@ -3892,9 +3892,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "c215a9c9e834118ff10a3274fed39e0509f7733eea4035186ab7eebe7aedbc82",
-        "bytes": 27823,
-        "lines": 835,
+        "sha256": "a12a083c076a1ceed9c570a5aeff05649ec88298d1009a8852ce47e42e2924f0",
+        "bytes": 28358,
+        "lines": 847,
         "imports": [
           "std"
         ],
@@ -3940,9 +3940,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "94ea74f09a75f4b910365e8701f92f64a0593368517ed7e172d2f2373fd068b8",
-        "bytes": 6416,
-        "lines": 205,
+        "sha256": "77cd52e0d6f21854fb9bd56885d8fe62f016d23489f94664355ea324b52a97c0",
+        "bytes": 7086,
+        "lines": 218,
         "imports": [
           "std"
         ],
@@ -3952,7 +3952,7 @@
           "src/spec008_qstar_carriage.zig"
         ],
         "todo_markers": 0,
-        "public_surface": 14
+        "public_surface": 15
       },
       "contract": {
         "mapped": true,
@@ -4029,9 +4029,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "6476af5d5e8dc67a622b5c6f12d4be2165b98a441a92bb9740031ce8ea7a7aaa",
-        "bytes": 7246,
-        "lines": 245,
+        "sha256": "c1382addb7f00927a71e36ac51c8ed9afebd41fc7bb3d4ce744c270d1add8249",
+        "bytes": 7337,
+        "lines": 249,
         "imports": [
           "std"
         ],
@@ -4076,9 +4076,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "b71a624e1a0ccde2fa71ef5ac92c61e8cab44e743430104865d28b71652c1460",
-        "bytes": 24249,
-        "lines": 573,
+        "sha256": "701d01c8dcca7035ab2609aac2cd7c930ef8c9f035dabbb1462a79562b0622e6",
+        "bytes": 25685,
+        "lines": 674,
         "imports": [
           "std"
         ],
@@ -4089,7 +4089,7 @@
           "src/spec008_qstar_carriage.zig"
         ],
         "todo_markers": 0,
-        "public_surface": 14
+        "public_surface": 17
       },
       "contract": {
         "mapped": true,
@@ -4213,9 +4213,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "19ffbeb27d171862eb3b40b6f067ba26e6bef99cb8c69d71ed798a69db1929d6",
-        "bytes": 5268,
-        "lines": 165,
+        "sha256": "7e1dcfd004600fac30fc970ecc1c48b886c923aff25ba5b27e688980cb24a9a9",
+        "bytes": 5980,
+        "lines": 173,
         "imports": [
           "std"
         ],
@@ -4225,7 +4225,7 @@
           "src/spec008_qstar_carriage.zig"
         ],
         "todo_markers": 0,
-        "public_surface": 7
+        "public_surface": 8
       },
       "contract": {
         "mapped": true,
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "c0cc56584bfb248de12176d41b032161c76aad26786850a584bf0f38b4497484",
+        "sha256": "919b3d14fba19143f24fcd9890566e7b7644ee109cb7d7d1c660d71fa8a403c5",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "f699c52dc6b100393ea6df4697ff2b17effd990cb4ee151f479e0b4cb544909b",
+        "sha256": "d14013af6745e4b8adbc86a794fcc30c016c2bfad625a4fcf33a91c288b4f1bd",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11088,9 +11088,9 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "96522620b512508232afc70940d4052442307f471395e2a5348773062622d512",
-        "bytes": 11348,
-        "lines": 289,
+        "sha256": "345969f80dafb11c6fd2e11d2a892267b2a26dae3ce5eedd2c0f1d61c5f34eef",
+        "bytes": 17518,
+        "lines": 429,
         "imports": [
           "maypole_bridge",
           "std",
@@ -11116,7 +11116,8 @@
           "deps/qstar-transport/src/transport_stega.zig",
           "deps/qstar-transport/src/transport_wifi.zig",
           "security/superpowers-audit.mjs",
-          "security/team-sweep-2.mjs"
+          "security/team-sweep-2.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -11131,7 +11132,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 12,
+        "test_blocks": 19,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11142,9 +11143,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-qstar-carriage-boundaries-20261014",
+        "decision": "multi-medium-transport-boundaries"
       }
     },
     {
@@ -12073,9 +12074,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "4015ae0588167c1c0a92b974d040399a3db6a6b1b8a7bededab358445cfac274",
-        "bytes": 17177,
-        "lines": 421,
+        "sha256": "b98281a5acd5fdfd3f1666d0465525a5704b6c5d8bd17cd26cdd5093dab21951",
+        "bytes": 17332,
+        "lines": 425,
         "imports": [
           "node:crypto",
           "node:fs",

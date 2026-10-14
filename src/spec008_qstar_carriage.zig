@@ -13,6 +13,14 @@
 //     printed artifact is itself threshold-resilient.
 //   * LORA_MTU = 255 bytes: the 136B envelope fits one LoRa frame; larger
 //     desk tokens must fragment (tested honestly below — oversize refuses).
+//   * OPTAR, cassette, and LoRa wire streams are exact-length: truncation
+//     and trailing bytes are refused rather than silently ignored.
+//   * Stega carries a u32 length header over real cover bits; forged counts
+//     refuse before allocation, and an empty payload round-trips.
+//   * Audio parity is detection-only at this boundary: a canonical parity
+//     mismatch refuses instead of emitting damaged bytes.
+//   * JAR/PYZ containers are stored-entry ZIPs with CRC-32 checked on
+//     decode; generic .jar/.pyz calls use the real container path.
 // Integer-only: all payloads are u8 slices; no float enters the wire.
 
 const std = @import("std");
@@ -61,12 +69,54 @@ test "carriage: OPTAR optical page carries the envelope byte-exact" {
     try std.testing.expectEqualSlices(u8, &pkt, dec);
 }
 
+test "carriage: OPTAR refuses non-canonical page lengths" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+    const enc = try optar.encode(a, &pkt);
+    defer a.free(enc);
+    try std.testing.expectError(error.InvalidEncodedLength, optar.decode(a, enc[0 .. enc.len - 1], pkt.len));
+    const longer = try a.alloc(u8, enc.len + 1);
+    defer a.free(longer);
+    @memcpy(longer[0..enc.len], enc);
+    longer[enc.len] = 0xA5;
+    try std.testing.expectError(error.InvalidEncodedLength, optar.decode(a, longer, pkt.len));
+}
+
+test "carriage: audio parity refuses a corrupted codeword" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+    const enc = try audio.encode(a, &pkt);
+    defer a.free(enc);
+    enc[enc.len - 1] ^= 0x5A;
+    try std.testing.expectError(error.UncorrectableData, audio.decode(a, enc));
+}
+
 test "carriage: audio channel carries the envelope byte-exact" {
     try expectRoundTrip(std.testing.allocator, audio.encode, audio.decode, &testPacket());
 }
 
 test "carriage: cassette channel carries the envelope byte-exact" {
     try expectRoundTrip(std.testing.allocator, cassette.encode, cassette.decode, &testPacket());
+}
+
+test "carriage: cassette refuses forged or partial WAV extents" {
+    const a = std.testing.allocator;
+    const pkt = testPacket();
+    const enc = try cassette.encode(a, &pkt);
+    defer a.free(enc);
+
+    try std.testing.expectError(error.InvalidWav, cassette.decode(a, enc[0 .. enc.len - 2]));
+
+    var forged = try a.dupe(u8, enc);
+    defer a.free(forged);
+    std.mem.writeInt(u32, forged[40..44], @intCast(forged.len - 44 + 2), .little);
+    try std.testing.expectError(error.InvalidWav, cassette.decode(a, forged));
+
+    var misaligned = try a.dupe(u8, enc);
+    defer a.free(misaligned);
+    std.mem.writeInt(u32, misaligned[40..44], 2, .little);
+    std.mem.writeInt(u32, misaligned[4..8], 38, .little);
+    try std.testing.expectError(error.InvalidWav, cassette.decode(a, misaligned[0..46]));
 }
 
 test "carriage: paperback pages are 2-of-3 Shamir — survive a lost share" {
@@ -110,6 +160,25 @@ test "carriage: steganographic cover carries the envelope byte-exact" {
     try std.testing.expectEqualSlices(u8, &pkt, dec);
 }
 
+test "carriage: stega bounds the declared payload and round-trips empty" {
+    const a = std.testing.allocator;
+
+    var empty_cover = [_]u8{0x80} ** 66;
+    const empty = try stega.encode(a, "", &empty_cover);
+    defer a.free(empty);
+    const empty_dec = try stega.decode(a, empty);
+    defer a.free(empty_dec);
+    try std.testing.expectEqual(@as(usize, 0), empty_dec.len);
+
+    var cover = [_]u8{0x40} ** 96;
+    const encoded = try stega.encode(a, "ab", &cover);
+    defer a.free(encoded);
+    var forged = try a.dupe(u8, encoded);
+    defer a.free(forged);
+    for (32..64) |i| forged[i] = 0xFF; // declared len = 0xFFFFFFFF
+    try std.testing.expectError(error.InvalidDataLength, stega.decode(a, forged));
+}
+
 test "carriage: polyglot JAR container round-trips a desk-token artifact" {
     const a = std.testing.allocator;
     // A FANO-DESK-v1 / FANO-ROOT-v1 token is ~1-2 KB — exercise a real size.
@@ -117,6 +186,7 @@ test "carriage: polyglot JAR container round-trips a desk-token artifact" {
     for (&token, 0..) |*b, i| b.* = @truncate(i *% 89 +% 33);
     const enc = try poly.encode(a, &token, .jar);
     defer a.free(enc);
+    try std.testing.expectEqual(poly.Format.jar, poly.detectFormat(enc).?);
     const dec = try poly.decode(a, enc, .jar);
     defer a.free(dec);
     try std.testing.expectEqualSlices(u8, &token, dec);
@@ -151,6 +221,48 @@ test "carriage: LoRa frame carries the envelope; oversize refuses honestly" {
         .payload = &big,
     };
     try std.testing.expectError(error.PayloadTooLarge, lora.encodePacket(a, oversize));
+
+    const trailing = try a.alloc(u8, enc.len + 1);
+    defer a.free(trailing);
+    @memcpy(trailing[0..enc.len], enc);
+    trailing[enc.len] = 0x42;
+    try std.testing.expect((try lora.decodePacket(a, trailing)) == null);
+}
+
+test "carriage: polyglot ZIP parser checks CRC, directory, and payload markers" {
+    const a = std.testing.allocator;
+    const marker_payload = "before PK\x01\x02 and __main__.py after";
+    const enc = try poly.encodeJAR(a, marker_payload, "Main");
+    defer a.free(enc);
+    const dec = try poly.decodeJAR(a, enc);
+    defer a.free(dec);
+    try std.testing.expectEqualStrings(marker_payload, dec);
+    try std.testing.expectEqual(poly.Format.jar, poly.detectFormat(enc).?);
+
+    const forged = try a.dupe(u8, enc);
+    defer a.free(forged);
+    const payload_name = std.mem.indexOf(u8, forged, "Main.cl").?;
+    forged[payload_name + 7] ^= 0x5A;
+    try std.testing.expectError(error.InvalidJAR, poly.decodeJAR(a, forged));
+
+    try std.testing.expectError(error.InvalidJAR, poly.decodeJAR(a, enc[0 .. enc.len - 1]));
+    const trailing = try a.alloc(u8, enc.len + 1);
+    defer a.free(trailing);
+    @memcpy(trailing[0..enc.len], enc);
+    trailing[enc.len] = 0;
+    try std.testing.expectError(error.InvalidJAR, poly.decodeJAR(a, trailing));
+
+    var forged_offset = try a.dupe(u8, enc);
+    defer a.free(forged_offset);
+    const central_name = std.mem.lastIndexOf(u8, forged_offset, "Main.cl").?;
+    std.mem.writeInt(u32, forged_offset[central_name - 46 + 42 ..][0..4], 0, .little);
+    try std.testing.expectError(error.InvalidJAR, poly.decodeJAR(a, forged_offset));
+    try std.testing.expectEqual(poly.Format.zip, poly.detectFormat(forged_offset).?);
+
+    const pyz = try poly.encodePYZ(a, "META-INF/MANIFEST.MF in payload bytes", "import sys\n");
+    defer a.free(pyz);
+    try std.testing.expectEqual(poly.Format.pyz, poly.detectFormat(pyz).?);
+    try std.testing.expectError(error.InvalidJAR, poly.decodeJAR(a, pyz));
 }
 
 test "carriage: paperback decode refuses crafted share containers" {
@@ -179,6 +291,16 @@ test "carriage: paperback decode refuses crafted share containers" {
         .{ .x = 2, .y = @constCast("abc") },
     };
     try std.testing.expectError(error.MismatchedShares, paper.shamirReconstruct(a, &sh));
+}
+
+test "carriage: paperback empty payload has the canonical 3-share shell" {
+    const a = std.testing.allocator;
+    const enc = try paper.encode(a, "");
+    defer a.free(enc);
+    try std.testing.expectEqual(@as(usize, 3), enc.len);
+    const dec = try paper.decode(a, enc);
+    defer a.free(dec);
+    try std.testing.expectEqual(@as(usize, 0), dec.len);
 }
 
 test "carriage: paperback decode frees cleanly on the OOM path" {
@@ -285,4 +407,22 @@ test "carriage: maypole bridge forwards WiFi->LoRa->WiFi byte-exact" {
     const stray = try edge.wifiToLoRa(&pkt, 0x0000_0003);
     defer a.free(stray);
     try std.testing.expectError(error.NotForUs, field.loRaToWiFi(stray));
+}
+
+test "carriage: maypole credential indexes stay live under priority sort and removal" {
+    const a = std.testing.allocator;
+    var bridge = maypole.MaypoleBridge.init(a, 7);
+    defer bridge.deinit();
+
+    const low = try bridge.addWiFi("low", "pass", 9);
+    const high = try bridge.addWiFi("high", "pass", 1);
+    try std.testing.expectEqual(@as(u8, 0), low);
+    try std.testing.expectEqual(@as(u8, 0), high);
+    try std.testing.expectEqualStrings("high", bridge.wifi_config.nextToTry().?.getSsid());
+    try std.testing.expectEqualStrings("low", bridge.wifi_config.credentials[1].?.getSsid());
+
+    bridge.wifi_config.markConnected(high);
+    bridge.removeWiFi(high);
+    try std.testing.expect(bridge.wifi_config.getConnected() == null);
+    try std.testing.expectEqualStrings("low", bridge.wifi_config.nextToTry().?.getSsid());
 }

@@ -197,6 +197,10 @@ const FULL_RETROGRADE = new Map([
     decision: "exact-archive-persistence-boundaries",
     archive: "spec008-qstar-archive-vfs-boundaries-20261014",
   }],
+  ["src/spec008_qstar_carriage.zig", {
+    decision: "multi-medium-transport-boundaries",
+    archive: "spec008-qstar-carriage-boundaries-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

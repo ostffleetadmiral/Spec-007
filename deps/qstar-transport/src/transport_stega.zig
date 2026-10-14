@@ -1,19 +1,25 @@
-//! transport_stega.zig — LSB steganography transport with AES-GCM.
+//! transport_stega.zig — LSB steganography transport.
 //!
 //! Extracted from StegaShare (#11).
-//! LSB bit replacement in pixel channels, AES-GCM encryption, PNG container.
+//! LSB bit replacement in pixel channels. This boundary carries bytes only;
+//! confidentiality belongs to the sealed payload, not this module.
 
 const std = @import("std");
 
 pub const PIXEL_BYTES: usize = 3;
+pub const HEADER_BITS: usize = 64;
 pub const HEADER_MAGIC: [4]u8 = .{ 'S', 'T', 'G', '1' };
 
 /// Embeds data into image pixels using LSB steganography.
 /// Format: [magic 4B][data_len 4B][data bytes LSB-encoded in pixels]
 pub fn encode(allocator: std.mem.Allocator, data: []const u8, pixels: []u8) ![]u8 {
-    const total_bits = data.len * 8 + 64;
-    const required_pixels = (total_bits + PIXEL_BYTES - 1) / PIXEL_BYTES;
-    if (pixels.len < required_pixels * PIXEL_BYTES) return error.ImageTooSmall;
+    if (data.len > std.math.maxInt(u32)) return error.PayloadTooLarge;
+    const data_bits = std.math.mul(usize, data.len, 8) catch return error.PayloadTooLarge;
+    const total_bits = std.math.add(usize, data_bits, HEADER_BITS) catch return error.PayloadTooLarge;
+    const padded_bits = std.math.add(usize, total_bits, PIXEL_BYTES - 1) catch return error.PayloadTooLarge;
+    const required_pixels = padded_bits / PIXEL_BYTES;
+    const required_bytes = std.math.mul(usize, required_pixels, PIXEL_BYTES) catch return error.PayloadTooLarge;
+    if (pixels.len < required_bytes) return error.ImageTooSmall;
 
     const out = try allocator.dupe(u8, pixels);
     errdefer allocator.free(out);
@@ -56,7 +62,7 @@ pub fn encode(allocator: std.mem.Allocator, data: []const u8, pixels: []u8) ![]u
 
 /// Extracts data from stego image pixels.
 pub fn decode(allocator: std.mem.Allocator, pixels: []const u8) ![]u8 {
-    if (pixels.len < 8 * PIXEL_BYTES) return error.ImageTooSmall;
+    if (pixels.len < HEADER_BITS) return error.ImageTooSmall;
 
     var bit_idx: usize = 0;
     var magic: [4]u8 = undefined;
@@ -90,7 +96,8 @@ pub fn decode(allocator: std.mem.Allocator, pixels: []const u8) ![]u8 {
         }
     }
 
-    if (data_len == 0 or data_len > pixels.len) return error.InvalidDataLength;
+    const declared_bits = std.math.mul(usize, @as(usize, data_len), 8) catch return error.InvalidDataLength;
+    if (declared_bits > pixels.len - bit_idx) return error.InvalidDataLength;
 
     const out = try allocator.alloc(u8, data_len);
     errdefer allocator.free(out);
@@ -112,8 +119,9 @@ pub fn decode(allocator: std.mem.Allocator, pixels: []const u8) ![]u8 {
 
 /// Computes the maximum data capacity for a given image size.
 pub fn maxCapacity(pixel_count: usize) usize {
-    if (pixel_count < 24) return 0;
-    return (pixel_count * PIXEL_BYTES - 64) / 8;
+    const cover_bits = std.math.mul(usize, pixel_count, PIXEL_BYTES) catch return std.math.maxInt(usize);
+    if (cover_bits <= HEADER_BITS) return 0;
+    return (cover_bits - HEADER_BITS) / 8;
 }
 
 /// Registry slot weight — one medium occupies one transport slot.

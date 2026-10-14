@@ -86,10 +86,18 @@ pub fn golayDecode(codeword: u32) u16 {
     return @intCast((corrected >> 11) & 0xFFF);
 }
 
+/// Canonical encoded byte count for `data_len` source bytes.
+pub fn encodedLen(data_len: usize) !usize {
+    const bits = std.math.mul(usize, data_len, 8) catch return error.PayloadTooLarge;
+    const padded = std.math.add(usize, bits, GOLAY_K - 1) catch return error.PayloadTooLarge;
+    const codewords = padded / GOLAY_K;
+    return std.math.mul(usize, codewords, 3) catch return error.PayloadTooLarge;
+}
+
 /// Encodes data bytes into Golay-coded dot pattern bytes.
 pub fn encode(allocator: std.mem.Allocator, data: []const u8) ![]u8 {
-    const num_codewords = (data.len * 8 + 11) / 12;
-    var out = try allocator.alloc(u8, num_codewords * 3);
+    const encoded_len = try encodedLen(data.len);
+    var out = try allocator.alloc(u8, encoded_len);
     errdefer allocator.free(out);
 
     var bit_buffer: u32 = 0;
@@ -123,7 +131,12 @@ pub fn encode(allocator: std.mem.Allocator, data: []const u8) ![]u8 {
 }
 
 /// Decodes Golay-coded data back to original bytes.
+/// The stream must be exactly the canonical codeword count for
+/// `original_len`; a short page cannot safely synthesize the missing tail.
 pub fn decode(allocator: std.mem.Allocator, encoded: []const u8, original_len: usize) ![]u8 {
+    const expected_len = try encodedLen(original_len);
+    if (encoded.len != expected_len) return error.InvalidEncodedLength;
+
     var out = try allocator.alloc(u8, original_len);
     errdefer allocator.free(out);
 

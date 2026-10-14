@@ -219,9 +219,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec008_qstar_carriage.zig</code></td>
-<td>The canonical 136-B FANO envelope through every qstar-transport medium: QR, OPTAR, audio, cassette, paperback Shamir, LSB stega, polyglot, LoRa (MTU 255 B), ESP32 WiFi↔LoRa maypole. <code>capacity()</code> is a registry slot — fitness proven by round-trip, oversize refuses.</td>
-<td>12 tests</td>
-<td>—</td>
+<td>The canonical 136-B FANO envelope through every qstar-transport medium: QR, OPTAR, audio, cassette, paperback Shamir, LSB stega, polyglot, LoRa (MTU 255 B), ESP32 WiFi↔LoRa maypole. <code>capacity()</code> is a registry slot — fitness proven by round-trip, oversize refuses. Boundary hardened: exact OPTAR/WAV/LoRa extents, bounded stega length, fail-closed GF parity, randomized/cleaned Shamir shares, CRC- and central-directory-checked JAR/PYZ, and live maypole credential indexes.</td>
+<td>19 tests</td>
+<td>transport boundary hardened</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_escrow.zig</code></td>

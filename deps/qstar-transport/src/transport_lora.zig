@@ -200,7 +200,7 @@ pub fn decodePacket(allocator: std.mem.Allocator, buf: []const u8) !?LoRaPacket 
 
     // Validate payload length
     if (payload_len > LORA_MTU) return null;
-    if (buf.len < HEADER_SIZE + payload_len + 2) return null;
+    if (buf.len != HEADER_SIZE + payload_len + 2) return null;
 
     // Verify CRC
     const crc_pos = HEADER_SIZE + payload_len;
@@ -257,23 +257,33 @@ pub const ReliableDelivery = struct {
         self.pending.deinit();
     }
 
+    fn nextMessageId(self: *ReliableDelivery) !u16 {
+        var scanned: u32 = 0;
+        while (scanned < std.math.maxInt(u16)) : (scanned += 1) {
+            const id = self.next_msg_id;
+            self.next_msg_id +%= 1;
+            if (self.next_msg_id == 0) self.next_msg_id = 1;
+            if (!self.pending.contains(id)) return id;
+        }
+        return error.NoMessageIds;
+    }
+
     /// Send a reliable packet — returns the message ID for tracking.
     pub fn send(self: *ReliableDelivery, packet: LoRaPacket) !u16 {
-        const msg_id = self.next_msg_id;
-        self.next_msg_id +%= 1;
-        if (self.next_msg_id == 0) self.next_msg_id = 1; // Skip 0
+        const msg_id = try self.nextMessageId();
 
         var pkt = packet;
         pkt.msg_id = msg_id;
         pkt.flags |= FLAG_RELIABLE;
 
         const encoded = try encodePacket(self.allocator, pkt);
+        errdefer self.allocator.free(encoded);
 
         try self.pending.put(msg_id, .{
             .msg_id = msg_id,
             .packet = encoded,
             .last_send_ms = self.clock_ms,
-            .next_retry_ms = self.clock_ms + self.ack_timeout_ms,
+            .next_retry_ms = self.clock_ms +% self.ack_timeout_ms,
         });
 
         return msg_id;
@@ -305,8 +315,10 @@ pub const ReliableDelivery = struct {
                     try drop_list.append(pending.msg_id);
                 } else {
                     pending.retries += 1;
-                    const backoff = std.math.shl(u64, self.ack_timeout_ms, pending.retries / 2);
-                    pending.next_retry_ms = self.clock_ms + backoff;
+                    const shift: u6 = @intCast(@min(pending.retries / 2, 63));
+                    const widened = @as(u128, self.ack_timeout_ms) << shift;
+                    const backoff: u64 = if (widened > std.math.maxInt(u64)) std.math.maxInt(u64) else @intCast(widened);
+                    pending.next_retry_ms = self.clock_ms +% backoff;
                     pending.last_send_ms = self.clock_ms;
                     try retry_list.append(pending.msg_id);
                 }
@@ -441,7 +453,7 @@ pub const MeshRelay = struct {
 
         var it = self.seen.iterator();
         while (it.next()) |entry| {
-            if (self.clock_ms - entry.value_ptr.* > self.cache_ttl_ms) {
+            if (self.clock_ms -% entry.value_ptr.* > self.cache_ttl_ms) {
                 to_remove.append(entry.key_ptr.*) catch {};
             }
         }

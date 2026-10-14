@@ -218,9 +218,9 @@
 </tr>
 <tr>
 <td><code>spec008_qstar_carriage.zig</code></td>
-<td>正典 136-B FANO 封包穿越 qstar-transport 全部介質:QR、OPTAR、音訊、卡帶、紙本 Shamir、LSB 隱寫、多語言載體、LoRa(MTU 255 B)、ESP32 WiFi↔LoRa 橋。<code>capacity()</code> 是註冊槽非位元界 — 適配由往返證明,超限拒絕。</td>
-<td>12 測試</td>
-<td>—</td>
+<td>正典 136-B FANO 封包穿越 qstar-transport 全部介質:QR、OPTAR、音訊、卡帶、紙本 Shamir、LSB 隱寫、多語言載體、LoRa(MTU 255 B)、ESP32 WiFi↔LoRa 橋。<code>capacity()</code> 是註冊槽非位元界 — 適配由往返證明,超限拒絕。邊界已硬化:精確 OPTAR/WAV/LoRa 範圍、受界限隱寫長度、故障封閉 GF 同位、隨機且清理完整之 Shamir 分片、CRC 與中央目錄受驗 JAR/PYZ、以及保持即時之 maypole 憑證索引。</td>
+<td>19 測試</td>
+<td>傳輸邊界已硬化</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_escrow.zig</code></td>

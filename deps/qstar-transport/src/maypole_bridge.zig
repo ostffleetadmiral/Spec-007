@@ -89,15 +89,23 @@ pub const WiFiConfig = struct {
     count: u8 = 0,
     connected_index: ?u8 = null,
 
-    /// Add a WiFi credential. Returns the index it was stored at.
+    /// Add a WiFi credential. Returns its live priority-sorted index.
     pub fn add(self: *WiFiConfig, ssid: []const u8, password: []const u8, priority: u8) !u8 {
         if (self.count >= MAX_WIFI_CREDENTIALS) return error.NoSpace;
         const cred = try WiFiCredential.fromSlices(ssid, password, priority);
-        const idx = self.count;
-        self.credentials[idx] = cred;
+
+        var insert_idx: usize = self.count;
+        while (insert_idx > 0 and self.credentials[insert_idx - 1].?.priority > priority) : (insert_idx -= 1) {}
+        var shift = self.count;
+        while (shift > insert_idx) : (shift -= 1) {
+            self.credentials[shift] = self.credentials[shift - 1];
+        }
+        self.credentials[insert_idx] = cred;
         self.count += 1;
-        self.sortByPriority();
-        return idx;
+        if (self.connected_index) |idx| {
+            if (idx >= insert_idx) self.connected_index = idx + 1;
+        }
+        return @intCast(insert_idx);
     }
 
     /// Remove a credential by index.
@@ -116,7 +124,13 @@ pub const WiFiConfig = struct {
             }
         }
         self.count = write_idx;
-        if (self.connected_index == idx) self.connected_index = null;
+        if (self.connected_index) |connected| {
+            if (connected == idx) {
+                self.connected_index = null;
+            } else if (connected > idx) {
+                self.connected_index = connected - 1;
+            }
+        }
     }
 
     /// Get the next credential to try (by priority).
@@ -140,21 +154,6 @@ pub const WiFiConfig = struct {
             if (idx < self.count) return self.credentials[idx];
         }
         return null;
-    }
-
-    /// Sort credentials by priority (bubble sort — small array).
-    fn sortByPriority(self: *WiFiConfig) void {
-        for (0..self.count) |i| {
-            for (0..self.count - 1 - i) |j| {
-                if (self.credentials[j] != null and self.credentials[j + 1] != null) {
-                    if (self.credentials[j].?.priority > self.credentials[j + 1].?.priority) {
-                        const tmp = self.credentials[j];
-                        self.credentials[j] = self.credentials[j + 1];
-                        self.credentials[j + 1] = tmp;
-                    }
-                }
-            }
-        }
     }
 
     /// Clear all credentials.
@@ -188,10 +187,11 @@ pub const OTAUpdate = struct {
     /// Process an OTA chunk. Returns true when update is complete.
     pub fn processChunk(self: *OTAUpdate, chunk: []const u8) !bool {
         if (!self.active) return error.OTANotActive;
-        if (self.received + chunk.len > self.total_size) return error.OTAOverflow;
-        if (self.received + chunk.len > OTA_MAX_SIZE) return error.OTATooLarge;
+        const next_received = std.math.add(usize, self.received, chunk.len) catch return error.OTAOverflow;
+        if (next_received > self.total_size) return error.OTAOverflow;
+        if (next_received > OTA_MAX_SIZE) return error.OTATooLarge;
 
-        self.received += @intCast(chunk.len);
+        self.received = @intCast(next_received);
         self.chunk_count += 1;
         self.checksum = lora.crc16(chunk);
 

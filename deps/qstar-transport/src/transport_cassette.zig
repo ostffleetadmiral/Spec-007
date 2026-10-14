@@ -51,9 +51,12 @@ pub const WavHeader = struct {
 
 /// Encodes bytes into AFSK-modulated audio samples (16-bit PCM).
 pub fn encode(allocator: std.mem.Allocator, data: []const u8) ![]u8 {
-    const total_samples = data.len * 8 * SAMPLES_PER_BIT;
-    const data_size = total_samples * 2;
-    const file_size: u32 = @intCast(44 + data_size - 8);
+    const samples_per_byte = std.math.mul(usize, 8, SAMPLES_PER_BIT) catch return error.PayloadTooLarge;
+    const total_samples = std.math.mul(usize, data.len, samples_per_byte) catch return error.PayloadTooLarge;
+    const data_size_usize = std.math.mul(usize, total_samples, 2) catch return error.PayloadTooLarge;
+    if (data_size_usize > std.math.maxInt(u32) - 36) return error.PayloadTooLarge;
+    const data_size: u32 = @intCast(data_size_usize);
+    const file_size: u32 = data_size + 36;
 
     var out = std.ArrayList(u8).init(allocator);
     errdefer out.deinit();
@@ -88,11 +91,22 @@ pub fn encode(allocator: std.mem.Allocator, data: []const u8) ![]u8 {
 pub fn decode(allocator: std.mem.Allocator, audio: []const u8) ![]u8 {
     if (audio.len < 44) return error.InvalidWav;
     if (!std.mem.eql(u8, audio[0..4], &WAV_MAGIC)) return error.InvalidWav;
+    if (!std.mem.eql(u8, audio[8..12], &WAV_FORMAT)) return error.InvalidWav;
+    if (!std.mem.eql(u8, audio[12..16], &WAV_FMT_CHUNK)) return error.InvalidWav;
+    if (!std.mem.eql(u8, audio[36..40], &WAV_DATA_CHUNK)) return error.InvalidWav;
 
-    const data_size = std.mem.readInt(u32, audio[40..44], .little);
-    const sample_count = data_size / 2;
-    const bit_count = sample_count / SAMPLES_PER_BIT;
-    const byte_count = bit_count / 8;
+    const riff_size = std.mem.readInt(u32, audio[4..8], .little);
+    const data_size_u32 = std.mem.readInt(u32, audio[40..44], .little);
+    const data_size: usize = data_size_u32;
+    if (data_size_u32 > std.math.maxInt(u32) - 36) return error.InvalidWav;
+    if (riff_size != data_size_u32 + 36) return error.InvalidWav;
+    const expected_len = std.math.add(usize, 44, data_size) catch return error.InvalidWav;
+    if (audio.len != expected_len) return error.InvalidWav;
+
+    const samples_per_bit: usize = SAMPLES_PER_BIT;
+    const bytes_per_output_byte = samples_per_bit * 2 * 8;
+    if (data_size % bytes_per_output_byte != 0) return error.InvalidWav;
+    const byte_count = data_size / bytes_per_output_byte;
 
     var out = try allocator.alloc(u8, byte_count);
     errdefer allocator.free(out);

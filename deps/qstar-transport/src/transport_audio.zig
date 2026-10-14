@@ -1,7 +1,8 @@
-//! transport_audio.zig — Audio synthesis transport with Reed-Solomon.
+//! transport_audio.zig — Audio synthesis transport with GF(256) parity.
 //!
 //! Extracted from PaperTune (#09).
-//! GF(256) Reed-Solomon error correction, audio synthesis pipeline.
+//! GF(256) parity detects a corrupted codeword; this boundary refuses it
+//! rather than silently returning damaged payload bytes.
 
 const std = @import("std");
 
@@ -39,9 +40,11 @@ pub const TONE_DURATION_MS: u32 = 50;
 
 pub const RS_NSYM: usize = 10;
 
-/// Reed-Solomon encode: appends parity bytes to data.
+/// GF(256) encode: appends parity bytes to data.
 pub fn rsEncode(allocator: std.mem.Allocator, data: []const u8, nsym: usize) ![]u8 {
-    var out = try allocator.alloc(u8, data.len + nsym);
+    if (nsym == 0 or nsym > 255) return error.InvalidParitySize;
+    const encoded_len = std.math.add(usize, data.len, nsym) catch return error.PayloadTooLarge;
+    var out = try allocator.alloc(u8, encoded_len);
     @memcpy(out[0..data.len], data);
     @memset(out[data.len..], 0);
 
@@ -61,32 +64,16 @@ pub fn rsEncode(allocator: std.mem.Allocator, data: []const u8, nsym: usize) ![]
     return out;
 }
 
-/// Reed-Solomon decode: corrects errors and returns original data.
+/// GF(256) decode: validates parity and returns original data.
+/// Correction is not implemented at this boundary; a canonical parity
+/// mismatch is an integrity failure, not damaged payload to emit.
 pub fn rsDecode(allocator: std.mem.Allocator, data: []const u8, nsym: usize) ![]u8 {
-    if (data.len <= nsym) return error.DataTooShort;
+    if (nsym == 0 or nsym > 255) return error.InvalidParitySize;
+    if (data.len < nsym) return error.DataTooShort;
     const msg_len = data.len - nsym;
-
-    var synd = try allocator.alloc(u8, nsym);
-    defer allocator.free(synd);
-    @memset(synd, 0);
-
-    for (data, 0..) |byte, i| {
-        for (0..nsym) |j| {
-            synd[j] ^= gf256Mul(byte, gf256Pow(2, @intCast((i * (j + 1)) % 255)));
-        }
-    }
-
-    var has_errors = false;
-    for (synd) |s| {
-        if (s != 0) {
-            has_errors = true;
-            break;
-        }
-    }
-
-    if (!has_errors) {
-        return try allocator.dupe(u8, data[0..msg_len]);
-    }
+    const expected = try rsEncode(allocator, data[0..msg_len], nsym);
+    defer allocator.free(expected);
+    if (!std.mem.eql(u8, data, expected)) return error.UncorrectableData;
 
     return try allocator.dupe(u8, data[0..msg_len]);
 }
@@ -136,7 +123,7 @@ pub fn name() []const u8 {
 
 // Tests
 
-test "RS encode/decode round trip" {
+test "GF parity encode/decode round trip" {
     const allocator = std.testing.allocator;
     const data = "Audio transport test data";
 
@@ -149,7 +136,7 @@ test "RS encode/decode round trip" {
     try std.testing.expectEqualSlices(u8, data, decoded);
 }
 
-test "RS adds parity bytes" {
+test "GF parity adds parity bytes" {
     const allocator = std.testing.allocator;
     const data = "test";
 
