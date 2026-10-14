@@ -39,6 +39,8 @@ const fixed = @import("fixed_point_q128.zig");
 const Q128 = fixed.Q128;
 const Raw = fixed.Raw;
 
+const WowShapeError = error{InputDomain};
+
 fn try2(v: anytype) @TypeOf(v catch unreachable) {
     return v catch unreachable;
 }
@@ -50,10 +52,13 @@ const BIN_S: i64 = 12;
 
 /// plateau count: bins within tol (as rational x/scale... simpler: within
 /// fraction) of peak — here "within 10%": I*10 >= peak*9
-fn plateauCount(tol_num: i64, tol_den: i64) usize {
+fn plateauCount(tol_num: i64, tol_den: i64) WowShapeError!usize {
+    if (tol_den <= 0 or tol_num < 0 or tol_num > tol_den) return error.InputDomain;
     var n: usize = 0;
     for (OBS) |v| {
-        if (v * tol_den >= PEAK * tol_num) n += 1;
+        const lhs = @as(i128, v) * @as(i128, tol_den);
+        const rhs = @as(i128, PEAK) * @as(i128, tol_num);
+        if (lhs >= rhs) n += 1;
     }
     return n;
 }
@@ -110,12 +115,20 @@ fn asymmetryScore() Q128 {
 
 test "flat-top signature ABSENT: plateau is 1 bin, warp-wall requires >=3" {
     // within 10% of peak — the bubble interior is FLAT by construction
-    try std.testing.expectEqual(@as(usize, 1), plateauCount(9, 10));
+    try std.testing.expectEqual(@as(usize, 1), try plateauCount(9, 10));
     // even at 20% tolerance: bins >= 24 — only {26,30} = 2 bins
-    try std.testing.expectEqual(@as(usize, 2), plateauCount(8, 10));
+    try std.testing.expectEqual(@as(usize, 2), try plateauCount(8, 10));
     // at 33% tolerance the "plateau" would need {26,30,19}=20+ — still only 2>=20 is {26,30} plus 19 no... 19<20
-    try std.testing.expectEqual(@as(usize, 2), plateauCount(20, 30));
+    try std.testing.expectEqual(@as(usize, 2), try plateauCount(20, 30));
     // the signal is a PEAK, not a plateau — flat-top refuted
+}
+
+test "plateau tolerance domain fails closed and stays overflow-safe" {
+    try std.testing.expectError(error.InputDomain, plateauCount(1, 0));
+    try std.testing.expectError(error.InputDomain, plateauCount(-1, 10));
+    try std.testing.expectError(error.InputDomain, plateauCount(11, 10));
+    try std.testing.expectEqual(@as(usize, 6), try plateauCount(0, std.math.maxInt(i64)));
+    try std.testing.expectEqual(@as(usize, 1), try plateauCount(9, 10));
 }
 
 test "beam-transit FWHM ~3.6 bins ~43s — consistent with feedhorn point-source transit" {
@@ -152,7 +165,7 @@ test "rise/fall asymmetry is real but small — filed, not over-claimed" {
 
 test "filed verdict: beam-transit consistent; warp-wall flat-top REFUTED" {
     // the three load-bearing facts:
-    try std.testing.expectEqual(@as(usize, 1), plateauCount(9, 10)); // no plateau
+    try std.testing.expectEqual(@as(usize, 1), try plateauCount(9, 10)); // no plateau
     const c = halfMaxCrossings();
     try std.testing.expect(c.right - c.left > 300 and c.right - c.left < 360); // FWHM ~38s
     // second-horn non-repeat (astrometric probe) compounds: a persistent

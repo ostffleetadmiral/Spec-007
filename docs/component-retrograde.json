@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 35
+    "completed_full_retrograde": 36
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "9ed157f66c77cbe59d8765b7d25b6507a81e3bc56db62c4629e0cf57fb1df8ad",
+        "sha256": "35de7e41d928be66a72b4961d5f0435613dd4c51f30e5575546e105b3d27bbcc",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "8ee93425ac26f28b7b718a7ef00c17f4470bc8d2cf186754b428a120e2688d22",
+        "sha256": "9a7e6790dbc88f0b55574f51f675e100f4dbdb18561937bb5ee07dfa79679cdc",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -10945,14 +10945,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "f101c9d2b219ea0b63fab8518e817135c3f379155905e68e27975c24ebc81369",
-        "bytes": 13733,
-        "lines": 277,
+        "sha256": "b615c59e67c1b5a8c4be5675ea1f401cee31d83052021f9d9441c2bf771e9dd9",
+        "bytes": 14442,
+        "lines": 290,
         "imports": [
           "fixed_point_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10966,7 +10968,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 12,
+        "test_blocks": 13,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10977,9 +10979,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-wow-shape-domains-20261014",
+        "decision": "bounded-plateau-tolerance"
       }
     },
     {
@@ -12061,9 +12063,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "0da57ae52cc8a2af06278472903fca4094397135fe9c986d6bfce2abf47ef7c4",
-        "bytes": 15770,
-        "lines": 381,
+        "sha256": "ff2a993f3b24f9415551ec8bf0b793b101503ca3f04a41783072eef7755232bd",
+        "bytes": 15910,
+        "lines": 385,
         "imports": [
           "node:crypto",
           "node:fs",

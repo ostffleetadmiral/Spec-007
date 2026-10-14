@@ -157,6 +157,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-warp-domains",
     archive: "spec007-warp-domains-20261014",
   }],
+  ["src/spec007_wow_shape_probe.zig", {
+    decision: "bounded-plateau-tolerance",
+    archive: "spec007-wow-shape-domains-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
