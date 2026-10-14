@@ -6576,7 +6576,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 6,
+        "blocks": 9,
         "registered": true
       },
       "documentation": {

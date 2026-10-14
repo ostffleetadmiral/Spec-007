@@ -132,9 +132,9 @@
 </tr>
 <tr>
 <td><code>spec008_medium_lattice.zig</code></td>
-<td>介質即晶格之證偽框架:四埠 Γ 陣列(RTI/802.11bf 先例)解析為晶格座標 — <code>quantizeGamma</code> 將複反射係數映射至 15×15 格(|Γ|&gt;1 拒絕),<code>resolveCoord</code> 以每埠 O(1) 摺疊為 (k,r,c)。自陳失敗邊界。</td>
-<td>6 測試</td>
-<td>—</td>
+<td>介質即晶格之證偽框架:四埠 Γ 陣列(RTI/802.11bf 先例)解析為晶格座標 — <code>quantizeGamma</code> 將複反射係數映射至 15×15 格(|Γ|&gt;1 拒絕),<code>resolveCoord</code> 先驗證所有埠再以每埠 O(1) 摺疊為 (k,r,c),<code>dist</code> 拒絕偽造座標。自陳失敗邊界。</td>
+<td>9 測試</td>
+<td>新增失敗即封閉極端輸入與座標定義域覆蓋</td>
 </tr>
 <tr>
 <td><code>spec008_seal.zig</code></td>

@@ -34,26 +34,26 @@ const std = @import("std");
 
 const SCALE: i128 = 1 << 64;
 const GRID: i32 = 15; // cells per axis — the 15-lattice canon
-const HALF_GRID: i128 = SCALE / 2; // cell pitch: 2*SCALE / 2*GRID = SCALE/GRID
+const HALF_CELL: i128 = SCALE / GRID; // half-cell pitch over [-1,1]
 
 pub const Cx = struct { re: i128, im: i128 };
 
 pub const Cell = struct { x: i32, y: i32 };
 pub const Coord = struct { k: i32, r: i32, c: i32 };
 
-pub const Error = error{OutsideDisk};
+pub const Error = error{ OutsideDisk, InvalidCoord };
 
-fn mag2(g: Cx) i256 {
-    // |g|^2 in Q64 — squares reach 2^128 at |g|=1, so work in i256.
-    const a = @as(i256, g.re) * g.re;
-    const b = @as(i256, g.im) * g.im;
+fn mag2(g: Cx) u256 {
+    // |g|^2 in Q64 — two i128-min squares sum to 2^255, so work in u256.
+    const a: u256 = @intCast(@as(i256, g.re) * g.re);
+    const b: u256 = @intCast(@as(i256, g.im) * g.im);
     return (a + b) >> 64;
 }
 
 /// Quantize one Gamma into a grid cell over [-1,1]^2. Components exactly
 /// +/-1 map to the edge cells; anything outside the unit disk refuses.
 pub fn quantizeGamma(g: Cx) Error!Cell {
-    if (mag2(g) > SCALE) return error.OutsideDisk;
+    if (mag2(g) > @as(u256, SCALE)) return error.OutsideDisk;
     // cell index = floor((v + SCALE) * GRID / (2*SCALE)), clamped to GRID-1
     const fx = @divFloor((g.re + SCALE) * GRID, 2 * SCALE);
     const fy = @divFloor((g.im + SCALE) * GRID, 2 * SCALE);
@@ -65,9 +65,10 @@ pub fn quantizeGamma(g: Cx) Error!Cell {
 /// port index — deterministic, constant work per port.
 pub fn resolveCoord(ports: [4]Cx) Error!Coord {
     var best: usize = 0;
-    var best_m: i256 = 0;
+    var best_m: u256 = 0;
     for (ports, 0..) |p, i| {
         const m = mag2(p);
+        if (m > @as(u256, SCALE)) return error.OutsideDisk;
         if (m > best_m) {
             best_m = m;
             best = i;
@@ -77,12 +78,17 @@ pub fn resolveCoord(ports: [4]Cx) Error!Coord {
     return .{ .k = @intCast(best), .r = cell.x, .c = cell.y };
 }
 
-/// Manhattan distance between two coordinates.
-pub fn dist(a: Coord, b: Coord) i32 {
+fn latticeCoord(v: Coord) bool {
+    return v.k >= 0 and v.k < 4 and v.r >= 0 and v.r < GRID and v.c >= 0 and v.c < GRID;
+}
+
+/// Manhattan distance between two lattice coordinates.
+pub fn dist(a: Coord, b: Coord) Error!u32 {
+    if (!latticeCoord(a) or !latticeCoord(b)) return error.InvalidCoord;
     const dx = a.r - b.r;
     const dy = a.c - b.c;
     const dk = a.k - b.k;
-    return (if (dx < 0) -dx else dx) + (if (dy < 0) -dy else dy) + (if (dk < 0) -dk else dk);
+    return @intCast((if (dx < 0) -dx else dx) + (if (dy < 0) -dy else dy) + (if (dk < 0) -dk else dk));
 }
 
 fn q(num: i128, den: i128) i128 {
@@ -134,7 +140,7 @@ test "bound: sub-threshold perturbation stays in-cell" {
     // perturbation small vs the half-cell pitch (SCALE/GRID ~ 6.7% of radius)
     const g: Cx = .{ .re = q(1, 4), .im = q(1, 4) };
     const c0 = try quantizeGamma(g);
-    const eps = SCALE / (GRID * 4); // quarter-cell — safely sub-threshold
+    const eps = HALF_CELL / 4; // eighth-cell — safely sub-threshold
     const c1 = try quantizeGamma(.{ .re = g.re + eps, .im = g.im - eps });
     try std.testing.expectEqual(c0, c1); // coordinate unchanged — the bound holds
 }
@@ -144,7 +150,7 @@ test "bound-failure: super-threshold perturbation moves the coordinate" {
     // of displacement is guaranteed to move the cell boundary somewhere.
     const g: Cx = .{ .re = q(1, 4), .im = q(1, 4) };
     const c0 = try quantizeGamma(g);
-    const cell_pitch = 2 * SCALE / GRID;
+    const cell_pitch = 2 * HALF_CELL;
     const c1 = try quantizeGamma(.{ .re = g.re + cell_pitch, .im = g.im });
     try std.testing.expect(c1.x != c0.x); // the bound broke — documented, not hidden
 }
@@ -160,9 +166,45 @@ test "radar property: one-port perturbation shifts the resolved coordinate" {
     // move the dominant port one full cell — the tracked object moved
     ports[0] = .{ .re = q(4, 5) - (2 * SCALE / GRID), .im = 0 };
     const after = try resolveCoord(ports);
-    try std.testing.expect(dist(before, after) >= 1);
+    try std.testing.expect((try dist(before, after)) >= 1);
     // and a perturbation on a NON-dominant port leaves the coordinate fixed
     ports[3] = .{ .re = q(1, 7), .im = q(1, 9) };
     const after2 = try resolveCoord(ports);
     try std.testing.expectEqual(after, after2);
+}
+
+test "boundary: extreme fixed-point components fail closed" {
+    const g: Cx = .{ .re = std.math.minInt(i128), .im = std.math.minInt(i128) };
+    try std.testing.expectError(error.OutsideDisk, quantizeGamma(g));
+    try std.testing.expectError(error.OutsideDisk, resolveCoord(.{
+        .{ .re = 0, .im = 0 },
+        .{ .re = q(1, 4), .im = 0 },
+        .{ .re = q(1, 5), .im = 0 },
+        g,
+    }));
+}
+
+test "boundary: a non-dominant invalid port still refuses" {
+    var ports = [4]Cx{
+        .{ .re = q(4, 5), .im = 0 },
+        .{ .re = q(1, 5), .im = 0 },
+        .{ .re = q(1, 6), .im = 0 },
+        .{ .re = SCALE + 1, .im = 0 },
+    };
+    try std.testing.expectError(error.OutsideDisk, resolveCoord(ports));
+    ports[3] = .{ .re = q(1, 7), .im = 0 };
+    _ = try resolveCoord(ports);
+}
+
+test "boundary: forged coordinates cannot overflow distance" {
+    const valid = try resolveCoord(.{
+        .{ .re = 0, .im = 0 },
+        .{ .re = 0, .im = 0 },
+        .{ .re = 0, .im = 0 },
+        .{ .re = 0, .im = 0 },
+    });
+    const forged: Coord = .{ .k = std.math.minInt(i32), .r = std.math.minInt(i32), .c = std.math.maxInt(i32) };
+    try std.testing.expectError(error.InvalidCoord, dist(valid, forged));
+    try std.testing.expectError(error.InvalidCoord, dist(forged, valid));
+    try std.testing.expectError(error.InvalidCoord, dist(.{ .k = 4, .r = 0, .c = 0 }, valid));
 }

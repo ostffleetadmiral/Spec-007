@@ -181,6 +181,10 @@ const FULL_RETROGRADE = new Map([
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",
   }],
+  ["src/spec008_medium_lattice.zig", {
+    decision: "bounded-medium-lattice-domains",
+    archive: "spec008-medium-lattice-boundaries-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

@@ -135,7 +135,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>spec008_medium_lattice.zig</code></td>
 <td>Medium-as-lattice falsification harness: a four-port Γ array (RTI/802.11bf precedent) resolves to lattice coordinates — <code>quantizeGamma</code> maps a complex reflection coefficient onto a 15×15 cell (</td>
 <td>Γ</td>
-<td>&gt;1 refuses), <code>resolveCoord</code> folds the array to (k,r,c) in O(1) per port. States its own failure boundary.</td>
+<td>&gt;1 refuses), <code>resolveCoord</code> validates every port before folding the array to (k,r,c) in O(1) per port, and <code>dist</code> rejects forged coordinates. States its own failure boundary.</td>
 </tr>
 <tr>
 <td><code>spec008_seal.zig</code></td>

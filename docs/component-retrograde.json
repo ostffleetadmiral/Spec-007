@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 41
+    "completed_full_retrograde": 42
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "240a46241343e0ae13d07204546528b164ebe0555c5be6b10125226f434ae851",
+        "sha256": "be546086954f62785650c2e2e3856d66f7b1ccc0f03e084726ef6d7ca6cd7976",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "23636f3362fee45f110c8525c56002d23ad6dfd307422a0957f9381546c99d1d",
+        "sha256": "ea0f427193c61d9784e1316397209264646737744731be77f575e160661b1c7e",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -10995,14 +10995,15 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "33aed08cd3d489c38c3fdb75071027bda274c38a8d30ceb04f5225c2459bf30b",
-        "bytes": 7577,
-        "lines": 169,
+        "sha256": "b08788b2df1eb0eaee952fddb33e7298f8eb2c51260c3c7ef5b1cbe118c6b896",
+        "bytes": 9302,
+        "lines": 211,
         "imports": [
           "std"
         ],
         "referenced_by": [
-          "security/team-sweep-2.mjs"
+          "security/team-sweep-2.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 7
@@ -11017,7 +11018,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 6,
+        "test_blocks": 9,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11028,9 +11029,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-medium-lattice-boundaries-20261014",
+        "decision": "bounded-medium-lattice-domains"
       }
     },
     {
@@ -12069,9 +12070,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "1bc20d4c0a5bdb5e6fa3c16281774b4b8ade75131792fc32f22b811b04687313",
-        "bytes": 16599,
-        "lines": 405,
+        "sha256": "0a475fc17e27cb659d27fb8b92b1c9eb831057a370297c6731e4043654f04676",
+        "bytes": 16751,
+        "lines": 409,
         "imports": [
           "node:crypto",
           "node:fs",
