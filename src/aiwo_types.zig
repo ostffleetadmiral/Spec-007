@@ -60,3 +60,14 @@ test "AIWO digest is deterministic" {
     const b = digestBytes("aiwo");
     try std.testing.expectEqual(a, b);
 }
+
+test "AIWO digest and hex encoding match SHA-256 golden vectors" {
+    const digest = digestBytes("abc");
+    var hex: [64]u8 = undefined;
+    hexDigest(digest, &hex);
+    try std.testing.expectEqualStrings("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", &hex);
+
+    const aiwo = digestBytes("aiwo");
+    hexDigest(aiwo, &hex);
+    try std.testing.expectEqualStrings("d2b18adb5de9a93c15928bd3bc1e4c8d9f2df4b9f10b46a79b619cb70b1c8c55", &hex);
+}

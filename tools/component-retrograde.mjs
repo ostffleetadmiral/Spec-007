@@ -37,6 +37,58 @@ const FULL_RETROGRADE = new Map([
     decision: "strict-argument-parser",
     archive: "spec007-aiwo-cli-parser-20261014",
   }],
+  ["src/aiwo_state.zig", {
+    decision: "durable-state-hardened",
+    archive: "spec007-aiwo-state-durable-20261014",
+  }],
+  ["src/aiwo_policy.zig", {
+    decision: "fail-closed-authority",
+    archive: "spec007-aiwo-policy-failclosed-20261014",
+  }],
+  ["src/aiwo_cognitive.zig", {
+    decision: "canonical-bounded-scaling",
+    archive: "spec007-aiwo-cognitive-bounded-20261014",
+  }],
+  ["src/aiwo_directive.zig", {
+    decision: "complete-context-directive-ids",
+    archive: "spec007-aiwo-directive-bounded-20261014",
+  }],
+  ["src/aiwo_runtime.zig", {
+    decision: "owned-runtime-lifecycle",
+    archive: "spec007-aiwo-runtime-owned-20261014",
+  }],
+  ["src/aiwo_heartbeat.zig", {
+    decision: "owned-heartbeat-lifecycle",
+    archive: "spec007-aiwo-runtime-owned-20261014",
+  }],
+  ["src/aiwo_fano.zig", {
+    decision: "full-identity-wire-binding",
+    archive: "spec007-aiwo-fano-identity-20261014",
+  }],
+  ["src/aiwo_manifest.zig", {
+    decision: "typed-manifest-validation",
+    archive: "spec007-aiwo-manifest-typed-20261014",
+  }],
+  ["src/aiwo_model_observation.zig", {
+    decision: "wide-integer-observation",
+    archive: "spec007-aiwo-observation-bounded-20261014",
+  }],
+  ["src/aiwo_prompt.zig", {
+    decision: "strict-token-prompt",
+    archive: "spec007-aiwo-prompt-strict-20261014",
+  }],
+  ["src/aiwo_digit_model_probe.zig", {
+    decision: "strict-probe-arguments",
+    archive: "spec007-aiwo-digit-probe-args-20261014",
+  }],
+  ["src/aiwo_digit_bridge.zig", {
+    decision: "bounded-digit-observation",
+    archive: "spec007-aiwo-digit-bridge-boundary-20261014",
+  }],
+  ["src/aiwo_types.zig", {
+    decision: "golden-digest-contract",
+    archive: "spec007-aiwo-types-golden-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

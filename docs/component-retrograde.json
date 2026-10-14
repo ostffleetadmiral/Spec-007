@@ -5,11 +5,11 @@
     "census_components": 280,
     "components": 280,
     "status_counts": {
-      "BUILD_GRAPH_COVERED": 22,
+      "BUILD_GRAPH_COVERED": 21,
       "DOCUMENTED_COMPONENT": 23,
       "GENERATED_ARTIFACT_BOUND": 38,
       "SCRIPT_HARNESS_BOUND": 95,
-      "UNIT_TESTED": 102
+      "UNIT_TESTED": 103
     },
     "workstreams": {
       "application-artifacts": 2,
@@ -25,7 +25,7 @@
       "spec007-core": 21,
       "spec008-wire": 9
     },
-    "unit_tested": 102,
+    "unit_tested": 103,
     "generated_bound": 38,
     "pending_review": 0,
     "todo_markers": 0,
@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 5
+    "completed_full_retrograde": 18
   },
   "components": [
     {
@@ -9163,9 +9163,9 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "2a0404e447fe10056f5649df8766ee9c235cb7d9178eb67b7e21172804176b95",
-        "bytes": 8550,
-        "lines": 171,
+        "sha256": "57f7ca0e6a51f982514b1f6d626e850b502705eff25e60da58e6ade7a20c3043",
+        "bytes": 8572,
+        "lines": 172,
         "imports": [
           "aiwo_chunk_checkpoint",
           "aiwo_cognitive",
@@ -9213,9 +9213,9 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "49aac0a2735c378746c70f01d717a5c4585e2e70a1047b1d3ececb653db6629d",
-        "bytes": 8701,
-        "lines": 189,
+        "sha256": "90f96f2353978cf07a261077d95fbdfab06173edeb1b082dd035fecc4ef35eed",
+        "bytes": 11016,
+        "lines": 235,
         "imports": [
           "std"
         ],
@@ -9225,7 +9225,8 @@
           "src/aiwo_model_observation.zig",
           "src/aiwo_runtime.zig",
           "src/perf_baseline.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 18
@@ -9240,7 +9241,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 4,
+        "test_blocks": 7,
         "registered": true,
         "documentation_mapped": true
       },
@@ -9253,9 +9254,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-cognitive-bounded-20261014",
+        "decision": "canonical-bounded-scaling"
       }
     },
     {
@@ -9311,9 +9312,9 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "8c10d28f73835a579e233e05cefb13990f65c3ef2c2a0914053481a768de2186",
-        "bytes": 2061,
-        "lines": 46,
+        "sha256": "d20b337ec593c9b56faa2bb329ba22df7e58f89491be639c85d30c4877c2c43a",
+        "bytes": 3105,
+        "lines": 72,
         "imports": [
           "aiwo_cognitive",
           "digit_brain",
@@ -9322,7 +9323,8 @@
         ],
         "referenced_by": [
           "src/aiwo_runtime.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -9337,7 +9339,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 2,
         "registered": true,
         "documentation_mapped": true
       },
@@ -9349,19 +9351,19 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-digit-bridge-boundary-20261014",
+        "decision": "bounded-digit-observation"
       }
     },
     {
       "component": "src/aiwo_digit_model_probe.zig",
       "workstream": "native-aiwo-dht",
-      "status": "BUILD_GRAPH_COVERED",
+      "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "88d4b2faa12e769101b8b92cfa4a9c89e7b05bcc1899f4d77b54d680e5be6428",
-        "bytes": 5699,
-        "lines": 97,
+        "sha256": "a3796310144ee4b8c79a865134360e830d57031db93f8969c01808887c6bca66",
+        "bytes": 7925,
+        "lines": 161,
         "imports": [
           "aiwo_prompt",
           "aiwo_runtime",
@@ -9372,7 +9374,8 @@
           "std"
         ],
         "referenced_by": [
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -9387,7 +9390,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 0,
+        "test_blocks": 2,
         "registered": true,
         "documentation_mapped": true
       },
@@ -9395,12 +9398,13 @@
         "hot_path": true,
         "measured": true,
         "measurements": [
-          "digit-model-probe"
+          "digit-model-probe",
+          "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-digit-probe-args-20261014",
+        "decision": "strict-probe-arguments"
       }
     },
     {
@@ -9408,16 +9412,107 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "eaeb9a5836bb04a8bf84e1e28ee4c85dedbc96b708ac53088e8fe95fb97e8ab4",
-        "bytes": 2300,
-        "lines": 47,
+        "sha256": "b045e3a08d1ed156b72974b224d74c9bcf30222ba5b07de0ad4c7de3ee17ec4a",
+        "bytes": 5107,
+        "lines": 110,
         "imports": [
           "aiwo_policy",
           "aiwo_types",
           "std"
         ],
         "referenced_by": [
-          "src/aiwo_runtime.zig"
+          "src/aiwo_runtime.zig",
+          "tools/component-retrograde.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 4
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 3,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-aiwo-directive-bounded-20261014",
+        "decision": "complete-context-directive-ids"
+      }
+    },
+    {
+      "component": "src/aiwo_fano.zig",
+      "workstream": "native-aiwo-dht",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "46efc7779faac2ddfc29a8ffc78771f664220c994d451c0d98d74b18fb2bd9cf",
+        "bytes": 2331,
+        "lines": 57,
+        "imports": [
+          "spec008_seal",
+          "std"
+        ],
+        "referenced_by": [
+          "src/aiwo_runtime.zig",
+          "tools/component-retrograde.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 3
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 3,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-aiwo-fano-identity-20261014",
+        "decision": "full-identity-wire-binding"
+      }
+    },
+    {
+      "component": "src/aiwo_heartbeat.zig",
+      "workstream": "native-aiwo-dht",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "abec9513f4c0dc648e59d1ae079e231b6996897833a0db91054e330f8e76d305",
+        "bytes": 1496,
+        "lines": 35,
+        "imports": [
+          "aiwo_runtime",
+          "aiwo_types",
+          "std"
+        ],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 4
@@ -9443,96 +9538,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/aiwo_fano.zig",
-      "workstream": "native-aiwo-dht",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "c3f3a44b96ab132841269105411db6805461a8335f14e7d615d4c7965f3eebb3",
-        "bytes": 1040,
-        "lines": 29,
-        "imports": [
-          "spec008_seal",
-          "std"
-        ],
-        "referenced_by": [
-          "src/aiwo_runtime.zig"
-        ],
-        "todo_markers": 0,
-        "public_surface": 3
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": false,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 1,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": true,
-        "measured": true,
-        "measurements": [
-          "zig-build-test"
-        ],
-        "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/aiwo_heartbeat.zig",
-      "workstream": "native-aiwo-dht",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "4bebb98a1d39f49cacaa949b3b73d1c8b8503f9b58a4d97459da57a7d2f4133d",
-        "bytes": 1393,
-        "lines": 30,
-        "imports": [
-          "aiwo_runtime",
-          "aiwo_types",
-          "std"
-        ],
-        "referenced_by": [],
-        "todo_markers": 0,
-        "public_surface": 3
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": false,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 1,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": true,
-        "measured": true,
-        "measurements": [
-          "zig-build-test"
-        ],
-        "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-runtime-owned-20261014",
+        "decision": "owned-heartbeat-lifecycle"
       }
     },
     {
@@ -9540,14 +9548,16 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "288fded891b072f6d4d7956fcd5ef13d7e8daca01ddbf86243a6dfadf3827cd4",
-        "bytes": 2302,
-        "lines": 53,
+        "sha256": "a84c257ee22f7b35b937f996b8a86d3d1820850edcd7d6bcbb26dd2c663f21f6",
+        "bytes": 4686,
+        "lines": 93,
         "imports": [
           "aiwo_types",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 3
       },
@@ -9561,7 +9571,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 3,
         "registered": true,
         "documentation_mapped": true
       },
@@ -9572,9 +9582,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-manifest-typed-20261014",
+        "decision": "typed-manifest-validation"
       }
     },
     {
@@ -9582,15 +9592,16 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "76a2703c1a13327d1619b685dd378020c88899db375b2ca25e42d0b7da4810e2",
-        "bytes": 3073,
-        "lines": 70,
+        "sha256": "aa7cf41a30a5fef7fb05880286658c099da88636bbed04c0dd19def0c3871173",
+        "bytes": 4156,
+        "lines": 96,
         "imports": [
           "aiwo_cognitive",
           "std"
         ],
         "referenced_by": [
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 2
@@ -9605,7 +9616,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 3,
         "registered": true,
         "documentation_mapped": true
       },
@@ -9617,9 +9628,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-observation-bounded-20261014",
+        "decision": "wide-integer-observation"
       }
     },
     {
@@ -9627,19 +9638,220 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "0b3f625d633357bd1bbc3022141d03d5bb673efeb3b67ca92e0054b9282aa174",
-        "bytes": 3820,
-        "lines": 72,
+        "sha256": "094f65bad9edc8d0157e401f2913380c4b9a64ef06bb6401be2eb080a1c5b7d8",
+        "bytes": 5717,
+        "lines": 115,
         "imports": [
           "aiwo_types",
           "std"
         ],
         "referenced_by": [
           "src/aiwo_directive.zig",
-          "src/aiwo_runtime.zig"
+          "src/aiwo_runtime.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 6
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 4,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-aiwo-policy-failclosed-20261014",
+        "decision": "fail-closed-authority"
+      }
+    },
+    {
+      "component": "src/aiwo_prompt.zig",
+      "workstream": "native-aiwo-dht",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "0cfad21ed57e6bc2177b6a15ed96ac14dc68d127b97d581949098c2e4fe800b2",
+        "bytes": 2586,
+        "lines": 65,
+        "imports": [
+          "std"
+        ],
+        "referenced_by": [
+          "src/aiwo_digit_model_probe.zig",
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 5
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 3,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": true,
+        "measurements": [
+          "digit-model-probe",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-aiwo-prompt-strict-20261014",
+        "decision": "strict-token-prompt"
+      }
+    },
+    {
+      "component": "src/aiwo_runtime.zig",
+      "workstream": "native-aiwo-dht",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "76c06d654df9f29b24d223951c410c498ee60a835507e6aa6b34c77094759415",
+        "bytes": 6801,
+        "lines": 131,
+        "imports": [
+          "aiwo_cognitive",
+          "aiwo_digit_bridge",
+          "aiwo_directive",
+          "aiwo_fano",
+          "aiwo_policy",
+          "aiwo_state",
+          "aiwo_types",
+          "digit_brain",
+          "std"
+        ],
+        "referenced_by": [
+          "src/aiwo_cli.zig",
+          "src/aiwo_digit_model_probe.zig",
+          "src/aiwo_heartbeat.zig",
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs",
+          "tools/engine-manifest.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 10
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": true,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 3,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht",
+          "digit-model-probe",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-aiwo-runtime-owned-20261014",
+        "decision": "owned-runtime-lifecycle"
+      }
+    },
+    {
+      "component": "src/aiwo_state.zig",
+      "workstream": "native-aiwo-dht",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "417db35db3fa8b6769e04da321c86a70563f111179391990e0ae44703edf2fc1",
+        "bytes": 6926,
+        "lines": 153,
+        "imports": [
+          "aiwo_types",
+          "builtin",
+          "std"
+        ],
+        "referenced_by": [
+          "src/aiwo_runtime.zig",
+          "tools/component-retrograde.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 3
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 4,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-aiwo-state-durable-20261014",
+        "decision": "durable-state-hardened"
+      }
+    },
+    {
+      "component": "src/aiwo_types.zig",
+      "workstream": "native-aiwo-dht",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "b028ad19789dbdc89343ef00c92fb798a896618db0f9a8ac5103edc7219dbe45",
+        "bytes": 2186,
+        "lines": 74,
+        "imports": [
+          "std"
+        ],
+        "referenced_by": [
+          "src/aiwo_cli.zig",
+          "src/aiwo_directive.zig",
+          "src/aiwo_heartbeat.zig",
+          "src/aiwo_manifest.zig",
+          "src/aiwo_policy.zig",
+          "src/aiwo_runtime.zig",
+          "src/aiwo_state.zig",
+          "tools/component-retrograde.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 13
       },
       "contract": {
         "mapped": true,
@@ -9662,204 +9874,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/aiwo_prompt.zig",
-      "workstream": "native-aiwo-dht",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "6e5b0a9a1107f1fbfbfd04aa2bc6cedff4a8fd1a5bf91ed5f60b20d7a3297daf",
-        "bytes": 1422,
-        "lines": 42,
-        "imports": [
-          "std"
-        ],
-        "referenced_by": [
-          "src/aiwo_digit_model_probe.zig",
-          "tools/component-performance.mjs"
-        ],
-        "todo_markers": 0,
-        "public_surface": 4
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": false,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 1,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": true,
-        "measured": true,
-        "measurements": [
-          "digit-model-probe",
-          "zig-build-test"
-        ],
-        "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/aiwo_runtime.zig",
-      "workstream": "native-aiwo-dht",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "c15d62595398dce300225c8d47be6f66f24421a22890f82b8c3371c630dc7739",
-        "bytes": 4751,
-        "lines": 89,
-        "imports": [
-          "aiwo_cognitive",
-          "aiwo_digit_bridge",
-          "aiwo_directive",
-          "aiwo_fano",
-          "aiwo_policy",
-          "aiwo_state",
-          "aiwo_types",
-          "digit_brain",
-          "std"
-        ],
-        "referenced_by": [
-          "src/aiwo_cli.zig",
-          "src/aiwo_digit_model_probe.zig",
-          "src/aiwo_heartbeat.zig",
-          "tools/component-performance.mjs",
-          "tools/engine-manifest.mjs"
-        ],
-        "todo_markers": 0,
-        "public_surface": 9
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": true,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 1,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": true,
-        "measured": true,
-        "measurements": [
-          "aiwo-scale7-chunk-dht",
-          "digit-model-probe",
-          "zig-build-test"
-        ],
-        "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/aiwo_state.zig",
-      "workstream": "native-aiwo-dht",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "dc97c4b12ca678b0cba74943235f33349d46470f16b3c8bcbb578fec3c52cf66",
-        "bytes": 3700,
-        "lines": 82,
-        "imports": [
-          "aiwo_types",
-          "std"
-        ],
-        "referenced_by": [
-          "src/aiwo_runtime.zig"
-        ],
-        "todo_markers": 0,
-        "public_surface": 3
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": false,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 1,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": true,
-        "measured": true,
-        "measurements": [
-          "zig-build-test"
-        ],
-        "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/aiwo_types.zig",
-      "workstream": "native-aiwo-dht",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "d6801a141b7f6e482ae09a425fa96939422c6ae06d9b1a6ac9ae5ac0d9601d6b",
-        "bytes": 1721,
-        "lines": 63,
-        "imports": [
-          "std"
-        ],
-        "referenced_by": [
-          "src/aiwo_cli.zig",
-          "src/aiwo_directive.zig",
-          "src/aiwo_heartbeat.zig",
-          "src/aiwo_manifest.zig",
-          "src/aiwo_policy.zig",
-          "src/aiwo_runtime.zig",
-          "src/aiwo_state.zig"
-        ],
-        "todo_markers": 0,
-        "public_surface": 13
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": false,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 1,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": true,
-        "measured": true,
-        "measurements": [
-          "zig-build-test"
-        ],
-        "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-types-golden-20261014",
+        "decision": "golden-digest-contract"
       }
     },
     {
@@ -12011,9 +12028,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "f89a9fcd0e9446f0380e30a9251f05058f918a9f3a22cd30b3970deda00e46a9",
-        "bytes": 11621,
-        "lines": 261,
+        "sha256": "915657189ad970781da55945f1027bafbc605e4ff73c07299f664125f6619d8b",
+        "bytes": 13347,
+        "lines": 313,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -12360,6 +12377,7 @@
           "src/aiwo_runtime.zig",
           "src/spec007_checksum_audit.zig",
           "tools/agency-map.mjs",
+          "tools/component-retrograde.mjs",
           "tools/gov-map.mjs",
           "tools/publish-check.sh"
         ],

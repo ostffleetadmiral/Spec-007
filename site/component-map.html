@@ -972,15 +972,21 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>—</td>
 </tr>
 <tr>
+<td><code>aiwo_types.zig</code></td>
+<td>Native AIWO schema/version, rank, lifecycle, decision, event, officer, action, decision-record, and SHA-256/hex digest contract.</td>
+<td>golden SHA-256 vector tests + all native dependents</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>aiwo_policy.zig</code> / <code>aiwo_manifest.zig</code></td>
-<td>Native AIWO rank, clearance, duty, prohibited-action, and sanitized command-manifest gate. Model output is advisory only.</td>
-<td>native unit tests + manifest checks</td>
+<td>Native AIWO rank, clearance, duty, prohibited-action, and sanitized command-manifest gate. Model output is advisory only; forged/malformed officer identities deny at evaluation, the policy digest is pinned to the original v1 fingerprint, and manifest JSON fails closed on malformed types/clearance caps.</td>
+<td>native unit tests + manifest checks + forged-identity/duty-matrix tests + malformed-manifest tests</td>
 <td>—</td>
 </tr>
 <tr>
 <td><code>aiwo_state.zig</code></td>
-<td>Versioned officer state boundary with policy digest, monotonic sequence, lifecycle, checksum, and atomic persistence.</td>
-<td>snapshot round-trip/tamper tests</td>
+<td>Versioned officer state boundary with policy digest, monotonic sequence, lifecycle, checksum, unique-temp atomic persistence, and parent-directory fsync.</td>
+<td>snapshot round-trip/tamper tests + truncation/lifecycle/name-bound/staging-file tests</td>
 <td>officer identity is held by native runtime</td>
 </tr>
 <tr>
@@ -991,44 +997,44 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>aiwo_prompt.zig</code></td>
-<td>Parses arbitrary comma-separated token-id prompts and repeated stop-token policy for native Digit execution.</td>
-<td>prompt/stop parser unit test</td>
+<td>Parses arbitrary comma-separated token-id prompts and repeated stop-token policy for native Digit execution; malformed comma fields, &gt;u32 token IDs, and duplicate stops fail closed.</td>
+<td>prompt/stop parser unit tests + malformed-field/ID-boundary tests</td>
 <td>text tokenizer integration remains separate</td>
 </tr>
 <tr>
 <td><code>aiwo_digit_bridge.zig</code> / <code>aiwo_digit_model_probe.zig</code></td>
-<td>Adapts real Digit ModelObservation records and executes the native q4 package/session boundary before AIWO policy/FANO.</td>
-<td>750-tensor model probe + real one/six-step path + stop-token run</td>
+<td>Adapts real Digit ModelObservation records and executes the native q4 package/session boundary before AIWO policy/FANO; the bridge rejects zero trajectories, clamps Q128 summaries, and probe options reject unknown/missing arguments fail-closed.</td>
+<td>750-tensor model probe + real one/six-step path + stop-token run + bridge/parser unit tests</td>
 <td>multi-token parity expansion pending</td>
 </tr>
 <tr>
 <td><code>aiwo_cognitive.zig</code></td>
 <td>Bounded Digit-shaped E5 observation/E6 reflection/E7 branch policy/E0 commit fold over compact checksums; scale 0–7 theoretical path counts 1, 8, 64, 512, 4096, 32768, 262144, 2097152; no model tensors or authority.</td>
-<td>native cognitive unit tests + scale parity</td>
-<td>scales 3–7 use bounded chunk planning/admission, not brute-force enumeration</td>
+<td>native cognitive unit tests + scale parity + forged-policy/trajectory-boundary tests</td>
+<td>scales 3–7 use canonical fail-closed chunk planning/admission, not brute-force enumeration; scale-7 receipt fold is pinned</td>
 </tr>
 <tr>
 <td><code>aiwo_model_observation.zig</code></td>
-<td>Converts a host-supplied logits/recurrent-state summary into the compact E5 observation contract: argmax, margin, range, checksum, and state version.</td>
-<td>native model-observation unit test + real Digit probe</td>
+<td>Converts a host-supplied logits/recurrent-state summary into the compact E5 observation contract: argmax, margin, range, checksum, and state version; internal accumulation is widened to i512, with invalid trajectories and oversized logit vectors rejected.</td>
+<td>native model-observation unit tests + full-width i128 range test + real Digit probe</td>
 <td>arbitrary external model session still bounded</td>
 </tr>
 <tr>
 <td><code>aiwo_directive.zig</code> / <code>aiwo_runtime.zig</code></td>
-<td>Native policy-gated directive and officer-cycle canary; irreversible actions become human-approval requests and cognitive routing folds into the sealed event.</td>
-<td>native AIWO parity probe + real Digit model probe</td>
+<td>Native policy-gated directive and officer-cycle canary; irreversible actions become human-approval requests and cognitive routing folds into the sealed event. Directive IDs bind the complete authority context; runtime owns officer identity strings, exposes explicit teardown, and refuses sequence/cycle exhaustion without advancing.</td>
+<td>native AIWO parity probe + real Digit model probe + complete-context directive ID tests + ownership/exhaustion tests</td>
 <td>multi-token/full-generation hardening pending</td>
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
-<td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate; <code>aiwo_dht</code> bootstraps Ed25519 receipt keys into a <code>0700</code> key dir, writes <code>0600</code> private/<code>0644</code> public DER files atomically, validates pair correspondence, and owns <code>Store</code> teardown.</td>
-<td>FANO mutation tests + signed per-chunk DHT receipts + key-mode/pair/mismatch/store tests</td>
+<td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate; FANO heartbeats bind the full officer identity by digest and reject sequence values outside the wire field, while <code>aiwo_dht</code> bootstraps Ed25519 receipt keys into a <code>0700</code> key dir, writes <code>0600</code> private/<code>0644</code> public DER files atomically, validates pair correspondence, and owns <code>Store</code> teardown.</td>
+<td>FANO mutation/long-identity/sequence-boundary tests + signed per-chunk DHT receipts + key-mode/pair/mismatch/store tests</td>
 <td>native DHT emission live</td>
 </tr>
 <tr>
 <td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
-<td>Separate bounded AIWO heartbeat and <code>spec007-aiwo</code> native canary CLI; does not alter the training heartbeat. The CLI parser accepts separated or <code>--name=value</code> options and rejects unknown/missing arguments fail-closed.</td>
-<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates + parser unit tests</td>
+<td>Separate bounded AIWO heartbeat and <code>spec007-aiwo</code> native canary CLI; does not alter the training heartbeat. The CLI parser accepts separated or <code>--name=value</code> options and rejects unknown/missing arguments fail-closed; heartbeat teardown propagates runtime identity ownership.</td>
+<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates + parser unit tests + teardown leak checks</td>
 <td>external providers are compatibility fallbacks, not primary authority</td>
 </tr>
 <tr>

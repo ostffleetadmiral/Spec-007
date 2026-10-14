@@ -11,6 +11,10 @@ pub const Heartbeat = struct {
         return .{ .officer = try runtime.Runtime.init(allocator, name, rank, clearance, duty, custody, cell) };
     }
 
+    pub fn deinit(self: *Heartbeat) void {
+        self.officer.deinit();
+    }
+
     pub fn cycle(self: *Heartbeat) !struct { decision: t.Decision, sequence: u64, elapsed_ms: u64 } {
         self.officer.activate();
         const start = std.time.milliTimestamp();
@@ -21,6 +25,7 @@ pub const Heartbeat = struct {
 
 test "native heartbeat cycle is bounded and sequenced" {
     var h = try Heartbeat.init(std.testing.allocator, "sheraton", .wo3, 6, "audit_integrity", "aiwo", .{ 2, 3, 4 });
+    defer h.deinit();
     const first = try h.cycle();
     const second = try h.cycle();
     try std.testing.expectEqual(@as(u64, 1), first.sequence);

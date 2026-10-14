@@ -22,6 +22,15 @@ pub const ScalePolicy = struct {
     pub fn boundedPrimaryPaths(self: ScalePolicy, budget: usize) usize {
         return @min(self.max_primary_paths, budget);
     }
+
+    fn canonical(self: ScalePolicy) !ScalePolicy {
+        const expected = try forScale(self.scale);
+        if (self.max_primary_paths != expected.max_primary_paths or
+            self.reflections_per_path != expected.reflections_per_path or
+            self.max_total_paths != expected.max_total_paths or
+            self.fully_enumerable != expected.fully_enumerable) return error.InvalidScalePolicy;
+        return expected;
+    }
 };
 
 pub const ChunkPlan = struct {
@@ -34,8 +43,9 @@ pub const ChunkPlan = struct {
 
     pub fn forPolicy(policy: ScalePolicy, chunk_size: usize, max_chunks: usize) !ChunkPlan {
         if (chunk_size == 0 or max_chunks == 0) return error.InvalidChunkBudget;
-        const chunks = (policy.max_total_paths + chunk_size - 1) / chunk_size;
-        return .{ .scale = policy.scale, .theoretical_paths = policy.max_total_paths, .chunk_size = chunk_size, .chunk_count = chunks, .max_chunks = max_chunks, .admitted = chunks <= max_chunks };
+        const canonical = try policy.canonical();
+        const chunks = try std.math.divCeil(usize, canonical.max_total_paths, chunk_size);
+        return .{ .scale = canonical.scale, .theoretical_paths = canonical.max_total_paths, .chunk_size = chunk_size, .chunk_count = chunks, .max_chunks = max_chunks, .admitted = chunks <= max_chunks };
     }
 };
 
@@ -114,7 +124,7 @@ pub const Engine = struct {
         summary[0] = certainty;
         summary[1] = spread;
         summary[2] = @intCast(@min(@as(u256, 1000), @as(u256, step % 1001)));
-        return .{ .trajectory = step + 1, .step = step, .input_token = input_token, .argmax_token = argmax_token, .model_fold = model_fold, .logits_fold = logits_fold, .state_fold = state_fold, .coherence = certainty, .uncertainty = 1000 - certainty, .summary = summary };
+        return .{ .trajectory = step +| 1, .step = step, .input_token = input_token, .argmax_token = argmax_token, .model_fold = model_fold, .logits_fold = logits_fold, .state_fold = state_fold, .coherence = certainty, .uncertainty = 1000 - certainty, .summary = summary };
     }
 
     pub fn commit(self: *const Engine, observation: Observation) Commit {
@@ -124,6 +134,8 @@ pub const Engine = struct {
 
     pub fn reflect(self: *const Engine, observation: Observation, out: []Reflection) !Commit {
         if (out.len < self.policy.reflections_per_path) return error.ReflectionBufferTooSmall;
+        if (observation.trajectory == 0) return error.InvalidTrajectory;
+        if (observation.trajectory > (std.math.maxInt(u64) - 7) / 8) return error.TrajectoryOverflow;
         if (self.policy.scale == 0) return self.commit(observation);
         var winner: Reflection = .{ .trajectory = observation.trajectory, .action = .prune, .branch = 0, .coherence = 0, .checksum = 0 };
         for (0..self.policy.reflections_per_path) |i| {
@@ -173,7 +185,41 @@ test "admitted scale seven plan emits deterministic chunk receipts" {
     }
     try std.testing.expectEqual(@as(usize, 512), count);
     try std.testing.expectEqual(last_fold, cursor.receipt_fold);
+    try std.testing.expectEqual(try std.fmt.parseInt(u256, "38be4934c1497b339147bf2b5d7d2f7e9b36e7596c65ba07d9f74e0a06100000", 16), last_fold);
     try std.testing.expect(cursor.next() == null);
+}
+
+test "chunk planning rejects forged policy and oversized-budget overflow" {
+    const canonical = try ScalePolicy.forScale(7);
+    var forged = canonical;
+    forged.max_total_paths = std.math.maxInt(usize);
+    try std.testing.expectError(error.InvalidScalePolicy, ChunkPlan.forPolicy(forged, 4096, 1024));
+    try std.testing.expectError(error.InvalidScalePolicy, ChunkCursor.init(forged, 4096, 1024));
+
+    const huge_chunk = try ChunkPlan.forPolicy(canonical, std.math.maxInt(usize), 1);
+    try std.testing.expectEqual(@as(usize, 1), huge_chunk.chunk_count);
+    try std.testing.expect(huge_chunk.admitted);
+    try std.testing.expectError(error.ScaleUnsupported, ScalePolicy.forScale(8));
+}
+
+test "reflection rejects invalid trajectories before branch generation" {
+    var engine = try Engine.init(1);
+    var obs = engine.observe(1, 2, 3, 4, 5, 0);
+    var out: [7]Reflection = undefined;
+    obs.trajectory = 0;
+    try std.testing.expectError(error.InvalidTrajectory, engine.reflect(obs, &out));
+
+    obs.trajectory = (std.math.maxInt(u64) - 7) / 8 + 1;
+    try std.testing.expectError(error.TrajectoryOverflow, engine.reflect(obs, &out));
+
+    obs.trajectory = (std.math.maxInt(u64) - 7) / 8;
+    _ = try engine.reflect(obs, &out);
+}
+
+test "observation trajectory saturates at the u64 boundary" {
+    const engine = try Engine.init(0);
+    const obs = engine.observe(1, 2, 3, 4, 5, std.math.maxInt(u64));
+    try std.testing.expectEqual(std.math.maxInt(u64), obs.trajectory);
 }
 
 test "E5 observation and E6 reflection are deterministic" {

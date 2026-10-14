@@ -917,15 +917,21 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>aiwo_types.zig</code></td>
+<td>原生 AIWO schema/version、rank、lifecycle、decision、event、officer、action、decision-record 與 SHA-256/hex digest 契約。</td>
+<td>golden SHA-256 vector 測試 + 全部原生相依項</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>aiwo_policy.zig</code> / <code>aiwo_manifest.zig</code></td>
-<td>原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議。</td>
-<td>原生單元測試 + manifest 檢查</td>
+<td>原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議；偽造/畸形 officer identity 於評估時拒絕，policy digest 固定為原 v1 指紋，manifest JSON 對畸形型別/clearance cap 採 fail-closed。</td>
+<td>原生單元測試 + manifest 檢查 + forged-identity/duty-matrix 測試 + malformed-manifest 測試</td>
 <td>—</td>
 </tr>
 <tr>
 <td><code>aiwo_state.zig</code></td>
-<td>帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。</td>
-<td>snapshot 往返/竄改測試</td>
+<td>帶有 policy digest、單調序號、生命週期、校驗和、唯一暫存檔原子持久化與父目錄 fsync 之版本化 officer 狀態邊界。</td>
+<td>snapshot 往返/竄改測試 + 截斷/生命週期/名稱上限/暫存檔測試</td>
 <td>officer identity 由原生 runtime 持有</td>
 </tr>
 <tr>
@@ -936,44 +942,44 @@
 </tr>
 <tr>
 <td><code>aiwo_prompt.zig</code></td>
-<td>解析任意逗號分隔 token-id prompt 與重複 stop-token policy，供原生 Digit 執行。</td>
-<td>prompt/stop parser 單元測試</td>
+<td>解析任意逗號分隔 token-id prompt 與重複 stop-token policy，供原生 Digit 執行；畸形逗號欄位、大於 u32 的 token ID 與重複 stop 均採 fail-closed。</td>
+<td>prompt/stop parser 單元測試 + malformed-field/ID-boundary 測試</td>
 <td>text tokenizer 整合另行處理</td>
 </tr>
 <tr>
 <td><code>aiwo_digit_bridge.zig</code> / <code>aiwo_digit_model_probe.zig</code></td>
-<td>適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界。</td>
-<td>750-tensor model probe + 真實一/六步路徑 + stop-token 測試</td>
+<td>適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界；bridge 拒絕 zero trajectory、箝制 Q128 摘要，probe options 對未知/缺值參數採 fail-closed。</td>
+<td>750-tensor model probe + 真實一/六步路徑 + stop-token 測試 + bridge/parser 單元測試</td>
 <td>多 token parity 擴展待完成</td>
 </tr>
 <tr>
 <td><code>aiwo_cognitive.zig</code></td>
 <td>以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；scale 0–7 理論路徑數為 1、8、64、512、4096、32768、262144、2097152；不持有 model tensor 或權限。</td>
-<td>原生認知單元測試 + scale parity</td>
-<td>scale 3–7 採有界 chunk planning/admission，不暴力枚舉</td>
+<td>原生認知單元測試 + scale parity + forged-policy/trajectory-boundary 測試</td>
+<td>scale 3–7 採 canonical fail-closed chunk planning/admission，不暴力枚舉；scale-7 receipt fold 已固定</td>
 </tr>
 <tr>
 <td><code>aiwo_model_observation.zig</code></td>
-<td>將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。</td>
-<td>原生 model-observation 單元測試 + 真實 Digit 探針</td>
+<td>將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version；內部累加擴寬為 i512，並拒絕無效 trajectory 與過大 logit vector。</td>
+<td>原生 model-observation 單元測試 + full-width i128 range 測試 + 真實 Digit 探針</td>
 <td>任意外部 model session 仍採有界執行</td>
 </tr>
 <tr>
 <td><code>aiwo_directive.zig</code> / <code>aiwo_runtime.zig</code></td>
-<td>原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。</td>
-<td>原生 AIWO parity 探針 + 真實 Digit model 探針</td>
+<td>原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。Directive ID 綁定完整權限上下文；runtime 擁有 officer identity 字串、提供明確 teardown，且 sequence/cycle 耗盡時在不前進的狀態下拒絕。</td>
+<td>原生 AIWO parity 探針 + 真實 Digit model 探針 + complete-context directive ID 測試 + ownership/exhaustion 測試</td>
 <td>多 token/完整生成硬化待完成</td>
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
-<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；<code>aiwo_dht</code> 將 Ed25519 回執金鑰引導至 <code>0700</code> key dir，以原子寫入建立 <code>0600</code> private/<code>0644</code> public DER，驗證金鑰對對應，並持有 <code>Store</code> teardown。</td>
-<td>FANO 竄改測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試</td>
+<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；FANO heartbeat 以 digest 綁定完整 officer identity 並拒絕超出 wire field 的 sequence，<code>aiwo_dht</code> 將 Ed25519 回執金鑰引導至 <code>0700</code> key dir，以原子寫入建立 <code>0600</code> private/<code>0644</code> public DER，驗證金鑰對對應，並持有 <code>Store</code> teardown。</td>
+<td>FANO 竄改/long-identity/sequence-boundary 測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試</td>
 <td>原生 DHT emission 已上線</td>
 </tr>
 <tr>
 <td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
-<td>獨立有界 AIWO heartbeat 與 <code>spec007-aiwo</code> 原生 canary CLI；不改變 training heartbeat。CLI parser 接受 separated 或 <code>--name=value</code> 選項，並對未知/缺值參數採 fail-closed 拒絕。</td>
-<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates + parser 單元測試</td>
+<td>獨立有界 AIWO heartbeat 與 <code>spec007-aiwo</code> 原生 canary CLI；不改變 training heartbeat。CLI parser 接受 separated 或 <code>--name=value</code> 選項，並對未知/缺值參數採 fail-closed 拒絕；heartbeat teardown 傳遞 runtime identity ownership。</td>
+<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates + parser 單元測試 + teardown leak 檢查</td>
 <td>外部 provider 僅為 compatibility fallback，非主權限路徑</td>
 </tr>
 <tr>

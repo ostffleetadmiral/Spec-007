@@ -70,6 +70,7 @@ pub fn main() !void {
     if (!std.mem.eql(u8, command, "run")) return error.UnknownCommand;
     const options = try parseRunArgs(&args);
     var h = try runtime_mod.Runtime.initWithScale(alloc, "digit", .wo3, 6, "core_integrity", "aiwo", .{ 1, 2, 3 }, options.scale);
+    defer h.deinit();
     h.activate();
     const result = try h.runCycle(.{ .name = "patrol-observation" });
     const p = h.cognitive_engine.policy;

@@ -2,7 +2,8 @@
 const cognitive = @import("aiwo_cognitive");
 const digit = @import("digit_brain");
 
-pub fn adapt(observation: digit.ModelObservation) cognitive.Observation {
+pub fn adapt(observation: digit.ModelObservation) !cognitive.Observation {
+    if (observation.trajectory_id == 0) return error.InvalidTrajectory;
     var summary: [8]u16 = [_]u16{0} ** 8;
     for (observation.observed_summary, 0..) |value, index| {
         const whole = @divTrunc(value.raw, @as(@TypeOf(value.raw), 1) << 128);
@@ -38,8 +39,33 @@ test "Digit observation adapts without exposing model tensors" {
         .uncertainty = fp.Q128_128.fromInt(1),
         .recurrent_state_version = 4,
     };
-    const output = adapt(input);
+    const output = try adapt(input);
     try @import("std").testing.expectEqual(@as(u32, 11), output.argmax_token);
     try @import("std").testing.expectEqual(@as(u64, 7), output.trajectory);
     try @import("std").testing.expectEqual(@as(u16, 3), output.coherence);
+}
+
+test "Digit bridge rejects invalid trajectories and clamps Q128 bounds" {
+    const fp = @import("fixed_point");
+    const invalid = digit.ModelObservation{
+        .trajectory_id = 0,
+        .step = 0,
+        .input_token = 10,
+        .argmax_token = 11,
+        .checkpoint_fold = 12,
+        .logits_checksum = 13,
+        .e5_state_checksum = 14,
+        .coherence = fp.Q128_128.fromInt(3),
+        .uncertainty = fp.Q128_128.fromInt(1),
+        .recurrent_state_version = 4,
+    };
+    try @import("std").testing.expectError(error.InvalidTrajectory, adapt(invalid));
+
+    var clamped_input = invalid;
+    clamped_input.trajectory_id = 1;
+    clamped_input.coherence = fp.Q128_128.fromInt(2000);
+    clamped_input.uncertainty = fp.Q128_128.fromInt(-2);
+    const clamped = try adapt(clamped_input);
+    try @import("std").testing.expectEqual(@as(u16, 1000), clamped.coherence);
+    try @import("std").testing.expectEqual(@as(u16, 0), clamped.uncertainty);
 }

@@ -7,6 +7,36 @@ const fp = @import("digit_fixed_point");
 const aiwo_runtime = @import("aiwo_runtime");
 const prompt_mod = @import("aiwo_prompt");
 
+fn takeValue(args: anytype, arg: []const u8, name: []const u8, missing: anyerror) !?[]const u8 {
+    if (std.mem.eql(u8, arg, name)) return args.next() orelse return missing;
+    if (std.mem.startsWith(u8, arg, name) and arg.len > name.len and arg[name.len] == '=') return arg[name.len + 1 ..];
+    return null;
+}
+
+fn parseProbeArgs(args: anytype) !prompt_mod.Prompt {
+    var prompt = try prompt_mod.parse("248044");
+    try prompt_mod.addStop(&prompt, 151643);
+    var token_text: ?[]const u8 = null;
+    while (args.next()) |arg| {
+        if (try takeValue(args, arg, "--tokens", error.MissingTokens)) |value| {
+            token_text = value;
+            continue;
+        }
+        if (try takeValue(args, arg, "--stop-token", error.MissingStopToken)) |value| {
+            const token = try std.fmt.parseInt(usize, value, 10);
+            try prompt_mod.addStop(&prompt, token);
+            continue;
+        }
+        return error.UnknownArgument;
+    }
+    if (token_text) |text| {
+        const parsed = try prompt_mod.parse(text);
+        prompt.tokens = parsed.tokens;
+        prompt.len = parsed.len;
+    }
+    return prompt;
+}
+
 fn feed(
     allocator: std.mem.Allocator,
     session: *session_mod.Session,
@@ -41,14 +71,9 @@ pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const alloc = gpa.allocator();
-    var prompt = try prompt_mod.parse("248044");
-    try prompt_mod.addStop(&prompt, 151643);
     var args = std.process.args();
     _ = args.next();
-    while (args.next()) |arg| {
-        if (std.mem.eql(u8, arg, "--tokens")) prompt = try prompt_mod.parse(args.next() orelse return error.MissingTokens);
-        if (std.mem.eql(u8, arg, "--stop-token")) try prompt_mod.addStop(&prompt, try std.fmt.parseInt(usize, args.next() orelse return error.MissingStopToken, 10));
-    }
+    const prompt = try parseProbeArgs(&args);
     const package_bytes = try std.fs.cwd().readFileAlloc(alloc, "deps/digit/decoder_q4.dgqp", 8 * 1024 * 1024);
     defer alloc.free(package_bytes);
     const model_bytes = try std.fs.cwd().readFileAlloc(alloc, "models/digit-qwen3.5-2b-onnx-opt/onnx/decoder_model_merged_q4.onnx", 16 * 1024 * 1024);
@@ -64,8 +89,9 @@ pub fn main() !void {
     defer session.deinit();
     try session.seedInputs();
     var officer = try aiwo_runtime.Runtime.init(alloc, "digit", .wo3, 6, "core_integrity", "aiwo", .{ 1, 2, 3 });
+    defer officer.deinit();
     officer.activate();
-    const steps_requested: usize = if (std.posix.getenv("AIWO_DIGIT_STEPS")) |value| std.fmt.parseInt(usize, value, 10) catch 1 else @max(prompt.len, 1);
+    const steps_requested: usize = if (std.posix.getenv("AIWO_DIGIT_STEPS")) |value| try std.fmt.parseInt(usize, value, 10) else @max(prompt.len, 1);
     if (steps_requested == 0 or steps_requested > 6) return error.InvalidStepCount;
     var steps: usize = 0;
     var token: usize = prompt.tokens[0];
@@ -93,4 +119,42 @@ pub fn main() !void {
         }
     }
     try std.io.getStdOut().writer().print("{{\"schema\":\"AIWO-DIGIT-MODEL-v4\",\"steps\":{d},\"package_bytes\":{d},\"indexed_tensors\":{d},\"weights_uploaded\":{d},\"input_token\":{d},\"prompt_tokens\":{d},\"stop_reason\":\"{s}\",\"generated_ids\":[{d},{d},{d},{d},{d},{d}],\"checkpoint_folds\":[\"{x}\",\"{x}\",\"{x}\",\"{x}\",\"{x}\",\"{x}\"],\"aiwo_sequences\":[{d},{d},{d},{d},{d},{d}],\"aiwo_decisions\":[\"{s}\",\"{s}\",\"{s}\",\"{s}\",\"{s}\",\"{s}\"],\"wire_bytes\":136,\"execution\":\"native-aiwo\"}}\n", .{ steps, package_bytes.len, index.tensors.items.len, total_uploads, prompt.tokens[0], prompt.len, stop_reason, outputs[0], outputs[1], outputs[2], outputs[3], outputs[4], outputs[5], folds[0], folds[1], folds[2], folds[3], folds[4], folds[5], aiwo_sequences[0], aiwo_sequences[1], aiwo_sequences[2], aiwo_sequences[3], aiwo_sequences[4], aiwo_sequences[5], aiwo_decisions[0], aiwo_decisions[1], aiwo_decisions[2], aiwo_decisions[3], aiwo_decisions[4], aiwo_decisions[5] });
+}
+
+const TestArgs = struct {
+    items: []const []const u8,
+    index: usize = 0,
+
+    fn next(self: *TestArgs) ?[]const u8 {
+        if (self.index >= self.items.len) return null;
+        defer self.index += 1;
+        return self.items[self.index];
+    }
+};
+
+fn parseTest(items: []const []const u8) !prompt_mod.Prompt {
+    var args = TestArgs{ .items = items };
+    return parseProbeArgs(&args);
+}
+
+test "digit probe parses separated and equals-style prompt options" {
+    const separated = [_][]const u8{ "--tokens", "248044,248044", "--stop-token", "510" };
+    const a = try parseTest(&separated);
+    try std.testing.expectEqual(@as(usize, 2), a.len);
+    try std.testing.expect(a.containsStop(510));
+    try std.testing.expect(a.containsStop(151643));
+
+    const equals = [_][]const u8{ "--stop-token=81", "--tokens=248044" };
+    const b = try parseTest(&equals);
+    try std.testing.expectEqual(@as(usize, 1), b.len);
+    try std.testing.expect(b.containsStop(81));
+}
+
+test "digit probe rejects unknown and missing arguments" {
+    const unknown = [_][]const u8{"--bogus"};
+    try std.testing.expectError(error.UnknownArgument, parseTest(&unknown));
+    const missing_tokens = [_][]const u8{"--tokens"};
+    try std.testing.expectError(error.MissingTokens, parseTest(&missing_tokens));
+    const missing_stop = [_][]const u8{"--stop-token"};
+    try std.testing.expectError(error.MissingStopToken, parseTest(&missing_stop));
 }
