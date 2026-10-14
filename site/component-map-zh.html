@@ -967,14 +967,20 @@
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
 <td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。</td>
-<td>FANO 竄改測試 + DHT 整合待完成</td>
-<td>—</td>
+<td>FANO 竄改測試 + 逐 chunk 簽章 DHT 回執</td>
+<td>原生 DHT emission 已上線</td>
 </tr>
 <tr>
 <td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
 <td>獨立有界 AIWO heartbeat 與 <code>spec007-aiwo</code> 原生 canary CLI；不改變 training heartbeat。</td>
-<td><code>node security/aiwo-native-parity.mjs</code></td>
-<td>原生 cutover 待完成</td>
+<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates</td>
+<td>外部 provider 僅為 compatibility fallback，非主權限路徑</td>
+</tr>
+<tr>
+<td><code>perf_baseline.zig</code></td>
+<td>純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、atomic checkpoint round-trip。</td>
+<td><code>spec007-perf-baseline</code> ReleaseFast JSON + unit fold test</td>
+<td>量測式最佳化基線已落地</td>
 </tr>
 </tbody>
 </table>
@@ -1027,9 +1033,15 @@
 </tr>
 <tr>
 <td><code>docs/component-census.json</code> / <code>docs/component-retrograde.json</code></td>
-<td>全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選)。</td>
+<td>全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選與量測基線繫結)。</td>
 <td><code>node tools/component-census.mjs --verify</code> + <code>node tools/component-retrograde.mjs --verify</code></td>
-<td>已盤點 278 components;完整 retrograde 完成度保持明示</td>
+<td>已盤點 280 components;完整 retrograde 完成度保持明示</td>
+</tr>
+<tr>
+<td><code>tools/component-performance.mjs</code> / <code>security/out/component-performance.json</code></td>
+<td>可重現工作流量測發射/驗證器：build graph、原生 microbench、scale-7 chunk+DHT、Digit model probe、census/retrograde、治理、Academy 與 site build timing，皆具明確元件繫結。</td>
+<td><code>node tools/component-performance.mjs --verify</code></td>
+<td>量測基線已繫入 retrograde 帳</td>
 </tr>
 <tr>
 <td><code>admiralty-desk/</code></td>

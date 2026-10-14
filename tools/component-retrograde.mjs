@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const CENSUS = path.join(ROOT, "docs", "component-census.json");
+const PERF = path.join(ROOT, "security", "out", "component-performance.json");
 const OUT = path.join(ROOT, "docs", "component-retrograde.json");
 const DEBRIEF = path.join(ROOT, "docs", "component-retrograde.md");
 const EMIT = process.argv.includes("--emit");
@@ -18,6 +19,22 @@ const VERIFY = process.argv.includes("--verify");
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
 const exists = rel => fs.existsSync(path.join(ROOT, rel));
 const census = JSON.parse(fs.readFileSync(CENSUS, "utf8"));
+const perf = exists(path.relative(ROOT, PERF)) ? JSON.parse(fs.readFileSync(PERF, "utf8")) : null;
+const perfByComponent = new Map();
+const perfSelectors = new Set();
+const perfWorkstreams = new Set();
+for (const m of perf?.measurements || []) {
+  if (m.status !== "PASS") continue;
+  for (const rel of m.bindings?.components || []) perfByComponent.set(rel, [...(perfByComponent.get(rel) || []), m.id]);
+  if (m.bindings?.selector) perfSelectors.add(m.bindings.selector);
+  for (const ws of m.bindings?.workstreams || []) if (ws !== "all") perfWorkstreams.add(ws);
+}
+const perfMeasurementsFor = c => {
+  const ids = new Set(perfByComponent.get(c.component) || []);
+  if (perfSelectors.has("unit-tested-zig") && c.tests.kind === "zig" && c.tests.blocks > 0 && c.tests.registered) ids.add("zig-build-test");
+  if (perfSelectors.has("site-academy-generated") && c.component.startsWith("site/assets/academy/")) ids.add("academy-harvest-verify");
+  return [...ids].sort();
+};
 
 const WORKSTREAM = [
   [/^src\/aiwo_|^src\/dht_native\.zig$/, "native-aiwo-dht"],
@@ -52,8 +69,13 @@ const sourceIndex = [...sourceTexts.entries()];
 
 const stem = rel => path.basename(rel, path.extname(rel));
 const fileName = rel => path.basename(rel);
-const sha256 = rel => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
-const lineCount = text => text.length === 0 ? 0 : text.split("\n").length;
+const sha256Text = text => crypto.createHash("sha256").update(text).digest("hex");
+const lineCount = text => {
+  if (text.length === 0) return 0;
+  let lines = 1;
+  for (let i = 0; i < text.length; i += 1) if (text.charCodeAt(i) === 10) lines += 1;
+  return lines;
+};
 
 function importsFor(rel, text) {
   const out = new Set();
@@ -102,17 +124,20 @@ function statusFor(c, source, referenced) {
 const components = census.components.map(c => {
   const abs = path.join(ROOT, c.component);
   const stat = fs.existsSync(abs) ? fs.statSync(abs) : null;
-  const source = stat && !c.contract.generated ? read(c.component) : "";
+  const source = stat && !c.contract.generated
+    ? (sourceTexts.has(c.component) ? sourceTexts.get(c.component) : read(c.component))
+    : "";
   const refs = referencedBy(c.component);
   const imports = source ? importsFor(c.component, source) : [];
   const todo_markers = source ? (source.match(MARKER_RE) || []).length : 0;
   const status = statusFor(c, source, refs);
+  const measurements = perfMeasurementsFor(c);
   return {
     component: c.component,
     workstream: workstream(c.component),
     status,
     reverse_engineering: {
-      sha256: stat && !c.contract.generated ? sha256(c.component) : null,
+      sha256: stat && !c.contract.generated ? sha256Text(source) : null,
       bytes: stat && !c.contract.generated ? stat.size : 0,
       lines: source ? lineCount(source) : null,
       imports,
@@ -136,7 +161,9 @@ const components = census.components.map(c => {
     },
     optimization: {
       hot_path: HOT_PATH.test(c.component),
-      measured: /latency|throughput|benchmark|measured|profile|performance|speed/i.test(source),
+      measured: measurements.length > 0 || /latency|throughput|benchmark|measured|profile|performance|speed/i.test(source),
+      measurements,
+      workstream_measured: perfWorkstreams.has(workstream(c.component)),
       decision: "baseline-only",
     },
   };
@@ -156,6 +183,14 @@ const summary = {
   pending_review: count(c => c.status === "PENDING_COMPONENT_REVIEW"),
   todo_markers: components.reduce((n, c) => n + c.reverse_engineering.todo_markers, 0),
   hot_path_candidates: components.filter(c => c.optimization.hot_path).map(c => c.component),
+  measured_components: count(c => c.optimization.measured),
+  workstream_measured_components: count(c => c.optimization.workstream_measured),
+  performance_baseline: perf ? {
+    schema: perf.schema,
+    measurements: perf.summary?.measurements ?? 0,
+    bound_components: perf.summary?.bound_components ?? 0,
+    selectors: perf.summary?.selectors ?? [],
+  } : null,
   completed_full_retrograde: 0,
 };
 const result = { schema: summary.schema, summary, components };
@@ -167,6 +202,8 @@ const md = `# Spec-007 component retrograde ledger\n\n` +
   `- Generated artifacts bound: ${summary.generated_bound}\n` +
   `- Pending component review: ${summary.pending_review}\n` +
   `- Deferred-work markers: ${summary.todo_markers}\n` +
+  `- Performance-measured components: ${summary.measured_components}\n` +
+  `- Workstream-measured components: ${summary.workstream_measured_components}\n` +
   `- Fully retrograded/optimized: ${summary.completed_full_retrograde}\n\n` +
   `## Status counts\n\n` +
   Object.entries(statusCounts).map(([k, v]) => `- ${k}: ${v}`).join("\n") +

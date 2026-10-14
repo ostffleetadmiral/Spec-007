@@ -71,7 +71,8 @@
       ],
       "exclude": [
         "docs/en/declassified-7q/**",
-        "docs/en/declassified-gnm/**"
+        "docs/en/declassified-gnm/**",
+        "docs/component-*.md"
       ]
     },
     {

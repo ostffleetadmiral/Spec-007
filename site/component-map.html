@@ -1022,14 +1022,20 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
 <td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate.</td>
-<td>FANO mutation tests + DHT integration pending</td>
-<td>—</td>
+<td>FANO mutation tests + signed per-chunk DHT receipts</td>
+<td>native DHT emission live</td>
 </tr>
 <tr>
 <td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
 <td>Separate bounded AIWO heartbeat and <code>spec007-aiwo</code> native canary CLI; does not alter the training heartbeat.</td>
-<td><code>node security/aiwo-native-parity.mjs</code></td>
-<td>native cutover pending</td>
+<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates</td>
+<td>external providers are compatibility fallbacks, not primary authority</td>
+</tr>
+<tr>
+<td><code>perf_baseline.zig</code></td>
+<td>Integer-only microbenchmark surface for Q128 arithmetic, FANO seal/verify, scale-7 chunk traversal, and atomic checkpoint round-trips.</td>
+<td><code>spec007-perf-baseline</code> ReleaseFast JSON + unit fold test</td>
+<td>measured optimization baseline landed</td>
 </tr>
 </tbody>
 </table>
@@ -1082,9 +1088,15 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>docs/component-census.json</code> / <code>docs/component-retrograde.json</code></td>
-<td>Exhaustive component→contract→tests→docs→artifacts census plus the per-component reverse-engineering ledger (workstream, imports, references, verification class, and optimization candidate).</td>
+<td>Exhaustive component→contract→tests→docs→artifacts census plus the per-component reverse-engineering ledger (workstream, imports, references, verification class, optimization candidate, and measured baseline binding).</td>
 <td><code>node tools/component-census.mjs --verify</code> + <code>node tools/component-retrograde.mjs --verify</code></td>
-<td>278 components inventoried; full retrograde completion remains explicit</td>
+<td>280 components inventoried; full retrograde completion remains explicit</td>
+</tr>
+<tr>
+<td><code>tools/component-performance.mjs</code> / <code>security/out/component-performance.json</code></td>
+<td>Reproducible workstream baseline emitter/verifier: build graph, native microbench, scale-7 chunk+DHT, Digit model probe, census/retrograde, governance, Academy, and site build timings with explicit component bindings.</td>
+<td><code>node tools/component-performance.mjs --verify</code></td>
+<td>measured baseline bound into the retrograde ledger</td>
 </tr>
 <tr>
 <td><code>admiralty-desk/</code></td>

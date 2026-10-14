@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "reference-stack",
-  "lesson_count": 10821,
+  "lesson_count": 10816,
   "lessons": [
     {
       "access": "public",
@@ -42382,21 +42382,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-43759fd64dcb9e17",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Components: 278 - Unit-tested Zig surfaces: 98 - Generated artifacts bound: 38 - Pending component review: 0 - Deferred-work markers: 0 - Fully retrograded/optimized: 0",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/component-retrograde.md",
-      "title": "Spec-007 component retrograde ledger",
-      "topic": "reference"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-437f56902278216e",
       "language": [
         "en"
@@ -83452,21 +83437,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-84f162f85bc2216c",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- application-artifacts: 2 - desk-shell: 5 - digit-model-donor: 18 - firmware: 1 - governance-tools: 41 - native-aiwo-dht: 17 - published-surface: 43 - q128-arithmetic: 2 - qstar-donor: 67 - security-lab: 53 - spec007-core: 20 - spec008-wire: 9",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/component-retrograde.md",
-      "title": "Workstreams",
-      "topic": "reference"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-85014f4691932947",
       "language": [
         "en"
@@ -87676,21 +87646,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Record a referral-link visit",
-      "topic": "reference"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-8ba392e4b9493160",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Components: 278 - Source: 240 - Generated: 38 - Basename mapped: 266 - Contract mapped: 278 - Manifest bound: 33 - Owner bound: 26 - Unmapped contract: 0 - Pending component review: 278",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/component-census.md",
-      "title": "Spec-007 component census",
       "topic": "reference"
     },
     {
@@ -132067,21 +132022,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-d01b4a1c12e2cd27",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This ledger is a reverse-engineering baseline, not a completion claim. A component is fully retrograded only after its isolated verification, documentation, performance measurement, optimization decision, and archive row land.",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/component-retrograde.md",
-      "title": "Pending review",
-      "topic": "reference"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-d024e9b19792283a",
       "language": [
         "en"
@@ -156751,21 +156691,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/native-launchpad.md",
       "title": "mainnet: spends about 0.006 SOL of rent from the partner wallet. Owner-approved only.",
-      "topic": "reference"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-f72a042ab953b513",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- BUILDGRAPHCOVERED: 25 - DOCUMENTEDCOMPONENT: 23 - GENERATEDARTIFACTBOUND: 38 - SCRIPTHARNESSBOUND: 94 - UNITTESTED: 98",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/component-retrograde.md",
-      "title": "Status counts",
       "topic": "reference"
     },
     {

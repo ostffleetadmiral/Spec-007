@@ -387,6 +387,15 @@ pub fn build(b: *std.Build) void {
     aiwo_cli.root_module.addImport("aiwo_runtime", aiwo_runtime);
     b.installArtifact(aiwo_cli);
 
+    const perf_baseline = b.addExecutable(.{
+        .name = "spec007-perf-baseline",
+        .root_source_file = b.path("src/perf_baseline.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    b.installArtifact(perf_baseline);
+    depTest(b, test_step, "src/perf_baseline.zig", target, optimize, &.{});
+
     // ── spec007 integer harnesses (was a serial zig-test loop in
     //    publish-check — the build graph parallelizes + caches) ───────
     const spec007_harnesses = [_][]const u8{

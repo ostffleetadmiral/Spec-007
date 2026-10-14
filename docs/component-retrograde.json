@@ -2,30 +2,30 @@
   "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
   "summary": {
     "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
-    "census_components": 278,
-    "components": 278,
+    "census_components": 280,
+    "components": 280,
     "status_counts": {
       "BUILD_GRAPH_COVERED": 25,
       "DOCUMENTED_COMPONENT": 23,
       "GENERATED_ARTIFACT_BOUND": 38,
-      "SCRIPT_HARNESS_BOUND": 94,
-      "UNIT_TESTED": 98
+      "SCRIPT_HARNESS_BOUND": 95,
+      "UNIT_TESTED": 99
     },
     "workstreams": {
       "application-artifacts": 2,
       "desk-shell": 5,
       "digit-model-donor": 18,
       "firmware": 1,
-      "governance-tools": 41,
+      "governance-tools": 42,
       "native-aiwo-dht": 17,
       "published-surface": 43,
       "q128-arithmetic": 2,
       "qstar-donor": 67,
       "security-lab": 53,
-      "spec007-core": 20,
+      "spec007-core": 21,
       "spec008-wire": 9
     },
-    "unit_tested": 98,
+    "unit_tested": 99,
     "generated_bound": 38,
     "pending_review": 0,
     "todo_markers": 0,
@@ -126,6 +126,18 @@
       "tools/evidence-manifest.mjs",
       "tools/publish-check.sh"
     ],
+    "measured_components": 158,
+    "workstream_measured_components": 189,
+    "performance_baseline": {
+      "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
+      "measurements": 10,
+      "bound_components": 28,
+      "selectors": [
+        "release-artifacts",
+        "site-academy-generated",
+        "unit-tested-zig"
+      ]
+    },
     "completed_full_retrograde": 0
   },
   "components": [
@@ -159,6 +171,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -200,6 +214,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -236,6 +252,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -279,6 +297,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -320,6 +340,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -362,6 +384,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -412,6 +436,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -450,7 +476,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -489,7 +519,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -529,7 +563,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -582,7 +620,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -608,7 +650,8 @@
         ],
         "referenced_by": [
           "deps/digit/src/model_session.zig",
-          "deps/digit/src/tensor_upload.zig"
+          "deps/digit/src/tensor_upload.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 54
@@ -630,6 +673,10 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -670,7 +717,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -708,7 +759,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -732,7 +787,8 @@
         ],
         "referenced_by": [
           "deps/digit/src/brain_contracts.zig",
-          "src/aiwo_digit_model_probe.zig"
+          "src/aiwo_digit_model_probe.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 33
@@ -753,7 +809,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -791,7 +851,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -809,7 +873,8 @@
         "referenced_by": [
           "deps/digit/src/graph_exec.zig",
           "deps/digit/src/model_package.zig",
-          "deps/digit/src/model_session.zig"
+          "deps/digit/src/model_session.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 10
@@ -830,7 +895,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -869,7 +938,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -887,6 +960,7 @@
         ],
         "referenced_by": [
           "src/golden_emit.zig",
+          "src/perf_baseline.zig",
           "src/spec007_alpha_probe.zig",
           "src/spec007_astrometric_probe.zig",
           "src/spec007_calculations.zig",
@@ -900,8 +974,7 @@
           "src/spec007_fixedpoint_prototype.zig",
           "src/spec007_manifold_calculations.zig",
           "src/spec007_portal_probe.zig",
-          "src/spec007_q_toys.zig",
-          "src/spec007_verified_calculations.zig"
+          "src/spec007_q_toys.zig"
         ],
         "todo_markers": 0,
         "public_surface": 82
@@ -922,7 +995,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -941,7 +1018,8 @@
           "tensor_ops"
         ],
         "referenced_by": [
-          "src/aiwo_digit_model_probe.zig"
+          "src/aiwo_digit_model_probe.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 4
@@ -962,7 +1040,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -1000,7 +1082,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -1038,7 +1124,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -1080,7 +1170,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -1119,7 +1213,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -1158,7 +1256,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -1211,6 +1313,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1257,6 +1361,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1304,6 +1410,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1350,7 +1458,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1391,7 +1503,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1444,6 +1560,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1490,6 +1608,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1537,6 +1657,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1590,7 +1712,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1642,7 +1768,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1681,7 +1811,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1734,6 +1868,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1781,6 +1917,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1829,6 +1967,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1880,7 +2020,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1927,7 +2071,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -1975,7 +2123,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2021,7 +2173,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2066,7 +2222,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2119,6 +2279,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2169,6 +2331,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2221,6 +2385,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2268,6 +2434,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2316,6 +2484,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2366,6 +2536,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2415,7 +2587,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2467,7 +2643,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2505,7 +2685,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2545,7 +2729,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2588,7 +2776,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2641,6 +2833,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2687,6 +2881,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2734,6 +2930,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2780,7 +2978,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2832,7 +3034,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2874,7 +3080,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2928,6 +3138,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -2980,6 +3194,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3026,6 +3242,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3073,6 +3291,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3124,7 +3344,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3177,7 +3401,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3230,6 +3458,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3278,6 +3508,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3327,6 +3559,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3367,7 +3601,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3406,7 +3644,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3445,7 +3687,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3483,7 +3729,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3525,7 +3775,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3564,7 +3818,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3602,7 +3860,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3643,7 +3905,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3683,7 +3949,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3724,7 +3994,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3762,7 +4036,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3801,7 +4079,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3839,7 +4121,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3877,7 +4163,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3930,6 +4220,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -3976,6 +4268,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4023,6 +4317,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4074,7 +4370,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4117,7 +4417,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4160,7 +4464,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4200,7 +4508,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4238,6 +4550,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4271,6 +4585,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -4313,6 +4629,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4357,6 +4675,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4404,6 +4724,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4421,7 +4743,8 @@
           "node:path"
         ],
         "referenced_by": [
-          "security/team-sweep-2.mjs"
+          "security/team-sweep-2.mjs",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -4443,6 +4766,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4460,7 +4785,8 @@
           "node:path"
         ],
         "referenced_by": [
-          "security/team-sweep-2.mjs"
+          "security/team-sweep-2.mjs",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -4482,6 +4808,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4529,6 +4857,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4570,6 +4900,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4608,6 +4940,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4648,6 +4982,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4694,6 +5030,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4729,6 +5067,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4771,6 +5111,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4812,6 +5154,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4852,6 +5196,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4894,6 +5240,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4935,6 +5283,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -4970,6 +5320,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5011,6 +5363,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5046,6 +5400,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5094,6 +5450,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5137,6 +5495,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5175,6 +5535,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5215,6 +5577,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5257,6 +5621,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5308,6 +5674,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5353,6 +5721,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5395,6 +5765,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5434,6 +5806,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5489,6 +5863,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5536,6 +5912,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5579,6 +5957,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5620,6 +6000,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5661,6 +6043,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5698,6 +6082,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5738,6 +6124,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5776,6 +6164,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5817,6 +6207,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5857,6 +6249,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5899,6 +6293,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5939,6 +6335,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -5978,6 +6376,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6022,6 +6422,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6062,6 +6464,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6104,6 +6508,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6148,6 +6554,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6169,6 +6577,7 @@
         ],
         "referenced_by": [
           "security/fano-mesh-bridge.mjs",
+          "tools/component-performance.mjs",
           "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
@@ -6191,6 +6600,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6233,6 +6644,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6290,6 +6703,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6329,6 +6744,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6379,6 +6796,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6423,6 +6842,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6462,6 +6883,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6502,6 +6925,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6521,6 +6946,7 @@
           "tools/academy-harvest.mjs",
           "tools/academy-review.mjs",
           "tools/component-census.mjs",
+          "tools/component-performance.mjs",
           "tools/course-gen.mjs",
           "tools/curriculum-map.mjs",
           "tools/engine-manifest.mjs",
@@ -6549,7 +6975,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6588,6 +7018,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6627,6 +7059,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6665,7 +7099,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6703,7 +7141,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6743,7 +7185,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6781,7 +7227,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6819,7 +7269,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6857,7 +7311,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6895,7 +7353,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6935,7 +7397,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -6974,7 +7440,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7012,7 +7482,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7050,7 +7524,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7088,7 +7566,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7126,7 +7608,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7164,7 +7650,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7204,6 +7694,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7243,6 +7735,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7284,6 +7778,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7322,6 +7818,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7370,6 +7868,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7410,6 +7910,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7448,6 +7950,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7485,6 +7989,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7526,6 +8032,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7563,6 +8071,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7571,7 +8081,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "6e5bbb8074159552dc0a7029330b3139d7ebd397691f2a9483b513e6122dcac6",
+        "sha256": "c8f4905a85171b256dde6944847f471110f466a533b1d46f14b041fa47822ddb",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -7601,6 +8111,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7609,7 +8121,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "3ec277b2b269df7ef834a2bb46f8bd3ccb987dd932f535ff6f8c20daffcedc6e",
+        "sha256": "f4e076ab083fc4e4a44f8408f48331ef42628d2871959e73b08c8cdfab5a1c4f",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -7637,6 +8149,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7673,6 +8187,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7712,6 +8228,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7727,6 +8245,7 @@
         "referenced_by": [
           "security/team-sweep-2.mjs",
           "site/assets/fano-desktop.js",
+          "tools/component-performance.mjs",
           "tools/gov-map.mjs",
           "tools/publish-check.sh"
         ],
@@ -7749,7 +8268,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "gov-map-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7788,6 +8311,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7825,6 +8350,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7863,6 +8390,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7904,6 +8433,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7941,6 +8472,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -7979,6 +8512,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8016,6 +8551,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8054,6 +8591,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8080,9 +8619,9 @@
           "src/aiwo_chunk_checkpoint.zig",
           "src/aiwo_cli.zig",
           "src/aiwo_state.zig",
+          "src/perf_baseline.zig",
           "src/spec007_alpha_probe.zig",
-          "src/spec007_astrometric_probe.zig",
-          "src/spec007_calculations.zig"
+          "src/spec007_astrometric_probe.zig"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -8104,6 +8643,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8142,6 +8683,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8181,6 +8724,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8196,7 +8741,9 @@
           "std"
         ],
         "referenced_by": [
-          "src/aiwo_cli.zig"
+          "src/aiwo_cli.zig",
+          "src/perf_baseline.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 3
@@ -8217,7 +8764,13 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht",
+          "native-microbench",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8237,7 +8790,9 @@
           "aiwo_types",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-performance.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 1
       },
@@ -8257,7 +8812,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8276,7 +8835,9 @@
           "src/aiwo_cli.zig",
           "src/aiwo_digit_bridge.zig",
           "src/aiwo_model_observation.zig",
-          "src/aiwo_runtime.zig"
+          "src/aiwo_runtime.zig",
+          "src/perf_baseline.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 18
@@ -8297,7 +8858,13 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht",
+          "native-microbench",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8314,7 +8881,8 @@
           "std"
         ],
         "referenced_by": [
-          "src/aiwo_cli.zig"
+          "src/aiwo_cli.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 4
@@ -8335,7 +8903,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8354,7 +8926,8 @@
           "std"
         ],
         "referenced_by": [
-          "src/aiwo_runtime.zig"
+          "src/aiwo_runtime.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -8375,7 +8948,12 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "digit-model-probe",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8396,7 +8974,9 @@
           "digit_qwen_embed",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-performance.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 1
       },
@@ -8416,7 +8996,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "digit-model-probe"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8455,7 +9039,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8493,7 +9081,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8530,7 +9122,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8566,7 +9162,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8582,7 +9182,9 @@
           "aiwo_cognitive",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-performance.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 2
       },
@@ -8602,7 +9204,12 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "digit-model-probe",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8641,7 +9248,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8657,7 +9268,8 @@
           "std"
         ],
         "referenced_by": [
-          "src/aiwo_digit_model_probe.zig"
+          "src/aiwo_digit_model_probe.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 4
@@ -8678,7 +9290,12 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "digit-model-probe",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8705,6 +9322,7 @@
           "src/aiwo_cli.zig",
           "src/aiwo_digit_model_probe.zig",
           "src/aiwo_heartbeat.zig",
+          "tools/component-performance.mjs",
           "tools/engine-manifest.mjs"
         ],
         "todo_markers": 0,
@@ -8726,7 +9344,13 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht",
+          "digit-model-probe",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8764,7 +9388,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8807,7 +9435,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8827,6 +9459,7 @@
         "referenced_by": [
           "src/aiwo_dht.zig",
           "src/dhtd.zig",
+          "tools/component-performance.mjs",
           "tools/component-retrograde.mjs",
           "tools/dht-fs.mjs"
         ],
@@ -8849,7 +9482,12 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "aiwo-scale7-chunk-dht",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8891,6 +9529,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -8907,6 +9547,7 @@
         ],
         "referenced_by": [
           "src/golden_emit.zig",
+          "src/perf_baseline.zig",
           "src/spec007_alpha_probe.zig",
           "src/spec007_astrometric_probe.zig",
           "src/spec007_checksum_audit.zig",
@@ -8917,6 +9558,7 @@
           "src/spec007_portal_probe.zig",
           "src/spec007_warp_probe.zig",
           "src/spec007_wow_shape_probe.zig",
+          "tools/component-performance.mjs",
           "tools/component-retrograde.mjs",
           "tools/vision-audit.mjs"
         ],
@@ -8939,7 +9581,12 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "native-microbench",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -8979,6 +9626,54 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": false,
+        "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "src/perf_baseline.zig",
+      "workstream": "spec007-core",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "19277ece6b6216f48501773fac7d6041f7956b2ebb7d6493312cfb8d2508e92a",
+        "bytes": 5851,
+        "lines": 138,
+        "imports": [
+          "aiwo_chunk_checkpoint.zig",
+          "aiwo_cognitive.zig",
+          "fixed_point_q128.zig",
+          "spec008_seal.zig",
+          "std"
+        ],
+        "referenced_by": [
+          "tools/component-performance.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 1
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 1,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": true,
+        "measurements": [
+          "native-microbench",
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9015,6 +9710,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9056,6 +9755,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9095,6 +9798,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9132,6 +9839,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9168,6 +9879,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9205,6 +9920,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9239,7 +9958,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9276,6 +9999,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9313,7 +10040,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9351,6 +10082,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9389,6 +10124,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9424,7 +10163,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9460,7 +10203,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9498,6 +10245,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9533,7 +10284,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9554,6 +10309,7 @@
           "src/spec007_manifold_calculations.zig",
           "src/spec007_q_toys.zig",
           "src/spec007_verified_calculations.zig",
+          "tools/component-performance.mjs",
           "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
@@ -9576,6 +10332,10 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [
+          "native-microbench"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9611,7 +10371,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9649,6 +10413,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9685,6 +10453,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
         "decision": "baseline-only"
       }
     },
@@ -9721,7 +10493,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9763,7 +10539,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9821,7 +10601,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9860,7 +10644,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9900,7 +10688,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9942,7 +10734,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9979,7 +10775,11 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -9995,7 +10795,9 @@
           "spec008_seal.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-performance.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 1
       },
@@ -10015,7 +10817,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "native-microbench"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10035,7 +10841,9 @@
           "src/aiwo_fano.zig",
           "src/dht_native.zig",
           "src/dhtd.zig",
-          "src/spec008_seal_cli.zig"
+          "src/perf_baseline.zig",
+          "src/spec008_seal_cli.zig",
+          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 14
@@ -10056,7 +10864,12 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "native-microbench",
+          "zig-build-test"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10098,6 +10911,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10106,9 +10921,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "37a2ec8a81ab6c82e5956b6553f035e24c8c01f2e99393c4401f5043d04f5897",
-        "bytes": 17790,
-        "lines": 375,
+        "sha256": "14efd3d42df0a9f173e7d6c1f8169d0403d67e3a03cbe810a95ccd82c86da48a",
+        "bytes": 19240,
+        "lines": 405,
         "imports": [
           "node:child_process",
           "node:crypto",
@@ -10120,6 +10935,8 @@
         "referenced_by": [
           "security/team-sweep-2.mjs",
           "tools/component-census.mjs",
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs",
           "tools/course-gen.mjs",
           "tools/publish-check.sh"
         ],
@@ -10142,7 +10959,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "academy-harvest-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10185,6 +11006,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10230,6 +11053,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10270,6 +11095,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10311,6 +11138,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10350,6 +11179,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10394,6 +11225,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10435,6 +11268,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10473,6 +11308,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10516,6 +11353,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10556,6 +11395,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10568,6 +11409,53 @@
         "bytes": 8705,
         "lines": 152,
         "imports": [
+          "node:fs",
+          "node:path",
+          "node:url"
+        ],
+        "referenced_by": [
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "tools"
+      },
+      "verification": {
+        "kind": "script",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": true,
+        "measurements": [
+          "component-census-verify"
+        ],
+        "workstream_measured": true,
+        "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "tools/component-performance.mjs",
+      "workstream": "governance-tools",
+      "status": "SCRIPT_HARNESS_BOUND",
+      "reverse_engineering": {
+        "sha256": "1a4b528381a28842cdd26aa45ab844ea657a3a48642032cacdff4e6f5ac1cb61",
+        "bytes": 10426,
+        "lines": 268,
+        "imports": [
+          "node:child_process",
+          "node:crypto",
           "node:fs",
           "node:path",
           "node:url"
@@ -10595,7 +11483,9 @@
       },
       "optimization": {
         "hot_path": false,
-        "measured": false,
+        "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10604,9 +11494,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "d26d603ab3e4c0bddf48acd3e1987da04a1a8b675795e40ae6f65cb18db3dc64",
-        "bytes": 8854,
-        "lines": 198,
+        "sha256": "72a913abbc829ccd2a39225a2a5b9625da5943e50a12ed883ca793075b021b74",
+        "bytes": 10750,
+        "lines": 235,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -10614,6 +11504,7 @@
           "node:url"
         ],
         "referenced_by": [
+          "tools/component-performance.mjs",
           "tools/publish-check.sh"
         ],
         "todo_markers": 0,
@@ -10636,6 +11527,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "component-retrograde-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10677,6 +11572,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10720,6 +11617,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10755,6 +11654,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10798,6 +11699,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10852,6 +11755,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10895,6 +11800,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10945,6 +11852,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -10983,6 +11892,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11025,6 +11936,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11063,6 +11976,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11113,6 +12028,8 @@
       "optimization": {
         "hot_path": true,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11152,6 +12069,8 @@
       "optimization": {
         "hot_path": true,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11196,6 +12115,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11236,6 +12157,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11256,6 +12179,7 @@
         ],
         "referenced_by": [
           "security/team-sweep-2.mjs",
+          "tools/component-performance.mjs",
           "tools/publish-check.sh"
         ],
         "todo_markers": 0,
@@ -11278,6 +12202,10 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [
+          "gov-map-verify"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11317,6 +12245,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11325,9 +12255,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "801c1255d45a9da947d5043a68f4d5733aad540ed3f99ac64d6abf561a8ceced",
-        "bytes": 6785,
-        "lines": 150,
+        "sha256": "adf9eea79e2e78917ee06096f8af826c06e06707d8541a5906f1c5b39fdb5bc2",
+        "bytes": 6849,
+        "lines": 151,
         "imports": [
           "node:fs",
           "node:path",
@@ -11356,6 +12286,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11395,6 +12327,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11434,6 +12368,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11474,6 +12410,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11482,9 +12420,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "864ac4ea05f0d310fa664097237e43a7317706f2b274574c9e9c7ae2a4b4afba",
-        "bytes": 4416,
-        "lines": 88,
+        "sha256": "5afcb0cbb3e9ee040265384d7c2d44221e93fcca32282123a9a49eafac58cd81",
+        "bytes": 4484,
+        "lines": 89,
         "imports": [],
         "referenced_by": [
           "security/capstone-audit.mjs",
@@ -11494,6 +12432,7 @@
           "security/team-sweep-2.mjs",
           "site/assets/fano-i18n.js",
           "tools/component-census.mjs",
+          "tools/component-performance.mjs",
           "tools/persona-map.mjs",
           "tools/vision-audit.mjs"
         ],
@@ -11516,7 +12455,11 @@
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
+        "measured": true,
+        "measurements": [
+          "site-build"
+        ],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11558,6 +12501,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11596,6 +12541,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11646,6 +12593,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11683,6 +12632,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11718,6 +12669,8 @@
       "optimization": {
         "hot_path": false,
         "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     },
@@ -11736,6 +12689,7 @@
           "node:url"
         ],
         "referenced_by": [
+          "tools/component-performance.mjs",
           "tools/gov-map.mjs",
           "tools/publish-check.sh"
         ],
@@ -11759,6 +12713,8 @@
       "optimization": {
         "hot_path": false,
         "measured": true,
+        "measurements": [],
+        "workstream_measured": true,
         "decision": "baseline-only"
       }
     }

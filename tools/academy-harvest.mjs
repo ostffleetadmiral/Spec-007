@@ -350,13 +350,43 @@ if (VERIFY) {
     cur.push(...ls);
   }
   cur.sort((a, b) => a.id.localeCompare(b.id));
-  const ok = chunksOk && JSON.stringify(cur) === JSON.stringify(lessons)
+  const sourcesOk = JSON.stringify(m.harvest_sources || []) === JSON.stringify(next.harvest_sources);
+  let sourceDrift = "";
+  if (!sourcesOk) {
+    const curSources = m.harvest_sources || [];
+    const nextSources = next.harvest_sources || [];
+    for (let i = 0; i < Math.max(curSources.length, nextSources.length); i += 1) {
+      if (JSON.stringify(curSources[i]) !== JSON.stringify(nextSources[i])) {
+        const a = curSources[i] || null, b = nextSources[i] || null;
+        const keys = [...new Set([...Object.keys(a || {}), ...Object.keys(b || {})])];
+        const diff = keys.filter(k => JSON.stringify(a?.[k]) !== JSON.stringify(b?.[k]))
+          .map(k => `${k}:${JSON.stringify(a?.[k])}->${JSON.stringify(b?.[k])}`).join(",");
+        sourceDrift = ` source[${i}]=${(b || a)?.root || "missing"}:${diff}`;
+        break;
+      }
+    }
+  }
+  const lessonsOk = JSON.stringify(cur) === JSON.stringify(lessons);
+  let lessonDrift = "";
+  if (!lessonsOk) {
+    for (let i = 0; i < Math.max(cur.length, lessons.length); i += 1) {
+      if (JSON.stringify(cur[i]) !== JSON.stringify(lessons[i])) {
+        const a = cur[i] || null, b = lessons[i] || null;
+        const keys = [...new Set([...Object.keys(a || {}), ...Object.keys(b || {})])];
+        const diff = keys.filter(k => JSON.stringify(a?.[k]) !== JSON.stringify(b?.[k]))
+          .map(k => `${k}`).join(",");
+        lessonDrift = ` lesson[${i}]=${(b || a)?.id || "missing"}:${diff}`;
+        break;
+      }
+    }
+  }
+  const ok = chunksOk && lessonsOk
     && m.lesson_count === (m.lessons || []).length + (m.harvested_count || 0)
     && (m.harvested_count || 0) === lessons.length
-    && JSON.stringify(m.harvest_sources || []) === JSON.stringify(next.harvest_sources);
+    && sourcesOk;
   console.log(ok
     ? `academy-harvest verify OK — ${cur.length} harvested lessons deterministic across ${sources.length} sources + ${courses.length} course chunks, count ${m.lesson_count} consistent`
-    : `academy-harvest verify FAIL — chunks=${chunksOk} harvested=${cur.length} regenerated=${lessons.length} count=${m.lesson_count} want=${others.length + lessons.length}`);
+    : `academy-harvest verify FAIL — chunks=${chunksOk} lessons=${lessonsOk} harvested=${cur.length} regenerated=${lessons.length} count=${m.lesson_count} want=${others.length + lessons.length} sources=${sourcesOk}${sourceDrift}${lessonDrift}`);
   process.exit(ok ? 0 : 1);
 }
 

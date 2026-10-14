@@ -60,6 +60,7 @@ academy-review.json	node tools/academy-review.mjs --verify
 academy-pedagogy.json	node tools/academy-grade.mjs --verify && node tools/academy-grade.mjs --selfcheck
 course-gen	node tools/course-gen.mjs --verify
 component-census	node tools/component-census.mjs --verify
+component-performance	node tools/component-performance.mjs --verify
 component-retrograde	node tools/component-retrograde.mjs --verify
 EOF
 )

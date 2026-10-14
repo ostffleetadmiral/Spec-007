@@ -98,9 +98,10 @@ if (unclassified.length) {
   process.exit(1);
 }
 
-/* self-exclusion: the map artifact is generated, not corpus */
+/* generated audit artifacts are evidence, not corpus */
+const GENERATED = new Set(["LAYER-MAP.json", "AdmPaul/VISION-AUDIT.json"]);
 const entries = files
-  .filter(f => f !== "LAYER-MAP.json")
+  .filter(f => !GENERATED.has(f))
   .map(f => ({ file: f, layer: classify(f), bytes: fs.statSync(path.join(DRAWER, f)).size }));
 
 const census = {};

@@ -176,8 +176,9 @@
 | `aiwo_cognitive.zig` | 以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；scale 0–7 理論路徑數為 1、8、64、512、4096、32768、262144、2097152；不持有 model tensor 或權限。 | 原生認知單元測試 + scale parity | scale 3–7 採有界 chunk planning/admission，不暴力枚舉 |
 | `aiwo_model_observation.zig` | 將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。 | 原生 model-observation 單元測試 + 真實 Digit 探針 | 任意外部 model session 仍採有界執行 |
 | `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。 | 原生 AIWO parity 探針 + 真實 Digit model 探針 | 多 token/完整生成硬化待完成 |
-| `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。 | FANO 竄改測試 + DHT 整合待完成 | — |
-| `aiwo_heartbeat.zig` / `aiwo_cli.zig` | 獨立有界 AIWO heartbeat 與 `spec007-aiwo` 原生 canary CLI；不改變 training heartbeat。 | `node security/aiwo-native-parity.mjs` | 原生 cutover 待完成 |
+| `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。 | FANO 竄改測試 + 逐 chunk 簽章 DHT 回執 | 原生 DHT emission 已上線 |
+| `aiwo_heartbeat.zig` / `aiwo_cli.zig` | 獨立有界 AIWO heartbeat 與 `spec007-aiwo` 原生 canary CLI；不改變 training heartbeat。 | `node security/aiwo-native-parity.mjs` + checkpoint/resume + DHT receipt gates | 外部 provider 僅為 compatibility fallback，非主權限路徑 |
+| `perf_baseline.zig` | 純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、atomic checkpoint round-trip。 | `spec007-perf-baseline` ReleaseFast JSON + unit fold test | 量測式最佳化基線已落地 |
 
 ## 支援樹
 
@@ -189,7 +190,8 @@
 | `deps/digit/` | 唯讀 Digit model-session donor graft：Q128 graph/session 模組與 `decoder_q4.dgqp`;`e5_state.zig` 為確定性模型狀態邊界,`model_session.zig` 攜帶真實 observation 契約。來源 hash 與 SFTP provenance 記於 `docs/native-donor-manifest.json`。 | Digit model-session 與 `e5_state` 測試根 + 750-tensor 原生探針 | q4 deployment weights 為 ignored 本地資產，不提交 |
 | `golden/vectors.txt` | 黃金參考面 — `golden_emit.zig` 之已提交正典輸出。 | `golden-master.mjs --verify` | — |
 | `build.zig` | 框架圖 — `zig build test` 聚合所有 `src/` 套件(spec007 證明、spec008 qstar 橋接、封緘雙生、原生 DHT)並構建 `dhtd`;依 wave-5 平行化設並行測試根。 | `zig build test` | — |
-| `docs/component-census.json` / `docs/component-retrograde.json` | 全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選)。 | `node tools/component-census.mjs --verify` + `node tools/component-retrograde.mjs --verify` | 已盤點 278 components;完整 retrograde 完成度保持明示 |
+| `docs/component-census.json` / `docs/component-retrograde.json` | 全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選與量測基線繫結)。 | `node tools/component-census.mjs --verify` + `node tools/component-retrograde.mjs --verify` | 已盤點 280 components;完整 retrograde 完成度保持明示 |
+| `tools/component-performance.mjs` / `security/out/component-performance.json` | 可重現工作流量測發射/驗證器：build graph、原生 microbench、scale-7 chunk+DHT、Digit model probe、census/retrograde、治理、Academy 與 site build timing，皆具明確元件繫結。 | `node tools/component-performance.mjs --verify` | 量測基線已繫入 retrograde 帳 |
 | `admiralty-desk/` | 旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;`main.js` 擁有 BrowserWindow 與 IPC 閘門;`preload.js` 為受沙箱隔離之 context bridge;`package.json`/`package-lock.json` 釘定 Electron;contextIsolation + sandbox + 無 nodeIntegration;`desk.sh` 剝除 `ELECTRON_RUN_AS_NODE`。 | 桌面探針 | — |
 | `apps/fano/` | Fano quine 方言工件(index.html + fano.wasm)— `site/apps/fano/` 存逐位元組一致之供應副本。 | wasm 身份 | — |
 | `prototypes/` | 行政覆權試驗場 — 封存路徑以隔離實驗執行;報告落於 `prototypes/out/`;生產不動。 | falsification-audit 之 OVR 列 | — |

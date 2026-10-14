@@ -3,20 +3,20 @@
   "summary": {
     "schema": "SPEC007-COMPONENT-CENSUS-v1",
     "zones": {
-      "src": 48,
+      "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 41,
+      "tools": 42,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
       "site/assets": 43
     },
-    "total_components": 278,
-    "source_components": 240,
+    "total_components": 280,
+    "source_components": 242,
     "generated_components": 38,
-    "mapped_basename": 266,
-    "mapped_contract": 278,
+    "mapped_basename": 268,
+    "mapped_contract": 280,
     "manifest_bound": 33,
     "owner_bound": 26,
     "unmapped_basename": [
@@ -34,7 +34,7 @@
       "site/assets/spec-registry.json"
     ],
     "unmapped_contract": [],
-    "native_zig": 123
+    "native_zig": 124
   },
   "components": [
     {
@@ -5985,6 +5985,35 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "src/perf_baseline.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "src/spec007_alpha_probe.zig",
       "contract": {
         "mapped": true,
@@ -7134,6 +7163,34 @@
     },
     {
       "component": "tools/component-census.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/component-performance.mjs",
       "contract": {
         "mapped": true,
         "source_zone": "tools",
