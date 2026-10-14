@@ -18,7 +18,7 @@
 | `spec007_dynamics_calculations.zig` | 暫態層:整數尤拉積分、帶號淨功率與餘數結轉的逐步能量帳。熱步進現於赤字狀態保留有效進位、限制越界進位,且低於環境溫度時不再無符號下溢。 | 14 測試(含 q128 影子) | `slabStep`/`slabCoolStep`/`coolToTemp` — 雙向、以環境溫度為下限,裝藥耗盡後冷卻已驗證;結轉焦耳與飽和邊界已釘定 |
 | `spec007_fixedpoint_prototype.zig` | 原型:u128-mg vs Q32.32 vs Q128.128 三方對驗。Q32 ratio 建構現採精確 `2*|remainder| >= |den|` 最近半值比較與帶號餘數語義。 | 6 測試 | 範圍邊界測試:100,000² 於 Q32.32 溢位、於 Q128.128 精確;新增奇分母/符號 ratio 直接覆蓋 |
 | `spec007_compute.zig` | 即時運算 ABI:每個檔案數字以 u32 匯出在瀏覽器重算,零匯入,編譯至 wasm32。匯出算術現經 `u128` 加寬、u32 回傳飽和、封包熱進位欄位受限,且低於環境溫度狀態不再下溢。 | 2 測試 + wasm 成品 | 新增 `residue_mg`、`air_lpm_x10`、`slab_cool_step`;加入溢位/進位邊界測試;wasm 以 `-fno-entry -rdynamic` 重建 |
-| `spec007_q_toys.zig` | Q 分部野戰玩具 — 真能運行的玩笑。 | 6 測試 + `main()` 演示 | 玩具 7:THE PHILOTIC DESK — 相關對子,`philoticMessage()` 恆回 0 位元。關聯重於運動,化為桌上玩物 |
+| `spec007_q_toys.zig` | Q 分部野戰玩具 — 真能運行的玩笑。七件道具皆釘住可執行契約,含可繞回可逆性、53,888 位元組心態、Fano 閉合與零位元纏結訊息容量。 | 7 測試 + `main()` 演示 | 已驗證可執行基線 |
 | `golden_emit.zig` | 正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 `tools/golden-master.mjs` 逐位元組比對的固定參考面。ratio 向量現經修正後之 Spec-007 影子邊界建構。 | 直接發射器測試 + `tools/golden-master.mjs --verify`(+ `--mutate` 自檢) | `ratio[1,3]` 由 `…486` 更正為精確最近值 `…485`;發射器現於 Zig 內逐位元組比對 `golden/vectors.txt` |
 | `spec007_astrometric_probe.zig` | L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。物理輔助現限制距離、速度、通量、頻寬、增益、能量與 SNR 定義域;大角度約化留在 raw space。每個數字皆附明確證偽條件。 | 17 測試 | 新增失敗即封閉物理定義域覆蓋 |
 | `spec008_medium_lattice.zig` | 介質即晶格之證偽框架:四埠 Γ 陣列(RTI/802.11bf 先例)解析為晶格座標 — `quantizeGamma` 將複反射係數映射至 15×15 格(\|Γ\|>1 拒絕),`resolveCoord` 以每埠 O(1) 摺疊為 (k,r,c)。自陳失敗邊界。 | 6 測試 | — |

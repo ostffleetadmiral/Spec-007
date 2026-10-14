@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 38
+    "completed_full_retrograde": 39
   },
   "components": [
     {
@@ -10772,7 +10772,9 @@
           "spec007_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 1
       },
@@ -10797,9 +10799,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-q-toys-baseline-20261014",
+        "decision": "verified-field-toys-baseline"
       }
     },
     {
@@ -12067,9 +12069,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "6dc4013c2d3da4ee0e3a3e53b72f0d854a1b94f70b6f47d84b0641f9f9bb48f2",
-        "bytes": 16181,
-        "lines": 393,
+        "sha256": "5223591a05cabbe63373660f16bd7a44db9c7ae5751abf7a48a2a8b5bed80bb7",
+        "bytes": 16313,
+        "lines": 397,
         "imports": [
           "node:crypto",
           "node:fs",

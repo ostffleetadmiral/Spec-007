@@ -169,6 +169,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-probability-domains",
     archive: "spec007-coincidence-domains-20261014",
   }],
+  ["src/spec007_q_toys.zig", {
+    decision: "verified-field-toys-baseline",
+    archive: "spec007-q-toys-baseline-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
