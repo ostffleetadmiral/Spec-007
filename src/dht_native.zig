@@ -344,6 +344,29 @@ pub const Store = struct {
         return s;
     }
 
+    pub fn deinit(self: *Store) void {
+        var it = self.lru_map.iterator();
+        while (it.next()) |entry| {
+            const node = entry.value_ptr.*;
+            self.alloc.free(entry.key_ptr.*);
+            if (node.data.arena_state) |arena| {
+                arena.deinit();
+                self.alloc.destroy(arena);
+            }
+            if (node.data.rec_json) |raw| self.alloc.free(raw);
+            self.alloc.destroy(node);
+        }
+        self.lru_map.deinit();
+        self.lru_arena.deinit();
+        self.registry.deinit();
+        if (self.pk_b64) |pk_b64| self.alloc.free(pk_b64);
+        for (self.lanes) |lane| self.alloc.free(lane);
+        self.alloc.free(self.lanes);
+        self.alloc.free(self.lane_ids);
+        self.alloc.free(self.root);
+        self.alloc.destroy(self);
+    }
+
     fn join(self: *Store, parts: []const []const u8) ![]const u8 {
         return std.fs.path.join(self.alloc, parts);
     }
@@ -870,7 +893,13 @@ pub const Store = struct {
             try self.kindIndexAdd(lane, kind, &id);
             placed += 1;
         }
-        self.audit(self.lanes[author_lane], "record-put", id[0..16], "accepted", try std.fmt.allocPrint(self.alloc, ",\"kind\":{s},\"clearance\":{d}", .{ try self.jsonStr(kind), clearance }));
+        {
+            const kind_json = try self.jsonStr(kind);
+            defer self.alloc.free(kind_json);
+            const extra = try std.fmt.allocPrint(self.alloc, ",\"kind\":{s},\"clearance\":{d}", .{ kind_json, clearance });
+            defer self.alloc.free(extra);
+            self.audit(self.lanes[author_lane], "record-put", id[0..16], "accepted", extra);
+        }
         return .{ .st = .ok, .id = id, .version = last_version };
     }
 
@@ -907,16 +936,22 @@ pub const Store = struct {
             }
             const h = try self.loadVerifiedHead(fp, hn);
             if (h.rec == null or h.verdict != .ok) {
-                self.audit(lane, "record-get", id_hex[0..16], "sig-refused", try std.fmt.allocPrint(self.alloc, ",\"reason\":\"{s}\"", .{@tagName(h.verdict)}));
+                const extra = try std.fmt.allocPrint(self.alloc, ",\"reason\":\"{s}\"", .{@tagName(h.verdict)});
+                defer self.alloc.free(extra);
+                self.audit(lane, "record-get", id_hex[0..16], "sig-refused", extra);
                 return .{ .st = .sig_refused, .rec = null, .raw = null, .versions = 0, .lane = null, .detail = h.verdict, .need = 0 };
             }
             const clearance: u8 = @intCast((h.rec.?.object.get("clearance") orelse continue).integer);
             if (clearance > reader) {
-                self.audit(lane, "record-get", id_hex[0..16], "clearance-refused", try std.fmt.allocPrint(self.alloc, ",\"need\":{d},\"reader\":{d}", .{ clearance, reader }));
+                const extra = try std.fmt.allocPrint(self.alloc, ",\"need\":{d},\"reader\":{d}", .{ clearance, reader });
+                defer self.alloc.free(extra);
+                self.audit(lane, "record-get", id_hex[0..16], "clearance-refused", extra);
                 return .{ .st = .clearance_refused, .rec = null, .raw = null, .versions = 0, .lane = null, .detail = .ok, .need = clearance };
             }
             const ver: u32 = @intCast((h.rec.?.object.get("version") orelse continue).integer);
-            self.audit(lane, "record-get", id_hex[0..16], "resolved", try std.fmt.allocPrint(self.alloc, ",\"version\":{d}", .{ver}));
+            const extra = try std.fmt.allocPrint(self.alloc, ",\"version\":{d}", .{ver});
+            defer self.alloc.free(extra);
+            self.audit(lane, "record-get", id_hex[0..16], "resolved", extra);
             return .{ .st = .ok, .rec = h.rec, .raw = h.raw, .versions = versions, .lane = li, .detail = .ok, .need = 0 };
         }
         return .{ .st = .not_found, .rec = null, .raw = null, .versions = 0, .lane = null, .detail = .ok, .need = 0 };
@@ -1044,6 +1079,7 @@ pub const Store = struct {
         defer {
             var it = kinds.iterator();
             while (it.next()) |e| {
+                self.alloc.free(e.key_ptr.*);
                 for (e.value_ptr.items) |s| self.alloc.free(s);
                 e.value_ptr.deinit();
             }
@@ -1056,16 +1092,22 @@ pub const Store = struct {
                 if (parsed.value.object.get("kinds")) |kv| {
                     var it = kv.object.iterator();
                     while (it.next()) |e| {
-                        const g = try kinds.getOrPut(try self.alloc.dupe(u8, e.key_ptr.*));
-                        g.value_ptr.* = std.ArrayList([]const u8).init(self.alloc);
+                        const g = try kinds.getOrPut(e.key_ptr.*);
+                        if (!g.found_existing) {
+                            g.key_ptr.* = try self.alloc.dupe(u8, e.key_ptr.*);
+                            g.value_ptr.* = std.ArrayList([]const u8).init(self.alloc);
+                        }
                         for (e.value_ptr.array.items) |item|
                             try g.value_ptr.append(try self.alloc.dupe(u8, item.string));
                     }
                 }
             } else |_| {}
         } else |_| {}
-        const g = try kinds.getOrPut(try self.alloc.dupe(u8, kind));
-        if (!g.found_existing) g.value_ptr.* = std.ArrayList([]const u8).init(self.alloc);
+        const g = try kinds.getOrPut(kind);
+        if (!g.found_existing) {
+            g.key_ptr.* = try self.alloc.dupe(u8, kind);
+            g.value_ptr.* = std.ArrayList([]const u8).init(self.alloc);
+        }
         var present = false;
         for (g.value_ptr.items) |s| {
             if (std.mem.eql(u8, s, id)) present = true;

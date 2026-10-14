@@ -249,15 +249,15 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>dht_native.zig</code></td>
-<td>The Continuity DHT, native (retro-dev T7): the manifest's <em>cited</em> substrate becomes the <em>wired</em> one. Same store, same wire, same verdicts as <code>tools/dht-fs.mjs</code> — a twin, not a port-with-drift — content-addressed records on the qstar-vfs <code>vfs_distributed</code> substrate.</td>
-<td>10 tests</td>
-<td>—</td>
+<td>The Continuity DHT, native (retro-dev T7): the manifest's <em>cited</em> substrate becomes the <em>wired</em> one. Same store, same wire, same verdicts as <code>tools/dht-fs.mjs</code> — a twin, not a port-with-drift — content-addressed records on the qstar-vfs <code>vfs_distributed</code> substrate, with deterministic <code>Store.deinit</code> draining lane/key/LRU ownership.</td>
+<td>10 tests + DHT sweep + leak-clean lifecycle via <code>aiwo_dht</code> test</td>
+<td>ownership hardening landed</td>
 </tr>
 <tr>
 <td><code>dhtd.zig</code></td>
-<td>The native Continuity DHT daemon: answers record/block ops over the sealed 136-byte FANO wire on loopback TCP, backed by <code>dht_native.zig</code>. Probed live by <code>security/dht-sweep.mjs</code> (DHT-01..12) via the <code>tools/dht-native.mjs</code> client.</td>
-<td>exercised via DHT sweep probes</td>
-<td>—</td>
+<td>The native Continuity DHT daemon: answers record/block ops over the sealed 136-byte FANO wire on loopback TCP, backed by <code>dht_native.zig</code>. Request assembly is bounded — one requester per stream, capped accepted frames, and a dropped-frame storm cutoff.</td>
+<td>4 assembler tests + DHT sweep probes</td>
+<td>bounded malformed-frame hardening landed</td>
 </tr>
 </tbody>
 </table>
@@ -985,8 +985,8 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>aiwo_chunk_checkpoint.zig</code></td>
-<td>Atomic, checksummed, versioned checkpoint/resume state for admitted AIWO chunk plans.</td>
-<td>checkpoint round-trip + parity resume</td>
+<td>Atomic, SHA-256-checksummed, versioned checkpoint/resume state for admitted AIWO chunk plans; v2 writes fsync data, atomically rename, then fsync the parent directory, while retaining legacy v1 resume reads.</td>
+<td>checkpoint round-trip + corruption/truncation refusal + legacy resume + parity resume</td>
 <td>—</td>
 </tr>
 <tr>
@@ -1021,14 +1021,14 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
-<td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate.</td>
-<td>FANO mutation tests + signed per-chunk DHT receipts</td>
+<td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate; <code>aiwo_dht</code> bootstraps Ed25519 receipt keys into a <code>0700</code> key dir, writes <code>0600</code> private/<code>0644</code> public DER files atomically, validates pair correspondence, and owns <code>Store</code> teardown.</td>
+<td>FANO mutation tests + signed per-chunk DHT receipts + key-mode/pair/mismatch/store tests</td>
 <td>native DHT emission live</td>
 </tr>
 <tr>
 <td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
-<td>Separate bounded AIWO heartbeat and <code>spec007-aiwo</code> native canary CLI; does not alter the training heartbeat.</td>
-<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates</td>
+<td>Separate bounded AIWO heartbeat and <code>spec007-aiwo</code> native canary CLI; does not alter the training heartbeat. The CLI parser accepts separated or <code>--name=value</code> options and rejects unknown/missing arguments fail-closed.</td>
+<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates + parser unit tests</td>
 <td>external providers are compatibility fallbacks, not primary authority</td>
 </tr>
 <tr>

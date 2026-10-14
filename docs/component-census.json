@@ -5416,7 +5416,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 1,
+        "blocks": 4,
         "registered": true
       },
       "documentation": {
@@ -5445,7 +5445,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 0,
+        "blocks": 4,
         "registered": true
       },
       "documentation": {
@@ -5503,7 +5503,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 0,
+        "blocks": 4,
         "registered": true
       },
       "documentation": {
@@ -5909,7 +5909,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 0,
+        "blocks": 4,
         "registered": true
       },
       "documentation": {

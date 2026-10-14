@@ -16,6 +16,29 @@ const DEBRIEF = path.join(ROOT, "docs", "component-retrograde.md");
 const EMIT = process.argv.includes("--emit");
 const VERIFY = process.argv.includes("--verify");
 
+const FULL_RETROGRADE = new Map([
+  ["src/dhtd.zig", {
+    decision: "bounded-hardened",
+    archive: "spec007-dhtd-bounded-assembler-20261014",
+  }],
+  ["src/aiwo_chunk_checkpoint.zig", {
+    decision: "durable-integrity-hardened",
+    archive: "spec007-aiwo-checkpoint-v2-20261014",
+  }],
+  ["src/aiwo_dht.zig", {
+    decision: "secure-key-bootstrap",
+    archive: "spec007-aiwo-dht-key-bootstrap-20261014",
+  }],
+  ["src/dht_native.zig", {
+    decision: "ownership-hardened",
+    archive: "spec007-aiwo-dht-key-bootstrap-20261014",
+  }],
+  ["src/aiwo_cli.zig", {
+    decision: "strict-argument-parser",
+    archive: "spec007-aiwo-cli-parser-20261014",
+  }],
+]);
+
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
 const exists = rel => fs.existsSync(path.join(ROOT, rel));
 const census = JSON.parse(fs.readFileSync(CENSUS, "utf8"));
@@ -132,6 +155,7 @@ const components = census.components.map(c => {
   const todo_markers = source ? (source.match(MARKER_RE) || []).length : 0;
   const status = statusFor(c, source, refs);
   const measurements = perfMeasurementsFor(c);
+  const fullRetrograde = FULL_RETROGRADE.get(c.component);
   return {
     component: c.component,
     workstream: workstream(c.component),
@@ -164,7 +188,9 @@ const components = census.components.map(c => {
       measured: measurements.length > 0 || /latency|throughput|benchmark|measured|profile|performance|speed/i.test(source),
       measurements,
       workstream_measured: perfWorkstreams.has(workstream(c.component)),
-      decision: "baseline-only",
+      completed: !!fullRetrograde,
+      archive: fullRetrograde?.archive || null,
+      decision: fullRetrograde?.decision || "baseline-only",
     },
   };
 });
@@ -191,7 +217,7 @@ const summary = {
     bound_components: perf.summary?.bound_components ?? 0,
     selectors: perf.summary?.selectors ?? [],
   } : null,
-  completed_full_retrograde: 0,
+  completed_full_retrograde: count(c => c.optimization.completed),
 };
 const result = { schema: summary.schema, summary, components };
 const json = JSON.stringify(result, null, 2) + "\n";

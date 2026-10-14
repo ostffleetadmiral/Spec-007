@@ -5,11 +5,11 @@
     "census_components": 280,
     "components": 280,
     "status_counts": {
-      "BUILD_GRAPH_COVERED": 25,
+      "BUILD_GRAPH_COVERED": 22,
       "DOCUMENTED_COMPONENT": 23,
       "GENERATED_ARTIFACT_BOUND": 38,
       "SCRIPT_HARNESS_BOUND": 95,
-      "UNIT_TESTED": 99
+      "UNIT_TESTED": 102
     },
     "workstreams": {
       "application-artifacts": 2,
@@ -25,7 +25,7 @@
       "spec007-core": 21,
       "spec008-wire": 9
     },
-    "unit_tested": 99,
+    "unit_tested": 102,
     "generated_bound": 38,
     "pending_review": 0,
     "todo_markers": 0,
@@ -126,19 +126,19 @@
       "tools/evidence-manifest.mjs",
       "tools/publish-check.sh"
     ],
-    "measured_components": 158,
+    "measured_components": 159,
     "workstream_measured_components": 189,
     "performance_baseline": {
       "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
       "measurements": 10,
-      "bound_components": 28,
+      "bound_components": 29,
       "selectors": [
         "release-artifacts",
         "site-academy-generated",
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 0
+    "completed_full_retrograde": 5
   },
   "components": [
     {
@@ -173,6 +173,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -216,6 +218,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -254,6 +258,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -299,6 +305,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -342,6 +350,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -386,6 +396,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -438,6 +450,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -481,6 +495,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -524,6 +540,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -568,6 +586,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -625,6 +645,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -677,6 +699,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -722,6 +746,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -764,6 +790,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -814,6 +842,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -856,6 +886,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -900,6 +932,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -943,6 +977,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1000,6 +1036,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1045,6 +1083,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1087,6 +1127,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1129,6 +1171,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1175,6 +1219,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1218,6 +1264,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1261,6 +1309,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1315,6 +1365,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1363,6 +1415,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1412,6 +1466,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1463,6 +1519,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1508,6 +1566,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1562,6 +1622,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1610,6 +1672,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1659,6 +1723,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1717,6 +1783,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1773,6 +1841,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1816,6 +1886,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1870,6 +1942,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1919,6 +1993,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -1969,6 +2045,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2025,6 +2103,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2076,6 +2156,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2128,6 +2210,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2178,6 +2262,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2227,6 +2313,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2281,6 +2369,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2333,6 +2423,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2387,6 +2479,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2436,6 +2530,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2486,6 +2582,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2538,6 +2636,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2566,7 +2666,9 @@
           "security/hydra-node.mjs",
           "security/sentinel-sweep.mjs",
           "security/superpowers-audit.mjs",
-          "src/spec008_qstar_fleet.zig"
+          "src/aiwo_dht.zig",
+          "src/spec008_qstar_fleet.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 27
@@ -2592,6 +2694,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2648,6 +2752,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2690,6 +2796,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2734,6 +2842,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2781,6 +2891,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2835,6 +2947,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2883,6 +2997,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2932,6 +3048,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -2983,6 +3101,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3039,6 +3159,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3085,6 +3207,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3142,6 +3266,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3196,6 +3322,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3244,6 +3372,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3293,6 +3423,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3349,6 +3481,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3406,6 +3540,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3460,6 +3596,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3510,6 +3648,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3561,6 +3701,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3606,6 +3748,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3649,6 +3793,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3692,6 +3838,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3734,6 +3882,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3780,6 +3930,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3823,6 +3975,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3865,6 +4019,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3910,6 +4066,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3954,6 +4112,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -3999,6 +4159,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4041,6 +4203,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4084,6 +4248,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4126,6 +4292,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4168,6 +4336,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4222,6 +4392,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4270,6 +4442,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4319,6 +4493,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4375,6 +4551,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4422,6 +4600,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4469,6 +4649,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4513,6 +4695,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4552,6 +4736,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4587,6 +4773,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4631,6 +4819,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4677,6 +4867,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4701,6 +4893,7 @@
           "security/aiwo-service.mjs",
           "security/team-sweep-2.mjs",
           "src/aiwo_cli.zig",
+          "src/aiwo_dht.zig",
           "tools/command-map.mjs",
           "tools/vision-audit.mjs"
         ],
@@ -4726,6 +4919,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4768,6 +4963,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4810,6 +5007,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4859,6 +5058,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4902,6 +5103,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4942,6 +5145,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -4984,6 +5189,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5032,6 +5239,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5069,6 +5278,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5113,6 +5324,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5156,6 +5369,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5198,6 +5413,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5242,6 +5459,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5285,6 +5504,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5322,6 +5543,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5365,6 +5588,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5402,6 +5627,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5452,6 +5679,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5497,6 +5726,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5537,6 +5768,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5579,6 +5812,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5623,6 +5858,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5676,6 +5913,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5723,6 +5962,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5767,6 +6008,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5808,6 +6051,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5865,6 +6110,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5914,6 +6161,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -5959,6 +6208,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6002,6 +6253,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6045,6 +6298,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6084,6 +6339,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6126,6 +6383,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6166,6 +6425,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6209,6 +6470,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6251,6 +6514,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6295,6 +6560,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6337,6 +6604,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6378,6 +6647,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6424,6 +6695,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6466,6 +6739,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6510,6 +6785,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6556,6 +6833,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6602,6 +6881,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6646,6 +6927,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6705,6 +6988,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6746,6 +7031,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6798,6 +7085,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6844,6 +7133,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6885,6 +7176,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6927,6 +7220,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -6980,6 +7275,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7020,6 +7317,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7061,6 +7360,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7104,6 +7405,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7146,6 +7449,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7190,6 +7495,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7232,6 +7539,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7274,6 +7583,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7316,6 +7627,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7358,6 +7671,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7402,6 +7717,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7445,6 +7762,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7487,6 +7806,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7529,6 +7850,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7571,6 +7894,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7613,6 +7938,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7655,6 +7982,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7696,6 +8025,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7737,6 +8068,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7780,6 +8113,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7820,6 +8155,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7870,6 +8207,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7912,6 +8251,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7952,6 +8293,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -7991,6 +8334,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8034,6 +8379,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8073,6 +8420,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8081,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "c8f4905a85171b256dde6944847f471110f466a533b1d46f14b041fa47822ddb",
+        "sha256": "0750f8a36c265e07dbd88d1a09960817215200825451e21e29de0a3d9e63a6dd",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8113,6 +8462,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8121,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "f4e076ab083fc4e4a44f8408f48331ef42628d2871959e73b08c8cdfab5a1c4f",
+        "sha256": "81ee44367ad4076ccf1d56212853e8b103da391d36e3c8b4059c6661714c71ce",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -8151,6 +8502,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8189,6 +8542,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8230,6 +8585,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8273,6 +8630,8 @@
           "gov-map-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8313,6 +8672,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8352,6 +8713,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8392,6 +8755,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8435,6 +8800,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8474,6 +8841,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8514,6 +8883,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8553,6 +8924,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8593,6 +8966,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8618,10 +8993,10 @@
           "site/assets/quplink.js",
           "src/aiwo_chunk_checkpoint.zig",
           "src/aiwo_cli.zig",
+          "src/aiwo_dht.zig",
           "src/aiwo_state.zig",
           "src/perf_baseline.zig",
-          "src/spec007_alpha_probe.zig",
-          "src/spec007_astrometric_probe.zig"
+          "src/spec007_alpha_probe.zig"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -8645,6 +9020,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8685,6 +9062,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8726,6 +9105,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -8734,16 +9115,17 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "b5062654e469cfc4002fa5f29df2c0da5cf7941622e8985faf133ab3078dac3d",
-        "bytes": 2531,
-        "lines": 52,
+        "sha256": "676beb29e4140a8519b935866de3b4139db44fac4f6105f9981ebe0ad94535bd",
+        "bytes": 6281,
+        "lines": 131,
         "imports": [
           "std"
         ],
         "referenced_by": [
           "src/aiwo_cli.zig",
           "src/perf_baseline.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 3
@@ -8758,7 +9140,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 4,
         "registered": true,
         "documentation_mapped": true
       },
@@ -8771,17 +9153,19 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-checkpoint-v2-20261014",
+        "decision": "durable-integrity-hardened"
       }
     },
     {
       "component": "src/aiwo_cli.zig",
       "workstream": "native-aiwo-dht",
-      "status": "BUILD_GRAPH_COVERED",
+      "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "5e3984d0675c63077fef8d7e94cb66690e3a25e6fb5a4b424f75fdc27d8ea512",
-        "bytes": 4866,
-        "lines": 76,
+        "sha256": "2a0404e447fe10056f5649df8766ee9c235cb7d9178eb67b7e21172804176b95",
+        "bytes": 8550,
+        "lines": 171,
         "imports": [
           "aiwo_chunk_checkpoint",
           "aiwo_cognitive",
@@ -8791,7 +9175,8 @@
           "std"
         ],
         "referenced_by": [
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -8806,7 +9191,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 0,
+        "test_blocks": 4,
         "registered": true,
         "documentation_mapped": true
       },
@@ -8814,10 +9199,13 @@
         "hot_path": true,
         "measured": true,
         "measurements": [
-          "aiwo-scale7-chunk-dht"
+          "aiwo-scale7-chunk-dht",
+          "zig-build-test"
         ],
         "workstream_measured": true,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-cli-parser-20261014",
+        "decision": "strict-argument-parser"
       }
     },
     {
@@ -8865,24 +9253,28 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
     {
       "component": "src/aiwo_dht.zig",
       "workstream": "native-aiwo-dht",
-      "status": "BUILD_GRAPH_COVERED",
+      "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "9c688953036f808ea16e54a01f6b8fefc895678f71fb94231548bb9c37d7bc72",
-        "bytes": 2241,
-        "lines": 52,
+        "sha256": "3283be673ceb40fb2c5c73c065327f5a7e48dda51b262d0b6c1490a0c2664ee5",
+        "bytes": 8996,
+        "lines": 204,
         "imports": [
+          "builtin",
           "dht_native",
           "std"
         ],
         "referenced_by": [
           "src/aiwo_cli.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 4
@@ -8897,7 +9289,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 0,
+        "test_blocks": 4,
         "registered": true,
         "documentation_mapped": true
       },
@@ -8905,10 +9297,13 @@
         "hot_path": true,
         "measured": true,
         "measurements": [
-          "aiwo-scale7-chunk-dht"
+          "aiwo-scale7-chunk-dht",
+          "zig-build-test"
         ],
         "workstream_measured": true,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-dht-key-bootstrap-20261014",
+        "decision": "secure-key-bootstrap"
       }
     },
     {
@@ -8954,6 +9349,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9001,6 +9398,8 @@
           "digit-model-probe"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9044,6 +9443,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9086,6 +9487,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9127,6 +9530,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9167,6 +9572,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9210,6 +9617,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9253,6 +9662,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9296,6 +9707,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9351,6 +9764,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9393,6 +9808,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9440,6 +9857,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9448,9 +9867,9 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "88d05db6bc9ceaf182eecf3997b1d3a13adccb2d774e82d871cc7719ecaad2ad",
-        "bytes": 66825,
-        "lines": 1471,
+        "sha256": "7a3707d0860a086e9ef313595df2a4dbe9a6ce9150b143548bcdbd71813913bc",
+        "bytes": 68309,
+        "lines": 1513,
         "imports": [
           "spec008_seal",
           "std",
@@ -9464,7 +9883,7 @@
           "tools/dht-fs.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 25
+        "public_surface": 26
       },
       "contract": {
         "mapped": true,
@@ -9488,17 +9907,19 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-aiwo-dht-key-bootstrap-20261014",
+        "decision": "ownership-hardened"
       }
     },
     {
       "component": "src/dhtd.zig",
       "workstream": "spec007-core",
-      "status": "BUILD_GRAPH_COVERED",
+      "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "bc8da5b58ac957492985636c7b33ceb288a930634b82108921dcb7c82b99b2fa",
-        "bytes": 6270,
-        "lines": 147,
+        "sha256": "7fa88ea9c5160f96c8a8445b1c418028ed48dbca8ce4af6fb081e8261a10005c",
+        "bytes": 9762,
+        "lines": 230,
         "imports": [
           "dht_native",
           "spec008_seal",
@@ -9507,10 +9928,12 @@
         ],
         "referenced_by": [
           "src/dht_native.zig",
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs",
           "tools/dht-fs.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 1
+        "public_surface": 5
       },
       "contract": {
         "mapped": true,
@@ -9522,16 +9945,21 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 0,
+        "test_blocks": 4,
         "registered": true,
         "documentation_mapped": true
       },
       "optimization": {
         "hot_path": true,
-        "measured": false,
-        "measurements": [],
+        "measured": true,
+        "measurements": [
+          "native-microbench",
+          "zig-build-test"
+        ],
         "workstream_measured": false,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-dhtd-bounded-assembler-20261014",
+        "decision": "bounded-hardened"
       }
     },
     {
@@ -9587,6 +10015,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9628,6 +10058,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9636,14 +10068,14 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "19277ece6b6216f48501773fac7d6041f7956b2ebb7d6493312cfb8d2508e92a",
-        "bytes": 5851,
-        "lines": 138,
+        "sha256": "1e46bc02cd57b1acfd85d6e7eead5b282192d485360e25de296e5612d768602c",
+        "bytes": 7101,
+        "lines": 163,
         "imports": [
           "aiwo_chunk_checkpoint.zig",
           "aiwo_cognitive.zig",
+          "dhtd",
           "fixed_point_q128.zig",
-          "spec008_seal.zig",
           "std"
         ],
         "referenced_by": [
@@ -9674,6 +10106,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9714,6 +10148,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9759,6 +10195,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9802,6 +10240,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9843,6 +10283,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9883,6 +10325,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9924,6 +10368,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -9963,6 +10409,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10003,6 +10451,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10045,6 +10495,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10086,6 +10538,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10128,6 +10582,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10168,6 +10624,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10208,6 +10666,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10249,6 +10709,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10289,6 +10751,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10336,6 +10800,8 @@
           "native-microbench"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10376,6 +10842,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10417,6 +10885,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10457,6 +10927,8 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10498,6 +10970,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10544,6 +11018,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10606,6 +11082,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10649,6 +11127,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10693,6 +11173,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10739,6 +11221,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10780,6 +11264,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10822,6 +11308,8 @@
           "native-microbench"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10841,7 +11329,6 @@
           "src/aiwo_fano.zig",
           "src/dht_native.zig",
           "src/dhtd.zig",
-          "src/perf_baseline.zig",
           "src/spec008_seal_cli.zig",
           "tools/component-performance.mjs"
         ],
@@ -10870,6 +11357,8 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10913,6 +11402,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -10964,6 +11455,8 @@
           "academy-harvest-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11008,6 +11501,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11055,6 +11550,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11097,6 +11594,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11140,6 +11639,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11181,6 +11682,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11227,6 +11730,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11270,6 +11775,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11310,6 +11817,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11355,6 +11864,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11397,6 +11908,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11442,6 +11955,8 @@
           "component-census-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11450,9 +11965,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "1a4b528381a28842cdd26aa45ab844ea657a3a48642032cacdff4e6f5ac1cb61",
-        "bytes": 10426,
-        "lines": 268,
+        "sha256": "9f1fe8613ac822cf60acb6ce99fc809bab773d7a8d4548bde5f379bb87d4e697",
+        "bytes": 10468,
+        "lines": 270,
         "imports": [
           "node:child_process",
           "node:crypto",
@@ -11486,6 +12001,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11494,9 +12011,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "72a913abbc829ccd2a39225a2a5b9625da5943e50a12ed883ca793075b021b74",
-        "bytes": 10750,
-        "lines": 235,
+        "sha256": "f89a9fcd0e9446f0380e30a9251f05058f918a9f3a22cd30b3970deda00e46a9",
+        "bytes": 11621,
+        "lines": 261,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -11531,6 +12048,8 @@
           "component-retrograde-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11574,6 +12093,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11619,6 +12140,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11656,6 +12179,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11701,6 +12226,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11757,6 +12284,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11802,6 +12331,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11854,6 +12385,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11894,6 +12427,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11938,6 +12473,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -11978,6 +12515,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12030,6 +12569,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12071,6 +12612,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12117,6 +12660,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12159,6 +12704,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12206,6 +12753,8 @@
           "gov-map-verify"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12247,6 +12796,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12288,6 +12839,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12329,6 +12882,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12370,6 +12925,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12412,6 +12969,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12460,6 +13019,8 @@
           "site-build"
         ],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12503,6 +13064,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12543,6 +13106,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12595,6 +13160,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12634,6 +13201,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12671,6 +13240,8 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     },
@@ -12715,6 +13286,8 @@
         "measured": true,
         "measurements": [],
         "workstream_measured": true,
+        "completed": false,
+        "archive": null,
         "decision": "baseline-only"
       }
     }

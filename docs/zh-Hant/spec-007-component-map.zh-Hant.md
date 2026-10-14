@@ -45,8 +45,8 @@
 | `spec008_qstar_fleet.zig` | qstar-net 接入艦隊:25-E0 BootstrapSeed 會合、proof-of-lattice-work 女巫閘(測試校準難度)、Möbius 合併解決並行格編輯、NAT/WebRTC 矩陣。`SeedNode.activation`/`CellEdit.activation` 僅為 f 邊界簿記。 | 9 測試 | — |
 | `spec008_qstar_mesh.zig` | qstar-mesh + qstar-render:Location u128 與 SPEC-008 tensor 位址同寬度級,PeerId = [32]u8;RelayRouter TTL 多跳為 42 跳步行的上界;136-B 封包上 XChaCha20-Poly1305 AEAD,竄改/錯鑰拒絕。 | 6 測試 | — |
 | `spec008_qstar_parity.zig` | 線路同位(D11/P3,Mosi LVCE):136-B 封包 frame→channel→decode→re-seal 逐位元一致;任意偏移單位元組毀損必被偵測;鴿籠容量強制執行;截斷/訊框拼接拒絕;XOR 同位恰好復原一個抹除訊框。 | 10 測試 | — |
-| `dht_native.zig` | Continuity DHT 原生實作(retro-dev T7):清單中*被引用*的基層成為*被接線*的基層。與 `tools/dht-fs.mjs` 同存儲、同線路、同裁決 — 雙生而非帶漂移的移植 — 內容定址記錄立於 qstar-vfs `vfs_distributed` 基層。 | 10 測試 | — |
-| `dhtd.zig` | 原生 Continuity DHT 守護行程:於迴路 TCP 上以封緘 136-B FANO 線路回應 record/block 操作,底層為 `dht_native.zig`。由 `security/dht-sweep.mjs`(DHT-01..12)經 `tools/dht-native.mjs` 客戶端即時探測。 | 經由 DHT 掃蕩探針驗證 | — |
+| `dht_native.zig` | Continuity DHT 原生實作(retro-dev T7):清單中*被引用*的基層成為*被接線*的基層。與 `tools/dht-fs.mjs` 同存儲、同線路、同裁決 — 雙生而非帶漂移的移植 — 內容定址記錄立於 qstar-vfs `vfs_distributed` 基層，並以確定性 `Store.deinit` 釋放 lane/key/LRU 所有權。 | 10 測試 + DHT 掃蕩 + `aiwo_dht` 測試之無洩漏生命週期 | 所有權強化已落地 |
+| `dhtd.zig` | 原生 Continuity DHT 守護行程:於迴路 TCP 上以封緘 136-B FANO 線路回應 record/block 操作,底層為 `dht_native.zig`。請求組裝受限 — 每一串流僅一名請求者、接受訊框數有上限、棄置訊框風暴設截斷。 | 4 組裝測試 + DHT 掃蕩探針 | 有界畸形訊框強化已落地 |
 
 ## 韌體(`firmware/`)
 
@@ -170,14 +170,14 @@
 | `space-serve.sh` | 啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。 | 經由 desk iframe 驗證 | — |
 | `aiwo_policy.zig` / `aiwo_manifest.zig` | 原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議。 | 原生單元測試 + manifest 檢查 | — |
 | `aiwo_state.zig` | 帶有 policy digest、單調序號、生命週期、校驗和與原子持久化之版本化 officer 狀態邊界。 | snapshot 往返/竄改測試 | officer identity 由原生 runtime 持有 |
-| `aiwo_chunk_checkpoint.zig` | 已接納 AIWO chunk 計畫之原子、校驗和、版本化 checkpoint/resume 狀態。 | checkpoint 往返 + parity resume | — |
+| `aiwo_chunk_checkpoint.zig` | 已接納 AIWO chunk 計畫之原子、SHA-256 校驗和、版本化 checkpoint/resume 狀態；v2 寫入會先 fsync 資料、原子 rename、再 fsync 父目錄，並保留 legacy v1 resume 讀取。 | checkpoint 往返 + 竄改/截斷拒絕 + legacy resume + parity resume | — |
 | `aiwo_prompt.zig` | 解析任意逗號分隔 token-id prompt 與重複 stop-token policy，供原生 Digit 執行。 | prompt/stop parser 單元測試 | text tokenizer 整合另行處理 |
 | `aiwo_digit_bridge.zig` / `aiwo_digit_model_probe.zig` | 適配真實 Digit ModelObservation，並於 AIWO policy/FANO 前執行原生 q4 package/session 邊界。 | 750-tensor model probe + 真實一/六步路徑 + stop-token 測試 | 多 token parity 擴展待完成 |
 | `aiwo_cognitive.zig` | 以 compact checksum 執行 Digit 形狀之 E5 observation/E6 reflection/E7 branch policy/E0 commit fold；scale 0–7 理論路徑數為 1、8、64、512、4096、32768、262144、2097152；不持有 model tensor 或權限。 | 原生認知單元測試 + scale parity | scale 3–7 採有界 chunk planning/admission，不暴力枚舉 |
 | `aiwo_model_observation.zig` | 將 host 提供之 logits/recurrent-state 摘要轉為 compact E5 observation：argmax、margin、range、checksum 與 state version。 | 原生 model-observation 單元測試 + 真實 Digit 探針 | 任意外部 model session 仍採有界執行 |
 | `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。 | 原生 AIWO parity 探針 + 真實 Digit model 探針 | 多 token/完整生成硬化待完成 |
-| `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。 | FANO 竄改測試 + 逐 chunk 簽章 DHT 回執 | 原生 DHT emission 已上線 |
-| `aiwo_heartbeat.zig` / `aiwo_cli.zig` | 獨立有界 AIWO heartbeat 與 `spec007-aiwo` 原生 canary CLI；不改變 training heartbeat。 | `node security/aiwo-native-parity.mjs` + checkpoint/resume + DHT receipt gates | 外部 provider 僅為 compatibility fallback，非主權限路徑 |
+| `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；`aiwo_dht` 將 Ed25519 回執金鑰引導至 `0700` key dir，以原子寫入建立 `0600` private/`0644` public DER，驗證金鑰對對應，並持有 `Store` teardown。 | FANO 竄改測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試 | 原生 DHT emission 已上線 |
+| `aiwo_heartbeat.zig` / `aiwo_cli.zig` | 獨立有界 AIWO heartbeat 與 `spec007-aiwo` 原生 canary CLI；不改變 training heartbeat。CLI parser 接受 separated 或 `--name=value` 選項，並對未知/缺值參數採 fail-closed 拒絕。 | `node security/aiwo-native-parity.mjs` + checkpoint/resume + DHT receipt gates + parser 單元測試 | 外部 provider 僅為 compatibility fallback，非主權限路徑 |
 | `perf_baseline.zig` | 純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、atomic checkpoint round-trip。 | `spec007-perf-baseline` ReleaseFast JSON + unit fold test | 量測式最佳化基線已落地 |
 
 ## 支援樹

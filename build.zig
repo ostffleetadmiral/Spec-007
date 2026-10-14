@@ -199,6 +199,10 @@ pub fn build(b: *std.Build) void {
     depTest(b, test_step, "src/dht_native.zig", target, optimize, &.{
         imp("spec008_seal", s_seal), imp("vfs_distributed", v_dist),
     });
+    const dhtd_module = depMod(b, "src/dhtd.zig", target, optimize);
+    dhtd_module.addImport("dht_native", n_dht);
+    dhtd_module.addImport("spec008_seal", s_seal);
+    dhtd_module.addImport("vfs_distributed", v_dist);
     const dhtd = b.addExecutable(.{
         .name = "dhtd",
         .root_source_file = b.path("src/dhtd.zig"),
@@ -209,6 +213,9 @@ pub fn build(b: *std.Build) void {
     dhtd.root_module.addImport("spec008_seal", s_seal);
     dhtd.root_module.addImport("vfs_distributed", v_dist);
     b.installArtifact(dhtd);
+    depTest(b, test_step, "src/dhtd.zig", target, optimize, &.{
+        imp("dht_native", n_dht), imp("spec008_seal", s_seal), imp("vfs_distributed", v_dist),
+    });
 
     // spec008_seal CLI — seal-hex/verify-hex/build-hex differential
     // probing surface for the JS↔Zig twin-parity harness. The core is a
@@ -393,8 +400,9 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    perf_baseline.root_module.addImport("dhtd", dhtd_module);
     b.installArtifact(perf_baseline);
-    depTest(b, test_step, "src/perf_baseline.zig", target, optimize, &.{});
+    depTest(b, test_step, "src/perf_baseline.zig", target, optimize, &.{imp("dhtd", dhtd_module)});
 
     // ── spec007 integer harnesses (was a serial zig-test loop in
     //    publish-check — the build graph parallelizes + caches) ───────

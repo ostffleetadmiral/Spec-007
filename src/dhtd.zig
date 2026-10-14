@@ -20,9 +20,52 @@ const std = @import("std");
 const dht = @import("dht_native");
 const seal_mod = @import("spec008_seal");
 const vfs = @import("vfs_distributed");
+pub const seal = seal_mod;
 
 const FANO_WIRE = seal_mod.FANO_WIRE;
 const FRAME_DATA: usize = 63; // 64B payload − 1B more-flag
+const MAX_ACCEPTED_FRAMES: usize = (dht.MAX_STREAM + FRAME_DATA - 1) / FRAME_DATA + 1;
+const MAX_DROPPED_FRAMES: usize = 64;
+
+pub const FrameVerdict = enum { dropped, more, complete };
+
+pub const RequestAssembler = struct {
+    src: [3]u32 = .{ 7, 7, 7 },
+    got_first: bool = false,
+    accepted: usize = 0,
+    dropped: usize = 0,
+
+    fn drop(self: *RequestAssembler) !FrameVerdict {
+        self.dropped += 1;
+        if (self.dropped > MAX_DROPPED_FRAMES) return error.DroppedFrameStorm;
+        return .dropped;
+    }
+
+    pub fn accept(self: *RequestAssembler, req: *std.ArrayList(u8), frame: *const [FANO_WIRE]u8) !FrameVerdict {
+        if (!seal_mod.verify(frame)) return self.drop();
+        // requester cell from the cell-word (12-bit fields; must be a
+        // lattice point 0..14 to be addressable)
+        const top = std.mem.readInt(u64, frame[24..32], .little);
+        const sx: u32 = @intCast((top >> 27) & 0xfff);
+        const sy: u32 = @intCast((top >> 39) & 0xfff);
+        const sz: u32 = @intCast((top >> 51) & 0xfff);
+        if (sx > 14 or sy > 14 or sz > 14) return self.drop(); // unroutable src
+        // a request stream belongs to one requester — pin src on the
+        // first verified frame, drop frames sealed from elsewhere.
+        if (self.got_first and (self.src[0] != sx or self.src[1] != sy or self.src[2] != sz)) return self.drop();
+        if (!self.got_first) {
+            self.src = .{ sx, sy, sz };
+            self.got_first = true;
+        }
+        self.accepted += 1;
+        if (self.accepted > MAX_ACCEPTED_FRAMES) return error.AcceptedFrameBudget;
+        const more = frame[40] != 0;
+        const plen = @min(@as(usize, frame[39]), seal_mod.FANO_CAP);
+        if (plen > 1) try req.appendSlice(frame[41 .. 40 + plen]);
+        if (req.items.len > dht.MAX_STREAM) return error.Oversize;
+        return if (more) .more else .complete;
+    }
+};
 
 fn usage() noreturn {
     std.debug.print("usage: dhtd --root <store> --lanes a,b,c [--listen ip:port]\n", .{});
@@ -85,36 +128,19 @@ fn handleConn(alloc: std.mem.Allocator, st: *dht.Store, stream: std.net.Stream) 
     while (true) {
         req.clearRetainingCapacity();
         reply.clearRetainingCapacity();
-        var src: [3]u32 = .{ 7, 7, 7 };
-        var got_first = false;
+        var assembler = RequestAssembler{};
         while (true) {
             readExact(stream, &frame) catch |e| switch (e) {
                 error.Eof => return, // clean close between requests
                 else => return e,
             };
-            if (!seal_mod.verify(&frame)) {
-                std.debug.print("dhtd: dropped unsealed frame ({d} req bytes so far)\n", .{req.items.len});
-                continue;
+            const verdict = try assembler.accept(&req, &frame);
+            switch (verdict) {
+                .dropped => std.debug.print("dhtd: dropped frame ({d} req bytes, {d} dropped)\n", .{ req.items.len, assembler.dropped }),
+                .more => continue,
+                .complete => break,
             }
-            // requester cell from the cell-word (12-bit fields; must be a
-            // lattice point 0..14 to be addressable)
-            const top = std.mem.readInt(u64, frame[24..32], .little);
-            const sx: u32 = @intCast((top >> 27) & 0xfff);
-            const sy: u32 = @intCast((top >> 39) & 0xfff);
-            const sz: u32 = @intCast((top >> 51) & 0xfff);
-            if (sx > 14 or sy > 14 or sz > 14) continue; // unroutable src
-            // a request stream belongs to one requester — pin src on the
-            // first verified frame, drop frames sealed from elsewhere.
-            if (got_first and (src[0] != sx or src[1] != sy or src[2] != sz)) continue;
-            src = .{ sx, sy, sz };
-            got_first = true;
-            const more = frame[40] != 0;
-            const plen = @min(@as(usize, frame[39]), seal_mod.FANO_CAP);
-            if (plen > 1) try req.appendSlice(frame[41 .. 40 + plen]);
-            if (req.items.len > dht.MAX_STREAM) return error.Oversize;
-            if (!more) break;
         }
-        if (!got_first) return;
         try dht.dispatch(st, req.items, &reply);
         // seal the reply back to the requester's cell — 63 B per frame
         const seq: u32 = std.mem.readInt(u32, frame[35..39], .little);
@@ -127,7 +153,7 @@ fn handleConn(alloc: std.mem.Allocator, st: *dht.Store, stream: std.net.Stream) 
             var payload: [seal_mod.FANO_CAP]u8 = [_]u8{0} ** seal_mod.FANO_CAP;
             payload[0] = if (more) 1 else 0;
             @memcpy(payload[1..plen], reply.items[off .. off + n]);
-            const w = seal_mod.build(7, 7, 7, @intCast(src[0]), @intCast(src[1]), @intCast(src[2]), fseq, payload[0..plen]);
+            const w = seal_mod.build(7, 7, 7, @intCast(assembler.src[0]), @intCast(assembler.src[1]), @intCast(assembler.src[2]), fseq, payload[0..plen]);
             try stream.writeAll(&w);
             off += n;
             fseq +%= 1;
@@ -143,4 +169,61 @@ fn readExact(stream: std.net.Stream, buf: []u8) !void {
         if (n == 0) return error.Eof;
         off += n;
     }
+}
+
+fn requestFrame(sx: u8, sy: u8, sz: u8, seq: u32, more: bool, data: []const u8) [FANO_WIRE]u8 {
+    var payload: [seal_mod.FANO_CAP]u8 = [_]u8{0} ** seal_mod.FANO_CAP;
+    payload[0] = if (more) 1 else 0;
+    @memcpy(payload[1 .. data.len + 1], data);
+    return seal_mod.build(sx, sy, sz, 7, 7, 7, seq, payload[0 .. data.len + 1]);
+}
+
+test "dhtd request assembler reassembles a multi-frame stream" {
+    var req = std.ArrayList(u8).init(std.testing.allocator);
+    defer req.deinit();
+    var assembler = RequestAssembler{};
+
+    var f1 = requestFrame(1, 2, 3, 40, true, "abc");
+    var f2 = requestFrame(1, 2, 3, 41, false, "def");
+    try std.testing.expect((try assembler.accept(&req, &f1)) == .more);
+    try std.testing.expect((try assembler.accept(&req, &f2)) == .complete);
+    try std.testing.expectEqualStrings("abcdef", req.items);
+    try std.testing.expectEqualSlices(u32, &.{ 1, 2, 3 }, &assembler.src);
+}
+
+test "dhtd request assembler pins a request to its first source" {
+    var req = std.ArrayList(u8).init(std.testing.allocator);
+    defer req.deinit();
+    var assembler = RequestAssembler{};
+
+    var first = requestFrame(1, 2, 3, 40, true, "own");
+    var foreign = requestFrame(2, 3, 4, 41, false, "foreign");
+    var last = requestFrame(1, 2, 3, 42, false, "er");
+    try std.testing.expect((try assembler.accept(&req, &first)) == .more);
+    try std.testing.expect((try assembler.accept(&req, &foreign)) == .dropped);
+    try std.testing.expect((try assembler.accept(&req, &last)) == .complete);
+    try std.testing.expectEqualStrings("owner", req.items);
+    try std.testing.expectEqual(@as(usize, 1), assembler.dropped);
+}
+
+test "dhtd request assembler bounds dropped-frame storms" {
+    var req = std.ArrayList(u8).init(std.testing.allocator);
+    defer req.deinit();
+    var assembler = RequestAssembler{};
+    var bad = requestFrame(1, 2, 3, 40, false, "x");
+    bad[104] ^= 1;
+
+    for (0..MAX_DROPPED_FRAMES) |_| {
+        try std.testing.expect((try assembler.accept(&req, &bad)) == .dropped);
+    }
+    try std.testing.expectError(error.DroppedFrameStorm, assembler.accept(&req, &bad));
+}
+
+test "dhtd request assembler enforces the accepted-frame budget" {
+    var req = std.ArrayList(u8).init(std.testing.allocator);
+    defer req.deinit();
+    var assembler = RequestAssembler{ .accepted = MAX_ACCEPTED_FRAMES };
+    var frame = requestFrame(1, 2, 3, 40, false, "x");
+
+    try std.testing.expectError(error.AcceptedFrameBudget, assembler.accept(&req, &frame));
 }

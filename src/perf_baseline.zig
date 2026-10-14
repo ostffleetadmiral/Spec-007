@@ -3,9 +3,10 @@
 //! can be checked for both cost and deterministic work actually performed.
 const std = @import("std");
 const q128_mod = @import("fixed_point_q128.zig");
-const seal = @import("spec008_seal.zig");
 const cognitive = @import("aiwo_cognitive.zig");
 const checkpoint = @import("aiwo_chunk_checkpoint.zig");
+const dhtd = @import("dhtd");
+const seal = dhtd.seal;
 
 const Q128 = q128_mod.Q128;
 
@@ -108,6 +109,26 @@ fn benchCheckpoint(iterations: u64) !Bench {
     return Bench.init(iterations, timer.read(), fold);
 }
 
+fn benchDhtdAssembler(iterations: u64) !Bench {
+    var payload: [seal.FANO_CAP]u8 = [_]u8{0} ** seal.FANO_CAP;
+    const data = "dhtd-request-assembler";
+    payload[0] = 0;
+    @memcpy(payload[1 .. data.len + 1], data);
+    const frame = seal.build(1, 1, 1, 7, 7, 7, 17, payload[0 .. data.len + 1]);
+    var req = std.ArrayList(u8).init(std.heap.page_allocator);
+    defer req.deinit();
+    var fold: u256 = 0;
+
+    var timer = try std.time.Timer.start();
+    for (0..iterations) |_| {
+        var assembler = dhtd.RequestAssembler{};
+        const verdict = try assembler.accept(&req, &frame);
+        fold +%= @as(u256, @intCast(req.items.len + assembler.accepted + assembler.dropped + @intFromEnum(verdict)));
+        req.clearRetainingCapacity();
+    }
+    return Bench.init(iterations, timer.read(), fold);
+}
+
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
     const qmul = benchQ128Mul(20_000);
@@ -116,15 +137,17 @@ pub fn main() !void {
     const fano = benchFanoSeal(10_000);
     const chunks = try benchChunkCursor(8);
     const ckpt = try benchCheckpoint(16);
+    const assembler = try benchDhtdAssembler(10_000);
     try stdout.print(
-        "{{\"schema\":\"SPEC007-PERF-BENCH-v1\",\"q128_mul\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"q128_div\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"q128_sqrt\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"fano_seal_verify\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"aiwo_scale7_chunk_cursor\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"aiwo_checkpoint_roundtrip\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}}}}\n",
+        "{{\"schema\":\"SPEC007-PERF-BENCH-v1\",\"q128_mul\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"q128_div\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"q128_sqrt\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"fano_seal_verify\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"aiwo_scale7_chunk_cursor\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"aiwo_checkpoint_roundtrip\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}},\"dhtd_request_assembler\":{{\"iterations\":{d},\"ns\":{d},\"ops_per_sec\":{d},\"fold\":\"{x}\"}}}}\n",
         .{
-            qmul.iterations,   qmul.ns,   qmul.ops_per_sec,   qmul.fold,
-            qdiv.iterations,   qdiv.ns,   qdiv.ops_per_sec,   qdiv.fold,
-            qsqrt.iterations,  qsqrt.ns,  qsqrt.ops_per_sec,  qsqrt.fold,
-            fano.iterations,   fano.ns,   fano.ops_per_sec,   fano.fold,
-            chunks.iterations, chunks.ns, chunks.ops_per_sec, chunks.fold,
-            ckpt.iterations,   ckpt.ns,   ckpt.ops_per_sec,   ckpt.fold,
+            qmul.iterations,      qmul.ns,      qmul.ops_per_sec,      qmul.fold,
+            qdiv.iterations,      qdiv.ns,      qdiv.ops_per_sec,      qdiv.fold,
+            qsqrt.iterations,     qsqrt.ns,     qsqrt.ops_per_sec,     qsqrt.fold,
+            fano.iterations,      fano.ns,      fano.ops_per_sec,      fano.fold,
+            chunks.iterations,    chunks.ns,    chunks.ops_per_sec,    chunks.fold,
+            ckpt.iterations,      ckpt.ns,      ckpt.ops_per_sec,      ckpt.fold,
+            assembler.iterations, assembler.ns, assembler.ops_per_sec, assembler.fold,
         },
     );
 }
@@ -132,6 +155,8 @@ pub fn main() !void {
 test "performance benches produce deterministic nonzero folds" {
     const qmul = benchQ128Mul(8);
     const fano = benchFanoSeal(8);
+    const assembler = try benchDhtdAssembler(8);
     try std.testing.expect(qmul.iterations == 8 and qmul.fold != 0);
     try std.testing.expect(fano.iterations == 8 and fano.fold != 0);
+    try std.testing.expect(assembler.iterations == 8 and assembler.fold != 0);
 }

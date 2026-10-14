@@ -248,15 +248,15 @@
 </tr>
 <tr>
 <td><code>dht_native.zig</code></td>
-<td>Continuity DHT 原生實作(retro-dev T7):清單中<em>被引用</em>的基層成為<em>被接線</em>的基層。與 <code>tools/dht-fs.mjs</code> 同存儲、同線路、同裁決 — 雙生而非帶漂移的移植 — 內容定址記錄立於 qstar-vfs <code>vfs_distributed</code> 基層。</td>
-<td>10 測試</td>
-<td>—</td>
+<td>Continuity DHT 原生實作(retro-dev T7):清單中<em>被引用</em>的基層成為<em>被接線</em>的基層。與 <code>tools/dht-fs.mjs</code> 同存儲、同線路、同裁決 — 雙生而非帶漂移的移植 — 內容定址記錄立於 qstar-vfs <code>vfs_distributed</code> 基層，並以確定性 <code>Store.deinit</code> 釋放 lane/key/LRU 所有權。</td>
+<td>10 測試 + DHT 掃蕩 + <code>aiwo_dht</code> 測試之無洩漏生命週期</td>
+<td>所有權強化已落地</td>
 </tr>
 <tr>
 <td><code>dhtd.zig</code></td>
-<td>原生 Continuity DHT 守護行程:於迴路 TCP 上以封緘 136-B FANO 線路回應 record/block 操作,底層為 <code>dht_native.zig</code>。由 <code>security/dht-sweep.mjs</code>(DHT-01..12)經 <code>tools/dht-native.mjs</code> 客戶端即時探測。</td>
-<td>經由 DHT 掃蕩探針驗證</td>
-<td>—</td>
+<td>原生 Continuity DHT 守護行程:於迴路 TCP 上以封緘 136-B FANO 線路回應 record/block 操作,底層為 <code>dht_native.zig</code>。請求組裝受限 — 每一串流僅一名請求者、接受訊框數有上限、棄置訊框風暴設截斷。</td>
+<td>4 組裝測試 + DHT 掃蕩探針</td>
+<td>有界畸形訊框強化已落地</td>
 </tr>
 </tbody>
 </table>
@@ -930,8 +930,8 @@
 </tr>
 <tr>
 <td><code>aiwo_chunk_checkpoint.zig</code></td>
-<td>已接納 AIWO chunk 計畫之原子、校驗和、版本化 checkpoint/resume 狀態。</td>
-<td>checkpoint 往返 + parity resume</td>
+<td>已接納 AIWO chunk 計畫之原子、SHA-256 校驗和、版本化 checkpoint/resume 狀態；v2 寫入會先 fsync 資料、原子 rename、再 fsync 父目錄，並保留 legacy v1 resume 讀取。</td>
+<td>checkpoint 往返 + 竄改/截斷拒絕 + legacy resume + parity resume</td>
 <td>—</td>
 </tr>
 <tr>
@@ -966,14 +966,14 @@
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
-<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器。</td>
-<td>FANO 竄改測試 + 逐 chunk 簽章 DHT 回執</td>
+<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；<code>aiwo_dht</code> 將 Ed25519 回執金鑰引導至 <code>0700</code> key dir，以原子寫入建立 <code>0600</code> private/<code>0644</code> public DER，驗證金鑰對對應，並持有 <code>Store</code> teardown。</td>
+<td>FANO 竄改測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試</td>
 <td>原生 DHT emission 已上線</td>
 </tr>
 <tr>
 <td><code>aiwo_heartbeat.zig</code> / <code>aiwo_cli.zig</code></td>
-<td>獨立有界 AIWO heartbeat 與 <code>spec007-aiwo</code> 原生 canary CLI；不改變 training heartbeat。</td>
-<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates</td>
+<td>獨立有界 AIWO heartbeat 與 <code>spec007-aiwo</code> 原生 canary CLI；不改變 training heartbeat。CLI parser 接受 separated 或 <code>--name=value</code> 選項，並對未知/缺值參數採 fail-closed 拒絕。</td>
+<td><code>node security/aiwo-native-parity.mjs</code> + checkpoint/resume + DHT receipt gates + parser 單元測試</td>
 <td>外部 provider 僅為 compatibility fallback，非主權限路徑</td>
 </tr>
 <tr>
