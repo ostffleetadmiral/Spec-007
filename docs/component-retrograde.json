@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 36
+    "completed_full_retrograde": 37
   },
   "components": [
     {
@@ -10328,7 +10328,9 @@
           "fixed_point_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10353,9 +10355,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-ckm-baseline-20261014",
+        "decision": "verified-ckm-baseline"
       }
     },
     {
@@ -12063,9 +12065,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "ff2a993f3b24f9415551ec8bf0b793b101503ca3f04a41783072eef7755232bd",
-        "bytes": 15910,
-        "lines": 385,
+        "sha256": "7b729d0ddc3abc32816f051ea60ec0bf902110eafde4622bd5df0ed85592448a",
+        "bytes": 16035,
+        "lines": 389,
         "imports": [
           "node:crypto",
           "node:fs",

@@ -161,6 +161,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-plateau-tolerance",
     archive: "spec007-wow-shape-domains-20261014",
   }],
+  ["src/spec007_ckm_probe.zig", {
+    decision: "verified-ckm-baseline",
+    archive: "spec007-ckm-baseline-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
