@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "reference-stack",
-  "lesson_count": 10816,
+  "lesson_count": 10817,
   "lessons": [
     {
       "access": "public",
@@ -87646,6 +87646,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Record a referral-link visit",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-8ba392e4b9493160",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Components: 277 - Source: 231 - Generated: 46 - Basename mapped: 262 - Pending component review: 277",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/component-census.md",
+      "title": "Spec-007 component census",
       "topic": "reference"
     },
     {

@@ -59,6 +59,7 @@ curriculum-map.json	node tools/curriculum-map.mjs --verify
 academy-review.json	node tools/academy-review.mjs --verify
 academy-pedagogy.json	node tools/academy-grade.mjs --verify && node tools/academy-grade.mjs --selfcheck
 course-gen	node tools/course-gen.mjs --verify
+component-census	node tools/component-census.mjs --verify
 EOF
 )
 VRES=$(echo "$VCHK" | xargs -d '\n' -P 8 -I{} sh -c 'lbl=${1%%	*}; cmd=${1#*	}; eval "$cmd" >/dev/null 2>&1 && echo "$lbl|PASS" || echo "$lbl|FAIL"' _ {})

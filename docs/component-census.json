@@ -1,0 +1,5980 @@
+{
+  "schema": "SPEC007-COMPONENT-CENSUS-v1",
+  "summary": {
+    "schema": "SPEC007-COMPONENT-CENSUS-v1",
+    "zones": {
+      "src": 48,
+      "deps": 85,
+      "security": 53,
+      "tools": 40,
+      "firmware": 1,
+      "apps": 2,
+      "admiralty-desk": 5,
+      "site/assets": 43
+    },
+    "total_components": 277,
+    "source_components": 231,
+    "generated_components": 46,
+    "mapped_basename": 262,
+    "unmapped_basename": [
+      "admiralty-desk/package-lock.json",
+      "admiralty-desk/preload.js",
+      "deps/digit/src/e5_state.zig",
+      "site/assets/academy/ai-literacy.json",
+      "site/assets/academy/campaign-operations.json",
+      "site/assets/academy/governance-ethics.json",
+      "site/assets/academy/hardware-fleet.json",
+      "site/assets/academy/identity-authority.json",
+      "site/assets/academy/lore-shelf.json",
+      "site/assets/academy/reference-stack.json",
+      "site/assets/academy/science-lattice.json",
+      "site/assets/academy/security-clearance.json",
+      "site/assets/academy/systems-engineering.json",
+      "site/assets/academy/uiux-craft.json",
+      "site/assets/spec-registry.json"
+    ],
+    "native_zig": 123
+  },
+  "components": [
+    {
+      "component": "admiralty-desk/desk.sh",
+      "contract": {
+        "mapped": true,
+        "source_zone": "admiralty-desk",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "admiralty-desk/main.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "admiralty-desk",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "admiralty-desk/package-lock.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "admiralty-desk",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "admiralty-desk/package.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "admiralty-desk",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "admiralty-desk/preload.js",
+      "contract": {
+        "mapped": false,
+        "source_zone": "admiralty-desk",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "apps/fano/fano.wasm",
+      "contract": {
+        "mapped": true,
+        "source_zone": "apps",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "apps/fano/index.html",
+      "contract": {
+        "mapped": true,
+        "source_zone": "apps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/brain_contracts.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 2,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/causal_conv.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/e5_state.zig",
+      "contract": {
+        "mapped": false,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": false
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/fixed_point.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/graph_exec.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 5,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/linear_attention.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/model_package.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/model_session.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 5,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/onnx_fixed_bridge.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 3,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/onnx_graph.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/onnx_weights.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/q128.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 35,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/qwen_embed.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/shape_ops.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 4,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/skip_layer_norm.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/tensor_ops.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 12,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/tensor_upload.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 2,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/digit/src/worker_pool.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-collapse/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-collapse/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-collapse/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-collapse/src/collapse.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 15,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-collapse/src/qr_nest.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 21,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-compress/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-compress/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-compress/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-compress/src/compress.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 19,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-compress/src/fixed_point.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 27,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-compress/src/turbo_quant.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 30,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/src/fixed_point.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 27,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/src/mesh_peer.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 5,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/src/mesh.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 63,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/src/p2p_types.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 38,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-mesh/src/relay_router.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 23,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/qstar-mesh/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/qstar-mesh/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/qstar-mesh/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/src/bootstrap.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 13,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/src/merge.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 14,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/src/nat.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 17,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/src/sybil.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 14,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-net/src/webrtc.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 10,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/src/entangle.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 39,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/src/fixed_point.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 27,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/src/holographic.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 32,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-quantum/src/quantum.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 37,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-render/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-render/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-render/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-render/src/fixed_point.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 27,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-render/src/render.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 55,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/maypole_bridge.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 28,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_audio.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 3,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_cassette.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 3,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_convert.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_lora.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 22,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_optar.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 5,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_p2p.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_paperback.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_polyglot.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 22,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_qr.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_quine.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 3,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_stega.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 4,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_video.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 4,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-transport/src/transport_wifi.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 4,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/build.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/examples/main.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/README.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/src/fixed_point.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 27,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/src/vfs_bridge.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 24,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/src/vfs_distributed.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 17,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/qstar-vfs/src/vfs_streaming.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 15,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "deps/VENDORED.md",
+      "contract": {
+        "mapped": true,
+        "source_zone": "deps",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "firmware/spec007_controller.c",
+      "contract": {
+        "mapped": true,
+        "source_zone": "firmware",
+        "generated": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/admiralty-reset-token.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/agentzero-watch.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/aiwo-corps.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/aiwo-digit-model-parity.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/aiwo-native-parity.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/aiwo-service.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/capstone-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/carrier-flight.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/chaos-hammer.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/comms-suite.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/ddns-update.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/dht-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/emergence-watch.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/encap-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fabric-bridge.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fabric-stress.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fano_beacon.py",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fano_dialect.py",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fano_relay_link.py",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fano-mesh-bridge.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fano-wan-gateway.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fleet_bootstrap.py",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fleet-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fleet-genesis-update.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fleet-manifest.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/fleet-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/gov-index.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/gov-stress.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/harness.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/hydra-node.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/ipv6-derive.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/k3-probe.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/k3-stress.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/kali-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/lattice-probe.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/nosignal-break.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/officer-mesh.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/pack-density.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/philotic-cluster.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/philotic-probe.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/rations-stress.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/rf-field-probe.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/route-o1.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/seed-drop.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/sentinel-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/spec008-wire.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/staleness-detect.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/suite.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/superpowers-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/team-sweep-2.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/wan-bridge.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/wozam-gate.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/xploit-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy-manifest.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy-pedagogy.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy-review.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/ai-literacy.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/campaign-operations.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/communications.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/governance-ethics.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/hardware-fleet.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/identity-authority.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/lore-shelf.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/ministry-neo-hindu.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/orientation.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/reference-stack.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/science-lattice.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/security-clearance.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/systems-engineering.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/academy/uiux-craft.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/agency-map.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/archive-manifest.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/capability-registry.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/cluster-registry.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/command-manifest.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/curriculum-map.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/device-ledger.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/dht-manifest.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/fano-auth.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/fano-comms.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/fano-desktop.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/fano-i18n.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/fano-reset.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/film-manifest.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/gov-ledger.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/layer-census.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/nebula-3d.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/persona-manifest.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/production-ledger.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/quplink-viz.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/quplink.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/science-inventory.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/spec-registry.json",
+      "contract": {
+        "mapped": false,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": false,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/spec007.wasm",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/vision-ledger.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/zig-capability-registry.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_chunk_checkpoint.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_cli.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_cognitive.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 4,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_dht.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_digit_bridge.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_digit_model_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_directive.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_fano.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_heartbeat.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_manifest.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_model_observation.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_policy.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 2,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_prompt.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_runtime.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_state.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/aiwo_types.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/dht_native.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 8,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/dhtd.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/fixed_point_q128.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 37,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/golden_emit.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_alpha_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 5,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_astrometric_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 15,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_calculations.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 9,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_checksum_audit.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 8,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_ckm_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 4,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_coincidence_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 7,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_compute.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_drivetrain_calculations.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 22,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_dynamics_calculations.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 13,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_ephemeris_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 15,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_expanded_calculations.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 19,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_fixedpoint_prototype.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_manifold_calculations.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 13,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_portal_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 9,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_q_toys.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 7,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_q128.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_verified_calculations.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 16,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_warp_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 12,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec007_wow_shape_probe.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 12,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_medium_lattice.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_qstar_archive.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 9,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_qstar_carriage.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 12,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_qstar_escrow.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 8,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_qstar_fleet.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 9,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_qstar_mesh.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 6,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_qstar_parity.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 10,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_seal_cli.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "src/spec008_seal.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "src",
+        "generated": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 7,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/academy-grade.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/academy-harvest.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/academy-review.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/agency-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/agent-capacity-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/archive-projection.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/archive-verify.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/bridge-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/canon-verify.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/claim-promotion.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/cluster-census.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/command-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/component-census.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/course-gen.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/curriculum-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/deploy-pages.sh",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/device-ledger.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/dht-fs.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/dht-native.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/directive.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/doc-census.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/dox-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/emergent-sweep.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/engine-manifest.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/evidence-manifest.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/film-render.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/golden-master.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/gov-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/harness-binding.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/layer-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/literal-return-scan.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/override-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/persona-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/publish-check.sh",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/receipt-bridge.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/science-verdict.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/serve.py",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/slate-ledger.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/space-serve.sh",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/vision-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    }
+  ]
+}
