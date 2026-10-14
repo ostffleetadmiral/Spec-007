@@ -89,6 +89,58 @@ const FULL_RETROGRADE = new Map([
     decision: "golden-digest-contract",
     archive: "spec007-aiwo-types-golden-20261014",
   }],
+  ["src/spec007_q128.zig", {
+    decision: "exact-ratio-rounding",
+    archive: "spec007-spec007-q128-exact-ratio-20261014",
+  }],
+  ["src/spec007_compute.zig", {
+    decision: "saturating-exported-abi",
+    archive: "spec007-compute-abi-saturating-20261014",
+  }],
+  ["src/spec007_fixedpoint_prototype.zig", {
+    decision: "exact-q32-ratio-rounding",
+    archive: "spec007-fixedpoint-prototype-ratio-20261014",
+  }],
+  ["src/golden_emit.zig", {
+    decision: "corrected-golden-ratio-boundary",
+    archive: "spec007-golden-ratio-boundary-20261014",
+  }],
+  ["src/spec007_calculations.zig", {
+    decision: "verified-conservation-baseline",
+    archive: "spec007-calculations-conservation-20261014",
+  }],
+  ["src/spec007_verified_calculations.zig", {
+    decision: "verified-claims-baseline",
+    archive: "spec007-verified-calculations-20261014",
+  }],
+  ["src/spec007_expanded_calculations.zig", {
+    decision: "saturating-screening-arithmetic",
+    archive: "spec007-expanded-screening-20261014",
+  }],
+  ["src/spec007_drivetrain_calculations.zig", {
+    decision: "saturating-drivetrain-screening",
+    archive: "spec007-drivetrain-screening-20261014",
+  }],
+  ["src/spec007_manifold_calculations.zig", {
+    decision: "exact-geometry-saturating-transport",
+    archive: "spec007-manifold-screening-20261014",
+  }],
+  ["src/spec007_dynamics_calculations.zig", {
+    decision: "signed-carry-thermal-step",
+    archive: "spec007-dynamics-thermal-step-20261014",
+  }],
+  ["src/perf_baseline.zig", {
+    decision: "bounded-measurement-harness",
+    archive: "spec007-perf-baseline-boundary-20261014",
+  }],
+  ["src/spec007_alpha_probe.zig", {
+    decision: "bounded-log-domain",
+    archive: "spec007-alpha-log-domain-20261014",
+  }],
+  ["src/spec007_astrometric_probe.zig", {
+    decision: "bounded-astrometric-domains",
+    archive: "spec007-astrometric-domain-boundaries-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

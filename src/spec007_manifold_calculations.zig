@@ -14,6 +14,15 @@ const q128 = @import("spec007_q128.zig"); // Q Branch issue — the pipes keep t
 
 const PI_SCALED: u128 = 3_141_593; // pi at 1e-6, matching the baseline harnesses
 
+fn saturateU128(value: u512) u128 {
+    return @intCast(@min(value, std.math.maxInt(u128)));
+}
+
+fn saturatingRatioU128(numerator: u512, denominator: u512) u128 {
+    if (denominator == 0) return std.math.maxInt(u128);
+    return saturateU128(numerator / denominator);
+}
+
 // --- Cartridge -----------------------------------------------------------------
 
 const Cartridge = struct {
@@ -40,13 +49,13 @@ const Cartridge = struct {
 };
 
 fn cylinderVolumeMm3(dia_mm: u128, len_mm: u128) u128 {
-    // pi * (d/2)^2 * L. (d/2)^2 = d*d/4 — d even here, keep exact.
-    const r2 = dia_mm * dia_mm / 4;
-    return PI_SCALED * r2 * len_mm / 1_000_000;
+    // pi * d^2 * L / 4. Keep d^2 inside the exact numerator so odd
+    // diameters do not lose a quarter before the scale division.
+    return saturatingRatioU128(@as(u512, PI_SCALED) * dia_mm * dia_mm * len_mm, 4 * 1_000_000);
 }
 
 fn volumeFromMassMm3(mass_g: u128, rho_mg_mm3_x100: u128) u128 {
-    return mass_g * 100_000 / rho_mg_mm3_x100;
+    return saturatingRatioU128(@as(u512, mass_g) * 100_000, rho_mg_mm3_x100);
 }
 
 // --- Controller ---------------------------------------------------------------
@@ -64,7 +73,7 @@ const Mcu = struct {
 };
 
 fn parasiticPerMille(load_mw: u128, bus_mw: u128) u128 {
-    return load_mw * 1_000 / bus_mw;
+    return saturatingRatioU128(@as(u512, load_mw) * 1_000, bus_mw);
 }
 
 // --- Oil thermal bus ------------------------------------------------------------
@@ -85,7 +94,7 @@ const OilBus = struct {
 
 fn oilFlowGsPerS(heat_w: u128, cp_j_kgk: u128, dt_k: u128) u128 {
     // m_dot = Q / (cp*dT) kg/s, returned as g/s.
-    return heat_w * 1_000 / (cp_j_kgk * dt_k);
+    return saturatingRatioU128(@as(u512, heat_w) * 1_000, @as(u512, cp_j_kgk) * dt_k);
 }
 
 // --- Three-grade manifold --------------------------------------------------------
@@ -108,12 +117,12 @@ const Manifold = struct {
 fn novecFlowGsPerS(heat_w: u128) u128 {
     // m_dot = Q / (cp*(Tevap-Tcond) + hfg), returned as g/s.
     const per_kg_j: u128 = 1_300 * (140 - 40) + 60_000;
-    return heat_w * 1_000 / per_kg_j;
+    return saturatingRatioU128(@as(u512, heat_w) * 1_000, per_kg_j);
 }
 
 fn economizerCapacityW(novec_g_s: u128, usable_dt_k: u128) u128 {
     // Warm-bus absorbable power: m_dot * cp_l * (Tsrc - Tcond) usable span.
-    return novec_g_s * 1_300 * usable_dt_k / 1_000;
+    return saturatingRatioU128(@as(u512, novec_g_s) * 1_300 * usable_dt_k, 1_000);
 }
 
 test "cartridge interior is ~96 percent filled by the pouch contents" {
@@ -291,6 +300,18 @@ test "manifold screening functions are monotonic" {
     try std.testing.expect(oilFlowGsPerS(5_302, 2_000, 50) > oilFlowGsPerS(530, 2_000, 50));
     try std.testing.expect(novecFlowGsPerS(4_241) > novecFlowGsPerS(424));
     try std.testing.expect(economizerCapacityW(22, 50) > economizerCapacityW(2, 50));
+}
+
+test "manifold boundaries preserve exact geometry and saturate undefined ratios" {
+    const max = std.math.maxInt(u128);
+    try std.testing.expectEqual(@as(u128, 28), cylinderVolumeMm3(3, 4));
+    try std.testing.expectEqual(max, cylinderVolumeMm3(max, max));
+    try std.testing.expectEqual(max, volumeFromMassMm3(1, 0));
+    try std.testing.expectEqual(max, parasiticPerMille(1, 0));
+    try std.testing.expectEqual(max, oilFlowGsPerS(1, 0, 1));
+    try std.testing.expectEqual(max, oilFlowGsPerS(1, 1, 0));
+    try std.testing.expect(novecFlowGsPerS(max) > 0);
+    try std.testing.expectEqual(max, economizerCapacityW(max, max));
 }
 
 // The oil bus must carry every watt it is asked to carry — flow,

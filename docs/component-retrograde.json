@@ -5,11 +5,11 @@
     "census_components": 280,
     "components": 280,
     "status_counts": {
-      "BUILD_GRAPH_COVERED": 21,
+      "BUILD_GRAPH_COVERED": 19,
       "DOCUMENTED_COMPONENT": 23,
       "GENERATED_ARTIFACT_BOUND": 38,
       "SCRIPT_HARNESS_BOUND": 95,
-      "UNIT_TESTED": 103
+      "UNIT_TESTED": 105
     },
     "workstreams": {
       "application-artifacts": 2,
@@ -25,7 +25,7 @@
       "spec007-core": 21,
       "spec008-wire": 9
     },
-    "unit_tested": 103,
+    "unit_tested": 105,
     "generated_bound": 38,
     "pending_review": 0,
     "todo_markers": 0,
@@ -126,7 +126,7 @@
       "tools/evidence-manifest.mjs",
       "tools/publish-check.sh"
     ],
-    "measured_components": 159,
+    "measured_components": 160,
     "workstream_measured_components": 189,
     "performance_baseline": {
       "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 18
+    "completed_full_retrograde": 31
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "0750f8a36c265e07dbd88d1a09960817215200825451e21e29de0a3d9e63a6dd",
+        "sha256": "f7d3d45c977bb63aa6e6dbf2f78c24608620cf29a970caee7ff8c70eac8db42b",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "81ee44367ad4076ccf1d56212853e8b103da391d36e3c8b4059c6661714c71ce",
+        "sha256": "3a08b0fda5ed341662cd1fc3e07487efff70b9efc216994a2381c58ee8458df0",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -8995,8 +8995,8 @@
           "src/aiwo_cli.zig",
           "src/aiwo_dht.zig",
           "src/aiwo_state.zig",
-          "src/perf_baseline.zig",
-          "src/spec007_alpha_probe.zig"
+          "src/golden_emit.zig",
+          "src/perf_baseline.zig"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -10040,63 +10040,20 @@
     {
       "component": "src/golden_emit.zig",
       "workstream": "spec007-core",
-      "status": "BUILD_GRAPH_COVERED",
+      "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "e5a7664f38f6c96d512fad1c35ea8764d10d09065ac4c9c1df9b1970a782d876",
-        "bytes": 2957,
-        "lines": 81,
+        "sha256": "83da3f8e56dbb654fede0623f3bf2d9b6061d7f381b39698536f38fe9a266730",
+        "bytes": 3506,
+        "lines": 93,
         "imports": [
           "fixed_point_q128.zig",
+          "spec007_q128.zig",
           "std"
         ],
         "referenced_by": [
           "security/team-sweep-2.mjs",
+          "tools/component-retrograde.mjs",
           "tools/golden-master.mjs"
-        ],
-        "todo_markers": 0,
-        "public_surface": 1
-      },
-      "contract": {
-        "mapped": true,
-        "generated": false,
-        "owner": null,
-        "owner_basis": null,
-        "manifest_bound": false,
-        "source_zone": "src"
-      },
-      "verification": {
-        "kind": "zig",
-        "test_blocks": 0,
-        "registered": true,
-        "documentation_mapped": true
-      },
-      "optimization": {
-        "hot_path": false,
-        "measured": false,
-        "measurements": [],
-        "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
-      }
-    },
-    {
-      "component": "src/perf_baseline.zig",
-      "workstream": "spec007-core",
-      "status": "UNIT_TESTED",
-      "reverse_engineering": {
-        "sha256": "1e46bc02cd57b1acfd85d6e7eead5b282192d485360e25de296e5612d768602c",
-        "bytes": 7101,
-        "lines": 163,
-        "imports": [
-          "aiwo_chunk_checkpoint.zig",
-          "aiwo_cognitive.zig",
-          "dhtd",
-          "fixed_point_q128.zig",
-          "std"
-        ],
-        "referenced_by": [
-          "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -10119,13 +10076,61 @@
         "hot_path": false,
         "measured": true,
         "measurements": [
+          "zig-build-test"
+        ],
+        "workstream_measured": false,
+        "completed": true,
+        "archive": "spec007-golden-ratio-boundary-20261014",
+        "decision": "corrected-golden-ratio-boundary"
+      }
+    },
+    {
+      "component": "src/perf_baseline.zig",
+      "workstream": "spec007-core",
+      "status": "UNIT_TESTED",
+      "reverse_engineering": {
+        "sha256": "cc8f8bad379eb1b72c50155e62c9612bc8fbf41a2254b1059a6e77b2324e481a",
+        "bytes": 8059,
+        "lines": 183,
+        "imports": [
+          "aiwo_chunk_checkpoint.zig",
+          "aiwo_cognitive.zig",
+          "dhtd",
+          "fixed_point_q128.zig",
+          "std"
+        ],
+        "referenced_by": [
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 1
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "src"
+      },
+      "verification": {
+        "kind": "zig",
+        "test_blocks": 2,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": true,
+        "measurements": [
           "native-microbench",
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-perf-baseline-boundary-20261014",
+        "decision": "bounded-measurement-harness"
       }
     },
     {
@@ -10133,14 +10138,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "e187c2182bee7ee0fee10332604943aec34b7c7fee273488c0b79d973674e44e",
-        "bytes": 5974,
-        "lines": 138,
+        "sha256": "4af680e46833398b1b602c0272c1c5c57907d19c392aa497852c6505f2463ee2",
+        "bytes": 6766,
+        "lines": 151,
         "imports": [
           "fixed_point_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10154,7 +10161,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 5,
+        "test_blocks": 6,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10165,9 +10172,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-alpha-log-domain-20261014",
+        "decision": "bounded-log-domain"
       }
     },
     {
@@ -10175,9 +10182,9 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "7fb9653bc1941abf4068161cec73116d45bdf2883a568fd09c47af608b4a37e3",
-        "bytes": 19247,
-        "lines": 427,
+        "sha256": "9d48c20d059c1b7af315e949fc81e36327ef46f35a92398014f2521f78ab2e61",
+        "bytes": 25224,
+        "lines": 513,
         "imports": [
           "fixed_point_q128.zig",
           "std"
@@ -10186,7 +10193,8 @@
           "security/team-sweep-2.mjs",
           "src/spec007_ephemeris_probe.zig",
           "src/spec007_portal_probe.zig",
-          "src/spec007_warp_probe.zig"
+          "src/spec007_warp_probe.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 21
@@ -10201,7 +10209,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 15,
+        "test_blocks": 17,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10212,9 +10220,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-astrometric-domain-boundaries-20261014",
+        "decision": "bounded-astrometric-domains"
       }
     },
     {
@@ -10231,6 +10239,7 @@
         ],
         "referenced_by": [
           "src/spec007_fixedpoint_prototype.zig",
+          "tools/component-retrograde.mjs",
           "tools/override-audit.mjs"
         ],
         "todo_markers": 0,
@@ -10257,9 +10266,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-calculations-conservation-20261014",
+        "decision": "verified-conservation-baseline"
       }
     },
     {
@@ -10395,13 +10404,15 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "ea1987b4105161c4514cd982602ef991f1495c86c736049d9ccf86aad8902815",
-        "bytes": 4711,
-        "lines": 124,
+        "sha256": "6f4cbb66f389b1943da5f8b20279697093830fa31dd8174f51bc83e00c456937",
+        "bytes": 6562,
+        "lines": 170,
         "imports": [
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 13
       },
@@ -10415,7 +10426,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 2,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10426,9 +10437,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-compute-abi-saturating-20261014",
+        "decision": "saturating-exported-abi"
       }
     },
     {
@@ -10436,14 +10447,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "c777c14636054278f01538bbab2e1fd953876ee221861fd6f571098d5d7c6a71",
-        "bytes": 29408,
-        "lines": 552,
+        "sha256": "51dfe417dd43f6e29ebde3006982e775bd84ea31a3cc85b4d3e679e98fa16f2b",
+        "bytes": 31318,
+        "lines": 582,
         "imports": [
           "spec007_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10457,7 +10470,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 22,
+        "test_blocks": 23,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10468,9 +10481,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-drivetrain-screening-20261014",
+        "decision": "saturating-drivetrain-screening"
       }
     },
     {
@@ -10478,15 +10491,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "85450321ff59ed7ec011727b67b2c1223642c07e76b22efbb3c348c672072df5",
-        "bytes": 10164,
-        "lines": 250,
+        "sha256": "cf0a4c70ffdcdc4079838ad99a41c3d2ecb71dea870d8b96fe07063bcc2c0c68",
+        "bytes": 11936,
+        "lines": 290,
         "imports": [
           "spec007_q128.zig",
           "std"
         ],
         "referenced_by": [
-          "firmware/spec007_controller.c"
+          "firmware/spec007_controller.c",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -10501,7 +10515,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 13,
+        "test_blocks": 14,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10512,9 +10526,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-dynamics-thermal-step-20261014",
+        "decision": "signed-carry-thermal-step"
       }
     },
     {
@@ -10565,15 +10579,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "a0af7f03a4eddff5f7a9adad0d8bc4654df7e8b54ddb1a21d4b32a839c9aa321",
-        "bytes": 15381,
-        "lines": 316,
+        "sha256": "48d9bc5c1342a2131213cbd5d2aa0a2d9d328d35655d0aa7ede850cd519cbdfd",
+        "bytes": 17395,
+        "lines": 353,
         "imports": [
           "spec007_q128.zig",
           "std"
         ],
         "referenced_by": [
-          "src/spec007_drivetrain_calculations.zig"
+          "src/spec007_drivetrain_calculations.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -10588,7 +10603,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 19,
+        "test_blocks": 20,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10599,9 +10614,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-expanded-screening-20261014",
+        "decision": "saturating-screening-arithmetic"
       }
     },
     {
@@ -10609,14 +10624,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "1895446b84c143789607eac660e31c1386fd624baf23c07aaa15ba903b142be5",
-        "bytes": 8686,
-        "lines": 195,
+        "sha256": "a8b444c10dc18e154b2445736fa1e673af104eceb1e87ab6ab13c6029b28de0c",
+        "bytes": 9360,
+        "lines": 207,
         "imports": [
           "fixed_point_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10630,7 +10647,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 6,
+        "test_blocks": 7,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10641,9 +10658,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-fixedpoint-prototype-ratio-20261014",
+        "decision": "exact-q32-ratio-rounding"
       }
     },
     {
@@ -10651,14 +10668,16 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "448d3e8b27e3308cd74c67629ae2e91080207f2bebd527dc92f994472243bf1b",
-        "bytes": 15420,
-        "lines": 309,
+        "sha256": "900300664c371a40ab7610c49c4bf28e50732efa1664ce0713c34624ee525b44",
+        "bytes": 16569,
+        "lines": 330,
         "imports": [
           "spec007_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10672,7 +10691,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 13,
+        "test_blocks": 14,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10683,9 +10702,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-manifold-screening-20261014",
+        "decision": "exact-geometry-saturating-transport"
       }
     },
     {
@@ -10776,13 +10795,16 @@
     {
       "component": "src/spec007_q128.zig",
       "workstream": "q128-arithmetic",
-      "status": "BUILD_GRAPH_COVERED",
+      "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "d411474ebb23ca49bba26802deb4b280dde7a4c76f69549c78a00b5f5b6a10c1",
-        "bytes": 3854,
-        "lines": 103,
-        "imports": [],
+        "sha256": "bdbc4f1ccdac515472840aedaad24649fc858f77ca0e964dda9d2aa76f78ddb9",
+        "bytes": 5014,
+        "lines": 128,
+        "imports": [
+          "std"
+        ],
         "referenced_by": [
+          "src/golden_emit.zig",
           "src/spec007_calculations.zig",
           "src/spec007_drivetrain_calculations.zig",
           "src/spec007_dynamics_calculations.zig",
@@ -10806,7 +10828,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 0,
+        "test_blocks": 2,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10814,12 +10836,13 @@
         "hot_path": true,
         "measured": true,
         "measurements": [
-          "native-microbench"
+          "native-microbench",
+          "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-spec007-q128-exact-ratio-20261014",
+        "decision": "exact-ratio-rounding"
       }
     },
     {
@@ -10834,7 +10857,9 @@
           "spec007_q128.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10859,9 +10884,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-verified-calculations-20261014",
+        "decision": "verified-claims-baseline"
       }
     },
     {
@@ -12028,9 +12053,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "915657189ad970781da55945f1027bafbc605e4ff73c07299f664125f6619d8b",
-        "bytes": 13347,
-        "lines": 313,
+        "sha256": "1e351d017dd1f69f3a7dbe2066fd34b01807f414c9f0af1ce113f8563e713e89",
+        "bytes": 15241,
+        "lines": 365,
         "imports": [
           "node:crypto",
           "node:fs",

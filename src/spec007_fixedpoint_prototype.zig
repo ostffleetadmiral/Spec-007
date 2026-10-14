@@ -26,11 +26,13 @@ const Q32 = struct {
     fn fromRatio(num: i64, den: i64) Q32 {
         // Round-half-away-from-zero, matching fp128.fromRatio semantics.
         const scaled: i128 = @as(i128, num) << 32;
-        const q = @divTrunc(scaled, den);
-        const r = @mod(scaled, den);
-        const half: i128 = @divTrunc(den, 2);
+        const den_wide = @as(i128, den);
+        const abs_den = if (den_wide < 0) -den_wide else den_wide;
+        const q = @divTrunc(scaled, den_wide);
+        const r = @rem(scaled, den_wide);
+        const abs_r = if (r < 0) -r else r;
         var result = q;
-        if (r > half or (r == half and r != 0)) result += 1;
+        if (2 * abs_r >= abs_den) result += if ((num < 0) != (den < 0)) -1 else 1;
         return .{ .raw = @intCast(result) };
     }
 
@@ -115,6 +117,16 @@ fn q128HeatJ() !fp128.Q128 {
 // ---------------------------------------------------------------------------
 // Outcome tests
 // ---------------------------------------------------------------------------
+
+test "prototype: Q32 ratio rounds nearest half with exact remainder comparison" {
+    const third = Q32.fromRatio(1, 3);
+    const two_thirds = Q32.fromRatio(2, 3);
+    try std.testing.expectEqual(@as(i64, 1_431_655_765), third.raw);
+    try std.testing.expectEqual(@as(i64, 2_863_311_531), two_thirds.raw);
+    try std.testing.expectEqual(-third.raw, Q32.fromRatio(-1, 3).raw);
+    try std.testing.expectEqual(-third.raw, Q32.fromRatio(1, -3).raw);
+    try std.testing.expectEqual(@as(i64, Q32.SCALE / 2), Q32.fromRatio(1, 2).raw);
+}
 
 test "prototype: integer parts agree across all three variants" {
     // Water: exact 168_627.145… mg

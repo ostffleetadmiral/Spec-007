@@ -66,23 +66,19 @@ fn pi() Q128 {
 }
 
 pub fn deg2rad(d: Q128) Q128 {
-    return d.mul(pi()).div(Q128.fromInteger(180)) catch unreachable;
-}
-
-fn divFloor(a: Raw, b: Raw) i256 {
-    const q = @divTrunc(a, b);
-    return if (@rem(a, b) != 0 and ((a < 0) != (b < 0))) q - 1 else q;
+    const wrapped = Q128.fromRaw(@mod(d.raw, Q128.fromInteger(360).raw));
+    return wrapped.mul(pi()).div(Q128.fromInteger(180)) catch unreachable;
 }
 
 // quadrant-reduced sin/cos for x in radians (any sign).
 fn reduce(x: Q128) struct { q: usize, t: Q128 } {
     const two_pi = pi().mul(Q128.fromInteger(2));
     const half_pi = pi().div(Q128.fromInteger(2)) catch unreachable;
-    const k = divFloor(x.raw, two_pi.raw);
-    const r = x.sub(two_pi.mul(Q128.fromInteger(k)));
-    const qi: usize = @intCast(@divTrunc(r.raw, half_pi.raw));
-    const t = r.sub(half_pi.mul(Q128.fromInteger(@intCast(qi))));
-    return .{ .q = @min(qi, 3), .t = t };
+    const r_raw = @mod(x.raw, two_pi.raw);
+    const qi_raw = @divTrunc(r_raw, half_pi.raw);
+    const qi: usize = @intCast(@min(qi_raw, 3));
+    const t = Q128.fromRaw(r_raw - half_pi.raw * @as(i256, @intCast(qi)));
+    return .{ .q = qi, .t = t };
 }
 
 fn sinT(t: Q128) Q128 {
@@ -179,25 +175,39 @@ pub fn separationBracket(cos_theta: Q128) i32 {
 
 /// P(random point lands within theta) = (1 - cos theta)/2.
 pub fn capProbability(cos_theta: Q128) Q128 {
-    return Q128.one.sub(cos_theta).div(Q128.fromInteger(2)) catch unreachable;
+    const bounded = @max(@min(cos_theta.raw, fixed.Scale), -fixed.Scale);
+    return Q128.fromRaw(@divTrunc(fixed.Scale - bounded, 2));
 }
 
 /// Light travel time across dist AU in seconds (499.004784 s/AU).
-pub fn lightSeconds(dist_au: Q128) Q128 {
+pub fn lightSeconds(dist_au: Q128) !Q128 {
+    if (dist_au.raw < 0 or dist_au.raw > MAX_PROBE_AU.raw) return error.DistanceDomain;
     return dist_au.mul(Q128.fromRatio(499004784, 1000000) catch unreachable);
 }
 
+const MIN_PROBE_AU = Q128.fromRatio(1, 1_000_000) catch unreachable;
+const MAX_PROBE_AU = Q128.fromInteger(1_000_000);
+const MIN_TRANSIT_KMS = Q128.fromRatio(1, 1_000) catch unreachable;
+const MAX_FLUX_JY = Q128.fromInteger(1_000_000_000_000);
+const MAX_BANDWIDTH_HZ = Q128.fromInteger(1_000_000_000_000_000);
+const MAX_POWER_W = Q128.fromInteger(1_000_000_000_000_000_000_000_000_000_000);
+const MAX_DURATION_S = Q128.fromInteger(1_000_000_000_000);
+const MAX_SNR = Q128.fromInteger(1_000_000_000_000);
+
 /// Inbound transit in Julian years (AU = 149,597,870.7 km, yr = 365.25 d).
-pub fn transitYears(dist_au: Q128, v_kms: Q128) Q128 {
+pub fn transitYears(dist_au: Q128, v_kms: Q128) !Q128 {
+    if (dist_au.raw < 0 or dist_au.raw > MAX_PROBE_AU.raw) return error.DistanceDomain;
+    if (v_kms.raw < MIN_TRANSIT_KMS.raw) return error.VelocityDomain;
     const km = dist_au.mul(Q128.fromRatio(1495978707, 10) catch unreachable);
-    const secs = km.div(v_kms) catch unreachable;
-    return secs.div(Q128.fromRatio(31557600, 1) catch unreachable) catch unreachable;
+    const secs = try km.div(v_kms);
+    return try secs.div(Q128.fromRatio(31557600, 1) catch unreachable);
 }
 
 /// Vector Alpha: a coupling model requiring information faster than c.
-pub const InvariantError = error{ViolatesWireCost};
+pub const InvariantError = error{ ViolatesWireCost, VelocityDomain };
 
 pub fn superluminalScreen(v_over_c: Q128) InvariantError!void {
+    if (v_over_c.raw < 0) return error.VelocityDomain;
     if (v_over_c.cmp(Q128.one) > 0) return error.ViolatesWireCost;
 }
 
@@ -220,47 +230,59 @@ pub fn cMs() Q128 {
 }
 
 /// 4*pi*R^2 in m^2 for R given in AU.
-pub fn sphereAreaM2(dist_au: Q128) Q128 {
+pub fn sphereAreaM2(dist_au: Q128) !Q128 {
+    if (dist_au.raw <= 0 or dist_au.raw > MAX_PROBE_AU.raw) return error.DistanceDomain;
     const r = dist_au.mul(auMeters());
     return r.mul(r).mul(pi()).mul(Q128.fromInteger(4));
 }
 
 /// Required isotropic-equivalent power (W) to deliver flux_jy over
 /// bw_hz at dist_au: P_iso = 4*pi*R^2 * S * df.
-pub fn isoPowerW(dist_au: Q128, flux_jy: Q128, bw_hz: Q128) Q128 {
+pub fn isoPowerW(dist_au: Q128, flux_jy: Q128, bw_hz: Q128) !Q128 {
+    if (flux_jy.raw <= 0 or flux_jy.raw > MAX_FLUX_JY.raw) return error.FluxDomain;
+    if (bw_hz.raw <= 0 or bw_hz.raw > MAX_BANDWIDTH_HZ.raw) return error.BandwidthDomain;
     const jy = Q128.fromRatio(1, 100000000000000000000000000) catch unreachable; // 1e-26
-    return sphereAreaM2(dist_au).mul(flux_jy.mul(jy)).mul(bw_hz);
+    return (try sphereAreaM2(dist_au)).mul(flux_jy.mul(jy)).mul(bw_hz);
 }
 
 /// Actual transmitter power behind an antenna of linear gain g.
-pub fn beamedPowerW(p_iso: Q128, gain: u32) Q128 {
-    return p_iso.div(Q128.fromInteger(gain)) catch unreachable;
+pub fn beamedPowerW(p_iso: Q128, gain: u32) !Q128 {
+    if (p_iso.raw < 0 or p_iso.raw > MAX_POWER_W.raw) return error.PowerDomain;
+    if (gain == 0) return error.GainDomain;
+    return try p_iso.div(Q128.fromInteger(gain));
 }
 
 /// Brightness amplification of a still-active transmitter that moved
 /// from d_then to d_now AU: (d_then / d_now)^2.
-pub fn persistenceRatio(d_then_au: Q128, d_now_au: Q128) Q128 {
-    const r = d_then_au.div(d_now_au) catch unreachable;
+pub fn persistenceRatio(d_then_au: Q128, d_now_au: Q128) !Q128 {
+    if (d_then_au.raw < 0 or d_then_au.raw > MAX_PROBE_AU.raw) return error.DistanceDomain;
+    if (d_now_au.raw < MIN_PROBE_AU.raw or d_now_au.raw > MAX_PROBE_AU.raw) return error.DistanceDomain;
+    const r = try d_then_au.div(d_now_au);
     return r.mul(r);
 }
 
 /// Comoving-Doppler offset (Hz) of a rest-frame emitter at f_hz moving
 /// at v_kms radially: df = f * v / c.
-pub fn dopplerHz(f_hz: Q128, v_kms: Q128) Q128 {
+pub fn dopplerHz(f_hz: Q128, v_kms: Q128) !Q128 {
+    if (f_hz.raw <= 0 or f_hz.raw > MAX_BANDWIDTH_HZ.raw) return error.FrequencyDomain;
+    const vmax = Q128.fromInteger(299_792); // |v| < c in km/s, rounded down
+    if (v_kms.abs().raw > vmax.raw) return error.VelocityDomain;
     const v_ms = v_kms.mul(Q128.fromInteger(1000));
-    return f_hz.mul(v_ms).div(cMs()) catch unreachable;
+    return try f_hz.mul(v_ms).div(cMs());
 }
 
 /// Total isotropic-equivalent radiated energy over the window, J = P*t.
-pub fn energyJ(p_w: Q128, seconds: Q128) Q128 {
+pub fn energyJ(p_w: Q128, seconds: Q128) !Q128 {
+    if (p_w.raw < 0 or p_w.raw > MAX_POWER_W.raw or seconds.raw < 0 or seconds.raw > MAX_DURATION_S.raw) return error.EnergyDomain;
     return p_w.mul(seconds);
 }
 
 /// Score against the noise floor: SNR scales linearly with flux, so a
 /// ~30-sigma 1977 event from a still-active source at d_now reads
 /// 30 * (d_then/d_now)^2 sigma today.
-pub fn snrNow(snr_1977: Q128, d_then_au: Q128, d_now_au: Q128) Q128 {
-    return snr_1977.mul(persistenceRatio(d_then_au, d_now_au));
+pub fn snrNow(snr_1977: Q128, d_then_au: Q128, d_now_au: Q128) !Q128 {
+    if (snr_1977.raw < 0 or snr_1977.raw > MAX_SNR.raw) return error.SignalDomain;
+    return snr_1977.mul(try persistenceRatio(d_then_au, d_now_au));
 }
 
 test "integer trig: cardinal values exact within bounded error" {
@@ -299,12 +321,12 @@ test "random-alignment probability is ~0.6% — real but weak evidence" {
 
 test "kinematic arithmetic is consistent: ~3.5 light-days, ~49-yr transit" {
     const in = onRecord();
-    const secs = lightSeconds(in.dist_au);
+    const secs = try lightSeconds(in.dist_au);
     // 600 AU * 499.004784 s = 299402.87 s ~ 3.47 days
     const expect_s = Q128.fromRatio(2994028704, 10000) catch unreachable;
     const tol: Raw = @divTrunc(fixed.Scale, 1 << 30);
     try std.testing.expect(secs.sub(expect_s).abs().raw < tol);
-    const yrs = transitYears(in.dist_au, in.v_kms);
+    const yrs = try transitYears(in.dist_au, in.v_kms);
     try std.testing.expect(yrs.raw > Q128.fromInteger(48).raw);
     try std.testing.expect(yrs.raw < Q128.fromInteger(50).raw);
 }
@@ -328,31 +350,31 @@ test "filed verdict: coincidence model holds under every measured bound" {
 // ── Vector Beta tests: the energy ledger does the falsifying ────────
 
 test "Vector Beta: iso-equivalent power ~0.55 GW for 54 Jy @ 10 kHz @ 600 AU" {
-    const p = isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
+    const p = try isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
     // 4*pi*(600 AU)^2 * 54e-26 * 1e4 ~ 5.47e8 W
     try std.testing.expect(p.cmp(Q128.fromInteger(500_000_000)) > 0);
     try std.testing.expect(p.cmp(Q128.fromInteger(600_000_000)) < 0);
     // literature upper bound 200 Jy still lands ~2 GW — GW-class, not absurd
-    const p200 = isoPowerW(Q128.fromInteger(600), Q128.fromInteger(200), Q128.fromInteger(10000));
+    const p200 = try isoPowerW(Q128.fromInteger(600), Q128.fromInteger(200), Q128.fromInteger(10000));
     try std.testing.expect(p200.cmp(Q128.fromInteger(1_800_000_000)) > 0);
     try std.testing.expect(p200.cmp(Q128.fromInteger(2_300_000_000)) < 0);
 }
 
 test "gain matrix: omni is GW-class, a 60 dB dish needs only ~0.5 kW" {
-    const p_iso = isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
-    const omni = beamedPowerW(p_iso, 1);
+    const p_iso = try isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
+    const omni = try beamedPowerW(p_iso, 1);
     try std.testing.expect(omni.cmp(p_iso) == 0); // G=1 → full isotropic bill
-    const g30 = beamedPowerW(p_iso, 1000); // 30 dB
+    const g30 = try beamedPowerW(p_iso, 1000); // 30 dB
     try std.testing.expect(g30.cmp(Q128.fromInteger(500_000)) > 0);
     try std.testing.expect(g30.cmp(Q128.fromInteger(600_000)) < 0);
-    const g60 = beamedPowerW(p_iso, 1000000); // 60 dB — large-dish class
+    const g60 = try beamedPowerW(p_iso, 1000000); // 60 dB — large-dish class
     try std.testing.expect(g60.cmp(Q128.fromInteger(500)) > 0);
     try std.testing.expect(g60.cmp(Q128.fromInteger(600)) < 0);
 }
 
 test "required EIRP is ~4e-5 of the Arecibo radar — energetically feasible IF beamed" {
     const arecibo_eirp = Q128.fromInteger(20_000_000_000_000); // ~2e13 W S-band
-    const p_iso = isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
+    const p_iso = try isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
     const ratio = arecibo_eirp.div(p_iso) catch unreachable;
     // Arecibo EIRP / required ~ 3.6e4 — a directed system clears the bill
     try std.testing.expect(ratio.cmp(Q128.fromInteger(30_000)) > 0);
@@ -362,12 +384,12 @@ test "required EIRP is ~4e-5 of the Arecibo radar — energetically feasible IF 
 test "persistence falsified: still-active @1.4 AU would be ~1.8e5x brighter — MJy-class, ~5.5e6 sigma" {
     const d_then = Q128.fromInteger(600);
     const d_now = Q128.fromRatio(14, 10) catch unreachable; // ~perihelion 1.4 AU
-    const amp = persistenceRatio(d_then, d_now);
+    const amp = try persistenceRatio(d_then, d_now);
     try std.testing.expect(amp.cmp(Q128.fromInteger(180_000)) > 0);
     try std.testing.expect(amp.cmp(Q128.fromInteger(190_000)) < 0);
     const flux_now = Q128.fromInteger(54).mul(amp); // Jy
     try std.testing.expect(flux_now.cmp(Q128.fromInteger(9_000_000)) > 0); // MJy-class
-    const snr = snrNow(Q128.fromInteger(30), d_then, d_now);
+    const snr = try snrNow(Q128.fromInteger(30), d_then, d_now);
     try std.testing.expect(snr.cmp(Q128.fromInteger(5_000_000)) > 0); // unmissable vs noise floor
 }
 
@@ -377,7 +399,7 @@ test "comoving Doppler: rest-HI emission lands ~275 kHz high — pre-compensatio
     const observed_offset = f_obs.sub(f_rest); // ~49.8 kHz
     try std.testing.expect(observed_offset.cmp(Q128.fromInteger(49_000)) > 0);
     try std.testing.expect(observed_offset.cmp(Q128.fromInteger(51_000)) < 0);
-    const comoving = dopplerHz(f_rest, Q128.fromInteger(58)); // ~275 kHz
+    const comoving = try dopplerHz(f_rest, Q128.fromInteger(58)); // ~275 kHz
     try std.testing.expect(comoving.cmp(Q128.fromInteger(270_000)) > 0);
     try std.testing.expect(comoving.cmp(Q128.fromInteger(280_000)) < 0);
     // a comoving emitter must pre-compensate ~225 kHz — a free parameter
@@ -398,29 +420,93 @@ test "two-horn bound: a persistent source must have reappeared ~3 min later — 
 test "wavefront legality: v = c clears wire-cost; flight time << transit" {
     try superluminalScreen(Q128.one); // exactly c — legal boundary
     const in = onRecord();
-    const flight_s = lightSeconds(in.dist_au); // ~3.47 d
-    const transit_s = transitYears(in.dist_au, in.v_kms).mul(Q128.fromInteger(31557600));
+    const flight_s = try lightSeconds(in.dist_au); // ~3.47 d
+    const transit_s = (try transitYears(in.dist_au, in.v_kms)).mul(Q128.fromInteger(31557600));
     const gap = transit_s.div(flight_s) catch unreachable;
     try std.testing.expect(gap.cmp(Q128.fromInteger(1_000)) > 0); // ~5000x causal headroom
 }
 
 test "energy ledger: 72 s window at the required EIRP ~ 40 GJ isotropic-equivalent" {
-    const p_iso = isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
-    const e = energyJ(p_iso, Q128.fromInteger(72));
+    const p_iso = try isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
+    const e = try energyJ(p_iso, Q128.fromInteger(72));
     try std.testing.expect(e.cmp(Q128.fromInteger(30_000_000_000)) > 0);
     try std.testing.expect(e.cmp(Q128.fromInteger(50_000_000_000)) < 0);
 }
 
 test "Vector Beta filed verdict: feasible iff beamed; persistence + two-horn falsified; one-shot unfalsifiable" {
-    const p_iso = isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
-    const g60 = beamedPowerW(p_iso, 1000000);
+    const p_iso = try isoPowerW(Q128.fromInteger(600), Q128.fromInteger(54), Q128.fromInteger(10000));
+    const g60 = try beamedPowerW(p_iso, 1000000);
     // energy hypothesis: physically feasible only for a directed beam
     try std.testing.expect(g60.cmp(Q128.fromInteger(1_000)) < 0);
     try std.testing.expect(p_iso.cmp(Q128.fromInteger(100_000_000)) > 0); // omni is 0.5-GW-class
     // persistence model: dead on both bounds (flux and horns)
-    const amp = persistenceRatio(Q128.fromInteger(600), Q128.fromRatio(14, 10) catch unreachable);
+    const amp = try persistenceRatio(Q128.fromInteger(600), Q128.fromRatio(14, 10) catch unreachable);
     try std.testing.expect(amp.cmp(Q128.fromInteger(100_000)) > 0);
     // surviving model = one-shot transient aimed past Earth: no
     // disconfirmation channel exists by construction — filed as such,
     // the weakest admissible class under SPEC-006.
+}
+
+test "physical input domains fail closed" {
+    const zero = Q128.zero;
+    const neg = Q128.fromInteger(-1);
+    const dist = Q128.fromInteger(600);
+    const far = Q128.fromInteger(1_000_001);
+    const near = Q128.fromRatio(1, 2_000_000) catch unreachable;
+    const f_rest = Q128.fromInteger(1_420_405_751);
+    const huge_flux = Q128.fromInteger(1_000_000_000_001);
+    const huge_bw = Q128.fromInteger(1_000_000_000_000_001);
+    const huge_power = Q128.fromInteger(1_000_000_000_000_000_000_000_000_000_001);
+    const huge_seconds = Q128.fromInteger(1_000_000_000_001);
+    const huge_snr = Q128.fromInteger(1_000_000_000_001);
+
+    try std.testing.expectError(error.VelocityDomain, transitYears(dist, zero));
+    try std.testing.expectError(error.VelocityDomain, transitYears(dist, neg));
+    try std.testing.expectError(error.VelocityDomain, transitYears(dist, Q128.fromRatio(1, 10_000) catch unreachable));
+    try std.testing.expectError(error.DistanceDomain, transitYears(neg, Q128.fromInteger(58)));
+    try std.testing.expectError(error.DistanceDomain, transitYears(far, Q128.fromInteger(58)));
+    try std.testing.expectError(error.DistanceDomain, lightSeconds(neg));
+    try std.testing.expectError(error.DistanceDomain, lightSeconds(far));
+    try std.testing.expectError(error.DistanceDomain, sphereAreaM2(zero));
+    try std.testing.expectError(error.DistanceDomain, sphereAreaM2(far));
+    try std.testing.expectError(error.FluxDomain, isoPowerW(dist, zero, Q128.fromInteger(10_000)));
+    try std.testing.expectError(error.FluxDomain, isoPowerW(dist, huge_flux, Q128.fromInteger(10_000)));
+    try std.testing.expectError(error.BandwidthDomain, isoPowerW(dist, Q128.fromInteger(54), zero));
+    try std.testing.expectError(error.BandwidthDomain, isoPowerW(dist, Q128.fromInteger(54), huge_bw));
+    try std.testing.expectError(error.GainDomain, beamedPowerW(Q128.one, 0));
+    try std.testing.expectError(error.PowerDomain, beamedPowerW(neg, 1));
+    try std.testing.expectError(error.PowerDomain, beamedPowerW(huge_power, 1));
+    try std.testing.expectError(error.DistanceDomain, persistenceRatio(dist, zero));
+    try std.testing.expectError(error.DistanceDomain, persistenceRatio(dist, near));
+    try std.testing.expectError(error.DistanceDomain, persistenceRatio(neg, Q128.one));
+    try std.testing.expectError(error.DistanceDomain, persistenceRatio(far, Q128.one));
+    try std.testing.expectError(error.FrequencyDomain, dopplerHz(zero, Q128.fromInteger(58)));
+    try std.testing.expectError(error.FrequencyDomain, dopplerHz(huge_bw, Q128.fromInteger(58)));
+    try std.testing.expectError(error.VelocityDomain, dopplerHz(f_rest, Q128.fromInteger(299_793)));
+    try std.testing.expectError(error.EnergyDomain, energyJ(neg, Q128.one));
+    try std.testing.expectError(error.EnergyDomain, energyJ(huge_power, Q128.one));
+    try std.testing.expectError(error.EnergyDomain, energyJ(Q128.one, huge_seconds));
+    try std.testing.expectError(error.SignalDomain, snrNow(neg, Q128.one, Q128.one));
+    try std.testing.expectError(error.SignalDomain, snrNow(huge_snr, Q128.one, Q128.one));
+    try std.testing.expectError(error.VelocityDomain, superluminalScreen(neg));
+}
+
+test "bounded probability and huge-angle reduction stay in physical range" {
+    const too_low = Q128.fromRatio(-11, 10) catch unreachable;
+    const too_high = Q128.fromRatio(11, 10) catch unreachable;
+    try std.testing.expectEqual(@as(fixed.Raw, 0), capProbability(too_high).raw);
+    try std.testing.expectEqual(fixed.Scale, capProbability(too_low).raw);
+
+    const huge_degrees = Q128.fromInteger(1_000_000_000_000_000_000_000);
+    const wrapped_rad = deg2rad(huge_degrees);
+    const two_pi = pi().mul(Q128.fromInteger(2));
+    try std.testing.expect(wrapped_rad.raw >= 0);
+    try std.testing.expect(wrapped_rad.raw < two_pi.raw);
+
+    const huge = Q128.fromRaw(std.math.maxInt(fixed.Raw));
+    const s = sinQ(huge);
+    const c = cosQ(huge);
+    const bound = Q128.fromRatio(11, 10) catch unreachable;
+    try std.testing.expect(s.abs().cmp(bound) <= 0);
+    try std.testing.expect(c.abs().cmp(bound) <= 0);
 }

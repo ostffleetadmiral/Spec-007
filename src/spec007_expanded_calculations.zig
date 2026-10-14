@@ -5,12 +5,26 @@ const q128 = @import("spec007_q128.zig"); // Q Branch issue — do not leave it 
 // All values use integer-scaled inputs. This is a screening model, not a
 // construction recipe or a substitute for qualified thermal/fluid simulation.
 
+fn saturateU128(value: u512) u128 {
+    return @intCast(@min(value, std.math.maxInt(u128)));
+}
+
+fn saturatingRatioU128(numerator: u512, denominator: u512) u128 {
+    if (denominator == 0) return std.math.maxInt(u128);
+    return saturateU128(numerator / denominator);
+}
+
+fn saturatingMul512(a: u512, b: u128) u512 {
+    const product = @as(u1024, a) * b;
+    return @intCast(@min(product, std.math.maxInt(u512)));
+}
+
 fn pdrcCoolingW(area_cm2: u128, net_flux_w_per_m2: u128) u128 {
-    return area_cm2 * net_flux_w_per_m2 / 10_000;
+    return saturatingRatioU128(@as(u512, area_cm2) * net_flux_w_per_m2, 10_000);
 }
 
 fn requiredRadiatorAreaCm2(heat_w: u128, net_flux_w_per_m2: u128) u128 {
-    return heat_w * 10_000 / net_flux_w_per_m2;
+    return saturatingRatioU128(@as(u512, heat_w) * 10_000, net_flux_w_per_m2);
 }
 
 fn grossOrcPowerW(
@@ -18,7 +32,7 @@ fn grossOrcPowerW(
     orc_heat_share_percent: u128,
     orc_efficiency_percent: u128,
 ) u128 {
-    return heat_w * orc_heat_share_percent * orc_efficiency_percent / 10_000;
+    return saturatingRatioU128(@as(u512, heat_w) * orc_heat_share_percent * orc_efficiency_percent, 10_000);
 }
 
 fn grossTegPowerW(
@@ -26,7 +40,7 @@ fn grossTegPowerW(
     teg_heat_share_percent: u128,
     teg_efficiency_percent: u128,
 ) u128 {
-    return heat_w * teg_heat_share_percent * teg_efficiency_percent / 10_000;
+    return saturatingRatioU128(@as(u512, heat_w) * teg_heat_share_percent * teg_efficiency_percent, 10_000);
 }
 
 fn netCascadePowerW(
@@ -39,7 +53,9 @@ fn netCascadePowerW(
 ) u128 {
     const orc_w = grossOrcPowerW(heat_w, orc_heat_share_percent, orc_efficiency_percent);
     const teg_w = grossTegPowerW(heat_w, teg_heat_share_percent, teg_efficiency_percent);
-    return orc_w + teg_w - parasitic_w;
+    const gross = @as(u512, orc_w) + teg_w;
+    if (gross <= parasitic_w) return 0;
+    return saturateU128(gross - parasitic_w);
 }
 
 fn isSubcritical(working_temperature_c: u128, critical_temperature_c: u128) bool {
@@ -47,11 +63,11 @@ fn isSubcritical(working_temperature_c: u128, critical_temperature_c: u128) bool
 }
 
 fn acetyleneChemicalEnergyWh(acetylene_mg: u128, lhv_j_per_kg: u128) u128 {
-    return acetylene_mg * lhv_j_per_kg / 1_000_000 / 3_600;
+    return saturatingRatioU128(@as(u512, acetylene_mg) * lhv_j_per_kg, 1_000_000 * 3_600);
 }
 
 fn indicativeCo2Grams(cac2_grams: u128, production_and_use_tenths_kg_per_kg: u128) u128 {
-    return cac2_grams * production_and_use_tenths_kg_per_kg / 10;
+    return saturatingRatioU128(@as(u512, cac2_grams) * production_and_use_tenths_kg_per_kg, 10);
 }
 
 fn vehicleAeroPowerW(
@@ -59,7 +75,11 @@ fn vehicleAeroPowerW(
     drag_area_milli_m2: u128,
     speed_milli_m_per_s: u128,
 ) u128 {
-    return density_milli_kg_per_m3 * drag_area_milli_m2 * speed_milli_m_per_s * speed_milli_m_per_s * speed_milli_m_per_s / (2 * 1_000_000_000_000_000);
+    var product = saturatingMul512(density_milli_kg_per_m3, drag_area_milli_m2);
+    product = saturatingMul512(product, speed_milli_m_per_s);
+    product = saturatingMul512(product, speed_milli_m_per_s);
+    product = saturatingMul512(product, speed_milli_m_per_s);
+    return saturatingRatioU128(product, 2 * 1_000_000_000_000_000);
 }
 
 fn vehicleRollingPowerW(
@@ -68,7 +88,10 @@ fn vehicleRollingPowerW(
     gravity_milli_m_per_s2: u128,
     speed_milli_m_per_s: u128,
 ) u128 {
-    return rolling_coeff_milli * mass_milli_kg * gravity_milli_m_per_s2 * speed_milli_m_per_s / 1_000_000_000_000;
+    var product = saturatingMul512(rolling_coeff_milli, mass_milli_kg);
+    product = saturatingMul512(product, gravity_milli_m_per_s2);
+    product = saturatingMul512(product, speed_milli_m_per_s);
+    return saturatingRatioU128(product, 1_000_000_000_000);
 }
 
 fn chargeElectricityCostMicrodollars(
@@ -76,8 +99,8 @@ fn chargeElectricityCostMicrodollars(
     carbide_price_microdollars_per_kg: u128,
     output_wh: u128,
 ) u128 {
-    const charge_cost_microdollars = charge_grams * carbide_price_microdollars_per_kg / 1_000;
-    return charge_cost_microdollars * 1_000 / output_wh;
+    const charge_cost_microdollars = @as(u512, charge_grams) * carbide_price_microdollars_per_kg / 1_000;
+    return saturatingRatioU128(charge_cost_microdollars * 1_000, output_wh);
 }
 
 fn hardwareAmortizationMicrodollarsPerKwh(
@@ -85,7 +108,7 @@ fn hardwareAmortizationMicrodollarsPerKwh(
     output_wh: u128,
     cycles: u128,
 ) u128 {
-    return hardware_microdollars * 1_000 / (output_wh * cycles);
+    return saturatingRatioU128(@as(u512, hardware_microdollars) * 1_000, @as(u512, output_wh) * cycles);
 }
 
 fn tegEfficiencyTenthsAtDeltaT(
@@ -95,7 +118,8 @@ fn tegEfficiencyTenthsAtDeltaT(
 ) u128 {
     // Screening model: module efficiency scales approximately linearly with
     // the temperature difference relative to its rated operating point.
-    return rated_eff_tenths * delta_t_k / rated_delta_t_k;
+    if (rated_delta_t_k == 0) return 0;
+    return saturatingRatioU128(@as(u512, rated_eff_tenths) * delta_t_k, rated_delta_t_k);
 }
 
 test "PDRC area is far too small for the proposed waste heat" {
@@ -295,6 +319,19 @@ test "expanded screening functions are monotonic" {
     try std.testing.expect(requiredRadiatorAreaCm2(800, 60) > requiredRadiatorAreaCm2(800, 120));
     try std.testing.expect(vehicleAeroPowerW(1_200, 600, 24_000) > vehicleAeroPowerW(1_200, 600, 22_222));
     try std.testing.expect(chargeElectricityCostMicrodollars(300, 800_000, 158) > chargeElectricityCostMicrodollars(300, 600_000, 158));
+}
+
+test "expanded screening boundaries saturate instead of wrapping or trapping" {
+    const max = std.math.maxInt(u128);
+    try std.testing.expectEqual(@as(u128, 0), netCascadePowerW(1, 0, 0, 0, 0, 1));
+    try std.testing.expectEqual(max, requiredRadiatorAreaCm2(1, 0));
+    try std.testing.expectEqual(max, chargeElectricityCostMicrodollars(1, 1, 0));
+    try std.testing.expectEqual(max, hardwareAmortizationMicrodollarsPerKwh(1, 0, 1));
+    try std.testing.expectEqual(max, hardwareAmortizationMicrodollarsPerKwh(1, 1, 0));
+    try std.testing.expectEqual(@as(u128, 0), tegEfficiencyTenthsAtDeltaT(50, 30, 0));
+    try std.testing.expectEqual(max, vehicleAeroPowerW(max, max, max));
+    try std.testing.expectEqual(max, vehicleRollingPowerW(max, max, max, max));
+    try std.testing.expectEqual(max, netCascadePowerW(max, max, max, max, max, 1));
 }
 
 // No heat engine beats Carnot — the claimed TEG efficiencies must sit

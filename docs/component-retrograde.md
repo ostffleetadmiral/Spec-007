@@ -1,21 +1,21 @@
 # Spec-007 component retrograde ledger
 
 - Components: 280
-- Unit-tested Zig surfaces: 103
+- Unit-tested Zig surfaces: 105
 - Generated artifacts bound: 38
 - Pending component review: 0
 - Deferred-work markers: 0
-- Performance-measured components: 159
+- Performance-measured components: 160
 - Workstream-measured components: 189
-- Fully retrograded/optimized: 18
+- Fully retrograded/optimized: 31
 
 ## Status counts
 
-- BUILD_GRAPH_COVERED: 21
+- BUILD_GRAPH_COVERED: 19
 - DOCUMENTED_COMPONENT: 23
 - GENERATED_ARTIFACT_BOUND: 38
 - SCRIPT_HARNESS_BOUND: 95
-- UNIT_TESTED: 103
+- UNIT_TESTED: 105
 
 ## Workstreams
 

@@ -9,22 +9,22 @@
 | 元件 | 契約 | 驗證 | 擴充(本次) |
 |---|---|---|---|
 | `fixed_point_q128.zig` | Q128.128 引擎:i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。軍需官的算術,認證至半個 ulp。 | 37 項測試 | — 已完備;現由 publish-check 明確執行(先前被 `*q128*` glob 靜默跳過) |
-| `spec007_q128.zig` | 精簡 Q 配件,服務於三個測試框架的影子驗證。依設計不帶自身測試。 | 經由匯入者驗證 | 新增 `sub`/`neg`/`abs`/`cmp` 鏡像運算 |
+| `spec007_q128.zig` | 精簡 Q 配件,服務於影子驗證測試。ratio 建構現採精確 `2*remainder >= |den|` 最近整數規則,保留負分母語義,且 `withinHalfUlp` 驗證帶號分母。 | 直接 ratio/sign 邊界測試 + 經由匯入者驗證 | 新增 `sub`/`neg`/`abs`/`cmp` 鏡像運算 |
 | `spec007_calculations.zig` | 基線化學計量:物料平衡、drip→gas、機架擴展、包絡健全性。僅守恆與縮放 — 非配方。 | 8 測試 + 影子 | 耗盡-帕雷托測試:`duration × rate + remainder = total gas` |
 | `spec007_verified_calculations.zig` | 已驗證主張層:治理所有公開數字的修正基線。 | 15 測試 + 影子 | 單發彈匣測試:168.6 mL 水 = 化學計量上恰好一次裝藥 |
-| `spec007_expanded_calculations.zig` | 擴充篩選:PDRC、ORC、TEG、車輛道路負載、經濟、日照上限。 | 18 測試 + 影子 | 卡諾上限篩選:TEG 效率嚴格低於 η_c — 約低一個數量級 |
-| `spec007_drivetrain_calculations.zig` | 機械橋:速比窗口、扭矩/功率守恆、ρv² 轉子應力、雙路徑降額、損耗熱回收。 | 21 測試 + 影子 | `meshChainMilli` — 嚙合損耗累乘(0.98³ 整數下取至 940‰) |
-| `spec007_manifold_calculations.zig` | 系統整合:匣體積/質量帳、ESP32-S3 寄生包絡、油匯流排流量、三級熱歧管守恆。 | 12 測試 | 油匯流排運輸帳:`ṁ·cp·ΔT` 反演回流公式 |
-| `spec007_dynamics_calculations.zig` | 暫態層:整數尤拉積分、逐步能量帳(餘數結轉)。 | 12 測試 + q128 影子 | `slabCoolStep`/`coolToTemp` — 模型原為單向升溫;現雙向,下限為環境溫度,裝藥耗盡後冷卻已驗證 |
-| `spec007_fixedpoint_prototype.zig` | 原型:u128-mg vs Q32.32 vs Q128.128 三方對驗。 | 5 測試 | 範圍邊界測試:100,000² 於 Q32.32 溢位、於 Q128.128 精確 |
-| `spec007_compute.zig` | 即時運算 ABI:每個檔案數字以 u32 匯出在瀏覽器重算,零匯入,編譯至 wasm32。 | 1 測試 + wasm 成品 | 新增 `residue_mg`、`air_lpm_x10`、`slab_cool_step`;重建 wasm(623 B);過時 `-dynamic` 旗標更正為 `-fno-entry -rdynamic` |
+| `spec007_expanded_calculations.zig` | 擴充篩選:PDRC、ORC、TEG、車輛道路負載、經濟、日照上限。篩選輔助現採有界 `u512`/`u1024` 中間值,未定義比率飽和,級聯淨功率下限為零。 | 19 測試 + 影子 | 卡諾上限篩選:TEG 效率嚴格低於 η_c;新增溢位/零分母邊界覆蓋 |
+| `spec007_drivetrain_calculations.zig` | 機械橋:速比窗口、扭矩/功率守恆、ρv² 轉子應力、雙路徑降額、損耗熱回收。篩選輔助現採有界 `u512` 中間值,未定義/無限比率飽和。 | 22 測試 + 影子 | `meshChainMilli` — 嚙合損耗累乘(0.98³ 整數下取至 940‰);零分母/η>1000‰ 邊界已釘定 |
+| `spec007_manifold_calculations.zig` | 系統整合:匣體積/質量帳、ESP32-S3 寄生包絡、油匯流排流量、三級熱歧管守恆。幾何與運輸輔助現保留精確分子,未定義比率飽和。 | 13 測試 | 油匯流排運輸帳反演 `ṁ·cp·ΔT`;奇數直徑圓柱捨入與零分母邊界已釘定 |
+| `spec007_dynamics_calculations.zig` | 暫態層:整數尤拉積分、帶號淨功率與餘數結轉的逐步能量帳。熱步進現於赤字狀態保留有效進位、限制越界進位,且低於環境溫度時不再無符號下溢。 | 14 測試(含 q128 影子) | `slabStep`/`slabCoolStep`/`coolToTemp` — 雙向、以環境溫度為下限,裝藥耗盡後冷卻已驗證;結轉焦耳與飽和邊界已釘定 |
+| `spec007_fixedpoint_prototype.zig` | 原型:u128-mg vs Q32.32 vs Q128.128 三方對驗。Q32 ratio 建構現採精確 `2*|remainder| >= |den|` 最近半值比較與帶號餘數語義。 | 6 測試 | 範圍邊界測試:100,000² 於 Q32.32 溢位、於 Q128.128 精確;新增奇分母/符號 ratio 直接覆蓋 |
+| `spec007_compute.zig` | 即時運算 ABI:每個檔案數字以 u32 匯出在瀏覽器重算,零匯入,編譯至 wasm32。匯出算術現經 `u128` 加寬、u32 回傳飽和、封包熱進位欄位受限,且低於環境溫度狀態不再下溢。 | 2 測試 + wasm 成品 | 新增 `residue_mg`、`air_lpm_x10`、`slab_cool_step`;加入溢位/進位邊界測試;wasm 以 `-fno-entry -rdynamic` 重建 |
 | `spec007_q_toys.zig` | Q 分部野戰玩具 — 真能運行的玩笑。 | 6 測試 + `main()` 演示 | 玩具 7:THE PHILOTIC DESK — 相關對子,`philoticMessage()` 恆回 0 位元。關聯重於運動,化為桌上玩物 |
-| `golden_emit.zig` | 正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 `tools/golden-master.mjs` 逐位元組比對的固定參考面。純整數輸出。 | `tools/golden-master.mjs --verify`(+ `--mutate` 自檢) | — |
-| `spec007_astrometric_probe.zig` | L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。每個數字皆附明確證偽條件。 | 15 測試 | — |
+| `golden_emit.zig` | 正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 `tools/golden-master.mjs` 逐位元組比對的固定參考面。ratio 向量現經修正後之 Spec-007 影子邊界建構。 | 直接發射器測試 + `tools/golden-master.mjs --verify`(+ `--mutate` 自檢) | `ratio[1,3]` 由 `…486` 更正為精確最近值 `…485`;發射器現於 Zig 內逐位元組比對 `golden/vectors.txt` |
+| `spec007_astrometric_probe.zig` | L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。物理輔助現限制距離、速度、通量、頻寬、增益、能量與 SNR 定義域;大角度約化留在 raw space。每個數字皆附明確證偽條件。 | 17 測試 | 新增失敗即封閉物理定義域覆蓋 |
 | `spec008_medium_lattice.zig` | 介質即晶格之證偽框架:四埠 Γ 陣列(RTI/802.11bf 先例)解析為晶格座標 — `quantizeGamma` 將複反射係數映射至 15×15 格(\|Γ\|>1 拒絕),`resolveCoord` 以每埠 O(1) 摺疊為 (k,r,c)。自陳失敗邊界。 | 6 測試 | — |
 | `spec008_seal.zig` | Fano 網狀方言 seal/verify 路徑之純整數 Zig 雙生(`security/fano-mesh-bridge.mjs`、韌體 `fano_packet.c`):u256 FNV-1a 摺疊 + 八元數路由簽章逐跳混疊,全整數運算。正典尾端強化(艦主):宣告酬載位元組箝制至 `FANO_CAP`,`wire[40+plen..104]` 內每個未用位元組必須為零 — 有效封存覆於非零草稿尾端者拒絕。 | 7 測試 | 新增正典尾端拒絕測試(艦主波段 — 有效封存下非零草稿位元組失敗) |
 | `spec008_seal_cli.zig` | `spec008_seal` 核心之 hex CLI,供 JS↔Zig 差分探測(fano-wan-gateway 分段消費)。核心不依賴宿主,亦建為 wasm32-freestanding 程式庫供行程內驗證(`site/assets/spec008_seal.wasm.o`)。 | 經由閘道 + wasm 成品驗證 | — |
-| `spec007_alpha_probe.zig` | 主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。 | 5 測試 | — |
+| `spec007_alpha_probe.zig` | 主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。有界整數 log 現以型別化 domain error 回報,不再以 `unreachable` 掩蓋失敗。 | 6 測試 | 新增 log/atanh domain guard |
 | `spec007_ckm_probe.zig` | 主張 #35 機制探針:由 J3(O) 計算 CKM 元素,對比量測值(final_audit 缺失機制)。稽核開放項化為整數框架。 | 4 測試 | — |
 | `spec007_coincidence_probe.zig` | 神槍手謬誤對照組,純整數:主體五事件合取作為特定元組雖罕(約 1.6e-10),探針計算誠實之任一族群機率 — 機率帳之開放問題可執行化。 | 7 測試 | — |
 | `spec007_ephemeris_probe.zig` | 正典曆表探針:先前會話臨時驗證之日期鏈與幾何釘為常設框架 — CANON-MATH-MAP §VI.b 主張每次執行重新推導。 | 17 測試 | — |
@@ -179,7 +179,7 @@
 | `aiwo_directive.zig` / `aiwo_runtime.zig` | 原生 policy 閘控 directive 與 officer 週期；不可逆動作轉為人工核准請求，認知 routing fold 併入封緘事件。Directive ID 綁定完整權限上下文；runtime 擁有 officer identity 字串、提供明確 teardown，且 sequence/cycle 耗盡時在不前進的狀態下拒絕。 | 原生 AIWO parity 探針 + 真實 Digit model 探針 + complete-context directive ID 測試 + ownership/exhaustion 測試 | 多 token/完整生成硬化待完成 |
 | `aiwo_fano.zig` / `aiwo_dht.zig` | 於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；FANO heartbeat 以 digest 綁定完整 officer identity 並拒絕超出 wire field 的 sequence，`aiwo_dht` 將 Ed25519 回執金鑰引導至 `0700` key dir，以原子寫入建立 `0600` private/`0644` public DER，驗證金鑰對對應，並持有 `Store` teardown。 | FANO 竄改/long-identity/sequence-boundary 測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試 | 原生 DHT emission 已上線 |
 | `aiwo_heartbeat.zig` / `aiwo_cli.zig` | 獨立有界 AIWO heartbeat 與 `spec007-aiwo` 原生 canary CLI；不改變 training heartbeat。CLI parser 接受 separated 或 `--name=value` 選項，並對未知/缺值參數採 fail-closed 拒絕；heartbeat teardown 傳遞 runtime identity ownership。 | `node security/aiwo-native-parity.mjs` + checkpoint/resume + DHT receipt gates + parser 單元測試 + teardown leak 檢查 | 外部 provider 僅為 compatibility fallback，非主權限路徑 |
-| `perf_baseline.zig` | 純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、atomic checkpoint round-trip。 | `spec007-perf-baseline` ReleaseFast JSON + unit fold test | 量測式最佳化基線已落地 |
+| `perf_baseline.zig` | 純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、DHT request assembly、atomic checkpoint round-trip。速率在超出 `u64` 時飽和而非轉型恐慌，timer 失敗向上傳遞，checkpoint 使用唯一暫存路徑，FANO lane 涵蓋完整 64-byte payload。 | `spec007-perf-baseline` ReleaseFast JSON + 2 個邊界/fold 測試 | 量測式最佳化基線已落地 |
 
 ## 支援樹
 

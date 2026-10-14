@@ -35,21 +35,30 @@ const GAS_STOICH_DEN: u128 = 8; //   (0.8 mL/min → 0.50 L/min, the lamp knew)
 
 // ---------- helpers ----------
 
+fn saturateU128(value: u512) u128 {
+    return @intCast(@min(value, std.math.maxInt(u128)));
+}
+
 /// Steady-state gas rate in cL/min for a drip given in mL/min ×100.
 fn gasTargetCLmin(drip_xmlmin: u128) u128 {
-    return drip_xmlmin * GAS_STOICH_NUM / GAS_STOICH_DEN;
+    return saturateU128(@as(u512, drip_xmlmin) * GAS_STOICH_NUM / GAS_STOICH_DEN);
 }
 
 /// One Euler step of the slab lumped model, 1 s, deciKelvin.
 ///   dT_dK = (10·P_W − k_WK·(T_dK − T_amb_dK) + rem) / C_JK
 /// The remainder carries — the floor drops nothing it can't account for.
 fn slabStep(t_dk: u128, p_w: u128, rem: *u128) u128 {
-    const drive = p_w * 10;
-    const loss = SLAB_K_WK * (t_dk - T_AMB_DK);
-    if (drive <= loss) return t_dk; // floor: never below ambient band here
-    const num = drive - loss + rem.*;
-    rem.* = num % SLAB_C_JK;
-    return t_dk + num / SLAB_C_JK;
+    const carry = @min(rem.*, SLAB_C_JK - 1);
+    const drive = @as(i512, p_w) * 10;
+    const loss = @as(i512, SLAB_K_WK) * (@as(i512, t_dk) - @as(i512, T_AMB_DK));
+    const net = drive - loss + carry;
+    if (net <= 0) {
+        rem.* = 0;
+        return t_dk;
+    }
+    const num = @as(u512, @intCast(net));
+    rem.* = @intCast(num % SLAB_C_JK);
+    return saturateU128(@as(u512, t_dk) + num / SLAB_C_JK);
 }
 
 /// One Euler step DOWN: the slab loses heat to ambient when input
@@ -57,10 +66,16 @@ fn slabStep(t_dk: u128, p_w: u128, rem: *u128) u128 {
 /// only warm. Cooling needs its own step: dT = -k(T-Tamb)/C, with
 /// the remainder carried in the same ledger of fractions.
 fn slabCoolStep(t_dk: u128, rem: *u128) u128 {
-    if (t_dk <= T_AMB_DK) return T_AMB_DK; // floor: ambient
-    const num = SLAB_K_WK * (t_dk - T_AMB_DK) + rem.*;
-    rem.* = num % SLAB_C_JK;
-    return t_dk - num / SLAB_C_JK;
+    if (t_dk <= T_AMB_DK) {
+        rem.* = 0;
+        return T_AMB_DK; // floor: ambient
+    }
+    const carry = @min(rem.*, SLAB_C_JK - 1);
+    const num = @as(u512, SLAB_K_WK) * (t_dk - T_AMB_DK) + carry;
+    const drop = num / SLAB_C_JK;
+    rem.* = @intCast(num % SLAB_C_JK);
+    if (drop >= t_dk - T_AMB_DK) return T_AMB_DK;
+    return @intCast(@as(u512, t_dk) - drop);
 }
 
 /// Simulate cooling to a target temperature; seconds, or max_s+1.
@@ -68,16 +83,17 @@ fn coolToTemp(t0_dk: u128, target_dk: u128, max_s: u128) u128 {
     var t = t0_dk;
     var rem: u128 = 0;
     var s: u128 = 0;
-    while (s <= max_s) : (s += 1) {
+    while (true) {
         if (t <= target_dk) return s;
         t = slabCoolStep(t, &rem);
+        if (s == max_s) return if (max_s == std.math.maxInt(u128)) max_s else max_s + 1;
+        s += 1;
     }
-    return max_s + 1;
 }
 
 /// Analytic equilibrium temperature in dK for constant input power.
 fn slabEquilibrium(p_w: u128) u128 {
-    return T_AMB_DK + (p_w * 10) / SLAB_K_WK;
+    return saturateU128(@as(u512, T_AMB_DK) + @as(u512, p_w) * 10 / SLAB_K_WK);
 }
 
 /// Simulate to a target temperature; returns seconds, or max_s+1 if never.
@@ -85,11 +101,12 @@ fn timeToTemp(t0_dk: u128, target_dk: u128, p_w: u128, max_s: u128) u128 {
     var t = t0_dk;
     var rem: u128 = 0;
     var s: u128 = 0;
-    while (s <= max_s) : (s += 1) {
+    while (true) {
         if (t >= target_dk) return s;
         t = slabStep(t, p_w, &rem);
+        if (s == max_s) return if (max_s == std.math.maxInt(u128)) max_s else max_s + 1;
+        s += 1;
     }
-    return max_s + 1;
 }
 
 // ---------- tests ----------
@@ -246,4 +263,27 @@ test "post-charge cooldown: the slab gives the energy back" {
     // and the floor holds: never below ambient
     t = T_AMB_DK;
     try std.testing.expectEqual(T_AMB_DK, slabCoolStep(t, &rem));
+}
+
+test "thermal step boundaries preserve carry and saturate exported extremes" {
+    var rem: u128 = 0;
+    // Below ambient is a net positive heat flow, not an unsigned underflow.
+    const cold = slabStep(0, 0, &rem);
+    try std.testing.expectEqual(@as(u128, 11), cold);
+    try std.testing.expectEqual(@as(u128, 4_620), rem);
+
+    // A 30 J deficit plus a 31 J carried remainder must leave 1 J, not vanish.
+    rem = 31;
+    try std.testing.expectEqual(@as(u128, 2_983), slabStep(2_983, 1, &rem));
+    try std.testing.expectEqual(@as(u128, 1), rem);
+
+    // Out-of-contract carry is clamped; ambient cooling resets it.
+    rem = std.math.maxInt(u128);
+    try std.testing.expectEqual(T_AMB_DK, slabCoolStep(T_AMB_DK, &rem));
+    try std.testing.expectEqual(@as(u128, 0), rem);
+    try std.testing.expect(slabCoolStep(std.math.maxInt(u128), &rem) < std.math.maxInt(u128));
+
+    try std.testing.expect(slabEquilibrium(std.math.maxInt(u128)) > T_SLAB_MAX_DK);
+    try std.testing.expectEqual(@as(u128, 0), coolToTemp(T_AMB_DK, T_AMB_DK, 0));
+    try std.testing.expectEqual(@as(u128, 1), coolToTemp(std.math.maxInt(u128), 0, 0));
 }

@@ -34,13 +34,13 @@
 ## Field verification
 
 ```sh
-zig test src/spec007_calculations.zig            # 8 tests — stoichiometry, contradictions & shadow layer
-zig test src/spec007_expanded_calculations.zig   # 18 tests — PDRC/ORC/vehicle/economics/TEG screens & shadow
-zig test src/spec007_verified_calculations.zig   # 15 tests — promoted-claim arithmetic & shadow layer
-zig test src/spec007_drivetrain_calculations.zig # 21 tests — dual-path powertrain, derate & stress bounds
-zig test src/spec007_manifold_calculations.zig   # 12 tests — cartridge budget, controller parasitics, manifold
-zig test src/spec007_dynamics_calculations.zig   # 12 tests — transient thermal/charge sim, conservation ledger
-zig test src/spec007_q_toys.zig                  # 6 tests — Q Branch field toys
+zig test src/spec007_calculations.zig            # 11 tests — stoichiometry, contradictions & shadow layer
+zig test src/spec007_expanded_calculations.zig   # 22 tests — PDRC/ORC/vehicle/economics/TEG screens & shadow
+zig test src/spec007_verified_calculations.zig   # 18 tests — promoted-claim arithmetic & shadow layer
+zig test src/spec007_drivetrain_calculations.zig # 25 tests — dual-path powertrain, derate & stress bounds
+zig test src/spec007_manifold_calculations.zig   # 16 tests — cartridge budget, controller parasitics, manifold
+zig test src/spec007_dynamics_calculations.zig   # 16 tests — transient thermal/charge sim, conservation ledger
+zig test src/spec007_q_toys.zig                  # 9 tests — Q Branch field toys
 ```
 
 *All ordnance checked out from Q Branch — the shadow engine keeps the books the integers can't see, to within half an ulp.*

@@ -8,13 +8,10 @@
 
 const std = @import("std");
 const q = @import("fixed_point_q128.zig");
+const shadow = @import("spec007_q128.zig");
 const Q128 = q.Q128;
 
-pub fn main() !void {
-    var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
-    const out = bw.writer();
-    defer bw.flush() catch {};
-
+fn emit(out: anytype) !void {
     try out.print("spec=GOLDENV1\n", .{});
 
     // RNE multiply — raw products pinned, not floats
@@ -39,15 +36,15 @@ pub fn main() !void {
             try out.print("div[{d},{d}].error\n", .{ p[0], p[1] });
     }
 
-    // fromRatio — round-half-away-from-zero construction
+    // fromRatio — round-half-away-from-zero construction through the exact
+    // Spec-007 shadow ratio boundary; the upstream engine's odd-denominator
+    // half test is not a canon source.
     const ratios = [_][2]i256{
         .{ 1, 3 }, .{ 2, 3 }, .{ 1, 8 }, .{ 421, 3375 }, .{ 7, 225 }, .{ -5, 8 },
     };
     for (ratios) |p| {
-        if (Q128.fromRatio(p[0], p[1])) |v|
-            try out.print("ratio[{d},{d}].raw={d}\n", .{ p[0], p[1], v.raw })
-        else |_|
-            try out.print("ratio[{d},{d}].error\n", .{ p[0], p[1] });
+        const v = Q128.fromRaw(shadow.Q.fromRatio(p[0], p[1]).raw);
+        try out.print("ratio[{d},{d}].raw={d}\n", .{ p[0], p[1], v.raw });
     }
 
     // powers
@@ -77,4 +74,19 @@ pub fn main() !void {
     const exps = [_]u16{ 0, 8, 64, 128, 129, 240, 255 };
     for (exps) |e|
         try out.print("pow2[{d}]={d}\n", .{ e, q.exactPow2(e) });
+}
+
+pub fn main() !void {
+    var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
+    defer bw.flush() catch {};
+    try emit(bw.writer());
+}
+
+test "golden emitter reproduces the committed vector surface byte-for-byte" {
+    var buf = std.ArrayList(u8).init(std.testing.allocator);
+    defer buf.deinit();
+    try emit(buf.writer());
+    const golden = try std.fs.cwd().readFileAlloc(std.testing.allocator, "golden/vectors.txt", 64 * 1024);
+    defer std.testing.allocator.free(golden);
+    try std.testing.expectEqualStrings(golden, buf.items);
 }

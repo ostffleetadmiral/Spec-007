@@ -1,3 +1,5 @@
+const std = @import("std");
+
 // The engine that isn't there. 7q.
 //
 // Now pay attention, 007. Q Branch supplies fixed-point ordnance:
@@ -36,12 +38,14 @@ pub const Q = struct {
     raw: Raw,
 
     pub fn fromRatio(num: i256, den: i256) Q {
+        const den_w = @as(Wide, den);
         const scaled: Wide = @as(Wide, num) << 128;
-        const quotient = @divTrunc(scaled, den);
-        const remainder = @mod(scaled, den);
-        const half = @divTrunc(den, 2);
+        const quotient = @divTrunc(scaled, den_w);
+        const remainder = @rem(scaled, den_w);
+        const abs_remainder = if (remainder < 0) -remainder else remainder;
+        const abs_den = if (den_w < 0) -den_w else den_w;
         var result = quotient;
-        if (remainder > half or (remainder == half and remainder != 0)) result += 1;
+        if (abs_remainder * 2 >= abs_den) result += if ((num < 0) != (den < 0)) -1 else 1;
         return .{ .raw = @truncate(result) };
     }
 
@@ -98,5 +102,26 @@ pub fn withinHalfUlp(q: Q, num: i256, den: i256) bool {
     const lhs: Wide = @as(Wide, q.raw) * @as(Wide, den);
     const rhs: Wide = @as(Wide, num) << 128;
     const diff = if (lhs > rhs) lhs - rhs else rhs - lhs;
-    return diff * 2 <= @as(Wide, den);
+    const den_w = @as(Wide, den);
+    const abs_den = if (den_w < 0) -den_w else den_w;
+    return den != 0 and diff * 2 <= abs_den;
+}
+
+test "Q fromRatio uses exact nearest-integer rounding for odd denominators" {
+    const third = Q.fromRatio(1, 3);
+    try std.testing.expectEqual(@divTrunc(Scale, 3), third.raw);
+    const two_thirds = Q.fromRatio(2, 3);
+    try std.testing.expectEqual(@divTrunc(Scale * 2, 3) + 1, two_thirds.raw);
+    try std.testing.expect(withinHalfUlp(third, 1, 3));
+    try std.testing.expect(withinHalfUlp(two_thirds, 2, 3));
+}
+
+test "Q fromRatio preserves sign and handles negative denominators" {
+    const neg_third = Q.fromRatio(-1, 3);
+    const neg_den = Q.fromRatio(1, -3);
+    try std.testing.expectEqual(neg_third.raw, neg_den.raw);
+    try std.testing.expect(withinHalfUlp(neg_third, -1, 3));
+    try std.testing.expect(withinHalfUlp(neg_den, 1, -3));
+    try std.testing.expectEqual(@as(Raw, 0), Q.fromRatio(0, -7).raw);
+    try std.testing.expect(!withinHalfUlp(Q{ .raw = Scale }, 1, 0));
 }

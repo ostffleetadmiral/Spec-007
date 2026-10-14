@@ -71082,7 +71082,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 契約 | 驗證 | 擴充(本次) | |---|---|---|---| | fixedpointq128.zig | Q128.128 引擎:i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。軍需官的算術,認證至半個 ulp。 | 37 項測試 | — 已完備;現由 publish-check 明確執行(先前被 q128 glob 靜默跳過) | | spec007q128.zig | 精簡 Q 配件,服務於三個測試框架的影子驗證。依設計不帶自身測試。 | 經由匯入者驗證 | 新增 sub/neg/abs/cmp 鏡像運算 | | spec007calculations.zig | 基線化學計量:物料平衡、drip→gas、機架擴展、包絡健全性。僅守恆與縮放 — 非配方。 | 8 測試 + 影子 | 耗盡-帕雷托測試:duratio",
+      "outcome": "| 元件 | 契約 | 驗證 | 擴充(本次) | |---|---|---|---| | fixedpointq128.zig | Q128.128 引擎:i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。軍需官的算術,認證至半個 ulp。 | 37 項測試 | — 已完備;現由 publish-check 明確執行(先前被 q128 glob 靜默跳過) | | spec007q128.zig | 精簡 Q 配件,服務於影子驗證測試。ratio 建構現採精確 2remainder >= |den| 最近整數規則,保留負分母語義,且 withinHalfUlp 驗證帶號分母。 | 直接 ratio/sign 邊界測試 + 經由匯入者驗證 | 新增 sub/neg/abs/cmp 鏡像運算 | | spec007calculations.zig |",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "整數層(src/)",

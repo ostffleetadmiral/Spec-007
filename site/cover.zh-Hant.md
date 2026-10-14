@@ -34,13 +34,13 @@
 ## 實地驗證
 
 ```sh
-zig test src/spec007_calculations.zig            # 8 項測試 — 化學計量、矛盾與影子層
-zig test src/spec007_expanded_calculations.zig   # 18 項測試 — PDRC/ORC/載具/經濟/TEG 篩算與影子層
-zig test src/spec007_verified_calculations.zig   # 15 項測試 — 晉升主張算術與影子層
-zig test src/spec007_drivetrain_calculations.zig # 21 項測試 — 雙路徑動力系統、降額與應力邊界
-zig test src/spec007_manifold_calculations.zig   # 12 項測試 — 卡匣預算、控制器寄生耗損、歧管
-zig test src/spec007_dynamics_calculations.zig   # 12 項測試 — 暫態熱／電荷模擬、守恆帳本
-zig test src/spec007_q_toys.zig                  # 6 項測試 — Q 部門野戰玩具
+zig test src/spec007_calculations.zig            # 11 項測試 — 化學計量、矛盾與影子層
+zig test src/spec007_expanded_calculations.zig   # 22 項測試 — PDRC/ORC/載具/經濟/TEG 篩算與影子層
+zig test src/spec007_verified_calculations.zig   # 18 項測試 — 晉升主張算術與影子層
+zig test src/spec007_drivetrain_calculations.zig # 25 項測試 — 雙路徑動力系統、降額與應力邊界
+zig test src/spec007_manifold_calculations.zig   # 16 項測試 — 卡匣預算、控制器寄生耗損、歧管
+zig test src/spec007_dynamics_calculations.zig   # 16 項測試 — 暫態熱／電荷模擬、守恆帳本
+zig test src/spec007_q_toys.zig                  # 9 項測試 — Q 部門野戰玩具
 ```
 
 *所有軍械均自 Q 部門領用——影子引擎記的是整數看不見的帳，誤差不超過半個 ulp。*

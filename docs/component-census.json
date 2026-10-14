@@ -5967,7 +5967,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 0,
+        "blocks": 1,
         "registered": true
       },
       "documentation": {
@@ -5996,7 +5996,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 1,
+        "blocks": 2,
         "registered": true
       },
       "documentation": {
@@ -6025,7 +6025,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 5,
+        "blocks": 6,
         "registered": true
       },
       "documentation": {
@@ -6054,7 +6054,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 15,
+        "blocks": 17,
         "registered": true
       },
       "documentation": {
@@ -6199,7 +6199,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 1,
+        "blocks": 2,
         "registered": true
       },
       "documentation": {
@@ -6228,7 +6228,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 22,
+        "blocks": 23,
         "registered": true
       },
       "documentation": {
@@ -6257,7 +6257,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 13,
+        "blocks": 14,
         "registered": true
       },
       "documentation": {
@@ -6315,7 +6315,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 19,
+        "blocks": 20,
         "registered": true
       },
       "documentation": {
@@ -6344,7 +6344,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 6,
+        "blocks": 7,
         "registered": true
       },
       "documentation": {
@@ -6373,7 +6373,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 13,
+        "blocks": 14,
         "registered": true
       },
       "documentation": {
@@ -6460,7 +6460,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 0,
+        "blocks": 2,
         "registered": true
       },
       "documentation": {

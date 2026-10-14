@@ -60,8 +60,8 @@
 </tr>
 <tr>
 <td><code>spec007_q128.zig</code></td>
-<td>精簡 Q 配件,服務於三個測試框架的影子驗證。依設計不帶自身測試。</td>
-<td>經由匯入者驗證</td>
+<td>精簡 Q 配件,服務於影子驗證測試。ratio 建構現採精確 <code>2*remainder &gt;= |den|</code> 最近整數規則,保留負分母語義,且 <code>withinHalfUlp</code> 驗證帶號分母。</td>
+<td>直接 ratio/sign 邊界測試 + 經由匯入者驗證</td>
 <td>新增 <code>sub</code>/<code>neg</code>/<code>abs</code>/<code>cmp</code> 鏡像運算</td>
 </tr>
 <tr>
@@ -78,39 +78,39 @@
 </tr>
 <tr>
 <td><code>spec007_expanded_calculations.zig</code></td>
-<td>擴充篩選:PDRC、ORC、TEG、車輛道路負載、經濟、日照上限。</td>
-<td>18 測試 + 影子</td>
-<td>卡諾上限篩選:TEG 效率嚴格低於 η_c — 約低一個數量級</td>
+<td>擴充篩選:PDRC、ORC、TEG、車輛道路負載、經濟、日照上限。篩選輔助現採有界 <code>u512</code>/<code>u1024</code> 中間值,未定義比率飽和,級聯淨功率下限為零。</td>
+<td>19 測試 + 影子</td>
+<td>卡諾上限篩選:TEG 效率嚴格低於 η_c;新增溢位/零分母邊界覆蓋</td>
 </tr>
 <tr>
 <td><code>spec007_drivetrain_calculations.zig</code></td>
-<td>機械橋:速比窗口、扭矩/功率守恆、ρv² 轉子應力、雙路徑降額、損耗熱回收。</td>
-<td>21 測試 + 影子</td>
-<td><code>meshChainMilli</code> — 嚙合損耗累乘(0.98³ 整數下取至 940‰)</td>
+<td>機械橋:速比窗口、扭矩/功率守恆、ρv² 轉子應力、雙路徑降額、損耗熱回收。篩選輔助現採有界 <code>u512</code> 中間值,未定義/無限比率飽和。</td>
+<td>22 測試 + 影子</td>
+<td><code>meshChainMilli</code> — 嚙合損耗累乘(0.98³ 整數下取至 940‰);零分母/η&gt;1000‰ 邊界已釘定</td>
 </tr>
 <tr>
 <td><code>spec007_manifold_calculations.zig</code></td>
-<td>系統整合:匣體積/質量帳、ESP32-S3 寄生包絡、油匯流排流量、三級熱歧管守恆。</td>
-<td>12 測試</td>
-<td>油匯流排運輸帳:<code>ṁ·cp·ΔT</code> 反演回流公式</td>
+<td>系統整合:匣體積/質量帳、ESP32-S3 寄生包絡、油匯流排流量、三級熱歧管守恆。幾何與運輸輔助現保留精確分子,未定義比率飽和。</td>
+<td>13 測試</td>
+<td>油匯流排運輸帳反演 <code>ṁ·cp·ΔT</code>;奇數直徑圓柱捨入與零分母邊界已釘定</td>
 </tr>
 <tr>
 <td><code>spec007_dynamics_calculations.zig</code></td>
-<td>暫態層:整數尤拉積分、逐步能量帳(餘數結轉)。</td>
-<td>12 測試 + q128 影子</td>
-<td><code>slabCoolStep</code>/<code>coolToTemp</code> — 模型原為單向升溫;現雙向,下限為環境溫度,裝藥耗盡後冷卻已驗證</td>
+<td>暫態層:整數尤拉積分、帶號淨功率與餘數結轉的逐步能量帳。熱步進現於赤字狀態保留有效進位、限制越界進位,且低於環境溫度時不再無符號下溢。</td>
+<td>14 測試(含 q128 影子)</td>
+<td><code>slabStep</code>/<code>slabCoolStep</code>/<code>coolToTemp</code> — 雙向、以環境溫度為下限,裝藥耗盡後冷卻已驗證;結轉焦耳與飽和邊界已釘定</td>
 </tr>
 <tr>
 <td><code>spec007_fixedpoint_prototype.zig</code></td>
-<td>原型:u128-mg vs Q32.32 vs Q128.128 三方對驗。</td>
-<td>5 測試</td>
-<td>範圍邊界測試:100,000² 於 Q32.32 溢位、於 Q128.128 精確</td>
+<td>原型:u128-mg vs Q32.32 vs Q128.128 三方對驗。Q32 ratio 建構現採精確 <code>2*|remainder| &gt;= |den|</code> 最近半值比較與帶號餘數語義。</td>
+<td>6 測試</td>
+<td>範圍邊界測試:100,000² 於 Q32.32 溢位、於 Q128.128 精確;新增奇分母/符號 ratio 直接覆蓋</td>
 </tr>
 <tr>
 <td><code>spec007_compute.zig</code></td>
-<td>即時運算 ABI:每個檔案數字以 u32 匯出在瀏覽器重算,零匯入,編譯至 wasm32。</td>
-<td>1 測試 + wasm 成品</td>
-<td>新增 <code>residue_mg</code>、<code>air_lpm_x10</code>、<code>slab_cool_step</code>;重建 wasm(623 B);過時 <code>-dynamic</code> 旗標更正為 <code>-fno-entry -rdynamic</code></td>
+<td>即時運算 ABI:每個檔案數字以 u32 匯出在瀏覽器重算,零匯入,編譯至 wasm32。匯出算術現經 <code>u128</code> 加寬、u32 回傳飽和、封包熱進位欄位受限,且低於環境溫度狀態不再下溢。</td>
+<td>2 測試 + wasm 成品</td>
+<td>新增 <code>residue_mg</code>、<code>air_lpm_x10</code>、<code>slab_cool_step</code>;加入溢位/進位邊界測試;wasm 以 <code>-fno-entry -rdynamic</code> 重建</td>
 </tr>
 <tr>
 <td><code>spec007_q_toys.zig</code></td>
@@ -120,15 +120,15 @@
 </tr>
 <tr>
 <td><code>golden_emit.zig</code></td>
-<td>正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 <code>tools/golden-master.mjs</code> 逐位元組比對的固定參考面。純整數輸出。</td>
-<td><code>tools/golden-master.mjs --verify</code>(+ <code>--mutate</code> 自檢)</td>
-<td>—</td>
+<td>正典向量發射器(D11/P2,Ark golden-master 移植):輸出 Q128.128 原始指令集之 i256 原值 — RNE 乘、除、比率、冪、平方根 — 供 <code>tools/golden-master.mjs</code> 逐位元組比對的固定參考面。ratio 向量現經修正後之 Spec-007 影子邊界建構。</td>
+<td>直接發射器測試 + <code>tools/golden-master.mjs --verify</code>(+ <code>--mutate</code> 自檢)</td>
+<td><code>ratio[1,3]</code> 由 <code>…486</code> 更正為精確最近值 <code>…485</code>;發射器現於 Zig 內逐位元組比對 <code>golden/vectors.txt</code></td>
 </tr>
 <tr>
 <td><code>spec007_astrometric_probe.zig</code></td>
-<td>L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。每個數字皆附明確證偽條件。</td>
-<td>15 測試</td>
-<td>—</td>
+<td>L7Q 天體測量探針:以純整數 Q128 從第一性原理計算 Wow! 訊號/3I-ATLAS 對齊主張(約 9° 分離、約 0.6% 隨機巧合率)— 有理數 π 象限約化三角、600 AU ≈ 3.47 光日、約 49 年內進航程。物理輔助現限制距離、速度、通量、頻寬、增益、能量與 SNR 定義域;大角度約化留在 raw space。每個數字皆附明確證偽條件。</td>
+<td>17 測試</td>
+<td>新增失敗即封閉物理定義域覆蓋</td>
 </tr>
 <tr>
 <td><code>spec008_medium_lattice.zig</code></td>
@@ -150,9 +150,9 @@
 </tr>
 <tr>
 <td><code>spec007_alpha_probe.zig</code></td>
-<td>主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。</td>
-<td>5 測試</td>
-<td>—</td>
+<td>主張 #36 機制探針:由八元數 U(1) 推導 α,對比 1/137.036(final_audit 缺失機制之可執行化)。三項候選推導在案 — 各執行、各評級。有界整數 log 現以型別化 domain error 回報,不再以 <code>unreachable</code> 掩蓋失敗。</td>
+<td>6 測試</td>
+<td>新增 log/atanh domain guard</td>
 </tr>
 <tr>
 <td><code>spec007_ckm_probe.zig</code></td>
@@ -984,8 +984,8 @@
 </tr>
 <tr>
 <td><code>perf_baseline.zig</code></td>
-<td>純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、atomic checkpoint round-trip。</td>
-<td><code>spec007-perf-baseline</code> ReleaseFast JSON + unit fold test</td>
+<td>純整數 microbenchmark：Q128 算術、FANO seal/verify、scale-7 chunk traversal、DHT request assembly、atomic checkpoint round-trip。速率在超出 <code>u64</code> 時飽和而非轉型恐慌，timer 失敗向上傳遞，checkpoint 使用唯一暫存路徑，FANO lane 涵蓋完整 64-byte payload。</td>
+<td><code>spec007-perf-baseline</code> ReleaseFast JSON + 2 個邊界/fold 測試</td>
 <td>量測式最佳化基線已落地</td>
 </tr>
 </tbody>

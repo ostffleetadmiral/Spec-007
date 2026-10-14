@@ -10,11 +10,24 @@
 
 const std = @import("std");
 
+fn clampU32(value: u128) u32 {
+    return @intCast(@min(value, std.math.maxInt(u32)));
+}
+
+fn clampCarry(rem: u32) u32 {
+    return @min(rem, 4999);
+}
+
+fn packThermal(t_dk: u128, rem: u32) u32 {
+    const bounded_t: u32 = @intCast(@min(t_dk, @as(u128, 65535)));
+    return (bounded_t << 16) | clampCarry(rem);
+}
+
 // ---- cartridge / hydrolysis ----
 
 export fn drip_to_gas_clmin(drip_mlmin_x100: u32) u32 {
     // gas cL/min = drip(mL/min×100) × 5/8 — 0.80 mL/min → 50 cL/min
-    return drip_mlmin_x100 * 5 / 8;
+    return clampU32(@as(u128, drip_mlmin_x100) * 5 / 8);
 }
 
 export fn charge_minutes(drip_mlmin_x100: u32) u32 {
@@ -34,39 +47,47 @@ export fn gas_total_cl(drip_mlmin_x100: u32) u32 {
 
 export fn slab_equilibrium_dk(p_w: u32) u32 {
     // T_amb 2981 dK + P×10 / k(20 W/K)
-    return 2981 + p_w * 10 / 20;
+    return clampU32(2981 + @as(u128, p_w) * 10 / 20);
 }
 
 export fn slab_step(t_dk: u32, p_w: u32, rem: u32) u32 {
     // One 1 s Euler step, packed return: hi16 = new T_dK, lo16 = new rem.
-    const drive = p_w * 10;
-    const loss = 20 * (t_dk - 2981);
-    if (drive <= loss) return (@as(u32, t_dk) << 16) | rem;
-    const num = drive - loss + rem;
-    const new_t = t_dk + num / 5000;
-    const new_rem = num % 5000;
-    return (@as(u32, new_t) << 16) | @as(u32, @intCast(new_rem));
+    const bounded_rem = clampCarry(rem);
+    const drive = @as(i128, p_w) * 10;
+    const loss = 20 * (@as(i128, t_dk) - 2981);
+    const net = drive - loss + bounded_rem;
+    if (net <= 0) return packThermal(t_dk, bounded_rem);
+    const gain = @as(u128, @intCast(net));
+    const new_t = @as(u128, t_dk) + gain / 5000;
+    const new_rem: u32 = @intCast(gain % 5000);
+    return packThermal(new_t, new_rem);
 }
 
 export fn slab_cool_step(t_dk: u32, rem: u32) u32 {
     // Cooling twin of slab_step: dT = -k(T-Tamb)/C, packed hi16/lo16.
-    if (t_dk <= 2981) return (@as(u32, 2981) << 16);
-    const num = 20 * (t_dk - 2981) + rem;
-    const new_t = t_dk - num / 5000;
-    const new_rem = num % 5000;
-    return (@as(u32, new_t) << 16) | @as(u32, @intCast(new_rem));
+    if (t_dk <= 2981) return packThermal(2981, 0);
+    const bounded_rem = clampCarry(rem);
+    const num = @as(u128, 20) * (@as(u128, t_dk) - 2981) + bounded_rem;
+    const drop = num / 5000;
+    const new_t = if (drop >= t_dk - 2981) @as(u128, 2981) else @as(u128, t_dk) - drop;
+    const new_rem: u32 = @intCast(num % 5000);
+    return packThermal(new_t, new_rem);
 }
 
 // ---- powertrain ----
 
 export fn bus_power_w(shaft_w: u32, expander_pm: u32, gen_pm: u32, trans_pm: u32) u32 {
     // shaft × expander‰ × generator‰ × transmission‰
-    return shaft_w * expander_pm / 1000 * gen_pm / 1000 * trans_pm / 1000;
+    var value = @as(u128, shaft_w);
+    value = value * expander_pm / 1000;
+    value = value * gen_pm / 1000;
+    value = value * trans_pm / 1000;
+    return clampU32(value);
 }
 
 export fn per_charge_wh_x10(bus_w: u32, duty_pm: u32) u32 {
     // screened charge energy: ~3.5 h at bus×duty — return Wh×10
-    return bus_w * duty_pm * 35 / 1000 / 10; // bus·duty·3.5h → Wh×10
+    return clampU32(@as(u128, bus_w) * duty_pm * 35 / 1000 / 10); // bus·duty·3.5h → Wh×10
 }
 
 // ---- manifold ----
@@ -77,9 +98,9 @@ export fn economizer_accept_w(ext_w: u32, cap_w: u32) u32 {
 
 export fn cartridge_headspace_ml(carbide_g: u32, water_ml: u32, cao_ml: u32) u32 {
     // 332 mL interior; carbide ~0.454 mL/g bulk
-    const used = carbide_g * 454 / 1000 + water_ml + cao_ml;
+    const used = @as(u128, carbide_g) * 454 / 1000 + water_ml + cao_ml;
     if (used >= 332) return 0;
-    return 332 - used;
+    return @intCast(332 - used);
 }
 
 // ---- canary: the desk can always ask if the module is alive ----
@@ -89,14 +110,14 @@ export fn cartridge_headspace_ml(carbide_g: u32, water_ml: u32, cao_ml: u32) u32
 export fn residue_mg(charge_g: u32) u32 {
     // CaC2 + 2 H2O -> C2H2 + Ca(OH)2: 74,093 mg Ca(OH)2 per 64,100 mg CaC2.
     // 300 g charge -> ~346,764 mg residue — the disposal ledger.
-    return charge_g * 74_093 / 64_100;
+    return clampU32(@as(u128, charge_g) * 74_093 / 64_100);
 }
 
 export fn air_lpm_x10(gas_lmin_x10: u32) u32 {
     // 2.5 mol O2 per mol C2H2, ~21% O2 in air: air = gas x 2.5 x 4.76.
     // Input gas rate in tenths L/min -> air in tenths L/min.
     // 5.0 L/min gas -> ~59.5 L/min air.
-    return gas_lmin_x10 * 25 * 476 / 1_000;
+    return clampU32(@as(u128, gas_lmin_x10) * 25 * 476 / 1_000);
 }
 
 export fn fano_alive() u32 {
@@ -120,4 +141,29 @@ test "compute core mirrors the harness arithmetic" {
     const cool = slab_cool_step(5631, 0);
     try expect(cool >> 16 == 5621); // 53000/5000 = 10.6 -> 10 dK drop
     try expect((slab_cool_step(2981, 0) >> 16) == 2981); // ambient floor
+}
+
+test "compute core bounds exported ABI overflow and carry inputs" {
+    const expect = std.testing.expect;
+    const max = std.math.maxInt(u32);
+
+    try expect(drip_to_gas_clmin(max) == 2_684_354_559);
+    try expect(slab_equilibrium_dk(max) == 2_147_486_628);
+    try expect(bus_power_w(max, max, max, max) == max);
+    try expect(per_charge_wh_x10(max, max) == max);
+    try expect(cartridge_headspace_ml(max, max, max) == 0);
+    try expect(residue_mg(max) == max);
+    try expect(air_lpm_x10(max) == max);
+
+    const below_ambient = slab_step(0, 0, 0);
+    try expect(below_ambient >> 16 == 11);
+    try expect((below_ambient & 0xffff) == 4_620);
+    try expect((slab_step(0, max, 4_999) >> 16) == 65_535);
+    try expect(slab_step(2981, 0, max) == ((@as(u32, 2981) << 16) | 4_999));
+
+    const cooled = slab_cool_step(3_000, 4_999);
+    try expect(cooled >> 16 == 2_999);
+    try expect((cooled & 0xffff) == 379);
+    try expect(slab_cool_step(2_982, 4_999) == ((@as(u32, 2_981) << 16) | 19));
+    try expect((slab_cool_step(max, 0) >> 16) == 65_535);
 }

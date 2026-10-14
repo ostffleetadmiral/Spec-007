@@ -42,30 +42,37 @@ fn piQ() Q128 {
     return try2(Q128.fromRatio(80143857, 25510582)); // err ~1e-16
 }
 
-/// atanh(y) for |y| <= ~0.8: y + y^3/3 + y^5/5 + ... bounded Taylor.
-fn atanhQ(y: Q128) Q128 {
+/// atanh(y) for |y| <= 1/2: y + y^3/3 + y^5/5 + ... bounded Taylor.
+/// The 20-term window is intentionally restricted to the fast arguments this
+/// probe uses (|y| = 1/3 and 1/15); wider inputs would need series splitting.
+fn atanhQ(y: Q128) !Q128 {
+    const half = try Q128.fromRatio(1, 2);
+    if (y.abs().raw > half.raw) return error.AtanhDomain;
     const y2 = y.mul(y);
     var sum = y;
     var term = y;
     var k: i256 = 3;
     while (k <= 41) : (k += 2) {
         term = term.mul(y2);
-        sum = sum.add(try2(term.div(Q128.fromInteger(k))));
+        sum = sum.add(try term.div(Q128.fromInteger(k)));
     }
     return sum;
 }
 
-/// ln(x) = 2*atanh((x-1)/(x+1)).
-fn lnQ(x: Q128) Q128 {
-    const y = try2(x.sub(Q128.one).div(x.add(Q128.one)));
-    return atanhQ(y).mul(Q128.fromInteger(2));
+/// ln(x) = 2*atanh((x-1)/(x+1)), bounded to the probe's convergent window.
+fn lnQ(x: Q128) !Q128 {
+    const lower = try Q128.fromRatio(1, 3);
+    const upper = Q128.fromInteger(3);
+    if (x.raw < lower.raw or x.raw > upper.raw) return error.LogDomain;
+    const y = try x.sub(Q128.one).div(x.add(Q128.one));
+    return (try atanhQ(y)).mul(Q128.fromInteger(2));
 }
 
 /// ln(7) via decomposition: ln(7) = 3*ln(2) + ln(7/8).
 /// y(2) = 1/3, y(7/8) = -1/15 — both converge fast.
-fn ln7() Q128 {
-    const ln2 = lnQ(Q128.fromInteger(2));
-    const ln78 = lnQ(try2(Q128.fromRatio(7, 8)));
+fn ln7() !Q128 {
+    const ln2 = try lnQ(Q128.fromInteger(2));
+    const ln78 = try lnQ(try Q128.fromRatio(7, 8));
     return ln2.mul(Q128.fromInteger(3)).add(ln78);
 }
 
@@ -77,12 +84,12 @@ const CODATA_SIGMA = 21; // x1e-9
 // ============================ tests ============================
 
 test "integer ln: ln(2) and ln(7) land on known values" {
-    const ln2 = lnQ(Q128.fromInteger(2));
+    const ln2 = try lnQ(Q128.fromInteger(2));
     // ln 2 = 0.693147...
     const lo = try2(Q128.fromRatio(69314, 100000));
     const hi = try2(Q128.fromRatio(69315, 100000));
     try std.testing.expect(ln2.raw > lo.raw and ln2.raw < hi.raw);
-    const l7 = ln7();
+    const l7 = try ln7();
     // ln 7 = 1.945910...
     const lo7 = try2(Q128.fromRatio(19459, 10000));
     const hi7 = try2(Q128.fromRatio(19460, 10000));
@@ -102,7 +109,7 @@ test "corpus construction: 721/7 + 34 = 137 — 262 ppm off, CONSTRUCTION" {
 }
 
 test "Natural Path: 43*pi + ln(7) ~ 137.034 — the ~12 ppm claim verified" {
-    const val = piQ().mul(Q128.fromInteger(43)).add(ln7());
+    const val = piQ().mul(Q128.fromInteger(43)).add(try ln7());
     // 43*pi = 135.0884..., +1.945910 = 137.0343
     // ppm from CODATA: |137.0343 - 137.035999| ~ 0.0017 -> ~12 ppm
     const scaled: i256 = @intCast(val.mul(Q128.fromInteger(1_000_000_000)).toInteger());
@@ -125,6 +132,12 @@ test "APS sigma claim: |137.035999143 - 137.035999177| = 34e-9 = 1.62 sigma — 
     try std.testing.expect(sigma_x100 == 161 or sigma_x100 == 162);
     // the internal consistency of their claim checks arithmetically —
     // filed LITERATURE, mechanism not implemented (conference result).
+}
+
+test "log probe domain fails closed outside the fast-convergent window" {
+    try std.testing.expectError(error.LogDomain, lnQ(Q128.fromInteger(0)));
+    try std.testing.expectError(error.LogDomain, lnQ(Q128.fromInteger(4)));
+    try std.testing.expectError(error.AtanhDomain, atanhQ(try Q128.fromRatio(3, 4)));
 }
 
 test "filed verdict: three derivations, three grades — no free promotion" {

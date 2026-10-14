@@ -22,6 +22,15 @@ const q128 = @import("spec007_q128.zig"); // Q Branch issue — the gears keep t
 
 const PI_SCALED: u128 = 3_141_593; // pi at 1e-6, matching the baseline harnesses
 
+fn saturateU128(value: u512) u128 {
+    return @intCast(@min(value, std.math.maxInt(u128)));
+}
+
+fn saturatingRatioU128(numerator: u512, denominator: u512) u128 {
+    if (denominator == 0) return std.math.maxInt(u128);
+    return saturateU128(numerator / denominator);
+}
+
 const Turbine = struct {
     // Convo band (classified input): 15,000-30,000 RPM sweet spot.
     convo_min_rpm: u128 = 15_000,
@@ -63,61 +72,64 @@ const Trans = struct {
 };
 
 fn ratioMilli(in_rpm: u128, out_rpm: u128) u128 {
-    return in_rpm * 1_000 / out_rpm;
+    return saturatingRatioU128(@as(u512, in_rpm) * 1_000, out_rpm);
 }
 
 fn torqueMicroNm(power_w: u128, rpm: u128) u128 {
     // T = P * 60 / (2*pi*N) N*m, returned in micro-N*m.
-    return power_w * 60 * 1_000_000_000_000 / (2 * PI_SCALED * rpm);
+    return saturatingRatioU128(@as(u512, power_w) * 60 * 1_000_000_000_000, @as(u512, 2) * PI_SCALED * rpm);
 }
 
 fn powerFromTorqueW(torque_micro_nm: u128, rpm: u128) u128 {
     // Inverse of torqueMicroNm: P = T * 2*pi*N / 60.
-    return torque_micro_nm * 2 * PI_SCALED * rpm / (60 * 1_000_000_000_000);
+    return saturatingRatioU128(@as(u512, torque_micro_nm) * 2 * PI_SCALED * rpm, 60 * 1_000_000_000_000);
 }
 
 fn tipSpeedMmPerS(diameter_mm: u128, rpm: u128) u128 {
     // v = pi*D*N/60, returned in mm/s.
-    return PI_SCALED * diameter_mm * rpm / (60 * 1_000_000);
+    return saturatingRatioU128(@as(u512, PI_SCALED) * diameter_mm * rpm, 60 * 1_000_000);
 }
 
 fn thinRingStressMPa(rho_kg_m3: u128, tip_mm_s: u128) u128 {
     // Upper-bound screen: sigma = rho*v^2 (thin rotating ring), in MPa.
-    return rho_kg_m3 * tip_mm_s * tip_mm_s / 1_000_000_000_000;
+    return saturatingRatioU128(@as(u512, rho_kg_m3) * tip_mm_s * tip_mm_s, 1_000_000_000_000);
 }
 
 fn solidDiscCenterStressMPa(rho_kg_m3: u128, tip_mm_s: u128) u128 {
     // Lower-bound screen: solid-disc center stress (3+nu)/8 * rho*v^2
     // with nu = 0.3 -> factor 33/80, in MPa.
-    return thinRingStressMPa(rho_kg_m3, tip_mm_s) * 33 / 80;
+    return saturatingRatioU128(@as(u512, thinRingStressMPa(rho_kg_m3, tip_mm_s)) * 33, 80);
 }
 
 fn shaftToBusW(shaft_w: u128, trans_eta_milli: u128, gen_eta_milli: u128) u128 {
-    return shaft_w * trans_eta_milli * gen_eta_milli / 1_000_000;
+    return saturatingRatioU128(@as(u512, shaft_w) * trans_eta_milli * gen_eta_milli, 1_000_000);
 }
 
 fn orcBranchShaftW(heat_w: u128, orc_share_percent: u128, orc_eff_percent: u128) u128 {
     // Mirrors grossOrcPowerW in spec007_expanded_calculations.zig; kept local
     // so the verified 254 W burst-shaft anchor is derived, not copied.
-    return heat_w * orc_share_percent * orc_eff_percent / 10_000;
+    return saturatingRatioU128(@as(u512, heat_w) * orc_share_percent * orc_eff_percent, 10_000);
 }
 
 fn drivetrainLossW(shaft_w: u128, trans_eta_milli: u128) u128 {
-    return shaft_w * (1_000 - trans_eta_milli) / 1_000;
+    if (trans_eta_milli >= 1_000) return 0;
+    return saturatingRatioU128(@as(u512, shaft_w) * (1_000 - trans_eta_milli), 1_000);
 }
 
 fn tegEffTenthsAtDeltaT(rated_tenths: u128, delta_t_k: u128, rated_delta_t_k: u128) u128 {
     // Mirrors spec007_expanded_calculations.zig tegEfficiencyTenthsAtDeltaT.
-    return rated_tenths * delta_t_k / rated_delta_t_k;
+    if (rated_delta_t_k == 0) return 0;
+    return saturatingRatioU128(@as(u512, rated_tenths) * delta_t_k, rated_delta_t_k);
 }
 
 fn requiredRadiatorAreaCm2(heat_w: u128, flux_w_per_m2: u128) u128 {
-    return heat_w * 10_000 / flux_w_per_m2;
+    return saturatingRatioU128(@as(u512, heat_w) * 10_000, flux_w_per_m2);
 }
 
 fn feedstockCostMicrodollarsPerKwh(charge_g: u128, price_microdollars_per_kg: u128, out_wh: u128) u128 {
     // Mirrors the expanded harness chargeElectricityCostMicrodollars.
-    return charge_g * price_microdollars_per_kg / 1_000 * 1_000 / out_wh;
+    const charge_cost = @as(u512, charge_g) * price_microdollars_per_kg / 1_000;
+    return saturatingRatioU128(charge_cost * 1_000, out_wh);
 }
 
 // --- convo3 dual-path layer ----------------------------------------------------
@@ -143,15 +155,15 @@ const HsGen = struct {
 };
 
 fn orcBranchShaftWMilli(heat_w: u128, orc_share_milli: u128, orc_eff_milli: u128) u128 {
-    return heat_w * orc_share_milli * orc_eff_milli / 1_000_000;
+    return saturatingRatioU128(@as(u512, heat_w) * orc_share_milli * orc_eff_milli, 1_000_000);
 }
 
 fn overallOrcMilli(cycle_isen_milli: u128, expander_milli: u128) u128 {
-    return cycle_isen_milli * expander_milli / 1_000;
+    return saturatingRatioU128(@as(u512, cycle_isen_milli) * expander_milli, 1_000);
 }
 
 fn costMicrodollarsPerW(bom_dollars: u128, bus_w: u128) u128 {
-    return bom_dollars * 1_000_000 / bus_w;
+    return saturatingRatioU128(@as(u512, bom_dollars) * 1_000_000, bus_w);
 }
 
 // --- Ratio window ------------------------------------------------------------
@@ -410,6 +422,23 @@ test "drivetrain screening functions are monotonic" {
     try std.testing.expect(torqueMicroNm(254, 4_000) > torqueMicroNm(254, 20_000));
 }
 
+test "drivetrain screening boundaries saturate instead of trapping" {
+    const max = std.math.maxInt(u128);
+    try std.testing.expectEqual(max, ratioMilli(1, 0));
+    try std.testing.expectEqual(max, torqueMicroNm(1, 0));
+    try std.testing.expectEqual(max, powerFromTorqueW(max, max));
+    try std.testing.expectEqual(max, tipSpeedMmPerS(max, max));
+    try std.testing.expectEqual(max, thinRingStressMPa(max, max));
+    try std.testing.expectEqual(max, shaftToBusW(max, max, max));
+    try std.testing.expectEqual(@as(u128, 0), drivetrainLossW(1, 1_000));
+    try std.testing.expectEqual(@as(u128, 0), drivetrainLossW(1, 1_001));
+    try std.testing.expectEqual(@as(u128, 0), tegEffTenthsAtDeltaT(50, 30, 0));
+    try std.testing.expectEqual(max, requiredRadiatorAreaCm2(1, 0));
+    try std.testing.expectEqual(max, feedstockCostMicrodollarsPerKwh(1, 1, 0));
+    try std.testing.expectEqual(max, costMicrodollarsPerW(1, 0));
+    try std.testing.expectEqual(@as(u128, 1_000), meshChainMilli(1_500, 3));
+}
+
 // --- convo3 dual-path powertrain -------------------------------------------------
 // Path C (Tesla + transmission) is superseded above; every test below exists
 // because the transmission was a marriage of two mismatched endpoints, not a
@@ -531,9 +560,10 @@ test "shadow: scroll band and per-charge fractions carry exact decimals" {
 // of efficient stages still bleeds the bus.
 fn meshChainMilli(eta_milli: u128, meshes: u8) u128 {
     // Returns end-to-end eta in per-mille: eta^n via integer compounding.
+    const stage = @min(eta_milli, 1_000);
     var eta: u128 = 1_000;
     var i: u8 = 0;
-    while (i < meshes) : (i += 1) eta = eta * eta_milli / 1_000;
+    while (i < meshes) : (i += 1) eta = eta * stage / 1_000;
     return eta;
 }
 
