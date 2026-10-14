@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56130,
+  "lesson_count": 56131,
   "lessons": [
     {
       "access": "public",
@@ -7680,7 +7680,7 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55582
+      "harvested": 55583
     },
     "topics": {
       "orientation": 5333,
@@ -7693,22 +7693,22 @@
       "campaign": 861,
       "reference": 10816,
       "uiux": 24317,
-      "science": 1501,
+      "science": 1502,
       "hardware": 598,
       "ministry": 69,
       "lore": 86
     },
     "languages": {
-      "en": 55677,
+      "en": 55678,
       "zh-Hant": 983
     },
     "access": {
-      "public": 56130
+      "public": 56131
     },
     "provenance": {
       "curated": 548,
       "upstream": 50865,
-      "first_party": 4717
+      "first_party": 4718
     }
   },
   "harvest_sources": [
@@ -7718,7 +7718,7 @@
       "mode": "local",
       "pin": null,
       "docs": 276,
-      "lessons": 2032
+      "lessons": 2033
     },
     {
       "root": "space-agent",
@@ -8529,7 +8529,7 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55582,
+  "harvested_count": 55583,
   "courses": [
     {
       "id": "ai-literacy",
@@ -8613,7 +8613,7 @@
     },
     {
       "id": "science-lattice",
-      "lesson_count": 1501,
+      "lesson_count": 1502,
       "file": "assets/academy/science-lattice.json",
       "topics": [
         "science"

@@ -173,6 +173,14 @@ const FULL_RETROGRADE = new Map([
     decision: "verified-field-toys-baseline",
     archive: "spec007-q-toys-baseline-20261014",
   }],
+  ["src/fixed_point_q128.zig", {
+    decision: "canonical-ratio-and-range-boundaries",
+    archive: "spec007-q128-engine-domain-20261014",
+  }],
+  ["tools/layer-map.mjs", {
+    decision: "generated-evidence-boundary",
+    archive: "spec007-layer-map-generated-boundary-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

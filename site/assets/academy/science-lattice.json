@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "science-lattice",
-  "lesson_count": 1501,
+  "lesson_count": 1502,
   "lessons": [
     {
       "access": "public",
@@ -17716,6 +17716,21 @@
       "provenance": "first_party",
       "source": "repo:vphone-cli:research/0_binary_patch_comparison.md",
       "title": "Installed Components",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c9348ad636003491",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The fixed-point multiply in src/fixedpoint.zig uses round-to-nearest-even (RNE) with exact 512-bit intermediate products, ported from the Q128.128 (FANO-1) engine. Error bound: |xy - fl(xy)| <= 2^(-129) (half ulp). The fromRatio constructor uses round-half-away-from-zero, matching the Q128.128 q128FromRatio semantics. Additional functions ported from Q128.128: sqrt (Newton's method), cmp, eq, from",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:archives/bidirectional-integration-fano1-20260911/AGENTS.md",
+      "title": "Precision note",
       "topic": "science"
     },
     {

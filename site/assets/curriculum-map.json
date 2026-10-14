@@ -1,9 +1,9 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 56130,
+  "lesson_count": 56131,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 55582,
+  "harvested_lessons": 55583,
   "courses": [
     {
       "id": "ai-literacy",
@@ -215,7 +215,7 @@
     },
     {
       "id": "science-lattice",
-      "lesson_count": 1501,
+      "lesson_count": 1502,
       "topics": [
         "science"
       ],

@@ -55,9 +55,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tbody>
 <tr>
 <td><code>fixed_point_q128.zig</code></td>
-<td>Q128.128 engine: i256 raw, i512 intermediates, RNE mul, ratio/div/pow/abs/cmp. The quartermaster's arithmetic, certified to half an ulp.</td>
+<td>Canonical Q128.128 engine (symlinked to the parent proof tree): i256 raw, i512 intermediates, RNE mul, ratio/div/pow/abs/cmp. Ratio construction now uses exact <code>2*|remainder| &gt;= |denominator|</code> nearest-half rounding; div/ratio/pow reject out-of-domain overflow instead of truncating or negating <code>minInt</code>.</td>
 <td>37 tests (pow, distributivity, bounds)</td>
-<td>— complete; now gate-run by publish-check (was silently skipped by the <code>*q128*</code> glob)</td>
+<td>canonical engine repair; boundary-domain coverage added inside existing suites</td>
 </tr>
 <tr>
 <td><code>spec007_q128.zig</code></td>
@@ -919,7 +919,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>layer-map.mjs</code></td>
-<td>Per-document classification of the drawer corpus under the L0–L7Q ladder — emits the layer census the doc projections consume.</td>
+<td>Per-document classification of the drawer corpus under the L0–L7Q ladder — emits the layer census the doc projections consume while excluding generated audit keys from corpus input.</td>
 <td><code>--emit</code> → layer-census.json</td>
 <td>—</td>
 </tr>

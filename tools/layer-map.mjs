@@ -99,7 +99,15 @@ if (unclassified.length) {
 }
 
 /* generated audit artifacts are evidence, not corpus */
-const GENERATED = new Set(["LAYER-MAP.json", "AdmPaul/VISION-AUDIT.json"]);
+const GENERATED = new Set([
+  "LAYER-MAP.json",
+  "AdmPaul/VISION-AUDIT.json",
+  "AdmPaul/GOV-KEY.json",
+  "AdmPaul/AGENCY-KEY.json",
+  "AdmPaul/COMMAND-KEY.json",
+  "AdmPaul/ADMIRALTY-KEY.json",
+  "AdmPaul/ADMIRALTY-KEY.md",
+]);
 const entries = files
   .filter(f => !GENERATED.has(f))
   .map(f => ({ file: f, layer: classify(f), bytes: fs.statSync(path.join(DRAWER, f)).size }));

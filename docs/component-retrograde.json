@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 39
+    "completed_full_retrograde": 41
   },
   "components": [
     {
@@ -9984,9 +9984,9 @@
       "workstream": "q128-arithmetic",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "fc30769d6441537e8e14da005c5095c40a776831dd1c1949afdb08c3a4599c98",
-        "bytes": 21605,
-        "lines": 595,
+        "sha256": "5cfec71914a672c1eed28ad017869143c59118083514929909d723c2b79265bf",
+        "bytes": 22673,
+        "lines": 606,
         "imports": [
           "std"
         ],
@@ -10032,9 +10032,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-q128-engine-domain-20261014",
+        "decision": "canonical-ratio-and-range-boundaries"
       }
     },
     {
@@ -12069,9 +12069,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "5223591a05cabbe63373660f16bd7a44db9c7ae5751abf7a48a2a8b5bed80bb7",
-        "bytes": 16313,
-        "lines": 397,
+        "sha256": "1bc20d4c0a5bdb5e6fa3c16281774b4b8ade75131792fc32f22b811b04687313",
+        "bytes": 16599,
+        "lines": 405,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -12865,15 +12865,16 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "adf9eea79e2e78917ee06096f8af826c06e06707d8541a5906f1c5b39fdb5bc2",
-        "bytes": 6849,
-        "lines": 151,
+        "sha256": "aeca384ebbed10d1ec1f48a056f56df2330250f07060b796223d2193701bcb98",
+        "bytes": 7003,
+        "lines": 159,
         "imports": [
           "node:fs",
           "node:path",
           "node:url"
         ],
         "referenced_by": [
+          "tools/component-retrograde.mjs",
           "tools/vision-audit.mjs"
         ],
         "todo_markers": 0,
@@ -12898,9 +12899,9 @@
         "measured": false,
         "measurements": [],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-layer-map-generated-boundary-20261014",
+        "decision": "generated-evidence-boundary"
       }
     },
     {

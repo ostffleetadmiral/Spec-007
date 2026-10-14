@@ -2,7 +2,7 @@
   "schema": "academy-pedagogy-v1",
   "scope": "deterministic-content-signals",
   "courses_graded": 14,
-  "lessons_graded": 55582,
+  "lessons_graded": 55583,
   "grades": {
     "STRONG": 0,
     "FAIR": 0,
@@ -399,11 +399,11 @@
           "band": "green"
         },
         "neardup": {
-          "v": 0.4012,
+          "v": 0.4013,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3365,
+          "v": 0.3364,
           "band": "red"
         },
         "src_conc": {
@@ -415,7 +415,7 @@
           "band": "green"
         }
       },
-      "neardup_clusters": 1355,
+      "neardup_clusters": 1356,
       "neardup_biggest": 577,
       "top_source": [
         "three-ws",
@@ -424,31 +424,31 @@
     },
     {
       "course": "science-lattice",
-      "lessons": 1501,
+      "lessons": 1502,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.0873,
+          "v": 0.0872,
           "band": "green"
         },
         "capped": {
-          "v": 0.2645,
+          "v": 0.265,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.1812,
+          "v": 0.1811,
           "band": "green"
         },
         "neardup": {
-          "v": 0.3391,
+          "v": 0.3395,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.1406,
+          "v": 0.1405,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.5476,
+          "v": 0.5473,
           "band": "green"
         },
         "ids": {

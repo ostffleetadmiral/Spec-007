@@ -71082,7 +71082,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 契約 | 驗證 | 擴充(本次) | |---|---|---|---| | fixedpointq128.zig | Q128.128 引擎:i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。軍需官的算術,認證至半個 ulp。 | 37 項測試 | — 已完備;現由 publish-check 明確執行(先前被 q128 glob 靜默跳過) | | spec007q128.zig | 精簡 Q 配件,服務於影子驗證測試。ratio 建構現採精確 2remainder >= |den| 最近整數規則,保留負分母語義,且 withinHalfUlp 驗證帶號分母。 | 直接 ratio/sign 邊界測試 + 經由匯入者驗證 | 新增 sub/neg/abs/cmp 鏡像運算 | | spec007calculations.zig |",
+      "outcome": "| 元件 | 契約 | 驗證 | 擴充(本次) | |---|---|---|---| | fixedpointq128.zig | 正典 Q128.128 引擎(符號連結至母證明樹):i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。ratio 建構現採精確 2|remainder| >= |denominator| 最近半值捨入;div/ratio/pow 於越界定義域回傳錯誤,不再截斷或對 minInt 取負。 | 37 項測試 | 正典引擎修復;於既有套件新增邊界定義域覆蓋 | | spec007q128.zig | 精簡 Q 配件,服務於影子驗證測試。ratio 建構現採精確 2remainder >= |den| 最近整數規則,保留負分母語義,且 withinHalfUlp 驗證帶號分母。 | 直接 ratio/sign 邊界測試 + ",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "整數層(src/)",
@@ -75222,7 +75222,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Component | Contract | Verification | Expansion (this pass) | |---|---|---|---| | fixedpointq128.zig | Q128.128 engine: i256 raw, i512 intermediates, RNE mul, ratio/div/pow/abs/cmp. The quartermaster's arithmetic, certified to half an ulp. | 37 tests (pow, distributivity, bounds) | — complete; now gate-run by publish-check (was silently skipped by the q128 glob) | | spec007q128.zig | Trimmed Q g",
+      "outcome": "| Component | Contract | Verification | Expansion (this pass) | |---|---|---|---| | fixedpointq128.zig | Canonical Q128.128 engine (symlinked to the parent proof tree): i256 raw, i512 intermediates, RNE mul, ratio/div/pow/abs/cmp. Ratio construction now uses exact 2|remainder| >= |denominator| nearest-half rounding; div/ratio/pow reject out-of-domain overflow instead of truncating or negating minI",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-component-map.en.md",
       "title": "The integer layer (src/)",

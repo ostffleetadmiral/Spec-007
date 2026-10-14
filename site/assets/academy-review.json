@@ -2,7 +2,7 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55582,
+  "lessons_reviewed": 55583,
   "zh_lessons": 453,
   "defects": [],
   "courses": [
@@ -208,20 +208,20 @@
     },
     {
       "course": "science-lattice",
-      "lessons": 1501,
+      "lessons": 1502,
       "zh_lessons": 31,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 23,
       "top_sources": [
         "vphone-cli:822",
-        "e-mc-2:439",
+        "e-mc-2:440",
         "three-ws:134",
         "spec-007:53",
         "fano-1:48"
       ],
       "top_topics": [
-        "science:1501"
+        "science:1502"
       ],
       "defects": 0,
       "verdict": "HELD"

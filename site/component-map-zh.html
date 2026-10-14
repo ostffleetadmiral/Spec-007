@@ -54,9 +54,9 @@
 <tbody>
 <tr>
 <td><code>fixed_point_q128.zig</code></td>
-<td>Q128.128 引擎:i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。軍需官的算術,認證至半個 ulp。</td>
+<td>正典 Q128.128 引擎(符號連結至母證明樹):i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。ratio 建構現採精確 <code>2*|remainder| &gt;= |denominator|</code> 最近半值捨入;div/ratio/pow 於越界定義域回傳錯誤,不再截斷或對 <code>minInt</code> 取負。</td>
 <td>37 項測試</td>
-<td>— 已完備;現由 publish-check 明確執行(先前被 <code>*q128*</code> glob 靜默跳過)</td>
+<td>正典引擎修復;於既有套件新增邊界定義域覆蓋</td>
 </tr>
 <tr>
 <td><code>spec007_q128.zig</code></td>
@@ -864,7 +864,7 @@
 </tr>
 <tr>
 <td><code>layer-map.mjs</code></td>
-<td>抽屜文集逐文件之 L0–L7Q 分層 — 發射文件投影所消費之層普查。</td>
+<td>抽屜文集逐文件之 L0–L7Q 分層 — 發射文件投影所消費之層普查,並將生成稽核金鑰排除於文集輸入之外。</td>
 <td><code>--emit</code> → layer-census.json</td>
 <td>—</td>
 </tr>

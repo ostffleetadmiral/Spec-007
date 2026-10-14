@@ -8,7 +8,7 @@
 
 | 元件 | 契約 | 驗證 | 擴充(本次) |
 |---|---|---|---|
-| `fixed_point_q128.zig` | Q128.128 引擎:i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。軍需官的算術,認證至半個 ulp。 | 37 項測試 | — 已完備;現由 publish-check 明確執行(先前被 `*q128*` glob 靜默跳過) |
+| `fixed_point_q128.zig` | 正典 Q128.128 引擎(符號連結至母證明樹):i256 原值、i512 中間值、RNE 乘法、ratio/div/pow/abs/cmp。ratio 建構現採精確 `2*|remainder| >= |denominator|` 最近半值捨入;div/ratio/pow 於越界定義域回傳錯誤,不再截斷或對 `minInt` 取負。 | 37 項測試 | 正典引擎修復;於既有套件新增邊界定義域覆蓋 |
 | `spec007_q128.zig` | 精簡 Q 配件,服務於影子驗證測試。ratio 建構現採精確 `2*remainder >= |den|` 最近整數規則,保留負分母語義,且 `withinHalfUlp` 驗證帶號分母。 | 直接 ratio/sign 邊界測試 + 經由匯入者驗證 | 新增 `sub`/`neg`/`abs`/`cmp` 鏡像運算 |
 | `spec007_calculations.zig` | 基線化學計量:物料平衡、drip→gas、機架擴展、包絡健全性。僅守恆與縮放 — 非配方。 | 8 測試 + 影子 | 耗盡-帕雷托測試:`duration × rate + remainder = total gas` |
 | `spec007_verified_calculations.zig` | 已驗證主張層:治理所有公開數字的修正基線。 | 15 測試 + 影子 | 單發彈匣測試:168.6 mL 水 = 化學計量上恰好一次裝藥 |
@@ -159,7 +159,7 @@
 | `agent-capacity-sweep.mjs` | k3 trunk 之真實量測代理容量 — 容量由框架量測而非檔案宣稱。 | `--emit` → out/agent-capacity.json | — |
 | `command-map.mjs` | 指揮結構帳本 — 軍官/權威鏈渲染為可驗證之圖。 | `--emit` → command-manifest.json | — |
 | `persona-map.mjs` | 選角室帳本,三層矩陣 — 角色指派繫結至真實元件。 | `--emit` → persona-manifest.json | — |
-| `layer-map.mjs` | 抽屜文集逐文件之 L0–L7Q 分層 — 發射文件投影所消費之層普查。 | `--emit` → layer-census.json | — |
+| `layer-map.mjs` | 抽屜文集逐文件之 L0–L7Q 分層 — 發射文件投影所消費之層普查,並將生成稽核金鑰排除於文集輸入之外。 | `--emit` → layer-census.json | — |
 | `literal-return-scan.mjs` | 構造特徵偵測器 — 掃描貌似計算實則回傳硬編碼字面量之函式(`hydrogenLineLatticeCm` 模式);實為常數之「主張」判定失敗。 | `--verify` | — |
 | `vision-audit.mjs` | 可執行願景實現帳本 — 藍圖承諾繫結至已交付證據,願景列評級而非敘述。 | `--emit`/`--verify` → vision-ledger.json | — |
 | `directive.mjs` | Sheraton 指令執行,真實 — 指令通道於與 fabric bridge 同一稽核鏈紀律下繫結至閘控執行。 | 閘控調用 | — |

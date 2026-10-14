@@ -9,7 +9,7 @@ bottom; expansions since the map was drawn are noted per row.
 
 | Component | Contract | Verification | Expansion (this pass) |
 |---|---|---|---|
-| `fixed_point_q128.zig` | Q128.128 engine: i256 raw, i512 intermediates, RNE mul, ratio/div/pow/abs/cmp. The quartermaster's arithmetic, certified to half an ulp. | 37 tests (pow, distributivity, bounds) | — complete; now gate-run by publish-check (was silently skipped by the `*q128*` glob) |
+| `fixed_point_q128.zig` | Canonical Q128.128 engine (symlinked to the parent proof tree): i256 raw, i512 intermediates, RNE mul, ratio/div/pow/abs/cmp. Ratio construction now uses exact `2*|remainder| >= |denominator|` nearest-half rounding; div/ratio/pow reject out-of-domain overflow instead of truncating or negating `minInt`. | 37 tests (pow, distributivity, bounds) | canonical engine repair; boundary-domain coverage added inside existing suites |
 | `spec007_q128.zig` | Trimmed Q gadget serving the shadow-verification tests. Ratio construction now uses exact `2*remainder >= |den|` nearest rounding, preserves negative-denominator semantics, and `withinHalfUlp` validates signed denominators. | direct ratio/sign boundary tests + exercised via importers | `sub`/`neg`/`abs`/`cmp` mirror ops added — the gadget now answers comparisons too |
 | `spec007_calculations.zig` | Baseline stoichiometry: material balance, drip→gas, rack scaling, envelope sanity. Conservation and scaling only — not a recipe. | 8 tests + shadow | depletion-Pareto test: `duration × rate + remainder = total gas` across the sweep |
 | `spec007_verified_calculations.zig` | Verified-claims layer: corrected baselines governing every published number (residue, air, mass floor, burst ceilings). | 15 tests + shadow | single-shot magazine test: 168.6 mL water = exactly one charge by stoichiometry |
@@ -169,7 +169,7 @@ Each harness binds one `deps/qstar-*` vendored tree onto dossier artifacts; boun
 | `agent-capacity-sweep.mjs` | REAL measured agent capacity of the k3 trunk — capacity is measured by the harness, not asserted by the dossier. | `--emit` → out/agent-capacity.json | — |
 | `command-map.mjs` | The command-structure ledger — the officer/authority chain rendered as a verifiable map. | `--emit` → command-manifest.json | — |
 | `persona-map.mjs` | The casting-office ledger, three-tier matrix — persona assignments bound to real components. | `--emit` → persona-manifest.json | — |
-| `layer-map.mjs` | Per-document classification of the drawer corpus under the L0–L7Q ladder — emits the layer census the doc projections consume. | `--emit` → layer-census.json | — |
+| `layer-map.mjs` | Per-document classification of the drawer corpus under the L0–L7Q ladder — emits the layer census the doc projections consume while excluding generated audit keys from corpus input. | `--emit` → layer-census.json | — |
 | `literal-return-scan.mjs` | The construction-signature detector — scans for computed-looking functions returning hardcoded literals (the `hydrogenLineLatticeCm` pattern); a claim that is secretly a constant fails. | `--verify` | — |
 | `vision-audit.mjs` | The executable vision-realization ledger — blueprint promises bound to shipped evidence, vision rows graded not narrated. | `--emit`/`--verify` → vision-ledger.json | — |
 | `directive.mjs` | Sheraton's command execution, for real — the directive channel bound to gated execution under the same audit-chain discipline as the fabric bridge. | gated invocations | — |

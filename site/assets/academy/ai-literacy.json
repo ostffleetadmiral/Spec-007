@@ -94392,7 +94392,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "The fixed-point multiply in src/fixedpoint.zig uses round-to-nearest-even (RNE) with exact 512-bit intermediate products, ported from the Q128.128 (FANO-1) engine. Error bound: |xy - fl(xy)| <= 2^(-129) (half ulp). The fromRatio constructor uses round-half-away-from-zero, matching the Q128.128 q128FromRatio semantics. Additional functions ported from Q128.128: sqrt (Newton's method), cmp, eq, from",
+      "outcome": "The fixed-point multiply in src/fixedpoint.zig uses round-to-nearest-even (RNE) with exact 512-bit intermediate products, ported from the Q128.128 (FANO-1) engine. Error bound: |xy - fl(xy)| = |denominator| nearest-half comparison before applying the sign, matching the Q128.128 q128FromRatio semantics; div, fromRatio, and pow return typed errors at zero-division, raw-range, and exponent-overflow b",
       "provenance": "first_party",
       "source": "repo:e-mc-2:AGENTS.md",
       "title": "Precision note",
