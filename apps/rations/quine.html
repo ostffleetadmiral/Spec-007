@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss: https:; frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<title>Rations — Autonomous Air-Gapped Web</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --fg: #c9d1d9;
+    --accent: #58a6ff;
+    --border: #30363d;
+    --panel: #161b22;
+    --success: #3fb950;
+    --error: #f85149;
+    --warn: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  #header {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  #header h1 { font-size: 16px; color: var(--accent); }
+  #status {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    background: var(--border);
+  }
+  #status.ready { color: var(--success); }
+  #status.error { color: var(--error); }
+  #status.loading { color: var(--warn); }
+  #main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  #sidebar {
+    width: 240px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    padding: 8px;
+    overflow-y: auto;
+  }
+  #sidebar h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  #sidebar nav { display: flex; flex-direction: column; gap: 2px; margin-bottom: 12px; }
+  #sidebar nav button {
+    background: none;
+    border: none;
+    color: var(--fg);
+    padding: 6px 8px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  #sidebar nav button:hover { background: var(--border); }
+  #sidebar nav button.active { background: var(--border); color: var(--accent); }
+  #content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .card h3 { font-size: 14px; color: var(--accent); margin-bottom: 8px; }
+  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  input[type="text"], input[type="password"], textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 13px;
+    flex: 1;
+  }
+  textarea { min-height: 80px; resize: vertical; }
+  .cm-editor { height: 420px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); }
+  .cm-scroller { overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+  #quine-footer { text-align: center; padding: 14px 0 6px; font-size: 12px; color: #8b949e; }
+  #quine-commit { color: var(--accent); font-family: ui-monospace, monospace; }
+  button {
+    background: var(--border);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  pre {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    overflow-x: auto;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .hex { font-family: monospace; font-size: 11px; color: var(--success); }
+  .label { font-size: 12px; color: #8b949e; min-width: 80px; }
+  #agent-log {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    height: 300px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 12px;
+  }
+  .log-entry { margin-bottom: 4px; }
+  .log-entry .ts { color: #8b949e; }
+  .log-entry .level-info { color: var(--accent); }
+  .log-entry .level-warn { color: var(--warn); }
+  .log-entry .level-error { color: var(--error); }
+  .log-entry .level-success { color: var(--success); }
+
+  /* ── R18: grouped nav ── */
+  .nav-group-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #8b949e;
+    padding: 10px 8px 3px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .nav-group-label::before { content: "▾ "; color: var(--accent); }
+  .nav-group.collapsed .nav-group-label::before { content: "▸ "; }
+  .nav-group.collapsed nav { display: none; }
+
+  /* ── R18: dashboard ── */
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .dash-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .dash-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #8b949e; margin-bottom: 8px; }
+  .dash-big { font-size: 22px; color: var(--accent); font-weight: 600; }
+  .dash-sub { font-size: 11px; color: #8b949e; margin-top: 4px; word-break: break-all; }
+  .quick-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* ── R18: toasts ── */
+  #toast-container {
+    position: fixed; bottom: 16px; right: 16px; z-index: 999;
+    display: flex; flex-direction: column; gap: 8px; max-width: 320px;
+  }
+  .toast {
+    background: var(--panel); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px; padding: 10px 12px; font-size: 13px;
+    opacity: 0; transform: translateX(20px);
+    transition: opacity .25s, transform .25s;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  }
+  .toast.show { opacity: 1; transform: translateX(0); }
+  .toast-success { border-left-color: var(--success); }
+  .toast-warn { border-left-color: var(--warn); }
+  .toast-error { border-left-color: var(--error); }
+
+  /* ── R17: phone / messenger ── */
+  .contact-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 13px;
+  }
+  .contact-row:hover { background: var(--border); }
+  .contact-name { font-weight: 600; }
+  .contact-status { color: #8b949e; font-size: 12px; margin-left: auto; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot.s0 { background: #8b949e; }
+  .dot.s1 { background: var(--success); }
+  .dot.s2 { background: var(--warn); }
+  #phone-messages {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    height: 260px; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .msg { max-width: 78%; padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+  .msg.inbound { background: var(--border); align-self: flex-start; border-bottom-left-radius: 2px; }
+  .msg.outbound { background: #1f3a5f; align-self: flex-end; border-bottom-right-radius: 2px; }
+  .msg-meta { font-size: 10px; color: #8b949e; margin-bottom: 3px; }
+  .seal { font-size: 9px; padding: 1px 5px; border-radius: 3px; background: var(--success); color: var(--bg); }
+  .seal.open { background: #8b949e; }
+  .rcpt { font-size: 10px; color: #8b949e; }
+  .rcpt.read { color: var(--success, #3fb950); }
+  .rcpt.pending { opacity: 0.6; }
+  .group-tag { font-size: 9px; padding: 1px 5px; border-radius: 3px; background: var(--accent, #58a6ff); color: var(--bg, #0d1117); }
+  .pick { font-size: 12px; color: var(--fg, #c9d1d9); display: inline-flex; align-items: center; gap: 4px; }
+  .incoming-call, .active-call {
+    display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+    border-radius: 6px; margin-bottom: 6px; font-size: 13px;
+  }
+  .incoming-call { background: #3d2c00; border: 1px solid var(--warn); }
+  .active-call { background: #0d2818; border: 1px solid var(--success); }
+  .empty-state { color: #8b949e; font-size: 12px; text-align: center; padding: 20px 8px; }
+  button.small { padding: 3px 8px; font-size: 12px; }
+  .badge { font-size: 9px; padding: 1px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: .05em; }
+  .badge.native { background: var(--success); color: var(--bg); }
+  .nav-badge { background: var(--warn, #d29922); color: var(--bg, #0d1117); border-radius: 8px;
+    font-size: 10px; font-weight: 700; padding: 0 5px; margin-left: 4px; line-height: 14px;
+    display: inline-block; min-width: 14px; text-align: center; }
+  .badge.sim { background: var(--warn); color: var(--bg); }
+  .badge.ext { background: #8b949e; color: var(--bg); }
+
+  /* ── R18: vault ── */
+  .vault-flow { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+  .vault-step { padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); font-size: 11px; color: #8b949e; }
+  .vault-step.done { border-color: var(--success); color: var(--success); }
+  .vault-step.active { border-color: var(--accent); color: var(--accent); }
+
+  /* ── R18: responsive ── */
+  @media (max-width: 760px) {
+    #main { flex-direction: column; }
+    #sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 4px; }
+    #sidebar nav { flex-direction: row; flex-wrap: wrap; }
+    #sidebar nav button { padding: 6px 10px; }
+    .nav-group { display: inline-block; }
+    .nav-group-label { display: none; }
+    .nav-group.collapsed nav { display: flex; }
+    #content { padding: 10px; }
+    .msg { max-width: 92%; }
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>Rations</h1>
+  <span id="status" class="loading">Loading WASM…</span>
+</div>
+
+<div id="main">
+  <div id="sidebar">
+    <h2>Modules</h2>
+    <div id="nav">
+      <div class="nav-group">
+        <div class="nav-group-label" onclick="toggleNavGroup(this)">Home</div>
+        <nav>
+          <button data-panel="dashboard" class="active">Dashboard</button>
+        </nav>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label" onclick="toggleNavGroup(this)">Communicate</div>
+        <nav>
+          <button data-panel="phone">Phone &amp; Messenger <span id="phone-badge" class="nav-badge" style="display:none"></span></button>
+          <button data-panel="p2p">P2P Network</button>
+        </nav>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label" onclick="toggleNavGroup(this)">Preserve</div>
+        <nav>
+          <button data-panel="vault">Collapse Vault</button>
+          <button data-panel="invite">Invite &amp; QR</button>
+          <button data-panel="storage">Storage</button>
+        </nav>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label" onclick="toggleNavGroup(this)">Tools</div>
+        <nav>
+          <button data-panel="crypto">Crypto</button>
+          <button data-panel="media">Media &amp; Polyglot</button>
+          <button data-panel="stega">Stega &amp; Video</button>
+          <button data-panel="apps">Apps</button>
+        </nav>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label" onclick="toggleNavGroup(this)">System</div>
+        <nav>
+          <button data-panel="agent">Agent</button>
+          <button data-panel="blockchain">Blockchain</button>
+          <button data-panel="device">Device</button>
+          <button data-panel="command">Command Center</button>
+          <button data-panel="settings">Settings</button>
+        </nav>
+      </div>
+    </div>
+    <h2>Identity</h2>
+    <div id="identity-info">
+      <p style="font-size:12px;color:#8b949e">No identity loaded.</p>
+    </div>
+  </div>
+
+  <div id="content">
+    <!-- Dashboard Panel (R18) -->
+    <div id="panel-dashboard" class="panel active">
+      <div class="dash-grid">
+        <div class="dash-card">
+          <h4>Identity</h4>
+          <div class="dash-big" id="dash-peer-id">…</div>
+          <div class="dash-sub">peer id</div>
+          <div class="dash-sub">phone key <span id="dash-phone-pk">…</span></div>
+        </div>
+        <div class="dash-card">
+          <h4>Connectivity</h4>
+          <div class="dash-big" id="dash-peers">0</div>
+          <div class="dash-sub">peers · <span id="dash-relayed">0 in / 0 fwd</span></div>
+          <div class="dash-sub" id="dash-relay">not connected</div>
+        </div>
+        <div class="dash-card">
+          <h4>Messages</h4>
+          <div class="dash-big" id="dash-inbox">0</div>
+          <div class="dash-sub">received · <span id="dash-calls">0</span> live calls</div>
+        </div>
+        <div class="dash-card">
+          <h4>Recovery Readiness</h4>
+          <div class="dash-big" id="dash-vault">…</div>
+          <div class="dash-sub">service worker: <span id="dash-sw">…</span></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h3>Community Video</h3>
+        <p class="dash-sub">Optional external YouTube player. Rations validates the video ID but does not download or preserve the stream.</p>
+        <div class="row">
+          <input id="dash-video-url" type="url" placeholder="https://www.youtube.com/watch?v=…" style="flex:2">
+          <button class="primary" onclick="loadDashboardVideo()">Play</button>
+          <button onclick="clearDashboardVideo()">Clear</button>
+        </div>
+        <p id="dash-video-status" class="dash-sub">No external video selected.</p>
+        <iframe id="dash-video-frame" title="Rations community video" style="display:none;width:100%;min-height:280px;border:0;border-radius:8px;background:#000" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h3>Quick Actions</h3>
+        <div class="quick-actions">
+          <button class="primary" onclick="document.querySelector('[data-panel=p2p]').click()">Connect to a peer</button>
+          <button onclick="document.querySelector('[data-panel=phone]').click()">Open messenger</button>
+          <button onclick="document.querySelector('[data-panel=vault]').click()">Collapse vault</button>
+          <button onclick="refreshDashboard()">Refresh</button>
+        </div>
+        <p class="dash-sub" style="margin-top:10px">Rations runs fully offline — connect to a relay to reach peers. Your peer id is your phone number; share it via QR or contact card.</p>
+        <div class="row"><span class="label">Peer id</span><code class="hex" id="dash-peer-id-full" style="font-size:10px">…</code></div>
+      </div>
+    </div>
+
+    <!-- Phone & Messenger Panel (R17) -->
+    <div id="panel-phone" class="panel">
+      <div class="card">
+        <h3>My Phone Identity <span class="badge native">native</span></h3>
+        <div id="phone-my-id"><p class="empty-state">Initializing…</p></div>
+        <div class="row">
+          <input type="text" id="phone-status-text" placeholder="Status message (e.g. reachable via relay)">
+          <button class="primary" onclick="PhoneUI.publishPresence()">Publish Presence</button>
+          <button onclick="PhoneUI.copyContactCard()">Share My Card</button>
+        </div>
+        <canvas id="phone-contact-qr" style="margin-top:6px"></canvas>
+        <p class="dash-sub" id="phone-caps"></p>
+      </div>
+      <div class="card">
+        <h3>Contacts</h3>
+        <div id="phone-contacts"><p class="empty-state">No contacts yet.</p></div>
+        <div class="row">
+          <input type="text" id="phone-contact-name" placeholder="Name" style="max-width:140px">
+          <input type="text" id="phone-contact-pid" placeholder="Peer id (64 hex) or contact card JSON">
+          <input type="text" id="phone-contact-ppk" placeholder="Phone key (64 hex, optional)">
+        </div>
+        <div class="row">
+          <button onclick="PhoneUI.addContact()">Add Contact</button>
+          <button onclick="PhoneUI.importContactCard()">Parse Card</button>
+          <button onclick="PhoneUI.scanContactQrFile()">Scan Card QR</button>
+          <button onclick="PhoneUI.scanContactQrCamera()">Camera</button>
+          <input type="file" id="phone-card-file" accept="image/*" style="display:none" onchange="PhoneUI.onCardFile(this)">
+        </div>
+        <video id="phone-cam-video" style="display:none;max-width:280px;border-radius:6px" autoplay playsinline muted></video>
+      </div>
+      <div class="card">
+        <h3>Groups</h3>
+        <div id="phone-groups"><p class="empty-state">No groups yet.</p></div>
+        <div class="row">
+          <input type="text" id="phone-group-name" placeholder="Group name" style="max-width:160px">
+          <div id="phone-group-members" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+          <button onclick="PhoneUI.createGroup()">Create Group</button>
+        </div>
+      </div>
+      <div id="phone-incoming"></div>
+      <div id="phone-active-call"></div>
+      <div class="dash-sub" id="phone-call-media" style="margin-bottom:6px"></div>
+      <audio id="phone-remote-audio" style="display:none"></audio>
+      <div class="card">
+        <h3>Chat</h3>
+        <div class="row">
+          <input type="text" id="phone-target" placeholder="Recipient peer id (click a contact or paste 64 hex)">
+        </div>
+        <div id="phone-messages"><p class="empty-state">No messages yet.</p></div>
+        <div class="row" style="margin-top:8px">
+          <input type="text" id="phone-msg-input" placeholder="Message…" onkeydown="if(event.key==='Enter')PhoneUI.sendText()">
+          <button class="primary" onclick="PhoneUI.sendText()">Send</button>
+          <button id="phone-voice-btn" onclick="PhoneUI.sendVoiceNote()">🎤 voice note</button>
+          <button onclick="PhoneUI.dial()">📞 call</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapse Vault Panel (R16/R18) -->
+    <div id="panel-vault" class="panel">
+      <div class="card">
+        <h3>Civilization Collapse Vault <span class="badge sim">simulated physical layer</span></h3>
+        <p style="color:#8b949e;font-size:12px;margin-bottom:8px">
+          Atomize this document (or any file) into coordinate-addressed QR portals, plan physical media,
+          simulate degradation, and restore bit-exact. Physical printing/scanning is simulated — real
+          capture uses the QR scanner in Invite &amp; QR.
+        </p>
+        <div class="vault-flow">
+          <span class="vault-step" id="vs-plan">1 plan</span>
+          <span class="vault-step" id="vs-atomize">2 atomize</span>
+          <span class="vault-step" id="vs-degrade">3 degrade</span>
+          <span class="vault-step" id="vs-restore">4 restore</span>
+          <span class="vault-step" id="vs-verify">5 verify</span>
+        </div>
+        <div class="row">
+          <button class="primary" onclick="vaultPlanSelf()">Plan collapse of this page</button>
+          <button onclick="vaultCollapseSelf()">Collapse → download portals</button>
+          <button onclick="vaultPdfSelf()">Collapse → QR-sheet PDF</button>
+        </div>
+        <div class="row">
+          <span class="label">Simulated loss</span>
+          <input type="text" id="vault-loss-pct" value="5" style="max-width:70px"> %
+          <span class="label">RS parity/block</span>
+          <input type="text" id="vault-parity" value="16" style="max-width:70px">
+          <button onclick="vaultSimulate()">Run full collapse→degrade→restore</button>
+        </div>
+        <p class="dash-sub">Parity is striped per 128-portal block (GF(256) shard limit): N parity/block tolerates ≈ N/128 ≈ <span id="vault-tol">12.5</span>% portal loss. Physical storage multiplies this by each medium's own ECC.</p>
+        <pre id="vault-output">Vault idle. Plan a collapse to see media requirements.</pre>
+      </div>
+      <div class="card">
+        <h3>Restore from portals</h3>
+        <div class="row">
+          <input type="file" id="vault-restore-file" multiple>
+          <button onclick="vaultRestoreFiles()">Restore</button>
+        </div>
+        <div class="row">
+          <input type="file" id="vault-scan-file" accept="image/*" multiple>
+          <input type="password" id="vault-scan-pass" placeholder="Passphrase (if encrypted)" autocomplete="off" style="max-width:200px">
+        </div>
+        <div class="row">
+          <button onclick="vaultScanImages()">Scan QR images</button>
+          <button onclick="vaultScanCamera()" id="vault-cam-btn">Scan with camera</button>
+          <button onclick="vaultScanFinish()" id="vault-cam-done" style="display:none">Finish &amp; restore</button>
+        </div>
+        <div id="vault-scan-status" style="font-size:12px;color:#8b949e"></div>
+        <video id="vault-cam-video" playsinline style="display:none;max-width:320px;border:1px solid #30363d;border-radius:8px"></video>
+        <pre id="vault-restore-out"></pre>
+      </div>
+      <div class="card">
+        <h3>Paper backup (qr-backup format)</h3>
+        <p class="dash-sub">Self-contained RS-sharded QR sheets for arbitrary files — scanned shards restore through the same scanner above (RB payloads are routed automatically).</p>
+        <div class="row">
+          <input type="file" id="paper-file">
+          <input type="password" id="paper-pass" placeholder="Passphrase (optional)" autocomplete="off">
+          <button onclick="paperBackupPdf()">Export PDF</button>
+        </div>
+        <pre id="paper-out"></pre>
+      </div>
+    </div>
+
+    <!-- Crypto Panel -->
+    <div id="panel-crypto" class="panel">
+      <div class="card">
+        <h3>SHA-256 Hash</h3>
+        <div class="row">
+          <input type="text" id="sha-input" placeholder="Enter text to hash…" value="Hello, Rations!">
+          <button class="primary" onclick="hashInput()">Hash</button>
+        </div>
+        <pre id="sha-output" class="hex"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Ed25519 Key Generation</h3>
+        <div class="row">
+          <button class="primary" onclick="generateKeypair()">Generate Keypair</button>
+        </div>
+        <div class="row">
+          <input type="password" id="id-pass" placeholder="Passphrase (optional — encrypts stored identity)">
+        </div>
+        <div class="row"><span class="label">Public:</span><pre id="ed-pk" class="hex"></pre></div>
+        <div class="row"><span class="label">Secret:</span><pre id="ed-sk" class="hex"></pre></div>
+        <p style="font-size:11px;color:#8b949e">With a passphrase set, the secret key is stored
+        AES-256-GCM encrypted (PBKDF2, 100k iters) instead of plaintext.</p>
+      </div>
+
+      <div class="card">
+        <h3>Sign / Verify</h3>
+        <div class="row">
+          <input type="text" id="sign-msg" placeholder="Message to sign…" value="Test message">
+          <button class="primary" onclick="signMessage()">Sign</button>
+        </div>
+        <div class="row"><span class="label">Signature:</span><pre id="sig-out" class="hex"></pre></div>
+        <div class="row">
+          <button onclick="verifyMessage()">Verify</button>
+          <span id="verify-result"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>AES-256-GCM Encrypt / Decrypt</h3>
+        <div class="row">
+          <input type="text" id="aes-input" placeholder="Plaintext…" value="Secret data">
+          <input type="password" id="aes-pass" placeholder="Password…" value="password123">
+          <button class="primary" onclick="aesEncrypt()">Encrypt</button>
+        </div>
+        <div class="row"><span class="label">Ciphertext:</span><pre id="aes-ct" class="hex"></pre></div>
+        <div class="row">
+          <button onclick="aesDecrypt()">Decrypt</button>
+          <span id="aes-dec"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Shamir Secret Sharing</h3>
+        <div class="row">
+          <input type="text" id="shamir-secret" placeholder="Secret…" value="my secret">
+          <span class="label">Threshold:</span>
+          <input type="text" id="shamir-threshold" value="3" style="width:40px">
+          <span class="label">Total:</span>
+          <input type="text" id="shamir-total" value="5" style="width:40px">
+          <button class="primary" onclick="shamirSplit()">Split</button>
+        </div>
+        <pre id="shamir-out"></pre>
+      </div>
+    </div>
+
+    <!-- Agent Panel -->
+    <div id="panel-agent" class="panel">
+      <div class="card">
+        <h3>LLM Agent</h3>
+        <div class="row">
+          <span class="label">Status:</span>
+          <span id="agent-status">Not loaded</span>
+        </div>
+        <div class="row">
+          <button class="primary" onclick="loadAgent()">Load Model</button>
+          <button onclick="clearAgentLog()">Clear Log</button>
+        </div>
+        <p style="font-size:12px;color:#8b949e;margin-top:8px">Configure model path in Settings. Use <code>src/models/download-model.sh</code> to download a local model.</p>
+      </div>
+      <div class="card">
+        <h3>Agent Console</h3>
+        <div id="agent-log"></div>
+        <div class="row" style="margin-top:8px">
+          <input type="text" id="agent-input" placeholder="Ask the agent…" onkeydown="if(event.key==='Enter')sendToAgent()">
+          <button class="primary" onclick="sendToAgent()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blockchain Panel -->
+    <div id="panel-blockchain" class="panel">
+      <div class="card">
+        <h3>Local Blockchain</h3>
+        <div class="row" style="gap:12px;flex-wrap:wrap">
+          <div style="min-width:120px">
+            <label style="color:#8b949e;font-size:12px">Chain Height</label>
+            <div id="bc-height" style="font-size:24px;color:var(--accent)">0</div>
+          </div>
+          <div style="min-width:120px">
+            <label style="color:#8b949e;font-size:12px">Pending TXs</label>
+            <div id="bc-pending" style="font-size:24px;color:var(--warn)">0</div>
+          </div>
+          <div style="min-width:120px">
+            <label style="color:#8b949e;font-size:12px">Chain Valid</label>
+            <div id="bc-valid" style="font-size:24px;color:var(--success)">—</div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <label style="color:#8b949e;font-size:12px">Tip Hash</label>
+          <div id="bc-tip-hash" style="font-family:monospace;font-size:11px;word-break:break-all;color:#8b949e">—</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Create Transaction</h3>
+        <div class="row">
+          <select id="bc-tx-action" style="flex:0 0 160px">
+            <option value="0">Transfer</option>
+            <option value="1">Moderate</option>
+            <option value="2">Curate</option>
+            <option value="3">Promote</option>
+            <option value="4">Demote</option>
+            <option value="5">Push CustomWare</option>
+            <option value="6">RAG Query</option>
+            <option value="7">RAG Response</option>
+          </select>
+          <input type="text" id="bc-tx-payload" placeholder="Payload (text)" style="flex:1">
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button class="primary" onclick="addTransaction()">Add Transaction</button>
+          <button onclick="mineBlock()">Mine Block</button>
+          <button onclick="verifyChain()">Verify Chain</button>
+          <button onclick="refreshChain()">Refresh</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>WebGPU Acceleration</h3>
+        <div class="row">
+          <div id="bc-webgpu-status" style="color:#8b949e">Checking...</div>
+          <button onclick="initWebGPU()">Init WebGPU</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2P Panel -->
+    <div id="panel-p2p" class="panel">
+      <div class="card">
+        <h3>P2P Network</h3>
+        <div class="row" style="gap:12px;flex-wrap:wrap">
+          <div style="min-width:120px">
+            <label style="color:#8b949e;font-size:12px">Connected Peers</label>
+            <div id="p2p-peer-count" style="font-size:24px;color:var(--accent)">0</div>
+          </div>
+          <div style="min-width:120px">
+            <label style="color:#8b949e;font-size:12px">Node Location</label>
+            <div id="p2p-location" style="font-family:monospace;font-size:12px;color:var(--accent)">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Connect to Peer</h3>
+        <p style="color:#8b949e;font-size:12px;margin-bottom:8px">
+          <b>How connecting works:</b> Rations is serverless — peers meet at a <i>relay</i>
+          (a WebSocket endpoint that only routes encrypted frames; run one with
+          <code>node src/relay/server.js</code> or use a peer's published port).
+          <b>Relay URL</b> is the relay's WebSocket address.
+          <b>Remote pubkey</b> is the peer's 64-character peer id — get it from their
+          Dashboard or their phone contact card / QR. Once connected, publish
+          presence in Phone &amp; Messenger to exchange phone keys.
+        </p>
+        <div class="row">
+          <input type="text" id="p2p-connect-url" placeholder="Relay URL, e.g. ws://localhost:8080/ws" style="flex:1">
+          <input type="text" id="p2p-connect-pk" placeholder="Remote peer id (hex, 64 chars)" style="flex:1">
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button class="primary" onclick="connectPeer()">Connect</button>
+          <button onclick="refreshPeers()">Refresh Peers</button>
+          <button onclick="p2pDiscover()">Discover peers via relay</button>
+        </div>
+        <div class="dash-sub" id="p2p-conn-state"></div>
+      </div>
+      <div class="card">
+        <h3>Gossip Broadcast</h3>
+        <div class="row">
+          <input type="text" id="p2p-gossip-msg" placeholder="Message to broadcast" style="flex:1">
+          <button class="primary" onclick="broadcastMessage()">Broadcast</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Peer List</h3>
+        <div id="p2p-peer-list" style="font-family:monospace;font-size:12px;color:#8b949e">No peers connected</div>
+      </div>
+    </div>
+
+    <!-- Invite & QR Panel -->
+    <div id="panel-invite" class="panel">
+      <div class="card">
+        <h3>QR Code Generator</h3>
+        <div class="row">
+          <input type="text" id="qr-input" placeholder="Text to encode…" value="Hello Rations" style="flex:1">
+          <select id="qr-ecc" style="width:80px">
+            <option value="0">L</option>
+            <option value="1" selected>M</option>
+            <option value="2">Q</option>
+            <option value="3">H</option>
+          </select>
+          <button class="primary" onclick="generateQR()">Generate</button>
+        </div>
+        <div style="margin-top:12px;text-align:center">
+          <canvas id="qr-canvas" style="border:1px solid #30363d;background:#fff"></canvas>
+        </div>
+        <div id="qr-info" style="margin-top:8px;color:#8b949e;font-size:12px"></div>
+      </div>
+
+      <div class="card">
+        <h3>URL Compression</h3>
+        <div class="row">
+          <input type="text" id="url-input" placeholder="https://example.com/path" value="https://example.com/test" style="flex:1">
+          <button class="primary" onclick="compressURL()">Compress</button>
+        </div>
+        <div class="row">
+          <span class="label">Compressed:</span>
+          <pre id="url-compressed" class="hex"></pre>
+        </div>
+        <div class="row">
+          <button onclick="decompressURL()">Decompress</button>
+          <span id="url-decompressed" style="font-size:12px;color:var(--success)"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Invite Token</h3>
+        <div class="row">
+          <input type="text" id="invite-endpoint" placeholder="ws://localhost:8090" value="ws://localhost:8090" style="flex:1">
+        </div>
+        <div class="row">
+          <select id="invite-role" style="width:120px">
+            <option value="0">Admin</option>
+            <option value="1">Moderator</option>
+            <option value="2" selected>User</option>
+          </select>
+          <input type="number" id="invite-expiry" placeholder="Expiry (epoch seconds)" value="9999999999" style="flex:1">
+        </div>
+        <div class="row">
+          <button class="primary" onclick="createInviteToken()">Create Token</button>
+          <button onclick="createInviteQR()">Create &amp; QR</button>
+        </div>
+        <div class="row">
+          <span class="label">Token (base64):</span>
+          <pre id="invite-token" class="hex"></pre>
+        </div>
+        <div class="row">
+          <button onclick="verifyInviteToken()">Verify Token</button>
+          <span id="invite-verify-result"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Shamir Key Distribution</h3>
+        <div class="row">
+          <input type="text" id="shamir-secret" placeholder="Secret to split…" value="my-secret-key" style="flex:1">
+        </div>
+        <div class="row">
+          <label style="color:#8b949e;font-size:12px">Threshold</label>
+          <input type="number" id="shamir-threshold" value="3" min="1" max="10" style="width:60px">
+          <label style="color:#8b949e;font-size:12px">Total</label>
+          <input type="number" id="shamir-total" value="5" min="1" max="10" style="width:60px">
+          <button class="primary" onclick="shamirSplit()">Split</button>
+        </div>
+        <div class="row">
+          <span class="label">Shards:</span>
+          <pre id="shamir-shards" class="hex" style="max-height:200px;overflow:auto"></pre>
+        </div>
+        <div class="row">
+          <button onclick="shamirReconstruct()">Reconstruct</button>
+          <span id="shamir-reconstructed" style="font-size:12px;color:var(--success)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Media & Polyglot Panel -->
+    <div id="panel-media" class="panel">
+      <div class="card">
+        <h3>Format Detection</h3>
+        <div class="row">
+          <input type="file" id="media-detect-file" accept="*/*" />
+          <button onclick="mediaDetectFormat()">Detect Format</button>
+        </div>
+        <p id="media-detect-result" style="font-size:13px;color:#8b949e">Upload a file to detect its format.</p>
+      </div>
+
+      <div class="card">
+        <h3>Image Conversion (PNG &harr; BMP)</h3>
+        <div class="row">
+          <input type="file" id="media-image-file" accept="image/png,image/bmp" />
+          <button onclick="mediaConvertImage('png_to_bmp')">PNG &rarr; BMP</button>
+          <button onclick="mediaConvertImage('bmp_to_png')">BMP &rarr; PNG</button>
+        </div>
+        <p id="media-image-result" style="font-size:13px;color:#8b949e">Convert between PNG and BMP formats.</p>
+        <canvas id="media-image-preview" style="max-width:400px;margin-top:8px;display:none"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>ZIP Archive</h3>
+        <div class="row">
+          <input type="text" id="zip-filename" placeholder="filename.txt" style="flex:1" />
+          <textarea id="zip-content" placeholder="File content..." style="flex:2;min-height:60px"></textarea>
+          <button onclick="mediaCreateZip()">Create ZIP</button>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input type="file" id="zip-list-file" accept=".zip" />
+          <button onclick="mediaListZip()">List ZIP Contents</button>
+        </div>
+        <pre id="zip-result" style="font-size:12px;color:#8b949e;max-height:200px;overflow:auto"></pre>
+      </div>
+
+      <div class="card">
+        <h3>MP4 Info</h3>
+        <div class="row">
+          <input type="file" id="mp4-file" accept="video/mp4" />
+          <button onclick="mediaMp4Info()">Get MP4 Info</button>
+        </div>
+        <pre id="mp4-result" style="font-size:12px;color:#8b949e;max-height:200px;overflow:auto"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Polyglot Generator</h3>
+        <p style="font-size:12px;color:#8b949e">Creates a file valid as both MP4 video and PNG image simultaneously.</p>
+        <div class="row">
+          <input type="file" id="polyglot-png" accept="image/png" />
+          <input type="file" id="polyglot-mp4" accept="video/mp4" />
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input type="text" id="polyglot-html" placeholder="Optional HTML content..." style="flex:1" />
+          <button onclick="mediaGeneratePolyglot()">Generate Polyglot</button>
+        </div>
+        <p id="polyglot-result" style="font-size:13px;color:#8b949e"></p>
+        <button id="polyglot-download" onclick="mediaDownloadPolyglot()" style="display:none">Download Polyglot File</button>
+      </div>
+
+      <div class="card">
+        <h3>Conversion Path Finder</h3>
+        <div class="row">
+          <input type="text" id="path-source" placeholder="Source format (e.g. PNG)" style="flex:1" />
+          <span>&rarr;</span>
+          <input type="text" id="path-target" placeholder="Target format (e.g. BMP)" style="flex:1" />
+          <button onclick="mediaFindPath()">Find Path</button>
+        </div>
+        <p id="path-result" style="font-size:13px;color:#8b949e"></p>
+      </div>
+    </div>
+
+    <!-- Apps Panel (R12 — zipapp packages + language runtimes) -->
+    <div id="panel-apps" class="panel">
+      <div class="card">
+        <h3>ZipApp Inspector</h3>
+        <p style="font-size:12px;color:#8b949e">
+          Executable-package formats — .pyz, .jar, .whl, .apk, .ipa, .war,
+          .nupkg, .crx, .xpi, .vsix, .love, .kmz, .epub, .docx, .mcaddon —
+          detected structurally via the central directory, not by extension.
+        </p>
+        <div class="row">
+          <input type="file" id="zipapp-file" accept="*/*" />
+          <button onclick="zipappInspect()">Inspect</button>
+        </div>
+        <pre id="zipapp-manifest" style="font-size:12px;color:#8b949e;max-height:220px;overflow:auto"></pre>
+        <pre id="zipapp-catalog" style="font-size:11px;color:#6e7681;max-height:160px;overflow:auto"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Run Package</h3>
+        <p id="zipapp-caps" style="font-size:12px;color:#8b949e">Detecting runtimes…</p>
+        <div class="row">
+          <button id="zipapp-run-btn" onclick="zipappRun()" disabled>Run</button>
+        </div>
+        <pre id="zipapp-output" style="font-size:12px;color:#c9d1d9;max-height:200px;overflow:auto;background:#0d1117;padding:8px;border-radius:6px"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Language Source</h3>
+        <p style="font-size:12px;color:#8b949e">
+          Source files are first-class formats — .py, .pyw, .lua, .js,
+          .ts, .sh, .rb, .rs, .zig, .java, .go and more. JS runs in a
+          Worker; Python/Lua runtimes lazy-load when reachable.
+        </p>
+        <textarea id="zipapp-src" placeholder="// js source — console.log('hi')" style="width:100%;min-height:80px"></textarea>
+        <div class="row" style="margin-top:8px">
+          <button onclick="zipappRunSource()">Run JS</button>
+          <button onclick="zipappPackPyz()">Pack as .pyz</button>
+        </div>
+        <p id="zipapp-src-result" style="font-size:13px;color:#8b949e"></p>
+      </div>
+    </div>
+
+    <!-- Device Panel (R13 vphone-cli port) -->
+    <div id="panel-device" class="panel">
+      <div class="card">
+        <h3>Virtual iPhone — vphone-control v1</h3>
+        <p style="font-size:12px;color:#8b949e">
+          Port of the vphone-cli wire protocol: vsock:1337 length-prefixed
+          JSON frames, command catalog, VM manifest authoring. The guest
+          channel is virtio-vsock — unreachable from a browser — so a live
+          session needs a host-side ws↔vsock gateway relaying identical
+          frames.
+        </p>
+        <div class="row">
+          <input type="text" id="vphone-gw" placeholder="ws://127.0.0.1:13370" style="flex:1" />
+          <button onclick="vphoneProbe()">Probe Gateway</button>
+        </div>
+        <p id="vphone-status" style="font-size:12px;color:#8b949e"></p>
+      </div>
+
+      <div class="card">
+        <h3>VM Manifest</h3>
+        <p style="font-size:12px;color:#8b949e">
+          Author a manifest the host tool consumes:
+          <code>vphone-cli boot --config config.plist</code>.
+        </p>
+        <div class="row">
+          <input type="number" id="vphone-cpus" placeholder="CPUs (8)" style="width:110px" />
+          <input type="number" id="vphone-mem" placeholder="RAM MiB (8192)" style="width:130px" />
+          <button onclick="vphoneManifest()">Generate</button>
+          <button onclick="vphonePlistDownload()">Download config.plist</button>
+        </div>
+        <pre id="vphone-manifest-out" style="font-size:11px;color:#8b949e;max-height:180px;overflow:auto"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Command Console</h3>
+        <p style="font-size:12px;color:#8b949e">
+          Frames are built in WASM — the exact vphone-control v1 wire
+          format. Without a gateway they render locally for inspection.
+        </p>
+        <div class="row">
+          <select id="vphone-cmd" style="flex:1"></select>
+          <button onclick="vphoneSend()">Send / Render</button>
+        </div>
+        <div class="row" style="margin-top:6px">
+          <input type="text" id="vphone-params" placeholder='{"path":"/var"}' style="flex:1" />
+        </div>
+        <pre id="vphone-cmd-out" style="font-size:11px;color:#8b949e;max-height:160px;overflow:auto"></pre>
+      </div>
+    </div>
+
+    <!-- Command Center Panel (R14 — project-nomad parity) -->
+    <div id="panel-command" class="panel">
+      <div class="card">
+        <h3>Service Catalog</h3>
+        <p style="font-size:12px;color:#8b949e">
+          project-nomad's Command Center orchestrates Docker services.
+          Rations is browser-first: <b>native</b> = implemented in WASM,
+          <b>substitute</b> = covered by a Rations subsystem,
+          <b>external</b> = requires a host container runtime — reported,
+          never faked.
+        </p>
+        <pre id="nomad-services" style="font-size:11px;color:#8b949e;max-height:240px;overflow:auto"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Offline Archive Inspector</h3>
+        <p style="font-size:12px;color:#8b949e">
+          ZIM (Kiwix) and PMTiles archives parse natively — the donor
+          shells out to kiwix-serve and the pmtiles CLI; Rations reads
+          the formats in WASM.
+        </p>
+        <div class="row">
+          <input type="file" id="nomad-file" accept=".zim,.pmtiles,*/*" />
+          <button onclick="nomadInspect()">Inspect</button>
+        </div>
+        <pre id="nomad-inventory" style="font-size:11px;color:#8b949e;max-height:200px;overflow:auto"></pre>
+        <div class="row" style="margin-top:6px">
+          <input type="text" id="nomad-url" placeholder='A/Main_Page  or  z/x/y' style="flex:1" />
+          <button onclick="nomadFetch()">Fetch</button>
+        </div>
+        <pre id="nomad-fetch-out" style="font-size:11px;color:#c9d1d9;max-height:160px;overflow:auto;background:#0d1117;padding:8px;border-radius:6px"></pre>
+      </div>
+
+      <div class="card">
+        <h3>Collections &amp; Remedies</h3>
+        <p style="font-size:12px;color:#8b949e">
+          Vendored collection manifests (Wikipedia tiers, Kiwix
+          categories, PMTiles regions) plus the home/natural remedy
+          corpus — usable fully offline.
+        </p>
+        <div class="row">
+          <input type="text" id="nomad-remedy-q" placeholder="condition or remedy…" style="flex:1" />
+          <button onclick="nomadRemedies()">Search</button>
+          <button onclick="nomadCollections()">List Collections</button>
+        </div>
+        <pre id="nomad-collections" style="font-size:11px;color:#8b949e;max-height:220px;overflow:auto"></pre>
+      </div>
+    </div>
+
+    <!-- Stega & Video Panel -->
+    <div id="panel-stega" class="panel">
+      <div class="card">
+        <h3>LSB Steganography — Embed</h3>
+        <p style="font-size:12px;color:#8b949e">Hide any file inside a PNG image using LSB steganography with compression and AES-256-GCM encryption.</p>
+        <div class="row">
+          <input type="file" id="stega-cover-image" accept="image/png" />
+          <input type="file" id="stega-payload-file" />
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input type="text" id="stega-password" placeholder="Encryption password..." style="flex:1" />
+          <button onclick="stegaEmbed()">Embed Data</button>
+        </div>
+        <p id="stega-embed-result" style="font-size:13px;color:#8b949e"></p>
+        <button id="stega-download" onclick="stegaDownload()" style="display:none">Download Stego Image</button>
+      </div>
+
+      <div class="card">
+        <h3>LSB Steganography — Extract</h3>
+        <p style="font-size:12px;color:#8b949e">Extract hidden data from a steganographic PNG image.</p>
+        <div class="row">
+          <input type="file" id="stega-extract-image" accept="image/png" />
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input type="text" id="stega-extract-password" placeholder="Decryption password..." style="flex:1" />
+          <button onclick="stegaExtract()">Extract Data</button>
+        </div>
+        <p id="stega-extract-result" style="font-size:13px;color:#8b949e"></p>
+        <button id="stega-extract-download" onclick="stegaExtractDownload()" style="display:none">Download Extracted File</button>
+      </div>
+
+      <div class="card">
+        <h3>Image Capacity Checker</h3>
+        <p style="font-size:12px;color:#8b949e">Check how much data an image can hold at different bit depths.</p>
+        <div class="row">
+          <input type="file" id="stega-capacity-image" accept="image/png" />
+          <button onclick="stegaCheckCapacity()">Check Capacity</button>
+        </div>
+        <div id="stega-capacity-result" style="font-size:13px;color:#8b949e;margin-top:8px"></div>
+      </div>
+
+      <div class="card">
+        <h3>Video Storage — Encode</h3>
+        <p style="font-size:12px;color:#8b949e">Encode any file as video. Uses WebCodecs for MP4 output when available, falls back to raw frame data.</p>
+        <div class="row">
+          <input type="file" id="video-encode-file" />
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input type="number" id="video-width" value="1920" placeholder="Width" style="width:80px" />
+          <span>×</span>
+          <input type="number" id="video-height" value="1080" placeholder="Height" style="width:80px" />
+          <label style="font-size:12px;color:#8b949e"><input type="checkbox" id="video-use-mp4" checked /> MP4 (WebCodecs)</label>
+          <button onclick="videoEncode()">Encode to Video</button>
+        </div>
+        <p id="video-encode-result" style="font-size:13px;color:#8b949e"></p>
+        <button id="video-encode-download" onclick="videoEncodeDownload()" style="display:none">Download Video</button>
+      </div>
+
+      <div class="card">
+        <h3>Video Storage — Decode</h3>
+        <p style="font-size:12px;color:#8b949e">Decode video data (MP4 or raw frames) back to the original file.</p>
+        <div class="row">
+          <input type="file" id="video-decode-file" />
+        </div>
+        <div class="row" style="margin-top:8px">
+          <span class="label" style="min-width:auto">Raw frames:</span>
+          <input type="number" id="video-decode-width" value="1920" placeholder="Width" style="width:80px" />
+          <span>×</span>
+          <input type="number" id="video-decode-height" value="1080" placeholder="Height" style="width:80px" />
+          <input type="number" id="video-decode-frames" value="1" placeholder="Frames" style="width:80px" />
+          <button onclick="videoDecode()">Decode Video</button>
+        </div>
+        <p id="video-decode-result" style="font-size:13px;color:#8b949e"></p>
+        <button id="video-decode-download" onclick="videoDecodeDownload()" style="display:none">Download Decoded File</button>
+      </div>
+    </div>
+
+    <!-- Storage Panel -->
+    <div id="panel-storage" class="panel">
+      <div class="card">
+        <h3>Content-Addressed Store (local)</h3>
+        <p style="color:#8b949e;font-size:13px">Every blob is keyed by its SHA-256 — identical content dedupes to the same key.</p>
+        <div class="row">
+          <input type="text" id="cas-put-input" placeholder="Text to store…" style="flex:1">
+          <button class="primary" onclick="casPutText()">Store</button>
+        </div>
+        <div class="row">
+          <input type="file" id="cas-put-file" onchange="casPutFile(this.files[0])">
+        </div>
+        <div id="cas-put-result" style="font-family:monospace;font-size:12px;color:var(--success)"></div>
+        <div class="row" style="margin-top:10px">
+          <input type="text" id="cas-get-key" placeholder="Content key (64 hex)" style="flex:1">
+          <button onclick="casGet()">Fetch</button>
+        </div>
+        <pre id="cas-get-result" class="hex" style="max-height:160px;overflow:auto"></pre>
+        <div id="cas-key-list" style="font-family:monospace;font-size:11px;color:#8b949e;margin-top:8px"></div>
+      </div>
+      <div class="card">
+        <h3>Network Ops (Freenet-style)</h3>
+        <p style="color:#8b949e;font-size:13px">PUT stores under its content key and routes; GET polls deliveries; SUBSCRIBE receives updates from the hosting peer.</p>
+        <div class="row">
+          <input type="text" id="ops-put-input" placeholder="Data to PUT on the network…" style="flex:1">
+          <button class="primary" onclick="opsPut()">PUT</button>
+        </div>
+        <div id="ops-put-result" style="font-family:monospace;font-size:12px;color:var(--success)"></div>
+        <div class="row" style="margin-top:10px">
+          <input type="text" id="ops-key" placeholder="Key (64 hex)" style="flex:1">
+          <button onclick="opsGet(false)">GET</button>
+          <button onclick="opsGet(true)">GET+SUB</button>
+          <button onclick="opsSubscribe()">SUBSCRIBE</button>
+          <button onclick="opsUnsubscribe()">UNSUB</button>
+        </div>
+        <div class="row">
+          <input type="text" id="ops-update-input" placeholder="UPDATE payload…" style="flex:1">
+          <button onclick="opsUpdate()">UPDATE</button>
+        </div>
+        <div id="ops-status" style="font-size:12px;color:#8b949e;margin-top:8px"></div>
+        <pre id="ops-delivery-log" class="hex" style="max-height:180px;overflow:auto"></pre>
+      </div>
+      <div class="card">
+        <h3>Browser Persistence</h3>
+        <div id="storage-persist-info" style="font-size:13px;color:#8b949e"></div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="panel-settings" class="panel">
+      <div class="card">
+        <h3>Settings</h3>
+        <div class="row">
+          <span class="label">WASM URL:</span>
+          <input type="text" id="wasm-url" value="rations.wasm">
+        </div>
+        <div class="row">
+          <button onclick="saveSettings()">Save</button>
+          <button onclick="reloadWasm()">Reload WASM</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>LLM Model (Air-Gapped)</h3>
+        <p style="color:#8b949e;margin-bottom:8px">Configure local model for offline inference. Download models with <code>src/models/download-model.sh</code></p>
+        <div class="row">
+          <span class="label">Registry:</span>
+          <select id="llm-model-select" style="flex:2"></select>
+        </div>
+        <div class="row">
+          <span class="label">Model Path:</span>
+          <input type="text" id="llm-model-path" placeholder="models/Xenova_Qwen1.5-0.5B-Chat" style="flex:2">
+        </div>
+        <div class="row">
+          <span class="label">Dtype:</span>
+          <select id="llm-dtype">
+            <option value="int8" selected>int8 (quantized, recommended)</option>
+            <option value="q8">q8 (quantized)</option>
+            <option value="q4">q4 (smaller, lower quality)</option>
+            <option value="q4f16">q4f16 (smallest)</option>
+            <option value="fp16">fp16 (higher quality)</option>
+            <option value="fp32">fp32 (best quality, largest)</option>
+          </select>
+        </div>
+        <div class="row">
+          <button onclick="saveLLMSettings()">Save Model Settings</button>
+          <button onclick="loadLLMModel()">Load Model</button>
+        </div>
+        <p id="llm-status" style="font-size:13px;color:#8b949e">No model loaded.</p>
+      </div>
+      <div class="card">
+        <h3>Self-Save (Quine)</h3>
+        <p style="color:#8b949e;margin-bottom:8px">Save this page to disk. It will reload with all state intact.</p>
+        <button class="primary" onclick="saveSelf()">Save This Page</button>
+        <button onclick="toggleSelfEditor()">Edit Source</button>
+        <button id="quine-apply" style="display:none" onclick="applySelfEdit()">Apply &amp; Save</button>
+        <div id="quine-editor" style="display:none;margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/rations-bridge.js"></script>
+<script src="js/webcodecs-bridge.js"></script>
+<script src="js/transport.js"></script>
+<script src="js/webgpu-bridge.js"></script>
+<script src="js/qr-render.js"></script>
+<script src="js/qr-scanner.js"></script>
+<script src="js/rollback.js"></script>
+<script src="js/skills.js"></script>
+<script src="js/store.js"></script>
+<script src="js/savers.js"></script>
+<script src="js/vendor/cm6.bundle.b64.js"></script>
+<script src="js/quine-editor.js"></script>
+<script src="js/zipapp.js"></script>
+<script src="js/vphone.js"></script>
+<script src="js/nomad_data.js"></script>
+<script src="js/nomad.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/phone.js"></script>
+<script src="js/models.js"></script>
+<script src="js/prompt-runtime.js"></script>
+<script src="js/tool-registry.js"></script>
+<script type="module" src="js/llm-manager.js?v=10"></script>
+<script src="js/agent.js"></script>
+<script>
+// === Rations Quine Bootstrap ===
+
+const Rations = RationsBridge;
+window.Rations = Rations;
+WebCodecsBridge.init(Rations);
+window.WebCodecsBridge = WebCodecsBridge;
+let currentKeypair = null;
+let currentSig = null;
+let currentAesResult = null;
+let currentShards = null;
+
+// Utility: bytes to hex
+function toHex(bytes) {
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function hexToBytes(hex) {
+  const out = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16);
+  return out;
+}
+
+// Utility: hex to bytes
+function fromHex(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes;
+}
+
+// Utility: string to bytes
+function str(s) {
+  return new TextEncoder().encode(s);
+}
+
+// Utility: bytes to string
+function unstr(b) {
+  return new TextDecoder().decode(b);
+}
+
+// Navigation
+document.querySelectorAll("#nav button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#nav button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("panel-" + btn.dataset.panel).classList.add("active");
+  });
+});
+
+// === ZipApp panel (R12) ===
+let zipappBytes = null;
+let zipappManifest = null;
+
+async function zipappInspect() {
+  const f = document.getElementById("zipapp-file").files[0];
+  const mEl = document.getElementById("zipapp-manifest");
+  const cEl = document.getElementById("zipapp-catalog");
+  const runBtn = document.getElementById("zipapp-run-btn");
+  if (!f) { mEl.textContent = "pick a file"; return; }
+  zipappBytes = new Uint8Array(await f.arrayBuffer());
+  try {
+    const info = await ZipApp.inspect(zipappBytes);
+    zipappManifest = info.manifest;
+    mEl.textContent = "detected: " + info.format + "\n" + JSON.stringify(info.manifest, null, 1);
+    const files = ZipApp.catalog(info.manifest);
+    cEl.textContent = files.map(e => String(e.size).padStart(10) + "  " + e.name).join("\n");
+    runBtn.disabled = !(info.manifest && info.manifest.executable);
+  } catch (e) {
+    mEl.textContent = "error: " + e;
+    zipappManifest = null;
+    runBtn.disabled = true;
+  }
+}
+
+async function zipappRun() {
+  const out = document.getElementById("zipapp-output");
+  if (!zipappBytes) { out.textContent = "inspect a package first"; return; }
+  out.textContent = "running…";
+  const r = await ZipApp.run(zipappBytes);
+  const lines = [];
+  lines.push("runtime: " + r.runtime + (r.external ? "  (" + r.external + ")" : ""));
+  lines.push("ok: " + r.ok);
+  if (r.stdout && r.stdout.length) lines.push("— stdout —", ...r.stdout);
+  if (r.stderr && r.stderr.length) lines.push("— stderr —", ...r.stderr);
+  out.textContent = lines.join("\n");
+}
+
+async function zipappRunSource() {
+  const out = document.getElementById("zipapp-output");
+  const src = document.getElementById("zipapp-src").value;
+  if (!src) { out.textContent = "empty source"; return; }
+  const r = await ZipApp.run(new TextEncoder().encode(src), { format: "JS" });
+  const lines = ["runtime: " + r.runtime, "ok: " + r.ok];
+  if (r.stdout && r.stdout.length) lines.push("— stdout —", ...r.stdout);
+  if (r.stderr && r.stderr.length) lines.push("— stderr —", ...r.stderr);
+  out.textContent = lines.join("\n");
+}
+
+function zipappPackPyz() {
+  const res = document.getElementById("zipapp-src-result");
+  const src = document.getElementById("zipapp-src").value;
+  if (!src) { res.textContent = "empty source"; return; }
+  const pyz = Rations.convert("PY", "PYZ", new TextEncoder().encode(src));
+  if (!pyz) { res.textContent = "pack failed"; return; }
+  const blob = new Blob([pyz], { type: "application/octet-stream" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "app.pyz";
+  a.click();
+  res.textContent = "packed " + pyz.length + " bytes → app.pyz (shebang + __main__.py)";
+}
+
+// Runtime capability line — filled once the bridge is up.
+async function zipappCaps() {
+  const el = document.getElementById("zipapp-caps");
+  if (!el) return;
+  try {
+    const c = await ZipApp.capabilities();
+    const names = Object.keys(c).map(k => k + ":" + (c[k] ? "✓" : "—"));
+    el.textContent = "runtimes " + names.join(" · ") + " — others require external hosts";
+  } catch (e) {
+    el.textContent = "runtime probe: " + e;
+  }
+}
+
+// === Device panel (R13 vphone port) ===
+let vphoneCatalogCache = null;
+
+function vphoneCatalogLoad() {
+  const sel = document.getElementById("vphone-cmd");
+  if (!sel || vphoneCatalogCache) return;
+  const cat = Rations.vphoneCatalog();
+  vphoneCatalogCache = cat;
+  if (!cat) { sel.innerHTML = "<option>catalog unavailable</option>"; return; }
+  sel.innerHTML = cat.commands
+    .map(c => `<option value="${c.t}">${c.t}${c.host_only ? " (host)" : ""}${c.side !== "none" ? " [" + c.side + "]" : ""}</option>`)
+    .join("");
+  const st = document.getElementById("vphone-status");
+  if (st) st.textContent =
+    `vphone-control v${cat.protocol} · vsock:${cat.vsock_port} · ${cat.commands.length} commands · transport: external (needs ws↔vsock gateway)`;
+}
+
+async function vphoneProbe() {
+  const st = document.getElementById("vphone-status");
+  const url = document.getElementById("vphone-gw").value || VPhone.DEFAULT_GATEWAY;
+  st.textContent = "probing " + url + " …";
+  const ok = await VPhone.probe(url);
+  if (ok) {
+    st.textContent = "gateway reachable — connecting";
+    try {
+      await VPhone.connect(url);
+      const v = await VPhone.version().catch(() => null);
+      st.textContent = "connected · vphoned " + (v ? JSON.stringify(v) : "(no version reply)");
+    } catch (e) {
+      st.textContent = "connect failed: " + e.message;
+    }
+  } else {
+    st.textContent = "no gateway at " + url + " — transport stays external (frames still render locally)";
+  }
+}
+
+function vphoneManifest() {
+  const out = document.getElementById("vphone-manifest-out");
+  const cpus = parseInt(document.getElementById("vphone-cpus").value) || 0;
+  const mem = parseInt(document.getElementById("vphone-mem").value) || 0;
+  const m = Rations.vphoneManifest(cpus, mem);
+  out.textContent = m ? JSON.stringify(m, null, 1) : "manifest failed";
+}
+
+function vphonePlistDownload() {
+  const out = document.getElementById("vphone-manifest-out");
+  const cpus = parseInt(document.getElementById("vphone-cpus").value) || 0;
+  const mem = parseInt(document.getElementById("vphone-mem").value) || 0;
+  const plist = Rations.vphonePlist(cpus, mem);
+  if (!plist) { out.textContent = "plist failed"; return; }
+  const blob = new Blob([plist], { type: "application/xml" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "config.plist";
+  a.click();
+  out.textContent = plist;
+}
+
+async function vphoneSend() {
+  const out = document.getElementById("vphone-cmd-out");
+  const name = document.getElementById("vphone-cmd").value;
+  const raw = document.getElementById("vphone-params").value.trim();
+  let params = null;
+  if (raw) {
+    try { params = JSON.parse(raw); }
+    catch (e) { out.textContent = "params not JSON: " + e.message; return; }
+  }
+  const frame = Rations.vphoneCommand(name, params);
+  if (!frame) { out.textContent = "frame build failed (unknown command?)"; return; }
+  const json = Rations.vphoneParse(frame);
+  const header = `frame ${frame.length}B  [${toHex(frame.subarray(0, 4))}] ${json}`;
+  const caps = VPhone.capabilities();
+  if (caps.transport.state === "connected") {
+    try {
+      const resp = await VPhone.request(name, params || {});
+      out.textContent = header + "\n\n— gateway response —\n" + JSON.stringify(resp, null, 1);
+    } catch (e) {
+      out.textContent = header + "\n\ngateway error: " + e.message;
+    }
+  } else {
+    out.textContent = header + "\n\n(no gateway — frame rendered for inspection)";
+  }
+}
+
+// === Command Center panel (R14 project-nomad port) ===
+let nomadBytes = null;
+let nomadFormat = null;
+
+function nomadServicesLoad() {
+  const el = document.getElementById("nomad-services");
+  if (!el) return;
+  const tag = { native: "native", substitute: "subs.", external: "ext.  " };
+  el.textContent = Nomad.services().map(s => {
+    const line = "[" + tag[s.availability] + "] " + s.name.padEnd(24) +
+      (s.port ? " :" + s.port : "");
+    const sub = s.substitute ? "\n         ↳ " + s.substitute : "";
+    return line + sub;
+  }).join("\n");
+}
+
+async function nomadInspect() {
+  const f = document.getElementById("nomad-file").files[0];
+  const inv = document.getElementById("nomad-inventory");
+  const out = document.getElementById("nomad-fetch-out");
+  if (!f) { inv.textContent = "pick a .zim or .pmtiles file"; return; }
+  nomadBytes = new Uint8Array(await f.arrayBuffer());
+  try {
+    const r = Nomad.inspectArchive(nomadBytes);
+    nomadFormat = r.format;
+    inv.textContent = "detected: " + r.format + "\n" +
+      (r.inventory ? JSON.stringify(r.inventory, null, 1) : "(no inventory)");
+    out.textContent = r.format === "ZIM"
+      ? "fetch: enter namespace/url like A/Main_Page"
+      : r.format === "PMTILES"
+        ? "fetch: enter z/x/y like 3/4/2"
+        : "not a ZIM/PMTiles archive";
+  } catch (e) {
+    inv.textContent = "error: " + e;
+    nomadFormat = null;
+  }
+}
+
+async function nomadFetch() {
+  const out = document.getElementById("nomad-fetch-out");
+  if (!nomadBytes) { out.textContent = "inspect an archive first"; return; }
+  const q = document.getElementById("nomad-url").value.trim();
+  try {
+    if (nomadFormat === "ZIM") {
+      const m = q.match(/^([A-Z])\/(.+)$/) || q.match(/^A\/(.*)$/);
+      const url = m ? (m[2] || m[1]) : q;
+      const art = Nomad.zimArticle(nomadBytes, m && m[2] ? m[1] : "A", url);
+      out.textContent = art
+        ? art.length + " bytes\n" + new TextDecoder().decode(art).slice(0, 2000)
+        : "not found (or compression unsupported — bzip2/lzma deferred)";
+    } else if (nomadFormat === "PMTILES") {
+      const parts = q.split("/").map(Number);
+      if (parts.length !== 3 || parts.some(isNaN)) {
+        out.textContent = "use z/x/y"; return;
+      }
+      const t = Nomad.pmtilesTile(nomadBytes, parts[0], parts[1], parts[2]);
+      out.textContent = t
+        ? "tile " + parts.join("/") + " → " + t.length + " bytes [" +
+          Array.from(t.slice(0, 32)).map(b => b.toString(16).padStart(2, "0")).join(" ") + "…]"
+        : "tile absent";
+    } else {
+      out.textContent = "inspect a ZIM or PMTiles archive first";
+    }
+  } catch (e) {
+    out.textContent = "error: " + e;
+  }
+}
+
+function nomadRemedies() {
+  const el = document.getElementById("nomad-collections");
+  const q = document.getElementById("nomad-remedy-q").value;
+  const rs = Nomad.remedies(q);
+  el.textContent = rs.length
+    ? rs.slice(0, 40).map(r => r.title + "  [" + (r.conditions || []).join(", ") + "]").join("\n")
+    : "no remedies match";
+}
+
+function nomadCollections() {
+  const el = document.getElementById("nomad-collections");
+  const cs = Nomad.collections();
+  const byGroup = {};
+  for (const c of cs) byGroup[c.group] = (byGroup[c.group] || 0) + 1;
+  el.textContent = cs.length + " resources\n" +
+    Object.keys(byGroup).sort().map(g => "  " + g + ": " + byGroup[g]).join("\n") +
+    "\n\n" + cs.slice(0, 30).map(c =>
+      "[" + c.kind + "] " + c.title + (c.size_mb ? "  " + c.size_mb + " MB" : "")).join("\n");
+}
+
+// WASM loading
+async function init() {
+  try {
+    const wasmUrl = localStorage.getItem("rations-wasm-url") || "rations.wasm";
+    document.getElementById("wasm-url").value = wasmUrl;
+    await Rations.load(wasmUrl);
+    const status = document.getElementById("status");
+    status.textContent = "Ready v" + ((Rations.version >> 16) & 0xFF) + "." + ((Rations.version >> 8) & 0xFF) + "." + (Rations.version & 0xFF);
+    status.className = "ready";
+    log("agent", "info", "Rations WASM module loaded successfully");
+    // Begin the local model load once per page. The worker and generator
+    // remain warm for all later agent turns.
+    startLLMInitialization();
+    // Initialize transport bridge with WASM exports for callbacks
+    TransportBridge.init(Rations);
+    // Auto-generate identity if none exists
+    loadIdentity();
+    // ZipApp runtime capability probe (async, non-blocking)
+    zipappCaps();
+    // vphone command catalog + transport status
+    vphoneCatalogLoad();
+    // Command Center service catalog (static, immediate)
+    nomadServicesLoad();
+    // R17 phone identity + presence; R18 dashboard
+    if (window.PhoneUI) PhoneUI.init();
+    if (window.refreshDashboard) refreshDashboard();
+  } catch (e) {
+    const status = document.getElementById("status");
+    status.textContent = "Error: " + e.message;
+    status.className = "error";
+    log("agent", "error", "Failed to load WASM: " + e.message);
+  }
+}
+
+// Identity management
+function loadIdentity() {
+  const stored = localStorage.getItem("rations-identity");
+  if (stored) {
+    try {
+      const id = JSON.parse(stored);
+      if (id.wrapped) {
+        const pass = window.prompt("Identity is passphrase-protected. Enter passphrase to unlock:");
+        if (!pass) return;
+        const key = Rations.pbkdf2(str(pass), fromHex(id.salt), 100000, 32);
+        const sk = Rations.aesDecrypt(fromHex(id.ct), key, fromHex(id.nonce), fromHex(id.tag));
+        if (!sk || sk.length !== 32) {
+          log("agent", "error", "Wrong passphrase — identity not unlocked");
+          return;
+        }
+        currentKeypair = { publicKey: fromHex(id.publicKey), secretKey: sk };
+      } else {
+        currentKeypair = {
+          publicKey: fromHex(id.publicKey),
+          secretKey: fromHex(id.secretKey),
+        };
+      }
+      updateIdentityDisplay();
+    } catch (e) {
+      log("agent", "warn", "Stored identity corrupted, generating new one");
+      generateKeypair();
+    }
+  }
+}
+
+function saveIdentity() {
+  const passEl = document.getElementById("id-pass");
+  const pass = passEl ? passEl.value : "";
+  if (pass) {
+    const salt = new Uint8Array(16);
+    crypto.getRandomValues(salt);
+    const nonce = new Uint8Array(12);
+    crypto.getRandomValues(nonce);
+    const key = Rations.pbkdf2(str(pass), salt, 100000, 32);
+    const enc = Rations.aesEncrypt(currentKeypair.secretKey, key, nonce);
+    if (enc) {
+      localStorage.setItem("rations-identity", JSON.stringify({
+        wrapped: true, v: 1,
+        publicKey: toHex(currentKeypair.publicKey),
+        salt: toHex(salt), nonce: toHex(nonce),
+        ct: toHex(enc.ciphertext), tag: toHex(enc.tag),
+      }));
+      log("agent", "success", "Identity stored passphrase-encrypted");
+      return;
+    }
+    log("agent", "warn", "Identity encryption failed — storing plaintext");
+  }
+  localStorage.setItem("rations-identity", JSON.stringify({
+    publicKey: toHex(currentKeypair.publicKey),
+    secretKey: toHex(currentKeypair.secretKey),
+  }));
+}
+
+function updateIdentityDisplay() {
+  const el = document.getElementById("identity-info");
+  if (currentKeypair) {
+    const pkHex = toHex(currentKeypair.publicKey);
+    el.innerHTML = '<p style="font-size:11px;color:#8b949e">PK: ' + pkHex.substring(0, 16) + '…</p>';
+  }
+}
+
+// Crypto functions
+function hashInput() {
+  const input = document.getElementById("sha-input").value;
+  const hash = Rations.sha256(str(input));
+  document.getElementById("sha-output").textContent = toHex(hash);
+}
+
+function generateKeypair() {
+  const seed = new Uint8Array(32);
+  crypto.getRandomValues(seed);
+  currentKeypair = Rations.ed25519KeypairFromSeed(seed);
+  if (currentKeypair) {
+    document.getElementById("ed-pk").textContent = toHex(currentKeypair.publicKey);
+    document.getElementById("ed-sk").textContent = toHex(currentKeypair.secretKey);
+    saveIdentity();
+    updateIdentityDisplay();
+    log("agent", "success", "New Ed25519 identity generated");
+  }
+}
+
+function signMessage() {
+  if (!currentKeypair) { generateKeypair(); }
+  const msg = document.getElementById("sign-msg").value;
+  currentSig = Rations.ed25519Sign(str(msg), currentKeypair.secretKey);
+  if (currentSig) {
+    document.getElementById("sig-out").textContent = toHex(currentSig);
+  }
+}
+
+function verifyMessage() {
+  const msg = document.getElementById("sign-msg").value;
+  if (!currentSig || !currentKeypair) {
+    document.getElementById("verify-result").textContent = "No signature to verify";
+    return;
+  }
+  const ok = Rations.ed25519Verify(str(msg), currentSig, currentKeypair.publicKey);
+  const el = document.getElementById("verify-result");
+  el.textContent = ok ? "✓ Valid" : "✗ Invalid";
+  el.style.color = ok ? "var(--success)" : "var(--error)";
+}
+
+function aesEncrypt() {
+  const plaintext = document.getElementById("aes-input").value;
+  const password = document.getElementById("aes-pass").value;
+  const salt = new Uint8Array(16);
+  crypto.getRandomValues(salt);
+  const key = Rations.pbkdf2(str(password), salt, 100000, 32);
+  const nonce = new Uint8Array(12);
+  crypto.getRandomValues(nonce);
+  currentAesResult = Rations.aesEncrypt(str(plaintext), key, nonce);
+  if (currentAesResult) {
+    currentAesResult.key = key;
+    currentAesResult.nonce = nonce;
+    document.getElementById("aes-ct").textContent = toHex(currentAesResult.ciphertext);
+  }
+}
+
+function aesDecrypt() {
+  if (!currentAesResult) return;
+  const result = Rations.aesDecrypt(currentAesResult.ciphertext, currentAesResult.key, currentAesResult.nonce, currentAesResult.tag);
+  if (result) {
+    document.getElementById("aes-dec").textContent = unstr(result);
+    document.getElementById("aes-dec").style.color = "var(--success)";
+  } else {
+    document.getElementById("aes-dec").textContent = "Decryption failed";
+    document.getElementById("aes-dec").style.color = "var(--error)";
+  }
+}
+
+function shamirSplit() {
+  const secret = document.getElementById("shamir-secret").value;
+  const threshold = parseInt(document.getElementById("shamir-threshold").value);
+  const total = parseInt(document.getElementById("shamir-total").value);
+  const secretBytes = str(secret);
+  const shards = Rations.shamirSplit(secretBytes, threshold, total);
+  if (shards) {
+    const shardLen = 1 + secretBytes.length;
+    currentShards = { shards, shardLen, threshold, total };
+    let html = "";
+    for (let i = 0; i < total; i++) {
+      const shard = shards.slice(i * shardLen, (i + 1) * shardLen);
+      html += "Shard " + (i + 1) + ": " + toHex(shard) + "\n";
+    }
+    document.getElementById("shamir-out").textContent = html;
+  }
+}
+
+// Agent functions
+let llmUiBound = false;
+let agentUiBound = false;
+let llmStartupStarted = false;
+
+function log(target, level, message) {
+  const logEl = document.getElementById("agent-log");
+  if (!logEl) return;
+  const entry = document.createElement("div");
+  entry.className = "log-entry";
+  const ts = new Date().toISOString().substring(11, 19);
+  entry.innerHTML = '<span class="ts">[' + ts + ']</span> <span class="level-' + level + '">' + level.toUpperCase() + '</span> ' + message;
+  logEl.appendChild(entry);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function bindAgentUi() {
+  if (agentUiBound) return;
+  agentUiBound = true;
+  Agent.on((type, payload) => {
+    if (type === "log") {
+      log("agent", payload.level, payload.message);
+    } else if (type === "start") {
+      log("agent", "info", "Processing: " + payload.input);
+    } else if (type === "complete") {
+      log("agent", "success", "Completed in " + payload.turns + " turns");
+    } else if (type === "error") {
+      log("agent", "error", payload.message);
+    }
+  });
+}
+
+function bindLlmUi() {
+  if (llmUiBound) return;
+  llmUiBound = true;
+  LLMManager.on((type, payload) => {
+    const status = document.getElementById("agent-status");
+    const statusEl = document.getElementById("llm-status");
+    if (type === "loading") {
+      const fb = payload.fallback ? " (fallback)" : "";
+      log("agent", "info", "Loading model: " + payload.model + fb);
+      if (status) status.textContent = "Loading model…";
+      if (statusEl) statusEl.textContent = "Loading: " + payload.model + fb;
+    } else if (type === "loaded") {
+      const fb = payload.fallback ? " (fallback)" : "";
+      const device = payload.device ? " / " + payload.device : "";
+      log("agent", "success", "Model loaded: " + payload.model + fb + " (" + Math.round(payload.loadMs || 0) + "ms)");
+      if (status) status.textContent = "Ready (" + payload.model + device + ")";
+      if (statusEl) statusEl.textContent = "Ready: " + payload.model + device + " — warm";
+    } else if (type === "result") {
+      if (statusEl) statusEl.textContent = "Ready — last inference " + Math.round(payload.inferenceMs || 0) + "ms";
+    } else if (type === "error") {
+      log("agent", "error", payload.message);
+      if (status) status.textContent = "Error";
+      if (statusEl) statusEl.textContent = "Error: " + payload.message;
+    }
+  });
+}
+
+async function startLLMInitialization() {
+  if (llmStartupStarted || typeof LLMManager === "undefined") return;
+  llmStartupStarted = true;
+  bindLlmUi();
+  bindAgentUi();
+  const status = document.getElementById("agent-status");
+  if (status) status.textContent = "Initializing local model…";
+  try {
+    await LLMManager.ready();
+  } catch (e) {
+    if (status) status.textContent = "Model unavailable";
+    log("agent", "error", "Failed to initialize local model: " + e.message);
+  }
+}
+
+async function loadAgent() {
+  bindLlmUi();
+  bindAgentUi();
+  await startLLMInitialization();
+}
+
+function clearAgentLog() {
+  document.getElementById("agent-log").innerHTML = "";
+}
+
+async function sendToAgent() {
+  const input = document.getElementById("agent-input");
+  const msg = input.value;
+  if (!msg) return;
+
+  const status = LLMManager.getStatus();
+  if (!status.loaded) {
+    log("agent", "warn", "Agent not loaded. Click 'Load Model' first.");
+    return;
+  }
+
+  input.value = "";
+  log("agent", "info", "User: " + msg);
+
+  try {
+    const response = await Agent.run(msg, Rations, LLMManager);
+    log("agent", "success", "Agent: " + response.substring(0, 500));
+  } catch (e) {
+    log("agent", "error", "Agent error: " + e.message);
+  }
+}
+
+// Settings
+function saveSettings() {
+  const url = document.getElementById("wasm-url").value;
+  localStorage.setItem("rations-wasm-url", url);
+  log("agent", "success", "Settings saved");
+}
+
+function saveLLMSettings() {
+  const modelPath = document.getElementById("llm-model-path").value;
+  const dtype = document.getElementById("llm-dtype").value;
+  if (modelPath) localStorage.setItem("rations-llm-model", modelPath);
+  localStorage.setItem("rations-llm-dtype", dtype);
+  log("agent", "success", "LLM settings saved: " + (modelPath || "default") + " (" + dtype + ")");
+}
+
+async function loadLLMModel() {
+  const modelPath = document.getElementById("llm-model-path").value || undefined;
+  const dtype = document.getElementById("llm-dtype").value || "q8";
+  const statusEl = document.getElementById("llm-status");
+  statusEl.textContent = "Loading model…";
+  statusEl.style.color = "var(--warn)";
+
+  if (typeof LLMManager === "undefined") {
+    statusEl.textContent = "LLM Manager not available (module not loaded)";
+    statusEl.style.color = "var(--error)";
+    return;
+  }
+
+  bindLlmUi();
+  bindAgentUi();
+  // Model changes are explicit: reset the old worker once, then share
+  // the new single-flight load with any agent request already queued.
+  const current = LLMManager.getStatus();
+  if (current.loaded && (modelPath && modelPath !== current.model || dtype !== current.dtype)) {
+    LLMManager.reset();
+  }
+  try {
+    await LLMManager.load(modelPath, dtype);
+    statusEl.textContent = "Ready: " + LLMManager.getStatus().model + " (" + (LLMManager.getStatus().device || "unknown") + ")";
+    statusEl.style.color = "var(--success)";
+  } catch (e) {
+    statusEl.textContent = "Error: " + e.message;
+    statusEl.style.color = "var(--error)";
+  }
+}
+
+async function reloadWasm() {
+  const status = document.getElementById("status");
+  status.textContent = "Reloading…";
+  status.className = "loading";
+  await init();
+}
+
+// Quine self-save — roteado pela cadeia de savers (FS-API → download + autosave)
+async function saveSelf() {
+  try {
+    const r = await Savers.save({ filename: "quine.html" });
+    updateCommitBadge(r.hash);
+    log("agent", "success",
+      `Página salva via ${r.backend} (hash ${r.hash.slice(0, 12)}` +
+      `${r.autosave ? `, autosave: ${r.autosave}` : ""})`);
+  } catch (e) {
+    if (e && e.name === "AbortError") return; // usuário cancelou o picker
+    log("agent", "error", "Falha ao salvar: " + (e.message || e));
+  }
+}
+
+// Commit badge — sha256 of the current snapshot, stamped in the footer.
+async function updateCommitBadge(hash) {
+  const el = document.getElementById("quine-commit");
+  if (!el) return;
+  try {
+    const h = hash || await Savers.contentHash(Savers.snapshot());
+    el.textContent = h.slice(0, 12);
+  } catch (_) {
+    el.textContent = "unstamped";
+  }
+}
+
+// Self-edit panel — vendored CM6 (gzip+base64, inflated on first open).
+async function toggleSelfEditor() {
+  const box = document.getElementById("quine-editor");
+  const applyBtn = document.getElementById("quine-apply");
+  if (QuineEditor.isOpen()) {
+    QuineEditor.close();
+    box.style.display = "none";
+    applyBtn.style.display = "none";
+    return;
+  }
+  box.style.display = "block";
+  applyBtn.style.display = "inline-block";
+  try {
+    await QuineEditor.open(box, Savers.snapshot());
+  } catch (e) {
+    log("agent", "error", "Editor failed to load: " + (e.message || e));
+    box.style.display = "none";
+    applyBtn.style.display = "none";
+  }
+}
+
+// Persist the edited source through the same saver chain (opts.html).
+async function applySelfEdit() {
+  const html = QuineEditor.getText();
+  if (html == null) return;
+  try {
+    const r = await Savers.save({ filename: "quine.html", html });
+    updateCommitBadge(r.hash);
+    log("agent", "success",
+      `Edited source saved via ${r.backend} (hash ${r.hash.slice(0, 12)})`);
+  } catch (e) {
+    if (e && e.name === "AbortError") return;
+    log("agent", "error", "Falha ao salvar: " + (e.message || e));
+  }
+}
+
+// === Blockchain Functions ===
+let chainSeed = null;
+
+function ensureChainSeed() {
+  if (!chainSeed) {
+    chainSeed = new Uint8Array(32);
+    crypto.getRandomValues(chainSeed);
+    Rations.chainInit(chainSeed);
+  }
+  return chainSeed;
+}
+
+function addTransaction() {
+  ensureChainSeed();
+  const action = parseInt(document.getElementById("bc-tx-action").value);
+  const payloadStr = document.getElementById("bc-tx-payload").value;
+  if (!payloadStr) {
+    log("agent", "warn", "Payload required");
+    return;
+  }
+  const payload = str(payloadStr);
+  const timestamp = Date.now();
+  const nonce = Math.floor(Math.random() * 1000000);
+  const ok = Rations.chainAddTx(action, payload, chainSeed, timestamp, nonce);
+  if (ok) {
+    log("agent", "success", "Transaction added to pending pool");
+    refreshChain();
+  } else {
+    log("agent", "error", "Failed to add transaction");
+  }
+}
+
+function mineBlock() {
+  ensureChainSeed();
+  const timestamp = Date.now();
+  const height = Rations.chainMineBlock(timestamp);
+  if (height > 0) {
+    log("agent", "success", "Mined block #" + height);
+    refreshChain();
+  } else {
+    log("agent", "warn", "No pending transactions to mine");
+  }
+}
+
+function verifyChain() {
+  ensureChainSeed();
+  const valid = Rations.chainVerify();
+  const el = document.getElementById("bc-valid");
+  if (valid) {
+    el.textContent = "✓ Valid";
+    el.style.color = "var(--success)";
+    log("agent", "success", "Chain verification passed");
+  } else {
+    el.textContent = "✗ Invalid";
+    el.style.color = "var(--error)";
+    log("agent", "error", "Chain verification failed");
+  }
+}
+
+function refreshChain() {
+  ensureChainSeed();
+  const height = Rations.chainHeight();
+  document.getElementById("bc-height").textContent = height;
+
+  // Get tip hash
+  const tipHash = Rations.chainTipHash();
+  document.getElementById("bc-tip-hash").textContent = toHex(tipHash);
+}
+
+// === WebGPU Functions ===
+async function initWebGPU() {
+  const statusEl = document.getElementById("bc-webgpu-status");
+  statusEl.textContent = "Initializing...";
+  const available = await WebGPUBridge.init();
+  if (available) {
+    statusEl.textContent = "✓ WebGPU Active";
+    statusEl.style.color = "var(--success)";
+    log("agent", "success", "WebGPU acceleration enabled");
+  } else {
+    statusEl.textContent = "CPU Fallback (WebGPU unavailable)";
+    statusEl.style.color = "var(--warn)";
+    log("agent", "warn", "WebGPU not available, using CPU fallback");
+  }
+}
+
+// === P2P Functions ===
+function connectPeer() {
+  const url = document.getElementById("p2p-connect-url").value;
+  const pkHex = document.getElementById("p2p-connect-pk").value;
+  const stateEl = document.getElementById("p2p-conn-state");
+  if (!url || !pkHex || pkHex.length !== 64) {
+    if (stateEl) stateEl.textContent = "Need a relay URL (ws://…) and the remote peer's 64-char peer id.";
+    if (window.toast) toast("Enter relay URL and remote peer id", "warn");
+    return;
+  }
+  const pk = fromHex(pkHex);
+  const connId = Rations.p2pConnect(str(url), pk);
+  if (connId > 0) {
+    window.__lastRelayConn = connId;
+    if (stateEl) stateEl.textContent = "Connecting via " + url + " (conn " + connId + ")…";
+    log("agent", "success", "Connecting to peer (conn_id=" + connId + ")");
+    if (window.toast) toast("Connecting via " + url, "info");
+    setTimeout(refreshPeers, 1500);
+    // Advertise our phone key so the peer can seal messages to us.
+    setTimeout(() => { try { Rations.phonePresencePublish(1, ""); } catch (_) {} }, 2000);
+  } else {
+    if (stateEl) stateEl.textContent = "Connection failed — is the relay reachable?";
+    if (window.toast) toast("Connection failed — check the relay URL", "error");
+    log("agent", "error", "Failed to initiate connection");
+  }
+}
+
+function p2pDiscover() {
+  const connId = window.__lastRelayConn;
+  if (!connId) {
+    toast("Connect to a relay first (any peer id works — the relay routes by id)", "warn");
+    return;
+  }
+  const ok = Rations.p2pDiscoverPeers(connId);
+  toast(ok ? "Peer discovery requested — watch the peer count" : "Discovery failed", ok ? "info" : "error");
+}
+
+function refreshPeers() {
+  const count = Rations.p2pPeerCount();
+  document.getElementById("p2p-peer-count").textContent = count;
+  if (count > 0) {
+    document.getElementById("p2p-peer-list").textContent = count + " peer(s) connected";
+  } else {
+    document.getElementById("p2p-peer-list").textContent = "No peers connected";
+  }
+}
+
+function broadcastMessage() {
+  const msg = document.getElementById("p2p-gossip-msg").value;
+  if (!msg) return;
+  const payload = str(msg);
+  const ok = Rations.p2pBroadcast(4, payload); // 4 = gossip
+  if (ok) {
+    log("agent", "success", "Gossip broadcast sent");
+  } else {
+    log("agent", "error", "Broadcast failed (no connected peers?)");
+  }
+}
+
+function relayMessage(targetPkHex, msg) {
+  if (!targetPkHex || targetPkHex.length !== 64 || !msg) return false;
+  const targetPk = fromHex(targetPkHex);
+  const payload = str(msg);
+  const ok = Rations.p2pRelaySend(targetPk, 4, payload); // 4 = gossip
+  if (ok) {
+    log("agent", "success", "Relayed message sent across firewall");
+  } else {
+    log("agent", "warn", "Relay routing failed");
+  }
+  return ok;
+}
+
+function requestRendezvous(relayConnId, targetPkHex) {
+  if (!targetPkHex || targetPkHex.length !== 64) return false;
+  const targetPk = fromHex(targetPkHex);
+  const ok = Rations.p2pRequestRendezvous(relayConnId, targetPk);
+  if (ok) {
+    log("agent", "success", "Rendezvous request initiated via relay conn=" + relayConnId);
+  } else {
+    log("agent", "warn", "Failed to initiate rendezvous request");
+  }
+  return ok;
+}
+
+// === Invite & QR Functions ===
+const QR_ALPHABET = "$*+-./:0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const ASCII_ALPHABET = "!#$&'()*+,-./0123456789:;=?~@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]_abcdefghijklmnopqrstuvwxyz";
+let lastCompressed = null;
+let lastInviteToken = null;
+let lastShards = null;
+
+function generateQR() {
+  const data = document.getElementById("qr-input").value;
+  if (!data) return;
+  const ecc = parseInt(document.getElementById("qr-ecc").value);
+  const canvas = document.getElementById("qr-canvas");
+  const version = QrRender.generateAndRender(data, ecc, canvas, 8);
+  if (version > 0) {
+    const size = 17 + 4 * version;
+    document.getElementById("qr-info").textContent =
+      "Version " + version + " | Size " + size + "x" + size + " | ECC " + ["L","M","Q","H"][ecc];
+  } else {
+    document.getElementById("qr-info").textContent = "QR generation failed";
+  }
+}
+
+function compressURL() {
+  const url = document.getElementById("url-input").value;
+  if (!url) return;
+  const exports = Rations.exports;
+  if (!exports) return;
+
+  const urlBytes = new TextEncoder().encode(url);
+  const alphaBytes = new TextEncoder().encode(ASCII_ALPHABET);
+
+  const urlPtr = exports.rations_alloc(urlBytes.length);
+  const alphaPtr = exports.rations_alloc(alphaBytes.length);
+  const outPtr = exports.rations_alloc(1024);
+  const lenPtr = exports.rations_alloc(4);
+
+  new Uint8Array(Rations.memory.buffer, urlPtr, urlBytes.length).set(urlBytes);
+  new Uint8Array(Rations.memory.buffer, alphaPtr, alphaBytes.length).set(alphaBytes);
+
+  const ok = exports.rations_url_compress(urlPtr, urlBytes.length, alphaPtr, alphaBytes.length, outPtr, lenPtr);
+  if (ok) {
+    const len = new Uint32Array(Rations.memory.buffer, lenPtr, 1)[0];
+    const compressed = new Uint8Array(Rations.memory.buffer, outPtr, len);
+    lastCompressed = new TextDecoder().decode(compressed);
+    document.getElementById("url-compressed").textContent = lastCompressed;
+  } else {
+    document.getElementById("url-compressed").textContent = "Compression failed";
+  }
+
+  exports.rations_free(urlPtr, urlBytes.length);
+  exports.rations_free(alphaPtr, alphaBytes.length);
+  exports.rations_free(outPtr, 1024);
+  exports.rations_free(lenPtr, 4);
+}
+
+function decompressURL() {
+  if (!lastCompressed) return;
+  const exports = Rations.exports;
+  if (!exports) return;
+
+  const dataBytes = new TextEncoder().encode(lastCompressed);
+  const alphaBytes = new TextEncoder().encode(ASCII_ALPHABET);
+
+  const dataPtr = exports.rations_alloc(dataBytes.length);
+  const alphaPtr = exports.rations_alloc(alphaBytes.length);
+  const outPtr = exports.rations_alloc(2048);
+  const lenPtr = exports.rations_alloc(4);
+
+  new Uint8Array(Rations.memory.buffer, dataPtr, dataBytes.length).set(dataBytes);
+  new Uint8Array(Rations.memory.buffer, alphaPtr, alphaBytes.length).set(alphaBytes);
+
+  const ok = exports.rations_url_decompress(dataPtr, dataBytes.length, alphaPtr, alphaBytes.length, outPtr, lenPtr);
+  if (ok) {
+    const len = new Uint32Array(Rations.memory.buffer, lenPtr, 1)[0];
+    const decompressed = new Uint8Array(Rations.memory.buffer, outPtr, len);
+    const url = new TextDecoder().decode(decompressed);
+    document.getElementById("url-decompressed").textContent = url;
+  } else {
+    document.getElementById("url-decompressed").textContent = "Decompression failed";
+  }
+
+  exports.rations_free(dataPtr, dataBytes.length);
+  exports.rations_free(alphaPtr, alphaBytes.length);
+  exports.rations_free(outPtr, 2048);
+  exports.rations_free(lenPtr, 4);
+}
+
+function getInviteSeed() {
+  if (currentKeypair && currentKeypair.seed) {
+    return currentKeypair.seed;
+  }
+  const seed = new Uint8Array(32);
+  crypto.getRandomValues(seed);
+  return seed;
+}
+
+function createInviteToken() {
+  const endpoint = document.getElementById("invite-endpoint").value;
+  const role = parseInt(document.getElementById("invite-role").value);
+  const expiry = BigInt(parseInt(document.getElementById("invite-expiry").value));
+  const seed = getInviteSeed();
+  const exports = Rations.exports;
+  if (!exports) return;
+
+  const networkId = new Uint8Array(32);
+  crypto.getRandomValues(networkId);
+  const epBytes = new TextEncoder().encode(endpoint);
+
+  const netIdPtr = exports.rations_alloc(32);
+  const epPtr = exports.rations_alloc(epBytes.length);
+  const seedPtr = exports.rations_alloc(32);
+  const outPtr = exports.rations_alloc(512);
+  const lenPtr = exports.rations_alloc(4);
+
+  new Uint8Array(Rations.memory.buffer, netIdPtr, 32).set(networkId);
+  new Uint8Array(Rations.memory.buffer, epPtr, epBytes.length).set(epBytes);
+  new Uint8Array(Rations.memory.buffer, seedPtr, 32).set(seed);
+
+  const ok = exports.rations_invite_create(
+    netIdPtr, epPtr, epBytes.length, seedPtr, 32, role, expiry, outPtr, lenPtr
+  );
+
+  if (ok) {
+    const tokenLen = new Uint32Array(Rations.memory.buffer, lenPtr, 1)[0];
+    const tokenBytes = new Uint8Array(Rations.memory.buffer, outPtr, tokenLen);
+    lastInviteToken = new Uint8Array(tokenBytes);
+
+    // Base64 encode
+    const b64OutPtr = exports.rations_alloc(1024);
+    const b64LenPtr = exports.rations_alloc(4);
+    if (exports.rations_base64_encode(outPtr, tokenLen, b64OutPtr, b64LenPtr)) {
+      const b64Len = new Uint32Array(Rations.memory.buffer, b64LenPtr, 1)[0];
+      const b64Str = new TextDecoder().decode(new Uint8Array(Rations.memory.buffer, b64OutPtr, b64Len));
+      document.getElementById("invite-token").textContent = b64Str;
+    }
+    exports.rations_free(b64OutPtr, 1024);
+    exports.rations_free(b64LenPtr, 4);
+  } else {
+    document.getElementById("invite-token").textContent = "Token creation failed";
+  }
+
+  exports.rations_free(netIdPtr, 32);
+  exports.rations_free(epPtr, epBytes.length);
+  exports.rations_free(seedPtr, 32);
+  exports.rations_free(outPtr, 512);
+  exports.rations_free(lenPtr, 4);
+}
+
+function createInviteQR() {
+  createInviteToken();
+  if (!lastInviteToken) return;
+  const b64 = document.getElementById("invite-token").textContent;
+  if (b64 && b64 !== "Token creation failed") {
+    const canvas = document.getElementById("qr-canvas");
+    const version = QrRender.generateAndRender(b64, 1, canvas, 8);
+    if (version > 0) {
+      const size = 17 + 4 * version;
+      document.getElementById("qr-info").textContent =
+        "Invite QR | Version " + version + " | Size " + size + "x" + size + " | ECC M";
+    }
+  }
+}
+
+function verifyInviteToken() {
+  if (!lastInviteToken) {
+    document.getElementById("invite-verify-result").textContent = "No token to verify";
+    return;
+  }
+  const exports = Rations.exports;
+  if (!exports) return;
+
+  const dataPtr = exports.rations_alloc(lastInviteToken.length);
+  new Uint8Array(Rations.memory.buffer, dataPtr, lastInviteToken.length).set(lastInviteToken);
+
+  const valid = exports.rations_invite_verify(dataPtr, lastInviteToken.length);
+  document.getElementById("invite-verify-result").textContent = valid ? "✓ Valid" : "✗ Invalid";
+  document.getElementById("invite-verify-result").style.color = valid ? "var(--success)" : "var(--error)";
+
+  exports.rations_free(dataPtr, lastInviteToken.length);
+}
+
+function shamirSplit() {
+  const secret = document.getElementById("shamir-secret").value;
+  const threshold = parseInt(document.getElementById("shamir-threshold").value);
+  const total = parseInt(document.getElementById("shamir-total").value);
+  if (!secret || threshold < 1 || total < 1 || threshold > total) {
+    log("agent", "warn", "Invalid Shamir parameters");
+    return;
+  }
+  const exports = Rations.exports;
+  if (!exports) return;
+
+  const secretBytes = new TextEncoder().encode(secret);
+  const shardSize = 1 + secretBytes.length;
+  const outSize = total * shardSize;
+
+  const secretPtr = exports.rations_alloc(secretBytes.length);
+  const outPtr = exports.rations_alloc(outSize);
+
+  new Uint8Array(Rations.memory.buffer, secretPtr, secretBytes.length).set(secretBytes);
+
+  const ok = exports.rations_shamir_split(secretPtr, secretBytes.length, threshold, total, outPtr);
+  if (ok) {
+    const shards = [];
+    for (let i = 0; i < total; i++) {
+      const shard = new Uint8Array(Rations.memory.buffer, outPtr + i * shardSize, shardSize);
+      shards.push(new Uint8Array(shard));
+    }
+    lastShards = shards;
+    const hexLines = shards.map((s, i) => "Shard " + (i+1) + ": " + toHex(s));
+    document.getElementById("shamir-shards").textContent = hexLines.join("\n");
+  } else {
+    document.getElementById("shamir-shards").textContent = "Split failed";
+  }
+
+  exports.rations_free(secretPtr, secretBytes.length);
+  exports.rations_free(outPtr, outSize);
+}
+
+function shamirReconstruct() {
+  if (!lastShards || lastShards.length < 2) {
+    document.getElementById("shamir-reconstructed").textContent = "Need at least 2 shards";
+    return;
+  }
+  const exports = Rations.exports;
+  if (!exports) return;
+
+  const threshold = parseInt(document.getElementById("shamir-threshold").value);
+  const useShards = lastShards.slice(0, threshold);
+  const shardLen = useShards[0].length;
+  const totalSize = useShards.length * shardLen;
+  const secretLen = shardLen - 1;
+
+  const shardsPtr = exports.rations_alloc(totalSize);
+  const outPtr = exports.rations_alloc(secretLen);
+
+  for (let i = 0; i < useShards.length; i++) {
+    new Uint8Array(Rations.memory.buffer, shardsPtr + i * shardLen, shardLen).set(useShards[i]);
+  }
+
+  const ok = exports.rations_shamir_reconstruct(shardsPtr, shardLen, useShards.length, outPtr, secretLen);
+  if (ok) {
+    const secret = new Uint8Array(Rations.memory.buffer, outPtr, secretLen);
+    const text = new TextDecoder().decode(secret);
+    document.getElementById("shamir-reconstructed").textContent = "✓ " + text;
+  } else {
+    document.getElementById("shamir-reconstructed").textContent = "Reconstruction failed";
+  }
+
+  exports.rations_free(shardsPtr, totalSize);
+  exports.rations_free(outPtr, secretLen);
+}
+
+// Initialize on load
+init();
+
+// PWA: service worker para modo offline-first (R8.2)
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  navigator.serviceWorker.register("sw.js").catch((e) =>
+    console.warn("[rations] SW registration failed:", e.message || e));
+}
+
+// Multi-model registry: selector preenche path+dtype (R7.2)
+Models.mountSelector(document.getElementById("llm-model-select"), (m) => {
+  document.getElementById("llm-model-path").value = m.id;
+  const dtypeEl = document.getElementById("llm-dtype");
+  if ([...dtypeEl.options].some((o) => o.value === m.dtype)) dtypeEl.value = m.dtype;
+});
+
+// Quine: autosave com dirty-tracking + drag/drop de arquivos (R7.4)
+Savers.startAutosave(60000);
+Savers.installDropHandler(document.body, {
+  onHtml: (html, file) => {
+    if (confirm(`Abrir "${file.name}" substitui esta página. Continuar?`)) {
+      document.open(); document.write(html); document.close();
+    }
+  },
+  onFile: (file) => log("agent", "info", `Arquivo recebido: ${file.name} — use a seção de mídia para processar.`),
+});
+
+// === Media & Polyglot Functions ===
+let lastPolyglotData = null;
+
+function mediaDetectFormat() {
+  const fileInput = document.getElementById("media-detect-file");
+  if (!fileInput.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = new Uint8Array(e.target.result);
+    const fmt = Rations.detectFormat(data);
+    document.getElementById("media-detect-result").textContent = "Detected format: " + fmt;
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function mediaConvertImage(direction) {
+  const fileInput = document.getElementById("media-image-file");
+  if (!fileInput.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = new Uint8Array(e.target.result);
+    let result = null;
+    if (direction === "png_to_bmp") {
+      result = Rations.pngToBmp(data);
+    } else {
+      result = Rations.bmpToPng(data);
+    }
+    if (result) {
+      const blob = new Blob([result], { type: direction === "png_to_bmp" ? "image/bmp" : "image/png" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = direction === "png_to_bmp" ? "converted.bmp" : "converted.png";
+      a.click();
+      URL.revokeObjectURL(url);
+      document.getElementById("media-image-result").textContent = "Converted! Downloaded " + result.length + " bytes.";
+
+      // Show preview if PNG
+      if (direction === "bmp_to_png") {
+        const canvas = document.getElementById("media-image-preview");
+        canvas.style.display = "block";
+        const img = new Image();
+        img.onload = function() {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          canvas.getContext("2d").drawImage(img, 0, 0);
+        };
+        img.src = URL.createObjectURL(blob);
+      }
+    } else {
+      document.getElementById("media-image-result").textContent = "Conversion failed.";
+    }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function mediaCreateZip() {
+  const filename = document.getElementById("zip-filename").value || "file.txt";
+  const content = document.getElementById("zip-content").value || "";
+  const zipData = Rations.zipCreate(filename, content);
+  if (zipData) {
+    const blob = new Blob([zipData], { type: "application/zip" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename.replace(/\.[^.]+$/, "") + ".zip";
+    a.click();
+    URL.revokeObjectURL(url);
+    document.getElementById("zip-result").textContent = "Created ZIP: " + zipData.length + " bytes";
+  } else {
+    document.getElementById("zip-result").textContent = "ZIP creation failed";
+  }
+}
+
+function mediaListZip() {
+  const fileInput = document.getElementById("zip-list-file");
+  if (!fileInput.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = new Uint8Array(e.target.result);
+    const listing = Rations.zipList(data);
+    if (listing) {
+      document.getElementById("zip-result").textContent = listing;
+    } else {
+      document.getElementById("zip-result").textContent = "Failed to list ZIP";
+    }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function mediaMp4Info() {
+  const fileInput = document.getElementById("mp4-file");
+  if (!fileInput.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = new Uint8Array(e.target.result);
+    const info = Rations.mp4Info(data);
+    if (info) {
+      document.getElementById("mp4-result").textContent = info;
+    } else {
+      document.getElementById("mp4-result").textContent = "Failed to parse MP4";
+    }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function mediaGeneratePolyglot() {
+  const pngInput = document.getElementById("polyglot-png");
+  const mp4Input = document.getElementById("polyglot-mp4");
+  if (!pngInput.files[0] || !mp4Input.files[0]) {
+    document.getElementById("polyglot-result").textContent = "Please select both PNG and MP4 files.";
+    return;
+  }
+  const html = document.getElementById("polyglot-html").value || null;
+  let pngData = null, mp4Data = null;
+  let pending = 2;
+  function tryGenerate() {
+    if (pending > 0) return;
+    const result = Rations.generatePolyglot(pngData, mp4Data, html);
+    if (result) {
+      lastPolyglotData = result;
+      const isPoly = Rations.isPolyglot(result);
+      document.getElementById("polyglot-result").textContent =
+        "Generated polyglot: " + result.length + " bytes | Valid polyglot: " + isPoly;
+      document.getElementById("polyglot-download").style.display = "inline-block";
+    } else {
+      document.getElementById("polyglot-result").textContent = "Polyglot generation failed.";
+    }
+  }
+  const pngReader = new FileReader();
+  pngReader.onload = function(e) { pngData = new Uint8Array(e.target.result); pending--; tryGenerate(); };
+  pngReader.readAsArrayBuffer(pngInput.files[0]);
+  const mp4Reader = new FileReader();
+  mp4Reader.onload = function(e) { mp4Data = new Uint8Array(e.target.result); pending--; tryGenerate(); };
+  mp4Reader.readAsArrayBuffer(mp4Input.files[0]);
+}
+
+function mediaDownloadPolyglot() {
+  if (!lastPolyglotData) return;
+  const blob = new Blob([lastPolyglotData], { type: "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "polyglot.mp4";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function mediaFindPath() {
+  const source = document.getElementById("path-source").value.trim().toUpperCase();
+  const target = document.getElementById("path-target").value.trim().toUpperCase();
+  if (!source || !target) return;
+  const path = Rations.findConversionPath(source, target);
+  if (path) {
+    document.getElementById("path-result").textContent = path;
+  } else {
+    document.getElementById("path-result").textContent = "No conversion path found.";
+  }
+}
+
+// === Steganography & Video Storage Functions ===
+let lastStegoImage = null;
+let lastExtractedData = null;
+let lastExtractedFilename = null;
+let lastVideoFrameData = null;
+let lastVideoMeta = null;
+let lastDecodedVideo = null;
+let lastVideoEncodeData = null; // Uint8Array of encoded video (MP4 or raw)
+
+function stegaEmbed() {
+  const imgInput = document.getElementById("stega-cover-image");
+  const fileInput = document.getElementById("stega-payload-file");
+  const password = document.getElementById("stega-password").value;
+  if (!imgInput.files[0] || !fileInput.files[0]) {
+    document.getElementById("stega-embed-result").textContent = "Please select both a cover image and a payload file.";
+    return;
+  }
+  if (!password) {
+    document.getElementById("stega-embed-result").textContent = "Please enter an encryption password.";
+    return;
+  }
+  const filename = fileInput.files[0].name;
+  let imgData = null, fileData = null;
+  let pending = 2;
+  function tryEmbed() {
+    if (pending > 0) return;
+    document.getElementById("stega-embed-result").textContent = "Embedding data... (this may take a moment)";
+    setTimeout(() => {
+      const result = Rations.stegaEmbed(imgData, fileData, password, filename);
+      if (result) {
+        lastStegoImage = result;
+        document.getElementById("stega-embed-result").textContent =
+          "Embedded successfully! Stego image: " + result.length + " bytes (original: " + imgData.length + " bytes)";
+        document.getElementById("stega-download").style.display = "inline-block";
+      } else {
+        document.getElementById("stega-embed-result").textContent = "Embedding failed. Check console for errors.";
+      }
+    }, 50);
+  }
+  const imgReader = new FileReader();
+  imgReader.onload = function(e) { imgData = new Uint8Array(e.target.result); pending--; tryEmbed(); };
+  imgReader.readAsArrayBuffer(imgInput.files[0]);
+  const fileReader = new FileReader();
+  fileReader.onload = function(e) { fileData = new Uint8Array(e.target.result); pending--; tryEmbed(); };
+  fileReader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function stegaDownload() {
+  if (!lastStegoImage) return;
+  const blob = new Blob([lastStegoImage], { type: "image/png" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "stego.png";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function stegaExtract() {
+  const imgInput = document.getElementById("stega-extract-image");
+  const password = document.getElementById("stega-extract-password").value;
+  if (!imgInput.files[0]) {
+    document.getElementById("stega-extract-result").textContent = "Please select a stego image.";
+    return;
+  }
+  if (!password) {
+    document.getElementById("stega-extract-result").textContent = "Please enter the decryption password.";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imgData = new Uint8Array(e.target.result);
+    document.getElementById("stega-extract-result").textContent = "Extracting data...";
+    setTimeout(() => {
+      const result = Rations.stegaExtract(imgData, password);
+      if (result) {
+        lastExtractedData = result.data;
+        lastExtractedFilename = result.filename;
+        document.getElementById("stega-extract-result").textContent =
+          "Extracted: " + result.filename + " (" + result.data.length + " bytes)";
+        document.getElementById("stega-extract-download").style.display = "inline-block";
+      } else {
+        document.getElementById("stega-extract-result").textContent = "Extraction failed. Wrong password or corrupted image.";
+      }
+    }, 50);
+  };
+  reader.readAsArrayBuffer(imgInput.files[0]);
+}
+
+function stegaExtractDownload() {
+  if (!lastExtractedData) return;
+  const blob = new Blob([lastExtractedData], { type: "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = lastExtractedFilename || "extracted.bin";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function stegaCheckCapacity() {
+  const imgInput = document.getElementById("stega-capacity-image");
+  if (!imgInput.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imgData = new Uint8Array(e.target.result);
+    let html = "<table style='width:100%;font-size:12px'>";
+    html += "<tr><th>Bit Depth</th><th>Capacity (bytes)</th><th>Capacity (KB)</th></tr>";
+    for (let depth = 1; depth <= 8; depth++) {
+      const cap = Rations.stegaCapacity(imgData, depth);
+      html += "<tr><td>" + depth + "-bit</td><td>" + cap.toLocaleString() + "</td><td>" + (cap / 1024).toFixed(1) + "</td></tr>";
+    }
+    html += "</table>";
+    document.getElementById("stega-capacity-result").innerHTML = html;
+  };
+  reader.readAsArrayBuffer(imgInput.files[0]);
+}
+
+function videoEncode() {
+  const fileInput = document.getElementById("video-encode-file");
+  if (!fileInput.files[0]) {
+    document.getElementById("video-encode-result").textContent = "Please select a file to encode.";
+    return;
+  }
+  const width = parseInt(document.getElementById("video-width").value) || 1920;
+  const height = parseInt(document.getElementById("video-height").value) || 1080;
+  const useMP4 = document.getElementById("video-use-mp4").checked;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = new Uint8Array(e.target.result);
+    const resultEl = document.getElementById("video-encode-result");
+    resultEl.textContent = "Encoding... (" + data.length + " bytes)";
+
+    if (useMP4 && WebCodecsBridge.isWebCodecsAvailable()) {
+      WebCodecsBridge.encodeToVideo(data, width, height, 30).then(function(mp4) {
+        lastVideoEncodeData = mp4;
+        resultEl.textContent = "Encoded MP4: " + data.length + " bytes → " + mp4.length + " bytes";
+        document.getElementById("video-encode-download").style.display = "inline-block";
+      }).catch(function(err) {
+        resultEl.textContent = "MP4 encode failed (" + err.message + "), trying raw...";
+        const result = Rations.videoEncode(data, width, height);
+        if (result) {
+          lastVideoFrameData = result.pixels;
+          lastVideoMeta = result;
+          lastVideoEncodeData = result.pixels;
+          resultEl.textContent = "Encoded (raw): " + data.length + " bytes → " + result.frameCount + " frames (" + result.pixels.length + " pixels)";
+          document.getElementById("video-encode-download").style.display = "inline-block";
+        } else {
+          resultEl.textContent = "Encoding failed.";
+        }
+      });
+    } else {
+      setTimeout(() => {
+        const result = Rations.videoEncode(data, width, height);
+        if (result) {
+          lastVideoFrameData = result.pixels;
+          lastVideoMeta = result;
+          lastVideoEncodeData = result.pixels;
+          resultEl.textContent = "Encoded (raw): " + data.length + " bytes → " + result.frameCount + " frames (" + result.pixels.length + " pixels)";
+          document.getElementById("video-encode-download").style.display = "inline-block";
+        } else {
+          resultEl.textContent = "Encoding failed.";
+        }
+      }, 50);
+    }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function videoEncodeDownload() {
+  if (!lastVideoEncodeData) return;
+  const useMP4 = document.getElementById("video-use-mp4").checked;
+  const isMP4 = useMP4 && WebCodecsBridge.isWebCodecsAvailable() && lastVideoEncodeData.length >= 4 &&
+    lastVideoEncodeData[4] === 0x66 && lastVideoEncodeData[5] === 0x74 && lastVideoEncodeData[6] === 0x79 && lastVideoEncodeData[7] === 0x70;
+  const mime = isMP4 ? "video/mp4" : "application/octet-stream";
+  const ext = isMP4 ? ".mp4" : ".bin";
+  const blob = new Blob([lastVideoEncodeData], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "rations_video" + ext;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function videoDecode() {
+  const fileInput = document.getElementById("video-decode-file");
+  if (!fileInput.files[0]) {
+    document.getElementById("video-decode-result").textContent = "Please select video data to decode.";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const videoData = new Uint8Array(e.target.result);
+    const resultEl = document.getElementById("video-decode-result");
+    resultEl.textContent = "Decoding...";
+
+    // Auto-detect format: check for MP4 (ftyp box) or RVID magic
+    const isMP4 = videoData.length >= 8 && videoData[4] === 0x66 && videoData[5] === 0x74 &&
+                  videoData[6] === 0x79 && videoData[7] === 0x70;
+    const isRVID = videoData.length >= 4 && videoData[0] === 0x52 && videoData[1] === 0x56 &&
+                   videoData[2] === 0x49 && videoData[3] === 0x44;
+
+    if (isMP4 || isRVID) {
+      WebCodecsBridge.decodeFromVideo(videoData).then(function(decoded) {
+        lastDecodedVideo = decoded;
+        resultEl.textContent = "Decoded: " + decoded.length + " bytes";
+        document.getElementById("video-decode-download").style.display = "inline-block";
+      }).catch(function(err) {
+        resultEl.textContent = "Decode failed: " + err.message;
+      });
+    } else {
+      // Raw frame data — need dimensions
+      const width = parseInt(document.getElementById("video-decode-width").value) || 1920;
+      const height = parseInt(document.getElementById("video-decode-height").value) || 1080;
+      const frameCount = parseInt(document.getElementById("video-decode-frames").value) || 1;
+      setTimeout(() => {
+        const result = Rations.videoDecode(videoData, width, height, frameCount);
+        if (result) {
+          lastDecodedVideo = result;
+          resultEl.textContent = "Decoded: " + result.length + " bytes";
+          document.getElementById("video-decode-download").style.display = "inline-block";
+        } else {
+          resultEl.textContent = "Decoding failed.";
+        }
+      }, 50);
+    }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function videoDecodeDownload() {
+  if (!lastDecodedVideo) return;
+  const blob = new Blob([lastDecodedVideo], { type: "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "decoded_file.bin";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// === R16/R18: Collapse Vault ===
+let vaultPortals = null;   // Uint8Array[] — serialized RPOR portal buffers
+let vaultPayload = null;   // Uint8Array — the original payload
+
+function vaultStep(id, cls) {
+  const el = document.getElementById(id);
+  if (el) el.className = "vault-step " + cls;
+}
+function vaultOut(text) {
+  document.getElementById("vault-output").textContent = text;
+}
+
+function vaultPlanSelf() {
+  const size = document.documentElement.outerHTML.length;
+  const plan = Rations.collapsePlan(size, 0x3f);
+  if (!plan) { vaultOut("Plan failed — WASM error " + Rations.lastError().name); return; }
+  vaultStep("vs-plan", "done");
+  vaultOut(
+    `Payload: ${plan.payload_len} B → ${plan.portal_count} QR portals\n` +
+    `Minimum durability: ${plan.min_durability_years} years\n\n` +
+    plan.media.map((m) => `  ${m.medium}: ${m.units} unit(s), ${m.capacity} portals, ~${m.durability_years}y`).join("\n")
+  );
+}
+
+function vaultCollapseSelf() {
+  const html = document.documentElement.outerHTML;
+  vaultPayload = str(html);
+  const parity = Math.max(0, parseInt(document.getElementById("vault-parity").value) || 0);
+  vaultPortals = Rations.collapsePortals(vaultPayload, parity);
+  if (!vaultPortals) { vaultOut("Atomization failed — WASM error " + Rations.lastError().name); return; }
+  vaultStep("vs-atomize", "done");
+  // Pack portals into one downloadable archive: [u32 count][u32 len][bytes]…
+  const total = 4 + vaultPortals.reduce((s, p) => s + 4 + p.length, 0);
+  const packed = new Uint8Array(total);
+  const dv = new DataView(packed.buffer);
+  dv.setUint32(0, vaultPortals.length, true);
+  let off = 4;
+  for (const p of vaultPortals) {
+    dv.setUint32(off, p.length, true);
+    packed.set(p, off + 4);
+    off += 4 + p.length;
+  }
+  const blob = new Blob([packed], { type: "application/octet-stream" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "rations-vault-portals.bin";
+  a.click();
+  vaultOut(`Collapsed ${vaultPayload.length} B → ${vaultPortals.length} portal buffers (${packed.length} B packed).\n` +
+    `Archive downloaded as rations-vault-portals.bin — print each portal as a QR via Invite & QR for physical storage.`);
+}
+
+function vaultSimulate() {
+  // Full cycle in-browser: collapse this page, drop/corrupt a % of portals,
+  // restore, verify bit-exact. Degradation is simulated — no physical media.
+  const html = document.documentElement.outerHTML;
+  vaultPayload = str(html);
+  const parity = Math.max(0, Math.min(64, parseInt(document.getElementById("vault-parity").value) || 0));
+  const portals = Rations.collapsePortals(vaultPayload, parity);
+  if (!portals) { vaultOut("Atomization failed"); return; }
+  vaultStep("vs-atomize", "done");
+  const lossPct = Math.max(0, Math.min(95, parseInt(document.getElementById("vault-loss-pct").value) || 0));
+  let dropped = 0;
+  let corrupted = 0;
+  const survivors = [];
+  for (const p of portals) {
+    const roll = Math.random() * 100;
+    if (roll < lossPct * 0.6) { dropped++; continue; }         // ~60% of loss = whole portal
+    const copy = p.slice();
+    if (roll < lossPct) {                                     // ~40% = bit damage
+      copy[20 + (Math.random() * (copy.length - 20)) | 0] ^= 0xff;
+      corrupted++;
+    }
+    survivors.push(copy);
+  }
+  vaultStep("vs-degrade", "done");
+  const res = Rations.collapseRestore(survivors);
+  vaultStep("vs-restore", "done");
+  if (!res) { vaultOut(`Restore failed at ${lossPct}% loss (${dropped} dropped, ${corrupted} corrupted).`); return; }
+  const ok = res.payload.length === vaultPayload.length && res.payload.every((b, i) => b === vaultPayload[i]);
+  if (ok) vaultStep("vs-verify", "done");
+  vaultOut(
+    `Simulated collapse→degrade→restore @ ${lossPct}% loss, ${parity} RS parity portals\n` +
+    `  portals: ${portals.length} → dropped ${dropped}, corrupted ${corrupted}, survivors ${survivors.length}\n` +
+    `  report: crc_ok=${res.report.crc_ok} integrity=${res.report.integrity_permille}‰ recovered=${res.report.recovered_bytes}B\n` +
+    `  payload: ${res.payload.length} B — ${ok ? "BIT-EXACT ✓" : "MISMATCH ✗"}` +
+    (ok ? "" : `\n  → losses exceeded RS capacity in at least one 128-portal block.\n` +
+    `    Raise "RS parity/block" (each +1 tolerates ~0.8% more loss) or add a second physical copy.`)
+  );
+  toast(ok ? "Vault restore: bit-exact" : "Vault restore: data loss — raise parity", ok ? "success" : "warn");
+}
+
+async function vaultRestoreFiles() {
+  const files = document.getElementById("vault-restore-file").files;
+  if (!files.length) { toast("Choose portal archive file(s)", "warn"); return; }
+  const out = document.getElementById("vault-restore-out");
+  const portals = [];
+  for (const f of files) {
+    const buf = new Uint8Array(await f.arrayBuffer());
+    const dv = new DataView(buf.buffer);
+    if (buf.length >= 4 && dv.getUint32(0, true) < 100000 && dv.getUint32(0, true) * 4 < buf.length) {
+      // Packed archive format
+      const count = dv.getUint32(0, true);
+      let off = 4;
+      for (let i = 0; i < count && off + 4 <= buf.length; i++) {
+        const len = dv.getUint32(off, true);
+        portals.push(buf.slice(off + 4, off + 4 + len));
+        off += 4 + len;
+      }
+    } else {
+      portals.push(buf); // raw portal buffer
+    }
+  }
+  const res = Rations.collapseRestore(portals);
+  if (!res) { out.textContent = "Restore failed — corrupt or incomplete portal set."; return; }
+  const text = unstr(res.payload.slice(0, 200000));
+  out.textContent = `crc_ok=${res.report.crc_ok} integrity=${res.report.integrity_permille}‰ recovered=${res.report.recovered}\n` +
+    `payload ${res.payload.length} B:\n\n` + text.slice(0, 4000) + (text.length > 4000 ? "\n…(truncated preview)" : "");
+}
+
+function vaultPdfSelf() {
+  const html = document.documentElement.outerHTML;
+  vaultPayload = str(html);
+  const parity = Math.max(0, parseInt(document.getElementById("vault-parity").value) || 0);
+  vaultPortals = Rations.collapsePortals(vaultPayload, parity);
+  if (!vaultPortals) { vaultOut("Atomization failed — WASM error " + Rations.lastError().name); return; }
+  const pdf = Rations.collapsePdf(vaultPortals);
+  if (!pdf) { vaultOut("PDF export failed — WASM error " + Rations.lastError().name); return; }
+  const blob = new Blob([pdf], { type: "application/pdf" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "rations-vault-qr-sheet.pdf";
+  a.click();
+  vaultStep("vs-atomize", "done");
+  vaultOut(`Collapsed ${vaultPayload.length} B → ${vaultPortals.length} portals → QR-sheet PDF (${pdf.length} B).\n` +
+    `Each page prints 4 scannable portal codes; restore needs enough surviving codes per 128-portal RS block.`);
+  toast("QR-sheet PDF downloaded — print at 100% scale", "success");
+}
+
+// === Physical scan-restore: decoded QRs routed by magic (RP=portal, RB=backup shard) ===
+
+let vaultScan = { portals: [], shards: [], seen: new Set(), camStop: null };
+
+function vaultScanCollect(payload) {
+  const tag = toHex(payload.slice(0, 8));
+  if (vaultScan.seen.has(tag + ":" + payload.length)) return false; // dedupe by prefix+len
+  // stronger dedupe for portals/shards: full payload hash
+  const full = toHex(payload.slice(0, 32)) + payload.length;
+  if (vaultScan.seen.has(full)) return false;
+  vaultScan.seen.add(full);
+  if (payload.length >= 2 && payload[0] === 0x52 && payload[1] === 0x50) vaultScan.portals.push(payload);
+  else if (payload.length >= 2 && payload[0] === 0x52 && payload[1] === 0x42) vaultScan.shards.push(payload);
+  else return false;
+  const el = document.getElementById("vault-scan-status");
+  el.textContent = `Scanned: ${vaultScan.portals.length} portals, ${vaultScan.shards.length} backup shards`;
+  return true;
+}
+
+function vaultScanReport() {
+  const out = document.getElementById("vault-restore-out");
+  if (!vaultScan.portals.length && !vaultScan.shards.length) {
+    out.textContent = "No Rations QRs decoded (expected RP portal or RB shard codes).";
+    return;
+  }
+  let lines = "";
+  if (vaultScan.portals.length) {
+    const res = Rations.collapseRestore(vaultScan.portals);
+    if (res) {
+      vaultScan.restored = res.payload;
+      lines += `PORTALS: ${vaultScan.portals.length} scanned → integrity ${res.report.integrity_permille}‰, crc_ok=${res.report.crc_ok}, payload ${res.payload.length} B\n` +
+        unstr(res.payload.slice(0, 2000)).slice(0, 2000) + "\n\n";
+    } else lines += `PORTALS: ${vaultScan.portals.length} scanned but restore failed (insufficient/corrupt).\n\n`;
+  }
+  if (vaultScan.shards.length) {
+    const payload = Rations.qrBackupRestorePayload(vaultScan.shards);
+    if (payload) {
+      // Pipeline flags aren't in the RB header — try the combinations our
+      // exporter produces (tar±compress), then raw. Passphrase from the field.
+      const pass = document.getElementById("vault-scan-pass").value || null;
+      const attempts = pass
+        ? [[3, pass], [1, pass], [3, null], [1, null], [2, null], [0, null]]
+        : [[3, null], [1, null], [2, null], [0, null]];
+      let orig = null, usedFlags = -1, usedPass = null;
+      for (const [fl, pw] of attempts) {
+        orig = Rations.qrBackupUnprep(payload, fl, pw);
+        if (orig) { usedFlags = fl; usedPass = pw; break; }
+      }
+      vaultScan.restored = orig || payload;
+      lines += `BACKUP SHARDS: ${vaultScan.shards.length} scanned → payload ${payload.length} B → restored ${vaultScan.restored.length} B` +
+        (usedFlags >= 0 ? ` (pipeline flags ${usedFlags}${usedPass ? ", decrypted" : ""})` : " — raw payload shown; may need passphrase") + "\n" +
+        unstr(vaultScan.restored.slice(0, 2000)).slice(0, 2000);
+    } else lines += `BACKUP SHARDS: ${vaultScan.shards.length} scanned but RS restore failed (need ≥ data_shards).`;
+  }
+  out.textContent = lines;
+  if (vaultScan.restored) {
+    const blob = new Blob([vaultScan.restored], { type: "application/octet-stream" });
+    const a = document.getElementById("vault-download-restored") || (() => {
+      const b = document.createElement("button");
+      b.id = "vault-download-restored";
+      b.className = "primary";
+      b.textContent = "Download restored payload";
+      b.onclick = () => {};
+      out.parentElement.appendChild(b);
+      return b;
+    })();
+    a.onclick = () => {
+      const l = document.createElement("a");
+      l.href = URL.createObjectURL(blob);
+      l.download = "rations-restored.bin";
+      l.click();
+    };
+    a.style.display = "";
+  }
+}
+
+async function vaultScanImages() {
+  const files = document.getElementById("vault-scan-file").files;
+  if (!files.length) { toast("Choose QR image file(s)", "warn"); return; }
+  vaultScan = { portals: [], shards: [], seen: new Set(), camStop: null };
+  const wasmShim = { exports: Object.assign({ memory: Rations.memory }, Rations.exports) };
+  let decoded = 0;
+  for (const f of files) {
+    const url = URL.createObjectURL(f);
+    try {
+      const img = new Image();
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+      const r = QR_SCANNER.decodeSource(wasmShim, img);
+      if (r.data) { vaultScanCollect(r.data); decoded++; }
+      else document.getElementById("vault-scan-status").textContent = `${f.name}: ${r.error}`;
+    } finally { URL.revokeObjectURL(url); }
+  }
+  document.getElementById("vault-scan-status").textContent =
+    `Decoded ${decoded}/${files.length} images — ` + document.getElementById("vault-scan-status").textContent;
+  vaultScanReport();
+}
+
+async function vaultScanCamera() {
+  const btn = document.getElementById("vault-cam-btn");
+  const done = document.getElementById("vault-cam-done");
+  const video = document.getElementById("vault-cam-video");
+  if (vaultScan.camStop) { // already scanning → stop
+    vaultScan.camStop(); vaultScan.camStop = null;
+    btn.textContent = "Scan with camera"; done.style.display = "none"; video.style.display = "none";
+    vaultScanReport();
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    toast("Camera unavailable — use image files instead", "warn"); return;
+  }
+  vaultScan = { portals: [], shards: [], seen: new Set(), camStop: null };
+  const wasmShim = { exports: Object.assign({ memory: Rations.memory }, Rations.exports) };
+  try {
+    const session = await QR_SCANNER.startCamera(wasmShim, video, {
+      once: false,
+      intervalMs: 300,
+      onResult: (r) => { if (vaultScanCollect(r.data)) toast(`QR captured (${vaultScan.portals.length + vaultScan.shards.length} total)`, "success"); },
+    });
+    vaultScan.camStop = session.stop;
+    video.style.display = "";
+    btn.textContent = "Stop scanning";
+    done.style.display = "";
+  } catch (e) {
+    toast("Camera failed: " + e.message, "error");
+  }
+}
+
+function vaultScanFinish() {
+  if (vaultScan.camStop) { vaultScan.camStop(); vaultScan.camStop = null; }
+  document.getElementById("vault-cam-btn").textContent = "Scan with camera";
+  document.getElementById("vault-cam-done").style.display = "none";
+  document.getElementById("vault-cam-video").style.display = "none";
+  vaultScanReport();
+}
+
+async function paperBackupPdf() {
+  const f = document.getElementById("paper-file").files[0];
+  if (!f) { toast("Choose a file", "warn"); return; }
+  const data = new Uint8Array(await f.arrayBuffer());
+  const pass = document.getElementById("paper-pass").value;
+  const pdf = Rations.qrBackupPdf(data, {
+    filename: f.name.slice(0, 32),
+    passphrase: pass || null,
+    dataShards: 4, parityShards: 2,
+    qrVersion: 10, ecLevel: 0, // L — max capacity per code
+    flags: 1, // tar-wrap so the filename survives restore
+  });
+  const out = document.getElementById("paper-out");
+  if (!pdf) { out.textContent = "PDF export failed — WASM error " + Rations.lastError().name; return; }
+  const blob = new Blob([pdf], { type: "application/pdf" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = f.name + ".qr-backup.pdf";
+  a.click();
+  out.textContent = `Paper backup PDF: ${pdf.length} B for ${f.name} (${data.length} B)` +
+    (pass ? " — passphrase-protected (PBKDF2+AES-GCM)" : "") +
+    `\nShard geometry auto-derived from QR capacity. Scan pages → "Scan QR images" above to restore.`;
+  toast("Paper backup PDF downloaded", "success");
+}
+
+// === R19.1: Storage panel — CAS + Freenet ops ===
+
+const CAS_KEYS_LS = "rations-cas-keys";
+
+function casKnownKeys() {
+  try { return JSON.parse(localStorage.getItem(CAS_KEYS_LS) || "[]"); } catch (e) { return []; }
+}
+function casRememberKey(hex, label) {
+  const list = casKnownKeys();
+  if (!list.find(k => k.key === hex)) list.unshift({ key: hex, label: label || "", ts: Date.now() });
+  localStorage.setItem(CAS_KEYS_LS, JSON.stringify(list.slice(0, 100)));
+  renderCasKeys();
+}
+function renderCasKeys() {
+  const el = document.getElementById("cas-key-list");
+  if (!el) return;
+  const list = casKnownKeys();
+  el.innerHTML = list.length
+    ? "Known keys (click to fetch):<br>" + list.map(k =>
+        `<a href="#" style="color:#58a6ff" onclick="document.getElementById('cas-get-key').value='${k.key}';casGet();return false">${k.key.slice(0, 20)}…</a> <span style="color:#6e7681">${k.label}</span>`).join("<br>")
+    : "No keys stored this session.";
+}
+
+function casPutText() {
+  const input = document.getElementById("cas-put-input").value;
+  if (!input) { toast("Enter text to store", "warn"); return; }
+  const key = Rations.casPut(input);
+  const el = document.getElementById("cas-put-result");
+  if (!key) { el.textContent = "CAS store failed: " + (Rations.lastError().name || "unknown"); return; }
+  const hex = toHex(key);
+  el.textContent = "key: " + hex;
+  casRememberKey(hex, `"${input.slice(0, 30)}"`);
+}
+
+async function casPutFile(file) {
+  if (!file) return;
+  const data = new Uint8Array(await file.arrayBuffer());
+  const key = Rations.casPut(data);
+  const el = document.getElementById("cas-put-result");
+  if (!key) { el.textContent = "CAS store failed: " + (Rations.lastError().name || "unknown"); return; }
+  const hex = toHex(key);
+  el.textContent = `key: ${hex}  (${file.name}, ${data.length} B)`;
+  casRememberKey(hex, file.name);
+}
+
+function casGet() {
+  const hex = document.getElementById("cas-get-key").value.trim();
+  const out = document.getElementById("cas-get-result");
+  if (!/^[0-9a-fA-F]{64}$/.test(hex)) { out.textContent = "Key must be 64 hex chars."; return; }
+  const data = Rations.casGet(hexToBytes(hex));
+  if (!data) { out.textContent = "Not found in local CAS."; return; }
+  let preview;
+  try { preview = unstr(data.slice(0, 4000)); } catch (e) { preview = toHex(data.slice(0, 256)) + "…"; }
+  out.textContent = `${data.length} B\n\n${preview}`;
+}
+
+// --- Network ops ---
+
+function opsKeyInput() {
+  const hex = document.getElementById("ops-key").value.trim();
+  if (!/^[0-9a-fA-F]{64}$/.test(hex)) { toast("Key must be 64 hex chars", "warn"); return null; }
+  return hexToBytes(hex);
+}
+
+function opsPut() {
+  const input = document.getElementById("ops-put-input").value;
+  if (!input) { toast("Enter data to PUT", "warn"); return; }
+  const key = Rations.opPut(input);
+  const el = document.getElementById("ops-put-result");
+  if (!key) { el.textContent = "PUT failed: " + (Rations.lastError().name || "unknown"); return; }
+  el.textContent = "key: " + toHex(key);
+  document.getElementById("ops-key").value = toHex(key);
+}
+
+function opsGet(subscribe) {
+  const key = opsKeyInput(); if (!key) return;
+  const id = Rations.opGet(key, subscribe);
+  document.getElementById("ops-status").textContent =
+    id === 0n ? "Served locally (or failed) — check delivery log" : `GET op #${id} dispatched${subscribe ? " + subscribed" : ""} — polling deliveries…`;
+  opsPollDeliveries();
+}
+
+function opsSubscribe() {
+  const key = opsKeyInput(); if (!key) return;
+  const id = Rations.opSubscribe(key);
+  document.getElementById("ops-status").textContent = `SUBSCRIBE op #${id} dispatched — updates appear in the delivery log`;
+  opsPollDeliveries();
+}
+
+function opsUnsubscribe() {
+  const key = opsKeyInput(); if (!key) return;
+  const id = Rations.opUnsubscribe(key);
+  document.getElementById("ops-status").textContent = `UNSUBSCRIBE op #${id} dispatched`;
+}
+
+function opsUpdate() {
+  const key = opsKeyInput(); if (!key) return;
+  const input = document.getElementById("ops-update-input").value;
+  if (!input) { toast("Enter UPDATE payload", "warn"); return; }
+  const ok = Rations.opUpdate(key, input);
+  document.getElementById("ops-status").textContent = ok ? "UPDATE dispatched" : "UPDATE failed: " + (Rations.lastError().name || "unknown");
+}
+
+let opsPollTimer = null;
+function opsPollDeliveries() {
+  if (opsPollTimer) return;
+  opsPollTimer = setInterval(() => {
+    let drained = 0;
+    for (;;) {
+      const d = Rations.opPollDelivery();
+      if (!d) break;
+      drained++;
+      const log = document.getElementById("ops-delivery-log");
+      const preview = (() => { try { return unstr(d.data.slice(0, 200)); } catch (e) { return toHex(d.data.slice(0, 64)) + "…"; } })();
+      log.textContent = `[${new Date().toLocaleTimeString()}] ${d.found ? "DELIVERY" : "NOT-FOUND"} key=${toHex(d.key).slice(0, 16)}… ${d.fullLen} B\n${preview}\n\n` + log.textContent;
+    }
+    if (drained === 0) { clearInterval(opsPollTimer); opsPollTimer = null; }
+  }, 800);
+}
+
+function storagePersistInfo() {
+  const el = document.getElementById("storage-persist-info");
+  if (!el) return;
+  const idb = typeof indexedDB !== "undefined";
+  const ls = (() => { try { localStorage.setItem("__t", "1"); localStorage.removeItem("__t"); return true; } catch (e) { return false; } })();
+  el.innerHTML = `IndexedDB (store.js namespaces): <b>${idb ? "✓ available" : "✗ unavailable"}</b><br>` +
+    `localStorage: <b>${ls ? "✓ available" : "✗ unavailable"}</b><br>` +
+    `CAS note: WASM-memory CAS is per-session; keys above persist, blobs re-store on PUT. Network PUT routes content to peers.`;
+}
+
+// Init: stamp the footer commit badge once the page is up.
+window.addEventListener("DOMContentLoaded", () => { updateCommitBadge(); renderCasKeys(); storagePersistInfo(); });
+</script>
+<footer id="quine-footer">
+  rations quine · commit <code id="quine-commit">…</code>
+</footer>
+</body>
+</html>

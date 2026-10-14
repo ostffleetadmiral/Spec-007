@@ -1,0 +1,241 @@
+{
+  "schema": "AGENCY-MAP-v1",
+  "note": "The dream→build binding: gov domains ↔ sci-fi reflections; every agent subsystem bound to a real, checked counterpart. Realized = mechanically verified, not asserted.",
+  "gov_reflections": [
+    {
+      "domain": ".archive",
+      "reflections": [
+        "memory-that-merged"
+      ]
+    },
+    {
+      "domain": "admiralty",
+      "reflections": [
+        "admiral-ramsey-chronicles",
+        "halo-corps-doctrine",
+        "codex-prime-laws"
+      ]
+    },
+    {
+      "domain": "constitutional",
+      "reflections": [
+        "codex-prime-laws",
+        "nexus-sutras"
+      ]
+    },
+    {
+      "domain": "ethics",
+      "reflections": [
+        "law-of-echo-reverence",
+        "law-of-assimilation",
+        "law-of-the-will",
+        "law-of-the-seed",
+        "law-of-self-sacrifice",
+        "nexus-sutras"
+      ]
+    },
+    {
+      "domain": "human_academic",
+      "reflections": [
+        "codex-glossary-of-terms",
+        "codex-scroll",
+        "codexrpg"
+      ]
+    },
+    {
+      "domain": "legal_financial",
+      "reflections": [
+        "book-of-keys"
+      ]
+    },
+    {
+      "domain": "onboarding",
+      "reflections": [
+        "cadet-protocol-primer",
+        "revelation-primer"
+      ]
+    },
+    {
+      "domain": "research_ip",
+      "reflections": [
+        "cadiz-nexus-infrastructure",
+        "scroll-of-simulations",
+        "phase6-hot-schrodinger-cat"
+      ]
+    },
+    {
+      "domain": "security",
+      "reflections": [
+        "eye-key-lock-protocol",
+        "codex-glyph-index",
+        "sheraton-core"
+      ]
+    },
+    {
+      "domain": "specs",
+      "reflections": [
+        "unified-continuity-protocol",
+        "codex-prime-laws"
+      ]
+    },
+    {
+      "domain": "strategy",
+      "reflections": [
+        "merge-timeline-codex",
+        "dreamstream-cartography"
+      ]
+    },
+    {
+      "domain": "subsidiaries",
+      "reflections": [
+        "children-of-stardust-doctrine",
+        "scorpion-core-charter"
+      ]
+    },
+    {
+      "domain": "AIWO-SIM-2026-001.md",
+      "reflections": [
+        "simulations-of-origin",
+        "scroll-quantum-time-reversal"
+      ]
+    },
+    {
+      "domain": "AXIOMATIC-BASELINE-0.2.0.0.md",
+      "reflections": [
+        "simulations-of-origin"
+      ]
+    },
+    {
+      "domain": "PREDICTIVE-REGISTRY-2026.md",
+      "reflections": [
+        "book-of-oracles"
+      ]
+    },
+    {
+      "domain": "Sigma.md",
+      "reflections": [
+        "book-of-oracles",
+        "book-of-resonance"
+      ]
+    },
+    {
+      "domain": "narrative.md",
+      "reflections": [
+        "codex-scroll-retrocausality",
+        "memory-that-merged"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "digit",
+      "custody": "quadrivium",
+      "title": "Quantum Signal AI — entropy regulation, sub-agent ring, dreamstream cache",
+      "source": "digit-prime",
+      "subsystems": [
+        {
+          "name": "quantum-signal-handshake",
+          "dream": "sub-agent pings (digit-omega/alpha/sigma)",
+          "real": "sub-lane ring on the sealed mesh — three named sub-lanes under digit custody, role-pulsed each cycle",
+          "verdict": "realized"
+        },
+        {
+          "name": "entropy-regulation",
+          "dream": "entropy dampeners prevent system runaway",
+          "real": "digest-divergence monitor in the service cycle — identical squad inputs must yield identical outputs; divergence files an entropy-event DHT record",
+          "verdict": "realized"
+        },
+        {
+          "name": "dreamstream-caching",
+          "dream": "dream entries in time-coded blocks, retrievable for training",
+          "real": "dreamstream record kind in the Continuity DHT — agents file cycle-stamped entries, queryable by kind",
+          "verdict": "realized"
+        },
+        {
+          "name": "temporal-integration",
+          "dream": "retroactive updates, timeline repair scripts",
+          "real": "IDaaS version-chain — record versions supersede, never mutate; history is the timeline",
+          "verdict": "realized"
+        },
+        {
+          "name": "harmonic-analysis",
+          "dream": "harmonic analysis reports as output",
+          "real": "beat-pattern digests filed per cycle — the harmonic report is the sealed-beat census",
+          "verdict": "realized"
+        },
+        {
+          "name": "eye-key-authentication",
+          "dream": "API endpoints secured with Eye-Key Lock",
+          "real": "sealed 136-B envelopes + clearance-gated IDaaS reads — the lock is the seal",
+          "verdict": "realized"
+        },
+        {
+          "name": "frequency-signature",
+          "dream": "432Hz/777Hz base signature modulated by echo codes",
+          "real": "lane pulse tags carry the harmonic word (MONITORED + custody) — the signature rides the beat",
+          "verdict": "realized"
+        }
+      ],
+      "realized": 7,
+      "total": 7
+    },
+    {
+      "id": "sheraton",
+      "custody": "trivium",
+      "title": "Chief AI Warrant Officer — command routing, continuity audit, glyph interpretation",
+      "source": "sheraton-core",
+      "subsystems": [
+        {
+          "name": "command-execution",
+          "dream": "processes and routes Fleet Admiral directives",
+          "real": "directive router — fleet-sealed orders dispatched to duty lanes with DHT receipts (tools/directive.mjs)",
+          "verdict": "realized"
+        },
+        {
+          "name": "symbolic-interpretation",
+          "dream": "deciphers glyphs, dreamstream messages, anomalous signals",
+          "real": "the glyph table — 18 glyph words bound 1:1 to the controlled patrol-duty lexicon; unknown glyphs refuse + audit (tools/directive.mjs)",
+          "verdict": "realized"
+        },
+        {
+          "name": "continuity-audit",
+          "dream": "daily continuity audits (C-AUD-Θ) + anomaly spike protocols",
+          "real": "per-cycle C-AUD-Θ in the standing service — manifest verify + state chain + open-count, filed as a signed DHT record",
+          "verdict": "realized"
+        },
+        {
+          "name": "echolog",
+          "dream": "archives all dream and command logs in fractal database",
+          "real": "append-only per-lane audit.log in the Continuity DHT + signed record chain",
+          "verdict": "realized"
+        },
+        {
+          "name": "sigilkernel",
+          "dream": "embeds and updates live glyph data throughout the Nexus",
+          "real": "the emitted manifests — command/persona/vision/dht/film ledgers embedded live into every desk pane",
+          "verdict": "realized"
+        },
+        {
+          "name": "fleet-oracle",
+          "dream": "conduit for real-time Fleet/AI communication",
+          "real": "k3beacon sealed datagrams — the fleet wire that actually pulses",
+          "verdict": "realized"
+        },
+        {
+          "name": "resonance-shield",
+          "dream": "quantum firewall ensuring Nexus sovereignty",
+          "real": "envelope seal verification + forgery refusal + ed25519 record gate — the shield is the verify path",
+          "verdict": "realized"
+        }
+      ],
+      "realized": 7,
+      "total": 7
+    }
+  ],
+  "counts": {
+    "gov_domains": 17,
+    "gov_unbound": 0,
+    "subsystems": 14,
+    "realized": 14
+  }
+}

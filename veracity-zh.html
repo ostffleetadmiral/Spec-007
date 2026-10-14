@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 真實性稽核</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('veracity.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="discoveries-zh.html">發現帳本</a> &middot;
+<a href="bridge-map-zh.html">橋接圖譜</a> &middot;
+<a href="science-coverage-zh.html">科學覆蓋</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="veracity.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>真實性稽核 — 何者為真，何者為戲</h1>
+<!-- 機密文件 — 回答唯一重要的問題:這一切有多少是真的。 -->
+
+<p><strong>密級:</strong> INTERNAL // VERACITY — 檔案為自己評級。
+<strong>權限:</strong> PROVEN 欄中每一行皆已執行,而非僅斷言。
+重測: <code>node security/suite.mjs</code>(見<a href="verdict.html">安全裁決</a>)。</p>
+<p>工作站以兩種聲音說話。一種簽署、密封、計算 — 另一種身著戲服。
+本文件劃出兩者之間的界線,使真實之物不因戲劇而借得公信力,
+也不使任何戲劇被誤認為工程。</p>
+<hr>
+<h2>第 P 級 — 已證實(已執行、可重現)</h2>
+<table>
+<thead>
+<tr>
+<th>主張</th>
+<th>證據</th>
+<th>裁決</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>誓約產生真實 Ed25519 簽章</td>
+<td>對正典誓約位元組執行 <code>rations_ed25519_sign</code>;驗證往返通過</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>通行語包封私密金鑰</td>
+<td>PBKDF2(100k) → AES-256-GCM;竄改的密文/標籤被拒(SEC-02、SEC-20)</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>桌面僅在解鎖後啟動</td>
+<td><code>index.html</code> → <code>fano-auth.js</code> 閘門;鎖定時限強制執行,竄改被拒</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>通道 seal/open 為真實加密</td>
+<td>X25519 握手 → AES-256-GCM 訊框;雙 WASM 節點端到端驗證</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>中繼站強制來源、大小、速率</td>
+<td>4 MiB+1 被拒、300 訊息爆發遭關閉、非法來源 → 4403(SEC-10..14)</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>QR / 隱寫 / 載體 / Shamir</td>
+<td>WASM 實作,套件內往返驗證</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>WASM 成品完整性</td>
+<td>sha256 錨定(<code>bbdca546…</code>),掃描時驗證</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>核心數學為純整數 Q128.128</td>
+<td>Zig 測試線束:92/92 項檢查;核心無浮點</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>安全掃描結果</td>
+<td>31 項探測:29 HARDENED、2 NOTED、0 EXPLOITED</td>
+<td><strong>真實</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>第 S 級 — 已引用(引用來源,未重現)</h2>
+<table>
+<thead>
+<tr>
+<th>主張</th>
+<th>來源</th>
+<th>裁決</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CaC₂ → 300 g 產生 104.9 L 乙炔</td>
+<td>化學計量,檔案內驗證</td>
+<td><strong>數學已驗證</strong></td>
+</tr>
+<tr>
+<td>路徑 A 412–732 W / 路徑 B 215–228 W</td>
+<td>對元件資料表之篩選算術</td>
+<td><strong>僅算術</strong> — 無實測數據</td>
+</tr>
+<tr>
+<td>負電價事件</td>
+<td>宣言 §來源;市場文獻</td>
+<td><strong>已引用,未驗證</strong></td>
+</tr>
+<tr>
+<td>「Storio 天文台」2026 數據</td>
+<td>宣言</td>
+<td><strong>已引用之主張 — 未經獨立確認</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>第 I 級 — 示意(機制為真,非量測)</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>實際性質</th>
+<th>裁決</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>功率/效率推估</td>
+<td>對資料表數值之整數數學 — 模型,非測試</td>
+<td><strong>示意</strong></td>
+</tr>
+<tr>
+<td>Quplink 視覺化</td>
+<td>計算值之誠實呈現;<code>數據支撐</code>/<code>示意</code> 標籤區分資料與示意圖</td>
+<td><strong>已標示之示意</strong></td>
+</tr>
+<tr>
+<td>覆蓋率「116.9%」</td>
+<td>Rations 密度棘輪(測試行/程式行),非分支覆蓋率</td>
+<td><strong>真實指標,自定義定義</strong></td>
+</tr>
+<tr>
+<td>遙測 LED / 桌面讀數</td>
+<td>有通道時為即時;否則為靜態外觀</td>
+<td><strong>部分即時</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>第 T 級 — 戲劇(虛構層,公開聲明)</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>實際性質</th>
+<th>裁決</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>艦隊、SPEC 編號、「Q 部門」</td>
+<td>靜態網站上的敘事框架</td>
+<td><strong>戲劇</strong></td>
+</tr>
+<tr>
+<td>「TOP SECRET//SCI」橫幅、遮蔽條</td>
+<td>樣式;檔案為公開靜態 HTML</td>
+<td><strong>戲劇</strong></td>
+</tr>
+<tr>
+<td>計量者(The Meter)</td>
+<td>建構於宣言真實論證之上的反派設定</td>
+<td><strong>真實學說上之戲劇</strong></td>
+</tr>
+<tr>
+<td><code>manifesto.html</code> 出處</td>
+<td>文件為真(<code>thoughts&amp;convos/originals/Manifesto.md</code>,正典本於 <code>gov/ethics/</code>);「洩漏」框架為虛構</td>
+<td><strong>真實內容,戲劇框架</strong></td>
+</tr>
+<tr>
+<td>龐德門面本身</td>
+<td>掩護故事——環球進出口公司為正典:SIS 的門面本該像個笑話。笑話遮蔽其下的機密結構;公開樹中不含機密</td>
+<td><strong>戲劇作為掩護——合乎正典</strong></td>
+</tr>
+<tr>
+<td>誓約閘門作為存取屏障</td>
+<td>本機檢查屬<strong>諮詢性質</strong> — 任何人皆可修補靜態檔案。真正的閘門是網路准入:節點在通道開啟前驗證誓約簽章與角色憑證</td>
+<td><strong>真實密碼學,本機層為諮詢性</strong></td>
+</tr>
+<tr>
+<td>創世記錄</td>
+<td>創世公鑰之 sha256,由本桌首次註冊寫入(既有記錄溯及補植)。<code>burn</code> 不滅;<code>burn genesis</code> 為記錄在案之重置。綁定於本 origin——非全網真理</td>
+<td><strong>本機真實,全網屬諮詢性</strong></td>
+</tr>
+<tr>
+<td>桌面檔案之 <code>burn</code></td>
+<td>外觀效果。對<em>金鑰庫</em>之 <code>burn</code> 為真(記錄與工作階段清除)</td>
+<td><strong>分裂裁決</strong></td>
+</tr>
+<tr>
+<td>「永不刪除通過之測試」封存</td>
+<td><code>archives/</code> 與 <code>~/.archives/</code> 下之真實目錄</td>
+<td><strong>真實</strong></td>
+</tr>
+<tr>
+<td>解密件 D-1——EIN 指派書</td>
+<td>真實 IRS 紀錄(EIN 42-4931851,OSTF dba SALLIRREUGTECH);位元組一致副本以 sha256 釘於 <code>site/assets/declassified/</code></td>
+<td><strong>真實文件</strong></td>
+</tr>
+<tr>
+<td>解密件 D-2——四卷論文</td>
+<td>真實 Zenodo 紀錄 10.5281/zenodo.22715355,2026-09-11 發布,CC BY-NC-SA 4.0;<code>papers/x/</code> 副本經 MD5 驗證與紀錄位元組一致</td>
+<td><strong>真實出版物</strong></td>
+</tr>
+<tr>
+<td><code>object-006.html</code> SCP 格式檔案</td>
+<td>文件<em>格式</em>借用自 SCP 正典(SCP-006「青春之泉」、SCP-006-FR「屠夫」)作為連續性戲劇;每項引用事實均連結至已分級頁面</td>
+<td><strong>借用格式——合乎正典</strong></td>
+</tr>
+<tr>
+<td>006 解碼鏈</td>
+<td><code>006 → scp-006 → scp-006-fr</code> 解出 «Из России с любовью»——設計之彩蛋,誠實標示;其所引用之電影與 SCP 條目為真實存在</td>
+<td><strong>設計之象徵,真實之指涉</strong></td>
+</tr>
+<tr>
+<td>屠夫 / 泉</td>
+<td>象徵對映(資本主義之終結 / 豐裕典範),由首席理論家所立——屬教義,非測量</td>
+<td><strong>已聲明之象徵</strong></td>
+</tr>
+<tr>
+<td>quplink FAMILY 分頁</td>
+<td>Qstar-LLM、zig-k3-port、Digit v0.0.0.1 之事實表——每項數字皆逐字引自各姊妹倉庫自身之 README/AGENTS</td>
+<td><strong>真實,引自源頭</strong></td>
+</tr>
+<tr>
+<td>7q 抽屜→指揮套件</td>
+<td>FLEET-ADMIRAL 工作階段開啟套件（分部核准、授權、名冊）;其餘階級仍得 ACCESS DENIED</td>
+<td><strong>真實 RBAC 閘門——本機屬諮詢性</strong></td>
+</tr>
+<tr>
+<td>分部指派</td>
+<td>申請者簽署之 FANO-BRANCH-REQ 憑證＋司令簽發之 FANO-BRANCH 憑證;名冊強制經驗證（COMM-16..19）</td>
+<td><strong>真實密碼學,本機屬諮詢性</strong></td>
+</tr>
+<tr>
+<td>將旗驗證器（FANO-ROOT-v1）</td>
+<td>釘選席位憑證：自根（<code>gen = sha256(iss)</code>）、驗簽、名冊閘控、跨桌攜行（COMM-20..24）</td>
+<td><strong>真實密碼學——名冊為信任錨</strong></td>
+</tr>
+<tr>
+<td>QStar.net TOTP</td>
+<td>RFC 6238 Google Authenticator 流程：本機密鑰加密、otpauth URI＋QR／手動設定、六位數驗證、桌面雙步驟閘門</td>
+<td><strong>真實本機密碼學——無伺服器密鑰</strong></td>
+</tr>
+<tr>
+<td>治理 Ollama 橋接／SPEC 移植圖</td>
+<td>TheUE Python 工具雜湊分類 1,091 份治理文件並映射 10,331 項需求；token 閘控橋接僅允許本機／遠端 Ollama，轉送前執行政策並記錄 SHA-256 稽核 ID</td>
+<td><strong>真實原型邊界——模型輸出為 modeled、AI 僅諮詢</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>已知限制 — 明示而非隱藏</h2>
+<ol>
+<li><strong>靜態託管無法阻止本機修補。</strong> 誓約在其關鍵處強制執行 —
+   對等准入 — 而非檔案系統。</li>
+<li><strong>WASM 記憶體持有熱金鑰。</strong> <code>burn</code> 清除儲存與工作階段;
+   重新載入清除堆積。運行中分頁之實體入侵超出瀏覽器頁面範疇。</li>
+<li><strong>通行語熵為最弱環節。</strong> SEC-22 量測單核約 4 次 PBKDF2/秒;
+   8 字元弱通行語仍是弱通行語。</li>
+<li><strong>通道層無重放新鮮度</strong> — 密封訊框可重複解密;
+   新鮮性屬於應用層(SEC-15,NOTED)。</li>
+<li><strong>無實測硬體數據。</strong> 所有 SPEC-007 電氣數字皆為對聲稱元件之算術 —
+   檔案已相應標示。</li>
+</ol>
+<hr>
+<p><em>依檔案規則編製:檔案陳述其所能證明者,為其所不能證明者評級,
+並為其戲劇標示。計量者向標籤計費。本頁移除標籤。</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

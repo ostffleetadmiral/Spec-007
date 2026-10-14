@@ -1,0 +1,590 @@
+{
+  "schema": "academy-pedagogy-v1",
+  "scope": "deterministic-content-signals",
+  "courses_graded": 14,
+  "lessons_graded": 55587,
+  "grades": {
+    "STRONG": 0,
+    "FAIR": 0,
+    "THIN": 14
+  },
+  "corpus_grade": "THIN",
+  "assessment": "deterministic_review_required",
+  "caveat": "heuristics measure consistency (length bands, boilerplate reuse, near-dup shingles, topic-term fit, source concentration) — not pedagogical soundness; human review remains the gate",
+  "courses": [
+    {
+      "course": "ai-literacy",
+      "lessons": 6819,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0537,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.293,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.2632,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.4573,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.6148,
+          "band": "green"
+        },
+        "src_conc": {
+          "v": 0.7715,
+          "band": "amber"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 826,
+      "neardup_biggest": 369,
+      "top_source": [
+        "three-ws",
+        5261
+      ]
+    },
+    {
+      "course": "campaign-operations",
+      "lessons": 843,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0439,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.3144,
+          "band": "red"
+        },
+        "title_coll": {
+          "v": 0.1791,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3345,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.3535,
+          "band": "amber"
+        },
+        "src_conc": {
+          "v": 0.5563,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 79,
+      "neardup_biggest": 49,
+      "top_source": [
+        "three-ws",
+        469
+      ]
+    },
+    {
+      "course": "communications",
+      "lessons": 1504,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0951,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2048,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.1636,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.2513,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.3989,
+          "band": "amber"
+        },
+        "src_conc": {
+          "v": 0.5984,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 133,
+      "neardup_biggest": 38,
+      "top_source": [
+        "three-ws",
+        900
+      ]
+    },
+    {
+      "course": "governance-ethics",
+      "lessons": 216,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.037,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2778,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.1898,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3241,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.1667,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.4815,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 26,
+      "neardup_biggest": 8,
+      "top_source": [
+        "three-ws",
+        104
+      ]
+    },
+    {
+      "course": "hardware-fleet",
+      "lessons": 598,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.1271,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.1472,
+          "band": "green"
+        },
+        "title_coll": {
+          "v": 0.1271,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3244,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.2826,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.6672,
+          "band": "amber"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 57,
+      "neardup_biggest": 25,
+      "top_source": [
+        "ukama",
+        399
+      ]
+    },
+    {
+      "course": "identity-authority",
+      "lessons": 283,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0777,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.258,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.159,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3074,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.6678,
+          "band": "green"
+        },
+        "src_conc": {
+          "v": 0.8445,
+          "band": "amber"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 30,
+      "neardup_biggest": 9,
+      "top_source": [
+        "three-ws",
+        239
+      ]
+    },
+    {
+      "course": "lore-shelf",
+      "lessons": 86,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0233,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2791,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.0698,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.186,
+          "band": "amber"
+        },
+        "term_cov": {
+          "v": 0.6047,
+          "band": "green"
+        },
+        "src_conc": {
+          "v": 0.8837,
+          "band": "red"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 8,
+      "neardup_biggest": 2,
+      "top_source": [
+        "three-ws",
+        76
+      ]
+    },
+    {
+      "course": "ministry-neo-hindu",
+      "lessons": 69,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.058,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2029,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.0435,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.2174,
+          "band": "amber"
+        },
+        "term_cov": {
+          "v": 0.1449,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.4783,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 7,
+      "neardup_biggest": 3,
+      "top_source": [
+        "e-mc-2",
+        33
+      ]
+    },
+    {
+      "course": "orientation",
+      "lessons": 5234,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0908,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2262,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.4499,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3082,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.0361,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.5887,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 428,
+      "neardup_biggest": 195,
+      "top_source": [
+        "three-ws",
+        3081
+      ]
+    },
+    {
+      "course": "reference-stack",
+      "lessons": 10821,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0703,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2375,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.304,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.401,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.3368,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.8103,
+          "band": "amber"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 1355,
+      "neardup_biggest": 577,
+      "top_source": [
+        "three-ws",
+        8768
+      ]
+    },
+    {
+      "course": "science-lattice",
+      "lessons": 1501,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0873,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2645,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.1812,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3391,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.1406,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.5476,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 127,
+      "neardup_biggest": 50,
+      "top_source": [
+        "vphone-cli",
+        822
+      ]
+    },
+    {
+      "course": "security-clearance",
+      "lessons": 642,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0436,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.2523,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.1324,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.3645,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.4159,
+          "band": "amber"
+        },
+        "src_conc": {
+          "v": 0.704,
+          "band": "amber"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 53,
+      "neardup_biggest": 109,
+      "top_source": [
+        "three-ws",
+        452
+      ]
+    },
+    {
+      "course": "systems-engineering",
+      "lessons": 2654,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.0754,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.234,
+          "band": "amber"
+        },
+        "title_coll": {
+          "v": 0.1775,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.2306,
+          "band": "amber"
+        },
+        "term_cov": {
+          "v": 0.2803,
+          "band": "red"
+        },
+        "src_conc": {
+          "v": 0.457,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 235,
+      "neardup_biggest": 32,
+      "top_source": [
+        "three-ws",
+        1213
+      ]
+    },
+    {
+      "course": "uiux-craft",
+      "lessons": 24317,
+      "grade": "THIN",
+      "signals": {
+        "thin": {
+          "v": 0.2189,
+          "band": "green"
+        },
+        "capped": {
+          "v": 0.069,
+          "band": "green"
+        },
+        "title_coll": {
+          "v": 0.3422,
+          "band": "green"
+        },
+        "neardup": {
+          "v": 0.5004,
+          "band": "red"
+        },
+        "term_cov": {
+          "v": 0.3651,
+          "band": "amber"
+        },
+        "src_conc": {
+          "v": 0.3369,
+          "band": "green"
+        },
+        "ids": {
+          "v": 0,
+          "band": "green"
+        }
+      },
+      "neardup_clusters": 2790,
+      "neardup_biggest": 614,
+      "top_source": [
+        "threejs",
+        8192
+      ]
+    }
+  ]
+}

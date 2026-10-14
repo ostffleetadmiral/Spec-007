@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // The Trusted Numbers</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('verified-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<strong>[Verified]</strong> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<a href="veracity.html">Veracity Audit</a> &middot;
+<a href="discoveries.html">Discovery Ledger</a> &middot;
+<a href="bridge-map.html">Bridge Map</a> &middot;
+<a href="science-coverage.html">Science Coverage</a> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="verified-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>SPEC-007 verified claims specification</h1>
+<p><strong>Status:</strong>
+<strong>Version:</strong> 1.0.0 Corrected, source-backed baseline. This document promotes <strong>only</strong> claims that are stoichiometrically derivable, sourced to institutional/manufacturer data, or proven by the calculation harnesses. Everything else is excluded (see <code>spec-007-research-dossier.md</code> and <code>spec-007-claim-verification.en.md</code> for the rejected/conditional items).</p>
+<p><strong>Immutable source:</strong> <code>spec-007.md</code> is preserved unchanged as the historical concept record. This file supersedes its unverified numbers.</p>
+<p><strong>Evidence harnesses:</strong></p>
+<ul>
+<li><code>spec007_calculations.zig</code> — 8 tests (stoichiometry, flow contradiction, duration, rack scaling, envelope geometry, Q128.128 shadow material balance, shadow drip-rate chain)</li>
+<li><code>spec007_expanded_calculations.zig</code> — 18 tests (PDRC area, thermal cascade, Novec gate, energy split, carbon, vehicle power, feedstock cost, hardware amortization, condenser-path TEG recovery, TEG ΔT scaling, burst rejection area, TEC parasitics, solar photothermal bound, low-rate broad-area burning, monotonicity, Q128.128 shadow cascade/TEG/road-load)</li>
+<li><code>spec007_verified_calculations.zig</code> — 15 tests (commercial yield, implied purity, energy density, TEG module efficiency, rack envelope, envelope consistency, combustion burst ceiling, commercial-grade scaling, rate-duration conservation, residue mass, combustion air/exhaust, cartridge mass floor, Q128.128 shadow energy density/combustion/residue-air-mass ledger)</li>
+<li><code>spec007_drivetrain_calculations.zig</code> — 21 tests (ratio windows, CVT sweep coverage, torque/power conservation, disc and generator-rotor tip-stress bounds, transmission derate chain, per-charge ORC-branch derate, loss-heat TEG recovery bound, shared rejection budget, paid-vs-free heat economics, <strong>dual-path powertrain: scroll-vs-Tesla expander bands, Path A/B bus and per-charge screens, open-hardware $/W comparison, sleeved-rotor bounds</strong>, Q128.128 shadow checks)</li>
+<li><code>spec007_manifold_calculations.zig</code> — 12 tests (cartridge volume/mass budget incl. pouch architecture and ~14% sludge growth, ESP32-S3 controller parasitic envelope and redundancy bound, oil-bus flow and temperature stack, Novec economizer capacity and charge-extension credit, three-bus manifold conservation, Q128.128 shadow checks)</li>
+<li><code>spec007_q128.zig</code> — shadow fixed-point engine (Q128.128, no tests of its own; verified through the harnesses it serves)</li>
+</ul>
+<h2>1. Verified chemistry</h2>
+<p>Reaction: <code>CaC₂ + 2 H₂O → C₂H₂ + Ca(OH)₂</code>, exothermic (ΔH model ≈ −127.2 kJ/mol; literature range corroborated by NOAA CAMEO and MIT OCW materials).</p>
+<p>For a <strong>300 g pure</strong> charge:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th style="text-align: right;">Verified value</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CaC₂ amount</td>
+<td style="text-align: right;">4.680 mol</td>
+<td>Stoichiometry (test harness)</td>
+</tr>
+<tr>
+<td>Water consumed</td>
+<td style="text-align: right;">168.6 g</td>
+<td>Stoichiometry (test harness)</td>
+</tr>
+<tr>
+<td>Acetylene produced</td>
+<td style="text-align: right;">121.9 g / 104.9 L (STP model)</td>
+<td>Stoichiometry (test harness)</td>
+</tr>
+<tr>
+<td>Reaction heat</td>
+<td style="text-align: right;">≈595 kJ (165 Wh)</td>
+<td>127.2 kJ/mol model (test harness)</td>
+</tr>
+<tr>
+<td>Acetylene chemical energy</td>
+<td style="text-align: right;">≈1,689 Wh</td>
+<td>49.9 MJ/kg LHV (test harness)</td>
+</tr>
+<tr>
+<td>Ca(OH)₂ residue</td>
+<td style="text-align: right;">≈346.8 g</td>
+<td>Stoichiometry (test harness)</td>
+</tr>
+<tr>
+<td>Carried water inventory</td>
+<td style="text-align: right;">≈168.6 g</td>
+<td>Stoichiometry (test harness)</td>
+</tr>
+</tbody>
+</table>
+<p>For a <strong>commercial acetylene-grade</strong> 300 g charge (GB 10665-2004 supplier rating 285–305 L/kg at 20 °C, 101 kPa):</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th style="text-align: right;">Verified value</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gas yield</td>
+<td style="text-align: right;">85.5–91.5 L</td>
+<td>Supplier-rated yield (harness test)</td>
+</tr>
+<tr>
+<td>Implied active CaC₂</td>
+<td style="text-align: right;">≈75.9–81.2%</td>
+<td>Derived from yield at the rated 20 °C condition (harness test)</td>
+</tr>
+<tr>
+<td>Energy density (commercial grade)</td>
+<td style="text-align: right;">≈4.7–5.0 kWh/kg</td>
+<td>Pure-model density × active fraction (harness test)</td>
+</tr>
+<tr>
+<td>Duration at 5 L/min</td>
+<td style="text-align: right;">≈17–18 min</td>
+<td>Yield ÷ rate (harness test)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verified energy density:</strong> ~<strong>6.2 kWh per kg</strong> of pure carbide (5.63 kWh chemical + 0.55 kWh reaction heat). Any figure materially above this (e.g., "~12 kWh/kg") is excluded.</p>
+<h2>2. Verified flow/duration relationship</h2>
+<ul>
+<li>Ideal gas rate ≈ <strong>0.622 L/min acetylene per mL/min water</strong>.</li>
+<li>At 0.1–0.5 mL/min water: <strong>0.062–0.311 L/min</strong> gas.</li>
+<li>At 5 L/min gas: requires ≈<strong>8.0 mL/min</strong> water; a 300 g pure charge lasts ≈<strong>21 min</strong>.</li>
+</ul>
+<p>Promoted requirement: <strong>any published gas rating must state the paired water-feed rate and charge duration.</strong> Gas rate, water rate, and duration are verified to be physically coupled; they cannot be specified independently.</p>
+<h2>2a. Verified combustion-mode thermal ceiling</h2>
+<p>If the acetylene is <strong>burned in a qualified burner</strong> (a separate, unproven subsystem), the thermal ceiling rises by roughly an order of magnitude over hydrolysis heat alone:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Mode</th>
+<th style="text-align: right;">Thermal power at 5 L/min gas</th>
+<th style="text-align: right;">Duration per 300 g charge</th>
+<th style="text-align: right;">Thermal energy per charge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Pure model (STP basis)</td>
+<td style="text-align: right;">≈5.30 kW (4,830 W combustion + 472 W hydrolysis)</td>
+<td style="text-align: right;">≈21 min</td>
+<td style="text-align: right;">≈1.85 kWh</td>
+</tr>
+<tr>
+<td></td>
+<td>Commercial grade (rated basis)</td>
+<td style="text-align: right;">≈4.94 kW (4,501 W combustion + 440 W hydrolysis)</td>
+<td style="text-align: right;">≈17–18 min</td>
+<td style="text-align: right;">≈1.5 kWh</td>
+</tr>
+</tbody>
+</table>
+<p>This is a <strong>thermal ceiling, not an electrical output claim</strong>: conversion through a screened cascade (80% of heat at 6% ORC + 20% at 3% TEG − parasitics, per <code>spec007_expanded_calculations.zig</code>) yields roughly <strong>0.09–0.11 kWh electrical per charge</strong> delivered as a high-power burst.</p>
+<p><strong>Thermal-ledger convention:</strong> the cascade's TEG share applies to heat paths <em>other than</em> the ORC stream (reactor wall, exhaust boundary). The ORC's ~3.99 kW condenser rejection is a <em>downstream</em> path: a TEG in that stream harvests heat already past the expander, so it is not double-counted — but the module's ~5% point rating applies only at a rated ΔT ≈ 270 K. At a real condenser ΔT of ~30–60 K, screening-scaled efficiency is ~0.5–1.1%, so realistic condenser-path recovery is <strong>≈20–44 W</strong>, not the ΔT-idealized ~119 W bound. The high-ΔT placement is the exhaust boundary; low-ΔT placements (reactor wall, condenser) recover proportionally less.</p>
+<p><strong>Combustion air/exhaust requirements (per charge):</strong> at the full 5 L/min gas rate, stoichiometric burning demands ~12.5 L/min O₂ ≈ <strong>~59.5 L/min continuous air</strong>; a whole pure charge consumes ~262 L O₂ (~1.25 m³ air) and produces ≈<strong>412 g CO₂</strong> plus water vapor. Any enclosed or vehicle integration must provide this ventilation and exhaust path.</p>
+<p><strong>Burst-mode rejection:</strong> after screened conversion recovery, ~5.0 kW must still leave the system. At the favorable 120 W/m² PDRC flux that is <strong>~41.7 m²</strong> of radiating area — burst mode requires a forced-convection radiator, not a panel. The burner, exhaust, flashback protection, ventilation, and emissions path remain unverified and are mandatory evidence gates before any such mode is claimed.</p>
+<p><strong>Rate is a dial, not a fixed point.</strong> The ~21-minute figure is only the maximum-rate case. Thermal power scales linearly with gas rate while duration stretches inversely — total energy per charge is conserved (harness test):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Gas rate</th>
+<th style="text-align: right;">Thermal power (pure model)</th>
+<th style="text-align: right;">Duration per 300 g</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0.5 L/min</td>
+<td style="text-align: right;">≈0.53 kW</td>
+<td style="text-align: right;">≈210 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">1 L/min</td>
+<td style="text-align: right;">≈1.06 kW</td>
+<td style="text-align: right;">≈105 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">2 L/min</td>
+<td style="text-align: right;">≈2.12 kW</td>
+<td style="text-align: right;">≈52 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">5 L/min</td>
+<td style="text-align: right;">≈5.30 kW</td>
+<td style="text-align: right;">≈21 min</td>
+</tr>
+</tbody>
+</table>
+<p>Caveat: parasitic loads (pumps, controls, any active cooling) are roughly constant in watts, so <strong>net</strong> electrical margin shrinks disproportionately at low rates — part-load conversion efficiency is also generally worse, not better. The low-throttle regime is nonetheless physically credible: historical drip-fed carbide lamps sustained ~2–5 hours per charge, consistent with the 0.5 L/min → ≈3.5 h model point.</p>
+<p>Broad-area duty point: at 0.5 L/min the ~530 W thermal stream spread over a briefcase-scale (~0.2 m²) plate is ~2.65 kW/m² — uniform enough for large-area TEG or evaporator coverage. Low generation pressure is also the <em>required</em> safety regime: acetylene can self-decompose explosively above ~1.5–2 bar even without oxygen, which is why cylinders store it dissolved in acetone. The trade-off is unchanged — the charge's ~1.85 kWh thermal is conserved, so slow burning buys duration and flux control, not more energy.</p>
+<p><strong>On evaporator pressure as a design dial:</strong> a pressurized Novec vapor generator is a legitimate architecture — vapor pressure climbs steeply with temperature (model estimate ~0.4–1.2 MPa at 90–150 °C, derived from manufacturer data), and the dense, high-molecular-weight vapor suits a compact boundary-layer expander. Two bounds apply: the 169 °C critical gate is absolute, and latent heat collapses toward it, so the practical evaporator band is roughly 90–150 °C rather than near-critical. At the low end, sub-atmospheric evaporation can couple to cooler reactor-wall heat but inflates specific volume and sealing demands. Pressure relocates the operating point; it does not add energy — turbine output remains bounded by mass flow × enthalpy drop × measured expander efficiency.</p>
+<h2>2b. Verified drivetrain screening (expander→generator bridge)</h2>
+<p>If the combustion/ORC path uses a Tesla-turbine expander driving an axial-flux PM generator, the mechanical link is governed by verified screening arithmetic (<code>spec007_drivetrain_calculations.zig</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th style="text-align: right;">Verified screen</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Required ratio, 15–30k RPM turbine → 3–5k RPM generator</td>
+<td style="text-align: right;"><strong>3:1–10:1</strong></td>
+<td>Harness arithmetic</td>
+</tr>
+<tr>
+<td>Required ratio, L0 30–80k RPM band → 3–5k window</td>
+<td style="text-align: right;"><strong>6:1–26.7:1</strong></td>
+<td>Harness arithmetic — beyond single-stage CVT span</td>
+</tr>
+<tr>
+<td>Turbine torque at 254 W shaft / 20k RPM</td>
+<td style="text-align: right;">≈0.121 N·m</td>
+<td>T = P/ω, harness</td>
+</tr>
+<tr>
+<td>Torque at generator through 5:1 at η0.88</td>
+<td style="text-align: right;">≈0.534 N·m at 4,000 RPM</td>
+<td>T_out = T_in·R·η, harness</td>
+</tr>
+<tr>
+<td>50 mm disc tip speed</td>
+<td style="text-align: right;">78.5 m/s @30k · 209.4 m/s @80k</td>
+<td>v = πDN/60, harness</td>
+</tr>
+<tr>
+<td>50 mm disc ρv² stress bound (thin ring)</td>
+<td style="text-align: right;">~49 MPa @30k · ~351 MPa @80k</td>
+<td>351 MPa exceeds ~205 MPa annealed-304 yield; solid-disc bound ~145 MPa with bore concentration unresolved — <strong>the 80k top end stays blocked</strong></td>
+</tr>
+<tr>
+<td>150 mm generator-rotor ρv² screen</td>
+<td style="text-align: right;">~12 MPa @5k · ~185 MPa @20k</td>
+<td>Un-sleeved magnet retention bound (~150 MPa screen) fails at 20k — gear-down or sleeved rotor required</td>
+</tr>
+<tr>
+<td>Transmission derate band</td>
+<td style="text-align: right;">CVT ×0.80–0.88 · belt/gear ×0.95–0.98 · direct (sleeved) ×1.00</td>
+<td>Sourced efficiency ranges</td>
+</tr>
+<tr>
+<td>Burst shaft → bus (conservative heat→shaft reading of the 6% ORC figure)</td>
+<td style="text-align: right;">~182–201 W CVT · ~217–224 W belt · ~228 W direct</td>
+<td>Harness; generous heat→bus reading: ~203–248 W</td>
+</tr>
+<tr>
+<td>Per-charge ORC branch through drivetrain</td>
+<td style="text-align: right;">~63–79 Wh electric (from ~89 Wh shaft)</td>
+<td>Drivetrain-inclusive screened total ≈<strong>0.07–0.09 kWh</strong> vs the ~0.09–0.11 kWh cascade-only bound</td>
+</tr>
+<tr>
+<td>CVT loss heat → mandatory-flow TEG recovery</td>
+<td style="text-align: right;">~0.3–0.7 W of ~30–50 W loss</td>
+<td>Real but sub-watt at ~50–80 K casing ΔT; the benefit is shared rejection plumbing (+~1% on the ~5 kW burst budget)</td>
+</tr>
+<tr>
+<td><strong>Path A (scroll + direct AFPM) bus</strong></td>
+<td style="text-align: right;"><strong>~412–732 W</strong></td>
+<td>Scroll 45–80% isentropic (measured: Sanden TRS090 ~45% @650 W; E15H ~80% @120–140 °C) × ~24% cycle potential → 10.8–19.2% overall; direct drive, no transmission</td>
+</tr>
+<tr>
+<td><strong>Path A per-charge</strong></td>
+<td style="text-align: right;"><strong>~155–266 Wh</strong> incl. TEG branch</td>
+<td>~2–3× the superseded Path C window</td>
+</tr>
+<tr>
+<td><strong>Path B (Tesla + sleeved high-speed gen) bus</strong></td>
+<td style="text-align: right;">~215–228 W</td>
+<td>HS-gen η ~0.85 screen; direct drive at turbine speed</td>
+</tr>
+<tr>
+<td>Path B rotor bound</td>
+<td style="text-align: right;">50 mm magnet rotor → ~46 MPa @30k RPM</td>
+<td>Inside both hub (~150 MPa) and CF-sleeve (~800 MPa) screens; 150 mm rotor → ~416 MPa mandates the sleeve</td>
+</tr>
+<tr>
+<td>Open-hardware $/W</td>
+<td style="text-align: right;">A ~$0.34–1.21 · B ~$1.75–4.19</td>
+<td>Path A's worst bound beats Path B's best (harness)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The transmission was optional all along.</strong> The 3:1–10:1 bridge existed only to marry a 15–30k RPM Tesla expander to an un-sleeved 3–5k RPM generator window. Path A removes the mismatch at the expander end (scrolls run 2–6k RPM and are the most-measured small-ORC expander class — and hermetic scroll shells allow zero rotating seals); Path B removes it at the generator end (sleeved PM machines routinely run 20k–500k RPM at this power class). Path C — Tesla + transmission — is superseded and retained only as the archived baseline.</p>
+<p><strong>Economic consequence:</strong> on the paid-carbide branch the CVT-band loss lifts the feedstock floor from ~$1.64 to ~$2.05–2.43/kWh. On a free-heat input (the ~1.6 kW solar roof bound or genuine waste heat) the same loss carries no feedstock cost — the tolerability claim is conditional on which branch feeds the turbine.</p>
+<p><strong>Rotor-speed convention:</strong> the immutable source's 30,000–80,000 RPM turbine band is superseded in practice by the verified stress screen — the defensible operating region is the lower band (~15–30k RPM, consistent with measured literature), and any operation toward 80k RPM requires a qualified rotor-dynamics case that does not currently exist.</p>
+<h2>3. Verified TEG envelope</h2>
+<ul>
+<li>Representative 40×40 mm high-temperature Bi₂Te₃-class module: ≈<strong>9.8 W</strong> matched-load output at 300 °C hot / 30 °C cold, with ≈<strong>188 W</strong> heat flow through the module — implying ~<strong>5%</strong> module efficiency at that point.</li>
+<li>Peer-reviewed Bi₂Te₃ modules have demonstrated up to ~<strong>8%</strong> under specified conditions; ordinary commercial modules are rated near 250–300 °C continuous hot-side, not 450 °C.</li>
+<li>Promoted envelope for the 8–12 module array under TEG-only operation: <strong>10–20 W electrical output is a favorable target</strong>; the associated thermal interface must then move on the order of 200–400 W through the modules.</li>
+</ul>
+<p>Any working-fluid or TEG claim above manufacturer ratings (e.g., 450 °C continuous mineral oil or Bi₂Te₃) is excluded.</p>
+<h2>4. Verified scaling arithmetic</h2>
+<table>
+<thead>
+<tr>
+<th>Array</th>
+<th style="text-align: right;">Per-blade 10–20 W envelope</th>
+<th>Excluded historical figure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16 blades</td>
+<td style="text-align: right;"><strong>160–320 W</strong></td>
+<td>400–800 W</td>
+</tr>
+<tr>
+<td>64 blades</td>
+<td style="text-align: right;"><strong>640–1,280 W</strong></td>
+<td>2–5 kW</td>
+</tr>
+</tbody>
+</table>
+<p>Higher rack outputs are possible only with a <strong>separate, validated combustion/ORC path</strong>; such output is not verified and is excluded from promotion until measured.</p>
+<h2>5. Verified envelope geometry</h2>
+<p>50 mm OD × 200 mm L × 2 mm wall (integer-π model): internal cylinder ≈<strong>332 cm³</strong>, shell volume ≈<strong>60.3 cm³</strong>, illustrative shell mass ≈<strong>483 g</strong> (8.0 g/cm³). <strong>Mass floor:</strong> 300 g carbide + 168.6 g water + 483 g shell = <strong>≈951 g</strong> before closures, reservoir vessel, TEGs, fluid inventory, containment, controls, or gas buffer (harness test). Any jacket/fluid inventory must be shown to fit within a complete mass/volume budget; no such budget is presently verified.</p>
+<!-- Scaramanga's funhouse packed a lot of tricks into one small room. The cartridge does the same — 320 of its 332 millilitres are already spoken for. -->
+<p><strong>Pouch-architecture budget (convo3):</strong> carbide bed ~136 mL + water pouch ~169 mL + CaO quench pouch ~15 mL ≈ <strong>320 mL against the 332 mL interior → ~12 mL (&lt;4%) headspace</strong> for gas plenum and diaphragm travel; the Ca(OH)₂ product bed grows ~14% over the carbide volume it replaces (absorbed by packed-bed porosity). Screened mass floor with pouches, closures, and sensors: <strong>~1.18 kg</strong> (realistic band ~1.1–1.3 kg — not 1.0 kg) (harness tests).</p>
+<p><strong>Controller parasitic bound (convo3):</strong> an ESP32-S3 controller duty-cycled on its ULP coprocessor draws ~10–50 mW — <strong>&lt;0.2% of the 30 W sustained bus</strong>, and up to three units fit inside a 0.5% budget; always-on compute (~300 mW) would cost ~5.7% at the ~5.3 W low-duty point, so duty cycling is mandatory, and safety shutdown remains an independent hardware function regardless of MCU count (harness tests).</p>
+<p><strong>Three-bus manifold (convo3):</strong> hot oil bus ~150–250 °C (fluid-rating-limited) / warm Novec economizer ~40–90 °C / cold condenser ~30–40 °C. Temperature stack: slab ≤~300 °C → oil ≤~250 °C → Novec ≤150 °C (19 K margin to the 169 °C gate). Oil flow ~5 g/s sustained / ~53 g/s burst. External low-grade sources (e.g. PC cooling) plug in only at the economizer — capacity ~1.43 kW burst / ~0.13 kW sustained; charge-extension credit ~1.10× burst / ~1.32× sustained; additive input enlarges the rejection budget (harness tests).</p>
+<h2>6. Verified regulatory facts</h2>
+<ul>
+<li>Calcium carbide is <strong>UN 1402, Class 4.3 (dangerous when wet)</strong>, ADR Packing Group II; limited-quantity threshold 500 g under ADR 2025. UN designation is a classification pathway, <strong>not</strong> product certification.</li>
+<li>The Invention Secrecy Act (1951) exists with 6,543 orders in effect at FY2025 close; the historical (1971) screening list included high-efficiency energy conversions. No current-day suppression list is public; no present-day specific claim is promoted.</li>
+</ul>
+<h2>7. Verified background facts (context, not product claims)</h2>
+<p>These are verified context used in the analysis; they are not SPEC-007 product claims:</p>
+<ul>
+<li>China cumulative PV ≈1,464 GW end-2025; ~60% of global annual PV additions; &gt;80% of key solar manufacturing stages (IEA/IEA PVPS).</li>
+<li>China wind ≈561.5 GW end-2024; ~70% of 2024 global additions (CWEA/IEA Wind).</li>
+<li>China produces ~80% of world calcium carbide; ~3,000–4,000 kWh/t production energy.</li>
+<li>Negative/zero electricity price hours in France reached ~800 in 2026 (record −€498/MWh, May 1, 2026); China curtailed an estimated 360 TWh of clean power in H1 2026.</li>
+<li>China manufacturing value added ≈27.7% of world total (World Bank WDI 2024/2025 basis).</li>
+</ul>
+<h2>8. What is excluded from promotion</h2>
+<p>The following categories appear in the historical design inputs but are <strong>not</strong> verified and are excluded from this specification:</p>
+<ol>
+<li>Any specific net-output figure combining ORC + TEG + turbine (65 W/1 kg/4 h, etc.) — unmeasured.</li>
+<li>Any system mass/volume claim (5.5 kg, 30×20×35 cm) — unbudgeted.</li>
+<li>3-second safety-jail solidification; &gt;5G trigger sufficiency; 5+ year shelf life — untested.</li>
+<li>Novec-649 as an available, optimal ORC fluid above its 169 °C critical temperature — gated; 3M exited PFAS manufacturing end-2025.</li>
+<li>Carbon-neutral lifecycle claim — requires full LCA evidence.</li>
+<li>&lt;$50/blade and any retail/margin figures — no supplier quotations exist.</li>
+<li>All strategic/political/narrative content — classified under SPEC-004 ("7q"), retained only in the classified design inputs, and excluded from all promoted documents.</li>
+<li>"Global deployment authorized" — no certification basis exists.</li>
+</ol>
+<h2>9. Promotion rules going forward</h2>
+<ol>
+<li>A claim enters this document only with: a harness test, a primary/institutional source citation, or a qualified measurement report.</li>
+<li>Conditional or aspirational items live exclusively in the dossier/expanded spec until promoted.</li>
+<li>Any promotion updates the calculation harnesses and this document together.</li>
+</ol>
+<h2>Review schedule</h2>
+<p>Per OSTF Rulebook Art. VII, this L1 document is under scheduled and triggered review:</p>
+<ul>
+<li><strong>Annual review:</strong> next due <strong>2027-10-05</strong>.</li>
+<li><strong>Triggered review</strong> — any of the following requires re-verification through the L4 harnesses before any L1 number may be cited as current:</li>
+<li>a new or revised manufacturer datasheet,</li>
+<li>a supplier quote revision affecting promoted costs,</li>
+<li>a qualified laboratory measurement contradicting a promoted value,</li>
+<li>a regulatory change affecting the carbide/acetylene or host-vehicle envelope.</li>
+<li>Review outcome is recorded in the SPEC Registry (<code>spec-007-registry.en.md</code>) and in this file's version history.</li>
+</ul>
+<h2>Version history</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.0</td>
+<td>2026-10-05</td>
+<td>Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix.</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>

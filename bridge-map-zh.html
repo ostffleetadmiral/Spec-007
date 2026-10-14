@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 橋接圖譜</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('bridge-map.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="discoveries-zh.html">發現帳本</a> &middot;
+<strong>[橋接圖譜]</strong> &middot;
+<a href="science-coverage-zh.html">科學覆蓋</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="bridge-map.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>橋接圖譜 — 雙向證據（匯報 d10）</h1>
+<p><strong>狀態：</strong> L2 證據層 · <strong>權威來源：</strong> 衍生自 D 系列叢集匯報 · <strong>對頁：</strong> <code>bridge-map.html</code> · <strong>機制：</strong>
+<code>tools/bridge-map.mjs</code> → <code>bridge-ledger.json</code>，由探針強制執行（BRG-01..09）
+· <strong>涵蓋範圍：</strong> 全部 30 個已啟用普查根節點 + 封存語料庫</p>
+<p>D 系列掃描為叢集每個根目錄建立了卡片。本圖譜更進一步：記錄兄弟專案
+<strong>實際證明了什麼</strong> —— 可執行稽核、逐項主張判決表、第二實作、以及
+已記錄的實驗數據 —— 以及這些證據支持哪些檔案主張。錨點是對兄弟
+樹的機械式檢查：存在的檔案、可解析的標記、可剖析的判決列、符合
+綱要的資料集、執行通過的稽核套件。兄弟專案變動時降為 <em>absent</em>，
+絕不變為 <em>error</em> —— 是延期，不是缺失。</p>
+<p>證據方向：<strong>→</strong> 兄弟證據支持檔案主張；<strong>←</strong> 兄弟承載的艦隊工作；
+<strong>⇄</strong> 兩棵樹共同執行的慣例。</p>
+<h2>兄弟 → 檔案</h2>
+<table>
+<thead>
+<tr>
+<th>錨點</th>
+<th>來源</th>
+<th>所證明之事</th>
+<th>主張</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已定判決表</td>
+<td>整數推論移植版</td>
+<td>共享家族詞彙下的 36 列逐項主張判決稽核 —— 24 項已驗證、1 項駁回 —— 在測試框架中逐格證實 421 節點、15³ 層表、鏡像對稱與 721 殼層晶格主張</td>
+<td>C95 · C78 · C89</td>
+</tr>
+<tr>
+<td>晶格編址</td>
+<td>整數推論移植版</td>
+<td>SPEC-008v1 位址格式的第二次實作：128 位元棋子位址、O(1) 座標解析、對全部 3375² 有序對的有界路由走查</td>
+<td>C97</td>
+</tr>
+<tr>
+<td>Fano 線路雙實作</td>
+<td>整數推論移植版</td>
+<td>凍結的 136 位元組密封網格封包逐位元組移植至第二程式碼庫，加上能推導 SPEC-008v1 座標的 UDP 信標</td>
+<td>C97</td>
+</tr>
+<tr>
+<td>簽章回執</td>
+<td>整數推論移植版</td>
+<td>八元數摺疊 —— 原本出自本工作站的方言 —— 支撐推論快取的路由回執</td>
+<td>C97 · C99</td>
+</tr>
+<tr>
+<td>稽核即時執行</td>
+<td>確定性執行環境</td>
+<td>36 項主張稽核在第二程式碼庫中即時重跑並通過：16 已證明 / 10 詮釋 / 3 數字命理 / 4 建構 / 3 未驗證</td>
+<td>C96 · C99</td>
+</tr>
+<tr>
+<td>能力登錄來源</td>
+<td>確定性執行環境</td>
+<td>公開 3,472 列能力投影背後的 50 項跨檔案登錄</td>
+<td>C73 · C89</td>
+</tr>
+<tr>
+<td>受治理介面卡</td>
+<td>確定性執行環境</td>
+<td>可運作的跨系統介面卡與治理封套工具 —— 整合機制是程式碼，不是文字</td>
+<td>C72 · C73</td>
+</tr>
+<tr>
+<td>確定性推論</td>
+<td>確定性執行環境</td>
+<td>定點下的真實神諭重現：教師強制同位、精確貪婪序列、分詞器同位、實層重播</td>
+<td>C98</td>
+</tr>
+<tr>
+<td>可執行稽核</td>
+<td>證明工作區</td>
+<td>主張分類器是測試套件而非文件 —— 且已驗證操作總數釘在兄弟專案自己的指南中</td>
+<td>C96 · C99</td>
+</tr>
+<tr>
+<td>形式化</td>
+<td>證明工作區</td>
+<td>定點代數、八元數、Fano 平面與縮放恆等式的 Lean 4 形式化 —— 零未完成目標</td>
+<td>C96</td>
+</tr>
+<tr>
+<td>誠實機制</td>
+<td>證明工作區</td>
+<td>附明確限制的自我主張、可計算的提升路徑、對抗式壓力／反駁對、以及每項駁回主張的因果鏈稽核</td>
+<td>C96 · C99</td>
+</tr>
+<tr>
+<td>實驗數據</td>
+<td>證明工作區</td>
+<td>已記錄的 45 筆儀器化語言模型測試條目 —— 兩個模型、三種條件、完整分數向量</td>
+<td>C98</td>
+</tr>
+<tr>
+<td>債務帳本</td>
+<td>證明工作區</td>
+<td>浮點債務清單作為常設文件 —— 可導入的慣例</td>
+<td>C99</td>
+</tr>
+<tr>
+<td>稽核文件庫</td>
+<td>晶格引擎</td>
+<td>晶格引擎自身的端對端稽核結果、能力登錄與逆向開發稽核</td>
+<td>C78 · C89</td>
+</tr>
+<tr>
+<td>重算再標記稽核</td>
+<td>研究檔案庫</td>
+<td>450 行索引、校驗資料集的稽核 —— 本檔案覆審所遵循紀律的範本</td>
+<td>C95 · C99</td>
+</tr>
+</tbody>
+</table>
+<h2>整個群集（匯報 d10）</h2>
+<p>每個已啟用普查根節點現皆貢獻至少一個持固錨點 —— 帳本之
+<code>root_coverage</code> 計數使未涵蓋之根節點成為可機械偵測之事件
+（BRG-07）。各界域獨有之持有：</p>
+<table>
+<thead>
+<tr>
+<th>錨點</th>
+<th>來源</th>
+<th>所證明之事</th>
+<th>主張</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>釋出紀律</td>
+<td>氣隙平台</td>
+<td>其自身憲章釘定之生產合約：1,548 項測試、≥116.9% 覆蓋棘輪、112 項 WASM 冒煙、3,000 輪模糊、quine 與 docker 端對端</td>
+<td>C53 · C67</td>
+</tr>
+<tr>
+<td>傳輸語料</td>
+<td>氣隙平台</td>
+<td>SPEC-007 相容套件早已雙向橋接之實體通道傳輸與身分模組</td>
+<td>C53 · C97</td>
+</tr>
+<tr>
+<td>語義層語料</td>
+<td>八維物理兄弟</td>
+<td>hyper-token 模組集與已記錄創世掃描結果 —— 家族分支自身的實驗樹</td>
+<td>C97 · C89</td>
+</tr>
+<tr>
+<td>基礎設施稽核</td>
+<td>私有 git 實驗室</td>
+<td>同步棧之機讀稽核匯出與覆蓋報告 —— 不涉物理主張之證據</td>
+<td>—</td>
+</tr>
+<tr>
+<td>壓縮專家執行環境</td>
+<td>稀疏 MoE 原型</td>
+<td>白手起家之整數推論：閘控 delta 網、專家快取、壓縮、熵、GGUF 匯入</td>
+<td>C72 · C89</td>
+</tr>
+<tr>
+<td>主張生命週期引擎</td>
+<td>稽核基礎</td>
+<td>機讀晉升登錄評定候選 proved/blocked —— 保留集阻斷誠實阻擋釋出</td>
+<td>C95 · C98</td>
+</tr>
+<tr>
+<td>真實基因體證據</td>
+<td>密碼子路由器</td>
+<td>NCBI 基因體行經階梯之路由 —— 大腸桿菌 K12、人類 GRCh38、酵母 S288C；群集唯一實證生物資料集</td>
+<td>—</td>
+</tr>
+<tr>
+<td>治理合約</td>
+<td>代理捐贈者</td>
+<td>DOX —— 階層式約束文件合約，本工作站規則所呼應</td>
+<td>—</td>
+</tr>
+<tr>
+<td>EU 系譜</td>
+<td>工造宇宙樹</td>
+<td>41 常數／7 公理／0.094% 之主張維持於其自身稽核之下 —— 詮釋級，永不晉升</td>
+<td>—</td>
+</tr>
+<tr>
+<td>物理稽核</td>
+<td>hexredox 框架</td>
+<td>443/443 測試零佔位稽核加 LaTeX 論文語料與晶格整合</td>
+<td>C89</td>
+</tr>
+<tr>
+<td>治理正典</td>
+<td>qstar 語料</td>
+<td>家族主張所自出之 Gov／Book／韌體／揭露語料</td>
+<td>—</td>
+</tr>
+<tr>
+<td>深度稽核軌跡</td>
+<td>丘壘形式化</td>
+<td>1,678 項測試之稽核，其自身補遺標記陳舊計數 —— 自我稽核之誠實，位於本檔案上游</td>
+<td>C95 · C98</td>
+</tr>
+<tr>
+<td>已標記預測</td>
+<td>丘壘形式化</td>
+<td>51 項物理預測以其自身詮釋標籤立案</td>
+<td>—</td>
+</tr>
+<tr>
+<td>第二系譜</td>
+<td>喜來登書架</td>
+<td>第二棵 HexRedOx 樹，自備稽核與模型編譯器</td>
+<td>C89</td>
+</tr>
+<tr>
+<td>實測 GPU 資料</td>
+<td>裝置實驗室</td>
+<td>真實 RADV 能力探針 —— 整數 GPU 主張立足於實測硬體而非模擬後端</td>
+<td>C45 · C55</td>
+</tr>
+<tr>
+<td>整數渲染管線</td>
+<td>fano 引擎</td>
+<td>I256Q128.128 三維渲染與路由、黃金向量、韌體、即時探針遙測</td>
+<td>C45 · C72</td>
+</tr>
+<tr>
+<td>多語言驗證</td>
+<td>i-vector 實驗室</td>
+<td>四層交叉驗證：整數核心、六支 GPU 著色器、量子疊加層、黃金母版 —— 同一教義於獨立樹中</td>
+<td>C45 · C95</td>
+</tr>
+<tr>
+<td>位元對等框架</td>
+<td>媒體通道實驗室</td>
+<td>逐專案稽核鏈：29/29、29/29、42/42 達 100% 位元對等、270 項轉換圖通過</td>
+<td>C78</td>
+</tr>
+<tr>
+<td>研究基底</td>
+<td>深層檔案庫</td>
+<td>張量原型、潛在引擎、模擬器、治理文件、缺口分析 —— 表層主張所濃縮之 20GB 語料</td>
+<td>—</td>
+</tr>
+<tr>
+<td>權重清冊</td>
+<td>模型儲存</td>
+<td>支撐每項即時 LLM 主張之本機 GGUF 清冊</td>
+<td>C72</td>
+</tr>
+<tr>
+<td>捐贈書架</td>
+<td>書架籃</td>
+<td>逐位元相同的克隆與分歧副本如其實記錄 —— 是捐贈者，非鏡像</td>
+<td>C94</td>
+</tr>
+<tr>
+<td>保存快照</td>
+<td>凍結分叉</td>
+<td>不可變基線規則所保存之稽核前快照 —— 證據，永不刪除</td>
+<td>C95</td>
+</tr>
+<tr>
+<td>封存語料</td>
+<td>密封儲存</td>
+<td>318 個封存工件、跨七個戰役家族 —— 目錄封籤與 tarball 側車皆經驗證</td>
+<td>C93 · C97 · C98 · C67</td>
+</tr>
+<tr>
+<td>檔案自身</td>
+<td>本樹</td>
+<td>自錨匯聚面 —— 清單、發現、覆審帳本皆在碟上</td>
+<td>C93 · C95</td>
+</tr>
+</tbody>
+</table>
+<h2>檔案 → 兄弟（他們所承載的）</h2>
+<table>
+<thead>
+<tr>
+<th>所承載</th>
+<th>承載者</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>具 512 位元中間值的最近偶數定點乘法</td>
+<td>證明工作區的算術核心</td>
+<td>已驗證 —— 釘定界限，移植時語義已記錄</td>
+</tr>
+<tr>
+<td>十四個物理／結構模組</td>
+<td>證明工作區</td>
+<td>已驗證 —— 在其 713 操作套件內</td>
+</tr>
+<tr>
+<td>136 位元組密封線路方言</td>
+<td>整數推論移植版</td>
+<td>已驗證 —— 逐位元組移植，實際傳輸中</td>
+</tr>
+<tr>
+<td>八元數摺疊簽章</td>
+<td>整數推論移植版</td>
+<td>已驗證 —— 註明本工作站方言為出處</td>
+</tr>
+<tr>
+<td>SPEC-008v1 晶格編址</td>
+<td>整數推論移植版</td>
+<td>已驗證</td>
+</tr>
+<tr>
+<td>稽核詞彙</td>
+<td>三棵樹逐字執行</td>
+<td>已驗證</td>
+</tr>
+<tr>
+<td>內嵌相依函式庫</td>
+<td>本工作站的相依框架</td>
+<td>已驗證 —— 此處框架方向相反</td>
+</tr>
+</tbody>
+</table>
+<h2>誠實的餘數</h2>
+<p>無檔案主張可依附的兄弟成果只記錄、不主張：網格傳輸上的
+編織計算動詞、抹除碼同位碎片、秘密分享檔案、逐位元重現真實
+神諭的確定性模型執行器、意識因果鏈稽核、以及考古工具鏈。
+群集擴展新增更多記錄而不主張之持有：主張生命週期引擎之保留集
+閘控、密碼子路由器之基因體證據、i-vector 實驗室之四層驗證模式、
+媒體實驗室之位元對等框架、丘壘之自我標記補遺、代理捐贈者之
+約束文件合約、整數渲染管線、私有 git 同步棧、以及密封戰役
+語料本身。反向缺口記錄於抽屜版：雙語對頁、簽章規範對、
+探針強制不變式與公開分類邊界仍是艦隊獨有的紀律。</p>
+<p><em>分類原則：兄弟判決按其所是引用 —— 已定案列、記錄數據、
+可執行稽核 —— 沒有任何一項被提升至超出其證據層級。框架內的
+感知儀器仍是已標記的操作性定義，不是意識主張。</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

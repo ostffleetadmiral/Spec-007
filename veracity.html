@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // Veracity Audit</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='en')window.location.replace('veracity-zh.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">PUBLIC&nbsp;RELEASE</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Public Release &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover.html">Dossier Index</a> &middot;
+<a href="public.html">The Briefing</a> &middot;
+<a href="verified.html">Verified</a> &middot;
+<a href="dossier.html">Evidence</a> &middot;
+<a href="claims.html">Claims</a> &middot;
+<a href="economics.html">Economics</a> &middot;
+<a href="expanded.html">Expanded Design</a> &middot;
+<a href="ledger.html">Ledger of Fractions</a> &middot;
+<a href="desktop.html">FANO-1 Workstation</a> &middot;
+<a href="charter.html">The Charter</a> &middot;
+<a href="covert-en.html">Covert EN</a> &middot;
+<a href="covert-zh.html">Covert ZH</a> &middot;
+<a href="verdict.html">Security Adjudication</a> &middot;
+<strong>[Veracity Audit]</strong> &middot;
+<a href="discoveries.html">Discovery Ledger</a> &middot;
+<a href="bridge-map.html">Bridge Map</a> &middot;
+<a href="science-coverage.html">Science Coverage</a> &middot;
+<a href="declassified.html">Declassified</a> &middot;
+<a href="object-006.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="veracity-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+<main>
+<h1>Veracity Audit — What Is Real, What Is Theater</h1>
+<!-- classified document — answers the only question that matters: how much of this is real. -->
+
+<p><strong>Classification:</strong> INTERNAL // VERACITY — the dossier grades itself.
+<strong>Authority:</strong> Every line in the PROVEN column was executed, not asserted.
+Re-run: <code>node security/suite.mjs</code> (see <a href="verdict.html">Security Adjudication</a>).</p>
+<p>The workstation speaks with two voices. One signs, seals, and computes —
+the other wears a costume. This document draws the line between them so
+that nothing real is lent credibility by the theater, and no theater is
+mistaken for engineering.</p>
+<hr>
+<h2>Tier P — Proven (executed, reproducible)</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Covenant pledge produces a real Ed25519 signature</td>
+<td><code>rations_ed25519_sign</code> over canonical covenant bytes; verify round-trip passes</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Passphrase wraps the secret key</td>
+<td>PBKDF2(100k) → AES-256-GCM; tampered ct/tag rejected (SEC-02, SEC-20)</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>The desk boots only after unlock</td>
+<td><code>index.html</code> → <code>fano-auth.js</code> gate; locked-until enforced, tamper rejected</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Channel seal/open is real encryption</td>
+<td>X25519 handshake → AES-256-GCM frames; two-WASM-node E2E verified</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Relay enforces origin, size, rate</td>
+<td>4 MiB+1 rejected, 300-msg burst closed, bad origin → 4403 (SEC-10..14)</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>QR / steganography / carrier / Shamir</td>
+<td>WASM implementations, round-trip verified in-suite</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>WASM artifact integrity</td>
+<td>sha256 pinned (<code>bbdca546…</code>), verified at sweep</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Core math is integer-only Q128.128</td>
+<td>Zig harnesses: 92/92 checks; no float in core</td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Security sweep results</td>
+<td>31 probes: 29 HARDENED, 2 NOTED, 0 EXPLOITED</td>
+<td><strong>Real</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Tier S — Sourced (cited, not reproduced)</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Source</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CaC₂ → 104.9 L acetylene from 300 g</td>
+<td>Stoichiometry, verified in-dossier</td>
+<td><strong>Verified math</strong></td>
+</tr>
+<tr>
+<td>Path A 412–732 W / Path B 215–228 W</td>
+<td>Screening arithmetic on component datasheets</td>
+<td><strong>Arithmetic only</strong> — no bench measurement exists</td>
+</tr>
+<tr>
+<td>Negative-price electricity events</td>
+<td>Manifesto §sources; market literature</td>
+<td><strong>Cited, unverified</strong></td>
+</tr>
+<tr>
+<td>"Storio Observatory" 2026 figures</td>
+<td>Manifesto</td>
+<td><strong>Sourced claim — not independently confirmed</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Tier I — Illustrative (real mechanism, not measurement)</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>What it actually is</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power/efficiency projections</td>
+<td>Integer math over datasheet values — a model, not a test</td>
+<td><strong>Illustrative</strong></td>
+</tr>
+<tr>
+<td>Quplink visualizations</td>
+<td>Honest render of computed values; <code>數據支撐</code>/<code>示意</code> tags mark data vs schematic</td>
+<td><strong>Labeled illustrative</strong></td>
+</tr>
+<tr>
+<td>Coverage "116.9%"</td>
+<td>Rations' density ratchet (test-lines/code-lines), not branch coverage</td>
+<td><strong>Real metric, custom definition</strong></td>
+</tr>
+<tr>
+<td>Telemetry LEDs / desk readouts</td>
+<td>Live where a channel exists; otherwise static skin</td>
+<td><strong>Partially live</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Tier T — Theater (fiction layer, openly)</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>What it actually is</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The fleet, SPEC numbering, "Q Branch"</td>
+<td>Narrative frame over a static site</td>
+<td><strong>Theater</strong></td>
+</tr>
+<tr>
+<td>"TOP SECRET//SCI" banners, redaction bars</td>
+<td>Styling; the files are public static HTML</td>
+<td><strong>Theater</strong></td>
+</tr>
+<tr>
+<td>The Meter</td>
+<td>Villain construct built on the Manifesto's real argument</td>
+<td><strong>Theater on real doctrine</strong></td>
+</tr>
+<tr>
+<td><code>manifesto.html</code> provenance</td>
+<td>Document is real (<code>thoughts&amp;convos/originals/Manifesto.md</code>, canonical at <code>gov/ethics/</code>); "leaked" framing is fiction</td>
+<td><strong>Real content, theatrical frame</strong></td>
+</tr>
+<tr>
+<td>The Bond dressing itself</td>
+<td>Cover story — Universal Exports is canon: SIS's front is supposed to look like a joke. The jokes shield the classified structure beneath; nothing classified is in the public tree</td>
+<td><strong>Theater as cover — canon-consistent</strong></td>
+</tr>
+<tr>
+<td>The pledge gate as an access barrier</td>
+<td>Local checks are <strong>advisory</strong> — anyone can patch a static file. The real gate is network admission: peers verify covenant signatures and role certs before channels open</td>
+<td><strong>Real crypto, advisory locally</strong></td>
+</tr>
+<tr>
+<td>Genesis record</td>
+<td>sha256 of the founding public key, written by the first enrollment on this desk (retro-seeded for pre-existing records). Persists across <code>burn</code>; <code>burn genesis</code> is the documented reset. Bound to this origin — not a network-wide truth</td>
+<td><strong>Real locally, advisory globally</strong></td>
+</tr>
+<tr>
+<td><code>burn</code> on desk files</td>
+<td>Cosmetic. <code>burn</code> on the <em>keystore</em> is real (record + session cleared)</td>
+<td><strong>Split verdict</strong></td>
+</tr>
+<tr>
+<td>"Never delete passing work" archives</td>
+<td>Real directories under <code>archives/</code> and <code>~/.archives/</code></td>
+<td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Exhibit D-1 — EIN assignment</td>
+<td>Genuine IRS record (EIN 42-4931851, OSTF dba SALLIRREUGTECH); byte-identical copy sha256-pinned at <code>site/assets/declassified/</code></td>
+<td><strong>Real document</strong></td>
+</tr>
+<tr>
+<td>Exhibit D-2 — the four papers</td>
+<td>Genuine Zenodo record 10.5281/zenodo.22715355, published 2026-09-11, CC BY-NC-SA 4.0; <code>papers/x/</code> copies md5-verified byte-identical to the record</td>
+<td><strong>Real publication</strong></td>
+</tr>
+<tr>
+<td><code>object-006.html</code> SCP-format file</td>
+<td>Document <em>format</em> adopted from SCP canon (SCP-006 "Fountain of Youth", SCP-006-FR "Le Boucher") as continuity theater; every cited fact links to a graded page</td>
+<td><strong>Adopted format — canon-consistent</strong></td>
+</tr>
+<tr>
+<td>The 006 decode chain</td>
+<td><code>006 → scp-006 → scp-006-fr</code> resolves «Из России с любовью» — a designed egg, honestly labeled; the film and the SCP entries it references are real artifacts</td>
+<td><strong>Designed symbolism, real referents</strong></td>
+</tr>
+<tr>
+<td>The Butcher / the Fountain</td>
+<td>Symbolic mappings (capitalism's end / the abundance paradigm) authored by the Dev Lead — doctrine, not measurement</td>
+<td><strong>Declared symbolism</strong></td>
+</tr>
+<tr>
+<td>quplink FAMILY tab</td>
+<td>Fact sheets for Qstar-LLM, zig-k3-port, Digit v0.0.0.1 — every figure cited verbatim from each sibling repo's own README/AGENTS</td>
+<td><strong>Real, cited at source</strong></td>
+</tr>
+<tr>
+<td>7q drawer → Command suite</td>
+<td>FLEET-ADMIRAL session opens the suite (branch approvals, grants, roster); everyone else still gets ACCESS DENIED</td>
+<td><strong>Real RBAC gate — local, advisory</strong></td>
+</tr>
+<tr>
+<td>Branch assignments</td>
+<td>Requester-signed FANO-BRANCH-REQ tokens + admiral-signed FANO-BRANCH certs; roster enforcement verified (COMM-16..19)</td>
+<td><strong>Real crypto, advisory locally</strong></td>
+</tr>
+<tr>
+<td>Flag authenticator (FANO-ROOT-v1)</td>
+<td>Pinned-seat credential: self-rooted (<code>gen = sha256(iss)</code>), signature-verified, roster-gated, portable across desks (COMM-20..24)</td>
+<td><strong>Real crypto — roster is the trust anchor</strong></td>
+</tr>
+<tr>
+<td>QStar.net TOTP</td>
+<td>RFC 6238 Google Authenticator flow: encrypted local seed, otpauth URI + QR/manual setup, six-digit verification, desktop two-step gate</td>
+<td><strong>Real local crypto — no server secret</strong></td>
+</tr>
+<tr>
+<td>Governed Ollama bridge / SPEC port map</td>
+<td>TheUE Python tools hash/classify 1,091 governance files and map 10,331 requirements; token-gated bridge allowlists local/remote Ollama, applies policy before forwarding, and records SHA-256 audit IDs</td>
+<td><strong>Real prototype boundary — modeled output, advisory AI</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Known limits — stated, not hidden</h2>
+<ol>
+<li><strong>Static hosting cannot stop local patching.</strong> The pledge is enforced
+   where it matters — peer-to-peer admission — not at the file system.</li>
+<li><strong>WASM memory holds the warm key.</strong> <code>burn</code> clears storage and session;
+   a reload clears the heap. Physical compromise of a running tab is out
+   of scope for a browser page.</li>
+<li><strong>Passphrase entropy is the weak link.</strong> SEC-22 measured ~4 PBKDF2
+   tries/s single-core; an 8-char weak passphrase is still a weak
+   passphrase.</li>
+<li><strong>Channel layer has no replay freshness</strong> — sealed frames re-decrypt;
+   freshness belongs to the app layer (SEC-15, NOTED).</li>
+<li><strong>No bench hardware has been measured.</strong> Every SPEC-007 electrical
+   number is arithmetic on claimed components — the dossier marks these
+   accordingly.</li>
+</ol>
+<hr>
+<p><em>Prepared under the dossier rule: the file says what it can prove, grades
+what it cannot, and keeps its theater labeled. The Meter bills you for
+the label. This page removes it.</em></p>
+</main>
+<footer>
+<span>SPEC-007 &middot; "Ice Cream Tube" &middot; CC0</span>
+<span>Do try to return it in one piece.</span>
+</footer>
+</div>
+</body>
+</html>

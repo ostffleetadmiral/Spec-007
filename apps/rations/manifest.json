@@ -1,0 +1,25 @@
+{
+  "name": "Rations",
+  "short_name": "Rations",
+  "description": "Offline-first decentralized toolkit: quine self-edit, P2P, media conversion, physical backup channels, local agent.",
+  "id": "rations",
+  "start_url": "./quine.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

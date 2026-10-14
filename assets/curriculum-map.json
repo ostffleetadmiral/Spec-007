@@ -1,0 +1,384 @@
+{
+  "schema": "CURRICULUM-MAP-v1",
+  "lesson_count": 56135,
+  "course_count": 14,
+  "shelf_lessons": 548,
+  "harvested_lessons": 55587,
+  "courses": [
+    {
+      "id": "ai-literacy",
+      "lesson_count": 6819,
+      "topics": [
+        "ai-literacy"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "ukama-nodes",
+        "vphone-cli"
+      ]
+    },
+    {
+      "id": "campaign-operations",
+      "lesson_count": 843,
+      "topics": [
+        "campaign"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli"
+      ]
+    },
+    {
+      "id": "communications",
+      "lesson_count": 1504,
+      "topics": [
+        "communications"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "maypole-firmware",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli",
+        "walter-esp-idf",
+        "walter-hardware",
+        "walter-micropython",
+        "walter-uc",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "governance-ethics",
+      "lesson_count": 216,
+      "topics": [
+        "ethics"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "quine.html",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "hardware-fleet",
+      "lesson_count": 598,
+      "topics": [
+        "hardware"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "maypole-firmware",
+        "paperless-ngx",
+        "project-nomad",
+        "quine.html",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "ukama-nodes",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "identity-authority",
+      "lesson_count": 283,
+      "topics": [
+        "identity"
+      ],
+      "sources": [
+        "adk",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "lore-shelf",
+      "lesson_count": 86,
+      "topics": [
+        "lore"
+      ],
+      "sources": [
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws"
+      ]
+    },
+    {
+      "id": "ministry-neo-hindu",
+      "lesson_count": 69,
+      "topics": [
+        "ministry"
+      ],
+      "sources": [
+        "e-mc-2",
+        "fano-1",
+        "freenet-core",
+        "gnm-ministry",
+        "paperless-ngx",
+        "three-ws"
+      ]
+    },
+    {
+      "id": "orientation",
+      "lesson_count": 5234,
+      "topics": [
+        "orientation"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "full-stack-school",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "quine.html",
+        "spec-007",
+        "three-ws",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "reference-stack",
+      "lesson_count": 10821,
+      "topics": [
+        "reference"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "science-lattice",
+      "lesson_count": 1501,
+      "topics": [
+        "science"
+      ],
+      "sources": [
+        "adk",
+        "e-mc-2",
+        "fano-1",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "ukama",
+        "vphone-cli"
+      ]
+    },
+    {
+      "id": "security-clearance",
+      "lesson_count": 642,
+      "topics": [
+        "security"
+      ],
+      "sources": [
+        "adk",
+        "agent-builder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "space-agent",
+        "spec-007",
+        "three-ws",
+        "vphone-cli",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "systems-engineering",
+      "lesson_count": 2654,
+      "topics": [
+        "systems"
+      ],
+      "sources": [
+        "adk",
+        "cofounder",
+        "e-mc-2",
+        "freenet-core",
+        "nullclaw",
+        "paperless-ngx",
+        "project-nomad",
+        "spec-007",
+        "three-ws",
+        "woof-ce"
+      ]
+    },
+    {
+      "id": "uiux-craft",
+      "lesson_count": 24317,
+      "topics": [
+        "uiux"
+      ],
+      "sources": [
+        "ace",
+        "adk",
+        "alpinejs",
+        "animate-css",
+        "animejs",
+        "canvas-confetti",
+        "chartjs",
+        "codemirror",
+        "comlink",
+        "css-98",
+        "cytoscape",
+        "d3",
+        "dagre",
+        "dompurify",
+        "driverjs",
+        "echarts",
+        "flatpickr",
+        "flexsearch",
+        "floating-ui",
+        "force-graph",
+        "force-graph-3d",
+        "fuse",
+        "fuzzysort",
+        "globe-gl",
+        "golden-layout",
+        "gridjs",
+        "gsap",
+        "highlightjs",
+        "hotkeys-js",
+        "howler",
+        "html2canvas",
+        "idb",
+        "interactjs",
+        "jkanban",
+        "jspreadsheet",
+        "kaplay",
+        "leaflet",
+        "localforage",
+        "lucide",
+        "lunr",
+        "markdown-it",
+        "marked",
+        "masonry",
+        "mermaid",
+        "ninja-keys",
+        "nipplejs",
+        "notyf",
+        "nullclaw",
+        "observable-plot",
+        "open-props",
+        "paperless-ngx",
+        "particlesjs",
+        "phosphor-icons",
+        "pickr",
+        "pico-css",
+        "printjs",
+        "prismjs",
+        "qrcodejs",
+        "quill",
+        "revealjs",
+        "shepherd",
+        "sigmajs",
+        "simple-keyboard",
+        "sortable",
+        "sqljs",
+        "sweetalert2",
+        "swiper",
+        "system-css",
+        "tabler-icons",
+        "tabulator",
+        "three-ws",
+        "threejs",
+        "tippyjs",
+        "tonejs",
+        "tui-calendar",
+        "typedjs",
+        "uplot",
+        "vanjs",
+        "wavesurfer",
+        "winbox",
+        "xp-css",
+        "xterm-js"
+      ]
+    }
+  ],
+  "required": [
+    "orientation",
+    "governance-ethics",
+    "identity-authority",
+    "systems-engineering",
+    "ai-literacy",
+    "security-clearance",
+    "communications",
+    "campaign-operations",
+    "ministry-neo-hindu",
+    "science-lattice",
+    "hardware-fleet",
+    "reference-stack",
+    "lore-shelf",
+    "uiux-craft"
+  ],
+  "coverage_ok": true
+}
