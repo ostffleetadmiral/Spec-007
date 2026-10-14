@@ -68,9 +68,24 @@ fn piQ() Q128 {
     return try2(Q128.fromRatio(80143857, 25510582));
 }
 
+const WarpError = error{ InputDomain, Overflow };
+const MAX_WARP_SCALE = Q128.fromInteger(1_000_000);
+
+fn boundedQ(x: Q128) bool {
+    return x.raw >= -MAX_WARP_SCALE.raw and x.raw <= MAX_WARP_SCALE.raw;
+}
+
+fn divQ(a: Q128, b: Q128) WarpError!Q128 {
+    return a.div(b) catch |err| switch (err) {
+        error.DivisionByZero => error.InputDomain,
+        error.Overflow => error.Overflow,
+    };
+}
+
 /// tanh(x), x >= 0. Halve the argument until |x/2^k| < 1, Taylor it,
 /// then rebuild via tanh(2u) = 2t/(1+t^2). Deterministic, bounded.
-fn tanhQ(x: Q128) Q128 {
+fn tanhQ(x: Q128) WarpError!Q128 {
+    if (!boundedQ(x)) return error.InputDomain;
     if (x.raw == 0) return Q128.zero;
     const neg = x.raw < 0;
     const a = if (neg) x.neg() else x;
@@ -81,7 +96,7 @@ fn tanhQ(x: Q128) Q128 {
     var u = a;
     var k: u5 = 0;
     while (u.raw >= Q128.one.raw and k < 5) : (k += 1)
-        u = try2(u.div(Q128.fromInteger(2)));
+        u = try divQ(u, Q128.fromInteger(2));
     // Taylor on [0,1): tanh u = u - u^3/3 + 2u^5/15 - 17u^7/315 + 62u^9/2835
     const u_sq = u.mul(u);
     var t = u;
@@ -102,7 +117,7 @@ fn tanhQ(x: Q128) Q128 {
     while (i < k) : (i += 1) {
         const num = t.add(t);
         const den = Q128.one.add(t.mul(t));
-        t = try2(num.div(den));
+        t = try divQ(num, den);
     }
     return if (neg) t.neg() else t;
 }
@@ -114,26 +129,44 @@ const Warp = struct {
     xs: Q128, // bubble centre
 };
 
-/// Shape function f(r).
-fn shape(w: Warp, r: Q128) Q128 {
-    const s = w.sigma;
-    const t1 = tanhQ(s.mul(r.add(w.R)));
-    const t2 = tanhQ(s.mul(r.sub(w.R)));
-    const den = tanhQ(s.mul(w.R)).mul(Q128.fromInteger(2));
-    return try2(t1.sub(t2).div(den));
+fn validWarp(w: Warp) WarpError!void {
+    if (w.R.raw <= 0 or w.sigma.raw <= 0) return error.InputDomain;
+    if (!boundedQ(w.v) or !boundedQ(w.R) or !boundedQ(w.sigma) or !boundedQ(w.xs)) return error.InputDomain;
 }
 
-/// Numeric df/dr on the wall — symmetric difference, h = 2^-8 (small vs wall width).
-fn dshape(w: Warp, r: Q128) Q128 {
+fn validShapeValue(f: Q128) WarpError!void {
+    const margin = try2(Q128.fromRatio(1, 1_000_000));
+    if (f.raw < -margin.raw or f.raw > Q128.one.raw + margin.raw) return error.InputDomain;
+}
+
+/// Shape function f(r).
+fn shape(w: Warp, r: Q128) WarpError!Q128 {
+    try validWarp(w);
+    if (r.raw < 0 or !boundedQ(r)) return error.InputDomain;
+    const s = w.sigma;
+    const t1 = try tanhQ(s.mul(r.add(w.R)));
+    const t2 = try tanhQ(s.mul(r.sub(w.R)));
+    const den = (try tanhQ(s.mul(w.R))).mul(Q128.fromInteger(2));
+    if (den.raw == 0) return error.InputDomain;
+    return divQ(t1.sub(t2), den);
+}
+
+/// Numeric df/dr on the wall — symmetric difference inside, one-sided at r=0.
+fn dshape(w: Warp, r: Q128) WarpError!Q128 {
+    try validWarp(w);
+    if (r.raw < 0 or !boundedQ(r)) return error.InputDomain;
     const h = try2(Q128.fromRatio(1, 256));
-    const fp = shape(w, r.add(h));
-    const fm = shape(w, r.sub(h));
-    return try2(fp.sub(fm).div(h.mul(Q128.fromInteger(2))));
+    if (r.raw < h.raw) return divQ((try shape(w, r.add(h))).sub(try shape(w, r)), h);
+    const fp = try shape(w, r.add(h));
+    const fm = try shape(w, r.sub(h));
+    return divQ(fp.sub(fm), h.mul(Q128.fromInteger(2)));
 }
 
 /// t-x block of g: g_tt = v^2 f^2 - 1, g_tx = -v f, g_xx = 1.
 /// det = g_tt*g_xx - g_tx^2 = v^2f^2 - 1 - v^2f^2 = -1 identically.
-fn metricDet(w: Warp, f: Q128) Q128 {
+fn metricDet(w: Warp, f: Q128) WarpError!Q128 {
+    try validWarp(w);
+    try validShapeValue(f);
     const vf = w.v.mul(f);
     const g_tt = vf.mul(vf).sub(Q128.one);
     const g_tx = vf.neg();
@@ -141,21 +174,27 @@ fn metricDet(w: Warp, f: Q128) Q128 {
 }
 
 /// Expansion scalar theta = v * df/dr * (x - x_s)/r.
-fn theta(w: Warp, x: Q128, r: Q128) Q128 {
-    if (r.raw == 0) return Q128.zero;
-    return w.v.mul(dshape(w, r)).mul(try2(x.sub(w.xs).div(r)));
+fn theta(w: Warp, x: Q128, r: Q128) WarpError!Q128 {
+    try validWarp(w);
+    if (r.raw <= 0 or !boundedQ(r) or !boundedQ(x)) return error.InputDomain;
+    return w.v.mul(try dshape(w, r)).mul(try divQ(x.sub(w.xs), r));
 }
 
 /// Energy density T_00 (up to the -v^2 rho^2/(8 pi r^2) prefactor):
 /// sign pinned by -(df/dr)^2 wherever the wall is active.
-fn t00Sign(w: Warp, r: Q128, rho: Q128) i8 {
-    const d = dshape(w, r);
-    if (d.raw == 0 or rho.raw == 0) return 0;
+fn t00Sign(w: Warp, r: Q128, rho: Q128) WarpError!i8 {
+    try validWarp(w);
+    if (r.raw < 0 or !boundedQ(r) or rho.raw < 0 or !boundedQ(rho)) return error.InputDomain;
+    if (r.raw == 0) return 0;
+    const d = try dshape(w, r);
+    if (d.raw == 0 or rho.raw == 0 or w.v.raw == 0) return 0;
     return -1; // -(df/dr)^2 is strictly negative where df/dr != 0
 }
 
 /// Null coordinate speed along +x inside/outside the bubble: dx/dt = v f + 1.
-fn nullSpeed(w: Warp, f: Q128) Q128 {
+fn nullSpeed(w: Warp, f: Q128) WarpError!Q128 {
+    try validWarp(w);
+    try validShapeValue(f);
     return w.v.mul(f).add(Q128.one);
 }
 
@@ -165,38 +204,38 @@ const EPS_SHAPE: Raw = @divTrunc(fixed.Scale, 1 << 20);
 // ============================ tests ============================
 
 test "tanh anchors: tanh(0)=0, tanh(1)~0.7616, tanh saturates to 1" {
-    try std.testing.expectEqual(@as(Raw, 0), tanhQ(Q128.zero).raw);
-    const t1 = tanhQ(Q128.one);
+    try std.testing.expectEqual(@as(Raw, 0), (try tanhQ(Q128.zero)).raw);
+    const t1 = try tanhQ(Q128.one);
     const lo = try Q128.fromRatio(761, 1000);
     const hi = try Q128.fromRatio(763, 1000);
     try std.testing.expect(t1.raw > lo.raw and t1.raw < hi.raw);
-    try std.testing.expectEqual(Q128.one.raw, tanhQ(Q128.fromInteger(20)).raw);
-    try std.testing.expect(tanhQ(Q128.fromInteger(-1)).raw == -t1.raw);
+    try std.testing.expectEqual(Q128.one.raw, (try tanhQ(Q128.fromInteger(20))).raw);
+    try std.testing.expect((try tanhQ(Q128.fromInteger(-1))).raw == -t1.raw);
 }
 
 test "shape function: f=1 deep inside, f=0 far outside, monotone wall" {
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // inside r=0: tanh(sR)-tanh(-sR) = 2 tanh(8) ~ 2 => f=1
-    const f0 = shape(w, Q128.zero);
+    const f0 = try shape(w, Q128.zero);
     try std.testing.expect(f0.sub(Q128.one).abs().raw < EPS_SHAPE);
     // far outside r=20: both tanh saturate => f=0
-    const f20 = shape(w, Q128.fromInteger(20));
+    const f20 = try shape(w, Q128.fromInteger(20));
     try std.testing.expect(f20.raw < EPS_SHAPE);
     // wall r=10: f ~ 1/2
-    const fR = shape(w, w.R);
+    const fR = try shape(w, w.R);
     const half = try2(Q128.fromRatio(1, 2));
     try std.testing.expect(fR.sub(half).abs().raw < try2(Q128.fromRatio(1, 10)).raw);
     // monotonic decrease across the wall
-    try std.testing.expect(shape(w, Q128.fromInteger(8)).raw > fR.raw);
-    try std.testing.expect(fR.raw > shape(w, Q128.fromInteger(12)).raw);
+    try std.testing.expect((try shape(w, Q128.fromInteger(8))).raw > fR.raw);
+    try std.testing.expect(fR.raw > (try shape(w, Q128.fromInteger(12))).raw);
 }
 
 test "metric determinant is -1 EXACTLY — volume-preserving at every radius" {
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // inside (f=1), wall (f~1/2), outside (f~0), and superluminal v:
     for ([_]i64{ 0, 8, 10, 12, 20 }) |ri| {
-        const f = shape(w, Q128.fromInteger(ri));
-        const det = metricDet(w, f);
+        const f = try shape(w, Q128.fromInteger(ri));
+        const det = try metricDet(w, f);
         // det = -1 identically — zero tolerance on the identity itself;
         // only series error in f leaks in, still vanishing
         try std.testing.expect(det.add(Q128.one).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
@@ -206,16 +245,16 @@ test "metric determinant is -1 EXACTLY — volume-preserving at every radius" {
 test "expansion scalar: contracts ahead, expands behind — antisymmetric" {
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // ahead of the bubble (x > xs, on the wall): theta < 0 (contraction)
-    const th_ahead = theta(w, Q128.fromInteger(10), Q128.fromInteger(10));
+    const th_ahead = try theta(w, Q128.fromInteger(10), Q128.fromInteger(10));
     // behind (x < xs): theta > 0 (expansion)
-    const th_behind = theta(w, Q128.fromInteger(-10), Q128.fromInteger(10));
+    const th_behind = try theta(w, Q128.fromInteger(-10), Q128.fromInteger(10));
     try std.testing.expect(th_ahead.raw < 0);
     try std.testing.expect(th_behind.raw > 0);
     // symmetric magnitude (odd function of x - xs)
     const asym = th_ahead.add(th_behind).abs();
     try std.testing.expect(asym.raw < try2(Q128.fromRatio(1, 20)).raw);
     // inside the bubble: theta ~ 0 — no expansion felt by the occupant
-    const th_in = theta(w, Q128.fromInteger(0), Q128.fromInteger(1));
+    const th_in = try theta(w, Q128.fromInteger(0), Q128.fromInteger(1));
     try std.testing.expect(th_in.abs().raw < try2(Q128.fromRatio(1, 10)).raw);
 }
 
@@ -223,12 +262,12 @@ test "energy density is negative wherever the wall is active — WEC violated" {
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // T_00 = -(v^2 rho^2 / 8 pi r^2)(df/dr)^2 : sign is manifest
     for ([_]i64{ 8, 9, 10, 11, 12 }) |ri| {
-        try std.testing.expect(t00Sign(w, Q128.fromInteger(ri), Q128.one) == -1);
+        try std.testing.expect((try t00Sign(w, Q128.fromInteger(ri), Q128.one)) == -1);
     }
     // deep inside and far outside df/dr=0: no exotic matter needed THERE —
     // but the wall cannot exist without it
-    try std.testing.expect(t00Sign(w, Q128.zero, Q128.one) == 0);
-    try std.testing.expect(t00Sign(w, Q128.fromInteger(30), Q128.one) == 0);
+    try std.testing.expect((try t00Sign(w, Q128.zero, Q128.one)) == 0);
+    try std.testing.expect((try t00Sign(w, Q128.fromInteger(30), Q128.one)) == 0);
     // magnitude sanity: |T_00| ~ v^2 (df/dr)^2 /(8pi) * (rho/r)^2 — the
     // required energy is Jupiter-mass-class for metre-scale bubbles
     // (literature: ~10^45 g negative mass at R=100m, sigma^-1 ~ 100m).
@@ -238,14 +277,14 @@ test "energy density is negative wherever the wall is active — WEC violated" {
 test "null coordinate speed: superluminal inside, cone stays Lorentzian" {
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // inside: dx/dt|_null = v*1 + 1 = 4c for v=3 — coordinate speed, not local
-    const cs_in = nullSpeed(w, shape(w, Q128.zero));
+    const cs_in = try nullSpeed(w, try shape(w, Q128.zero));
     try std.testing.expect(cs_in.raw > Q128.fromInteger(3).raw);
     // outside: back to 1c — light behaves normally away from the bubble
-    const cs_out = nullSpeed(w, shape(w, Q128.fromInteger(30)));
+    const cs_out = try nullSpeed(w, try shape(w, Q128.fromInteger(30)));
     try std.testing.expect(cs_out.sub(Q128.one).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
     // the cone is tilted, not degenerate: det g = -1 keeps the Lorentzian
     // signature — the ship never locally outruns its own light
-    const det = metricDet(w, shape(w, Q128.zero));
+    const det = try metricDet(w, try shape(w, Q128.zero));
     try std.testing.expect(det.add(Q128.one).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
 }
 
@@ -253,8 +292,8 @@ test "interior flatness: df/dr ~ 0 inside => occupant is geodesic, d tau = dt" {
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // gradient vanishes deep inside — Christoffels zero => no tidal force,
     // no proper acceleration for the comoving observer
-    try std.testing.expect(dshape(w, Q128.fromInteger(1)).abs().raw < try2(Q128.fromRatio(1, 1000)).raw);
-    try std.testing.expect(dshape(w, Q128.fromInteger(4)).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
+    try std.testing.expect((try dshape(w, Q128.fromInteger(1))).abs().raw < try2(Q128.fromRatio(1, 1000)).raw);
+    try std.testing.expect((try dshape(w, Q128.fromInteger(4))).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
 }
 
 test "point-to-point: D=1000 units at v=3c — arrives in 333.3 vs photon 1000, proper time = 333.3" {
@@ -278,14 +317,31 @@ test "point-to-point: D=1000 units at v=3c — arrives in 333.3 vs photon 1000, 
     // at v=3: net = 3/4 c — superluminal locally, subluminal globally
 }
 
+test "warp domains fail closed at degenerate geometry, negative radius, and invalid shape values" {
+    const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
+    const zero_r = Warp{ .v = w.v, .R = Q128.zero, .sigma = w.sigma, .xs = w.xs };
+    const zero_s = Warp{ .v = w.v, .R = w.R, .sigma = Q128.zero, .xs = w.xs };
+    const huge_v = Warp{ .v = Q128.fromInteger(1_000_001), .R = w.R, .sigma = w.sigma, .xs = w.xs };
+    try std.testing.expectError(error.InputDomain, shape(zero_r, Q128.one));
+    try std.testing.expectError(error.InputDomain, shape(zero_s, Q128.one));
+    try std.testing.expectError(error.InputDomain, shape(w, Q128.fromInteger(-1)));
+    try std.testing.expectError(error.InputDomain, shape(huge_v, Q128.one));
+    try std.testing.expectError(error.InputDomain, theta(w, Q128.fromInteger(1), Q128.zero));
+    try std.testing.expectError(error.InputDomain, t00Sign(w, Q128.one, Q128.fromInteger(-1)));
+    try std.testing.expectError(error.InputDomain, metricDet(w, Q128.fromInteger(2)));
+    try std.testing.expectError(error.InputDomain, nullSpeed(w, Q128.fromInteger(2)));
+    try std.testing.expectError(error.InputDomain, tanhQ(Q128.fromInteger(1_000_001)));
+    try std.testing.expect((try dshape(w, Q128.zero)).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
+}
+
 test "wire-cost gate: superluminal refused, subluminal legal — the corpus's own invariant" {
     // the same screen that refused Vector Alpha in the astrometric probe:
     try std.testing.expectError(error.ViolatesWireCost, astro.superluminalScreen(Q128.fromInteger(3)));
     try std.testing.expectError(error.ViolatesWireCost, astro.superluminalScreen(try2(Q128.fromRatio(101, 100))));
     // subluminal warp is legal under the invariant — the constraint moves
     // to the energy ledger, not the gate
-    astro.superluminalScreen(try2(Q128.fromRatio(9, 10))) catch unreachable;
-    astro.superluminalScreen(Q128.one) catch unreachable; // boundary: v = c is legal
+    try astro.superluminalScreen(try2(Q128.fromRatio(9, 10)));
+    try astro.superluminalScreen(Q128.one); // boundary: v = c is legal
 }
 
 test "Alcubierre shape is exotic at ANY v — positive-energy warp is a different geometry" {
@@ -294,11 +350,11 @@ test "Alcubierre shape is exotic at ANY v — positive-energy warp is a differen
     // matter. The newer positive-energy metrics (Bobrick-Martire 2021,
     // Fuchs 2024) are different spacetimes, not this shape at low speed.
     const w_slow = Warp{ .v = try2(Q128.fromRatio(1, 100)), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
-    try std.testing.expect(t00Sign(w_slow, Q128.fromInteger(10), Q128.one) == -1); // still negative at v=0.01
+    try std.testing.expect((try t00Sign(w_slow, Q128.fromInteger(10), Q128.one)) == -1); // still negative at v=0.01
     // at v=0 exactly the wall is inert — a static shell, not a warp
     const w_rest = Warp{ .v = Q128.zero, .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // shape still forms but theta vanishes — no motion, no expansion
-    try std.testing.expect(theta(w_rest, Q128.fromInteger(10), Q128.fromInteger(10)).raw == 0);
+    try std.testing.expect((try theta(w_rest, Q128.fromInteger(10), Q128.fromInteger(10))).raw == 0);
 }
 
 test "literature split filed: subluminal positive-energy exists; superluminal stays exotic" {
@@ -319,11 +375,11 @@ test "filed verdict: real metric, exotic-matter wall, corridor-causality bound" 
     // the three pinned facts that must all hold:
     const w = Warp{ .v = Q128.fromInteger(3), .R = Q128.fromInteger(10), .sigma = try2(Q128.fromRatio(8, 10)), .xs = Q128.zero };
     // (a) the geometry is consistent — det = -1
-    try std.testing.expect(metricDet(w, shape(w, Q128.fromInteger(10))).add(Q128.one).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
+    try std.testing.expect((try metricDet(w, try shape(w, Q128.fromInteger(10)))).add(Q128.one).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
     // (b) the wall costs exotic matter — NEC violated where df/dr != 0
-    try std.testing.expect(t00Sign(w, Q128.fromInteger(10), Q128.one) == -1);
+    try std.testing.expect((try t00Sign(w, Q128.fromInteger(10), Q128.one)) == -1);
     // (c) the occupant is inertially safe — interior flat, geodesic
-    try std.testing.expect(dshape(w, Q128.fromInteger(2)).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
+    try std.testing.expect((try dshape(w, Q128.fromInteger(2))).abs().raw < try2(Q128.fromRatio(1, 100)).raw);
     // Interpretation: Alcubierre is a real GR solution and the transit
     // arithmetic is exact — but it is a geometry handed to you, not a
     // drive you can build. The wall is exotic matter at ANY speed for

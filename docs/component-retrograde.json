@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 34
+    "completed_full_retrograde": 35
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "98f69b1f385b24662462e155d196694dbde862204c308805dbbb67b4e0ee84ef",
+        "sha256": "9ed157f66c77cbe59d8765b7d25b6507a81e3bc56db62c4629e0cf57fb1df8ad",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "f62c53e9312a33535a54f66cf28320d81a5a9aac25e8445733a06edf85261545",
+        "sha256": "8ee93425ac26f28b7b718a7ef00c17f4470bc8d2cf186754b428a120e2688d22",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -10900,15 +10900,17 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "a775528094e6d0839adba562a37a35c70ac74e0df74b78f62fa660220d78f5d2",
-        "bytes": 17311,
-        "lines": 336,
+        "sha256": "478c3f9c7721cebe6b98a42cadc29bed81956bbce6827caf99f478dc40ed005f",
+        "bytes": 20372,
+        "lines": 392,
         "imports": [
           "fixed_point_q128.zig",
           "spec007_astrometric_probe.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10922,7 +10924,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 12,
+        "test_blocks": 13,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10933,9 +10935,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-warp-domains-20261014",
+        "decision": "bounded-warp-domains"
       }
     },
     {
@@ -12059,9 +12061,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "c930212711f135f0895a15070263b3a734d8cf9685fb37b4411d15ae2ade73e6",
-        "bytes": 15645,
-        "lines": 377,
+        "sha256": "0da57ae52cc8a2af06278472903fca4094397135fe9c986d6bfce2abf47ef7c4",
+        "bytes": 15770,
+        "lines": 381,
         "imports": [
           "node:crypto",
           "node:fs",

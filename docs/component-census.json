@@ -6518,7 +6518,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 12,
+        "blocks": 13,
         "registered": true
       },
       "documentation": {

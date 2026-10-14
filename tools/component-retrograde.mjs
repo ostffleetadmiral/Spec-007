@@ -153,6 +153,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-throat-domains",
     archive: "spec007-portal-domains-20261014",
   }],
+  ["src/spec007_warp_probe.zig", {
+    decision: "bounded-warp-domains",
+    archive: "spec007-warp-domains-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };
