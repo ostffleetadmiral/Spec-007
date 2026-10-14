@@ -61,6 +61,11 @@ pub const CellEdit = struct {
             .seq = seq,
         };
     }
+
+    pub fn isValid(self: CellEdit) bool {
+        return self.x < BASE_EDGE and self.y < BASE_EDGE and self.z < BASE_EDGE and
+            std.math.isFinite(self.activation);
+    }
 };
 
 // =============================================================================
@@ -77,7 +82,8 @@ pub const Conflict = struct {
 
     /// Check if two edits conflict (same cell, different peers).
     pub inline fn isConflict(a: CellEdit, b: CellEdit) bool {
-        return a.x == b.x and a.y == b.y and a.z == b.z and a.peer_hash != b.peer_hash;
+        return a.isValid() and b.isValid() and
+            a.x == b.x and a.y == b.y and a.z == b.z and a.peer_hash != b.peer_hash;
     }
 };
 
@@ -117,6 +123,14 @@ pub const MergeResult = struct {
 
 /// Resolves a conflict using the specified strategy.
 pub fn resolveConflict(conflict: Conflict, strategy: MergeStrategy) MergeResult {
+    if (!conflict.edit_a.isValid() or !conflict.edit_b.isValid()) {
+        return .{
+            .activation = 0,
+            .winning_peer = 0,
+            .strategy = strategy,
+            .resolved = false,
+        };
+    }
     switch (strategy) {
         .last_write_wins => {
             if (conflict.edit_a.timestamp > conflict.edit_b.timestamp) {
@@ -199,8 +213,17 @@ pub fn resolveConflict(conflict: Conflict, strategy: MergeStrategy) MergeResult 
         },
 
         .average => {
+            const activation = (conflict.edit_a.activation + conflict.edit_b.activation) / 2.0;
+            if (!std.math.isFinite(activation)) {
+                return .{
+                    .activation = 0,
+                    .winning_peer = 0,
+                    .strategy = strategy,
+                    .resolved = false,
+                };
+            }
             return .{
-                .activation = (conflict.edit_a.activation + conflict.edit_b.activation) / 2.0,
+                .activation = activation,
                 .winning_peer = 0, // no single winner
                 .strategy = strategy,
                 .resolved = true,
@@ -264,12 +287,15 @@ pub fn mergeFaceStates(
     remote: [FACE_CELLS]f64,
     local_timestamp: u64,
     remote_timestamp: u64,
-) [FACE_CELLS]f64 {
+) ![FACE_CELLS]f64 {
     var merged: [FACE_CELLS]f64 = undefined;
 
     for (0..FACE_CELLS) |i| {
         // Möbius twist: compare local[i] with remote[224-i]
         const remote_idx = FACE_CELLS - 1 - i;
+        if (!std.math.isFinite(local[i]) or !std.math.isFinite(remote[remote_idx])) {
+            return error.NonFiniteActivation;
+        }
 
         if (local_timestamp > remote_timestamp) {
             merged[i] = local[i];
@@ -279,6 +305,7 @@ pub fn mergeFaceStates(
         } else {
             // Same timestamp: average with Möbius reflection
             merged[i] = (local[i] + remote[remote_idx]) / 2.0;
+            if (!std.math.isFinite(merged[i])) return error.NonFiniteActivation;
         }
     }
 
@@ -286,17 +313,22 @@ pub fn mergeFaceStates(
 }
 
 /// Computes the merge quality (how well the merged face preserves both inputs).
-pub fn mergeQuality(original_local: [FACE_CELLS]f64, original_remote: [FACE_CELLS]f64, merged: [FACE_CELLS]f64) f64 {
+pub fn mergeQuality(original_local: [FACE_CELLS]f64, original_remote: [FACE_CELLS]f64, merged: [FACE_CELLS]f64) !f64 {
     var local_diff: f64 = 0;
     var remote_diff: f64 = 0;
 
     for (0..FACE_CELLS) |i| {
         const remote_idx = FACE_CELLS - 1 - i;
+        if (!std.math.isFinite(original_local[i]) or
+            !std.math.isFinite(original_remote[remote_idx]) or
+            !std.math.isFinite(merged[i])) return error.NonFiniteActivation;
         local_diff += @abs(merged[i] - original_local[i]);
         remote_diff += @abs(merged[i] - original_remote[remote_idx]);
+        if (!std.math.isFinite(local_diff) or !std.math.isFinite(remote_diff)) return error.NonFiniteActivation;
     }
 
     const avg_diff = (local_diff + remote_diff) / (2.0 * @as(f64, @floatFromInt(FACE_CELLS)));
+    if (!std.math.isFinite(avg_diff)) return error.NonFiniteActivation;
     // Quality = 1 - normalized difference (clamped to 0)
     return @max(0.0, 1.0 - avg_diff);
 }
@@ -324,11 +356,14 @@ pub const ThreeWayMerge = struct {
     /// Performs a three-way merge with Möbius twist.
     /// Cells changed on only one side are taken from that side.
     /// Cells changed on both sides are resolved by e-value priority.
-    pub fn merge(self: ThreeWayMerge, e_values: [FACE_CELLS]u3) [FACE_CELLS]f64 {
+    pub fn merge(self: ThreeWayMerge, e_values: [FACE_CELLS]u3) ![FACE_CELLS]f64 {
         var merged: [FACE_CELLS]f64 = undefined;
 
         for (0..FACE_CELLS) |i| {
             const remote_idx = FACE_CELLS - 1 - i; // Möbius reflection
+            if (!std.math.isFinite(self.ancestor[i]) or
+                !std.math.isFinite(self.local[i]) or
+                !std.math.isFinite(self.remote[remote_idx])) return error.NonFiniteActivation;
 
             const local_changed = self.local[i] != self.ancestor[i];
             const remote_changed = self.remote[remote_idx] != self.ancestor[i];
@@ -467,13 +502,13 @@ test "merge: face state merge with Möbius reflection" {
     }
 
     // Local is newer
-    const merged = mergeFaceStates(local, remote, 2000, 1000);
+    const merged = try mergeFaceStates(local, remote, 2000, 1000);
     for (0..FACE_CELLS) |i| {
         try std.testing.expectApproxEqAbs(local[i], merged[i], 1e-9);
     }
 
     // Remote is newer — Möbius reflection applied
-    const merged2 = mergeFaceStates(local, remote, 1000, 2000);
+    const merged2 = try mergeFaceStates(local, remote, 1000, 2000);
     for (0..FACE_CELLS) |i| {
         const remote_idx = FACE_CELLS - 1 - i;
         try std.testing.expectApproxEqAbs(remote[remote_idx], merged2[i], 1e-9);
@@ -488,7 +523,7 @@ test "merge: face state merge same timestamp averages" {
         remote[i] = 3.0;
     }
 
-    const merged = mergeFaceStates(local, remote, 1000, 1000);
+    const merged = try mergeFaceStates(local, remote, 1000, 1000);
     // With Möbius reflection: (local[i] + remote[224-i]) / 2 = (1.0 + 3.0) / 2 = 2.0
     for (0..FACE_CELLS) |i| {
         try std.testing.expectApproxEqAbs(@as(f64, 2.0), merged[i], 1e-9);
@@ -504,8 +539,8 @@ test "merge: merge quality calculation" {
     }
 
     // Merged = local (perfect match with local, Möbius match with remote)
-    const merged = mergeFaceStates(local, remote, 2000, 1000);
-    const quality = mergeQuality(local, remote, merged);
+    const merged = try mergeFaceStates(local, remote, 2000, 1000);
+    const quality = try mergeQuality(local, remote, merged);
     try std.testing.expect(quality > 0.99);
 }
 
@@ -523,7 +558,7 @@ test "merge: three-way merge — only local changed" {
     }
 
     const twm = ThreeWayMerge.init(ancestor, local, remote);
-    const merged = twm.merge(e_values);
+    const merged = try twm.merge(e_values);
 
     // Only local changed cell 10 → take local
     try std.testing.expectApproxEqAbs(@as(f64, 0.9), merged[10], 1e-9);
@@ -545,7 +580,7 @@ test "merge: three-way merge — both changed, e-value tiebreaker" {
     }
 
     const twm = ThreeWayMerge.init(ancestor, local, remote);
-    const merged = twm.merge(e_values);
+    const merged = try twm.merge(e_values);
 
     // Cell 5: e_value=6 (>=4) → local wins
     try std.testing.expectApproxEqAbs(@as(f64, 0.8), merged[5], 1e-9);
@@ -567,7 +602,7 @@ test "merge: three-way merge — neither changed" {
     }
 
     const twm = ThreeWayMerge.init(ancestor, local, remote);
-    const merged = twm.merge(e_values);
+    const merged = try twm.merge(e_values);
 
     for (0..FACE_CELLS) |i| {
         try std.testing.expectApproxEqAbs(@as(f64, 0.5), merged[i], 1e-9);

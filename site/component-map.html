@@ -231,9 +231,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec008_qstar_fleet.zig</code></td>
-<td>qstar-net onto the fleet: 25-E0 BootstrapSeed rendezvous, proof-of-lattice-work Sybil gate (test-calibrated difficulty), Möbius merge for concurrent cell edits, NAT/WebRTC matrix. <code>SeedNode.activation</code>/<code>CellEdit.activation</code> are f-boundary bookkeeping only.</td>
-<td>9 tests</td>
-<td>—</td>
+<td>qstar-net onto the fleet: 25-E0 BootstrapSeed rendezvous, proof-of-lattice-work Sybil gate (test-calibrated difficulty), Möbius merge for concurrent cell edits, NAT/WebRTC matrix. <code>SeedNode.activation</code>/<code>CellEdit.activation</code> are f-boundary bookkeeping only. Boundary hardened: exact seed/FaceQR/signaling/STUN/QR extents, lattice/domain/axis checks, owned discovered and signaling payloads, transactional registration, clock-regression and proof-iteration refusal, finite in-lattice merge inputs, and bounded SDP/ICE/channel state.</td>
+<td>15 tests</td>
+<td>fleet boundary hardened</td>
 </tr>
 <tr>
 <td><code>spec008_qstar_mesh.zig</code></td>

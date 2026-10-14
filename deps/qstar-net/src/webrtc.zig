@@ -24,7 +24,13 @@ pub const IceCandidate = struct {
     port: u16,
     typ: u8, // 0=host, 1=srflx, 2=prflx, 3=relay
 
+    pub fn isValid(self: *const IceCandidate) bool {
+        return self.ip_len > 0 and self.ip_len <= self.ip.len and
+            self.component != 0 and self.protocol <= 1 and self.typ <= 3 and self.port != 0;
+    }
+
     pub fn ipSlice(self: *const IceCandidate) []const u8 {
+        if (self.ip_len > self.ip.len) return &.{};
         return self.ip[0..self.ip_len];
     }
 };
@@ -32,6 +38,10 @@ pub const IceCandidate = struct {
 pub const DtlsFingerprint = struct {
     hash: [DTLS_FINGERPRINT_SIZE]u8,
     algo: u8, // 0=sha256, 1=sha384
+
+    pub fn isValid(self: *const DtlsFingerprint) bool {
+        return self.algo <= 1;
+    }
 };
 
 pub const DataChannelMsg = struct {
@@ -51,10 +61,18 @@ pub const Sdp = struct {
     fingerprint: DtlsFingerprint,
     setup: u8, // 0=actpass, 1=active, 2=passive
 
+    pub fn isValid(self: *const Sdp) bool {
+        return self.ice_ufrag_len > 0 and self.ice_ufrag_len <= self.ice_ufrag.len and
+            self.ice_pwd_len > 0 and self.ice_pwd_len <= self.ice_pwd.len and
+            self.fingerprint.isValid() and self.setup <= 2;
+    }
+
     pub fn ufragSlice(self: *const Sdp) []const u8 {
+        if (self.ice_ufrag_len > self.ice_ufrag.len) return &.{};
         return self.ice_ufrag[0..self.ice_ufrag_len];
     }
     pub fn pwdSlice(self: *const Sdp) []const u8 {
+        if (self.ice_pwd_len > self.ice_pwd.len) return &.{};
         return self.ice_pwd[0..self.ice_pwd_len];
     }
 };
@@ -70,6 +88,7 @@ pub const DataChannel = struct {
     received: u64 = 0,
 
     pub fn init(allocator: std.mem.Allocator, id: u16, label: []const u8, ordered: bool, max_retransmits: u16) !DataChannel {
+        if (label.len > std.math.maxInt(u16)) return error.ChannelLabelTooLarge;
         return .{
             .allocator = allocator,
             .id = id,
@@ -111,12 +130,21 @@ pub const PeerConnection = struct {
         self.remote_candidates.deinit();
     }
 
-    pub fn createOffer(self: *PeerConnection, ufrag: []const u8, pwd: []const u8, fp: DtlsFingerprint) Sdp {
+    pub fn createOffer(self: *PeerConnection, ufrag: []const u8, pwd: []const u8, fp: DtlsFingerprint) !Sdp {
+        if (ufrag.len == 0 or ufrag.len > 32 or pwd.len == 0 or pwd.len > 32 or !fp.isValid()) return error.SdpInvalid;
         const sdp = Sdp{
             .type = .offer,
-            .ice_ufrag = blk: { var b = [_]u8{0} ** 32; @memcpy(b[0..ufrag.len], ufrag); break :blk b; },
+            .ice_ufrag = blk: {
+                var b = [_]u8{0} ** 32;
+                @memcpy(b[0..ufrag.len], ufrag);
+                break :blk b;
+            },
             .ice_ufrag_len = @intCast(ufrag.len),
-            .ice_pwd = blk: { var b = [_]u8{0} ** 32; @memcpy(b[0..pwd.len], pwd); break :blk b; },
+            .ice_pwd = blk: {
+                var b = [_]u8{0} ** 32;
+                @memcpy(b[0..pwd.len], pwd);
+                break :blk b;
+            },
             .ice_pwd_len = @intCast(pwd.len),
             .fingerprint = fp,
             .setup = 0, // actpass
@@ -126,12 +154,21 @@ pub const PeerConnection = struct {
         return sdp;
     }
 
-    pub fn createAnswer(self: *PeerConnection, ufrag: []const u8, pwd: []const u8, fp: DtlsFingerprint) Sdp {
+    pub fn createAnswer(self: *PeerConnection, ufrag: []const u8, pwd: []const u8, fp: DtlsFingerprint) !Sdp {
+        if (ufrag.len == 0 or ufrag.len > 32 or pwd.len == 0 or pwd.len > 32 or !fp.isValid()) return error.SdpInvalid;
         const sdp = Sdp{
             .type = .answer,
-            .ice_ufrag = blk: { var b = [_]u8{0} ** 32; @memcpy(b[0..ufrag.len], ufrag); break :blk b; },
+            .ice_ufrag = blk: {
+                var b = [_]u8{0} ** 32;
+                @memcpy(b[0..ufrag.len], ufrag);
+                break :blk b;
+            },
             .ice_ufrag_len = @intCast(ufrag.len),
-            .ice_pwd = blk: { var b = [_]u8{0} ** 32; @memcpy(b[0..pwd.len], pwd); break :blk b; },
+            .ice_pwd = blk: {
+                var b = [_]u8{0} ** 32;
+                @memcpy(b[0..pwd.len], pwd);
+                break :blk b;
+            },
             .ice_pwd_len = @intCast(pwd.len),
             .fingerprint = fp,
             .setup = 1, // active
@@ -140,32 +177,39 @@ pub const PeerConnection = struct {
         return sdp;
     }
 
-    pub fn setRemoteDescription(self: *PeerConnection, sdp: Sdp) void {
+    pub fn setRemoteDescription(self: *PeerConnection, sdp: Sdp) !void {
+        if (!sdp.isValid()) return error.SdpInvalid;
         self.remote_sdp = sdp;
     }
 
     pub fn addLocalCandidate(self: *PeerConnection, c: IceCandidate) !void {
+        if (!c.isValid()) return error.IceCandidateInvalid;
         try self.local_candidates.append(c);
     }
 
     pub fn addRemoteCandidate(self: *PeerConnection, c: IceCandidate) !void {
+        if (!c.isValid()) return error.IceCandidateInvalid;
         try self.remote_candidates.append(c);
     }
 
     pub fn createDataChannel(self: *PeerConnection, label: []const u8, ordered: bool, max_retransmits: u16) !u16 {
+        if (label.len > std.math.maxInt(u16)) return error.ChannelLabelTooLarge;
+        if (self.channels.items.len > std.math.maxInt(u16)) return error.ChannelLimit;
         const id: u16 = @intCast(self.channels.items.len);
-        try self.channels.append(try DataChannel.init(self.allocator, id, label, ordered, max_retransmits));
+        var channel = try DataChannel.init(self.allocator, id, label, ordered, max_retransmits);
+        errdefer channel.deinit();
+        try self.channels.append(channel);
         return id;
     }
 
     pub fn openChannel(self: *PeerConnection, id: u16) void {
-        if (id < self.channels.items.len) {
+        if (id < self.channels.items.len and self.channels.items[id].state == .connecting) {
             self.channels.items[id].state = .open;
         }
     }
 
     pub fn closeChannel(self: *PeerConnection, id: u16) void {
-        if (id < self.channels.items.len) {
+        if (id < self.channels.items.len and self.channels.items[id].state != .closed) {
             self.channels.items[id].state = .closed;
         }
     }
@@ -206,7 +250,7 @@ test "webrtc: PeerConnection create offer" {
     var pc = PeerConnection.init(std.testing.allocator);
     defer pc.deinit();
     const fp = DtlsFingerprint{ .hash = [_]u8{0xAA} ** 32, .algo = 0 };
-    const sdp = pc.createOffer("ufrag1", "pwd12345", fp);
+    const sdp = try pc.createOffer("ufrag1", "pwd12345", fp);
     try std.testing.expectEqual(SdpType.offer, sdp.type);
     try std.testing.expectEqualStrings("ufrag1", sdp.ufragSlice());
     try std.testing.expectEqualStrings("pwd12345", sdp.pwdSlice());
@@ -217,7 +261,7 @@ test "webrtc: PeerConnection create answer" {
     var pc = PeerConnection.init(std.testing.allocator);
     defer pc.deinit();
     const fp = DtlsFingerprint{ .hash = [_]u8{0xBB} ** 32, .algo = 0 };
-    const sdp = pc.createAnswer("ufrag2", "pwd67890", fp);
+    const sdp = try pc.createAnswer("ufrag2", "pwd67890", fp);
     try std.testing.expectEqual(SdpType.answer, sdp.type);
     try std.testing.expectEqualStrings("ufrag2", sdp.ufragSlice());
 }
@@ -227,14 +271,18 @@ test "webrtc: set remote description" {
     defer pc.deinit();
     const fp = DtlsFingerprint{ .hash = [_]u8{0} ** 32, .algo = 0 };
     const sdp = Sdp{ .type = .offer, .ice_ufrag = [_]u8{0} ** 32, .ice_ufrag_len = 4, .ice_pwd = [_]u8{0} ** 32, .ice_pwd_len = 4, .fingerprint = fp, .setup = 0 };
-    pc.setRemoteDescription(sdp);
+    try pc.setRemoteDescription(sdp);
     try std.testing.expect(pc.remote_sdp != null);
 }
 
 test "webrtc: add ICE candidates" {
     var pc = PeerConnection.init(std.testing.allocator);
     defer pc.deinit();
-    const c = IceCandidate{ .foundation = 1, .component = 1, .protocol = 0, .priority = 100, .ip = [_]u8{0} ** 46, .ip_len = 0, .port = 5000, .typ = 0 };
+    const c = IceCandidate{ .foundation = 1, .component = 1, .protocol = 0, .priority = 100, .ip = blk: {
+        var ip = [_]u8{0} ** 46;
+        @memcpy(ip[0..9], "127.0.0.1");
+        break :blk ip;
+    }, .ip_len = 9, .port = 5000, .typ = 0 };
     try pc.addLocalCandidate(c);
     try pc.addRemoteCandidate(c);
     const counts = pc.candidateCount();
@@ -282,7 +330,11 @@ test "webrtc: encode rejects oversized payload" {
 }
 
 test "webrtc: IceCandidate ip slice" {
-    const c = IceCandidate{ .foundation = 1, .component = 1, .protocol = 0, .priority = 100, .ip = blk: { var b = [_]u8{0} ** 46; @memcpy(b[0..9], "127.0.0.1"); break :blk b; }, .ip_len = 9, .port = 8080, .typ = 0 };
+    const c = IceCandidate{ .foundation = 1, .component = 1, .protocol = 0, .priority = 100, .ip = blk: {
+        var b = [_]u8{0} ** 46;
+        @memcpy(b[0..9], "127.0.0.1");
+        break :blk b;
+    }, .ip_len = 9, .port = 8080, .typ = 0 };
     try std.testing.expectEqualStrings("127.0.0.1", c.ipSlice());
 }
 

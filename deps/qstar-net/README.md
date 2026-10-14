@@ -19,6 +19,14 @@ Five modules for building P2P systems without external dependencies:
 - **Sybil resistance** — Proof of Lattice Work (PoLW) using E0 node hashing
 - **Möbius merge** — Conflict resolution for concurrent lattice cell edits
 
+Boundary contract: wire parsers require exact packet lengths; bootstrap seeds and
+FaceQRs validate lattice/channel/axis domains and finite donor bookkeeping fields;
+signaling messages enforce their type-specific shape; discovered peers and stored
+signaling payloads are owned by their containers; SDP/ICE/channel descriptors
+reject malformed lengths and states; PoLW proofs bind `iterations = nonce + 1`;
+identity registration is transactional and rejects clock regression; merge edits
+must remain inside `15³` with finite activations.
+
 ## Usage
 
 ```zig
@@ -53,7 +61,7 @@ defer ms.deinit();
 | `NATType.toString()` | Get NAT type name |
 | `NATType.canHolePunch()` | Check if hole punching works |
 | `Address.new(ip, port)` | Create network address |
-| `Address.format(allocator)` | Format as string |
+| `Address.formatAlloc(allocator)` | Format as an allocated string |
 
 ### WebRTC (`webrtc.zig`)
 
@@ -77,7 +85,7 @@ defer ms.deinit();
 | `BootstrapSeed.canonical()` | Get canonical bootstrap seed |
 | `seed.validate()` | Validate seed integrity |
 | `seed.serialize(allocator)` | Serialize to bytes |
-| `BootstrapSeed.deserialize(data)` | Deserialize from bytes |
+| `BootstrapSeed.deserialize(data)` | Exact-length deserialize + domain check |
 
 ### Sybil (`sybil.zig`)
 
@@ -93,20 +101,22 @@ defer ms.deinit();
 | Function | Description |
 |----------|-------------|
 | `MergeSet.init(allocator, strategy)` | Create merge set |
-| `resolveConflict(conflict, strategy)` | Resolve a single conflict |
-| `MergeStrategy` | `last_write_wins`, `e_value_priority`, `mobius_twist`, `three_way` |
+| `resolveConflict(conflict, strategy)` | Resolve a valid conflict or report unresolved |
+| `mergeFaceStates(local, remote, t_l, t_r)` | Möbius face merge; non-finite inputs refuse |
+| `ThreeWayMerge.merge(e_values)` | Ancestor-aware merge; non-finite inputs refuse |
+| `MergeStrategy` | `last_write_wins`, `e_value_priority`, `mobius_twist`, `average` |
 
 ## Modules
 
 | Module | Lines | Tests |
 |--------|-------|-------|
-| nat.zig | 766 | 17 |
-| webrtc.zig | 298 | 10 |
-| bootstrap.zig | 570 | 13 |
-| sybil.zig | 574 | 14 |
-| merge.zig | 575 | 14 |
+| nat.zig | 832 | 17 |
+| webrtc.zig | 350 | 10 |
+| bootstrap.zig | 603 | 13 |
+| sybil.zig | 579 | 14 |
+| merge.zig | 610 | 14 |
 
-**Total: 2,783 lines, 68 tests. Zero dependencies (std only).**
+**Total: 2,974 lines, 68 tests. Zero dependencies (std only).**
 
 ## Origin
 

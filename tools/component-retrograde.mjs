@@ -205,6 +205,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-shamir-rs-envelopes",
     archive: "spec008-qstar-escrow-boundaries-20261014",
   }],
+  ["src/spec008_qstar_fleet.zig", {
+    decision: "exact-fleet-wire-ownership-boundaries",
+    archive: "spec008-qstar-fleet-boundaries-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

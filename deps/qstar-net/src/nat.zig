@@ -57,13 +57,25 @@ pub const Address = struct {
             const part = it.next() orelse return error.InvalidIP;
             ip[i] = try std.fmt.parseInt(u8, part, 10);
         }
+        if (it.next() != null) return error.InvalidIP;
         return .{ .ip = ip, .port = port };
     }
 
-    pub fn format(self: Address, allocator: std.mem.Allocator) ![]u8 {
-        return try std.fmt.allocPrint(allocator, "{d}.{d}.{d}.{d}:{d}", .{
+    pub fn format(
+        self: Address,
+        comptime fmt: []const u8,
+        options: std.fmt.FormatOptions,
+        writer: anytype,
+    ) !void {
+        _ = fmt;
+        _ = options;
+        try writer.print("{d}.{d}.{d}.{d}:{d}", .{
             self.ip[0], self.ip[1], self.ip[2], self.ip[3], self.port,
         });
+    }
+
+    pub fn formatAlloc(self: Address, allocator: std.mem.Allocator) ![]u8 {
+        return try std.fmt.allocPrint(allocator, "{}", .{self});
     }
 
     pub fn eql(a: Address, b: Address) bool {
@@ -117,34 +129,39 @@ pub fn parseBindingResponse(packet: []const u8) !Address {
     }
 
     const msg_len = std.mem.readInt(u16, packet[2..4], .big);
-    if (packet.len < 20 + msg_len) return error.STUNResponseTruncated;
+    const body_len: usize = msg_len;
+    if (packet.len != 20 + body_len) return error.STUNBadLength;
 
     // Parse attributes
     var pos: usize = 20;
-    while (pos + 4 <= 20 + msg_len) {
+    var mapped: ?Address = null;
+    while (pos + 4 <= 20 + body_len) {
         const attr_type = std.mem.readInt(u16, packet[pos..][0..2], .big);
         const attr_len = std.mem.readInt(u16, packet[pos + 2 ..][0..2], .big);
         pos += 4;
 
-        if (pos + attr_len > 20 + msg_len) return error.STUNAttrTruncated;
+        if (pos + attr_len > 20 + body_len) return error.STUNAttrTruncated;
 
         if (attr_type == @intFromEnum(STUNAttrType.xor_mapped_address)) {
-            return try parseXorMappedAddress(packet[pos..][0..attr_len]);
-        }
-        if (attr_type == @intFromEnum(STUNAttrType.mapped_address)) {
-            return try parseMappedAddress(packet[pos..][0..attr_len]);
+            if (mapped != null) return error.STUNDuplicateAddress;
+            mapped = try parseXorMappedAddress(packet[pos..][0..attr_len]);
+        } else if (attr_type == @intFromEnum(STUNAttrType.mapped_address)) {
+            if (mapped != null) return error.STUNDuplicateAddress;
+            mapped = try parseMappedAddress(packet[pos..][0..attr_len]);
         }
 
         // Skip to next attribute (with padding)
-        const padded_len = (attr_len + 3) & ~@as(u16, 3);
+        const padded_len = (@as(usize, attr_len) + 3) & ~@as(usize, 3);
+        if (pos + padded_len > 20 + body_len) return error.STUNAttrTruncated;
         pos += padded_len;
     }
+    if (pos != 20 + body_len) return error.STUNAttrTruncated;
 
-    return error.STUNNoMappedAddress;
+    return mapped orelse error.STUNNoMappedAddress;
 }
 
 fn parseXorMappedAddress(attr: []const u8) !Address {
-    if (attr.len < 8) return error.STUNAddrTooShort;
+    if (attr.len != 8) return error.STUNAddrBadLength;
     const family = attr[1];
     if (family != 0x01) return error.STUNNotIPv4;
 
@@ -161,7 +178,7 @@ fn parseXorMappedAddress(attr: []const u8) !Address {
 }
 
 fn parseMappedAddress(attr: []const u8) !Address {
-    if (attr.len < 8) return error.STUNAddrTooShort;
+    if (attr.len != 8) return error.STUNAddrBadLength;
     const family = attr[1];
     if (family != 0x01) return error.STUNNotIPv4;
 
@@ -231,7 +248,7 @@ pub const HolePunch = struct {
     /// Execute a single punch attempt.
     /// Returns true if the punch should be sent, false if max attempts reached.
     pub fn punch(self: *HolePunch, now_ms: u64) bool {
-        if (self.state == .idle or self.state == .failed) return false;
+        if (self.state != .preparing and self.state != .punching) return false;
         if (self.attempts >= self.max_attempts) {
             self.state = .failed;
             return false;
@@ -239,13 +256,13 @@ pub const HolePunch = struct {
         if (now_ms < self.punch_time_ms) return false;
 
         self.state = .punching;
-        self.attempts += 1;
+        self.attempts +|= 1;
         return true;
     }
 
     /// Mark the hole punch as successful.
     pub fn markConnected(self: *HolePunch) void {
-        self.state = .connected;
+        if (self.state == .punching) self.state = .connected;
     }
 
     /// Check if the hole punch has failed.
@@ -306,8 +323,22 @@ pub const SignalingMessage = struct {
         };
     }
 
+    fn validShape(self: SignalingMessage) bool {
+        return switch (self.msg_type) {
+            .offer, .answer => self.payload.len > 0 and self.ice_data == null,
+            .ice_candidate => self.payload.len == 0 and self.ice_data != null,
+            .end_of_candidates => self.payload.len == 0 and self.ice_data == null,
+        };
+    }
+
     /// Serialize to bytes for QR encoding.
     pub fn serialize(self: SignalingMessage, allocator: std.mem.Allocator) ![]u8 {
+        if (!self.validShape()) return error.SignalingInvalid;
+        if (self.payload.len > std.math.maxInt(u16)) return error.SignalingPayloadTooLarge;
+        if (self.ice_data) |ice| {
+            if (ice.len > std.math.maxInt(u16)) return error.SignalingIceTooLarge;
+        }
+
         var buf = std.ArrayList(u8).init(allocator);
         errdefer buf.deinit();
 
@@ -332,10 +363,12 @@ pub const SignalingMessage = struct {
 
     /// Deserialize from bytes.
     pub fn deserialize(data: []const u8) !SignalingMessage {
-        if (data.len < 1 + 8 + 2) return error.SignalingTooShort;
+        if (data.len < 1 + 8 + 2 + 2) return error.SignalingTooShort;
 
         var pos: usize = 0;
-        const msg_type: SignalingMessageType = @enumFromInt(data[pos]);
+        const raw_type = data[pos];
+        if (raw_type == 0 or raw_type > 4) return error.SignalingBadType;
+        const msg_type: SignalingMessageType = @enumFromInt(raw_type);
         pos += 1;
         const peer_hash = std.mem.readInt(u64, data[pos..][0..8], .little);
         pos += 8;
@@ -353,14 +386,18 @@ pub const SignalingMessage = struct {
         if (ice_len > 0) {
             if (data.len < pos + ice_len) return error.SignalingIceTruncated;
             ice_data = data[pos .. pos + ice_len];
+            pos += ice_len;
         }
+        if (pos != data.len) return error.SignalingTrailingBytes;
 
-        return .{
+        const msg = SignalingMessage{
             .msg_type = msg_type,
             .peer_hash = peer_hash,
             .payload = payload,
             .ice_data = ice_data,
         };
+        if (!msg.validShape()) return error.SignalingInvalid;
+        return msg;
     }
 };
 
@@ -381,27 +418,55 @@ pub const WebRTCSignaling = struct {
         };
     }
 
+    fn dupeMessage(self: *WebRTCSignaling, msg: SignalingMessage) !SignalingMessage {
+        if (!msg.validShape()) return error.SignalingInvalid;
+        const payload = try self.allocator.dupe(u8, msg.payload);
+        errdefer self.allocator.free(payload);
+        const ice_data = if (msg.ice_data) |ice| try self.allocator.dupe(u8, ice) else null;
+        errdefer if (ice_data) |ice| self.allocator.free(ice);
+        return .{
+            .msg_type = msg.msg_type,
+            .peer_hash = msg.peer_hash,
+            .payload = payload,
+            .ice_data = ice_data,
+        };
+    }
+
+    fn freeMessage(self: *WebRTCSignaling, msg: SignalingMessage) void {
+        self.allocator.free(msg.payload);
+        if (msg.ice_data) |ice| self.allocator.free(ice);
+    }
+
     pub fn deinit(self: *WebRTCSignaling) void {
+        if (self.pending_offer) |msg| self.freeMessage(msg);
+        if (self.pending_answer) |msg| self.freeMessage(msg);
+        for (self.ice_candidates.items) |msg| self.freeMessage(msg);
         self.ice_candidates.deinit();
     }
 
     /// Create an offer to send to a remote peer.
-    pub fn createOffer(self: *WebRTCSignaling, sdp: []const u8) SignalingMessage {
-        const msg = SignalingMessage.initOffer(self.own_hash, sdp);
+    pub fn createOffer(self: *WebRTCSignaling, sdp: []const u8) !SignalingMessage {
+        const msg = try self.dupeMessage(SignalingMessage.initOffer(self.own_hash, sdp));
+        if (self.pending_offer) |old| self.freeMessage(old);
         self.pending_offer = msg;
         return msg;
     }
 
     /// Process an incoming offer and create an answer.
-    pub fn processOffer(self: *WebRTCSignaling, _: SignalingMessage, sdp: []const u8) SignalingMessage {
-        const answer = SignalingMessage.initAnswer(self.own_hash, sdp);
+    pub fn processOffer(self: *WebRTCSignaling, offer: SignalingMessage, sdp: []const u8) !SignalingMessage {
+        if (offer.msg_type != .offer or !offer.validShape()) return error.SignalingInvalid;
+        const answer = try self.dupeMessage(SignalingMessage.initAnswer(self.own_hash, sdp));
+        if (self.pending_answer) |old| self.freeMessage(old);
         self.pending_answer = answer;
         return answer;
     }
 
     /// Add an ICE candidate.
     pub fn addIceCandidate(self: *WebRTCSignaling, msg: SignalingMessage) !void {
-        try self.ice_candidates.append(msg);
+        if (msg.msg_type != .ice_candidate or !msg.validShape()) return error.SignalingInvalid;
+        const owned = try self.dupeMessage(msg);
+        errdefer self.freeMessage(owned);
+        try self.ice_candidates.append(owned);
     }
 
     /// Number of collected ICE candidates.
@@ -505,7 +570,8 @@ pub const QROffer = struct {
     }
 
     pub fn isExpired(self: QROffer, now_ms: u64) bool {
-        return now_ms > self.created_ms + self.ttl_ms;
+        if (now_ms <= self.created_ms) return false;
+        return now_ms - self.created_ms > self.ttl_ms;
     }
 
     pub fn serialize(self: QROffer) [8 + 6 + 8 + 8]u8 {
@@ -519,7 +585,7 @@ pub const QROffer = struct {
     }
 
     pub fn deserialize(data: []const u8) !QROffer {
-        if (data.len < 30) return error.QROfferTooShort;
+        if (data.len != 30) return error.QROfferBadLength;
         var ip: [4]u8 = undefined;
         @memcpy(&ip, data[8..12]);
         return .{
@@ -539,7 +605,7 @@ pub const QROffer = struct {
 // =============================================================================
 
 test "NAT: STUN binding request format" {
-    const txn_id = [_]u8{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C};
+    const txn_id = [_]u8{ 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C };
     const packet = buildBindingRequest(txn_id);
 
     // Message type: 0x0001 (Binding Request)
@@ -570,7 +636,7 @@ test "NAT: NAT type canHolePunch" {
 test "NAT: Address format and equality" {
     const allocator = std.testing.allocator;
     const addr = Address.new(.{ 192, 168, 1, 100 }, 8080);
-    const formatted = try addr.format(allocator);
+    const formatted = try addr.formatAlloc(allocator);
     defer allocator.free(formatted);
     try std.testing.expectEqualStrings("192.168.1.100:8080", formatted);
 
@@ -649,7 +715,7 @@ test "NAT: WebRTC signaling offer/answer round-trip" {
     var sig = WebRTCSignaling.init(allocator, 12345);
     defer sig.deinit();
 
-    const offer = sig.createOffer("v=0\r\no=- 12345 1 IN IP4 192.168.1.100\r\n");
+    const offer = try sig.createOffer("v=0\r\no=- 12345 1 IN IP4 192.168.1.100\r\n");
     try std.testing.expectEqual(SignalingMessageType.offer, offer.msg_type);
     try std.testing.expectEqual(@as(u64, 12345), offer.peer_hash);
 

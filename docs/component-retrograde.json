@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 47
+    "completed_full_retrograde": 48
   },
   "components": [
     {
@@ -2592,9 +2592,9 @@
       "workstream": "qstar-donor",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "f739e73865de8ada2da4308e474406a3634a0fb734dcd2959a78b3596a1b94d1",
-        "bytes": 3361,
-        "lines": 114,
+        "sha256": "b751b0a746c7ec52d56f8ee264901f4a457b7390e8655526894d3af78092ec0b",
+        "bytes": 4131,
+        "lines": 124,
         "imports": [
           "bootstrap",
           "merge",
@@ -2646,9 +2646,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "41b499b2de3a647ff6a941362cf4396a42f751e66ba982830112bf525b8fe3f0",
-        "bytes": 19991,
-        "lines": 571,
+        "sha256": "1ac2f5ded58ef3c082bd32136bd5314328122dd8d7535d987bafc8eedb798fde",
+        "bytes": 21623,
+        "lines": 604,
         "imports": [
           "std"
         ],
@@ -2671,7 +2671,7 @@
           "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 27
+        "public_surface": 28
       },
       "contract": {
         "mapped": true,
@@ -2704,9 +2704,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "741b8675d2882595841ebbdca3c6b888913e7e64cac034d99767c4373dc4d5b3",
-        "bytes": 21500,
-        "lines": 576,
+        "sha256": "1e0d9f64a5ab8d5bfdf7dd23dd85602e660f9a9a0dcb1ffd788c22a87fa01d58",
+        "bytes": 23102,
+        "lines": 611,
         "imports": [
           "std"
         ],
@@ -2729,7 +2729,7 @@
           "security/officer-mesh.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 18
+        "public_surface": 19
       },
       "contract": {
         "mapped": true,
@@ -2762,9 +2762,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "9a8fab177163b4e77cd7b68eea8fdbedd5fd3c67984b2ad2296bf777fbf857b8",
-        "bytes": 25635,
-        "lines": 767,
+        "sha256": "6bc15d2e1c74a264c5776fb8358feddafbc7ef76898cb57094f2e3fbfb3687e3",
+        "bytes": 28777,
+        "lines": 833,
         "imports": [
           "std"
         ],
@@ -2773,7 +2773,7 @@
           "deps/qstar-net/README.md"
         ],
         "todo_markers": 0,
-        "public_surface": 45
+        "public_surface": 46
       },
       "contract": {
         "mapped": true,
@@ -2806,9 +2806,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "b1af9ace47be8d90b8778811a3a7028e000ca8fef6fb9d734a90760572787ee3",
-        "bytes": 20359,
-        "lines": 575,
+        "sha256": "103c35e1dfd8fa61dee5df8f13ae44e04c25b8bab0b26e6a5e11562228bf9fe9",
+        "bytes": 20826,
+        "lines": 580,
         "imports": [
           "std"
         ],
@@ -2852,9 +2852,9 @@
       "workstream": "qstar-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "a8398b16f5a09c1c0ea435d4a82d74545f9a3108770fef5a1db175d8bda166f5",
-        "bytes": 10832,
-        "lines": 299,
+        "sha256": "2a0bba3dbe096187fba740e46d967ef36babcc214df0ec58db4b8d73e8d3b833",
+        "bytes": 12800,
+        "lines": 351,
         "imports": [
           "std"
         ],
@@ -2868,7 +2868,7 @@
           "tools/override-audit.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 31
+        "public_surface": 34
       },
       "contract": {
         "mapped": true,
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "275a06f07ac8c560dc09af086ddaf9aa52cece037e8c09cdd71d47d22fddcc7c",
+        "sha256": "2ae241fa08e892b3b896e970b91fa49737870fa41b3a7c9d8a51fb81066efa4a",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "de069036e5db1c23a791aa3d72cedcbcd63d0126065f66a2c2b67f452b0458a1",
+        "sha256": "8632790eaaabb3a7e32b7e65aa5bbc7f962ca495113aeed629bf1448e955d188",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11199,9 +11199,9 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "e773bb3229c9af905e8c747b7eb9a9bfdf574138a77a9e072a803b8ce4a91754",
-        "bytes": 7466,
-        "lines": 158,
+        "sha256": "395c527e4276bfbc27ca909d373130f71a173c3e3f5ca3e37bb4a576daeeafc8",
+        "bytes": 17501,
+        "lines": 386,
         "imports": [
           "bootstrap",
           "merge",
@@ -11210,7 +11210,9 @@
           "sybil",
           "webrtc"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -11224,7 +11226,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 9,
+        "test_blocks": 15,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11235,9 +11237,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-qstar-fleet-boundaries-20261014",
+        "decision": "exact-fleet-wire-ownership-boundaries"
       }
     },
     {
@@ -12075,9 +12077,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "3b07e9ea6e388ac5ea908b8eeabbbf1e27c922306a1ff3a2607d851c651f0e2c",
-        "bytes": 17477,
-        "lines": 429,
+        "sha256": "e8a9905c13479959ab8cd4ad14e9f036800db56e3d0b35d052e96ddd749fd858",
+        "bytes": 17630,
+        "lines": 433,
         "imports": [
           "node:crypto",
           "node:fs",

@@ -162,6 +162,8 @@ pub fn solveChallenge(challenge: Challenge) ?Proof {
 
 /// Verifies a proof against a challenge.
 pub fn verifyProof(challenge: Challenge, proof: Proof) bool {
+    if (proof.nonce == std.math.maxInt(u64)) return false;
+    if (proof.iterations != proof.nonce + 1) return false;
     const hash = latticeHash(challenge.seed, proof.nonce);
     if (!std.mem.eql(u8, &hash, &proof.hash)) return false;
     return meetsDifficulty(hash, challenge.difficulty);
@@ -257,13 +259,16 @@ pub const IdentityRegistry = struct {
 
         // Rate limiting: check last registration from this IP
         if (self.last_registration.get(ip_prefix)) |last_ms| {
+            if (now_ms < last_ms) return false;
             if (now_ms - last_ms < self.rate_limit_ms) return false;
         }
 
-        // Register
-        try self.identities.put(identity.pubkey_hash, identity);
-        try self.location_to_pubkey.put(identity.location, identity.pubkey_hash);
-        try self.last_registration.put(ip_prefix, now_ms);
+        try self.identities.ensureTotalCapacity(self.identities.count() + 1);
+        try self.location_to_pubkey.ensureTotalCapacity(self.location_to_pubkey.count() + 1);
+        try self.last_registration.ensureTotalCapacity(self.last_registration.count() + 1);
+        self.identities.putAssumeCapacity(identity.pubkey_hash, identity);
+        self.location_to_pubkey.putAssumeCapacity(identity.location, identity.pubkey_hash);
+        self.last_registration.putAssumeCapacity(ip_prefix, now_ms);
         return true;
     }
 
@@ -310,18 +315,18 @@ pub const Reputation = struct {
     last_interaction_ms: u64 = 0,
 
     pub inline fn score(self: Reputation) f32 {
-        const total = self.upvotes + self.downvotes;
+        const total: u64 = @as(u64, self.upvotes) + @as(u64, self.downvotes);
         if (total == 0) return 0.5;
         return @as(f32, @floatFromInt(self.upvotes)) / @as(f32, @floatFromInt(total));
     }
 
     pub fn upvote(self: *Reputation, now_ms: u64) void {
-        self.upvotes += 1;
+        self.upvotes +|= 1;
         self.last_interaction_ms = now_ms;
     }
 
     pub fn downvote(self: *Reputation, now_ms: u64) void {
-        self.downvotes += 1;
+        self.downvotes +|= 1;
         self.last_interaction_ms = now_ms;
     }
 };

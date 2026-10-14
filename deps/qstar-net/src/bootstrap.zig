@@ -78,9 +78,16 @@ pub const BootstrapSeed = struct {
         };
     }
 
-    /// Validate the seed's checksum.
+    /// Validate the seed's checksum and lattice domain.
     pub fn validate(self: BootstrapSeed) bool {
-        return self.checksum == computeChecksum(&self.nodes);
+        if (self.checksum != computeChecksum(&self.nodes)) return false;
+        for (self.nodes) |node| {
+            if (node.x >= BASE_EDGE or node.y >= BASE_EDGE or node.z >= BASE_EDGE) return false;
+            if (node.channel >= 7) return false;
+            if (!std.math.isFinite(node.activation)) return false;
+            if ((node.x + node.y + node.z) % 3 != 0) return false;
+        }
+        return true;
     }
 
     /// Generate a Location from the seed (for mesh.zig integration).
@@ -97,6 +104,7 @@ pub const BootstrapSeed = struct {
 
     /// Serialize seed to bytes for embedding in universe.html or QR codes.
     pub fn serialize(self: BootstrapSeed, allocator: std.mem.Allocator) ![]u8 {
+        if (!self.validate()) return error.SeedInvalid;
         var buf = std.ArrayList(u8).init(allocator);
         errdefer buf.deinit();
 
@@ -129,7 +137,7 @@ pub const BootstrapSeed = struct {
         pos += 4;
 
         const node_size = 4 + 4 + 4 + 1 + 4;
-        if (data.len < pos + SEED_NODE_COUNT * node_size) return error.SeedTruncatedNodes;
+        if (data.len != pos + SEED_NODE_COUNT * node_size) return error.SeedBadLength;
 
         var nodes: [SEED_NODE_COUNT]SeedNode = undefined;
         for (0..SEED_NODE_COUNT) |i| {
@@ -141,6 +149,11 @@ pub const BootstrapSeed = struct {
                 .channel = data[off + 12],
                 .activation = @bitCast(std.mem.readInt(u32, data[off + 13 ..][0..4], .little)),
             };
+            const n = nodes[i];
+            if (n.x >= BASE_EDGE or n.y >= BASE_EDGE or n.z >= BASE_EDGE or
+                n.channel >= 7 or !std.math.isFinite(n.activation) or
+                (n.x + n.y + n.z) % 3 != 0)
+                return error.SeedInvalidNode;
         }
 
         return .{
@@ -220,6 +233,7 @@ pub const FaceQR = struct {
 
     /// Serialize to bytes for QR encoding.
     pub fn serialize(self: FaceQR, allocator: std.mem.Allocator) ![]u8 {
+        if (!self.validate()) return error.FaceQRInvalid;
         var buf = std.ArrayList(u8).init(allocator);
         errdefer buf.deinit();
 
@@ -234,12 +248,13 @@ pub const FaceQR = struct {
     /// Deserialize from bytes.
     pub fn deserialize(data: []const u8) !FaceQR {
         const header = 8 + 1;
-        if (data.len < header + 225 + 4) return error.FaceQRTruncated;
+        if (data.len != header + 225 + 4) return error.FaceQRBadLength;
 
         var pos: usize = 0;
         const seed_hash = std.mem.readInt(u64, data[pos..][0..8], .little);
         pos += 8;
         const face_axis = data[pos];
+        if (face_axis >= 6) return error.FaceQRInvalidAxis;
         pos += 1;
 
         var face_data: [225]u8 = undefined;
@@ -256,8 +271,9 @@ pub const FaceQR = struct {
         };
     }
 
-    /// Validate the checksum.
+    /// Validate the checksum and face-axis domain.
     pub fn validate(self: FaceQR) bool {
+        if (self.face_axis >= 6) return false;
         var hasher = std.hash.Crc32.init();
         hasher.update(&self.face_data);
         return hasher.final() == self.checksum;
@@ -292,32 +308,46 @@ pub const PeerDiscovery = struct {
     }
 
     pub fn deinit(self: *PeerDiscovery) void {
+        for (self.discovered.items) |peer| self.allocator.free(peer.addr);
         self.discovered.deinit();
         self.known_addrs.deinit();
+    }
+
+    /// Generate a face-QR payload for a valid lattice face axis.
+    pub fn generateFaceQR(self: *PeerDiscovery, axis: u8) !FaceQR {
+        if (axis >= 6) return error.FaceQRInvalidAxis;
+        return FaceQR.fromSeed(self.own_seed, axis);
     }
 
     /// Generate face-QR payloads for all 6 faces of the lattice.
     pub fn generateFaceQRs(self: *PeerDiscovery) ![6]FaceQR {
         var faces: [6]FaceQR = undefined;
         for (0..6) |axis| {
-            faces[axis] = FaceQR.fromSeed(self.own_seed, @intCast(axis));
+            faces[axis] = try self.generateFaceQR(@intCast(axis));
         }
         return faces;
     }
 
+    fn hasPeer(self: *PeerDiscovery, addr: []const u8) bool {
+        for (self.discovered.items) |peer| {
+            if (std.mem.eql(u8, peer.addr, addr)) return true;
+        }
+        return false;
+    }
+
     /// Check if a received face-QR matches our seed.
     pub fn matchFaceQR(self: *PeerDiscovery, received: FaceQR, peer_addr: []const u8) !bool {
+        if (!received.validate()) return error.FaceQRInvalid;
+        if (self.hasPeer(peer_addr)) return true;
+
         const own_hash = self.own_seed.location();
 
         // Same seed hash → same lattice → compatible peers
         if (received.seed_hash == own_hash) {
-            // Check if we already discovered this peer
-            for (self.discovered.items) |peer| {
-                if (std.mem.eql(u8, peer.addr, peer_addr)) return true;
-            }
-
+            const owned_addr = try self.allocator.dupe(u8, peer_addr);
+            errdefer self.allocator.free(owned_addr);
             try self.discovered.append(.{
-                .addr = peer_addr,
+                .addr = owned_addr,
                 .seed_hash = received.seed_hash,
                 .face_axis = received.face_axis,
                 .match_score = 1.0,
@@ -334,8 +364,10 @@ pub const PeerDiscovery = struct {
         const score = @as(f32, @floatFromInt(matching_cells)) / 225.0;
 
         if (score > 0.8) {
+            const owned_addr = try self.allocator.dupe(u8, peer_addr);
+            errdefer self.allocator.free(owned_addr);
             try self.discovered.append(.{
-                .addr = peer_addr,
+                .addr = owned_addr,
                 .seed_hash = received.seed_hash,
                 .face_axis = received.face_axis,
                 .match_score = score,
@@ -399,6 +431,7 @@ pub fn bootstrapFromSeed(
 
 /// Generate a face-QR for a specific face axis from the canonical seed.
 pub fn generateFaceQR(axis: u8) !FaceQR {
+    if (axis >= 6) return error.FaceQRInvalidAxis;
     const seed = BootstrapSeed.canonical();
     return FaceQR.fromSeed(seed, axis);
 }
