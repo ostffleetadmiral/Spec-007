@@ -6402,7 +6402,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 9,
+        "blocks": 10,
         "registered": true
       },
       "documentation": {

@@ -149,6 +149,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-ephemeris-domains",
     archive: "spec007-ephemeris-domains-20261014",
   }],
+  ["src/spec007_portal_probe.zig", {
+    decision: "bounded-throat-domains",
+    archive: "spec007-portal-domains-20261014",
+  }],
 ]);
 
 const read = rel => { try { return fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { return ""; } };

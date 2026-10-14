@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 33
+    "completed_full_retrograde": 34
   },
   "components": [
     {
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "9bb52aee0270557cce877f6ea289fb3d2be8ba0e3df817c48b2b6545b54a4b27",
+        "sha256": "98f69b1f385b24662462e155d196694dbde862204c308805dbbb67b4e0ee84ef",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "985a20eed94bf734dfb342863e100528d950dcdf46f5f7eceea79fc3b8f5efbf",
+        "sha256": "f62c53e9312a33535a54f66cf28320d81a5a9aac25e8445733a06edf85261545",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -10716,15 +10716,17 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "f296e5077a8f643dc7f36f76e2b7fe35f2c2607501104be79213332b319ba0a5",
-        "bytes": 12533,
-        "lines": 249,
+        "sha256": "fef60bba050851e464729a088df1cfe3b84f49905a4214889e424ed1cccaf8d9",
+        "bytes": 14329,
+        "lines": 287,
         "imports": [
           "fixed_point_q128.zig",
           "spec007_astrometric_probe.zig",
           "std"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/component-retrograde.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -10738,7 +10740,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 9,
+        "test_blocks": 10,
         "registered": true,
         "documentation_mapped": true
       },
@@ -10749,9 +10751,9 @@
           "zig-build-test"
         ],
         "workstream_measured": false,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec007-portal-domains-20261014",
+        "decision": "bounded-throat-domains"
       }
     },
     {
@@ -12057,9 +12059,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "f6261a5a1db2bde99d95c427e1b7edbfe9c643e5f8ad3080c8eb31bfebe85204",
-        "bytes": 15514,
-        "lines": 373,
+        "sha256": "c930212711f135f0895a15070263b3a734d8cf9685fb37b4411d15ae2ade73e6",
+        "bytes": 15645,
+        "lines": 377,
         "imports": [
           "node:crypto",
           "node:fs",

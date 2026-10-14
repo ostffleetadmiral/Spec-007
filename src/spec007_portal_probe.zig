@@ -72,6 +72,20 @@ fn piQ() Q128 {
     return try2(Q128.fromRatio(80143857, 25510582));
 }
 
+const PortalError = error{ InputDomain, Overflow };
+const MAX_PORTAL_SCALE = Q128.fromInteger(1_000_000);
+
+fn requireRadius(r: Q128) PortalError!void {
+    if (r.raw <= 0 or r.raw > MAX_PORTAL_SCALE.raw) return error.InputDomain;
+}
+
+fn divQ(a: Q128, b: Q128) PortalError!Q128 {
+    return a.div(b) catch |err| switch (err) {
+        error.DivisionByZero => error.InputDomain,
+        error.Overflow => error.Overflow,
+    };
+}
+
 /// Shape-function model: the Ellis family, b(r) = r0^2 / r.
 /// b'(r) = -r0^2/r^2 — at the throat b' = -1 < 1, flare-out satisfied.
 /// This is the canonical example where rho < 0 EVERYWHERE, not just at
@@ -80,31 +94,41 @@ const Throat = struct {
     r0: Q128, // throat radius, arbitrary units
 
     /// b(r) = r0^2 / r
-    fn b(self: Throat, r: Q128) Q128 {
-        return try2(self.r0.mul(self.r0).div(r));
+    fn b(self: Throat, r: Q128) PortalError!Q128 {
+        try requireRadius(self.r0);
+        try requireRadius(r);
+        return divQ(self.r0.mul(self.r0), r);
     }
     /// b'(r) = -r0^2 / r^2
-    fn bPrime(self: Throat, r: Q128) Q128 {
-        return try2(self.r0.mul(self.r0).div(r.mul(r))).neg();
+    fn bPrime(self: Throat, r: Q128) PortalError!Q128 {
+        try requireRadius(self.r0);
+        try requireRadius(r);
+        return (try divQ(self.r0.mul(self.r0), r.mul(r))).neg();
     }
     /// rho(r) = b'/(8 pi r^2)
-    fn rho(self: Throat, r: Q128) Q128 {
-        return try2(self.bPrime(r).div(piQ().mul(Q128.fromInteger(8)).mul(r.mul(r))));
+    fn rho(self: Throat, r: Q128) PortalError!Q128 {
+        const denominator = piQ().mul(Q128.fromInteger(8)).mul(r.mul(r));
+        return divQ(try self.bPrime(r), denominator);
     }
     /// tau(r) = b/(8 pi r^3) at Phi' = 0
-    fn tau(self: Throat, r: Q128) Q128 {
-        return try2(self.b(r).div(piQ().mul(Q128.fromInteger(8)).mul(r.mul(r).mul(r))));
+    fn tau(self: Throat, r: Q128) PortalError!Q128 {
+        const denominator = piQ().mul(Q128.fromInteger(8)).mul(r.mul(r).mul(r));
+        return divQ(try self.b(r), denominator);
     }
     /// rho - tau: the NEC diagnostic. Negative => violated.
-    fn necMargin(self: Throat, r: Q128) Q128 {
-        return self.rho(r).sub(self.tau(r));
+    fn necMargin(self: Throat, r: Q128) PortalError!Q128 {
+        return (try self.rho(r)).sub(try self.tau(r));
     }
     /// Visser thin-shell surface density at junction a:
     /// sigma = -(1/2 pi a) sqrt(1 - b(a)/a), a > r0.
-    fn shellSigma(self: Throat, a: Q128) Q128 {
-        const inside = Q128.one.sub(try2(self.b(a).div(a)));
-        const root = try2(inside.sqrt());
-        return try2(root.neg().div(piQ().mul(Q128.fromInteger(2)).mul(a)));
+    fn shellSigma(self: Throat, a: Q128) PortalError!Q128 {
+        try requireRadius(self.r0);
+        try requireRadius(a);
+        if (a.raw <= self.r0.raw) return error.InputDomain;
+        const inside = Q128.one.sub(try divQ(try self.b(a), a));
+        if (inside.raw < 0) return error.InputDomain;
+        const root = inside.sqrt() catch return error.Overflow;
+        return divQ(root.neg(), piQ().mul(Q128.fromInteger(2)).mul(a));
     }
 };
 
@@ -112,9 +136,9 @@ const Throat = struct {
 
 test "throat conditions: b(r0) = r0 and flare-out b'(r0) < 1 hold for Ellis shape" {
     const t0 = Throat{ .r0 = Q128.fromInteger(3) };
-    const at_throat = t0.b(t0.r0);
+    const at_throat = try t0.b(t0.r0);
     try std.testing.expectEqual(t0.r0.raw, at_throat.raw);
-    const bp = t0.bPrime(t0.r0); // = -1 exactly: -(r0^2)/(r0^2)
+    const bp = try t0.bPrime(t0.r0); // = -1 exactly: -(r0^2)/(r0^2)
     try std.testing.expect(bp.raw < Q128.one.raw);
     // and it is exactly -1 for this family — a deep flare, not marginal
     try std.testing.expectEqual(Q128.one.neg().raw, bp.raw);
@@ -122,7 +146,7 @@ test "throat conditions: b(r0) = r0 and flare-out b'(r0) < 1 hold for Ellis shap
 
 test "SIGN THEOREM: NEC margin at throat = (b'-1)/(8 pi r0^2) — negative iff flare-out holds" {
     const t0 = Throat{ .r0 = Q128.fromInteger(2) };
-    const margin = t0.necMargin(t0.r0);
+    const margin = try t0.necMargin(t0.r0);
     // analytic: (b'-1)/(8 pi r0^2) = (-1-1)/(8 pi * 4) = -1/(16 pi) ~ -0.0199
     try std.testing.expect(margin.raw < Q128.zero.raw);
     // cross-check against the direct formula
@@ -139,18 +163,18 @@ test "Ellis shape: rho < 0 at EVERY radius — exotic matter is global for this 
     const radii = [4]i256{ 1, 2, 5, 10 };
     for (radii) |rv| {
         const r = Q128.fromInteger(rv);
-        try std.testing.expect(t0.rho(r).raw < 0);
-        try std.testing.expect(t0.necMargin(r).raw < 0); // NEC violated everywhere
+        try std.testing.expect((try t0.rho(r)).raw < 0);
+        try std.testing.expect((try t0.necMargin(r)).raw < 0); // NEC violated everywhere
     }
 }
 
 test "throat tension bound: tau0 = 1/(8 pi r0^2) — shrinks only as 1/r0^2" {
     // tau0 for r0 = 1 (arbitrary unit): 1/(8 pi) ~ 0.0398
     const t0 = Throat{ .r0 = Q128.fromInteger(1) };
-    const t_1 = t0.tau(Q128.fromInteger(1));
+    const t_1 = try t0.tau(Q128.fromInteger(1));
     // r0 = 10: tau0 = 1/(800 pi) — 100x smaller for 10x throat
     const t10 = Throat{ .r0 = Q128.fromInteger(10) };
-    const t_10 = t10.tau(Q128.fromInteger(10));
+    const t_10 = try t10.tau(Q128.fromInteger(10));
     const ratio = try2(t_1.div(t_10));
     // ratio should be exactly 100 (1/r^2 scaling)
     const hundred = Q128.fromInteger(100);
@@ -166,7 +190,7 @@ test "Visser thin shell: sigma(a) < 0 at EVERY junction radius a > r0" {
     var prev_mag = Q128.fromInteger(1);
     for (junctions) |av| {
         const a = Q128.fromInteger(av);
-        const s = t0.shellSigma(a);
+        const s = try t0.shellSigma(a);
         try std.testing.expect(s.raw < 0); // exotic surface density, always
         // |sigma| decreases with a (dilute the shell) but never reaches 0
         try std.testing.expect(s.neg().raw < prev_mag.raw);
@@ -197,15 +221,29 @@ test "PORTAL SIGN THEOREM: a flaring junction has sigma < 0 — same theorem as 
     try std.testing.expect(!(flat.neg().raw < 0)); // [K]=0: no shell, no portal
 }
 
+test "portal domains fail closed at zero, negative, and out-of-range radii" {
+    const zero = Throat{ .r0 = Q128.zero };
+    const t0 = Throat{ .r0 = Q128.fromInteger(2) };
+    try std.testing.expectError(error.InputDomain, zero.b(Q128.one));
+    try std.testing.expectError(error.InputDomain, t0.b(Q128.zero));
+    try std.testing.expectError(error.InputDomain, t0.bPrime(Q128.zero));
+    try std.testing.expectError(error.InputDomain, t0.rho(Q128.zero));
+    try std.testing.expectError(error.InputDomain, t0.tau(Q128.zero));
+    try std.testing.expectError(error.InputDomain, t0.necMargin(Q128.zero));
+    try std.testing.expectError(error.InputDomain, t0.shellSigma(Q128.one));
+    try std.testing.expectError(error.InputDomain, t0.shellSigma(t0.r0));
+    try std.testing.expectError(error.InputDomain, t0.shellSigma(Q128.fromInteger(1_000_001)));
+}
+
 test "wire-cost PASSES a portal: topological shortcut, local v <= c — screen does not refuse" {
     // the astrometric invariant refuses information PATHS at v > c.
     // a portal traversal is locally subluminal at every step — the
     // shortcut is in the topology, not the velocity.
     const traversal_v = try2(Q128.fromRatio(9, 10)); // 0.9 c through the throat
-    try std.testing.expectEqual({}, astro.superluminalScreen(traversal_v) catch unreachable);
+    try std.testing.expectEqual({}, try astro.superluminalScreen(traversal_v));
     // even arbitrarily fast (but subluminal) traversal clears the gate
     const fast = try2(Q128.fromRatio(999999, 1000000));
-    try std.testing.expectEqual({}, astro.superluminalScreen(fast) catch unreachable);
+    try std.testing.expectEqual({}, try astro.superluminalScreen(fast));
     // honest filing: wire-cost does NOT refuse portals — unlike the
     // warp bubble. The invariant is about paths, and the path is legal.
 }
@@ -237,8 +275,8 @@ test "unifying bound: every shortcut class violates the energy conditions — ce
     // violating. Integer display: the three margins/signatures all < 0.
     const warp_margin = Q128.fromInteger(-1); // T_00 < 0 on the wall (M52)
     const t0 = Throat{ .r0 = Q128.fromInteger(2) };
-    const tunnel_margin = t0.necMargin(t0.r0);
-    const sheet = t0.shellSigma(Q128.fromInteger(5));
+    const tunnel_margin = try t0.necMargin(t0.r0);
+    const sheet = try t0.shellSigma(Q128.fromInteger(5));
     for ([3]Q128{ warp_margin, tunnel_margin, sheet }) |m| {
         try std.testing.expect(m.raw < 0);
     }
