@@ -77,19 +77,22 @@ def seal(wire: bytes) -> bytes:
 
 def verify(wire: bytes) -> bool:
     if len(wire) != FANO_WIRE: return False
-    # canonical form: the payload tail past plen is outside the seal —
-    # a nonzero byte there is refused, not tolerated as scratch.
-    plen = min(wire[39], FANO_CAP)
+    # canonical form: plen names bytes actually carried in the 64-byte
+    # payload field, and the tail past plen is outside the seal — a
+    # nonzero byte there is refused, not tolerated as scratch.
+    if wire[39] > FANO_CAP: return False
+    plen = wire[39]
     if any(wire[40+plen:104]): return False
     return seal(wire) == wire[104:136]
 
 def build(sx, sy, sz, dx, dy, dz, seq, payload: bytes) -> bytes:
+    if len(payload) > FANO_CAP: raise ValueError("payload exceeds FANO_CAP")
     wire = bytearray(FANO_WIRE)
     wire[0:32] = cell_word(sx, sy, sz)
     wire[32], wire[33], wire[34] = dx, dy, dz
     wire[35:39] = struct.pack("<I", seq & 0xFFFFFFFF)
-    wire[39] = min(len(payload), FANO_CAP)
-    wire[40:40+wire[39]] = payload[:wire[39]]
+    wire[39] = len(payload)
+    wire[40:40+wire[39]] = payload
     wire[104:136] = seal(bytes(wire))
     return bytes(wire)
 

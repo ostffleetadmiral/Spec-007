@@ -5619,7 +5619,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 3,
+        "blocks": 4,
         "registered": true
       },
       "documentation": {
@@ -6808,7 +6808,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 7,
+        "blocks": 8,
         "registered": true
       },
       "documentation": {

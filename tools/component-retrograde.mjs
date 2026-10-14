@@ -62,8 +62,8 @@ const FULL_RETROGRADE = new Map([
     archive: "spec007-aiwo-runtime-owned-20261014",
   }],
   ["src/aiwo_fano.zig", {
-    decision: "full-identity-wire-binding",
-    archive: "spec007-aiwo-fano-identity-20261014",
+    decision: "cap-bound-full-authority-binding",
+    archive: "spec008-seal-canonical-cap-20261014",
   }],
   ["src/aiwo_manifest.zig", {
     decision: "typed-manifest-validation",
@@ -184,6 +184,14 @@ const FULL_RETROGRADE = new Map([
   ["src/spec008_medium_lattice.zig", {
     decision: "bounded-medium-lattice-domains",
     archive: "spec008-medium-lattice-boundaries-20261014",
+  }],
+  ["src/spec008_seal.zig", {
+    decision: "canonical-payload-cap",
+    archive: "spec008-seal-canonical-cap-20261014",
+  }],
+  ["src/spec008_seal_cli.zig", {
+    decision: "strict-build-hex-boundary",
+    archive: "spec008-seal-canonical-cap-20261014",
   }],
 ]);
 

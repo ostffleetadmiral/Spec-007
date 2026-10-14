@@ -153,7 +153,7 @@ fn handleConn(alloc: std.mem.Allocator, st: *dht.Store, stream: std.net.Stream) 
             var payload: [seal_mod.FANO_CAP]u8 = [_]u8{0} ** seal_mod.FANO_CAP;
             payload[0] = if (more) 1 else 0;
             @memcpy(payload[1..plen], reply.items[off .. off + n]);
-            const w = seal_mod.build(7, 7, 7, @intCast(assembler.src[0]), @intCast(assembler.src[1]), @intCast(assembler.src[2]), fseq, payload[0..plen]);
+            const w = try seal_mod.build(7, 7, 7, @intCast(assembler.src[0]), @intCast(assembler.src[1]), @intCast(assembler.src[2]), fseq, payload[0..plen]);
             try stream.writeAll(&w);
             off += n;
             fseq +%= 1;
@@ -171,7 +171,7 @@ fn readExact(stream: std.net.Stream, buf: []u8) !void {
     }
 }
 
-fn requestFrame(sx: u8, sy: u8, sz: u8, seq: u32, more: bool, data: []const u8) [FANO_WIRE]u8 {
+fn requestFrame(sx: u8, sy: u8, sz: u8, seq: u32, more: bool, data: []const u8) ![FANO_WIRE]u8 {
     var payload: [seal_mod.FANO_CAP]u8 = [_]u8{0} ** seal_mod.FANO_CAP;
     payload[0] = if (more) 1 else 0;
     @memcpy(payload[1 .. data.len + 1], data);
@@ -183,8 +183,8 @@ test "dhtd request assembler reassembles a multi-frame stream" {
     defer req.deinit();
     var assembler = RequestAssembler{};
 
-    var f1 = requestFrame(1, 2, 3, 40, true, "abc");
-    var f2 = requestFrame(1, 2, 3, 41, false, "def");
+    var f1 = try requestFrame(1, 2, 3, 40, true, "abc");
+    var f2 = try requestFrame(1, 2, 3, 41, false, "def");
     try std.testing.expect((try assembler.accept(&req, &f1)) == .more);
     try std.testing.expect((try assembler.accept(&req, &f2)) == .complete);
     try std.testing.expectEqualStrings("abcdef", req.items);
@@ -196,9 +196,9 @@ test "dhtd request assembler pins a request to its first source" {
     defer req.deinit();
     var assembler = RequestAssembler{};
 
-    var first = requestFrame(1, 2, 3, 40, true, "own");
-    var foreign = requestFrame(2, 3, 4, 41, false, "foreign");
-    var last = requestFrame(1, 2, 3, 42, false, "er");
+    var first = try requestFrame(1, 2, 3, 40, true, "own");
+    var foreign = try requestFrame(2, 3, 4, 41, false, "foreign");
+    var last = try requestFrame(1, 2, 3, 42, false, "er");
     try std.testing.expect((try assembler.accept(&req, &first)) == .more);
     try std.testing.expect((try assembler.accept(&req, &foreign)) == .dropped);
     try std.testing.expect((try assembler.accept(&req, &last)) == .complete);
@@ -210,7 +210,7 @@ test "dhtd request assembler bounds dropped-frame storms" {
     var req = std.ArrayList(u8).init(std.testing.allocator);
     defer req.deinit();
     var assembler = RequestAssembler{};
-    var bad = requestFrame(1, 2, 3, 40, false, "x");
+    var bad = try requestFrame(1, 2, 3, 40, false, "x");
     bad[104] ^= 1;
 
     for (0..MAX_DROPPED_FRAMES) |_| {
@@ -223,7 +223,7 @@ test "dhtd request assembler enforces the accepted-frame budget" {
     var req = std.ArrayList(u8).init(std.testing.allocator);
     defer req.deinit();
     var assembler = RequestAssembler{ .accepted = MAX_ACCEPTED_FRAMES };
-    var frame = requestFrame(1, 2, 3, 40, false, "x");
+    var frame = try requestFrame(1, 2, 3, 40, false, "x");
 
     try std.testing.expectError(error.AcceptedFrameBudget, assembler.accept(&req, &frame));
 }

@@ -33,7 +33,7 @@ pub fn main() !void {
     }
     const hex = args[2];
     if (std.mem.eql(u8, args[1], "build-hex")) {
-        if (args.len < 9) return error.Usage;
+        if (args.len < 9 or args.len > 10) return error.Usage;
         const c = [6]u8{
             try std.fmt.parseInt(u8, args[2], 10), try std.fmt.parseInt(u8, args[3], 10),
             try std.fmt.parseInt(u8, args[4], 10), try std.fmt.parseInt(u8, args[5], 10),
@@ -41,12 +41,14 @@ pub fn main() !void {
         };
         const seq = try std.fmt.parseInt(u32, args[8], 10);
         const phex = if (args.len > 9) args[9] else "";
+        if ((phex.len & 1) != 0) return error.BadHex;
+        if (phex.len / 2 > FANO_CAP) return error.PayloadTooLarge;
         var payload: [FANO_CAP]u8 = undefined;
         var plen: usize = 0;
-        while (plen * 2 + 1 < phex.len and plen < FANO_CAP) : (plen += 1)
+        while (plen * 2 + 1 < phex.len) : (plen += 1)
             payload[plen] = @as(u8, hexNibble(phex[plen * 2]) orelse return error.BadHex) << 4 |
                 (hexNibble(phex[plen * 2 + 1]) orelse return error.BadHex);
-        const w = seal_core.build(c[0], c[1], c[2], c[3], c[4], c[5], seq, payload[0..plen]);
+        const w = try seal_core.build(c[0], c[1], c[2], c[3], c[4], c[5], seq, payload[0..plen]);
         for (w) |b| try stdout.print("{x:0>2}", .{b});
         try stdout.print("\n", .{});
         return;

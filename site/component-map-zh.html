@@ -138,15 +138,15 @@
 </tr>
 <tr>
 <td><code>spec008_seal.zig</code></td>
-<td>Fano 網狀方言 seal/verify 路徑之純整數 Zig 雙生(<code>security/fano-mesh-bridge.mjs</code>、韌體 <code>fano_packet.c</code>):u256 FNV-1a 摺疊 + 八元數路由簽章逐跳混疊,全整數運算。正典尾端強化(艦主):宣告酬載位元組箝制至 <code>FANO_CAP</code>,<code>wire[40+plen..104]</code> 內每個未用位元組必須為零 — 有效封存覆於非零草稿尾端者拒絕。</td>
-<td>7 測試</td>
-<td>新增正典尾端拒絕測試(艦主波段 — 有效封存下非零草稿位元組失敗)</td>
+<td>Fano 網狀方言 seal/verify 路徑之純整數 Zig 雙生(<code>security/fano-mesh-bridge.mjs</code>、韌體 <code>fano_packet.c</code>):u256 FNV-1a 摺疊 + 八元數路由簽章逐跳混疊,全整數運算。正典容量強化:宣告 <code>plen</code> 必須 ≤<code>FANO_CAP</code>,<code>wire[40+plen..104]</code> 內每個未用位元組必須為零,且 <code>build</code> 對 &gt;64 位元組酬載採 fail-closed 拒絕,不再截斷。</td>
+<td>8 測試</td>
+<td>新增失敗即封閉 plen/tail/build-cap 覆蓋</td>
 </tr>
 <tr>
 <td><code>spec008_seal_cli.zig</code></td>
-<td><code>spec008_seal</code> 核心之 hex CLI,供 JS↔Zig 差分探測(fano-wan-gateway 分段消費)。核心不依賴宿主,亦建為 wasm32-freestanding 程式庫供行程內驗證(<code>site/assets/spec008_seal.wasm.o</code>)。</td>
-<td>經由閘道 + wasm 成品驗證</td>
-<td>—</td>
+<td><code>spec008_seal</code> 核心之 hex CLI,供 JS↔Zig 差分探測(fano-wan-gateway 分段消費)。核心不依賴宿主,亦建為 wasm32-freestanding 程式庫供行程內驗證(<code>site/assets/spec008_seal.wasm.o</code>);<code>build-hex</code> 對奇數長度 hex、額外參數與 &gt;64 位元組酬載皆採 fail-closed。</td>
+<td>經由閘道 + wasm 成品 + live CLI 探測</td>
+<td>新增嚴格酬載解析</td>
 </tr>
 <tr>
 <td><code>spec007_alpha_probe.zig</code></td>
@@ -972,8 +972,8 @@
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
-<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；FANO heartbeat 以 digest 綁定完整 officer identity 並拒絕超出 wire field 的 sequence，<code>aiwo_dht</code> 將 Ed25519 回執金鑰引導至 <code>0700</code> key dir，以原子寫入建立 <code>0600</code> private/<code>0644</code> public DER，驗證金鑰對對應，並持有 <code>Store</code> teardown。</td>
-<td>FANO 竄改/long-identity/sequence-boundary 測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試</td>
+<td>於既有 canonical 136-byte FANO seal 與原生 DHT 基底上之 AIWO 回執適配器；FANO heartbeat 將完整 officer identity 與 authority digest 摺為單一 32-byte wire binding,完整落入 <code>FANO_CAP</code>,並拒絕超出 wire field 的 sequence；<code>aiwo_dht</code> 將 Ed25519 回執金鑰引導至 <code>0700</code> key dir，以原子寫入建立 <code>0600</code> private/<code>0644</code> public DER，驗證金鑰對對應，並持有 <code>Store</code> teardown。</td>
+<td>FANO 竄改/digest/long-identity/sequence-boundary 測試 + 逐 chunk 簽章 DHT 回執 + key-mode/pair/mismatch/store 測試</td>
 <td>原生 DHT emission 已上線</td>
 </tr>
 <tr>

@@ -139,15 +139,15 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec008_seal.zig</code></td>
-<td>Integer-only Zig twin of the Fano mesh dialect's seal/verify path (<code>security/fano-mesh-bridge.mjs</code>, firmware <code>fano_packet.c</code>): u256 FNV-1a fold + octonion route signature mixed per-hop, pure integer math. Canonical-tail hardening (owner): declared-payload bytes are clamped to <code>FANO_CAP</code> and every unused byte in <code>wire[40+plen..104]</code> must be zero — a valid seal over a nonzero scratch tail is refused.</td>
-<td>7 tests</td>
-<td>canonical-tail refusal test added (owner wave — nonzero scratch byte under a valid seal fails)</td>
+<td>Integer-only Zig twin of the Fano mesh dialect's seal/verify path (<code>security/fano-mesh-bridge.mjs</code>, firmware <code>fano_packet.c</code>): u256 FNV-1a fold + octonion route signature mixed per-hop, pure integer math. Canonical-cap hardening: declared <code>plen</code> must stay ≤<code>FANO_CAP</code>, every unused byte in <code>wire[40+plen..104]</code> must be zero, and <code>build</code> refuses a &gt;64-byte caller payload instead of truncating it.</td>
+<td>8 tests</td>
+<td>fail-closed plen/tail/build-cap coverage added</td>
 </tr>
 <tr>
 <td><code>spec008_seal_cli.zig</code></td>
-<td>Hex CLI over the <code>spec008_seal</code> core for JS↔Zig differential probing (fano-wan-gateway staged consumption). The core stays host-dependency-free so it also builds as a wasm32-freestanding lib for in-process verify (<code>site/assets/spec008_seal.wasm.o</code>).</td>
-<td>exercised via gateway + wasm artifact</td>
-<td>—</td>
+<td>Hex CLI over the <code>spec008_seal</code> core for JS↔Zig differential probing (fano-wan-gateway staged consumption). The core stays host-dependency-free so it also builds as a wasm32-freestanding lib for in-process verify (<code>site/assets/spec008_seal.wasm.o</code>); <code>build-hex</code> rejects odd hex, extra arguments, and &gt;64-byte payloads fail-closed.</td>
+<td>exercised via gateway + wasm artifact + live CLI probes</td>
+<td>strict payload parser added</td>
 </tr>
 <tr>
 <td><code>spec007_alpha_probe.zig</code></td>
@@ -1027,8 +1027,8 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>aiwo_fano.zig</code> / <code>aiwo_dht.zig</code></td>
-<td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate; FANO heartbeats bind the full officer identity by digest and reject sequence values outside the wire field, while <code>aiwo_dht</code> bootstraps Ed25519 receipt keys into a <code>0700</code> key dir, writes <code>0600</code> private/<code>0644</code> public DER files atomically, validates pair correspondence, and owns <code>Store</code> teardown.</td>
-<td>FANO mutation/long-identity/sequence-boundary tests + signed per-chunk DHT receipts + key-mode/pair/mismatch/store tests</td>
+<td>AIWO receipt adapters over the existing canonical 136-byte FANO seal and native DHT substrate; FANO heartbeats bind the full officer identity and authority digest into a 32-byte wire binding inside <code>FANO_CAP</code> and reject sequence values outside the wire field, while <code>aiwo_dht</code> bootstraps Ed25519 receipt keys into a <code>0700</code> key dir, writes <code>0600</code> private/<code>0644</code> public DER files atomically, validates pair correspondence, and owns <code>Store</code> teardown.</td>
+<td>FANO mutation/digest/long-identity/sequence-boundary tests + signed per-chunk DHT receipts + key-mode/pair/mismatch/store tests</td>
 <td>native DHT emission live</td>
 </tr>
 <tr>

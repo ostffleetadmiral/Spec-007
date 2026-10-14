@@ -13,16 +13,25 @@ fn officerDigest(officer: []const u8) [32]u8 {
     return digest;
 }
 
+fn bindingDigest(officer: []const u8, digest: [32]u8) [32]u8 {
+    const officer_digest = officerDigest(officer);
+    var h = std.crypto.hash.sha2.Sha256.init(.{});
+    h.update("AIWO-BIND-v1|");
+    h.update(&officer_digest);
+    h.update(&digest);
+    var out: [32]u8 = undefined;
+    h.final(&out);
+    return out;
+}
+
 pub fn heartbeat(cell: [3]u8, sequence: u64, officer: []const u8, digest: [32]u8) ![Wire]u8 {
     if (sequence > std.math.maxInt(u32)) return error.SequenceExceedsWire;
-    var payload: [104]u8 = [_]u8{0} ** 104;
+    var payload: [seal.FANO_CAP]u8 = [_]u8{0} ** seal.FANO_CAP;
     const prefix = "AIWO/1 ";
     @memcpy(payload[0..prefix.len], prefix);
-    const officer_digest = officerDigest(officer);
-    @memcpy(payload[prefix.len .. prefix.len + officer_digest.len], &officer_digest);
-    const digest_pos = 48;
-    @memcpy(payload[digest_pos .. digest_pos + digest.len], &digest);
-    return seal.build(cell[0], cell[1], cell[2], 7, 7, 7, @intCast(sequence), payload[0 .. digest_pos + digest.len]);
+    const binding = bindingDigest(officer, digest);
+    @memcpy(payload[prefix.len .. prefix.len + binding.len], &binding);
+    return seal.build(cell[0], cell[1], cell[2], 7, 7, 7, @intCast(sequence), payload[0 .. prefix.len + binding.len]);
 }
 
 pub fn verify(wire: *const [Wire]u8) bool {
@@ -35,6 +44,17 @@ test "AIWO heartbeat is canonical FANO wire" {
     var forged = w;
     forged[50] ^= 0xff;
     try std.testing.expect(!verify(&forged));
+}
+
+test "AIWO heartbeat binds the complete authority digest inside the cap" {
+    const a = [_]u8{0xAB} ** 32;
+    const b = [_]u8{0xCD} ** 32;
+    const wa = try heartbeat(.{ 1, 2, 3 }, 4, "digit", a);
+    const wb = try heartbeat(.{ 1, 2, 3 }, 4, "digit", b);
+    try std.testing.expectEqual(@as(u8, 39), wa[39]);
+    try std.testing.expect(!std.mem.eql(u8, wa[47..79], wb[47..79]));
+    try std.testing.expect(verify(&wa));
+    try std.testing.expect(verify(&wb));
 }
 
 test "AIWO heartbeat binds complete long officer identities" {

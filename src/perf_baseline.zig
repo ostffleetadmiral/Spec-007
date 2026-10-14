@@ -68,7 +68,7 @@ fn benchFanoSeal(iterations: u64) !Bench {
         const n: u8 = @truncate(i);
         for (&payload, 0..) |*b, j| b.* = n +% @as(u8, @truncate(j));
         const len = @as(usize, n) % (seal.FANO_CAP + 1);
-        const wire = seal.build(1, 2, 3, 4, 5, 6, @as(u32, @truncate(i)), payload[0..len]);
+        const wire = try seal.build(1, 2, 3, 4, 5, 6, @as(u32, @truncate(i)), payload[0..len]);
         fold +%= @as(u256, wire[seal.FANO_WIRE - 1]);
         fold +%= if (seal.verify(&wire)) @as(u256, 1) else 0;
     }
@@ -119,7 +119,7 @@ fn benchDhtdAssembler(iterations: u64) !Bench {
     const data = "dhtd-request-assembler";
     payload[0] = 0;
     @memcpy(payload[1 .. data.len + 1], data);
-    const frame = seal.build(1, 1, 1, 7, 7, 7, 17, payload[0 .. data.len + 1]);
+    const frame = try seal.build(1, 1, 1, 7, 7, 7, 17, payload[0 .. data.len + 1]);
     var req = std.ArrayList(u8).init(std.heap.page_allocator);
     defer req.deinit();
     var fold: u256 = 0;

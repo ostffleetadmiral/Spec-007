@@ -199,16 +199,19 @@ pub fn seal(wire: *const [FANO_WIRE]u8) [32]u8 {
 }
 
 pub fn verify(wire: *const [FANO_WIRE]u8) bool {
-    // Canonical form: bytes past plen inside the payload area ride the
-    // wire outside the seal's coverage. Refusing any nonzero byte there
-    // keeps the scratch region from smuggling data under a valid seal.
-    const plen = @min(@as(usize, wire[39]), FANO_CAP);
+    // Canonical form: plen must name bytes actually carried inside the
+    // 64-byte payload field, and bytes past plen ride the wire outside
+    // the seal's coverage. Refusing nonzero tail bytes keeps the scratch
+    // region from smuggling data under a valid seal.
+    if (wire[39] > FANO_CAP) return false;
+    const plen = @as(usize, wire[39]);
     for (wire[40 + plen .. 104]) |b| if (b != 0) return false;
     const s = seal(wire);
     return std.mem.eql(u8, &s, wire[104..136]);
 }
 
-pub fn build(sx: u8, sy: u8, sz: u8, dx: u8, dy: u8, dz: u8, seq: u32, payload: []const u8) [FANO_WIRE]u8 {
+pub fn build(sx: u8, sy: u8, sz: u8, dx: u8, dy: u8, dz: u8, seq: u32, payload: []const u8) ![FANO_WIRE]u8 {
+    if (payload.len > FANO_CAP) return error.PayloadTooLarge;
     var wire: [FANO_WIRE]u8 = [_]u8{0} ** FANO_WIRE;
     const cw = cellWord(sx, sy, sz);
     @memcpy(wire[0..32], &cw);
@@ -216,9 +219,8 @@ pub fn build(sx: u8, sy: u8, sz: u8, dx: u8, dy: u8, dz: u8, seq: u32, payload: 
     wire[33] = dy;
     wire[34] = dz;
     std.mem.writeInt(u32, wire[35..39], seq, .little);
-    const len = @min(payload.len, FANO_CAP);
-    wire[39] = @intCast(len);
-    @memcpy(wire[40 .. 40 + len], payload[0..len]);
+    wire[39] = @intCast(payload.len);
+    @memcpy(wire[40 .. 40 + payload.len], payload);
     const s = seal(&wire);
     @memcpy(wire[104..136], &s);
     return wire;
@@ -285,11 +287,11 @@ test "golden vectors: all 3 firmware seals verify bit-exact" {
 
 test "build → verify round-trip across lattice corners" {
     const payload = "golden";
-    const w = build(0x0d, 0x0e, 0x0e, 0x0d, 0x0e, 0x0e, 6, payload);
+    const w = try build(0x0d, 0x0e, 0x0e, 0x0d, 0x0e, 0x0e, 6, payload);
     try std.testing.expect(verify(&w));
-    const corner = build(14, 14, 14, 0, 0, 0, 16, "corner-to-corner");
+    const corner = try build(14, 14, 14, 0, 0, 0, 16, "corner-to-corner");
     try std.testing.expect(verify(&corner));
-    const same = build(7, 7, 7, 7, 7, 7, 1, "zero-hop");
+    const same = try build(7, 7, 7, 7, 7, 7, 1, "zero-hop");
     try std.testing.expect(verify(&same));
 }
 
@@ -307,14 +309,14 @@ test "hostile cell-word coords: 12-bit fields → bounded u32 walk" {
 }
 
 test "seal forgery: one flipped payload byte fails verification" {
-    var w = build(1, 2, 3, 4, 5, 6, 9, "forgery-probe");
+    var w = try build(1, 2, 3, 4, 5, 6, 9, "forgery-probe");
     try std.testing.expect(verify(&w));
     w[50] ^= 0xff;
     try std.testing.expect(!verify(&w));
 }
 
 test "canonical tail: nonzero scratch byte refused under a valid seal" {
-    var w = build(1, 2, 3, 4, 5, 6, 9, "tail-probe");
+    var w = try build(1, 2, 3, 4, 5, 6, 9, "tail-probe");
     try std.testing.expect(verify(&w));
     w[103] = 0xaa; // beyond plen — seal does not cover it
     try std.testing.expect(!verify(&w));
@@ -322,11 +324,20 @@ test "canonical tail: nonzero scratch byte refused under a valid seal" {
     try std.testing.expect(verify(&w));
 }
 
-test "plen clamp: oversized declared length reads ≤64 payload bytes" {
-    var w = build(3, 3, 3, 9, 9, 9, 2, "cap-check");
-    w[39] = 200; // declared plen beyond cap — seal covers only [40,104)
+test "plen cap: oversized declared length is non-canonical" {
+    var w = try build(3, 3, 3, 9, 9, 9, 2, "cap-check");
+    w[39] = 200; // declares bytes the 136-B wire cannot carry
     const s = seal(&w);
-    try std.testing.expect(std.mem.eql(u8, &s, w[104..136]) == false); // seal changed vs built
+    @memcpy(w[104..136], &s); // even a correctly sealed bad plen refuses
+    try std.testing.expect(!verify(&w));
+}
+
+test "build cap: oversized payload refuses instead of truncating" {
+    const payload = [_]u8{0x5a} ** (FANO_CAP + 1);
+    try std.testing.expectError(error.PayloadTooLarge, build(1, 2, 3, 4, 5, 6, 1, &payload));
+    const exact = try build(1, 2, 3, 4, 5, 6, 1, payload[0..FANO_CAP]);
+    try std.testing.expect(verify(&exact));
+    try std.testing.expectEqual(@as(u8, FANO_CAP), exact[39]);
 }
 
 test "octonion table matches Fano-line construction" {

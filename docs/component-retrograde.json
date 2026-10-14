@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 42
+    "completed_full_retrograde": 44
   },
   "components": [
     {
@@ -5553,9 +5553,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "637f7f2157f6da65e6fd614ebd0c846acd1b283d8f837e9e37cc8c0f302ed51e",
-        "bytes": 4758,
-        "lines": 119,
+        "sha256": "e890ede5ae403bb16b6af5db580787286386320cdabd642be3bf555247a4deb7",
+        "bytes": 4901,
+        "lines": 122,
         "imports": [],
         "referenced_by": [
           "security/capstone-audit.mjs",
@@ -5637,9 +5637,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "6fdee8889480a38c98549e440ec29b112f35210f44d5d893f9661acfd7b56b7b",
-        "bytes": 21412,
-        "lines": 470,
+        "sha256": "b8273fbbac887e337dc6c638cad4630c3cf26b5ed60846781d6d0194ae24590b",
+        "bytes": 22092,
+        "lines": 486,
         "imports": [
           "node:dgram",
           "node:fs",
@@ -8430,7 +8430,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "be546086954f62785650c2e2e3856d66f7b1ccc0f03e084726ef6d7ca6cd7976",
+        "sha256": "8cbed01917eb61c3700553273e606c12002df001d7b779858f9ab5bc68ab2991",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8472,7 +8472,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "ea0f427193c61d9784e1316397209264646737744731be77f575e160661b1c7e",
+        "sha256": "ae787dcb35c68622710c1d94e4c99a057dba04b2b21d86bc8cf9571d7ee5c72c",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -9458,9 +9458,9 @@
       "workstream": "native-aiwo-dht",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "46efc7779faac2ddfc29a8ffc78771f664220c994d451c0d98d74b18fb2bd9cf",
-        "bytes": 2331,
-        "lines": 57,
+        "sha256": "abe6befb71e77051f5279bda754bfd2aa2939a9582ad360ef93b55d10dc52950",
+        "bytes": 3031,
+        "lines": 77,
         "imports": [
           "spec008_seal",
           "std"
@@ -9482,7 +9482,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 3,
+        "test_blocks": 4,
         "registered": true,
         "documentation_mapped": true
       },
@@ -9494,8 +9494,8 @@
         ],
         "workstream_measured": true,
         "completed": true,
-        "archive": "spec007-aiwo-fano-identity-20261014",
-        "decision": "full-identity-wire-binding"
+        "archive": "spec008-seal-canonical-cap-20261014",
+        "decision": "cap-bound-full-authority-binding"
       }
     },
     {
@@ -9934,8 +9934,8 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "7fa88ea9c5160f96c8a8445b1c418028ed48dbca8ce4af6fb081e8261a10005c",
-        "bytes": 9762,
+        "sha256": "45aced34e331b3bd1be0c2e3edcbbfa4e44775894a54cb781ead1e8bd7c7e981",
+        "bytes": 9795,
         "lines": 230,
         "imports": [
           "dht_native",
@@ -10089,8 +10089,8 @@
       "workstream": "spec007-core",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "cc8f8bad379eb1b72c50155e62c9612bc8fbf41a2254b1059a6e77b2324e481a",
-        "bytes": 8059,
+        "sha256": "79c4475a147a59e41f182ea6899eb2aef33d43892290f53caabfffdc004685ba",
+        "bytes": 8067,
         "lines": 183,
         "imports": [
           "aiwo_chunk_checkpoint.zig",
@@ -11333,15 +11333,16 @@
       "workstream": "spec008-wire",
       "status": "BUILD_GRAPH_COVERED",
       "reverse_engineering": {
-        "sha256": "a189e127f25612c38457b5f85ee6061aad43a427d32c2d7c109893e6b5775b97",
-        "bytes": 3060,
-        "lines": 73,
+        "sha256": "cd29c6d8376caa5786cc923b795ef8e6dea49e72a1876d75176e817bd858db1c",
+        "bytes": 3182,
+        "lines": 75,
         "imports": [
           "spec008_seal.zig",
           "std"
         ],
         "referenced_by": [
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -11367,9 +11368,9 @@
           "native-microbench"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-seal-canonical-cap-20261014",
+        "decision": "strict-build-hex-boundary"
       }
     },
     {
@@ -11377,9 +11378,9 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "6bb07c66b5d6b08d0ee2637def6090822c937375da40ebdb4e5ca8b5cab116af",
-        "bytes": 13103,
-        "lines": 341,
+        "sha256": "2937a6de2f06f8c4975c745c924f8050bde7ec49df998d3aa7724b3d6ca52879",
+        "bytes": 13626,
+        "lines": 352,
         "imports": [
           "std"
         ],
@@ -11389,7 +11390,8 @@
           "src/dht_native.zig",
           "src/dhtd.zig",
           "src/spec008_seal_cli.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 14
@@ -11404,7 +11406,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 7,
+        "test_blocks": 8,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11416,9 +11418,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "spec008-seal-canonical-cap-20261014",
+        "decision": "canonical-payload-cap"
       }
     },
     {
@@ -12070,9 +12072,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "0a475fc17e27cb659d27fb8b92b1c9eb831057a370297c6731e4043654f04676",
-        "bytes": 16751,
-        "lines": 409,
+        "sha256": "240482d977a77c09e127d6a435c61e9bc1b9ea5a673da9a994541c0c15a2286d",
+        "bytes": 17017,
+        "lines": 417,
         "imports": [
           "node:crypto",
           "node:fs",

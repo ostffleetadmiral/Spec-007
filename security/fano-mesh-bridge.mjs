@@ -179,7 +179,8 @@ export function seal(wire) {
    seal's coverage; a nonzero byte there is refused, not tolerated as
    scratch. Enforced on both lanes so the fallback can't differ. */
 const canonicalTail = wire => {
-  const plen = Math.min(wire[39], FANO_CAP);
+  if (wire[39] > FANO_CAP) return false;
+  const plen = wire[39];
   for (let i = 40 + plen; i < 104; i++) if (wire[i] !== 0) return false;
   return true;
 };
@@ -190,13 +191,13 @@ export const verify = wire =>
            : seal_js(wire).equals(wire.subarray(104, 136)));
 
 export function build(sx, sy, sz, dx, dy, dz, seq, payload) {
+  if (payload.length > FANO_CAP) throw new RangeError("payload exceeds FANO_CAP");
   const wire = Buffer.alloc(FANO_WIRE);
   cellWord(sx, sy, sz).copy(wire, 0);
   wire[32] = dx; wire[33] = dy; wire[34] = dz;
   wire.writeUInt32LE(seq >>> 0, 35);
-  const len = Math.min(payload.length, FANO_CAP);
-  wire[39] = len;
-  payload.copy(wire, 40, 0, len);
+  wire[39] = payload.length;
+  payload.copy(wire, 40, 0, payload.length);
   seal(wire).copy(wire, 104);
   return wire;
 }
@@ -338,6 +339,21 @@ let meshPkts = [];
   bad[50] ^= 0x01;
   report("M-05 seal-forgery", !verify(bad),
     "flipped payload byte → fano_verify false → fragment refused at bridge");
+}
+
+/* M-05b: declared plen is canonical — >64 names bytes the wire cannot
+   carry, so even a correctly resealed malformed header must refuse. The
+   builder also fails closed instead of silently truncating a caller's
+   payload. */
+{
+  const bad = Buffer.from(meshPkts[0]);
+  bad[39] = FANO_CAP + 1;
+  seal(bad).copy(bad, 104);
+  let buildRefused = false;
+  try { build(1, 2, 3, 4, 5, 6, 7, Buffer.alloc(FANO_CAP + 1)); }
+  catch (e) { buildRefused = e instanceof RangeError; }
+  report("M-05b payload-cap", !verify(bad) && buildRefused,
+    "resealed plen>64 refused; build(65B) throws RangeError");
 }
 
 /* M-06: live wire — S8W1 (::1) → bridge → mesh (127.0.0.1) → reassembly */
