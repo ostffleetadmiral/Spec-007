@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 50
+    "completed_full_retrograde": 51
   },
   "components": [
     {
@@ -756,15 +756,16 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "9b0c5de1f959ffd42a2004d8a3b4afa849666d8dcc1e2d08123964491db1fbe9",
-        "bytes": 13566,
-        "lines": 332,
+        "sha256": "c580536da0c32f024ae697cdf294fa99e711c99f5ea436d3f3f33f8277326f49",
+        "bytes": 27863,
+        "lines": 669,
         "imports": [
           "onnx_graph",
           "std"
         ],
         "referenced_by": [
-          "deps/digit/src/model_session.zig"
+          "deps/digit/src/model_session.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 7
@@ -779,7 +780,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 4,
         "registered": true,
         "documentation_mapped": true
       },
@@ -790,9 +791,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-model-package-boundaries-20261014",
+        "decision": "canonical-package-wire-boundaries"
       }
     },
     {
@@ -12081,9 +12082,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "324e18a356c39f880db9a9b02da8e253a5f63b945722c72dc2ba541b59b29d44",
-        "bytes": 17932,
-        "lines": 441,
+        "sha256": "5272ec38c6a592d4ff7c5412572971a1cc603f5318624ce60a21ac60e9982e17",
+        "bytes": 18086,
+        "lines": 445,
         "imports": [
           "node:crypto",
           "node:fs",
