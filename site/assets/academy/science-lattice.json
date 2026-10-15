@@ -15477,7 +15477,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Topic | Anchor | Note | |---|---|---| | Q128.128 fixed-point engine + golden corpus | src/fixedpointq128.zig, golden/vectors.txt | 37 vectors byte-pinned; RNE bound proved | | 136-byte sealed wire envelope + parity/escrow | src/spec008qstar.zig | Frame stuff/unstuff, one-erasure XOR recovery, authenticated channel (D12) | | 421-node / 15³ lattice construction | sibling:qstar-llm, sibling:zig-k3-",
+      "outcome": "| Topic | Anchor | Note | |---|---|---| | Q128.128 fixed-point engine + golden corpus | src/fixedpointq128.zig, golden/vectors.txt | 37 vectors byte-pinned; RNE bound proved | | 136-byte sealed wire envelope + parity/escrow | src/spec008qstar.zig | Frame stuff/unstuff, one-erasure XOR recovery, authenticated channel (D12), and lab-only LAWB-11 authenticated permutation reconstruction | | 421-node ",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-science-coverage.en.md",
       "title": "§9 What the framework itself adds (internal tier — harness is the evidence)",
@@ -15522,7 +15522,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 主題 | 錨點 | 備註 | |---|---|---| | Q128.128 定點引擎 + 黃金語料 | src/fixedpointq128.zig、golden/vectors.txt | 37 向量逐位元釘定;RNE 界已證 | | 136 位元組密封線路封套 + 同位/託管 | src/spec008qstar.zig | 幀填解、單抹除 XOR 回復、已驗證通道(D12) | | 421 節點 / 15³ 晶格建構 | sibling:qstar-llm、sibling:zig-k3-port | 421=(15³−7)/8 算術屬實;物理讀法屬建構級 | | 密碼路由規則(E2/E6/E7/E5/E4/E0) | sibling:hardware:src/codon.zig | 框架定義之化學導出座標 | | Neuraleak 感知儀器 | sibling:hardwa",
+      "outcome": "| 主題 | 錨點 | 備註 | |---|---|---| | Q128.128 定點引擎 + 黃金語料 | src/fixedpointq128.zig、golden/vectors.txt | 37 向量逐位元釘定;RNE 界已證 | | 136 位元組密封線路封套 + 同位/託管 | src/spec008qstar.zig | 幀填解、單抹除 XOR 回復、已驗證通道(D12),以及實驗室限定 LAWB-11 已認證排列重建 | | 421 節點 / 15³ 晶格建構 | sibling:qstar-llm、sibling:zig-k3-port | 421=(15³−7)/8 算術屬實;物理讀法屬建構級 | | 密碼路由規則(E2/E6/E7/E5/E4/E0) | sibling:hardware:src/codon.zig | 框架定義之化學導出座標 | | Neurale",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-science-coverage.zh-Hant.md",
       "title": "§9 框架自身新增(INTERNAL 層 — 以驗具為證)",

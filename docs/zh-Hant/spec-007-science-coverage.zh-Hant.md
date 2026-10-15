@@ -119,6 +119,9 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | Q# / .NET 8 量子見證 | `sibling:hardware:qsharp/` | Microsoft Quantum SDK — 真實工具鏈 | SETTLED + INTERNAL |
 | 6 量子位元密碼子編碼 | `sibling:hardware:qsharp/CodonProofs.qs` | 建構於真實原語上之框架建構 | INTERNAL |
 | 八元數量子計算 | 解讀層 | Quantum Rep. 7(4):55 (2025) — 正式化障礙:非結合張量積、路徑相依演化、結合域外可能之能量守恆失效;四元數 QC 為 BQP 等價,八元數受約束 | PEER-REVIEWED(約束 — 見 §10) |
+|| 雙邊界可逆傳播(ABL/TSVF) | `sibling:hardware:src/quantum/retrocausal_probe.zig` | Aharonov–Bergmann–Lebowitz 雙態向量條件化(1964):驗具計算 U† 反向腿、非零 TV 距離、增強/抑制格點、空邊界銳化,以及 U(T−t)φ_bwd→|f⟩ 回復。操作性後選偏差已量測;因果方向明確不可分 | PEER-REVIEWED + INTERNAL |
+|| 延遲選擇糾纏交換 | 量子網路次序無關先例 | Peres 延遲選擇交換提案(J. Mod. Opt. 47, 2000)+ Ma et al.,Nature Physics 8:479 (2012):後續邊界選擇可條件化所觀測關聯,但未建立反向資訊傳遞 | PEER-REVIEWED + SETTLED 約束 |
+|| LAWB-11 已認證排列通道 | `src/spec008_qstar_parity.zig` | 實驗室限定因果次序覆寫在六種排列下重建完全相同之已認證正典訊框集合;重複、遺漏、外來、錯鑰與跨封包拼接格仍拒絕。結果證明次序無關傳輸重建,而非逆因果訊息 | INTERNAL |
 
 ## §7 儀器化認知與基礎
 
@@ -158,7 +161,7 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 主題 | 錨點 | 備註 |
 |---|---|---|
 | Q128.128 定點引擎 + 黃金語料 | `src/fixed_point_q128.zig`、`golden/vectors.txt` | 37 向量逐位元釘定;RNE 界已證 |
-| 136 位元組密封線路封套 + 同位/託管 | `src/spec008_qstar_*.zig` | 幀填解、單抹除 XOR 回復、已驗證通道(D12) |
+| 136 位元組密封線路封套 + 同位/託管 | `src/spec008_qstar_*.zig` | 幀填解、單抹除 XOR 回復、已驗證通道(D12),以及實驗室限定 LAWB-11 已認證排列重建 |
 | 421 節點 / 15³ 晶格建構 | `sibling:qstar-llm`、`sibling:zig-k3-port` | 421=(15³−7)/8 算術屬實;物理讀法屬建構級 |
 | 密碼路由規則(E2/E6/E7/E5/E4/E0) | `sibling:hardware:src/codon.zig` | 框架定義之化學導出座標 |
 | Neuraleak 感知儀器 | `sibling:hardware:src/neuraleak_continuity_test.zig`(15 模組套件) | 操作性定義 + 記錄數據 |
@@ -178,7 +181,7 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 邊緣層引文(Sankhya、TGD、Natural Path、自指、意識預印本) | 低權重 | 真實造物;獨立性主張屬實;證據權重如實標定 |
 | 24 項文獻評審 | 於此全收 | `sibling:hardware:src/literature_review.zig` 全部 DOI 於 §1–§8 逐字釘定(SCI-01) |
 | Orch-OR 意識基底 | 爭議中 | 最簡 DP 塌縮為自發輻射界限所排除(Phys. Rev. A 104:L030402);室溫微管量子效應有實驗支持(2024–25);裁決「不定」— 未證明亦未推翻,保留 |
-| 無通信定理 | CONSTRAINED | 即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。**現已於模型內算出**(D17 `lattice_blocks.zig`):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 <3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席 |
+| 無通信定理 | CONSTRAINED | 即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。**現已於模型內算出**(D17 `lattice_blocks.zig`):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 <3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席。LAWB-11 實驗室通道僅移除抵達次序前提;正典序集合完整性、認證、容量與封包身份仍於發布前約束 — 量測結果為次序無關重建,非反向資訊傳遞 |
 | 量子生物證據鏈 | FLAG | 熱貓(1.8 K,仍屬低溫)+ 粒線體預印本(未複製、依賴模型)+ ENAQT(僅光合)各削弱退相干反對之一角 — 皆未橋接至神經尺度意識;記為削弱鏈,非證明 |
 | 15³ 量子位元動力學 | 已量測(模型內) | 動力學已寫出並檢驗(D17 `lattice_*.zig`):哈密頓量、Chebyshev 演化、退相位軌跡、精確 concurrence。殼屏蔽實驗實測:屏蔽保真度 0.999999999 對無屏蔽 0.9999988,V_shell∈[0,100] 全平 — 屏蔽於模型內屬實,但由弱邊界耦合驅動,非位壘高度(機制歸因為量測所修正)。接縫穿隧:開放傳輸 35.1% 對位壘 8 之 1.47%(E<V₀ 透射非零)。物理裝置主張仍缺席 |
 | 理論對發現之界 | META | 數學證明得定理(Dirac 反物質方程);發現須觀測(Anderson 正子)。層級體系所編碼正是此界 — harness_proven 與 lit_supported 皆模型層;本頁所錄無一為物理發現 |

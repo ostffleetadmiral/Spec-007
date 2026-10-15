@@ -242,9 +242,9 @@
 </tr>
 <tr>
 <td><code>spec008_qstar_parity.zig</code></td>
-<td>線路同位(D11/P3,Mosi LVCE):136-B 封包 frame→channel→decode→re-seal 逐位元一致;採用正典 1–56 位元組訊框、交易式解碼與受界限同位-cell 域;任意偏移單位元組毀損必被偵測;鴿籠容量強制執行;截斷/訊框拼接拒絕;XOR 同位恰好復原一個抹除訊框;認證通道以每訊框 HMAC 標籤加封包終止符,拒絕同金鑰跨封包拼接並認證空封包。</td>
-<td>12 測試</td>
-<td>同位邊界已強化</td>
+<td>線路同位(D11/P3,Mosi LVCE):136-B 封包 frame→channel→decode→re-seal 逐位元一致;採用正典 1–56 位元組訊框、交易式解碼與受界限同位-cell 域;任意偏移單位元組毀損必被偵測;鴿籠容量強制執行;截斷/訊框拼接拒絕;XOR 同位恰好復原一個抹除訊框;認證通道以每訊框 HMAC 標籤加封包終止符,拒絕同金鑰跨封包拼接並認證空封包。實驗室限定 LAWB-11 通道 <code>unframeAuthCausalOverride</code> 可重建每種已認證正典排列,同時保留重複/缺格/外來格與封包邊界拒絕。</td>
+<td>14 測試</td>
+<td>同位邊界已強化;因果次序實驗已儀器化</td>
 </tr>
 <tr>
 <td><code>dht_native.zig</code></td>

@@ -3591,6 +3591,21 @@ console.log("\nLAWBREAK — ported-mechanism attacks + the laws themselves");
           "law held: monotonic sequence enforced — spliced/reordered frames refuse")
       : open_("LAWB", "causality-order", "sequence enforcement absent");
   }
+  /* LAWB-11 causal-order override experiment: the lab lane may remove the
+     arrival-order premise only after proving the exact authenticated frame
+     set — duplicates, gaps, foreign cells, and packet-splices still refuse. */
+  {
+    const src = fs.readFileSync(path.join(ROOT, "src", "spec008_qstar_parity.zig"), "utf8");
+    const labLane = /unframeAuthCausalOverride/.test(src) && /LAB-ONLY/.test(src);
+    const canonicalSet = /seen\[seq\]|DuplicateFrame/.test(src) && /BadPacketTag/.test(src);
+    const tests = ["causal-order override accepts every canonical permutation", "causal-order override refuses duplicates, gaps, foreign cells"];
+    const present = tests.filter(t => src.includes(t)).length;
+    labLane && canonicalSet && present === tests.length
+      ? held("LAWB", "causal-order-override",
+          `law experiment held: authenticated permutations reconstruct canonically; ${present}/${tests.length} override tests present`)
+      : open_("LAWB", "causal-order-override",
+          `override boundary incomplete — lane=${labLane} set=${canonicalSet} tests=${present}/${tests.length}`);
+  }
 }
 
 console.log("\nAIWO — the warrant corps as live agents");

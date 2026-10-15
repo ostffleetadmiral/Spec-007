@@ -598,6 +598,24 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 <td>Quantum Rep. 7(4):55 (2025) — formalized obstructions: non-associative tensor products, path-dependent evolution, possible energy-conservation failure outside associative sectors; quaternionic QC is BQP-equivalent, octonionic constrained</td>
 <td>PEER-REVIEWED (constraint — see §10)</td>
 </tr>
+<tr>
+<td></td>
+<td>Two-boundary reversible propagation (ABL/TSVF)</td>
+<td><code>sibling:hardware:src/quantum/retrocausal_probe.zig</code></td>
+<td>Aharonov–Bergmann–Lebowitz two-state vector conditioning (1964): the harness computes the U† backward leg, nonzero TV distance, enriched/suppressed sites, null-boundary sharpening, and U(T−t)φ_bwd→</td>
+</tr>
+<tr>
+<td></td>
+<td>Delayed-choice entanglement swapping</td>
+<td>quantum-network order-independence precedent</td>
+<td>Peres delayed-choice swapping proposal (J. Mod. Opt. 47, 2000) + Ma et al., Nature Physics 8:479 (2012): later boundary choices can condition observed correlations without establishing backward information transfer</td>
+</tr>
+<tr>
+<td></td>
+<td>LAWB-11 authenticated permutation lane</td>
+<td><code>src/spec008_qstar_parity.zig</code></td>
+<td>Lab-only causal-order override reconstructs the exact authenticated canonical frame set under all six permutations; duplicate, missing, foreign, wrong-key, and packet-splice cells still refuse. Result proves order-independent transport reconstruction, not retrocausal messaging</td>
+</tr>
 </tbody>
 </table>
 <h2>§7 Instrumented cognition &amp; foundations</h2>
@@ -782,7 +800,7 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 <tr>
 <td>136-byte sealed wire envelope + parity/escrow</td>
 <td><code>src/spec008_qstar_*.zig</code></td>
-<td>Frame stuff/unstuff, one-erasure XOR recovery, authenticated channel (D12)</td>
+<td>Frame stuff/unstuff, one-erasure XOR recovery, authenticated channel (D12), and lab-only LAWB-11 authenticated permutation reconstruction</td>
 </tr>
 <tr>
 <td>421-node / 15³ lattice construction</td>
@@ -869,7 +887,7 @@ verbatim), plus the 2026-10-08 research debrief (<code>security/out/research-deb
 <tr>
 <td>No-communication theorem</td>
 <td>CONSTRAINED</td>
-<td>Instant correlation is real (Bell violations confirmed); controlled FTL signaling requires breaking the theorem. <strong>Now computed in-model</strong> (D17 <code>lattice_blocks.zig</code>): correlation propagates ballistically — measured front tail &lt;3.1×10⁻¹¹ beyond 7 sites at τ=1, consistent with the Lieb-Robinson bound (Commun. Math. Phys. 28:251, 1972). The model supplies its own light cone: correlation real, instant signaling absent</td>
+<td>Instant correlation is real (Bell violations confirmed); controlled FTL signaling requires breaking the theorem. <strong>Now computed in-model</strong> (D17 <code>lattice_blocks.zig</code>): correlation propagates ballistically — measured front tail &lt;3.1×10⁻¹¹ beyond 7 sites at τ=1, consistent with the Lieb-Robinson bound (Commun. Math. Phys. 28:251, 1972). The model supplies its own light cone: correlation real, instant signaling absent. The LAWB-11 lab lane removes only the arrival-order premise; canonical sequence-set completeness, authentication, capacity, and packet identity still bind before publication — order-independent reconstruction is measured, backward information transfer is not claimed</td>
 </tr>
 <tr>
 <td>Quantum-bio evidence chain</td>

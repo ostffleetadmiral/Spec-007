@@ -597,6 +597,24 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 <td>Quantum Rep. 7(4):55 (2025) — 正式化障礙:非結合張量積、路徑相依演化、結合域外可能之能量守恆失效;四元數 QC 為 BQP 等價,八元數受約束</td>
 <td>PEER-REVIEWED(約束 — 見 §10)</td>
 </tr>
+<tr>
+<td></td>
+<td>雙邊界可逆傳播(ABL/TSVF)</td>
+<td><code>sibling:hardware:src/quantum/retrocausal_probe.zig</code></td>
+<td>Aharonov–Bergmann–Lebowitz 雙態向量條件化(1964):驗具計算 U† 反向腿、非零 TV 距離、增強/抑制格點、空邊界銳化,以及 U(T−t)φ_bwd→</td>
+</tr>
+<tr>
+<td></td>
+<td>延遲選擇糾纏交換</td>
+<td>量子網路次序無關先例</td>
+<td>Peres 延遲選擇交換提案(J. Mod. Opt. 47, 2000)+ Ma et al.,Nature Physics 8:479 (2012):後續邊界選擇可條件化所觀測關聯,但未建立反向資訊傳遞</td>
+</tr>
+<tr>
+<td></td>
+<td>LAWB-11 已認證排列通道</td>
+<td><code>src/spec008_qstar_parity.zig</code></td>
+<td>實驗室限定因果次序覆寫在六種排列下重建完全相同之已認證正典訊框集合;重複、遺漏、外來、錯鑰與跨封包拼接格仍拒絕。結果證明次序無關傳輸重建,而非逆因果訊息</td>
+</tr>
 </tbody>
 </table>
 <h2>§7 儀器化認知與基礎</h2>
@@ -781,7 +799,7 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 <tr>
 <td>136 位元組密封線路封套 + 同位/託管</td>
 <td><code>src/spec008_qstar_*.zig</code></td>
-<td>幀填解、單抹除 XOR 回復、已驗證通道(D12)</td>
+<td>幀填解、單抹除 XOR 回復、已驗證通道(D12),以及實驗室限定 LAWB-11 已認證排列重建</td>
 </tr>
 <tr>
 <td>421 節點 / 15³ 晶格建構</td>
@@ -868,7 +886,7 @@ ISO、教科書)、<strong>INTERNAL</strong>(框架自身造物 — 以驗具為
 <tr>
 <td>無通信定理</td>
 <td>CONSTRAINED</td>
-<td>即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。<strong>現已於模型內算出</strong>(D17 <code>lattice_blocks.zig</code>):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 &lt;3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席</td>
+<td>即時關聯屬實(Bell 破缺已確認);受控超光速信令須打破該定理。<strong>現已於模型內算出</strong>(D17 <code>lattice_blocks.zig</code>):關聯以彈道式傳播 — 實測 τ=1 時七格以外前緣尾部 &lt;3.1×10⁻¹¹,與 Lieb-Robinson 界限一致(Commun. Math. Phys. 28:251, 1972)。模型自供光錐:關聯屬實,即時信令缺席。LAWB-11 實驗室通道僅移除抵達次序前提;正典序集合完整性、認證、容量與封包身份仍於發布前約束 — 量測結果為次序無關重建,非反向資訊傳遞</td>
 </tr>
 <tr>
 <td>量子生物證據鏈</td>

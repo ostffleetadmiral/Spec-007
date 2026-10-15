@@ -7052,9 +7052,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "e58610626789ae7f81762d7fa080da76a8a7f64a515c53061d82c9a4910b381f",
-        "bytes": 201247,
-        "lines": 3933,
+        "sha256": "c5565e53c98e12b1d7bc176f0f600d3dcd537256daf94b14a5ef6d3b64c93995",
+        "bytes": 202367,
+        "lines": 3948,
         "imports": [
           "../tools/dht-fs.mjs",
           "./fano-mesh-bridge.mjs",
@@ -8441,7 +8441,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "5ceda9e8c6eb74a6c5d8638364afe5cf81854e1e2e31dbbeef29b2720e70c677",
+        "sha256": "84ff442b72e2fe8c990235262ec433da4e9eb0070175ed57b63d43fdf1a5def9",
         "bytes": 248131,
         "lines": 4665,
         "imports": [],
@@ -8483,7 +8483,7 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "76f41426e8690f086e2ead00d04f034db55d8a8858d65c092f9e59d96bd4608d",
+        "sha256": "bc10422fbdcfcd91d3bd3502971e45107014c5a13412ff65f9f42554475f5058",
         "bytes": 78797,
         "lines": 1249,
         "imports": [],
@@ -11307,9 +11307,9 @@
       "workstream": "spec008-wire",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "75473e8fe86155277167fc1d62a0176d77b4ce3d3dc52606a6b7e9d287543e1c",
-        "bytes": 26513,
-        "lines": 583,
+        "sha256": "b11fad50cc922de3b937f93361d03c65d07246ae5d550a57fa5528e4f5f768a5",
+        "bytes": 34339,
+        "lines": 760,
         "imports": [
           "std"
         ],
@@ -11318,7 +11318,7 @@
           "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 0
+        "public_surface": 1
       },
       "contract": {
         "mapped": true,
@@ -11330,7 +11330,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 12,
+        "test_blocks": 14,
         "registered": true,
         "documentation_mapped": true
       },
@@ -11342,8 +11342,8 @@
         ],
         "workstream_measured": true,
         "completed": true,
-        "archive": "spec008-qstar-parity-boundaries-20261014",
-        "decision": "packet-bound-authenticated-wire-parity"
+        "archive": "spec008-qstar-causality-override-20261015",
+        "decision": "packet-bound-authenticated-wire-parity-causal-override"
       }
     },
     {
@@ -12090,8 +12090,8 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "bcc2439a7555b130bcaa48b7f3ce7b2b99f3a907f0c20fbdb5156d39b7c62012",
-        "bytes": 19044,
+        "sha256": "8a8b05070fe1b9a4bec4c89a276e025c1e01fe5fdcef2737e6b7747718bf1e0d",
+        "bytes": 19061,
         "lines": 469,
         "imports": [
           "node:crypto",

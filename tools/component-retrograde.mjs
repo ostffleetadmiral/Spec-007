@@ -242,8 +242,8 @@ const FULL_RETROGRADE = new Map([
     archive: "spec008-qstar-mesh-boundaries-20261014",
   }],
   ["src/spec008_qstar_parity.zig", {
-    decision: "packet-bound-authenticated-wire-parity",
-    archive: "spec008-qstar-parity-boundaries-20261014",
+    decision: "packet-bound-authenticated-wire-parity-causal-override",
+    archive: "spec008-qstar-causality-override-20261015",
   }],
 ]);
 

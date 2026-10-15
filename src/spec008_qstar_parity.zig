@@ -45,6 +45,7 @@ const MAGIC1: u8 = 0xA0;
 const END_MAGIC1: u8 = 0xA1;
 const END_FRAME_BYTES: usize = 2 + TAG_BYTES;
 const PACKET_TAG_DOMAIN = "spec008-qstar-parity-packet-v1";
+const MAX_FRAMES = (WIRE_PACKET_BYTES + FRAME_PAYLOAD - 1) / FRAME_PAYLOAD;
 
 // frame layout: [MAGIC0, MAGIC1, seq, len, payload[len], check]
 //   check = XOR of seq ^ len ^ every payload byte — single-byte
@@ -247,6 +248,72 @@ fn unframeAuth(key: []const u8, stream: []const u8, out: []u8) !usize {
         n += len;
         i += wire_len;
         expect_seq += 1;
+    }
+    return error.Truncated;
+}
+
+/// LAB-ONLY causal-order override for the authenticated channel.
+///
+/// The production decoder remains `unframeAuth`: arrival order is part of its
+/// canonical wire contract. This lane removes only the arrival-order premise —
+/// caller opt-in is the override — while retaining every integrity boundary:
+/// each frame tag verifies before use, duplicate/out-of-domain sequence cells
+/// refuse, the received sequence set must be exactly `0..frame_count`, all
+/// non-final canonical frames must carry 56 bytes, and the packet terminator
+/// verifies the complete reassembled envelope before `out` is touched.
+///
+/// Experiment meaning: reversible order-independent reassembly is tested as a
+/// boundary/transport property. It does not claim retrocausal information flow;
+/// the final packet tag is a post-selection proof over bytes already received.
+pub fn unframeAuthCausalOverride(key: []const u8, stream: []const u8, out: []u8) !usize {
+    var decoded: [WIRE_PACKET_BYTES]u8 = undefined;
+    var seen: [MAX_FRAMES]bool = .{false} ** MAX_FRAMES;
+    var lengths: [MAX_FRAMES]u8 = .{0} ** MAX_FRAMES;
+    var frame_count: usize = 0;
+    var n: usize = 0;
+    var i: usize = 0;
+    while (i < stream.len) {
+        const remaining = stream.len - i;
+        if (remaining < 2) return error.Truncated;
+        if (stream[i] != MAGIC0) return error.BadMagic;
+        if (stream[i + 1] == END_MAGIC1) {
+            if (remaining < END_FRAME_BYTES) return error.Truncated;
+            if (remaining > END_FRAME_BYTES) return error.TrailingBytes;
+            for (0..frame_count) |seq| {
+                if (!seen[seq]) return error.OutOfOrder;
+                if (seq + 1 < frame_count and lengths[seq] != FRAME_PAYLOAD) return error.InvalidLength;
+            }
+            const tag = stream[i + 2 .. i + END_FRAME_BYTES];
+            if (!tagEql(tag, packetTag(key, decoded[0..n]))) return error.BadPacketTag;
+            if (n > out.len) return error.OutputOverflow;
+            @memcpy(out[0..n], decoded[0..n]);
+            return n;
+        }
+        if (stream[i + 1] != MAGIC1) return error.BadMagic;
+        if (remaining < 5 + TAG_BYTES) return error.Truncated;
+        const seq_byte = stream[i + 2];
+        const len: usize = stream[i + 3];
+        if (len == 0 or len > FRAME_PAYLOAD) return error.InvalidLength;
+        const frame_len = 5 + len;
+        const wire_len = frame_len + TAG_BYTES;
+        if (remaining < wire_len) return error.Truncated;
+        const raw = stream[i .. i + frame_len];
+        const tag = stream[i + frame_len .. i + wire_len];
+        if (!tagEql(tag, frameTag(key, raw))) return error.BadTag;
+        const payload = stream[i + 4 .. i + 4 + len];
+        if (raw[4 + len] != frameCheck(seq_byte, @intCast(len), payload))
+            return error.Corrupt;
+        const seq: usize = seq_byte;
+        if (seq >= MAX_FRAMES) return error.OutOfOrder;
+        if (seen[seq]) return error.DuplicateFrame;
+        const offset = seq * FRAME_PAYLOAD;
+        if (len > decoded.len - offset) return error.OverCapacity;
+        @memcpy(decoded[offset .. offset + len], payload);
+        seen[seq] = true;
+        lengths[seq] = @intCast(len);
+        frame_count += 1;
+        n += len;
+        i += wire_len;
     }
     return error.Truncated;
 }
@@ -579,4 +646,114 @@ test "auth: 100-iteration adversary loop — every forged mutation refuses" {
         }
     }
     try std.testing.expectEqual(@as(usize, 100), refused);
+}
+
+test "auth: causal-order override accepts every canonical permutation bit-exactly" {
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    const end_offset = n - END_FRAME_BYTES;
+
+    var starts: [MAX_FRAMES]usize = undefined;
+    var lens: [MAX_FRAMES]usize = undefined;
+    var cursor: usize = 0;
+    for (0..MAX_FRAMES) |seq| {
+        starts[seq] = cursor;
+        lens[seq] = 5 + stream[cursor + 3] + TAG_BYTES;
+        cursor += lens[seq];
+    }
+    try std.testing.expectEqual(end_offset, cursor);
+
+    const permutations = [_][MAX_FRAMES]usize{
+        .{ 0, 1, 2 },
+        .{ 0, 2, 1 },
+        .{ 1, 0, 2 },
+        .{ 1, 2, 0 },
+        .{ 2, 0, 1 },
+        .{ 2, 1, 0 },
+    };
+    for (permutations) |permutation| {
+        var lab_stream: [640]u8 = undefined;
+        var pos: usize = 0;
+        for (permutation) |seq| {
+            const frame_len = lens[seq];
+            @memcpy(lab_stream[pos .. pos + frame_len], stream[starts[seq] .. starts[seq] + frame_len]);
+            pos += frame_len;
+        }
+        @memcpy(lab_stream[pos .. pos + END_FRAME_BYTES], stream[end_offset..n]);
+        pos += END_FRAME_BYTES;
+
+        var back: [WIRE_PACKET_BYTES]u8 = undefined;
+        if (std.mem.eql(usize, &permutation, &.{ 0, 1, 2 })) {
+            const strict_n = try unframeAuth(TEST_KEY, lab_stream[0..pos], &back);
+            try std.testing.expectEqual(WIRE_PACKET_BYTES, strict_n);
+            try std.testing.expectEqualSlices(u8, &pkt, &back);
+        } else {
+            try std.testing.expectError(error.OutOfOrder, unframeAuth(TEST_KEY, lab_stream[0..pos], &back));
+        }
+
+        @memset(&back, 0xAA);
+        const override_n = try unframeAuthCausalOverride(TEST_KEY, lab_stream[0..pos], &back);
+        try std.testing.expectEqual(WIRE_PACKET_BYTES, override_n);
+        try std.testing.expectEqualSlices(u8, &pkt, &back);
+    }
+}
+
+test "auth: causal-order override refuses duplicates, gaps, foreign cells, and partial writes" {
+    const pkt = testPacket();
+    var stream: [640]u8 = undefined;
+    const n = try frameAuth(TEST_KEY, &pkt, &stream);
+    const f0 = 5 + 56 + TAG_BYTES;
+    const f1 = 5 + 56 + TAG_BYTES;
+    const f2 = 5 + 24 + TAG_BYTES;
+    const end_offset = n - END_FRAME_BYTES;
+
+    var other = testPacket();
+    other[60] ^= 0x5A;
+    var foreign: [640]u8 = undefined;
+    _ = try frameAuth(TEST_KEY, &other, &foreign);
+
+    var attack: [640]u8 = undefined;
+    var back: [WIRE_PACKET_BYTES]u8 = undefined;
+
+    // Two valid same-key seq=0 frames still collide at the canonical cell.
+    var pos: usize = 0;
+    @memcpy(attack[pos .. pos + f0], stream[0..f0]);
+    pos += f0;
+    @memcpy(attack[pos .. pos + f0], foreign[0..f0]);
+    pos += f0;
+    @memcpy(attack[pos .. pos + END_FRAME_BYTES], stream[end_offset..n]);
+    pos += END_FRAME_BYTES;
+    try std.testing.expectError(error.DuplicateFrame, unframeAuthCausalOverride(TEST_KEY, attack[0..pos], &back));
+
+    // A gap is a missing observation, not license to fabricate a frame.
+    pos = 0;
+    @memcpy(attack[pos .. pos + f0], stream[0..f0]);
+    pos += f0;
+    @memcpy(attack[pos .. pos + f2], stream[f0 + f1 .. f0 + f1 + f2]);
+    pos += f2;
+    @memcpy(attack[pos .. pos + END_FRAME_BYTES], stream[end_offset..n]);
+    pos += END_FRAME_BYTES;
+    @memset(&back, 0xAA);
+    try std.testing.expectError(error.OutOfOrder, unframeAuthCausalOverride(TEST_KEY, attack[0..pos], &back));
+    for (back) |b| try std.testing.expectEqual(@as(u8, 0xAA), b);
+
+    // A valid foreign seq=1 cell still fails the packet boundary.
+    pos = 0;
+    @memcpy(attack[pos .. pos + f0], stream[0..f0]);
+    pos += f0;
+    @memcpy(attack[pos .. pos + f1], foreign[f0 .. f0 + f1]);
+    pos += f1;
+    @memcpy(attack[pos .. pos + f2], stream[f0 + f1 .. f0 + f1 + f2]);
+    pos += f2;
+    @memcpy(attack[pos .. pos + END_FRAME_BYTES], stream[end_offset..n]);
+    pos += END_FRAME_BYTES;
+    try std.testing.expectError(error.BadPacketTag, unframeAuthCausalOverride(TEST_KEY, attack[0..pos], &back));
+
+    try std.testing.expectError(error.BadTag, unframeAuthCausalOverride("wrong-key", stream[0..n], &back));
+
+    var empty_stream: [END_FRAME_BYTES]u8 = undefined;
+    const empty_n = try frameAuth(TEST_KEY, &[_]u8{}, &empty_stream);
+    const empty_m = try unframeAuthCausalOverride(TEST_KEY, empty_stream[0..empty_n], &back);
+    try std.testing.expectEqual(@as(usize, 0), empty_m);
 }

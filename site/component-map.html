@@ -243,9 +243,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>spec008_qstar_parity.zig</code></td>
-<td>Wire parity (D11/P3, Mosi LVCE): frame→channel→decode→re-seal bit-exact on the 136-B envelope; canonical 1–56-byte frames, transactional decode, and checked parity-cell domains; single-byte corruption detected at any offset; pigeonhole capacity enforced; truncation/splice refuse; XOR parity recovers exactly one erased frame; authenticated lane adds per-frame HMAC tags plus a packet terminator that refuses same-key cross-packet splices and authenticates empty packets.</td>
-<td>12 tests</td>
-<td>parity boundary hardened</td>
+<td>Wire parity (D11/P3, Mosi LVCE): frame→channel→decode→re-seal bit-exact on the 136-B envelope; canonical 1–56-byte frames, transactional decode, and checked parity-cell domains; single-byte corruption detected at any offset; pigeonhole capacity enforced; truncation/splice refuse; XOR parity recovers exactly one erased frame; authenticated lane adds per-frame HMAC tags plus a packet terminator that refuses same-key cross-packet splices and authenticates empty packets. Lab-only LAWB-11 lane <code>unframeAuthCausalOverride</code> reconstructs every authenticated canonical permutation while retaining duplicate/gap/foreign-cell and packet-bound refusal.</td>
+<td>14 tests</td>
+<td>parity boundary hardened; causal-order experiment instrumented</td>
 </tr>
 <tr>
 <td><code>dht_native.zig</code></td>
