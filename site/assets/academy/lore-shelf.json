@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "lore-shelf",
-  "lesson_count": 86,
+  "lesson_count": 87,
   "lessons": [
     {
       "access": "public",
@@ -1141,6 +1141,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:marketing/growth/submissions/khronos-gltf-project-explorer.md",
       "title": "Category",
+      "topic": "lore"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-df77743295e7c331",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Version | Date | Change | |---|---|---| | 1.0.0 | 2026-10-05 | Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix. | | 1.1.0 | 2026-10-15 | Governance hardening update: adoption authority corrected to the founding phase, corpus metadata/diges",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/spec-007-governance-gap-analysis.en.md",
+      "title": "Version history",
       "topic": "lore"
     },
     {

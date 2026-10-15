@@ -38,9 +38,10 @@
 <div class="lang-twin"><a href="governance.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
 <main>
 <h1>SPEC-007 治理缺口分析</h1>
-<p>**
-<strong>版本：</strong> 1.0.0主題：** OSTF SPEC 治理規則書（機密來源，SPEC-004 保管）對照現行 Spec-007 文件標準（README 權限等級 L0–L5、<code>spec-007-verified.en.md</code>、計算台架、存檔政策）。</p>
+<p><strong>主題：</strong> OSTF SPEC 治理規則書（機密來源，SPEC-004 保管）對照現行 Spec-007 文件標準（README 權限等級 L0–L5、<code>spec-007-verified.en.md</code>、計算台架、存檔政策）。
+<strong>版本：</strong> 1.1.0</p>
 <p><strong>前置結論：</strong> 規則書是一份強力的<strong>程序性</strong>治理文件，卻是薄弱的<strong>認識性</strong>文件。它規範<em>誰可以更改 SPEC、如何更改</em>，卻沒有任何條款要求 SPEC 內的主張必須<strong>經過驗證、具備來源、或可測試</strong>。Spec-007 標準走得更遠：主張唯有在台架測試或機構來源支持下方得<em>晉升</em>。雙方都不完全涵蓋對方；正確的終態是採用規則書的生命週期機制，<strong>並</strong>保留 Spec-007 的證據閘門。</p>
+<p><strong>2026-10-15 狀態註記：</strong> 本審查所指出的中繼資料與採用權限缺口，現已在治理語料層級以機械方式封閉。現行文件帶有版本化前置欄位與修正後之創始階段權限語句；封存正典文件保持不變，改由雜湊錨定之中繼資料覆疊綁定。<code>assets/gov-metadata.json</code> 為去識別公開投影：僅報告文件數量、權限狀態、審查狀態與摘要值——不含機密本文或官員姓名。</p>
 <h2>逐條對照矩陣</h2>
 <table>
 <thead>
@@ -78,8 +79,8 @@
 </tr>
 <tr>
 <td><strong>第六條 — 版本化（MAJOR.MINOR.PATCH、核准層級、歷史節）</strong></td>
-<td>Spec-007 文件帶日期／狀態但無語意化版本或版本歷史</td>
-<td><strong>缺口（Spec-007 側）。</strong> L1/L3 文件採用 semver 與版本歷史節。</td>
+<td>受治理 SPEC 文件現帶語意版本、狀態與採用中繼資料；封存正典不經編輯而以覆疊摘要綁定</td>
+<td><strong>語料層級已封閉。</strong> 公開檔案文件保有本地版本歷史；機械閘門直接檢查 SPEC 語料。</td>
 </tr>
 <tr>
 <td><strong>第七條 — 審查與維護（年度＋觸發式）</strong></td>
@@ -93,8 +94,8 @@
 </tr>
 <tr>
 <td><strong>第九條 — SPEC 登記冊（狀態、版本、編輯、核准記錄）</strong></td>
-<td>無登記冊；README 缺狀態／版本／編輯欄</td>
-<td><strong>缺口（Spec-007 側）。</strong> 增設登記表（見建議）。</td>
+<td><code>spec-007-registry</code> 記錄檔案成品；語料中繼資料登記冊驗證所有受治理文件（含封存正典）</td>
+<td><strong>文件中繼資料已封閉。</strong> 公開投影已去識別，僅報告摘要／狀態；具名人類簽署檔仍待建立。</td>
 </tr>
 <tr>
 <td><strong>第十條 — 實施與合規監控、豁免</strong></td>
@@ -122,16 +123,17 @@
 </ol>
 <h2>Spec-007 標準應自規則書採納的部分</h2>
 <ol>
-<li><strong>為 SPEC-007 建立 SPEC 登記冊條目</strong>，附狀態欄（草案／現行、編輯、版本）——每份文件一列，隨里程碑更新。</li>
-<li>L1/L3 文件採用<strong>語意化版本＋版本歷史</strong>，使未來數值變更可審計。</li>
+<li><strong>為 SPEC-007 建立 SPEC 登記冊條目</strong>，附狀態欄（草案／現行、編輯、版本）——本處已實作，並與語料層級中繼資料驗證配對。</li>
+<li>受治理文件採用<strong>語意化版本＋版本歷史</strong>——現行 SPEC 已實作；封存文件以覆疊取得相同中繼資料，使正典本文保持不變。</li>
 <li><strong>觸發審查條款</strong>：當 (a) 引用數據表變更、(b) 取得供應商報價、(c) 合格實驗室量測到來、(d) UN 1402 或相關法規文本變更時，審查 L1。</li>
 <li><strong>正式提案記錄</strong>：追溯記錄 SPEC-007 的問題陳述與安全／倫理評估，引用 <code>spec-007-research-dossier.md</code> 既有的危害登記冊。</li>
 </ol>
-<h2>建議合併方案（提案中，未施行）</h2>
+<h2>合併狀態——部分施行，2026-10-15</h2>
 <ul>
-<li>將規則書<strong>第八條</strong>（退役）與<strong>第三條</strong>（角色、AI 僅顧問）原樣引入 Spec-007 流程。</li>
-<li>向規則書（或 L1 本地治理附錄）加入 Spec-007 晉升閘門：(1) 不可變基線；(2) 主張評級；(3) 台架強制數字；(4) 里程碑存檔。</li>
-<li>將 README 的 L0–L5 階梯視為本目錄對規則書第二條的本地實作。</li>
+<li>規則書<strong>第八條</strong>（退役／不可變）與<strong>第三條</strong>（角色、AI 僅顧問）仍為治理準則。</li>
+<li>Spec-007 晉升閘門維持不變：(1) 不可變基線；(2) 主張評級；(3) 台架強制數字；(4) 里程碑存檔。</li>
+<li>語料中繼資料現為可執行：封存原件逐位元組雜湊，現行文件對排除中繼資料前置區之規範本文計算摘要，採用權限明確記為創始階段，批准／簽署／外部審查狀態均記為待辦而非斷言，且 <code>node tools/gov-metadata.mjs --verify</code> 已接入發布閘門。</li>
+<li>README 的 L0–L5 階梯仍為本目錄對規則書第二條的本地實作。</li>
 </ul>
 <h2>結論</h2>
 <p><strong>接近度估計：</strong> 規則書涵蓋 Spec-007 文件標準約 <em>60–70% 的程序面</em>，而 Spec-007 的證據／驗證機制涵蓋規則書全無的部分。合併則構成完整的治理系統；分離則規則書管的是<em>無真相的流程</em>，而本目錄執行的是<em>無流程的真相</em>。存檔 <code>archives/spec-007-governance-gap-analysis-20261004/</code> 記錄了本次對照。</p>
@@ -149,6 +151,11 @@
 <td>1.0.0</td>
 <td>2026-10-05</td>
 <td>依 OSTF 規則手冊第六條追溯登錄初始版本；內容自檔案接受以來未變。升版規則：主版＝晉升主張／數字變更，次版＝新增分析，修訂＝編輯／翻譯修正。</td>
+</tr>
+<tr>
+<td>1.1.0</td>
+<td>2026-10-15</td>
+<td>治理強化更新：採用權限修正為創始階段，語料中繼資料／摘要驗證接入發布閘門，封存文件以覆疊中繼資料保存，內部與外部驗證邊界已明示。</td>
 </tr>
 </tbody>
 </table>

@@ -2,8 +2,8 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55583,
-  "zh_lessons": 452,
+  "lessons_reviewed": 55587,
+  "zh_lessons": 454,
   "defects": [],
   "courses": [
     {
@@ -48,7 +48,7 @@
     },
     {
       "course": "communications",
-      "lessons": 1504,
+      "lessons": 1503,
       "zh_lessons": 21,
       "declassified_lessons": 0,
       "topics": 1,
@@ -61,7 +61,7 @@
         "adk:68"
       ],
       "top_topics": [
-        "communications:1504"
+        "communications:1503"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -128,20 +128,20 @@
     },
     {
       "course": "lore-shelf",
-      "lessons": 86,
+      "lessons": 87,
       "zh_lessons": 0,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 5,
       "top_sources": [
         "three-ws:76",
+        "spec-007:4",
         "paperless-ngx:3",
-        "spec-007:3",
         "freenet-core:2",
         "nullclaw:1"
       ],
       "top_topics": [
-        "lore:86"
+        "lore:87"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -188,8 +188,8 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10816,
-      "zh_lessons": 188,
+      "lessons": 10820,
+      "zh_lessons": 190,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 935,
@@ -201,7 +201,7 @@
         "project-nomad:205"
       ],
       "top_topics": [
-        "reference:10816"
+        "reference:10820"
       ],
       "defects": 0,
       "verdict": "HELD"

@@ -216,10 +216,35 @@
           "verdict": "realized",
           "passed": 16,
           "total": 16
+        },
+        {
+          "id": "spec-metadata",
+          "mandate": "Rulebook Arts V/VI/IX — status, version history, registry, approval record",
+          "real": "25 governance instruments carry machine-verified adoption metadata; sealed canon binds by sidecar hash, living SPECs bind normative-body digests in front matter",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 1,
+          "total": 1
         }
       ],
-      "realized": 9,
-      "total": 9
+      "realized": 10,
+      "total": 10
+    },
+    {
+      "domain": "metadata",
+      "items": [
+        {
+          "id": "instrument-registry",
+          "mandate": "every governance instrument carries status, authority, adoption, version and digest",
+          "real": "the overlay registry binds 25 instruments without editing sealed canon; the public projection carries counts and hashes only",
+          "mode": "direct",
+          "verdict": "realized",
+          "passed": 3,
+          "total": 3
+        }
+      ],
+      "realized": 1,
+      "total": 1
     },
     {
       "domain": "ethics",
@@ -548,10 +573,10 @@
     }
   ],
   "counts": {
-    "domains": 16,
-    "gov_dirs": 11,
+    "domains": 17,
+    "gov_dirs": 12,
     "gov_root_files": 5,
-    "mandates": 48,
-    "realized": 48
+    "mandates": 50,
+    "realized": 50
   }
 }

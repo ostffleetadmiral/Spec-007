@@ -2,7 +2,7 @@
   "schema": "academy-pedagogy-v1",
   "scope": "deterministic-content-signals",
   "courses_graded": 14,
-  "lessons_graded": 55583,
+  "lessons_graded": 55587,
   "grades": {
     "STRONG": 0,
     "FAIR": 0,
@@ -96,7 +96,7 @@
     },
     {
       "course": "communications",
-      "lessons": 1504,
+      "lessons": 1503,
       "grade": "THIN",
       "signals": {
         "thin": {
@@ -104,23 +104,23 @@
           "band": "green"
         },
         "capped": {
-          "v": 0.2048,
+          "v": 0.2043,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.1636,
+          "v": 0.1637,
           "band": "green"
         },
         "neardup": {
-          "v": 0.2513,
+          "v": 0.2515,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3989,
+          "v": 0.3992,
           "band": "amber"
         },
         "src_conc": {
-          "v": 0.5984,
+          "v": 0.5988,
           "band": "green"
         },
         "ids": {
@@ -157,7 +157,7 @@
           "band": "red"
         },
         "term_cov": {
-          "v": 0.1667,
+          "v": 0.1713,
           "band": "red"
         },
         "src_conc": {
@@ -260,31 +260,31 @@
     },
     {
       "course": "lore-shelf",
-      "lessons": 86,
+      "lessons": 87,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.0233,
+          "v": 0.023,
           "band": "green"
         },
         "capped": {
-          "v": 0.2791,
+          "v": 0.2874,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.0698,
+          "v": 0.0805,
           "band": "green"
         },
         "neardup": {
-          "v": 0.186,
+          "v": 0.2069,
           "band": "amber"
         },
         "term_cov": {
-          "v": 0.6047,
+          "v": 0.6092,
           "band": "green"
         },
         "src_conc": {
-          "v": 0.8837,
+          "v": 0.8736,
           "band": "red"
         },
         "ids": {
@@ -292,7 +292,7 @@
           "band": "green"
         }
       },
-      "neardup_clusters": 8,
+      "neardup_clusters": 9,
       "neardup_biggest": 2,
       "top_source": [
         "three-ws",
@@ -383,11 +383,11 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10816,
+      "lessons": 10820,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.0704,
+          "v": 0.0703,
           "band": "green"
         },
         "capped": {
@@ -403,11 +403,11 @@
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3364,
+          "v": 0.3365,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.8107,
+          "v": 0.8104,
           "band": "amber"
         },
         "ids": {

@@ -1,9 +1,11 @@
 # SPEC-007 governance gap analysis
 
-**Subject:**
-**Version:** 1.0.0 The OSTF SPEC Governance Rulebook (classified source, held under SPEC-004) compared against the current Spec-007 documentation standard (README authority levels L0–L5, `spec-007-verified.en.md`, calculation harnesses, archive policy).
+**Subject:** The OSTF SPEC Governance Rulebook (classified source, held under SPEC-004) compared against the current Spec-007 documentation standard (README authority levels L0–L5, `spec-007-verified.en.md`, calculation harnesses, archive policy).
+**Version:** 1.1.0
 
 **Verdict up front:** The Rulebook is a strong **procedural** governance document but a weak **epistemic** one. It regulates *who may change a SPEC and how*, but contains no requirement that the claims inside a SPEC be **verified, sourced, or testable**. The Spec-007 standard goes further: claims are *promoted* only when a harness test or institutional source backs them. Neither side fully contains the other; the correct end state is to adopt the Rulebook's lifecycle machinery **and** keep the Spec-007 evidence gates.
+
+**2026-10-15 status note:** the concrete metadata and adoption-authority gap identified in this review is now mechanically closed at the corpus level. Living instruments carry versioned front matter and corrected founding-phase authority language; sealed canonical instruments remain unchanged and are bound through a hash-pinned metadata overlay. `assets/gov-metadata.json` is the sanitized public projection: it reports instrument counts, authority state, review state, and digests — not classified text or officer names.
 
 ## Article-by-article matrix
 
@@ -14,10 +16,10 @@
 | **Art. III — Roles (Editor, Council, Ethics, Admiralty; AI advisory only)** | Red-team analysis and AI-derived design-input content demoted to L5 classified inputs; ethics content excluded unless engineering-relevant | **Aligned in spirit.** "AI systems do not vote on SPEC governance" matches Spec-007's rule that design inputs have zero engineering authority. |
 | **Art. IV — Creation (Proposal document, ethics/security assessment, duplication check)** | SPEC-007 has no proposal; it exists as a user-provided concept then acquired dossier/verification layers | **Gap (Spec-007 side).** A retroactive proposal + SPEC Registry entry is recommended. |
 | **Art. V — Format (header, purpose, definitions, operative provisions, governance, adoption signatures)** | `spec-007-verified.en.md` has status header, evidence tables, promotion rules; original doc intentionally nonconformant and immutable | **Partial.** L1 largely satisfies this; L0 cannot (frozen). Not blocking. |
-| **Art. VI — Versioning (MAJOR.MINOR.PATCH, approval tiers, history section)** | Spec-007 documents carry dates/status but no semver or version history | **Gap (Spec-007 side).** Adopt semver and version-history sections for L1/L3 docs. |
+| **Art. VI — Versioning (MAJOR.MINOR.PATCH, approval tiers, history section)** | Governed SPEC instruments now carry semver/status/adoption metadata; sealed canon is bound by overlay digests without editing originals | **Closed at corpus level.** Public dossier documents retain local version histories; the mechanical gate checks the SPEC corpus itself. |
 | **Art. VII — Review & maintenance (annual + triggered)** | Spec-007 has continuous red-team passes but no scheduled review | **Gap (Spec-007 side).** Add annual review date + triggered-review clause (e.g., new supplier data, regulator change) to L1. |
 | **Art. VIII — Retirement/supersession, archive, "never delete after retirement"** | Rulebook: retired SPECs may not be deleted/altered. Spec-007: originals never edited; false claims never deleted, only annotated in L2 | **Aligned and compatible.** Spec-007's rule is the strict superset (immutability from day one, not just after retirement). |
-| **Art. IX — SPEC Registry (status, version, editor, approval record)** | No registry; README lacks status/version/editor columns | **Gap (Spec-007 side).** Add registry table (see Recommendations). |
+| **Art. IX — SPEC Registry (status, version, editor, approval record)** | `spec-007-registry` records dossier artifacts; the corpus metadata registry verifies all governed instruments, including sealed canon | **Closed for instrument metadata.** Public projection is sanitized and reports hashes/status only; named human signature files remain pending. |
 | **Art. X — Implementation & compliance monitoring, waivers** | Zig harness tests are executable compliance monitoring; no waiver mechanism | **Gap (Rulebook side).** Rulebook compliance is "AIWO Corps monitoring" (undefined input); Spec-007 has reproducible tests. Add waiver rule to Spec-007 only if needed — harness breaks already block promotion. |
 | **Art. XI — Self-amendment (unanimity / 72-hour ratification)** | Spec-007 has no self-amendment rule | **Gap (Spec-007 side).** L1 promotion rules (README §Rules) serve as the informal analogue; formalize. |
 | **Art. XII — Adoption** | N/A (documents are project artifacts) | N/A |
@@ -31,16 +33,17 @@
 
 ## What the Spec-007 standard should adopt from the Rulebook
 
-1. **SPEC Registry entry for SPEC-007** with status fields (draft/active, editor, version) — one table row per document, updated with milestones.
-2. **Semantic versioning + version history** on L1/L3 documents so future numeric changes are auditable.
+1. **SPEC Registry entry for SPEC-007** with status fields (draft/active, editor, version) — implemented here and now paired with corpus-level metadata verification.
+2. **Semantic versioning + version history** on governed instruments — implemented for living SPECs; sealed instruments receive the same metadata through an overlay so the canonical text remains untouched.
 3. **Triggered review clauses**: review L1 when (a) a cited datasheet changes, (b) a supplier quote is obtained, (c) a qualified lab measurement arrives, (d) UN 1402 or relevant regulation text changes.
 4. **Formal proposal record** retroactively documenting SPEC-007's problem statement and security/ethics assessment, referencing the existing hazard register in `spec-007-research-dossier.md`.
 
-## Recommended merger (proposed, not yet applied)
+## Merger status — applied in part, 2026-10-15
 
-- Keep Rulebook **Article VIII** (retirement) and **Article III** (roles, AI advisory-only) verbatim into Spec-007 process.
-- Add to Rulebook, or to an L1-local governance annex, the Spec-007 promotion gates: (1) immutable baseline; (2) claim grading; (3) harness-enforced numbers; (4) archived milestones.
-- Treat the README L0–L5 ladder as the local implementation of Rulebook Article II for this directory.
+- Rulebook **Article VIII** (retirement/immutability) and **Article III** (roles, AI advisory-only) remain governing doctrine.
+- The promotion gates remain the Spec-007 implementation: (1) immutable baseline; (2) claim grading; (3) harness-enforced numbers; (4) archived milestones.
+- Corpus metadata is now executable: sealed originals are hashed byte-for-byte, living documents hash the normative body excluding metadata front matter, adoption authority is explicitly founding-phase, ratification/signature/external-review states are recorded as pending rather than asserted, and `node tools/gov-metadata.mjs --verify` is bound into the publish gate.
+- The README L0–L5 ladder remains the local implementation of Rulebook Article II for this directory.
 
 ## Conclusion
 
@@ -50,3 +53,4 @@
 | Version | Date | Change |
 |---|---|---|
 | 1.0.0 | 2026-10-05 | Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix. |
+| 1.1.0 | 2026-10-15 | Governance hardening update: adoption authority corrected to the founding phase, corpus metadata/digest verification bound into the release gate, sealed instruments preserved through overlay metadata, and internal-vs-external validation boundaries made explicit. |

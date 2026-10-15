@@ -49,6 +49,12 @@
       ]
     },
     {
+      "domain": "metadata",
+      "reflections": [
+        "book-of-keys"
+      ]
+    },
+    {
       "domain": "onboarding",
       "reflections": [
         "cadet-protocol-primer",
@@ -233,7 +239,7 @@
     }
   ],
   "counts": {
-    "gov_domains": 17,
+    "gov_domains": 18,
     "gov_unbound": 0,
     "subsystems": 14,
     "realized": 14

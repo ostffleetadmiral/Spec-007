@@ -2,7 +2,8 @@
   "schema": "VISION-AUDIT-v1",
   "note": "The platform vision as a checklist of live artifacts — realized means every check passes against the tree; partial names its remainder; aspirational is declared doctrine, honestly labeled. External = doc-cited off-repo evidence.",
   "counts": {
-    "realized": 24
+    "realized": 23,
+    "partial": 1
   },
   "elements": [
     {
@@ -77,7 +78,7 @@
     },
     {
       "id": "red-teams",
-      "verdict": "realized",
+      "verdict": "partial",
       "vision": "red/blue/black/gray/kali testing"
     },
     {

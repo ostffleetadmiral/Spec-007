@@ -11,6 +11,13 @@ the other wears a costume. This document draws the line between them so
 that nothing real is lent credibility by the theater, and no theater is
 mistaken for engineering.
 
+**Validation boundary.** “Proven” below means *executed and reproduced in
+this repository*. It does not mean independent external validation. The
+public governance metadata projection (`assets/gov-metadata.json`) says the
+same thing mechanically: adoption is recorded under founding-phase authority,
+human signatures are filed separately, formal Admiralty ratification is
+pending, and outside cryptographic/legal/scientific review remains pending.
+
 ---
 
 ## Tier P — Proven (executed, reproducible)
@@ -26,6 +33,7 @@ mistaken for engineering.
 | WASM artifact integrity | sha256 pinned (`bbdca546…`), verified at sweep | **Real** |
 | Core math is integer-only Q128.128 | Zig harnesses: 92/92 checks; no float in core | **Real** |
 | Security sweep results | 31 probes: 29 HARDENED, 2 NOTED, 0 EXPLOITED | **Real** |
+| Governance adoption metadata | `gov-metadata` recomputes sealed-source and normative-body digests; public projection exposes only counts, statuses, digests, and pending-review fields | **Real — internal verification** |
 
 ## Tier S — Sourced (cited, not reproduced)
 
@@ -85,6 +93,10 @@ mistaken for engineering.
 5. **No bench hardware has been measured.** Every SPEC-007 electrical
    number is arithmetic on claimed components — the dossier marks these
    accordingly.
+6. **Internal verification is not external certification.** The harnesses,
+   ledgers, and metadata checks are deterministic self-verification. They
+   prove drift, arithmetic, and contract behavior inside this tree; they do
+   not substitute for independent security, legal, or laboratory review.
 
 ---
 

@@ -47,6 +47,12 @@ Re-run: <code>node security/suite.mjs</code> (see <a href="verdict.html">Securit
 the other wears a costume. This document draws the line between them so
 that nothing real is lent credibility by the theater, and no theater is
 mistaken for engineering.</p>
+<p><strong>Validation boundary.</strong> “Proven” below means <em>executed and reproduced in
+this repository</em>. It does not mean independent external validation. The
+public governance metadata projection (<code>assets/gov-metadata.json</code>) says the
+same thing mechanically: adoption is recorded under founding-phase authority,
+human signatures are filed separately, formal Admiralty ratification is
+pending, and outside cryptographic/legal/scientific review remains pending.</p>
 <hr>
 <h2>Tier P — Proven (executed, reproducible)</h2>
 <table>
@@ -102,6 +108,11 @@ mistaken for engineering.</p>
 <td>Security sweep results</td>
 <td>31 probes: 29 HARDENED, 2 NOTED, 0 EXPLOITED</td>
 <td><strong>Real</strong></td>
+</tr>
+<tr>
+<td>Governance adoption metadata</td>
+<td><code>gov-metadata</code> recomputes sealed-source and normative-body digests; public projection exposes only counts, statuses, digests, and pending-review fields</td>
+<td><strong>Real — internal verification</strong></td>
 </tr>
 </tbody>
 </table>
@@ -296,6 +307,10 @@ mistaken for engineering.</p>
 <li><strong>No bench hardware has been measured.</strong> Every SPEC-007 electrical
    number is arithmetic on claimed components — the dossier marks these
    accordingly.</li>
+<li><strong>Internal verification is not external certification.</strong> The harnesses,
+   ledgers, and metadata checks are deterministic self-verification. They
+   prove drift, arithmetic, and contract behavior inside this tree; they do
+   not substitute for independent security, legal, or laboratory review.</li>
 </ol>
 <hr>
 <p><em>Prepared under the dossier rule: the file says what it can prove, grades

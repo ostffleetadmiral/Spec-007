@@ -54,6 +54,7 @@ aiwo-service-ledger	node security/aiwo-service.mjs --verify
 agency-map.json	node tools/agency-map.mjs --verify
 directive	node tools/directive.mjs --verify
 gov-ledger.json	node tools/gov-map.mjs --verify
+gov-metadata.json	node tools/gov-metadata.mjs --verify
 academy-manifest.json	node tools/academy-harvest.mjs --verify
 curriculum-map.json	node tools/curriculum-map.mjs --verify
 academy-review.json	node tools/academy-review.mjs --verify

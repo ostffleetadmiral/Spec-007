@@ -38,9 +38,10 @@
 <div class="lang-twin"><a href="governance-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
 <main>
 <h1>SPEC-007 governance gap analysis</h1>
-<p><strong>Subject:</strong>
-<strong>Version:</strong> 1.0.0 The OSTF SPEC Governance Rulebook (classified source, held under SPEC-004) compared against the current Spec-007 documentation standard (README authority levels L0–L5, <code>spec-007-verified.en.md</code>, calculation harnesses, archive policy).</p>
+<p><strong>Subject:</strong> The OSTF SPEC Governance Rulebook (classified source, held under SPEC-004) compared against the current Spec-007 documentation standard (README authority levels L0–L5, <code>spec-007-verified.en.md</code>, calculation harnesses, archive policy).
+<strong>Version:</strong> 1.1.0</p>
 <p><strong>Verdict up front:</strong> The Rulebook is a strong <strong>procedural</strong> governance document but a weak <strong>epistemic</strong> one. It regulates <em>who may change a SPEC and how</em>, but contains no requirement that the claims inside a SPEC be <strong>verified, sourced, or testable</strong>. The Spec-007 standard goes further: claims are <em>promoted</em> only when a harness test or institutional source backs them. Neither side fully contains the other; the correct end state is to adopt the Rulebook's lifecycle machinery <strong>and</strong> keep the Spec-007 evidence gates.</p>
+<p><strong>2026-10-15 status note:</strong> the concrete metadata and adoption-authority gap identified in this review is now mechanically closed at the corpus level. Living instruments carry versioned front matter and corrected founding-phase authority language; sealed canonical instruments remain unchanged and are bound through a hash-pinned metadata overlay. <code>assets/gov-metadata.json</code> is the sanitized public projection: it reports instrument counts, authority state, review state, and digests — not classified text or officer names.</p>
 <h2>Article-by-article matrix</h2>
 <table>
 <thead>
@@ -78,8 +79,8 @@
 </tr>
 <tr>
 <td><strong>Art. VI — Versioning (MAJOR.MINOR.PATCH, approval tiers, history section)</strong></td>
-<td>Spec-007 documents carry dates/status but no semver or version history</td>
-<td><strong>Gap (Spec-007 side).</strong> Adopt semver and version-history sections for L1/L3 docs.</td>
+<td>Governed SPEC instruments now carry semver/status/adoption metadata; sealed canon is bound by overlay digests without editing originals</td>
+<td><strong>Closed at corpus level.</strong> Public dossier documents retain local version histories; the mechanical gate checks the SPEC corpus itself.</td>
 </tr>
 <tr>
 <td><strong>Art. VII — Review &amp; maintenance (annual + triggered)</strong></td>
@@ -93,8 +94,8 @@
 </tr>
 <tr>
 <td><strong>Art. IX — SPEC Registry (status, version, editor, approval record)</strong></td>
-<td>No registry; README lacks status/version/editor columns</td>
-<td><strong>Gap (Spec-007 side).</strong> Add registry table (see Recommendations).</td>
+<td><code>spec-007-registry</code> records dossier artifacts; the corpus metadata registry verifies all governed instruments, including sealed canon</td>
+<td><strong>Closed for instrument metadata.</strong> Public projection is sanitized and reports hashes/status only; named human signature files remain pending.</td>
 </tr>
 <tr>
 <td><strong>Art. X — Implementation &amp; compliance monitoring, waivers</strong></td>
@@ -122,16 +123,17 @@
 </ol>
 <h2>What the Spec-007 standard should adopt from the Rulebook</h2>
 <ol>
-<li><strong>SPEC Registry entry for SPEC-007</strong> with status fields (draft/active, editor, version) — one table row per document, updated with milestones.</li>
-<li><strong>Semantic versioning + version history</strong> on L1/L3 documents so future numeric changes are auditable.</li>
+<li><strong>SPEC Registry entry for SPEC-007</strong> with status fields (draft/active, editor, version) — implemented here and now paired with corpus-level metadata verification.</li>
+<li><strong>Semantic versioning + version history</strong> on governed instruments — implemented for living SPECs; sealed instruments receive the same metadata through an overlay so the canonical text remains untouched.</li>
 <li><strong>Triggered review clauses</strong>: review L1 when (a) a cited datasheet changes, (b) a supplier quote is obtained, (c) a qualified lab measurement arrives, (d) UN 1402 or relevant regulation text changes.</li>
 <li><strong>Formal proposal record</strong> retroactively documenting SPEC-007's problem statement and security/ethics assessment, referencing the existing hazard register in <code>spec-007-research-dossier.md</code>.</li>
 </ol>
-<h2>Recommended merger (proposed, not yet applied)</h2>
+<h2>Merger status — applied in part, 2026-10-15</h2>
 <ul>
-<li>Keep Rulebook <strong>Article VIII</strong> (retirement) and <strong>Article III</strong> (roles, AI advisory-only) verbatim into Spec-007 process.</li>
-<li>Add to Rulebook, or to an L1-local governance annex, the Spec-007 promotion gates: (1) immutable baseline; (2) claim grading; (3) harness-enforced numbers; (4) archived milestones.</li>
-<li>Treat the README L0–L5 ladder as the local implementation of Rulebook Article II for this directory.</li>
+<li>Rulebook <strong>Article VIII</strong> (retirement/immutability) and <strong>Article III</strong> (roles, AI advisory-only) remain governing doctrine.</li>
+<li>The promotion gates remain the Spec-007 implementation: (1) immutable baseline; (2) claim grading; (3) harness-enforced numbers; (4) archived milestones.</li>
+<li>Corpus metadata is now executable: sealed originals are hashed byte-for-byte, living documents hash the normative body excluding metadata front matter, adoption authority is explicitly founding-phase, ratification/signature/external-review states are recorded as pending rather than asserted, and <code>node tools/gov-metadata.mjs --verify</code> is bound into the publish gate.</li>
+<li>The README L0–L5 ladder remains the local implementation of Rulebook Article II for this directory.</li>
 </ul>
 <h2>Conclusion</h2>
 <p><strong>Closeness estimate:</strong> the Rulebook covers roughly the <em>procedural</em> 60–70% of what Spec-007's documentation standard does, and Spec-007's evidence/verification machinery covers the part the Rulebook simply lacks. Combined, they form a complete governance system; separately, Rulebook governs <em>process without truth</em>, and the current folder enforces <em>truth without process</em>. The archive <code>archives/spec-007-governance-gap-analysis-20261004/</code> records this comparison.</p>
@@ -149,6 +151,11 @@
 <td>1.0.0</td>
 <td>2026-10-05</td>
 <td>Retroactive initial version per OSTF Rulebook Art. VI; content unchanged since dossier acceptance. Bump rules: MAJOR = promoted-claim/number change, MINOR = added analysis, PATCH = editorial/translation fix.</td>
+</tr>
+<tr>
+<td>1.1.0</td>
+<td>2026-10-15</td>
+<td>Governance hardening update: adoption authority corrected to the founding phase, corpus metadata/digest verification bound into the release gate, sealed instruments preserved through overlay metadata, and internal-vs-external validation boundaries made explicit.</td>
 </tr>
 </tbody>
 </table>

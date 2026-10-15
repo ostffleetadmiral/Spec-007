@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "communications",
-  "lesson_count": 1504,
+  "lesson_count": 1503,
   "lessons": [
     {
       "access": "public",
@@ -18421,21 +18421,6 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/docs/reverse-engineering/qr-backup.md",
       "title": "Chunk wire format (inside each QR, ASCII-safe)",
-      "topic": "communications"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d3666fdd20e713fb",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Keep Rulebook Article VIII (retirement) and Article III (roles, AI advisory-only) verbatim into Spec-007 process. - Add to Rulebook, or to an L1-local governance annex, the Spec-007 promotion gates: (1) immutable baseline; (2) claim grading; (3) harness-enforced numbers; (4) archived milestones. - Treat the README L0–L5 ladder as the local implementation of Rulebook Article II for this directory",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-governance-gap-analysis.en.md",
-      "title": "Recommended merger (proposed, not yet applied)",
       "topic": "communications"
     },
     {

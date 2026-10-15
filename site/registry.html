@@ -139,10 +139,10 @@
 <td><code>spec-007-registry</code> (this file)</td>
 <td>L2</td>
 <td>Active — Rulebook Art. IX artifact</td>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td>SPEC Council designee</td>
 <td>Self-registering entry</td>
-<td>2026-10-05</td>
+<td>2026-10-15</td>
 <td>With L1</td>
 </tr>
 <tr>
@@ -179,10 +179,10 @@
 <td><code>spec-007-governance-gap-analysis</code></td>
 <td>L3</td>
 <td>Active — derived analysis</td>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td>SPEC Council designee</td>
 <td>Numbers must match L1</td>
-<td>2026-10-05</td>
+<td>2026-10-15</td>
 <td>With L1</td>
 </tr>
 <tr>
@@ -246,6 +246,16 @@
 <td>Continuous</td>
 </tr>
 <tr>
+<td><code>assets/gov-metadata.json</code></td>
+<td>L4</td>
+<td>Active — sanitized governance metadata projection</td>
+<td>generated</td>
+<td>SPEC Council designee</td>
+<td><code>gov-metadata --verify</code> bound into publish-check</td>
+<td>2026-10-15</td>
+<td>Continuous</td>
+</tr>
+<tr>
 <td><code>thoughts&amp;convos/</code> drawer</td>
 <td>L5</td>
 <td>Classified — referenced, not itemized</td>
@@ -263,6 +273,7 @@
 <li>A document's <code>Status</code> moves <code>draft → active → superseded → retired</code>; retirement requires a superseding row citing the replacement.</li>
 <li>AI systems hold <strong>zero engineering authority</strong> (Rulebook Art. III): they may register, never approve. Approval records name a human role, not an agent.</li>
 <li>The <code>thoughts&amp;convos/</code> drawer registry lives at <code>thoughts&amp;convos/SPEC-004-REGISTRY.md</code> under its own append-only rules — it is classified and not duplicated here.</li>
+<li>The governed corpus projection is deliberately sanitized: <code>assets/gov-metadata.json</code> exposes instrument IDs, versions, statuses, authority/review state, and SHA-256 digests only. It does not publish classified text, drawer paths, signatures, or officer names.</li>
 </ul>
 </main>
 <footer>

@@ -139,10 +139,10 @@
 <td><code>spec-007-registry</code>（本檔）</td>
 <td>L2</td>
 <td>現行 — 規則手冊第九條成品</td>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td>SPEC 理事會指定人</td>
 <td>自我登錄條目</td>
-<td>2026-10-05</td>
+<td>2026-10-15</td>
 <td>隨 L1</td>
 </tr>
 <tr>
@@ -179,10 +179,10 @@
 <td><code>spec-007-governance-gap-analysis</code></td>
 <td>L3</td>
 <td>現行 — 衍生分析</td>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td>SPEC 理事會指定人</td>
 <td>數字必須與 L1 一致</td>
-<td>2026-10-05</td>
+<td>2026-10-15</td>
 <td>隨 L1</td>
 </tr>
 <tr>
@@ -246,6 +246,16 @@
 <td>持續</td>
 </tr>
 <tr>
+<td><code>assets/gov-metadata.json</code></td>
+<td>L4</td>
+<td>現行 — 去識別治理中繼資料投影</td>
+<td>generated</td>
+<td>SPEC 理事會指定人</td>
+<td><code>gov-metadata --verify</code> 已接入 publish-check</td>
+<td>2026-10-15</td>
+<td>持續</td>
+</tr>
+<tr>
 <td><code>thoughts&amp;convos/</code> 抽屜</td>
 <td>L5</td>
 <td>機密 — 引用而不列明</td>
@@ -263,6 +273,7 @@
 <li>文件 <code>狀態</code> 依 <code>draft → active → superseded → retired</code> 推移；退役須有引用替代文件之承繼列。</li>
 <li>AI 系統持有<strong>零工程權限</strong>（規則手冊第三條）：可登錄，不得核准。核准紀錄記載人類角色，不記代理人。</li>
 <li><code>thoughts&amp;convos/</code> 抽屜登錄表位於 <code>thoughts&amp;convos/SPEC-004-REGISTRY.md</code>，依其自身僅可附加規則運作 — 屬機密，此處不予複製。</li>
+<li>受治理語料之公開投影刻意去識別：<code>assets/gov-metadata.json</code> 僅揭露文件 ID、版本、狀態、權限／審查狀態與 SHA-256 摘要；不發布機密本文、抽屜路徑、簽署檔或官員姓名。</li>
 </ul>
 </main>
 <footer>

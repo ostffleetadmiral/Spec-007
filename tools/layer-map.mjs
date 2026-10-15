@@ -57,7 +57,7 @@ const RULES = [
   [/^gov\/human_academic\//, "substrate:academy"],
   [/^gov\/onboarding\//, "substrate:academy"],
   [/^gov\/subsidiaries\//, "substrate:commercial"],
-  [/^gov\/(constitutional|specs|admiralty|legal_financial|security|ethics|strategy|research_ip)\//, "substrate:governance"],
+  [/^gov\/(constitutional|specs|admiralty|legal_financial|security|ethics|strategy|research_ip|metadata)\//, "substrate:governance"],
   [/^gov\/[^/]+$/, "substrate:governance"], /* root instruments: OSTF.pdf EIN, narrative, Sigma, registries */
   /* Layer 3 — the fleet mythos and its research shelves */
   [/^AdmPaul\/Neo-Hinduism\//, "substrate:governance"],

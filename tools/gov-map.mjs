@@ -2,7 +2,7 @@
 /* gov-map.mjs — the governance vision, made executable.
 
    thoughts&convos/gov/ is the development authority: the OSTF
-   Constitution, the SPEC series (000–006 + Rulebook), the Admiralty
+   Constitution, the SPEC series (000–014 + Rulebook), the Admiralty
    bylaws, and the policy domains. This map binds every mandate of
    that corpus to a realized counterpart with a mechanical check —
    "the constitution governs a real platform" — verified, not asserted.
@@ -223,6 +223,22 @@ const MANDATES = [
           C.govdoc("specs/SPEC-009.md"), C.govdoc("specs/SPEC-010.md"), C.govdoc("specs/SPEC-011.md"),
           C.govdoc("specs/SPEC-012.md"), C.govdoc("specs/SPEC-013.md"), C.govdoc("specs/SPEC-014.md"),
           C.file("spec-007.md"),
+        ] },
+      { id: "spec-metadata", mandate: "Rulebook Arts V/VI/IX — status, version history, registry, approval record",
+        real: "25 governance instruments carry machine-verified adoption metadata; sealed canon binds by sidecar hash, living SPECs bind normative-body digests in front matter",
+        mode: "direct",
+        checks: [C.run("tools/gov-metadata.mjs")] },
+    ]},
+
+  { domain: "metadata", source: "metadata/GOVERNANCE-REGISTRY.json",
+    items: [
+      { id: "instrument-registry", mandate: "every governance instrument carries status, authority, adoption, version and digest",
+        real: "the overlay registry binds 25 instruments without editing sealed canon; the public projection carries counts and hashes only",
+        mode: "direct",
+        checks: [
+          C.govdoc("metadata/GOVERNANCE-REGISTRY.json"),
+          C.run("tools/gov-metadata.mjs"),
+          C.field("gov-metadata.json", "instrument_count", ["eq", 25]),
         ] },
     ]},
 

@@ -62,6 +62,7 @@ const GOV_SCIFI = {
   "research_ip":    ["cadiz-nexus-infrastructure", "scroll-of-simulations",
                      "phase6-hot-schrodinger-cat"],
   "legal_financial":["book-of-keys"],
+  "metadata":        ["book-of-keys"],
   "human_academic": ["codex-glossary-of-terms", "codex-scroll", "codexrpg"],
   "strategy":       ["merge-timeline-codex", "dreamstream-cartography"],
   "subsidiaries":   ["children-of-stardust-doctrine", "scorpion-core-charter"],

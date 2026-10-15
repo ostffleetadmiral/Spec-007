@@ -67,6 +67,7 @@ const _pfJobs = new Map();
     ["golden_emit:2",    "zig",            ["run", path.join(_Z, "golden_emit.zig")], { timeout: 120000 }],
     ["golden-master",    process.execPath, [path.join(_T, "golden-master.mjs"), "--verify"], { timeout: 120000 }],
     ["gov-map",          process.execPath, [path.join(_T, "gov-map.mjs"), "--verify"], { timeout: 120000 }],
+    ["gov-metadata",     process.execPath, [path.join(_T, "gov-metadata.mjs"), "--verify"], { timeout: 120000 }],
     ["override-audit",   process.execPath, [path.join(_T, "override-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["dox-audit",        process.execPath, [path.join(_T, "dox-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["emergent-sweep",   process.execPath, [path.join(_T, "emergent-sweep.mjs"), "--verify"], { timeout: 120000 }],
@@ -3853,7 +3854,7 @@ console.log("\nAGT — the agent organs (digit + sheraton, dreamed→built)");
 console.log("\nGOVM — the governance corpus, executable");
 /* ================= GOVM — constitutional mandates realized ==========
    tools/gov-map.mjs binds every mandate of thoughts&convos/gov/ —
-   the OSTF constitution, SPEC-000..006 + Rulebook, Admiralty bylaws,
+   the OSTF constitution, SPEC-000..014 + Rulebook, Admiralty bylaws,
    and every live domain — to a realized counterpart with mechanical
    checks. direct = the mandate itself in machinery; structural = the
    governance pattern in machinery. Coverage-enforced. */
@@ -3870,9 +3871,10 @@ console.log("\nGOVM — the governance corpus, executable");
       ? held("GOVM", "constitutional-core", "constitution realized — 5 council seats = the officers, 4 fleets = the divisions, adopted-doc corpus bound, vote machinery tested")
       : open_("GOVM", "constitutional-core", "a constitutional mandate unresolved");
     ["spec-000-equity", "spec-001-ethical-ai", "spec-002-interop", "spec-003-addressing",
-     "spec-004-clearance", "spec-005-ethics-gate", "spec-006-substrate", "rulebook-lifecycle"]
+     "spec-004-clearance", "spec-005-ethics-gate", "spec-006-substrate", "rulebook-lifecycle",
+     "spec-registry", "spec-metadata"]
       .every(i => get("specs", i))
-      ? held("GOVM", "spec-series", "SPEC-000..006 + Rulebook lifecycle all bound to live machinery")
+      ? held("GOVM", "spec-series", "SPEC-000..014 + Rulebook lifecycle and adoption metadata all bound to live machinery")
       : open_("GOVM", "spec-series", "a SPEC mandate unresolved");
     led.domains.every(d => d.realized === d.total) && led.counts.gov_dirs >= 10
       ? held("GOVM", "full-coverage", `all ${led.counts.domains} gov domains bound — every mandate realized, zero unbound`)

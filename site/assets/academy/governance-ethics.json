@@ -2922,7 +2922,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "1. SPEC Registry entry for SPEC-007 with status fields (draft/active, editor, version) — one table row per document, updated with milestones. 2. Semantic versioning + version history on L1/L3 documents so future numeric changes are auditable. 3. Triggered review clauses: review L1 when (a) a cited datasheet changes, (b) a supplier quote is obtained, (c) a qualified lab measurement arrives, (d) UN ",
+      "outcome": "1. SPEC Registry entry for SPEC-007 with status fields (draft/active, editor, version) — implemented here and now paired with corpus-level metadata verification. 2. Semantic versioning + version history on governed instruments — implemented for living SPECs; sealed instruments receive the same metadata through an overlay so the canonical text remains untouched. 3. Triggered review clauses: review ",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-governance-gap-analysis.en.md",
       "title": "What the Spec-007 standard should adopt from the Rulebook",

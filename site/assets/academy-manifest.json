@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56131,
+  "lesson_count": 56135,
   "lessons": [
     {
       "access": "public",
@@ -7680,7 +7680,7 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55583
+      "harvested": 55587
     },
     "topics": {
       "orientation": 5333,
@@ -7689,26 +7689,26 @@
       "systems": 2731,
       "ai-literacy": 6951,
       "security": 748,
-      "communications": 1508,
+      "communications": 1507,
       "campaign": 861,
-      "reference": 10816,
+      "reference": 10820,
       "uiux": 24317,
       "science": 1502,
       "hardware": 598,
       "ministry": 69,
-      "lore": 86
+      "lore": 87
     },
     "languages": {
-      "en": 55679,
-      "zh-Hant": 982
+      "en": 55681,
+      "zh-Hant": 984
     },
     "access": {
-      "public": 56131
+      "public": 56135
     },
     "provenance": {
       "curated": 548,
       "upstream": 50865,
-      "first_party": 4718
+      "first_party": 4722
     }
   },
   "harvest_sources": [
@@ -7734,7 +7734,7 @@
       "mode": "local",
       "pin": null,
       "docs": 55,
-      "lessons": 583
+      "lessons": 587
     },
     {
       "root": "nullclaw",
@@ -8529,7 +8529,7 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55583,
+  "harvested_count": 55587,
   "courses": [
     {
       "id": "ai-literacy",
@@ -8549,7 +8549,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 1504,
+      "lesson_count": 1503,
       "file": "assets/academy/communications.json",
       "topics": [
         "communications"
@@ -8581,7 +8581,7 @@
     },
     {
       "id": "lore-shelf",
-      "lesson_count": 86,
+      "lesson_count": 87,
       "file": "assets/academy/lore-shelf.json",
       "topics": [
         "lore"
@@ -8605,7 +8605,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10816,
+      "lesson_count": 10820,
       "file": "assets/academy/reference-stack.json",
       "topics": [
         "reference"

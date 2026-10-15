@@ -16,17 +16,18 @@
 | `spec-007-claim-verification` | L2 | 現行 — 主張分級與駁回 | 1.0.0 | SPEC 理事會指定人 | 接受為證據層 | 2026-10-05 | 隨 L1 |
 | `spec-007-design-input-audit` | L2 | 現行 — 來源稽核 | 1.0.0 | SPEC 理事會指定人 | 接受為證據層 | 2026-10-05 | 隨 L1 |
 | `spec-007-proposal-record` | L2 | 現行 — 追溯性第四條紀錄 | 1.0.0 | SPEC 理事會指定人 | 接受（本登錄週期） | 2026-10-05 | 隨 L1 |
-| `spec-007-registry`（本檔） | L2 | 現行 — 規則手冊第九條成品 | 1.0.0 | SPEC 理事會指定人 | 自我登錄條目 | 2026-10-05 | 隨 L1 |
+| `spec-007-registry`（本檔） | L2 | 現行 — 規則手冊第九條成品 | 1.1.0 | SPEC 理事會指定人 | 自我登錄條目 | 2026-10-15 | 隨 L1 |
 | `spec-007-economic-assessment` | L3 | 現行 — 衍生分析 | 1.0.0 | SPEC 理事會指定人 | 數字必須與 L1 一致 | 2026-10-05 | 隨 L1 |
 | `spec-007-engineering-revision` | L3 | 現行 — 衍生分析 | 1.0.0 | SPEC 理事會指定人 | 數字必須與 L1 一致 | 2026-10-05 | 隨 L1 |
 | `spec-007-expanded-engineering-spec` | L3 | 現行 — 衍生分析 | 1.0.0 | SPEC 理事會指定人 | 數字必須與 L1 一致 | 2026-10-05 | 隨 L1 |
-| `spec-007-governance-gap-analysis` | L3 | 現行 — 衍生分析 | 1.0.0 | SPEC 理事會指定人 | 數字必須與 L1 一致 | 2026-10-05 | 隨 L1 |
+| `spec-007-governance-gap-analysis` | L3 | 現行 — 衍生分析 | 1.1.0 | SPEC 理事會指定人 | 數字必須與 L1 一致 | 2026-10-15 | 隨 L1 |
 | `spec-007-component-map` | L2 | 現行 — 逆向工程基線 | 1.0.0 | SPEC 理事會指定人 | 列必須與 publish-check 覆蓋一致 | 2026-10-06 | 隨 L4 測試框架 |
 | `spec-007-discoveries` | L2 | 現行 — 典範對映(去識別投影) | 1.0.0 | SPEC 理事會指定人 | 證據級別必須與 D 系列檔案卡相符 | 2026-10-08 | 隨 L1 |
 | `spec-007-bridge-map` | L2 | 現行 — 雙向證據橋接(去識別投影) | 1.0.0 | SPEC 理事會指定人 | 錨點必須在 BRG 探針下解析 | 2026-10-08 | 隨 L1 |
 | `spec-007-science-coverage` | L2 | 現行 — 外部科學對映:24 項釘定 DOI + 反證帳(去識別投影) | 1.0.0 | SPEC 理事會指定人 | 每項文獻 DOI 須於 SCI-01 下釘定 | 2026-10-08 | 隨 L1 |
 | `spec-007-public` | L3 | 現行 — 公開門面 | 1.0.0 | SPEC 理事會指定人 | L1/L2 之消毒投影 | 2026-10-05 | 隨 L1 |
 | `src/spec007_*.zig` 台架 | L4 | 現行 — 可執行閘門 | n/a（由測試鎖定） | SPEC 理事會指定人 | 依 publish-check 全數通過 | 2026-10-05 | 持續 |
+| `assets/gov-metadata.json` | L4 | 現行 — 去識別治理中繼資料投影 | generated | SPEC 理事會指定人 | `gov-metadata --verify` 已接入 publish-check | 2026-10-15 | 持續 |
 | `thoughts&convos/` 抽屜 | L5 | 機密 — 引用而不列明 | n/a | 艦隊司令（擁有者） | 依 SPEC-004「7q」登錄表（另冊） | 2026-10-05 | 依 SPEC-004 |
 
 ## 登錄規則
@@ -35,3 +36,4 @@
 - 文件 `狀態` 依 `draft → active → superseded → retired` 推移；退役須有引用替代文件之承繼列。
 - AI 系統持有**零工程權限**（規則手冊第三條）：可登錄，不得核准。核准紀錄記載人類角色，不記代理人。
 - `thoughts&convos/` 抽屜登錄表位於 `thoughts&convos/SPEC-004-REGISTRY.md`，依其自身僅可附加規則運作 — 屬機密，此處不予複製。
+- 受治理語料之公開投影刻意去識別：`assets/gov-metadata.json` 僅揭露文件 ID、版本、狀態、權限／審查狀態與 SHA-256 摘要；不發布機密本文、抽屜路徑、簽署檔或官員姓名。

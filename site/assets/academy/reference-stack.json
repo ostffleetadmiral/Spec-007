@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "reference-stack",
-  "lesson_count": 10816,
+  "lesson_count": 10820,
   "lessons": [
     {
       "access": "public",
@@ -14257,6 +14257,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-16ef88f7d2dfaaaf",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "- 規則書第八條（退役／不可變）與第三條（角色、AI 僅顧問）仍為治理準則。 - Spec-007 晉升閘門維持不變：(1) 不可變基線；(2) 主張評級；(3) 台架強制數字；(4) 里程碑存檔。 - 語料中繼資料現為可執行：封存原件逐位元組雜湊，現行文件對排除中繼資料前置區之規範本文計算摘要，採用權限明確記為創始階段，批准／簽署／外部審查狀態均記為待辦而非斷言，且 node tools/gov-metadata.mjs --verify 已接入發布閘門。 - README 的 L0–L5 階梯仍為本目錄對規則書第二條的本地實作。",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/spec-007-governance-gap-analysis.zh-Hant.md",
+      "title": "合併狀態——部分施行，2026-10-15",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-16f961248a486edf",
       "language": [
         "en"
@@ -18642,7 +18657,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Subject: Version: 1.0.0 The OSTF SPEC Governance Rulebook (classified source, held under SPEC-004) compared against the current Spec-007 documentation standard (README authority levels L0–L5, spec-007-verified.en.md, calculation harnesses, archive policy).",
+      "outcome": "Subject: The OSTF SPEC Governance Rulebook (classified source, held under SPEC-004) compared against the current Spec-007 documentation standard (README authority levels L0–L5, spec-007-verified.en.md, calculation harnesses, archive policy). Version: 1.1.0",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-governance-gap-analysis.en.md",
       "title": "SPEC-007 governance gap analysis",
@@ -66532,21 +66547,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6965c8eda2786f3d",
-      "language": [
-        "zh-Hant"
-      ],
-      "origin": "harvested",
-      "outcome": "- 將規則書第八條（退役）與第三條（角色、AI 僅顧問）原樣引入 Spec-007 流程。 - 向規則書（或 L1 本地治理附錄）加入 Spec-007 晉升閘門：(1) 不可變基線；(2) 主張評級；(3) 台架強制數字；(4) 里程碑存檔。 - 將 README 的 L0–L5 階梯視為本目錄對規則書第二條的本地實作。",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/zh-Hant/spec-007-governance-gap-analysis.zh-Hant.md",
-      "title": "建議合併方案（提案中，未施行）",
-      "topic": "reference"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-696708c1db918710",
       "language": [
         "en"
@@ -94767,7 +94767,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "1. 為 SPEC-007 建立 SPEC 登記冊條目，附狀態欄（草案／現行、編輯、版本）——每份文件一列，隨里程碑更新。 2. L1/L3 文件採用語意化版本＋版本歷史，使未來數值變更可審計。 3. 觸發審查條款：當 (a) 引用數據表變更、(b) 取得供應商報價、(c) 合格實驗室量測到來、(d) UN 1402 或相關法規文本變更時，審查 L1。 4. 正式提案記錄：追溯記錄 SPEC-007 的問題陳述與安全／倫理評估，引用 spec-007-research-dossier.md 既有的危害登記冊。",
+      "outcome": "1. 為 SPEC-007 建立 SPEC 登記冊條目，附狀態欄（草案／現行、編輯、版本）——本處已實作，並與語料層級中繼資料驗證配對。 2. 受治理文件採用語意化版本＋版本歷史——現行 SPEC 已實作；封存文件以覆疊取得相同中繼資料，使正典本文保持不變。 3. 觸發審查條款：當 (a) 引用數據表變更、(b) 取得供應商報價、(c) 合格實驗室量測到來、(d) UN 1402 或相關法規文本變更時，審查 L1。 4. 正式提案記錄：追溯記錄 SPEC-007 的問題陳述與安全／倫理評估，引用 spec-007-research-dossier.md 既有的危害登記冊。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-governance-gap-analysis.zh-Hant.md",
       "title": "Spec-007 標準應自規則書採納的部分",
@@ -103192,6 +103192,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-a2f482680924b8d3",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "| 版本 | 日期 | 變更 | |---|---|---| | 1.0.0 | 2026-10-05 | 依 OSTF 規則手冊第六條追溯登錄初始版本；內容自檔案接受以來未變。升版規則：主版＝晉升主張／數字變更，次版＝新增分析，修訂＝編輯／翻譯修正。 | | 1.1.0 | 2026-10-15 | 治理強化更新：採用權限修正為創始階段，語料中繼資料／摘要驗證接入發布閘門，封存文件以覆疊中繼資料保存，內部與外部驗證邊界已明示。 |",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/spec-007-governance-gap-analysis.zh-Hant.md",
+      "title": "版本歷史",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-a2f9a703efa3281d",
       "language": [
         "zh-Hant"
@@ -107397,7 +107412,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "版本： 1.0.0主題： OSTF SPEC 治理規則書（機密來源，SPEC-004 保管）對照現行 Spec-007 文件標準（README 權限等級 L0–L5、spec-007-verified.en.md、計算台架、存檔政策）。",
+      "outcome": "主題： OSTF SPEC 治理規則書（機密來源，SPEC-004 保管）對照現行 Spec-007 文件標準（README 權限等級 L0–L5、spec-007-verified.en.md、計算台架、存檔政策）。 版本： 1.1.0",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-governance-gap-analysis.zh-Hant.md",
       "title": "SPEC-007 治理缺口分析",
@@ -117052,6 +117067,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-b94e0b6d376c0848",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Rulebook Article VIII (retirement/immutability) and Article III (roles, AI advisory-only) remain governing doctrine. - The promotion gates remain the Spec-007 implementation: (1) immutable baseline; (2) claim grading; (3) harness-enforced numbers; (4) archived milestones. - Corpus metadata is now executable: sealed originals are hashed byte-for-byte, living documents hash the normative body excl",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/spec-007-governance-gap-analysis.en.md",
+      "title": "Merger status — applied in part, 2026-10-15",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-b9570b2029a76d50",
       "language": [
         "en"
@@ -126241,6 +126271,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Why it exists",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c75e19127d6495fe",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Entries are updated with each milestone, not retroactively reconstructed. - A document's Status moves draft → active → superseded → retired; retirement requires a superseding row citing the replacement. - AI systems hold zero engineering authority (Rulebook Art. III): they may register, never approve. Approval records name a human role, not an agent. - The [drawer] drawer registry lives ",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/spec-007-registry.en.md",
+      "title": "Registry rules",
       "topic": "reference"
     },
     {
@@ -150481,6 +150526,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Layout notes",
+      "topic": "reference"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ed1bb466634eff04",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "- 條目隨里程碑更新，不追溯重建。 - 文件 狀態 依 draft → active → superseded → retired 推移；退役須有引用替代文件之承繼列。 - AI 系統持有零工程權限（規則手冊第三條）：可登錄，不得核准。核准紀錄記載人類角色，不記代理人。 - [drawer] 抽屜登錄表位於 [drawer] — 屬機密，此處不予複製。 - 受治理語料之公開投影刻意去識別：assets/gov-metadata.json 僅揭露文件 ID、版本、狀態、權限／審查狀態與 SHA-256 摘要；不發布機密本文、抽屜路徑、簽署檔或官員姓名。",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/spec-007-registry.zh-Hant.md",
+      "title": "登錄規則",
       "topic": "reference"
     },
     {

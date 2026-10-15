@@ -6,17 +6,17 @@
       "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 42,
+      "tools": 43,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
-      "site/assets": 43
+      "site/assets": 44
     },
-    "total_components": 280,
-    "source_components": 242,
-    "generated_components": 38,
-    "mapped_basename": 268,
-    "mapped_contract": 280,
+    "total_components": 282,
+    "source_components": 243,
+    "generated_components": 39,
+    "mapped_basename": 271,
+    "mapped_contract": 282,
     "manifest_bound": 33,
     "owner_bound": 26,
     "unmapped_basename": [
@@ -30,8 +30,7 @@
       "site/assets/academy/science-lattice.json",
       "site/assets/academy/security-clearance.json",
       "site/assets/academy/systems-engineering.json",
-      "site/assets/academy/uiux-craft.json",
-      "site/assets/spec-registry.json"
+      "site/assets/academy/uiux-craft.json"
     ],
     "unmapped_contract": [],
     "native_zig": 124
@@ -5097,6 +5096,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/gov-metadata.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/layer-census.json",
       "contract": {
         "mapped": true,
@@ -5307,7 +5334,7 @@
         "registered": true
       },
       "documentation": {
-        "basename_mapped": false,
+        "basename_mapped": true,
         "component_map_mapped": false,
         "manifest_bound": true,
         "owner": "tools/engine-manifest.mjs"
@@ -7654,6 +7681,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/gov-metadata.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
         "manifest_bound": false,
         "owner": null
       },
