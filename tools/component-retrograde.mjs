@@ -181,6 +181,10 @@ const FULL_RETROGRADE = new Map([
     decision: "canonical-package-wire-boundaries",
     archive: "digit-model-package-boundaries-20261014",
   }],
+  ["deps/digit/src/model_session.zig", {
+    decision: "transactional-session-state-boundaries",
+    archive: "digit-model-session-boundaries-20261014",
+  }],
   ["tools/layer-map.mjs", {
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",

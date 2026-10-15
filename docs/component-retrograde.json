@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 51
+    "completed_full_retrograde": 52
   },
   "components": [
     {
@@ -655,9 +655,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "f54fef855b1286a96e6510be1eea6c43c6304550de7e9dec0fc2a3e2feabc5a0",
-        "bytes": 122598,
-        "lines": 2663,
+        "sha256": "bf8e013fa7ab38ae9c727c51969f13ec19786255dfa0369d4b4fa6fa67e28743",
+        "bytes": 126006,
+        "lines": 2731,
         "imports": [
           "builtin",
           "causal_conv",
@@ -676,7 +676,7 @@
           "tools/component-performance.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 54
+        "public_surface": 57
       },
       "contract": {
         "mapped": true,
@@ -801,9 +801,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "f1f3b0058cc54dc0df1a44a1786cd57029b963288de26f2e5197d03b45048d67",
-        "bytes": 29377,
-        "lines": 667,
+        "sha256": "26b5fe00c4783e4afaf9d821dd08f50055b0a004c100f1830d08d51c880cd1aa",
+        "bytes": 44739,
+        "lines": 986,
         "imports": [
           "brain_contracts",
           "fixed_point",
@@ -817,7 +817,8 @@
         "referenced_by": [
           "deps/digit/src/brain_contracts.zig",
           "src/aiwo_digit_model_probe.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 33
@@ -832,7 +833,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 5,
+        "test_blocks": 9,
         "registered": true,
         "documentation_mapped": true
       },
@@ -843,9 +844,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-model-session-boundaries-20261014",
+        "decision": "transactional-session-state-boundaries"
       }
     },
     {
@@ -853,9 +854,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "3a432a19c0faa018f3f84472f2f7424ab295836ebb6d7d3aed835e79fe8e4dd0",
-        "bytes": 5640,
-        "lines": 136,
+        "sha256": "893f0d287c80da4ab16397e7879960bb037962e5798b970d69bd21f433ba881c",
+        "bytes": 5872,
+        "lines": 138,
         "imports": [
           "fixed_point",
           "std"
@@ -1230,9 +1231,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "7d47a5250cfa858bd9b475b019859bcf750fcd8b7ad647c20946cd3c53418b58",
-        "bytes": 6521,
-        "lines": 169,
+        "sha256": "78a96b5b131af5f0244ce5798cf4692c44f1fad311e31f3b80d755362929cc7a",
+        "bytes": 6757,
+        "lines": 172,
         "imports": [
           "fixed_point",
           "graph_exec",
@@ -12082,9 +12083,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "5272ec38c6a592d4ff7c5412572971a1cc603f5318624ce60a21ac60e9982e17",
-        "bytes": 18086,
-        "lines": 445,
+        "sha256": "17162f742131261518b1b42cb08aa57e9036120747f6d7524811e4951e72ef11",
+        "bytes": 18245,
+        "lines": 449,
         "imports": [
           "node:crypto",
           "node:fs",

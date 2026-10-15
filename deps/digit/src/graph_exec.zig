@@ -20,14 +20,31 @@ const supports_threads = switch (builtin.target.cpu.arch) {
 };
 const CHECKSUM_WORKERS = 8;
 
+fn saturatingAdd(left: usize, right: usize) usize {
+    return std.math.add(usize, left, right) catch std.math.maxInt(usize);
+}
+
+fn saturatingMul(left: usize, right: usize) usize {
+    return std.math.mul(usize, left, right) catch std.math.maxInt(usize);
+}
+
 pub const Tensor = struct {
     data: []fp.Q128_128,
     dims: []usize,
 
-    pub fn init(allocator: std.mem.Allocator, dims: []const usize) !Tensor {
+    pub fn elementCount(dims: []const usize) !usize {
         if (dims.len > MAX_RANK) return error.UnsupportedShape;
         var count: usize = 1;
-        for (dims) |dim| count *= dim;
+        for (dims) |dim| count = std.math.mul(usize, count, dim) catch return error.TensorTooLarge;
+        return count;
+    }
+
+    pub fn validate(self: *const Tensor) !void {
+        if (self.data.len != try elementCount(self.dims)) return error.InvalidTensorShape;
+    }
+
+    pub fn init(allocator: std.mem.Allocator, dims: []const usize) !Tensor {
+        const count = try elementCount(dims);
         const data = try allocator.alloc(fp.Q128_128, count);
         errdefer allocator.free(data);
         return .{ .data = data, .dims = try allocator.dupe(usize, dims) };
@@ -352,6 +369,31 @@ pub const TensorStore = struct {
         return &named.entry;
     }
 
+    /// Removes a local entry without destroying the payload; the caller owns
+    /// the returned entry. Used to roll back a committed state move after a
+    /// later step in the same transaction fails.
+    pub fn takeLocal(self: *TensorStore, name: []const u8) ?Entry {
+        const named = self.index.get(name) orelse return null;
+        _ = self.index.remove(name);
+        for (self.tensors.items, 0..) |candidate, index| {
+            if (candidate == named) {
+                _ = self.tensors.orderedRemove(index);
+                break;
+            }
+        }
+        var share_iter = self.blob_shares.iterator();
+        while (share_iter.next()) |entry| {
+            if (entry.value_ptr.* == named) {
+                _ = self.blob_shares.remove(entry.key_ptr.*);
+                break;
+            }
+        }
+        const entry = named.entry;
+        self.allocator.free(named.name);
+        self.allocator.destroy(named);
+        return entry;
+    }
+
     fn lookup(self: *const TensorStore, name: []const u8) ?*const Entry {
         if (self.index.get(name)) |named| return &named.entry;
         if (self.parent) |parent| return parent.lookup(name);
@@ -373,10 +415,12 @@ pub const TensorStore = struct {
         named.* = .{ .name = try self.allocator.dupe(u8, name), .entry = entry };
         errdefer self.allocator.free(named.name);
         try self.index.put(named.name, named);
+        errdefer _ = self.index.remove(named.name);
         try self.tensors.append(named);
     }
 
     pub fn putTensor(self: *TensorStore, name: []const u8, tensor: Tensor) !void {
+        try tensor.validate();
         try self.put(name, .{ .tensor = tensor });
     }
 
@@ -386,38 +430,56 @@ pub const TensorStore = struct {
     /// quantized bytes are identical even when the dims views differ.
     /// The check is dtype + length + full byte compare on a u256 fold
     /// shortlist, so sharing is exact, not probabilistic.
+    /// Takes ownership of `blob` on success and releases it if insertion fails.
     pub fn putBlob(self: *TensorStore, name: []const u8, blob: Blob) !void {
-        const fold = blob.dataChecksum();
+        var incoming = blob;
+        errdefer incoming.deinit(self.allocator);
+        const fold = incoming.dataChecksum();
         if (self.blob_shares.get(fold)) |shared_named| {
             if (shared_named.entry == .blob) {
                 const existing = &shared_named.entry.blob;
-                if (existing.data_type == blob.data_type and
-                    existing.data.len == blob.data.len and
-                    std.mem.eql(u8, existing.data, blob.data))
+                if (existing.data_type == incoming.data_type and
+                    existing.data.len == incoming.data.len and
+                    std.mem.eql(u8, existing.data, incoming.data))
                 {
                     if (existing.shared == null) {
                         const backing = self.allocator.create(SharedBlobData) catch {
-                            try self.put(name, .{ .blob = blob });
+                            try self.put(name, .{ .blob = incoming });
+                            incoming = .{ .data = &.{}, .dims = &.{}, .data_type = incoming.data_type };
+                            if (self.index.get(name)) |named| {
+                                if (named.entry == .blob) self.blob_shares.put(fold, named) catch {};
+                            }
                             return;
                         };
                         backing.* = .{ .refs = 1, .data = existing.data };
                         existing.shared = backing;
                     }
                     const backing = existing.shared.?;
-                    backing.refs += 1;
-                    self.allocator.free(blob.data);
-                    self.blobs_shared += 1;
-                    try self.put(name, .{ .blob = .{
+                    const alias_dims = try self.allocator.dupe(usize, incoming.dims);
+                    backing.refs = std.math.add(usize, backing.refs, 1) catch {
+                        self.allocator.free(alias_dims);
+                        return error.TooManyBlobShares;
+                    };
+                    self.put(name, .{ .blob = .{
                         .data = backing.data,
-                        .dims = blob.dims,
-                        .data_type = blob.data_type,
+                        .dims = alias_dims,
+                        .data_type = incoming.data_type,
                         .shared = backing,
-                    }});
+                    } }) catch |err| {
+                        backing.refs -= 1;
+                        self.allocator.free(alias_dims);
+                        return err;
+                    };
+                    if (incoming.data.ptr != backing.data.ptr) self.allocator.free(incoming.data);
+                    self.allocator.free(incoming.dims);
+                    incoming = .{ .data = &.{}, .dims = &.{}, .data_type = incoming.data_type };
+                    self.blobs_shared = std.math.add(usize, self.blobs_shared, 1) catch std.math.maxInt(usize);
                     return;
                 }
             }
         }
-        try self.put(name, .{ .blob = blob });
+        try self.put(name, .{ .blob = incoming });
+        incoming = .{ .data = &.{}, .dims = &.{}, .data_type = incoming.data_type };
         if (self.index.get(name)) |named| {
             if (named.entry == .blob) self.blob_shares.put(fold, named) catch {};
         }
@@ -460,17 +522,21 @@ pub const TensorStore = struct {
         var seen = std.AutoHashMap(*SharedBlobData, void).init(self.allocator);
         defer seen.deinit();
         for (self.tensors.items) |named| {
-            total += named.name.len;
+            total = saturatingAdd(total, named.name.len);
             switch (named.entry) {
-                .tensor => |tensor| total += tensor.data.len * @sizeOf(fp.Q128_128) + tensor.dims.len * @sizeOf(usize),
+                .tensor => |tensor| {
+                    const data_bytes = saturatingMul(tensor.data.len, @sizeOf(fp.Q128_128));
+                    const dims_bytes = saturatingMul(tensor.dims.len, @sizeOf(usize));
+                    total = saturatingAdd(total, saturatingAdd(data_bytes, dims_bytes));
+                },
                 .blob => |blob| {
-                    total += blob.dims.len * @sizeOf(usize);
+                    total = saturatingAdd(total, saturatingMul(blob.dims.len, @sizeOf(usize)));
                     if (blob.shared) |shared| {
                         if (seen.contains(shared)) continue;
                         seen.put(shared, {}) catch {};
-                        total += blob.data.len;
+                        total = saturatingAdd(total, blob.data.len);
                     } else {
-                        total += blob.data.len;
+                        total = saturatingAdd(total, blob.data.len);
                     }
                 },
             }
@@ -2427,12 +2493,14 @@ pub const Runner = struct {
             dropped.deinit(self.allocator);
         }
         if (blob.data_type == 1) {
-            if (blob.data.len != tensor.data.len * 4) return error.ShapeMismatch;
+            const expected = std.math.mul(usize, tensor.data.len, 4) catch return error.ShapeMismatch;
+            if (blob.data.len != expected) return error.ShapeMismatch;
             for (tensor.data, 0..) |*destination, index| {
                 destination.* = try fp.Q128_128.fromF32BitsSaturating(std.mem.readInt(u32, blob.data[index * 4 ..][0..4], .little));
             }
         } else if (blob.data_type == 7) {
-            if (blob.data.len != tensor.data.len * 8) return error.ShapeMismatch;
+            const expected = std.math.mul(usize, tensor.data.len, 8) catch return error.ShapeMismatch;
+            if (blob.data.len != expected) return error.ShapeMismatch;
             for (tensor.data, 0..) |*destination, index| {
                 destination.* = fp.Q128_128.fromInt(std.mem.readInt(i64, blob.data[index * 8 ..][0..8], .little));
             }
@@ -2548,7 +2616,7 @@ test "tensor store shares byte-identical blob payloads across dims views" {
     // Rebinding an aliased name releases its share without corrupting the
     // surviving alias.
     try store.putBlob("lm_head.weight_quant", .{
-        .data = try allocator.dupe(u8, &.{ 0xFF }),
+        .data = try allocator.dupe(u8, &.{0xFF}),
         .dims = try allocator.dupe(usize, &.{1}),
         .data_type = 4,
     });

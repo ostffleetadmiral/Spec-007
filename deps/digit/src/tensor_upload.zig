@@ -21,6 +21,7 @@ pub const UploadError = error{
     ElementMismatch,
     TensorTooLarge,
     TotalTooLarge,
+    CountTooLarge,
     UnsupportedShape,
     OutOfMemory,
 };
@@ -51,10 +52,11 @@ pub const Session = struct {
     /// Uploads one little-endian q128 tensor. `dims64` are the tensor extents
     /// (rank <= MAX_RANK) and `data` must be exactly product(dims)*32 bytes.
     pub fn upload(self: *Session, name: []const u8, dims64: []const u64, data: []const u8) UploadError!void {
-        if (self.total_bytes + data.len > MAX_TOTAL_BYTES) return error.TotalTooLarge;
+        const next_total = std.math.add(usize, self.total_bytes, data.len) catch return error.TotalTooLarge;
+        if (next_total > MAX_TOTAL_BYTES) return error.TotalTooLarge;
         const tensor = try decodeQ128(&self.store, self.allocator, name, dims64, data);
-        self.total_bytes += data.len;
-        self.count += 1;
+        self.total_bytes = next_total;
+        self.count = std.math.add(u32, self.count, 1) catch return error.CountTooLarge;
         self.checksum = (self.checksum +% nameFold(name) +% tensor.checksum()) *% 0x9e3779b97f4a7c15;
     }
 
@@ -92,6 +94,7 @@ pub fn decodeQ128(
     var tensor = exec.Tensor.init(allocator, dims_buf[0..dims64.len]) catch |err| switch (err) {
         error.OutOfMemory => return error.OutOfMemory,
         error.UnsupportedShape => return error.UnsupportedShape,
+        error.TensorTooLarge => return error.TensorTooLarge,
     };
     errdefer tensor.deinit(allocator);
     for (tensor.data, 0..) |*value, index| {

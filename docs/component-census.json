@@ -448,7 +448,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 5,
+        "blocks": 9,
         "registered": true
       },
       "documentation": {

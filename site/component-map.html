@@ -1076,7 +1076,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>deps/digit/</code></td>
-<td>Read-only Digit model-session donor graft: Q128 graph/session modules plus <code>decoder_q4.dgqp</code>; <code>e5_state.zig</code> is the deterministic model-state boundary, <code>model_package.zig</code> is the canonical DQGP v1 package boundary (validated topological order, exact consumption, bounded counts/attributes, and transactional ownership), and <code>model_session.zig</code> carries the real observation contract. Source hashes and SFTP provenance are recorded in <code>docs/native-donor-manifest.json</code>.</td>
+<td>Read-only Digit model-session donor graft: Q128 graph/session modules plus <code>decoder_q4.dgqp</code>; <code>e5_state.zig</code> is the deterministic model-state boundary, <code>model_package.zig</code> is the canonical DQGP v1 package boundary (validated topological order, exact consumption, bounded counts/attributes, and transactional ownership), and <code>model_session.zig</code> is the transactional session/state boundary: checked tensor and import shape products, exact store entry consistency, validated recurrent snapshots, zero-copy <code>present_*</code>→<code>past_*</code> handoff with rollback, refreshed per-step scalar inputs, and checked logits/E6 summary arithmetic carry the real observation contract. Source hashes and SFTP provenance are recorded in <code>docs/native-donor-manifest.json</code>.</td>
 <td>Digit model-package/model-session and <code>e5_state</code> test roots + 750-tensor native probe</td>
 <td>q4 deployment weights are ignored local assets, not committed</td>
 </tr>

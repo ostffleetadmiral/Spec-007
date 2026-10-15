@@ -11,7 +11,7 @@ pub const FLOAT: u64 = 1;
 pub const INT32: u64 = 6;
 pub const INT64: u64 = 7;
 
-pub const BridgeError = error{UnsupportedDType, ByteLengthMismatch, InvalidValue};
+pub const BridgeError = error{ UnsupportedDType, ByteLengthMismatch, InvalidValue };
 
 pub const ImportAudit = struct {
     elements: usize = 0,
@@ -35,13 +35,15 @@ pub fn byteWidth(data_type: u64) BridgeError!usize {
 
 pub fn validateLength(data_type: u64, elements: usize, raw: []const u8) BridgeError!void {
     const width = try byteWidth(data_type);
-    if (raw.len != elements * width) return error.ByteLengthMismatch;
+    const expected = std.math.mul(usize, elements, width) catch return error.ByteLengthMismatch;
+    if (raw.len != expected) return error.ByteLengthMismatch;
 }
 
 pub fn decodeAt(data_type: u64, raw: []const u8, index: usize) BridgeError!fp.Q128_128 {
     const width = try byteWidth(data_type);
-    const start = index * width;
-    if (start + width > raw.len) return error.ByteLengthMismatch;
+    const start = std.math.mul(usize, index, width) catch return error.ByteLengthMismatch;
+    const end = std.math.add(usize, start, width) catch return error.ByteLengthMismatch;
+    if (end > raw.len) return error.ByteLengthMismatch;
     return switch (data_type) {
         FLOAT => fp.Q128_128.fromF32BitsSaturating(std.mem.readInt(u32, raw[start..][0..4], .little)) catch |err| switch (err) {
             error.InvalidValue => error.InvalidValue,
@@ -130,6 +132,6 @@ test "ONNX bridge audit separates exact saturated truncated and invalid imports"
 
 test "ONNX bridge rejects unsupported or mismatched payloads" {
     try std.testing.expectError(error.UnsupportedDType, byteWidth(2));
-    try std.testing.expectError(error.ByteLengthMismatch, validateLength(FLOAT, 2, &[_]u8{0, 0, 0, 0}));
-    try std.testing.expectError(error.InvalidValue, decodeAt(FLOAT, &[_]u8{0, 0, 128, 127}, 0));
+    try std.testing.expectError(error.ByteLengthMismatch, validateLength(FLOAT, 2, &[_]u8{ 0, 0, 0, 0 }));
+    try std.testing.expectError(error.InvalidValue, decodeAt(FLOAT, &[_]u8{ 0, 0, 128, 127 }, 0));
 }
