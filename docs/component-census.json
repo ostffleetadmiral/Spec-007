@@ -448,7 +448,7 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 9,
+        "blocks": 10,
         "registered": true
       },
       "documentation": {
@@ -709,12 +709,12 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 2,
+        "blocks": 5,
         "registered": true
       },
       "documentation": {
         "basename_mapped": true,
-        "component_map_mapped": false,
+        "component_map_mapped": true,
         "manifest_bound": false,
         "owner": null
       },

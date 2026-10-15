@@ -135,6 +135,13 @@ pub const Session = struct {
         return false;
     }
 
+    fn isDynamicInput(self: *const Session, name: []const u8) bool {
+        for (self.package.inputs.items) |input| {
+            if (!input.is_initializer and std.mem.eql(u8, input.name, name)) return true;
+        }
+        return false;
+    }
+
     /// Imports a raw initializer payload into the store using the same dtype
     /// conversion policy as the native shard resolver: FLOAT/INT32/INT64
     /// decode into q128 tensors, everything else stays a raw blob for the
@@ -153,8 +160,12 @@ pub const Session = struct {
     }
 
     /// Imports one little-endian q128 tensor (dynamic inputs such as
-    /// `inputs_embeds`) through the shared bounded decode path.
-    pub fn uploadTensor(self: *Session, name: []const u8, dims64: []const u64, data: []const u8) !void {
+    /// `inputs_embeds`) through the shared bounded decode path. Uploads cannot
+    /// shadow a declared initializer or publish an undeclared host-controlled
+    /// name into the execution store.
+    pub fn uploadTensor(self: *Session, name: []const u8, dims64: []const u64, data: []const u8) upload.UploadError!void {
+        if (self.isInitializer(name)) return error.InitializerCollision;
+        if (!self.isDynamicInput(name)) return error.UndeclaredInput;
         _ = try upload.decodeQ128(&self.store, self.allocator, name, dims64, data);
     }
 
@@ -786,6 +797,34 @@ test "importWeightAdopt rejects tensor dtypes and bad dims" {
     try std.testing.expect(!store.contains("scales"));
 }
 
+fn packageWithInputs(
+    allocator: std.mem.Allocator,
+    dynamic_inputs: []const []const u8,
+    initializer_names: []const []const u8,
+) ![]u8 {
+    var graph = onnx.Graph{
+        .allocator = allocator,
+        .nodes = std.ArrayList(onnx.Node).init(allocator),
+        .inputs = std.ArrayList(onnx.ValueInfo).init(allocator),
+        .outputs = std.ArrayList(onnx.ValueInfo).init(allocator),
+    };
+    defer graph.deinit();
+    var initializers = std.StringHashMap(void).init(allocator);
+    defer initializers.deinit();
+    for (dynamic_inputs) |name| {
+        const copy = try allocator.dupe(u8, name);
+        errdefer allocator.free(copy);
+        try graph.inputs.append(.{ .allocator = allocator, .name = copy });
+    }
+    for (initializer_names) |name| {
+        const copy = try allocator.dupe(u8, name);
+        errdefer allocator.free(copy);
+        try graph.inputs.append(.{ .allocator = allocator, .name = copy });
+        try initializers.put(name, {});
+    }
+    return package_mod.serialize(allocator, &graph, &.{}, &initializers);
+}
+
 fn packageWithOutputs(allocator: std.mem.Allocator, outputs: []const []const u8) ![]u8 {
     var graph = onnx.Graph{
         .allocator = allocator,
@@ -807,6 +846,30 @@ fn packageWithOutputs(allocator: std.mem.Allocator, outputs: []const []const u8)
 
 fn emptyPackage(allocator: std.mem.Allocator) ![]u8 {
     return packageWithOutputs(allocator, &.{});
+}
+
+test "uploadTensor admits only declared dynamic inputs" {
+    const allocator = std.testing.allocator;
+    const package = try packageWithInputs(allocator, &.{"inputs_embeds"}, &.{"model.weight"});
+    defer allocator.free(package);
+    const session = try Session.load(allocator, package);
+    defer session.deinit();
+
+    const dims = [_]u64{1};
+    var data: [32]u8 = undefined;
+    @memcpy(&data, &fp.Q128_128.fromInt(3).toLittleEndian());
+    try session.uploadTensor("inputs_embeds", &dims, &data);
+    try std.testing.expectEqual(fp.Q128_128.fromInt(3).raw, session.store.getTensor("inputs_embeds").?.data[0].raw);
+    try std.testing.expectError(
+        error.InitializerCollision,
+        session.uploadTensor("model.weight", &dims, &data),
+    );
+    try std.testing.expectError(
+        error.UndeclaredInput,
+        session.uploadTensor("host.control", &dims, &data),
+    );
+    try std.testing.expect(!session.store.contains("model.weight"));
+    try std.testing.expect(!session.store.contains("host.control"));
 }
 
 test "advanceStep validates the full recurrent output domain before moving state" {

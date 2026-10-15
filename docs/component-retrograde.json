@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 53
+    "completed_full_retrograde": 54
   },
   "components": [
     {
@@ -802,9 +802,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "26b5fe00c4783e4afaf9d821dd08f50055b0a004c100f1830d08d51c880cd1aa",
-        "bytes": 44739,
-        "lines": 986,
+        "sha256": "234333b62e6e9f61f520a8e30b226290e7bbda7c08ddb61217e3a3e44a22cada",
+        "bytes": 47372,
+        "lines": 1049,
         "imports": [
           "brain_contracts",
           "fixed_point",
@@ -834,7 +834,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 9,
+        "test_blocks": 10,
         "registered": true,
         "documentation_mapped": true
       },
@@ -1232,16 +1232,17 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "78a96b5b131af5f0244ce5798cf4692c44f1fad311e31f3b80d755362929cc7a",
-        "bytes": 6757,
-        "lines": 172,
+        "sha256": "ec763ad2e596eeb81fffd58f85edf87f0e94af4285bc3c499a61eb829c8e10bd",
+        "bytes": 11082,
+        "lines": 272,
         "imports": [
           "fixed_point",
           "graph_exec",
           "std"
         ],
         "referenced_by": [
-          "deps/digit/src/model_session.zig"
+          "deps/digit/src/model_session.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 11
@@ -1256,7 +1257,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 2,
+        "test_blocks": 5,
         "registered": true,
         "documentation_mapped": true
       },
@@ -1267,9 +1268,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-tensor-upload-boundaries-20261015",
+        "decision": "bounded-host-tensor-ingress-boundaries"
       }
     },
     {
@@ -12084,9 +12085,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "172d30f8f5601db9257f8c30fbc063cba20a721771499288228635b2343a44df",
-        "bytes": 18409,
-        "lines": 453,
+        "sha256": "e84627640e3fabf5b1809b45036fe148d121d335016492e3ab9fe4ab510ff6e7",
+        "bytes": 18568,
+        "lines": 457,
         "imports": [
           "node:crypto",
           "node:fs",

@@ -16,6 +16,9 @@ pub const UploadError = error{
     NotInitialized,
     EmptyName,
     NameTooLong,
+    NameConflict,
+    UndeclaredInput,
+    InitializerCollision,
     TooManyDims,
     MisalignedData,
     ElementMismatch,
@@ -52,12 +55,13 @@ pub const Session = struct {
     /// Uploads one little-endian q128 tensor. `dims64` are the tensor extents
     /// (rank <= MAX_RANK) and `data` must be exactly product(dims)*32 bytes.
     pub fn upload(self: *Session, name: []const u8, dims64: []const u64, data: []const u8) UploadError!void {
+        const next_count = std.math.add(u32, self.count, 1) catch return error.CountTooLarge;
         const next_total = std.math.add(usize, self.total_bytes, data.len) catch return error.TotalTooLarge;
         if (next_total > MAX_TOTAL_BYTES) return error.TotalTooLarge;
-        const tensor = try decodeQ128(&self.store, self.allocator, name, dims64, data);
+        const tensor_checksum = try decodeQ128(&self.store, self.allocator, name, dims64, data);
         self.total_bytes = next_total;
-        self.count = std.math.add(u32, self.count, 1) catch return error.CountTooLarge;
-        self.checksum = (self.checksum +% nameFold(name) +% tensor.checksum()) *% 0x9e3779b97f4a7c15;
+        self.count = next_count;
+        self.checksum = (self.checksum +% nameFold(name) +% tensor_checksum) *% 0x9e3779b97f4a7c15;
     }
 
     fn nameFold(name: []const u8) u256 {
@@ -68,28 +72,36 @@ pub const Session = struct {
 };
 
 /// Validates bounds and decodes one little-endian q128 tensor into `store`.
-/// Returns a shallow copy of the stored tensor for checksum purposes.
+/// Returns the stored tensor checksum; the store remains the sole owner.
 pub fn decodeQ128(
     store: *exec.TensorStore,
     allocator: std.mem.Allocator,
     name: []const u8,
     dims64: []const u64,
     data: []const u8,
-) UploadError!exec.Tensor {
+) UploadError!u256 {
     if (name.len == 0) return error.EmptyName;
     if (name.len > MAX_NAME_LEN) return error.NameTooLong;
     if (dims64.len > exec.MAX_RANK) return error.TooManyDims;
-    if (data.len % 32 != 0) return error.MisalignedData;
+    if (data.len % @sizeOf(fp.Q128_128) != 0) return error.MisalignedData;
+    if (store.localSlot(name)) |entry| {
+        if (std.meta.activeTag(entry.*) != .tensor) return error.NameConflict;
+    }
+    if (store.parent) |parent| {
+        if (parent.contains(name)) return error.NameConflict;
+    }
 
     var count: usize = 1;
     var dims_buf: [exec.MAX_RANK]usize = undefined;
     for (dims64, 0..) |dim, index| {
+        if (dim == 0) return error.UnsupportedShape;
         if (dim > std.math.maxInt(usize)) return error.UnsupportedShape;
         dims_buf[index] = @intCast(dim);
         count = std.math.mul(usize, count, dims_buf[index]) catch return error.TensorTooLarge;
     }
     if (count > MAX_ELEMENTS) return error.TensorTooLarge;
-    if (count != data.len / 32) return error.ElementMismatch;
+    const expected_bytes = std.math.mul(usize, count, @sizeOf(fp.Q128_128)) catch return error.TensorTooLarge;
+    if (data.len != expected_bytes) return error.ElementMismatch;
 
     var tensor = exec.Tensor.init(allocator, dims_buf[0..dims64.len]) catch |err| switch (err) {
         error.OutOfMemory => return error.OutOfMemory,
@@ -98,12 +110,16 @@ pub fn decodeQ128(
     };
     errdefer tensor.deinit(allocator);
     for (tensor.data, 0..) |*value, index| {
-        var encoded: [32]u8 = undefined;
-        @memcpy(&encoded, data[index * 32 .. (index + 1) * 32]);
+        var encoded: [@sizeOf(fp.Q128_128)]u8 = undefined;
+        @memcpy(&encoded, data[index * @sizeOf(fp.Q128_128) .. (index + 1) * @sizeOf(fp.Q128_128)]);
         value.* = fp.Q128_128.fromLittleEndian(encoded);
     }
-    store.putTensor(name, tensor) catch return error.OutOfMemory;
-    return tensor;
+    const checksum = tensor.checksum();
+    store.putTensor(name, tensor) catch |err| switch (err) {
+        error.OutOfMemory => return error.OutOfMemory,
+        else => return error.UnsupportedShape,
+    };
+    return checksum;
 }
 
 /// Deterministic upload sequence used to verify the bounded upload path is
@@ -156,6 +172,9 @@ test "upload validates bounds and folds a deterministic checksum" {
 
     try std.testing.expectError(error.MisalignedData, session.upload("bad", &dims, data[0..33]));
     try std.testing.expectError(error.ElementMismatch, session.upload("bad", &dims, data[0..32]));
+    try std.testing.expectError(error.EmptyName, session.upload("", &dims, &data));
+    const long_name = "x" ** (MAX_NAME_LEN + 1);
+    try std.testing.expectError(error.NameTooLong, session.upload(long_name, &dims, &data));
     const too_many = [_]u64{1} ** (exec.MAX_RANK + 1);
     try std.testing.expectError(error.TooManyDims, session.upload("bad", &too_many, &.{}));
     const huge = [_]u64{MAX_ELEMENTS + 1};
@@ -168,4 +187,85 @@ test "verify sequence is deterministic" {
     const second = try runVerifySequence(allocator);
     try std.testing.expectEqual(@as(u32, 3), first.count);
     try std.testing.expectEqual(first.checksum, second.checksum);
+}
+
+test "decode rejects degenerate and overflowing shapes without publishing" {
+    const allocator = std.testing.allocator;
+    var store = exec.TensorStore.init(allocator);
+    defer store.deinit();
+
+    try std.testing.expectError(
+        error.UnsupportedShape,
+        decodeQ128(&store, allocator, "zero", &.{0}, &.{}),
+    );
+    const overflowing = [_]u64{ @as(u64, @intCast(std.math.maxInt(usize))), 2 };
+    try std.testing.expectError(
+        error.TensorTooLarge,
+        decodeQ128(&store, allocator, "overflow", &overflowing, &.{}),
+    );
+    try std.testing.expectError(
+        error.ElementMismatch,
+        decodeQ128(&store, allocator, "scalar", &.{}, &.{}),
+    );
+    try std.testing.expect(!store.contains("zero"));
+    try std.testing.expect(!store.contains("overflow"));
+    try std.testing.expect(!store.contains("scalar"));
+}
+
+test "decode rejects parent and local blob name collisions" {
+    const allocator = std.testing.allocator;
+    var parent = exec.TensorStore.init(allocator);
+    defer parent.deinit();
+    var shared_tensor = try exec.Tensor.init(allocator, &.{1});
+    shared_tensor.data[0] = fp.Q128_128.fromInt(9);
+    try parent.putTensor("weight", shared_tensor);
+
+    var store = exec.TensorStore.init(allocator);
+    defer store.deinit();
+    store.setParent(&parent);
+    const dims = [_]u64{1};
+    var data: [32]u8 = undefined;
+    @memcpy(&data, &fp.Q128_128.fromInt(1).toLittleEndian());
+    try std.testing.expectError(
+        error.NameConflict,
+        decodeQ128(&store, allocator, "weight", &dims, &data),
+    );
+    try std.testing.expect(store.localSlot("weight") == null);
+
+    const blob_data = try allocator.dupe(u8, &.{ 1, 2, 3 });
+    const blob_dims = try allocator.dupe(usize, &.{3});
+    try store.putBlob("packed", .{ .data = blob_data, .dims = blob_dims, .data_type = 8 });
+    try std.testing.expectError(
+        error.NameConflict,
+        decodeQ128(&store, allocator, "packed", &dims, &data),
+    );
+    try std.testing.expect(store.getBlob("packed") != null);
+}
+
+test "session accounting is transactional across replacement uploads" {
+    const allocator = std.testing.allocator;
+    var session = Session.init(allocator);
+    defer session.deinit();
+    const dims = [_]u64{1};
+    var first_data: [32]u8 = undefined;
+    var second_data: [32]u8 = undefined;
+    @memcpy(&first_data, &fp.Q128_128.fromInt(1).toLittleEndian());
+    @memcpy(&second_data, &fp.Q128_128.fromInt(2).toLittleEndian());
+
+    try session.upload("input", &dims, &first_data);
+    try session.upload("input", &dims, &second_data);
+    try std.testing.expectEqual(@as(u32, 2), session.count);
+    try std.testing.expectEqual(@as(usize, 64), session.total_bytes);
+    try std.testing.expectEqual(fp.Q128_128.fromInt(2).raw, session.store.getTensor("input").?.data[0].raw);
+
+    session.count = std.math.maxInt(u32);
+    try std.testing.expectError(error.CountTooLarge, session.upload("late", &dims, &first_data));
+    try std.testing.expect(!session.store.contains("late"));
+    try std.testing.expectEqual(@as(usize, 64), session.total_bytes);
+
+    session.count = 0;
+    session.total_bytes = MAX_TOTAL_BYTES;
+    try std.testing.expectError(error.TotalTooLarge, session.upload("over", &dims, &first_data));
+    try std.testing.expect(!session.store.contains("over"));
+    try std.testing.expectEqual(@as(u32, 0), session.count);
 }

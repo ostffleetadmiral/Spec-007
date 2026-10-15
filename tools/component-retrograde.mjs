@@ -189,6 +189,10 @@ const FULL_RETROGRADE = new Map([
     decision: "resumable-checked-graph-execution-boundaries",
     archive: "digit-graph-execution-boundaries-20261015",
   }],
+  ["deps/digit/src/tensor_upload.zig", {
+    decision: "bounded-host-tensor-ingress-boundaries",
+    archive: "digit-tensor-upload-boundaries-20261015",
+  }],
   ["tools/layer-map.mjs", {
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",
