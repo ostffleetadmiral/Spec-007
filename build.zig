@@ -302,6 +302,7 @@ pub fn build(b: *std.Build) void {
         imp("worker_pool", digit_worker), imp("onnx_graph", digit_onnx_graph),
     });
     depTest(b, test_step, "deps/digit/src/onnx_weights.zig", target, optimize, &.{});
+    depTest(b, test_step, "deps/digit/src/onnx_graph.zig", target, optimize, &.{});
     depTest(b, test_step, "deps/digit/src/model_package.zig", target, optimize, &.{imp("onnx_graph", digit_onnx_graph)});
     depTest(b, test_step, "deps/digit/src/tensor_upload.zig", target, optimize, &.{
         imp("fixed_point", digit_fixed), imp("graph_exec", digit_graph),

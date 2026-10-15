@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 55
+    "completed_full_retrograde": 56
   },
   "components": [
     {
@@ -275,6 +275,7 @@
         "referenced_by": [
           "deps/digit/src/model_package.zig",
           "deps/digit/src/model_session.zig",
+          "deps/digit/src/onnx_graph.zig",
           "security/aiwo-digit-model-parity.mjs",
           "security/fleet-audit.mjs",
           "security/team-sweep-2.mjs",
@@ -766,6 +767,7 @@
         ],
         "referenced_by": [
           "deps/digit/src/model_session.zig",
+          "deps/digit/src/onnx_graph.zig",
           "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
@@ -899,9 +901,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "469a51cf7ca7f8f66c41c32f42cf1d27edf62a372884b361583f95605cc58c98",
-        "bytes": 14448,
-        "lines": 382,
+        "sha256": "4b65fb87cea56da690f286275e0631aa3dbae5fc2b771dea99532bc1ab82396a",
+        "bytes": 35176,
+        "lines": 915,
         "imports": [
           "std"
         ],
@@ -909,10 +911,11 @@
           "deps/digit/src/graph_exec.zig",
           "deps/digit/src/model_package.zig",
           "deps/digit/src/model_session.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 10
+        "public_surface": 22
       },
       "contract": {
         "mapped": true,
@@ -924,7 +927,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 8,
         "registered": true,
         "documentation_mapped": true
       },
@@ -935,9 +938,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-onnx-graph-boundaries-20261015",
+        "decision": "bounded-onnx-graph-parser-and-topological-order"
       }
     },
     {
@@ -12086,9 +12089,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "b5f5fb7b877cb4777dd915e43997cbfc27d0b426962b8667616365887ae4ae7d",
-        "bytes": 18733,
-        "lines": 461,
+        "sha256": "0de859b6e454c7e09f9ada951d396646bb573ec315d9348a600d14f9b05df3a5",
+        "bytes": 18895,
+        "lines": 465,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -13203,6 +13206,7 @@
           "deps/digit/src/fixed_point.zig",
           "deps/digit/src/graph_exec.zig",
           "deps/digit/src/model_session.zig",
+          "deps/digit/src/onnx_graph.zig",
           "deps/digit/src/onnx_weights.zig",
           "deps/digit/src/q128.zig",
           "deps/digit/src/shape_ops.zig",
@@ -13212,8 +13216,7 @@
           "deps/qstar-mesh/src/fixed_point.zig",
           "deps/qstar-mesh/src/mesh_peer.zig",
           "deps/qstar-mesh/src/mesh.zig",
-          "deps/qstar-net/src/merge.zig",
-          "deps/qstar-net/src/nat.zig"
+          "deps/qstar-net/src/merge.zig"
         ],
         "todo_markers": 0,
         "public_surface": 0

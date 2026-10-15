@@ -1,4 +1,24 @@
+//! Minimal ONNX protobuf parser for the decoder graph.
+//!
+//! The parser only needs the fields consumed by Digit's bounded execution
+//! pipeline: node identities, graph inputs/outputs, tensor shapes, and the
+//! integer/float/string attribute subsets encoded by `model_package.zig`.
+//! Untrusted ONNX bytes are nevertheless fail-closed: every field validates its
+//! protobuf wire type, all nested records are bounded, tensor/value names are
+//! canonical, and graph output identity is unique before scheduling.
+
 const std = @import("std");
+
+pub const MAX_NODES: usize = 4096;
+pub const MAX_VALUE_INFOS: usize = 1024;
+pub const MAX_NODE_IO_NAMES: usize = 128;
+pub const MAX_ATTRIBUTES: usize = 256;
+pub const MAX_NAME_BYTES: usize = 1024;
+pub const MAX_ATTRIBUTE_NAME_BYTES: usize = 256;
+pub const MAX_ATTRIBUTE_STRING_BYTES: usize = 4096;
+pub const MAX_ATTRIBUTE_VALUES: usize = 1024;
+pub const MAX_SHAPE_DIMS: usize = 8;
+pub const MAX_DIM_EXTENT: i64 = 1 << 24;
 
 pub const AttributeKind = enum { integer, float, string, integers, floats };
 
@@ -12,7 +32,7 @@ pub const Attribute = struct {
     ints: []i64 = &.{},
     floats: []f32 = &.{},
 
-    fn deinit(self: *Attribute) void {
+    pub fn deinit(self: *Attribute) void {
         self.allocator.free(self.name);
         self.allocator.free(self.string);
         self.allocator.free(self.ints);
@@ -33,11 +53,11 @@ pub const Node = struct {
         self.allocator.free(self.name);
         self.allocator.free(self.domain);
         self.allocator.free(self.op_type);
-        for (self.inputs.items) |value| self.allocator.free(value);
-        for (self.outputs.items) |value| self.allocator.free(value);
-        for (self.attributes.items) |*attribute| attribute.deinit();
+        for (self.inputs.items) |item| self.allocator.free(item);
         self.inputs.deinit();
+        for (self.outputs.items) |item| self.allocator.free(item);
         self.outputs.deinit();
+        for (self.attributes.items) |*attribute| attribute.deinit();
         self.attributes.deinit();
     }
 };
@@ -48,7 +68,7 @@ pub const ValueInfo = struct {
     elem_type: u64 = 0,
     dims: []i64 = &.{},
 
-    fn deinit(self: *ValueInfo) void {
+    pub fn deinit(self: *ValueInfo) void {
         self.allocator.free(self.name);
         self.allocator.free(self.dims);
     }
@@ -57,113 +77,183 @@ pub const ValueInfo = struct {
 pub const Graph = struct {
     allocator: std.mem.Allocator,
     nodes: std.ArrayList(Node),
-    inputs: std.ArrayList(ValueInfo) = undefined,
-    outputs: std.ArrayList(ValueInfo) = undefined,
+    inputs: std.ArrayList(ValueInfo),
+    outputs: std.ArrayList(ValueInfo),
 
     pub fn deinit(self: *Graph) void {
         for (self.nodes.items) |*node| node.deinit();
         self.nodes.deinit();
-        for (self.inputs.items) |*value| value.deinit();
-        for (self.outputs.items) |*value| value.deinit();
+        for (self.inputs.items) |*info| info.deinit();
         self.inputs.deinit();
+        for (self.outputs.items) |*info| info.deinit();
         self.outputs.deinit();
     }
 
     pub fn findInput(self: *const Graph, name: []const u8) ?*const ValueInfo {
-        for (self.inputs.items) |*value| if (std.mem.eql(u8, value.name, name)) return value;
+        for (self.inputs.items) |*info| if (std.mem.eql(u8, info.name, name)) return info;
         return null;
     }
 
+    /// Returns node indices in deterministic dependency order. Ready nodes are
+    /// emitted by their original index, matching the historical scan order;
+    /// unresolved nodes imply a dependency cycle.
     pub fn topologicalOrder(self: *const Graph, allocator: std.mem.Allocator) ![]usize {
         const count = self.nodes.items.len;
-        var remaining = try allocator.alloc(usize, count);
-        errdefer allocator.free(remaining);
-        var order = try allocator.alloc(usize, count);
-        errdefer allocator.free(order);
-        for (remaining, 0..) |*value, index| value.* = index;
-        var emitted: usize = 0;
-        while (emitted < count) {
-            var progress = false;
-            for (0..count) |candidate| {
-                if (remaining[candidate] == count) continue;
-                var ready = true;
-                for (self.nodes.items[candidate].inputs.items) |input| {
-                    if (input.len == 0) continue;
-                    if (findProducer(self, input)) |producer| {
-                        if (remaining[producer] != count) {
-                            ready = false;
-                            break;
-                        }
-                    }
-                }
-                if (ready) {
-                    order[emitted] = candidate;
-                    emitted += 1;
-                    remaining[candidate] = count;
-                    progress = true;
-                }
-            }
-            if (!progress) {
-                allocator.free(remaining);
-                allocator.free(order);
-                return error.DependencyCycle;
+        if (count > MAX_NODES) return error.TooManyNodes;
+
+        var producers = std.StringHashMap(usize).init(allocator);
+        defer producers.deinit();
+        for (self.nodes.items, 0..) |node, index| {
+            for (node.outputs.items) |output| {
+                if (output.len == 0) return error.EmptyName;
+                if (producers.contains(output)) return error.DuplicateOutput;
+                try producers.put(output, index);
             }
         }
-        allocator.free(remaining);
+
+        const pending = try allocator.alloc(usize, count);
+        defer allocator.free(pending);
+        @memset(pending, 0);
+        const consumers = try allocator.alloc(std.ArrayList(usize), count);
+        defer allocator.free(consumers);
+        for (consumers) |*list| list.* = std.ArrayList(usize).init(allocator);
+        defer for (consumers) |*list| list.deinit();
+
+        for (self.nodes.items, 0..) |node, index| {
+            for (node.inputs.items) |input| {
+                if (input.len == 0) continue;
+                if (producers.get(input)) |producer| {
+                    pending[index] += 1;
+                    try consumers[producer].append(index);
+                }
+            }
+        }
+
+        var ready = std.PriorityQueue(usize, void, compareNodeIndex).init(allocator, {});
+        defer ready.deinit();
+        for (pending, 0..) |dependencies, index| {
+            if (dependencies == 0) try ready.add(index);
+        }
+
+        const order = try allocator.alloc(usize, count);
+        errdefer allocator.free(order);
+        var emitted: usize = 0;
+        while (ready.removeOrNull()) |node_index| {
+            order[emitted] = node_index;
+            emitted += 1;
+            for (consumers[node_index].items) |consumer| {
+                pending[consumer] -= 1;
+                if (pending[consumer] == 0) try ready.add(consumer);
+            }
+        }
+        if (emitted != count) return error.DependencyCycle;
         return order;
     }
 };
 
+fn compareNodeIndex(_: void, lhs: usize, rhs: usize) std.math.Order {
+    return std.math.order(lhs, rhs);
+}
+
+fn valueInfoExists(values: []const ValueInfo, name: []const u8) bool {
+    for (values) |existing| if (std.mem.eql(u8, existing.name, name)) return true;
+    return false;
+}
+
+fn dupeBounded(allocator: std.mem.Allocator, bytes: []const u8, limit: usize) ![]u8 {
+    if (bytes.len > limit) return error.NameTooLong;
+    return try allocator.dupe(u8, bytes);
+}
+
+fn replaceOwned(
+    allocator: std.mem.Allocator,
+    target: *[]const u8,
+    bytes: []const u8,
+    limit: usize,
+) !void {
+    const replacement = try dupeBounded(allocator, bytes, limit);
+    allocator.free(target.*);
+    target.* = replacement;
+}
+
+fn appendOwned(
+    allocator: std.mem.Allocator,
+    list: *std.ArrayList([]const u8),
+    bytes: []const u8,
+    limit: usize,
+) !void {
+    if (list.items.len >= MAX_NODE_IO_NAMES) return error.TooManyNames;
+    const owned = try dupeBounded(allocator, bytes, limit);
+    errdefer allocator.free(owned);
+    try list.append(owned);
+}
+
 const Reader = struct {
     bytes: []const u8,
     pos: usize = 0,
-    fn eof(self: *const Reader) bool {
-        return self.pos >= self.bytes.len;
+
+    fn remaining(self: *const Reader) usize {
+        return self.bytes.len - self.pos;
     }
+
     fn varint(self: *Reader) !u64 {
         var result: u64 = 0;
         var shift: u6 = 0;
         while (true) {
-            if (self.pos >= self.bytes.len or shift >= 64) return error.InvalidVarint;
+            if (self.pos >= self.bytes.len) return error.Truncated;
             const byte = self.bytes[self.pos];
             self.pos += 1;
+            if (shift == 63 and (byte & 0x7f) > 1) return error.VarintOverflow;
             result |= @as(u64, byte & 0x7f) << shift;
-            if (byte & 0x80 == 0) return result;
-            shift += 7;
+            if ((byte & 0x80) == 0) return result;
+            if (shift >= 63) return error.VarintOverflow;
+            shift = if (shift == 0) 7 else shift + 7;
         }
     }
+
     fn key(self: *Reader) !struct { field: u32, wire: u3 } {
         const value = try self.varint();
-        if (value >> 3 == 0) return error.InvalidField;
-        return .{ .field = @intCast(value >> 3), .wire = @intCast(value & 7) };
+        if (value == 0 or value > std.math.maxInt(u32) or (value >> 3) == 0) {
+            return error.InvalidField;
+        }
+        return .{
+            .field = @intCast(value >> 3),
+            .wire = @intCast(value & 0x7),
+        };
     }
+
     fn fixed32(self: *Reader) !u32 {
-        if (self.bytes.len - self.pos < 4) return error.TruncatedMessage;
-        const value = std.mem.readInt(u32, self.bytes[self.pos..][0..4], .little);
-        self.pos += 4;
-        return value;
+        if (self.remaining() < 4) return error.Truncated;
+        defer self.pos += 4;
+        return std.mem.readInt(u32, self.bytes[self.pos..][0..4], .little);
     }
 
     fn bytesField(self: *Reader) ![]const u8 {
-        const length = try self.varint();
-        if (length > self.bytes.len - self.pos) return error.TruncatedMessage;
-        const start = self.pos;
-        self.pos += @intCast(length);
-        return self.bytes[start..self.pos];
+        const len64 = try self.varint();
+        if (len64 > self.remaining()) return error.Truncated;
+        const len: usize = @intCast(len64);
+        defer self.pos += len;
+        return self.bytes[self.pos .. self.pos + len];
     }
+
     fn skip(self: *Reader, wire: u3) !void {
         switch (wire) {
             0 => _ = try self.varint(),
-            1 => self.pos += 8,
+            1 => try self.skipBytes(8),
             2 => _ = try self.bytesField(),
-            5 => self.pos += 4,
+            5 => try self.skipBytes(4),
             else => return error.UnsupportedWireType,
         }
-        if (self.pos > self.bytes.len) return error.TruncatedMessage;
+    }
+
+    fn skipBytes(self: *Reader, count: usize) !void {
+        if (count > self.remaining()) return error.Truncated;
+        self.pos += count;
     }
 };
 
 pub fn parse(allocator: std.mem.Allocator, bytes: []const u8) !Graph {
+    var reader = Reader{ .bytes = bytes };
     var graph = Graph{
         .allocator = allocator,
         .nodes = std.ArrayList(Node).init(allocator),
@@ -171,211 +261,654 @@ pub fn parse(allocator: std.mem.Allocator, bytes: []const u8) !Graph {
         .outputs = std.ArrayList(ValueInfo).init(allocator),
     };
     errdefer graph.deinit();
-    var reader = Reader{ .bytes = bytes };
-    while (!reader.eof()) {
+
+    var graph_seen = false;
+    while (reader.remaining() > 0) {
         const field = try reader.key();
         if (field.field == 7) {
+            if (graph_seen) return error.DuplicateGraph;
+            graph_seen = true;
             if (field.wire != 2) return error.InvalidWireType;
-            try parseGraph(&graph, try reader.bytesField());
-        } else try reader.skip(field.wire);
+            const body = try reader.bytesField();
+            var graph_reader = Reader{ .bytes = body };
+            try parseGraph(&graph_reader, &graph);
+        } else {
+            try reader.skip(field.wire);
+        }
     }
     return graph;
 }
 
-fn parseGraph(graph: *Graph, bytes: []const u8) !void {
-    var reader = Reader{ .bytes = bytes };
-    while (!reader.eof()) {
-        const field = try reader.key();
-        if (field.field == 1) {
-            if (field.wire != 2) return error.InvalidWireType;
-            try parseNode(graph, try reader.bytesField());
-        } else if (field.field == 11 or field.field == 12) {
-            if (field.wire != 2) return error.InvalidWireType;
-            const list = if (field.field == 11) &graph.inputs else &graph.outputs;
-            try list.append(try parseValueInfo(graph.allocator, try reader.bytesField()));
-        } else try reader.skip(field.wire);
-    }
-}
+fn parseGraph(reader: *Reader, graph: *Graph) !void {
+    var produced_names = std.StringHashMap(void).init(graph.allocator);
+    defer produced_names.deinit();
 
-fn parseNode(graph: *Graph, bytes: []const u8) !void {
-    var reader = Reader{ .bytes = bytes };
-    var node = Node{
-        .allocator = graph.allocator,
-        .name = &.{},
-        .domain = try graph.allocator.dupe(u8, "ai.onnx"),
-        .op_type = &.{},
-        .inputs = std.ArrayList([]const u8).init(graph.allocator),
-        .outputs = std.ArrayList([]const u8).init(graph.allocator),
-        .attributes = std.ArrayList(Attribute).init(graph.allocator),
-    };
-    errdefer node.deinit();
-    while (!reader.eof()) {
+    while (reader.remaining() > 0) {
         const field = try reader.key();
         switch (field.field) {
-            1 => try node.inputs.append(try graph.allocator.dupe(u8, try reader.bytesField())),
-            2 => try node.outputs.append(try graph.allocator.dupe(u8, try reader.bytesField())),
-            3 => {
-                graph.allocator.free(node.name);
-                node.name = try graph.allocator.dupe(u8, try reader.bytesField());
+            1 => {
+                if (graph.nodes.items.len >= MAX_NODES) return error.TooManyNodes;
+                if (field.wire != 2) return error.InvalidWireType;
+                const body = try reader.bytesField();
+                var node = try parseNode(graph.allocator, body);
+                errdefer node.deinit();
+                for (node.outputs.items) |output| {
+                    if (produced_names.contains(output)) return error.DuplicateOutput;
+                    try produced_names.put(output, {});
+                }
+                try graph.nodes.append(node);
             },
-            4 => {
-                graph.allocator.free(node.op_type);
-                node.op_type = try graph.allocator.dupe(u8, try reader.bytesField());
-            },
-            5 => try node.attributes.append(try parseAttribute(graph.allocator, try reader.bytesField())),
-            7 => {
-                graph.allocator.free(node.domain);
-                node.domain = try graph.allocator.dupe(u8, try reader.bytesField());
+            11, 12 => {
+                const list = if (field.field == 11) &graph.inputs else &graph.outputs;
+                if (list.items.len >= MAX_VALUE_INFOS) return error.TooManyValueInfos;
+                if (field.wire != 2) return error.InvalidWireType;
+                const body = try reader.bytesField();
+                var info = try parseValueInfo(graph.allocator, body);
+                errdefer info.deinit();
+                if (valueInfoExists(list.items, info.name)) return error.DuplicateValueInfo;
+                try list.append(info);
             },
             else => try reader.skip(field.wire),
         }
     }
-    try graph.nodes.append(node);
 }
 
-fn parseAttribute(allocator: std.mem.Allocator, bytes: []const u8) !Attribute {
-    var reader = Reader{ .bytes = bytes };
-    var name: []const u8 = "";
-    var kind: AttributeKind = .integer;
+fn parseNode(allocator: std.mem.Allocator, body: []const u8) !Node {
+    var reader = Reader{ .bytes = body };
+    var node = Node{
+        .allocator = allocator,
+        .name = &.{},
+        .domain = &.{},
+        .op_type = &.{},
+        .inputs = std.ArrayList([]const u8).init(allocator),
+        .outputs = std.ArrayList([]const u8).init(allocator),
+        .attributes = std.ArrayList(Attribute).init(allocator),
+    };
+    errdefer node.deinit();
+
+    var op_type_seen = false;
+    while (reader.remaining() > 0) {
+        const field = try reader.key();
+        switch (field.field) {
+            1 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                const input = try reader.bytesField();
+                try appendOwned(allocator, &node.inputs, input, MAX_NAME_BYTES);
+            },
+            2 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                const output = try reader.bytesField();
+                if (output.len == 0) return error.EmptyName;
+                try appendOwned(allocator, &node.outputs, output, MAX_NAME_BYTES);
+            },
+            3 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                try replaceOwned(allocator, &node.name, try reader.bytesField(), MAX_NAME_BYTES);
+            },
+            4 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                try replaceOwned(allocator, &node.op_type, try reader.bytesField(), MAX_NAME_BYTES);
+                if (node.op_type.len == 0) return error.EmptyOpType;
+                op_type_seen = true;
+            },
+            5 => {
+                if (node.attributes.items.len >= MAX_ATTRIBUTES) return error.TooManyAttributes;
+                if (field.wire != 2) return error.InvalidWireType;
+                const attr_body = try reader.bytesField();
+                var attribute = try parseAttribute(allocator, attr_body);
+                errdefer attribute.deinit();
+                try node.attributes.append(attribute);
+            },
+            7 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                try replaceOwned(allocator, &node.domain, try reader.bytesField(), MAX_NAME_BYTES);
+            },
+            else => try reader.skip(field.wire),
+        }
+    }
+    if (!op_type_seen) return error.MissingOpType;
+    if (node.outputs.items.len == 0) return error.MissingOutput;
+    return node;
+}
+
+fn parseValueInfo(allocator: std.mem.Allocator, body: []const u8) !ValueInfo {
+    var reader = Reader{ .bytes = body };
+    var info = ValueInfo{
+        .allocator = allocator,
+        .name = &.{},
+    };
+    errdefer info.deinit();
+
+    while (reader.remaining() > 0) {
+        const field = try reader.key();
+        switch (field.field) {
+            1 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                try replaceOwned(allocator, &info.name, try reader.bytesField(), MAX_NAME_BYTES);
+            },
+            2 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                try parseTypeProto(try reader.bytesField(), &info);
+            },
+            else => try reader.skip(field.wire),
+        }
+    }
+    if (info.name.len == 0) return error.MissingName;
+    return info;
+}
+
+fn parseTypeProto(body: []const u8, info: *ValueInfo) !void {
+    var reader = Reader{ .bytes = body };
+    while (reader.remaining() > 0) {
+        const field = try reader.key();
+        if (field.field == 1) {
+            if (field.wire != 2) return error.InvalidWireType;
+            try parseTensorType(try reader.bytesField(), info);
+        } else {
+            try reader.skip(field.wire);
+        }
+    }
+}
+
+fn parseTensorType(body: []const u8, info: *ValueInfo) !void {
+    var reader = Reader{ .bytes = body };
+    while (reader.remaining() > 0) {
+        const field = try reader.key();
+        switch (field.field) {
+            1 => {
+                if (field.wire != 0) return error.InvalidWireType;
+                const value = try reader.varint();
+                if (value > std.math.maxInt(u32)) return error.InvalidElementType;
+                info.elem_type = value;
+            },
+            2 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                try parseShape(try reader.bytesField(), info);
+            },
+            else => try reader.skip(field.wire),
+        }
+    }
+}
+
+fn parseShape(body: []const u8, info: *ValueInfo) !void {
+    var reader = Reader{ .bytes = body };
+    var dims = std.ArrayList(i64).init(info.allocator);
+    defer dims.deinit();
+
+    while (reader.remaining() > 0) {
+        const field = try reader.key();
+        if (field.field != 1) {
+            try reader.skip(field.wire);
+            continue;
+        }
+        if (dims.items.len >= MAX_SHAPE_DIMS) return error.TooManyDims;
+        if (field.wire != 2) return error.InvalidWireType;
+        const dim_body = try reader.bytesField();
+        try dims.append(try parseDim(dim_body));
+    }
+
+    const replacement = try dims.toOwnedSlice();
+    info.allocator.free(info.dims);
+    info.dims = replacement;
+}
+
+fn parseDim(body: []const u8) !i64 {
+    var reader = Reader{ .bytes = body };
+    var value: i64 = -1;
+    while (reader.remaining() > 0) {
+        const field = try reader.key();
+        switch (field.field) {
+            1 => {
+                if (field.wire != 0) return error.InvalidWireType;
+                const raw = try reader.varint();
+                if (raw > @as(u64, @intCast(std.math.maxInt(i64)))) {
+                    return error.InvalidDim;
+                }
+                const signed: i64 = @intCast(raw);
+                if (signed < 0 or signed > MAX_DIM_EXTENT) return error.InvalidDim;
+                value = signed;
+            },
+            2 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                const param = try reader.bytesField();
+                if (param.len > MAX_NAME_BYTES) return error.NameTooLong;
+                value = -1;
+            },
+            else => try reader.skip(field.wire),
+        }
+    }
+    return value;
+}
+
+fn parseAttribute(allocator: std.mem.Allocator, body: []const u8) !Attribute {
+    var reader = Reader{ .bytes = body };
+    var name: []const u8 = &.{};
+    var string: []const u8 = &.{};
     var integer: i64 = 0;
     var float: f32 = 0;
-    var string: []const u8 = &.{};
+    var kind: AttributeKind = .integer;
     var ints = std.ArrayList(i64).init(allocator);
     defer ints.deinit();
     var floats = std.ArrayList(f32).init(allocator);
     defer floats.deinit();
-    while (!reader.eof()) {
+    errdefer allocator.free(name);
+    errdefer allocator.free(string);
+    var value_kind: ?AttributeKind = null;
+
+    while (reader.remaining() > 0) {
         const field = try reader.key();
         switch (field.field) {
-            1 => name = try reader.bytesField(),
+            1 => {
+                if (field.wire != 2) return error.InvalidWireType;
+                const raw = try reader.bytesField();
+                const replacement = try dupeBounded(allocator, raw, MAX_ATTRIBUTE_NAME_BYTES);
+                allocator.free(name);
+                name = replacement;
+            },
             2 => {
                 if (field.wire != 5) return error.InvalidWireType;
+                if (value_kind != null) return error.AmbiguousAttribute;
                 float = @bitCast(try reader.fixed32());
                 kind = .float;
+                value_kind = .float;
             },
             3 => {
+                if (field.wire != 0) return error.InvalidWireType;
+                if (value_kind != null) return error.AmbiguousAttribute;
                 integer = @bitCast(try reader.varint());
                 kind = .integer;
+                value_kind = .integer;
             },
             4 => {
-                string = try reader.bytesField();
+                if (field.wire != 2) return error.InvalidWireType;
+                if (value_kind != null) return error.AmbiguousAttribute;
+                const raw = try reader.bytesField();
+                const replacement = try dupeBounded(allocator, raw, MAX_ATTRIBUTE_STRING_BYTES);
+                allocator.free(string);
+                string = replacement;
                 kind = .string;
+                value_kind = .string;
             },
             7 => {
-                if (field.wire == 5) {
-                    try floats.append(@bitCast(try reader.fixed32()));
-                } else {
-                    const packed_values = try reader.bytesField();
-                    var packed_reader = Reader{ .bytes = packed_values };
-                    while (!packed_reader.eof()) {
-                        if (packed_reader.bytes.len - packed_reader.pos < 4) return error.TruncatedMessage;
-                        try floats.append(@bitCast(try packed_reader.fixed32()));
-                    }
+                if (value_kind != null and value_kind != .floats) return error.AmbiguousAttribute;
+                switch (field.wire) {
+                    5 => {
+                        if (floats.items.len >= MAX_ATTRIBUTE_VALUES) return error.TooManyAttributeValues;
+                        try floats.append(@bitCast(try reader.fixed32()));
+                    },
+                    2 => {
+                        const packed_body = try reader.bytesField();
+                        if (packed_body.len % 4 != 0) return error.Truncated;
+                        if (packed_body.len / 4 > MAX_ATTRIBUTE_VALUES - floats.items.len) {
+                            return error.TooManyAttributeValues;
+                        }
+                        var packed_reader = Reader{ .bytes = packed_body };
+                        while (packed_reader.remaining() > 0) {
+                            try floats.append(@bitCast(try packed_reader.fixed32()));
+                        }
+                    },
+                    else => return error.InvalidWireType,
                 }
                 kind = .floats;
+                value_kind = .floats;
             },
             8 => {
-                if (field.wire == 0) {
-                    try ints.append(@bitCast(try reader.varint()));
-                } else {
-                    const packed_values = try reader.bytesField();
-                    var packed_reader = Reader{ .bytes = packed_values };
-                    while (!packed_reader.eof()) try ints.append(@bitCast(try packed_reader.varint()));
+                if (value_kind != null and value_kind != .integers) return error.AmbiguousAttribute;
+                switch (field.wire) {
+                    0 => {
+                        if (ints.items.len >= MAX_ATTRIBUTE_VALUES) return error.TooManyAttributeValues;
+                        try ints.append(@bitCast(try reader.varint()));
+                    },
+                    2 => {
+                        const packed_body = try reader.bytesField();
+                        var packed_reader = Reader{ .bytes = packed_body };
+                        while (packed_reader.remaining() > 0) {
+                            if (ints.items.len >= MAX_ATTRIBUTE_VALUES) return error.TooManyAttributeValues;
+                            try ints.append(@bitCast(try packed_reader.varint()));
+                        }
+                    },
+                    else => return error.InvalidWireType,
                 }
                 kind = .integers;
+                value_kind = .integers;
             },
             else => try reader.skip(field.wire),
         }
     }
-    if (name.len == 0) return error.InvalidAttribute;
+
+    if (name.len == 0) return error.MissingName;
+    if (value_kind == null) return error.MissingAttributeValue;
+    const owned_ints = try ints.toOwnedSlice();
+    errdefer allocator.free(owned_ints);
+    const owned_floats = try floats.toOwnedSlice();
+    errdefer allocator.free(owned_floats);
     return .{
         .allocator = allocator,
-        .name = try allocator.dupe(u8, name),
+        .name = name,
         .kind = kind,
         .integer = integer,
         .float = float,
-        .string = try allocator.dupe(u8, string),
-        .ints = try ints.toOwnedSlice(),
-        .floats = try floats.toOwnedSlice(),
+        .string = string,
+        .ints = owned_ints,
+        .floats = owned_floats,
     };
 }
 
-fn parseValueInfo(allocator: std.mem.Allocator, bytes: []const u8) !ValueInfo {
-    var info = ValueInfo{ .allocator = allocator, .name = &.{} };
-    errdefer info.deinit();
-    var reader = Reader{ .bytes = bytes };
-    while (!reader.eof()) {
-        const field = try reader.key();
-        if (field.field == 1) {
-            allocator.free(info.name);
-            info.name = try allocator.dupe(u8, try reader.bytesField());
-        } else if (field.field == 2) {
-            try parseTypeProto(&info, try reader.bytesField());
-        } else try reader.skip(field.wire);
-    }
-    return info;
+fn appendNode(
+    graph: *Graph,
+    name: []const u8,
+    op_type: []const u8,
+    inputs: []const []const u8,
+    outputs: []const []const u8,
+) !void {
+    const allocator = graph.allocator;
+    var node = Node{
+        .allocator = allocator,
+        .name = &.{},
+        .domain = &.{},
+        .op_type = &.{},
+        .inputs = std.ArrayList([]const u8).init(allocator),
+        .outputs = std.ArrayList([]const u8).init(allocator),
+        .attributes = std.ArrayList(Attribute).init(allocator),
+    };
+    errdefer node.deinit();
+    try replaceOwned(allocator, &node.name, name, MAX_NAME_BYTES);
+    try replaceOwned(allocator, &node.domain, "ai.onnx", MAX_NAME_BYTES);
+    try replaceOwned(allocator, &node.op_type, op_type, MAX_NAME_BYTES);
+    for (inputs) |input| try appendOwned(allocator, &node.inputs, input, MAX_NAME_BYTES);
+    for (outputs) |output| try appendOwned(allocator, &node.outputs, output, MAX_NAME_BYTES);
+    try graph.nodes.append(node);
 }
 
-fn parseTypeProto(info: *ValueInfo, bytes: []const u8) !void {
-    var reader = Reader{ .bytes = bytes };
-    while (!reader.eof()) {
-        const field = try reader.key();
-        if (field.field == 1) {
-            try parseTensorType(info, try reader.bytesField());
-        } else try reader.skip(field.wire);
+fn graphFixture(allocator: std.mem.Allocator) !Graph {
+    var graph = Graph{
+        .allocator = allocator,
+        .nodes = std.ArrayList(Node).init(allocator),
+        .inputs = std.ArrayList(ValueInfo).init(allocator),
+        .outputs = std.ArrayList(ValueInfo).init(allocator),
+    };
+    errdefer graph.deinit();
+
+    var input = ValueInfo{ .allocator = allocator, .name = try allocator.dupe(u8, "input") };
+    var input_owned = true;
+    errdefer if (input_owned) input.deinit();
+    input.elem_type = 1;
+    input.dims = try allocator.dupe(i64, &.{ 1, 4 });
+    try graph.inputs.append(input);
+    input_owned = false;
+
+    var output = ValueInfo{ .allocator = allocator, .name = try allocator.dupe(u8, "final") };
+    var output_owned = true;
+    errdefer if (output_owned) output.deinit();
+    output.elem_type = 1;
+    output.dims = try allocator.dupe(i64, &.{1});
+    try graph.outputs.append(output);
+    output_owned = false;
+
+    try appendNode(&graph, "a", "Identity", &.{"input"}, &.{"a"});
+    try appendNode(&graph, "b", "Relu", &.{"a"}, &.{"b"});
+    try appendNode(&graph, "c", "Add", &.{ "b", "a" }, &.{"c"});
+    try appendNode(&graph, "d", "Identity", &.{"c"}, &.{"final"});
+    return graph;
+}
+
+fn appendVarint(bytes: *std.ArrayList(u8), value: u64) !void {
+    var current = value;
+    while (true) {
+        const byte: u8 = @intCast(current & 0x7f);
+        current >>= 7;
+        if (current == 0) {
+            try bytes.append(byte);
+            return;
+        }
+        try bytes.append(byte | 0x80);
     }
 }
 
-fn parseTensorType(info: *ValueInfo, bytes: []const u8) !void {
-    var reader = Reader{ .bytes = bytes };
-    while (!reader.eof()) {
-        const field = try reader.key();
-        if (field.field == 1) {
-            info.elem_type = try reader.varint();
-        } else if (field.field == 2) {
-            try parseShape(info, try reader.bytesField());
-        } else try reader.skip(field.wire);
-    }
+fn appendKey(bytes: *std.ArrayList(u8), field: u32, wire: u3) !void {
+    try appendVarint(bytes, (@as(u64, field) << 3) | wire);
 }
 
-fn parseShape(info: *ValueInfo, bytes: []const u8) !void {
-    var dims = std.ArrayList(i64).init(info.allocator);
-    defer dims.deinit();
-    var reader = Reader{ .bytes = bytes };
-    while (!reader.eof()) {
-        const field = try reader.key();
-        if (field.field == 1) {
-            var dim_reader = Reader{ .bytes = try reader.bytesField() };
-            var dim_value: i64 = -1;
-            while (!dim_reader.eof()) {
-                const dim_field = try dim_reader.key();
-                if (dim_field.field == 1) {
-                    dim_value = @bitCast(try dim_reader.varint());
-                } else try dim_reader.skip(dim_field.wire);
-            }
-            try dims.append(dim_value);
-        } else try reader.skip(field.wire);
-    }
-    info.dims = try dims.toOwnedSlice();
-}
-
-fn findProducer(graph: *const Graph, input: []const u8) ?usize {
-    for (graph.nodes.items, 0..) |node, index| {
-        for (node.outputs.items) |output| if (std.mem.eql(u8, output, input)) return index;
-    }
-    return null;
+fn appendBytesField(bytes: *std.ArrayList(u8), field: u32, value: []const u8) !void {
+    try appendKey(bytes, field, 2);
+    try appendVarint(bytes, value.len);
+    try bytes.appendSlice(value);
 }
 
 test "graph parser orders dependent nodes" {
-    const node_a = [_]u8{ 0x22, 0x03, 'A', 'd', 'd', 0x1a, 0x01, 'a', 0x12, 0x01, 'x' };
-    const node_b = [_]u8{ 0x22, 0x03, 'M', 'u', 'l', 0x0a, 0x01, 'x', 0x12, 0x01, 'y' };
-    const graph = [_]u8{ 0x0a, node_a.len, node_a[0], node_a[1], node_a[2], node_a[3], node_a[4], node_a[5], node_a[6], node_a[7], node_a[8], node_a[9], node_a[10], 0x0a, node_b.len, node_b[0], node_b[1], node_b[2], node_b[3], node_b[4], node_b[5], node_b[6], node_b[7], node_b[8], node_b[9], node_b[10] };
-    const model = [_]u8{ 0x3a, graph.len, graph[0], graph[1], graph[2], graph[3], graph[4], graph[5], graph[6], graph[7], graph[8], graph[9], graph[10], graph[11], graph[12], graph[13], graph[14], graph[15], graph[16], graph[17], graph[18], graph[19], graph[20], graph[21], graph[22], graph[23], graph[24], graph[25] };
-    var parsed = try parse(std.testing.allocator, &model);
-    defer parsed.deinit();
-    const order = try parsed.topologicalOrder(std.testing.allocator);
-    defer std.testing.allocator.free(order);
-    try std.testing.expectEqual(@as(usize, 2), order.len);
-    try std.testing.expectEqual(@as(usize, 0), order[0]);
-    try std.testing.expectEqual(@as(usize, 1), order[1]);
+    const allocator = std.testing.allocator;
+    var graph = try graphFixture(allocator);
+    defer graph.deinit();
+
+    const order = try graph.topologicalOrder(allocator);
+    defer allocator.free(order);
+    try std.testing.expectEqualSlices(usize, &.{ 0, 1, 2, 3 }, order);
+}
+
+test "topological order preserves earliest ready node when dependencies resolve" {
+    const allocator = std.testing.allocator;
+    var graph = Graph{
+        .allocator = allocator,
+        .nodes = std.ArrayList(Node).init(allocator),
+        .inputs = std.ArrayList(ValueInfo).init(allocator),
+        .outputs = std.ArrayList(ValueInfo).init(allocator),
+    };
+    defer graph.deinit();
+    try appendNode(&graph, "tail", "Identity", &.{"x"}, &.{"tail"});
+    try appendNode(&graph, "dependent", "Identity", &.{"tail"}, &.{"dep"});
+    try appendNode(&graph, "external", "Identity", &.{"external_in"}, &.{"ext"});
+
+    const order = try graph.topologicalOrder(allocator);
+    defer allocator.free(order);
+    try std.testing.expectEqualSlices(usize, &.{ 0, 1, 2 }, order);
+}
+
+test "topological order rejects duplicate outputs and cycles" {
+    const allocator = std.testing.allocator;
+    var graph = Graph{
+        .allocator = allocator,
+        .nodes = std.ArrayList(Node).init(allocator),
+        .inputs = std.ArrayList(ValueInfo).init(allocator),
+        .outputs = std.ArrayList(ValueInfo).init(allocator),
+    };
+    defer graph.deinit();
+    try appendNode(&graph, "first", "Identity", &.{"x"}, &.{"dup"});
+    try appendNode(&graph, "second", "Identity", &.{"y"}, &.{"dup"});
+    try std.testing.expectError(error.DuplicateOutput, graph.topologicalOrder(allocator));
+
+    const cycle_b_out = try allocator.dupe(u8, "cycle_b");
+    errdefer allocator.free(cycle_b_out);
+    const cycle_a_in = try allocator.dupe(u8, "cycle_a");
+    errdefer allocator.free(cycle_a_in);
+    const cycle_a_out = try allocator.dupe(u8, "cycle_a");
+    errdefer allocator.free(cycle_a_out);
+    const cycle_b_in = try allocator.dupe(u8, "cycle_b");
+    errdefer allocator.free(cycle_b_in);
+    allocator.free(graph.nodes.items[1].outputs.items[0]);
+    allocator.free(graph.nodes.items[1].inputs.items[0]);
+    allocator.free(graph.nodes.items[0].outputs.items[0]);
+    allocator.free(graph.nodes.items[0].inputs.items[0]);
+    graph.nodes.items[1].outputs.items[0] = cycle_b_out;
+    graph.nodes.items[1].inputs.items[0] = cycle_a_in;
+    graph.nodes.items[0].outputs.items[0] = cycle_a_out;
+    graph.nodes.items[0].inputs.items[0] = cycle_b_in;
+    try std.testing.expectError(error.DependencyCycle, graph.topologicalOrder(allocator));
+}
+
+test "graph protobuf parser preserves value info and attributes" {
+    const allocator = std.testing.allocator;
+
+    var shape = std.ArrayList(u8).init(allocator);
+    defer shape.deinit();
+    var dim = std.ArrayList(u8).init(allocator);
+    defer dim.deinit();
+    try appendKey(&dim, 1, 0);
+    try appendVarint(&dim, 4);
+    try appendBytesField(&shape, 1, dim.items);
+    dim.clearRetainingCapacity();
+    try appendKey(&dim, 2, 2);
+    try appendVarint(&dim, 6);
+    try dim.appendSlice("tokens");
+    try appendBytesField(&shape, 1, dim.items);
+
+    var tensor_type = std.ArrayList(u8).init(allocator);
+    defer tensor_type.deinit();
+    try appendKey(&tensor_type, 1, 0);
+    try appendVarint(&tensor_type, 1);
+    try appendBytesField(&tensor_type, 2, shape.items);
+
+    var type_proto = std.ArrayList(u8).init(allocator);
+    defer type_proto.deinit();
+    try appendBytesField(&type_proto, 1, tensor_type.items);
+
+    var input_info = std.ArrayList(u8).init(allocator);
+    defer input_info.deinit();
+    try appendBytesField(&input_info, 1, "input");
+    try appendBytesField(&input_info, 2, type_proto.items);
+
+    var attr = std.ArrayList(u8).init(allocator);
+    defer attr.deinit();
+    try appendBytesField(&attr, 1, "axis");
+    var packed_ints = std.ArrayList(u8).init(allocator);
+    defer packed_ints.deinit();
+    try appendVarint(&packed_ints, 1);
+    try appendVarint(&packed_ints, 2);
+    try appendBytesField(&attr, 8, packed_ints.items);
+    try appendKey(&attr, 8, 0);
+    try appendVarint(&attr, 3);
+
+    var node = std.ArrayList(u8).init(allocator);
+    defer node.deinit();
+    try appendBytesField(&node, 1, "input");
+    try appendBytesField(&node, 2, "output");
+    try appendBytesField(&node, 4, "Identity");
+    try appendBytesField(&node, 5, attr.items);
+
+    var graph_body = std.ArrayList(u8).init(allocator);
+    defer graph_body.deinit();
+    try appendBytesField(&graph_body, 1, node.items);
+    try appendBytesField(&graph_body, 11, input_info.items);
+
+    var model = std.ArrayList(u8).init(allocator);
+    defer model.deinit();
+    try appendBytesField(&model, 7, graph_body.items);
+
+    var graph = try parse(allocator, model.items);
+    defer graph.deinit();
+    try std.testing.expectEqual(@as(usize, 1), graph.nodes.items.len);
+    try std.testing.expectEqual(@as(usize, 1), graph.inputs.items.len);
+    try std.testing.expectEqualStrings("input", graph.inputs.items[0].name);
+    try std.testing.expectEqualSlices(i64, &.{ 4, -1 }, graph.inputs.items[0].dims);
+    try std.testing.expectEqualSlices(i64, &.{ 1, 2, 3 }, graph.nodes.items[0].attributes.items[0].ints);
+}
+
+test "graph parser rejects malformed wire types and duplicate graph fields" {
+    const allocator = std.testing.allocator;
+
+    var malformed_node = std.ArrayList(u8).init(allocator);
+    defer malformed_node.deinit();
+    try appendKey(&malformed_node, 1, 0);
+    try appendVarint(&malformed_node, 0);
+    try appendBytesField(&malformed_node, 2, "output");
+    try appendBytesField(&malformed_node, 4, "Identity");
+
+    var malformed_graph = std.ArrayList(u8).init(allocator);
+    defer malformed_graph.deinit();
+    try appendBytesField(&malformed_graph, 1, malformed_node.items);
+
+    var malformed_model = std.ArrayList(u8).init(allocator);
+    defer malformed_model.deinit();
+    try appendBytesField(&malformed_model, 7, malformed_graph.items);
+    try std.testing.expectError(error.InvalidWireType, parse(allocator, malformed_model.items));
+
+    var valid_node = std.ArrayList(u8).init(allocator);
+    defer valid_node.deinit();
+    try appendBytesField(&valid_node, 2, "output");
+    try appendBytesField(&valid_node, 4, "Identity");
+    var valid_graph = std.ArrayList(u8).init(allocator);
+    defer valid_graph.deinit();
+    try appendBytesField(&valid_graph, 1, valid_node.items);
+
+    var model = std.ArrayList(u8).init(allocator);
+    defer model.deinit();
+    try appendBytesField(&model, 7, valid_graph.items);
+    try appendBytesField(&model, 7, valid_graph.items);
+    try std.testing.expectError(error.DuplicateGraph, parse(allocator, model.items));
+
+    var duplicate_node = std.ArrayList(u8).init(allocator);
+    defer duplicate_node.deinit();
+    try appendBytesField(&duplicate_node, 2, "output");
+    try appendBytesField(&duplicate_node, 4, "Identity");
+    var duplicate_graph = std.ArrayList(u8).init(allocator);
+    defer duplicate_graph.deinit();
+    try appendBytesField(&duplicate_graph, 1, valid_node.items);
+    try appendBytesField(&duplicate_graph, 1, duplicate_node.items);
+    var duplicate_model = std.ArrayList(u8).init(allocator);
+    defer duplicate_model.deinit();
+    try appendBytesField(&duplicate_model, 7, duplicate_graph.items);
+    try std.testing.expectError(error.DuplicateOutput, parse(allocator, duplicate_model.items));
+}
+
+test "node parser rejects missing op type, empty outputs, and value-less attributes" {
+    const allocator = std.testing.allocator;
+    var node = std.ArrayList(u8).init(allocator);
+    defer node.deinit();
+    try appendBytesField(&node, 2, "output");
+    try std.testing.expectError(error.MissingOpType, parseNode(allocator, node.items));
+
+    node.clearRetainingCapacity();
+    try appendBytesField(&node, 4, "Identity");
+    try appendBytesField(&node, 2, "");
+    try std.testing.expectError(error.EmptyName, parseNode(allocator, node.items));
+
+    var attribute = std.ArrayList(u8).init(allocator);
+    defer attribute.deinit();
+    try appendBytesField(&attribute, 1, "axis");
+    node.clearRetainingCapacity();
+    try appendBytesField(&node, 4, "Identity");
+    try appendBytesField(&node, 2, "output");
+    try appendBytesField(&node, 5, attribute.items);
+    try std.testing.expectError(error.MissingAttributeValue, parseNode(allocator, node.items));
+}
+
+test "value-info parser bounds rank and rejects duplicate names" {
+    const allocator = std.testing.allocator;
+    var info_body = std.ArrayList(u8).init(allocator);
+    defer info_body.deinit();
+    try appendBytesField(&info_body, 1, "x");
+
+    var tensor_type = std.ArrayList(u8).init(allocator);
+    defer tensor_type.deinit();
+    var shape = std.ArrayList(u8).init(allocator);
+    defer shape.deinit();
+    for (0..MAX_SHAPE_DIMS + 1) |_| {
+        var dim = std.ArrayList(u8).init(allocator);
+        defer dim.deinit();
+        try appendKey(&dim, 1, 0);
+        try appendVarint(&dim, 1);
+        try appendBytesField(&shape, 1, dim.items);
+    }
+    try appendBytesField(&tensor_type, 2, shape.items);
+    var type_proto = std.ArrayList(u8).init(allocator);
+    defer type_proto.deinit();
+    try appendBytesField(&type_proto, 1, tensor_type.items);
+    try appendBytesField(&info_body, 2, type_proto.items);
+    try std.testing.expectError(error.TooManyDims, parseValueInfo(allocator, info_body.items));
+
+    var named_info = std.ArrayList(u8).init(allocator);
+    defer named_info.deinit();
+    try appendBytesField(&named_info, 1, "duplicate");
+    var duplicate_graph = std.ArrayList(u8).init(allocator);
+    defer duplicate_graph.deinit();
+    try appendBytesField(&duplicate_graph, 11, named_info.items);
+    try appendBytesField(&duplicate_graph, 11, named_info.items);
+    var model = std.ArrayList(u8).init(allocator);
+    defer model.deinit();
+    try appendBytesField(&model, 7, duplicate_graph.items);
+    try std.testing.expectError(error.DuplicateValueInfo, parse(allocator, model.items));
+}
+
+test "varint parser rejects tenth-byte overflow" {
+    var reader = Reader{ .bytes = &.{ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x02 } };
+    try std.testing.expectError(error.VarintOverflow, reader.varint());
 }
