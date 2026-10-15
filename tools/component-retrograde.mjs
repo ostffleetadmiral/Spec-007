@@ -193,6 +193,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-host-tensor-ingress-boundaries",
     archive: "digit-tensor-upload-boundaries-20261015",
   }],
+  ["deps/digit/src/onnx_weights.zig", {
+    decision: "bounded-onnx-weight-index-and-shard-boundaries",
+    archive: "digit-onnx-weights-boundaries-20261015",
+  }],
   ["tools/layer-map.mjs", {
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",

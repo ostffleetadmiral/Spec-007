@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 54
+    "completed_full_retrograde": 55
   },
   "components": [
     {
@@ -945,19 +945,20 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "5d55bfb551e3cfa572c819e2352dad31301c0b05ce09eec96041f48342b8288a",
-        "bytes": 12593,
-        "lines": 312,
+        "sha256": "079507e650074b541ed39fb42dfb2a9a52c2b372ede63b51e63a37ddacfab5aa",
+        "bytes": 30016,
+        "lines": 689,
         "imports": [
           "builtin",
           "std"
         ],
         "referenced_by": [
           "deps/digit/src/qwen_embed.zig",
-          "src/aiwo_digit_model_probe.zig"
+          "src/aiwo_digit_model_probe.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 14
+        "public_surface": 22
       },
       "contract": {
         "mapped": true,
@@ -969,7 +970,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 1,
+        "test_blocks": 7,
         "registered": true,
         "documentation_mapped": true
       },
@@ -980,9 +981,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-onnx-weights-boundaries-20261015",
+        "decision": "bounded-onnx-weight-index-and-shard-boundaries"
       }
     },
     {
@@ -12085,9 +12086,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "e84627640e3fabf5b1809b45036fe148d121d335016492e3ab9fe4ab510ff6e7",
-        "bytes": 18568,
-        "lines": 457,
+        "sha256": "b5f5fb7b877cb4777dd915e43997cbfc27d0b426962b8667616365887ae4ae7d",
+        "bytes": 18733,
+        "lines": 461,
         "imports": [
           "node:crypto",
           "node:fs",
