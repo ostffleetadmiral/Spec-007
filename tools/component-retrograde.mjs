@@ -201,6 +201,10 @@ const FULL_RETROGRADE = new Map([
     decision: "bounded-onnx-graph-parser-and-topological-order",
     archive: "digit-onnx-graph-boundaries-20261015",
   }],
+  ["deps/digit/src/tensor_ops.zig", {
+    decision: "checked-q128-tensor-kernel-domains",
+    archive: "digit-tensor-ops-boundaries-20261015",
+  }],
   ["tools/layer-map.mjs", {
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",

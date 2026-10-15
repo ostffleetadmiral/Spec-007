@@ -7,7 +7,7 @@
 - Deferred-work markers: 0
 - Performance-measured components: 160
 - Workstream-measured components: 189
-- Fully retrograded/optimized: 56
+- Fully retrograded/optimized: 57
 
 ## Status counts
 

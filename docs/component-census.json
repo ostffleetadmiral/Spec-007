@@ -680,12 +680,12 @@
       },
       "tests": {
         "kind": "zig",
-        "blocks": 12,
+        "blocks": 15,
         "registered": true
       },
       "documentation": {
         "basename_mapped": true,
-        "component_map_mapped": false,
+        "component_map_mapped": true,
         "manifest_bound": false,
         "owner": null
       },

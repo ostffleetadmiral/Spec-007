@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 56
+    "completed_full_retrograde": 57
   },
   "components": [
     {
@@ -1188,9 +1188,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "bd128b7740d927c3246dfd06091b5cd69853153c49f44f2751a6b403d340d624",
-        "bytes": 41586,
-        "lines": 862,
+        "sha256": "f9445e1e95b1df5953c8dfe87b7d59aea3b61218a2e91558f8c4d0b4a4ff6c22",
+        "bytes": 48491,
+        "lines": 1063,
         "imports": [
           "builtin",
           "fixed_point",
@@ -1200,7 +1200,8 @@
           "deps/digit/src/causal_conv.zig",
           "deps/digit/src/graph_exec.zig",
           "deps/digit/src/linear_attention.zig",
-          "deps/digit/src/qwen_embed.zig"
+          "deps/digit/src/qwen_embed.zig",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 28
@@ -1215,7 +1216,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 12,
+        "test_blocks": 15,
         "registered": true,
         "documentation_mapped": true
       },
@@ -1226,9 +1227,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-tensor-ops-boundaries-20261015",
+        "decision": "checked-q128-tensor-kernel-domains"
       }
     },
     {
@@ -12089,9 +12090,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "0de859b6e454c7e09f9ada951d396646bb573ec315d9348a600d14f9b05df3a5",
-        "bytes": 18895,
-        "lines": 465,
+        "sha256": "bcc2439a7555b130bcaa48b7f3ce7b2b99f3a907f0c20fbdb5156d39b7c62012",
+        "bytes": 19044,
+        "lines": 469,
         "imports": [
           "node:crypto",
           "node:fs",

@@ -6,10 +6,22 @@ pub const Shape = struct {
     rows: usize,
     columns: usize,
 
-    pub fn elements(self: Shape) usize {
-        return self.rows * self.columns;
+    pub fn elements(self: Shape) !usize {
+        return checkedMul(self.rows, self.columns);
     }
 };
+
+fn checkedMul(left: usize, right: usize) !usize {
+    return std.math.mul(usize, left, right) catch error.TensorTooLarge;
+}
+
+fn checkedAdd(left: usize, right: usize) !usize {
+    return std.math.add(usize, left, right) catch error.TensorTooLarge;
+}
+
+fn checkedMulAdd(left: usize, right: usize, addend: usize) !usize {
+    return checkedAdd(try checkedMul(left, right), addend);
+}
 
 pub const AttentionShape = struct {
     heads: usize,
@@ -17,12 +29,12 @@ pub const AttentionShape = struct {
     key_length: usize,
     head_size: usize,
 
-    pub fn queryElements(self: AttentionShape) usize {
-        return self.heads * self.query_length * self.head_size;
+    pub fn queryElements(self: AttentionShape) !usize {
+        return checkedMul(try checkedMul(self.heads, self.query_length), self.head_size);
     }
 
-    pub fn keyElements(self: AttentionShape) usize {
-        return self.heads * self.key_length * self.head_size;
+    pub fn keyElements(self: AttentionShape) !usize {
+        return checkedMul(try checkedMul(self.heads, self.key_length), self.head_size);
     }
 };
 
@@ -58,17 +70,21 @@ pub fn scaledDotProductAttention(
     shape: AttentionShape,
     scale: fp.Q128_128,
 ) !void {
-    if (query.len != shape.queryElements() or key.len != shape.keyElements() or
-        value.len != shape.keyElements() or output.len != shape.queryElements() or
+    const query_elements = try shape.queryElements();
+    const key_elements = try shape.keyElements();
+    if (query.len != query_elements or key.len != key_elements or
+        value.len != key_elements or output.len != query_elements or
         scratch.len < shape.key_length) return error.ShapeMismatch;
     for (0..shape.heads) |head| {
         for (0..shape.query_length) |query_index| {
             var max_score: ?fp.Q128_128 = null;
+            const query_row = try checkedMulAdd(head, shape.query_length, query_index);
             for (0..shape.key_length) |key_index| {
                 var dot = fp.Q128_128.zero;
+                const key_row = try checkedMulAdd(head, shape.key_length, key_index);
                 for (0..shape.head_size) |dimension| {
-                    const q_index = (head * shape.query_length + query_index) * shape.head_size + dimension;
-                    const k_index = (head * shape.key_length + key_index) * shape.head_size + dimension;
+                    const q_index = try checkedMulAdd(query_row, shape.head_size, dimension);
+                    const k_index = try checkedMulAdd(key_row, shape.head_size, dimension);
                     dot = try dot.add(try query[q_index].mul(key[k_index]));
                 }
                 const score = try dot.mul(scale);
@@ -83,10 +99,11 @@ pub fn scaledDotProductAttention(
             for (0..shape.head_size) |dimension| {
                 var result = fp.Q128_128.zero;
                 for (0..shape.key_length) |key_index| {
-                    const v_index = (head * shape.key_length + key_index) * shape.head_size + dimension;
+                    const value_row = try checkedMulAdd(head, shape.key_length, key_index);
+                    const v_index = try checkedMulAdd(value_row, shape.head_size, dimension);
                     result = try result.add(try scratch[key_index].mul(try value[v_index].div(normalizer)));
                 }
-                const output_index = (head * shape.query_length + query_index) * shape.head_size + dimension;
+                const output_index = try checkedMulAdd(query_row, shape.head_size, dimension);
                 output[output_index] = result;
             }
         }
@@ -108,6 +125,43 @@ const supports_threads = switch (builtin.target.cpu.arch) {
     else => true,
 };
 
+const GroupQueryGeometry = struct {
+    total_length: usize,
+    query_size: usize,
+    current_size: usize,
+    cache_size: usize,
+    present_size: usize,
+    mask_size: usize,
+    bias_size: usize,
+    work_count: usize,
+    heads_per_batch: usize,
+    head_group: usize,
+};
+
+fn groupQueryGeometry(shape: GroupQueryShape) !GroupQueryGeometry {
+    if (shape.query_heads == 0 or shape.kv_heads == 0 or shape.query_heads % shape.kv_heads != 0) return error.ShapeMismatch;
+    const total_length = try checkedAdd(shape.past_length, shape.query_length);
+    const query_size = try checkedMul(try checkedMul(try checkedMul(shape.batch, shape.query_length), shape.query_heads), shape.head_size);
+    const current_size = try checkedMul(try checkedMul(try checkedMul(shape.batch, shape.query_length), shape.kv_heads), shape.head_size);
+    const cache_size = try checkedMul(try checkedMul(try checkedMul(shape.batch, shape.kv_heads), shape.past_length), shape.head_size);
+    const present_size = try checkedMul(try checkedMul(try checkedMul(shape.batch, shape.kv_heads), total_length), shape.head_size);
+    const mask_size = try checkedMul(try checkedMul(shape.batch, shape.query_length), total_length);
+    const bias_size = try checkedMul(try checkedMul(try checkedMul(shape.batch, shape.query_heads), shape.query_length), total_length);
+    const heads_per_batch = try checkedMul(shape.query_heads, shape.query_length);
+    return .{
+        .total_length = total_length,
+        .query_size = query_size,
+        .current_size = current_size,
+        .cache_size = cache_size,
+        .present_size = present_size,
+        .mask_size = mask_size,
+        .bias_size = bias_size,
+        .work_count = try checkedMul(shape.batch, heads_per_batch),
+        .heads_per_batch = heads_per_batch,
+        .head_group = shape.query_heads / shape.kv_heads,
+    };
+}
+
 const GroupQueryContext = struct {
     output: []fp.Q128_128,
     present_key: []const fp.Q128_128,
@@ -118,30 +172,42 @@ const GroupQueryContext = struct {
     scratch: []fp.Q128_128,
     scratch_per_work: bool,
     shape: GroupQueryShape,
+    geometry: GroupQueryGeometry,
     scale: fp.Q128_128,
     errors: *[MAX_GROUP_WORK]?anyerror,
 };
 
 fn groupQueryWorker(context: *const GroupQueryContext, work_index: usize) !void {
-    const heads_per_batch = context.shape.query_heads * context.shape.query_length;
-    const batch = work_index / heads_per_batch;
-    const remainder = work_index % heads_per_batch;
-    const query_head = remainder / context.shape.query_length;
-    const query_position = remainder % context.shape.query_length;
-    const total_length = context.shape.past_length + context.shape.query_length;
-    const kv_head = query_head / (context.shape.query_heads / context.shape.kv_heads);
-    const query_base = ((batch * context.shape.query_length + query_position) * context.shape.query_heads + query_head) * context.shape.head_size;
+    const shape = context.shape;
+    const geometry = context.geometry;
+    const batch = work_index / geometry.heads_per_batch;
+    const remainder = work_index % geometry.heads_per_batch;
+    const query_head = remainder / shape.query_length;
+    const query_position = remainder % shape.query_length;
+    const total_length = geometry.total_length;
+    const kv_head = query_head / geometry.head_group;
+    const batch_query = try checkedMulAdd(batch, shape.query_length, query_position);
+    const query_base = try checkedMul(try checkedMulAdd(batch_query, shape.query_heads, query_head), shape.head_size);
     const scratch_index = if (context.scratch_per_work) work_index else 0;
-    const scratch = context.scratch[scratch_index * total_length ..][0..total_length];
+    const scratch_base = try checkedMul(scratch_index, total_length);
+    const scratch = context.scratch[scratch_base..][0..total_length];
 
     var max_score: ?fp.Q128_128 = null;
     for (0..total_length) |key_position| {
         var dot = fp.Q128_128.zero;
-        const key_base = ((batch * context.shape.kv_heads + kv_head) * total_length + key_position) * context.shape.head_size;
-        for (0..context.shape.head_size) |dimension| dot = try dot.add(try context.query[query_base + dimension].mul(context.present_key[key_base + dimension]));
+        const batch_key = try checkedMulAdd(batch, shape.kv_heads, kv_head);
+        const key_base = try checkedMul(try checkedMulAdd(batch_key, total_length, key_position), shape.head_size);
+        for (0..shape.head_size) |dimension| dot = try dot.add(try context.query[query_base + dimension].mul(context.present_key[key_base + dimension]));
         var score = try dot.mul(context.scale);
-        if (context.additive_mask.len != 0) score = try score.add(context.additive_mask[(batch * context.shape.query_length + query_position) * total_length + key_position]);
-        if (context.attention_bias.len != 0) score = try score.add(context.attention_bias[(((batch * context.shape.query_heads + query_head) * context.shape.query_length + query_position) * total_length) + key_position]);
+        if (context.additive_mask.len != 0) {
+            const mask_index = try checkedMulAdd(batch_query, total_length, key_position);
+            score = try score.add(context.additive_mask[mask_index]);
+        }
+        if (context.attention_bias.len != 0) {
+            const batch_head = try checkedMulAdd(batch, shape.query_heads, query_head);
+            const bias_index = try checkedMulAdd(try checkedMulAdd(batch_head, shape.query_length, query_position), total_length, key_position);
+            score = try score.add(context.attention_bias[bias_index]);
+        }
         scratch[key_position] = score;
         if (max_score == null or score.raw > max_score.?.raw) max_score = score;
     }
@@ -150,10 +216,11 @@ fn groupQueryWorker(context: *const GroupQueryContext, work_index: usize) !void 
         scratch[key_position] = try expApprox(try scratch[key_position].sub(max_score.?));
         normalizer = try normalizer.add(scratch[key_position]);
     }
-    for (0..context.shape.head_size) |dimension| {
+    for (0..shape.head_size) |dimension| {
         var result = fp.Q128_128.zero;
         for (0..total_length) |key_position| {
-            const value_base = ((batch * context.shape.kv_heads + kv_head) * total_length + key_position) * context.shape.head_size;
+            const batch_key = try checkedMulAdd(batch, shape.kv_heads, kv_head);
+            const value_base = try checkedMul(try checkedMulAdd(batch_key, total_length, key_position), shape.head_size);
             result = try result.add(try scratch[key_position].mul(try context.present_value[value_base + dimension].div(normalizer)));
         }
         context.output[query_base + dimension] = result;
@@ -181,38 +248,38 @@ pub fn groupQueryAttention(
     shape: GroupQueryShape,
     scale: fp.Q128_128,
 ) !void {
-    if (shape.query_heads == 0 or shape.kv_heads == 0 or shape.query_heads % shape.kv_heads != 0) return error.ShapeMismatch;
-    const total_length = shape.past_length + shape.query_length;
-    const query_size = shape.batch * shape.query_length * shape.query_heads * shape.head_size;
-    const current_size = shape.batch * shape.query_length * shape.kv_heads * shape.head_size;
-    const cache_size = shape.batch * shape.kv_heads * shape.past_length * shape.head_size;
-    const present_size = shape.batch * shape.kv_heads * total_length * shape.head_size;
-    if (output.len != query_size or query.len != query_size or key.len != current_size or value.len != current_size or
-        past_key.len != cache_size or past_value.len != cache_size or present_key.len != present_size or
-        present_value.len != present_size or scratch.len < total_length or
-        (additive_mask.len != 0 and additive_mask.len != shape.batch * shape.query_length * total_length) or
-        (attention_bias.len != 0 and attention_bias.len != shape.batch * shape.query_heads * shape.query_length * total_length)) return error.ShapeMismatch;
+    const geometry = try groupQueryGeometry(shape);
+    const total_length = geometry.total_length;
+    if (output.len != geometry.query_size or query.len != geometry.query_size or
+        key.len != geometry.current_size or value.len != geometry.current_size or
+        past_key.len != geometry.cache_size or past_value.len != geometry.cache_size or
+        present_key.len != geometry.present_size or present_value.len != geometry.present_size or
+        scratch.len < total_length or
+        (additive_mask.len != 0 and additive_mask.len != geometry.mask_size) or
+        (attention_bias.len != 0 and attention_bias.len != geometry.bias_size)) return error.ShapeMismatch;
     for (0..shape.batch) |batch| {
         for (0..shape.kv_heads) |kv_head| {
             for (0..total_length) |position| {
-                const present_base = ((batch * shape.kv_heads + kv_head) * total_length + position) * shape.head_size;
+                const batch_cache = try checkedMulAdd(batch, shape.kv_heads, kv_head);
+                const present_base = try checkedMul(try checkedMulAdd(batch_cache, total_length, position), shape.head_size);
                 if (position < shape.past_length) {
-                    const past_base = ((batch * shape.kv_heads + kv_head) * shape.past_length + position) * shape.head_size;
+                    const past_base = try checkedMul(try checkedMulAdd(batch_cache, shape.past_length, position), shape.head_size);
                     @memcpy(present_key[present_base .. present_base + shape.head_size], past_key[past_base .. past_base + shape.head_size]);
                     @memcpy(present_value[present_base .. present_base + shape.head_size], past_value[past_base .. past_base + shape.head_size]);
                 } else {
                     const current_position = position - shape.past_length;
-                    const current_base = (batch * shape.query_length + current_position) * shape.kv_heads * shape.head_size + kv_head * shape.head_size;
+                    const batch_query = try checkedMulAdd(batch, shape.query_length, current_position);
+                    const current_base = try checkedMulAdd(try checkedMul(batch_query, shape.kv_heads), shape.head_size, try checkedMul(kv_head, shape.head_size));
                     @memcpy(present_key[present_base .. present_base + shape.head_size], key[current_base .. current_base + shape.head_size]);
                     @memcpy(present_value[present_base .. present_base + shape.head_size], value[current_base .. current_base + shape.head_size]);
                 }
             }
         }
     }
-    const work_count = shape.batch * shape.query_heads * shape.query_length;
+    const work_count = geometry.work_count;
     const parallel = supports_threads and work_count > 1 and work_count <= MAX_GROUP_WORK;
     const scratch_count = if (parallel) work_count else 1;
-    if (scratch.len < total_length * scratch_count) return error.ShapeMismatch;
+    if (scratch.len < try checkedMul(total_length, scratch_count)) return error.ShapeMismatch;
     var errors: [MAX_GROUP_WORK]?anyerror = .{null} ** MAX_GROUP_WORK;
     var context = GroupQueryContext{
         .output = output,
@@ -224,6 +291,7 @@ pub fn groupQueryAttention(
         .scratch = scratch,
         .scratch_per_work = parallel,
         .shape = shape,
+        .geometry = geometry,
         .scale = scale,
         .errors = &errors,
     };
@@ -264,39 +332,38 @@ pub fn groupQueryAttentionF64(
     shape: GroupQueryShape,
     scale: fp.Q128_128,
 ) !void {
-    if (shape.query_heads == 0 or shape.kv_heads == 0 or shape.query_heads % shape.kv_heads != 0) return error.ShapeMismatch;
-    const total_length = shape.past_length + shape.query_length;
-    const query_size = shape.batch * shape.query_length * shape.query_heads * shape.head_size;
-    const current_size = shape.batch * shape.query_length * shape.kv_heads * shape.head_size;
-    const cache_size = shape.batch * shape.kv_heads * shape.past_length * shape.head_size;
-    const present_size = shape.batch * shape.kv_heads * total_length * shape.head_size;
-    if (output.len != query_size or query.len != query_size or key.len != current_size or value.len != current_size or
-        past_key.len != cache_size or past_value.len != cache_size or present_key.len != present_size or
-        present_value.len != present_size or
-        (additive_mask.len != 0 and additive_mask.len != shape.batch * shape.query_length * total_length) or
-        (attention_bias.len != 0 and attention_bias.len != shape.batch * shape.query_heads * shape.query_length * total_length)) return error.ShapeMismatch;
+    const geometry = try groupQueryGeometry(shape);
+    const total_length = geometry.total_length;
+    if (output.len != geometry.query_size or query.len != geometry.query_size or
+        key.len != geometry.current_size or value.len != geometry.current_size or
+        past_key.len != geometry.cache_size or past_value.len != geometry.cache_size or
+        present_key.len != geometry.present_size or present_value.len != geometry.present_size or
+        (additive_mask.len != 0 and additive_mask.len != geometry.mask_size) or
+        (attention_bias.len != 0 and attention_bias.len != geometry.bias_size)) return error.ShapeMismatch;
     for (0..shape.batch) |batch| {
         for (0..shape.kv_heads) |kv_head| {
             for (0..total_length) |position| {
-                const present_base = ((batch * shape.kv_heads + kv_head) * total_length + position) * shape.head_size;
+                const batch_cache = try checkedMulAdd(batch, shape.kv_heads, kv_head);
+                const present_base = try checkedMul(try checkedMulAdd(batch_cache, total_length, position), shape.head_size);
                 if (position < shape.past_length) {
-                    const past_base = ((batch * shape.kv_heads + kv_head) * shape.past_length + position) * shape.head_size;
+                    const past_base = try checkedMul(try checkedMulAdd(batch_cache, shape.past_length, position), shape.head_size);
                     @memcpy(present_key[present_base .. present_base + shape.head_size], past_key[past_base .. past_base + shape.head_size]);
                     @memcpy(present_value[present_base .. present_base + shape.head_size], past_value[past_base .. past_base + shape.head_size]);
                 } else {
                     const current_position = position - shape.past_length;
-                    const current_base = (batch * shape.query_length + current_position) * shape.kv_heads * shape.head_size + kv_head * shape.head_size;
+                    const batch_query = try checkedMulAdd(batch, shape.query_length, current_position);
+                    const current_base = try checkedMulAdd(try checkedMul(batch_query, shape.kv_heads), shape.head_size, try checkedMul(kv_head, shape.head_size));
                     @memcpy(present_key[present_base .. present_base + shape.head_size], key[current_base .. current_base + shape.head_size]);
                     @memcpy(present_value[present_base .. present_base + shape.head_size], value[current_base .. current_base + shape.head_size]);
                 }
             }
         }
     }
-    const keys_f64 = try allocator.alloc(f64, present_size);
+    const keys_f64 = try allocator.alloc(f64, geometry.present_size);
     defer allocator.free(keys_f64);
-    const values_f64 = try allocator.alloc(f64, present_size);
+    const values_f64 = try allocator.alloc(f64, geometry.present_size);
     defer allocator.free(values_f64);
-    const queries_f64 = try allocator.alloc(f64, query_size);
+    const queries_f64 = try allocator.alloc(f64, geometry.query_size);
     defer allocator.free(queries_f64);
     const scratch = try allocator.alloc(f64, total_length);
     defer allocator.free(scratch);
@@ -304,20 +371,26 @@ pub fn groupQueryAttentionF64(
     for (values_f64, present_value) |*slot, element| slot.* = element.toF64();
     for (queries_f64, query) |*slot, element| slot.* = element.toF64();
     const scale_f64 = scale.toF64();
-    const head_group = shape.query_heads / shape.kv_heads;
+    const head_group = geometry.head_group;
     for (0..shape.batch) |batch| {
         for (0..shape.query_heads) |query_head| {
             const kv_head = query_head / head_group;
             for (0..shape.query_length) |query_position| {
-                const query_base = ((batch * shape.query_length + query_position) * shape.query_heads + query_head) * shape.head_size;
+                const batch_query = try checkedMulAdd(batch, shape.query_length, query_position);
+                const query_base = try checkedMul(try checkedMulAdd(batch_query, shape.query_heads, query_head), shape.head_size);
                 var max_score: f64 = -std.math.inf(f64);
                 for (0..total_length) |key_position| {
-                    const key_base = ((batch * shape.kv_heads + kv_head) * total_length + key_position) * shape.head_size;
+                    const batch_key = try checkedMulAdd(batch, shape.kv_heads, kv_head);
+                    const key_base = try checkedMul(try checkedMulAdd(batch_key, total_length, key_position), shape.head_size);
                     var dot: f64 = 0;
                     for (0..shape.head_size) |dimension| dot += queries_f64[query_base + dimension] * keys_f64[key_base + dimension];
                     var score = dot * scale_f64;
-                    if (additive_mask.len != 0) score += additive_mask[(batch * shape.query_length + query_position) * total_length + key_position].toF64();
-                    if (attention_bias.len != 0) score += attention_bias[(((batch * shape.query_heads + query_head) * shape.query_length + query_position) * total_length) + key_position].toF64();
+                    if (additive_mask.len != 0) score += additive_mask[try checkedMulAdd(batch_query, total_length, key_position)].toF64();
+                    if (attention_bias.len != 0) {
+                        const batch_head = try checkedMulAdd(batch, shape.query_heads, query_head);
+                        const bias_index = try checkedMulAdd(try checkedMulAdd(batch_head, shape.query_length, query_position), total_length, key_position);
+                        score += attention_bias[bias_index].toF64();
+                    }
                     scratch[key_position] = score;
                     if (score > max_score) max_score = score;
                 }
@@ -329,7 +402,8 @@ pub fn groupQueryAttentionF64(
                 for (0..shape.head_size) |dimension| {
                     var result: f64 = 0;
                     for (0..total_length) |key_position| {
-                        const value_base = ((batch * shape.kv_heads + kv_head) * total_length + key_position) * shape.head_size;
+                        const batch_key = try checkedMulAdd(batch, shape.kv_heads, kv_head);
+                        const value_base = try checkedMul(try checkedMulAdd(batch_key, total_length, key_position), shape.head_size);
                         result += scratch[key_position] * (values_f64[value_base + dimension] / normalizer);
                     }
                     output[query_base + dimension] = try fp.Q128_128.fromF64Saturating(result);
@@ -345,8 +419,8 @@ pub const RotaryShape = struct {
     heads: usize,
     head_size: usize,
 
-    pub fn elements(self: RotaryShape) usize {
-        return self.batch * self.sequence * self.heads * self.head_size;
+    pub fn elements(self: RotaryShape) !usize {
+        return checkedMul(try checkedMul(try checkedMul(self.batch, self.sequence), self.heads), self.head_size);
     }
 };
 
@@ -360,20 +434,23 @@ pub fn rotaryEmbedding(
     rotary_dimension: usize,
     interleaved: bool,
 ) !void {
+    const elements = try shape.elements();
+    const position_count = try checkedMul(shape.batch, shape.sequence);
     if (rotary_dimension == 0 or rotary_dimension > shape.head_size or rotary_dimension % 2 != 0 or
-        input.len != shape.elements() or output.len != shape.elements() or
-        position_ids.len != shape.batch * shape.sequence or
+        input.len != elements or output.len != elements or
+        position_ids.len != position_count or
         cos_cache.len % (rotary_dimension / 2) != 0 or
         sin_cache.len != cos_cache.len) return error.ShapeMismatch;
     const rotary_half = rotary_dimension / 2;
     const cache_positions = cos_cache.len / rotary_half;
     for (0..shape.batch) |batch| {
         for (0..shape.sequence) |sequence| {
-            const position = position_ids[batch * shape.sequence + sequence];
+            const position_index = try checkedMulAdd(batch, shape.sequence, sequence);
+            const position = position_ids[position_index];
             if (position >= cache_positions) return error.PositionOutOfRange;
             for (0..shape.heads) |head| {
-                const base = ((batch * shape.sequence + sequence) * shape.heads + head) * shape.head_size;
-                const cache_base = position * rotary_half;
+                const base = try checkedMul(try checkedMulAdd(try checkedMulAdd(batch, shape.sequence, sequence), shape.heads, head), shape.head_size);
+                const cache_base = try checkedMul(position, rotary_half);
                 if (interleaved) {
                     for (0..rotary_half) |pair| {
                         const x = input[base + pair * 2];
@@ -515,10 +592,13 @@ pub fn matMul(
     right: []const fp.Q128_128,
     right_shape: Shape,
 ) !void {
+    const left_elements = try left_shape.elements();
+    const right_elements = try right_shape.elements();
+    const output_elements = try checkedMul(left_shape.rows, right_shape.columns);
     if (left_shape.columns != right_shape.rows or
-        left.len != left_shape.elements() or
-        right.len != right_shape.elements() or
-        output.len != left_shape.rows * right_shape.columns) return error.ShapeMismatch;
+        left.len != left_elements or
+        right.len != right_elements or
+        output.len != output_elements) return error.ShapeMismatch;
 
     // k-outer accumulation: `right` rows are read contiguously and each output
     // row is written contiguously. Per-element accumulation order (k ascending)
@@ -663,7 +743,9 @@ pub fn decode4BitRow(
 ) !void {
     if (block_size == 0 or block_size % 2 != 0 or output.len % block_size != 0) return error.ShapeMismatch;
     const block_count = output.len / block_size;
-    if (packed_values.len != block_count * (block_size / 2) or zero_points.len != (block_count + 1) / 2 or scales.len != block_count) return error.ShapeMismatch;
+    const packed_size = try checkedMul(block_count, block_size / 2);
+    const zero_point_size = try checkedAdd(block_count, 1) / 2;
+    if (packed_values.len != packed_size or zero_points.len != zero_point_size or scales.len != block_count) return error.ShapeMismatch;
     for (0..block_count) |block| {
         const packed_values_zero = zero_points[block / 2];
         const zero_point: i64 = @intCast((packed_values_zero >> @intCast((block % 2) * 4)) & 0x0f);
@@ -693,11 +775,16 @@ pub fn matMul4Bit(
     block_size: usize,
     scratch: []fp.Q128_128,
 ) !void {
-    if (left_shape.columns != k or output.len != left_shape.rows * n or k % block_size != 0) return error.ShapeMismatch;
+    if (block_size == 0 or block_size % 2 != 0 or left_shape.columns != k or k % block_size != 0) return error.ShapeMismatch;
+    const left_elements = try left_shape.elements();
+    const output_elements = try checkedMul(left_shape.rows, n);
     const block_count = k / block_size;
-    const packed_values_per_row = block_count * (block_size / 2);
-    const zero_points_per_row = (block_count + 1) / 2;
-    if (packed_values.len != n * packed_values_per_row or scales.len != n * block_count or zero_points.len != n * zero_points_per_row) return error.ShapeMismatch;
+    const packed_values_per_row = try checkedMul(block_count, block_size / 2);
+    const zero_points_per_row = (try checkedAdd(block_count, 1)) / 2;
+    if (left.len != left_elements or output.len != output_elements or
+        packed_values.len != try checkedMul(n, packed_values_per_row) or
+        scales.len != try checkedMul(n, block_count) or
+        zero_points.len != try checkedMul(n, zero_points_per_row)) return error.ShapeMismatch;
     if (scratch.len < k) return error.ScratchTooSmall;
     const weights = scratch[0..k];
     for (0..n) |column| {
@@ -858,4 +945,118 @@ test "tensor kernels reject incompatible shapes" {
     var output: [1]fp.Q128_128 = undefined;
     try std.testing.expectError(error.ShapeMismatch, add(&output, &left, &.{}));
     try std.testing.expectError(error.ShapeMismatch, matMul(&output, &left, .{ .rows = 1, .columns = 1 }, &left, .{ .rows = 2, .columns = 1 }));
+}
+
+test "tensor shape domains reject overflowing element products" {
+    const one = [_]fp.Q128_128{fp.Q128_128.one};
+    var output: [1]fp.Q128_128 = undefined;
+    var scratch: [1]fp.Q128_128 = undefined;
+    const huge = std.math.maxInt(usize);
+    try std.testing.expectError(error.TensorTooLarge, matMul(
+        &output,
+        &one,
+        .{ .rows = huge, .columns = huge },
+        &one,
+        .{ .rows = 1, .columns = 1 },
+    ));
+    try std.testing.expectError(error.TensorTooLarge, scaledDotProductAttention(
+        &output,
+        &one,
+        &one,
+        &one,
+        &scratch,
+        .{ .heads = huge, .query_length = huge, .key_length = 1, .head_size = huge },
+        fp.Q128_128.one,
+    ));
+    try std.testing.expectError(error.TensorTooLarge, rotaryEmbedding(
+        &output,
+        &one,
+        .{ .batch = huge, .sequence = huge, .heads = 1, .head_size = 2 },
+        &one,
+        &one,
+        &[_]usize{0},
+        2,
+        false,
+    ));
+}
+
+test "group query attention rejects overflowing geometry before indexing" {
+    const one = [_]fp.Q128_128{fp.Q128_128.one};
+    var output: [1]fp.Q128_128 = undefined;
+    var present_key: [1]fp.Q128_128 = undefined;
+    var present_value: [1]fp.Q128_128 = undefined;
+    var scratch: [1]fp.Q128_128 = undefined;
+    const huge = std.math.maxInt(usize);
+    const shape = GroupQueryShape{
+        .batch = huge,
+        .query_length = huge,
+        .past_length = 0,
+        .query_heads = 1,
+        .kv_heads = 1,
+        .head_size = 1,
+    };
+    try std.testing.expectError(error.TensorTooLarge, groupQueryAttention(
+        &output,
+        &present_key,
+        &present_value,
+        &one,
+        &one,
+        &one,
+        &one,
+        &one,
+        &.{},
+        &.{},
+        &scratch,
+        shape,
+        fp.Q128_128.one,
+    ));
+    try std.testing.expectError(error.TensorTooLarge, groupQueryAttentionF64(
+        std.testing.allocator,
+        &output,
+        &present_key,
+        &present_value,
+        &one,
+        &one,
+        &one,
+        &one,
+        &one,
+        &.{},
+        &.{},
+        shape,
+        fp.Q128_128.one,
+    ));
+}
+
+test "quantized kernels reject invalid domains before indexing" {
+    const left = [_]fp.Q128_128{fp.Q128_128.one};
+    const packed_values = [_]u8{0x21};
+    const scales = [_]fp.Q128_128{fp.Q128_128.one};
+    const zero_points = [_]u8{0};
+    var output: [2]fp.Q128_128 = undefined;
+    var scratch: [2]fp.Q128_128 = undefined;
+    try std.testing.expectError(error.ShapeMismatch, decode4BitRow(&output, &packed_values, &scales, &zero_points, 0));
+    try std.testing.expectError(error.ShapeMismatch, matMul4Bit(
+        &output,
+        &left,
+        .{ .rows = 1, .columns = 2 },
+        &packed_values,
+        &scales,
+        &zero_points,
+        2,
+        1,
+        0,
+        &scratch,
+    ));
+    try std.testing.expectError(error.ShapeMismatch, matMul4Bit(
+        &output,
+        &left,
+        .{ .rows = 1, .columns = 2 },
+        &packed_values,
+        &scales,
+        &zero_points,
+        2,
+        1,
+        2,
+        &scratch,
+    ));
 }
