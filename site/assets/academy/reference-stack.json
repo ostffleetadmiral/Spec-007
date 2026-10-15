@@ -8544,7 +8544,7 @@
       "evidence": "repo_document",
       "id": "lesson-0d7d3a3f2eea3b20",
       "language": [
-        "zh-Hant"
+        "en"
       ],
       "origin": "harvested",
       "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | spec-007.md | 不可變基線文件 — 終端機與 publish-check 內 sha256 釘定;檔案之 L0 根。 | sha 釘定 + publish-check | — | | fleet-genesis.json / fleet-manifest.json / engine-manifest.json | 簽章正典根 — 創世契約、艦隊清單、受治理運行時註冊表 — 各具逐位元組一致之 site/ 副本。 | FLEET/ENGINE 探針 | — | | deps/ | 供應 qstar- 依賴釘存(2026-10-07,zig 0.13 全綠):quantum、transport、net、mesh、vfs、compress、collapse、render。deps/VENDORED.m",

@@ -295,6 +295,12 @@ pub fn build(b: *std.Build) void {
     digit_session.addImport("brain_contracts", digit_brain);
     digit_session.addImport("onnx_fixed_bridge", digit_bridge);
     depTest(b, test_step, "deps/digit/src/e5_state.zig", target, optimize, &.{imp("fixed_point", digit_fixed)});
+    depTest(b, test_step, "deps/digit/src/graph_exec.zig", target, optimize, &.{
+        imp("fixed_point", digit_fixed),  imp("tensor_ops", digit_tensor_ops),
+        imp("shape_ops", digit_shape),    imp("skip_layer_norm", digit_skip),
+        imp("causal_conv", digit_causal), imp("linear_attention", digit_linear),
+        imp("worker_pool", digit_worker), imp("onnx_graph", digit_onnx_graph),
+    });
     depTest(b, test_step, "deps/digit/src/model_package.zig", target, optimize, &.{imp("onnx_graph", digit_onnx_graph)});
     depTest(b, test_step, "deps/digit/src/model_session.zig", target, optimize, &.{
         imp("fixed_point", digit_fixed),        imp("graph_exec", digit_graph),

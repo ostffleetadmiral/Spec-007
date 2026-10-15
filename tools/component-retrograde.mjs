@@ -185,6 +185,10 @@ const FULL_RETROGRADE = new Map([
     decision: "transactional-session-state-boundaries",
     archive: "digit-model-session-boundaries-20261014",
   }],
+  ["deps/digit/src/graph_exec.zig", {
+    decision: "resumable-checked-graph-execution-boundaries",
+    archive: "digit-graph-execution-boundaries-20261015",
+  }],
   ["tools/layer-map.mjs", {
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",

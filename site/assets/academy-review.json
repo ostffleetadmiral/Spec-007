@@ -3,7 +3,7 @@
   "scope": "structural",
   "courses_reviewed": 14,
   "lessons_reviewed": 55583,
-  "zh_lessons": 453,
+  "zh_lessons": 452,
   "defects": [],
   "courses": [
     {
@@ -189,7 +189,7 @@
     {
       "course": "reference-stack",
       "lessons": 10816,
-      "zh_lessons": 189,
+      "zh_lessons": 188,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 935,

@@ -138,7 +138,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 52
+    "completed_full_retrograde": 53
   },
   "components": [
     {
@@ -655,9 +655,9 @@
       "workstream": "digit-model-donor",
       "status": "UNIT_TESTED",
       "reverse_engineering": {
-        "sha256": "bf8e013fa7ab38ae9c727c51969f13ec19786255dfa0369d4b4fa6fa67e28743",
-        "bytes": 126006,
-        "lines": 2731,
+        "sha256": "b5f4e50b15904ae7e4ed6e40068778b119fd673dd6c64443e2ad9b2898a438c1",
+        "bytes": 157026,
+        "lines": 3375,
         "imports": [
           "builtin",
           "causal_conv",
@@ -673,10 +673,11 @@
         "referenced_by": [
           "deps/digit/src/model_session.zig",
           "deps/digit/src/tensor_upload.zig",
-          "tools/component-performance.mjs"
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 57
+        "public_surface": 58
       },
       "contract": {
         "mapped": true,
@@ -688,7 +689,7 @@
       },
       "verification": {
         "kind": "zig",
-        "test_blocks": 5,
+        "test_blocks": 19,
         "registered": true,
         "documentation_mapped": true
       },
@@ -699,9 +700,9 @@
           "zig-build-test"
         ],
         "workstream_measured": true,
-        "completed": false,
-        "archive": null,
-        "decision": "baseline-only"
+        "completed": true,
+        "archive": "digit-graph-execution-boundaries-20261015",
+        "decision": "resumable-checked-graph-execution-boundaries"
       }
     },
     {
@@ -12083,9 +12084,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "17162f742131261518b1b42cb08aa57e9036120747f6d7524811e4951e72ef11",
-        "bytes": 18245,
-        "lines": 449,
+        "sha256": "172d30f8f5601db9257f8c30fbc063cba20a721771499288228635b2343a44df",
+        "bytes": 18409,
+        "lines": 453,
         "imports": [
           "node:crypto",
           "node:fs",

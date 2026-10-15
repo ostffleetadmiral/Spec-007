@@ -28,6 +28,24 @@ fn saturatingMul(left: usize, right: usize) usize {
     return std.math.mul(usize, left, right) catch std.math.maxInt(usize);
 }
 
+fn saturatingAddU64(left: u64, right: u64) u64 {
+    return std.math.add(u64, left, right) catch std.math.maxInt(u64);
+}
+
+fn checkedMul(left: usize, right: usize) !usize {
+    return std.math.mul(usize, left, right) catch error.TensorTooLarge;
+}
+
+fn checkedAdd(left: usize, right: usize) !usize {
+    return std.math.add(usize, left, right) catch error.TensorTooLarge;
+}
+
+fn checkedProduct(dims: []const usize) !usize {
+    var count: usize = 1;
+    for (dims) |dim| count = try checkedMul(count, dim);
+    return count;
+}
+
 pub const Tensor = struct {
     data: []fp.Q128_128,
     dims: []usize,
@@ -113,7 +131,7 @@ pub const Tensor = struct {
     /// transposed ones), so a [1,1,C] sequential-pass row and the matching
     /// position slice of a [1,N,C] or [1,C,N] batched tensor compare equal when
     /// their values agree.
-    pub fn rowChecksum(self: *const Tensor, sequence: usize, row: usize) u256 {
+    pub fn rowChecksum(self: *const Tensor, sequence: usize, row: usize) !u256 {
         const axis = self.positionAxis(sequence);
         if (axis == self.dims.len) return sliceChecksum(self.data);
         var strides: [MAX_RANK]usize = undefined;
@@ -122,7 +140,7 @@ pub const Tensor = struct {
         while (index > 0) {
             index -= 1;
             strides[index] = stride;
-            stride *= self.dims[index];
+            stride = try checkedMul(stride, self.dims[index]);
         }
         var result: u256 = 0;
         var slot: usize = 0;
@@ -176,6 +194,12 @@ pub const Blob = struct {
         self.data = &.{};
         self.dims = &.{};
         self.shared = null;
+    }
+
+    /// Raw payloads are dtype-sized rather than element-sized, so validation
+    /// bounds only the rank/product domain; each kernel checks byte length.
+    pub fn validate(self: *const Blob) !void {
+        _ = try Tensor.elementCount(self.dims);
     }
 
     pub fn checksum(self: *const Blob) u256 {
@@ -381,13 +405,15 @@ pub const TensorStore = struct {
                 break;
             }
         }
+        var share_key: ?u256 = null;
         var share_iter = self.blob_shares.iterator();
         while (share_iter.next()) |entry| {
             if (entry.value_ptr.* == named) {
-                _ = self.blob_shares.remove(entry.key_ptr.*);
+                share_key = entry.key_ptr.*;
                 break;
             }
         }
+        if (share_key) |key| _ = self.blob_shares.remove(key);
         const entry = named.entry;
         self.allocator.free(named.name);
         self.allocator.destroy(named);
@@ -405,7 +431,20 @@ pub const TensorStore = struct {
     }
 
     pub fn put(self: *TensorStore, name: []const u8, entry: Entry) !void {
+        switch (entry) {
+            .tensor => |tensor| try tensor.validate(),
+            .blob => |blob| try blob.validate(),
+        }
         if (self.index.get(name)) |existing_named| {
+            var share_key: ?u256 = null;
+            var share_iter = self.blob_shares.iterator();
+            while (share_iter.next()) |share| {
+                if (share.value_ptr.* == existing_named) {
+                    share_key = share.key_ptr.*;
+                    break;
+                }
+            }
+            if (share_key) |key| _ = self.blob_shares.remove(key);
             existing_named.entry.deinit(self.allocator);
             existing_named.entry = entry;
             return;
@@ -434,6 +473,7 @@ pub const TensorStore = struct {
     pub fn putBlob(self: *TensorStore, name: []const u8, blob: Blob) !void {
         var incoming = blob;
         errdefer incoming.deinit(self.allocator);
+        try incoming.validate();
         const fold = incoming.dataChecksum();
         if (self.blob_shares.get(fold)) |shared_named| {
             if (shared_named.entry == .blob) {
@@ -603,6 +643,9 @@ pub const Executor = struct {
             const left = &self.tensors[node.left];
             const right = &self.tensors[node.right];
             const output = &self.tensors[node.output];
+            try left.validate();
+            try right.validate();
+            try output.validate();
             if (left.dims.len != 2 or right.dims.len != 2 or output.dims.len != 2) return error.ShapeMismatch;
             if (node.kind != .mat_mul and (left.dims[0] != right.dims[0] or left.dims[1] != right.dims[1])) return error.ShapeMismatch;
             switch (node.kind) {
@@ -749,6 +792,8 @@ pub const Runner = struct {
         self.clearStateShadows();
         self.state_shadows.deinit();
         self.matmul4_scratch.deinit();
+        var timing_iter = self.op_timings.iterator();
+        while (timing_iter.next()) |entry| self.allocator.free(entry.key_ptr.*);
         self.op_timings.deinit();
         self.checkpoints.deinit();
         if (self.pool) |pool_instance| pool_instance.destroy();
@@ -764,6 +809,40 @@ pub const Runner = struct {
             self.pool = worker_pool.Pool.create(self.allocator, @max(CHECKSUM_WORKERS, @min(cores, worker_pool.MAX_WORKERS))) catch null;
         }
         return self.pool;
+    }
+
+    /// Validates the scheduled prefix before the cursor can index into it.
+    /// `run` accepts a prefix via `limit`, so uniqueness/order is enforced only
+    /// for scheduled nodes; producers outside the prefix remain demand-pull
+    /// inputs rather than being forced into this pass.
+    fn validateRunSpan(self: *Runner, nodes: []const onnx.Node, order: []const usize, max_nodes: usize) !void {
+        if (self.cursor > max_nodes) return error.InvalidCursor;
+        const sentinel = std.math.maxInt(usize);
+        const positions = try self.allocator.alloc(usize, nodes.len);
+        defer self.allocator.free(positions);
+        @memset(positions, sentinel);
+        var producers = std.StringHashMap(usize).init(self.allocator);
+        defer producers.deinit();
+        for (nodes, 0..) |node, node_index| {
+            for (node.outputs.items) |name| {
+                if (name.len == 0) continue;
+                const entry = try producers.getOrPut(name);
+                if (entry.found_existing) return error.InvalidOrder;
+                entry.value_ptr.* = node_index;
+            }
+        }
+        for (order[0..max_nodes], 0..) |node_index, position| {
+            if (node_index >= nodes.len or positions[node_index] != sentinel) return error.InvalidOrder;
+            positions[node_index] = position;
+        }
+        for (order[0..max_nodes], 0..) |node_index, position| {
+            for (nodes[node_index].inputs.items) |name| {
+                if (name.len == 0) continue;
+                const producer = producers.get(name) orelse continue;
+                const producer_position = positions[producer];
+                if (producer_position != sentinel and producer_position >= position) return error.InvalidOrder;
+            }
+        }
     }
 
     /// Release any per-row checksum slices recorded in `checkpoints`. Callers that
@@ -782,28 +861,38 @@ pub const Runner = struct {
     }
 
     fn recordAccelerator(self: *Runner, report: AcceleratorReport, matmul4: bool) void {
-        if (matmul4) self.accelerated_matmul4_calls += 1 else self.accelerated_matmul_calls += 1;
-        self.accelerated_elements += report.elements;
-        self.accelerated_dispatches += report.dispatches;
-        self.accelerated_upload_bytes += report.upload_bytes;
-        self.accelerated_download_bytes += report.download_bytes;
-        self.accelerated_elapsed_ns += report.elapsed_ns;
+        if (matmul4) {
+            self.accelerated_matmul4_calls = saturatingAdd(self.accelerated_matmul4_calls, 1);
+        } else {
+            self.accelerated_matmul_calls = saturatingAdd(self.accelerated_matmul_calls, 1);
+        }
+        self.accelerated_elements = saturatingAdd(self.accelerated_elements, report.elements);
+        self.accelerated_dispatches = saturatingAdd(self.accelerated_dispatches, report.dispatches);
+        self.accelerated_upload_bytes = saturatingAdd(self.accelerated_upload_bytes, report.upload_bytes);
+        self.accelerated_download_bytes = saturatingAdd(self.accelerated_download_bytes, report.download_bytes);
+        self.accelerated_elapsed_ns = saturatingAddU64(self.accelerated_elapsed_ns, report.elapsed_ns);
     }
 
     fn recordUnaryAccelerator(self: *Runner, report: AcceleratorReport) void {
-        self.accelerated_unary_calls += 1;
-        self.accelerated_elements += report.elements;
-        self.accelerated_dispatches += report.dispatches;
-        self.accelerated_upload_bytes += report.upload_bytes;
-        self.accelerated_download_bytes += report.download_bytes;
-        self.accelerated_elapsed_ns += report.elapsed_ns;
+        self.accelerated_unary_calls = saturatingAdd(self.accelerated_unary_calls, 1);
+        self.accelerated_elements = saturatingAdd(self.accelerated_elements, report.elements);
+        self.accelerated_dispatches = saturatingAdd(self.accelerated_dispatches, report.dispatches);
+        self.accelerated_upload_bytes = saturatingAdd(self.accelerated_upload_bytes, report.upload_bytes);
+        self.accelerated_download_bytes = saturatingAdd(self.accelerated_download_bytes, report.download_bytes);
+        self.accelerated_elapsed_ns = saturatingAddU64(self.accelerated_elapsed_ns, report.elapsed_ns);
     }
 
     fn recordOpTiming(self: *Runner, op_type: []const u8, elapsed_ns: u64) !void {
-        const entry = try self.op_timings.getOrPut(op_type);
-        if (!entry.found_existing) entry.value_ptr.* = .{};
-        entry.value_ptr.calls += 1;
-        entry.value_ptr.elapsed_ns += elapsed_ns;
+        const owned = try self.allocator.dupe(u8, op_type);
+        errdefer self.allocator.free(owned);
+        const entry = try self.op_timings.getOrPut(owned);
+        if (entry.found_existing) {
+            self.allocator.free(owned);
+        } else {
+            entry.value_ptr.* = .{};
+        }
+        entry.value_ptr.calls = saturatingAdd(entry.value_ptr.calls, 1);
+        entry.value_ptr.elapsed_ns = saturatingAddU64(entry.value_ptr.elapsed_ns, elapsed_ns);
     }
 
     /// Executes parsed nodes in topological order until `limit` total nodes or
@@ -814,10 +903,11 @@ pub const Runner = struct {
     /// `failed_node`/`failed_op`/`missing_input` identify the blocker.
     pub fn run(self: *Runner, nodes: []const onnx.Node, order: []const usize, limit: ?usize) !void {
         const max_nodes = @min(limit orelse order.len, order.len);
+        try self.validateRunSpan(nodes, order, max_nodes);
         const Timer = if (comptime supports_timer) std.time.Timer else void;
         var wall_timer: ?Timer = if (comptime supports_timer) (if (self.profile_enabled) try Timer.start() else null) else null;
         defer if (comptime supports_timer) {
-            if (wall_timer) |*timer| self.run_wall_ns += timer.read();
+            if (wall_timer) |*timer| self.run_wall_ns = saturatingAddU64(self.run_wall_ns, timer.read());
         };
         while (self.cursor < max_nodes) {
             const node_index = order[self.cursor];
@@ -842,7 +932,7 @@ pub const Runner = struct {
                 return err;
             };
             if (comptime supports_timer) {
-                if (ensure_timer) |*timer| self.ensure_ns += timer.read();
+                if (ensure_timer) |*timer| self.ensure_ns = saturatingAddU64(self.ensure_ns, timer.read());
             }
             var node_timer: ?Timer = if (comptime supports_timer) (if (self.profile_enabled) try Timer.start() else null) else null;
             var consumed: usize = 0;
@@ -857,7 +947,7 @@ pub const Runner = struct {
             }
             if (consumed != 0) {
                 self.cursor += consumed;
-                self.executed += consumed;
+                self.executed = saturatingAdd(self.executed, consumed);
                 continue;
             }
             self.executeNode(node) catch |err| {
@@ -868,11 +958,15 @@ pub const Runner = struct {
             var checkpoint_timer: ?Timer = if (comptime supports_timer) (if (self.profile_enabled) try Timer.start() else null) else null;
             try self.emitNodeCheckpoints(node, node_index);
             if (comptime supports_timer) {
-                if (checkpoint_timer) |*timer| self.checkpoint_elapsed_ns += timer.read();
-                if (node_timer) |*timer| try self.recordOpTiming(node.op_type, timer.read());
+                if (checkpoint_timer) |*timer| self.checkpoint_elapsed_ns = saturatingAddU64(self.checkpoint_elapsed_ns, timer.read());
+                if (node_timer) |*timer| self.recordOpTiming(node.op_type, timer.read()) catch |err| {
+                    self.cursor += 1;
+                    self.executed = saturatingAdd(self.executed, 1);
+                    return err;
+                };
             }
             self.cursor += 1;
-            self.executed += 1;
+            self.executed = saturatingAdd(self.executed, 1);
         }
         try self.flushPendingChecksums();
     }
@@ -883,7 +977,6 @@ pub const Runner = struct {
     /// the result identical to the previous sequential order.
     fn flushPendingChecksums(self: *Runner) !void {
         const items = self.pending_checksums.items;
-        defer self.pending_checksums.clearRetainingCapacity();
         if (comptime supports_threads) {
             if (items.len > 64) {
                 var context = ChecksumContext{ .runner = self };
@@ -899,6 +992,7 @@ pub const Runner = struct {
                     for (threads[0..worker_count]) |thread| if (thread) |value| value.join();
                 }
                 if (context.failed.load(.acquire)) return error.MissingTensor;
+                self.pending_checksums.clearRetainingCapacity();
                 return;
             }
         }
@@ -906,6 +1000,7 @@ pub const Runner = struct {
             const entry = self.store.get(item.output_name) orelse return error.MissingTensor;
             self.checkpoints.items[item.checkpoint_index].checksum = entry.checksum();
         }
+        self.pending_checksums.clearRetainingCapacity();
     }
 
     fn emitNodeCheckpoints(self: *Runner, node: *const onnx.Node, node_index: usize) !void {
@@ -919,17 +1014,23 @@ pub const Runner = struct {
             var row_checksums: []u256 = &.{};
             var row_size: usize = 0;
             var dims: []usize = &.{};
+            var checkpoint_committed = false;
+            errdefer if (!checkpoint_committed) {
+                if (row_checksums.len > 0) self.allocator.free(row_checksums);
+                if (dims.len > 0) self.allocator.free(dims);
+            };
             if (self.row_checksums) {
                 if (entry.* == .tensor) {
                     const tensor = &entry.tensor;
                     const rows = tensor.positionRows(self.row_sequence);
                     const allocated = try self.allocator.alloc(u256, rows);
-                    for (allocated, 0..) |*slot, row| slot.* = tensor.rowChecksum(self.row_sequence, row);
+                    for (allocated, 0..) |*slot, row| slot.* = try tensor.rowChecksum(self.row_sequence, row);
                     row_checksums = allocated;
                     row_size = tensor.rowSize(self.row_sequence);
                     dims = try self.allocator.dupe(usize, tensor.dims);
                 }
             }
+            const checkpoint_index = self.checkpoints.items.len;
             try self.checkpoints.append(.{
                 .node_index = node_index,
                 .node_name = node.name,
@@ -940,10 +1041,24 @@ pub const Runner = struct {
                 .row_size = row_size,
                 .dims = dims,
             });
+            errdefer _ = self.checkpoints.pop();
             try self.pending_checksums.append(.{
-                .checkpoint_index = self.checkpoints.items.len - 1,
+                .checkpoint_index = checkpoint_index,
                 .output_name = output_name,
             });
+            checkpoint_committed = true;
+        }
+    }
+
+    fn discardMemberOutputs(self: *Runner, members: []const *const onnx.Node) void {
+        for (members) |member| {
+            for (member.outputs.items) |name| {
+                if (name.len == 0) continue;
+                if (self.store.takeLocal(name)) |entry| {
+                    var owned = entry;
+                    owned.deinit(self.allocator);
+                }
+            }
         }
     }
 
@@ -961,7 +1076,7 @@ pub const Runner = struct {
         defer member_indices.deinit();
         var produced = std.StringHashMap(void).init(self.allocator);
         defer produced.deinit();
-        while (self.cursor + members.items.len < max_nodes and members.items.len < 16) {
+        while (members.items.len < max_nodes - self.cursor and members.items.len < 16) {
             const candidate_index = order[self.cursor + members.items.len];
             const candidate = &nodes[candidate_index];
             if (!std.mem.eql(u8, candidate.op_type, "MatMulNBits")) break;
@@ -980,15 +1095,19 @@ pub const Runner = struct {
                 if (name.len != 0 and produced.contains(name)) depends_on_run = true;
             }
             if (depends_on_run) break;
-            if (attrInt(candidate, "bits", 4) != 4 or @mod(attrInt(candidate, "block_size", 32), 8) != 0) break;
+            const block_size = attrInt(candidate, "block_size", 32);
+            if (attrInt(candidate, "bits", 4) != 4 or block_size <= 0 or @mod(block_size, 8) != 0) break;
             self.ensureInputs(candidate) catch break;
             try members.append(candidate);
             try member_indices.append(candidate_index);
             for (candidate.outputs.items) |name| {
-                if (name.len != 0) try produced.put(name, {});
+                if (name.len == 0) continue;
+                const entry = try produced.getOrPut(name);
+                if (entry.found_existing) return error.InvalidOrder;
             }
         }
         if (members.items.len < 2) return 0;
+        errdefer self.discardMemberOutputs(members.items);
         var jobs = std.ArrayList(MatMul4Job).init(self.allocator);
         defer jobs.deinit();
         var zp_keepalive = std.ArrayList([]u8).init(self.allocator);
@@ -1000,41 +1119,32 @@ pub const Runner = struct {
             const left = try self.needTensor(member, 0);
             const quant = try self.needBlob(member, 1);
             const scales = try self.needTensor(member, 2);
-            const k_attr = attrInt(member, "K", -1);
-            const n_attr = attrInt(member, "N", -1);
-            const bits = attrInt(member, "bits", 4);
-            const block_size = attrInt(member, "block_size", 32);
-            if (k_attr <= 0 or n_attr <= 0 or bits != 4 or block_size <= 0) return error.UnsupportedOperator;
-            const k: usize = @intCast(k_attr);
-            const n: usize = @intCast(n_attr);
-            const block: usize = @intCast(block_size);
-            if (left.dims.len == 0 or left.dims[left.dims.len - 1] != k) return error.ShapeMismatch;
-            const rows = left.data.len / k;
+            const operands = try matMul4Operands(member, left, quant, scales);
             var out_dims: [MAX_RANK]usize = undefined;
             @memcpy(out_dims[0 .. left.dims.len - 1], left.dims[0 .. left.dims.len - 1]);
-            out_dims[left.dims.len - 1] = n;
-            const output = try self.makeOutput(member, 0, out_dims[0..left.dims.len]);
+            out_dims[left.dims.len - 1] = operands.n;
             var zp_data: []const u8 = &.{};
             if (member.inputs.items.len > 3 and inputName(member, 3).len != 0) {
                 const zp = try self.needBlob(member, 3);
+                try validateMatMul4ZeroPoints(operands, zp.data);
                 zp_data = zp.data;
             } else {
-                const block_count = k / block;
-                const storage = try self.allocator.alloc(u8, n * ((block_count + 1) / 2));
+                const storage = try self.allocator.alloc(u8, try checkedMul(operands.n, operands.zero_points_per_row));
                 @memset(storage, 0x88);
                 try zp_keepalive.append(storage);
                 zp_data = storage;
             }
+            const output = try self.makeOutput(member, 0, out_dims[0..left.dims.len]);
             try jobs.append(.{
                 .output = output.data,
                 .left = left.data,
-                .left_shape = .{ .rows = rows, .columns = k },
+                .left_shape = .{ .rows = operands.rows, .columns = operands.k },
                 .packed_values = quant.data,
                 .scales = scales.data,
                 .zero_points = zp_data,
-                .k = k,
-                .n = n,
-                .block_size = block,
+                .k = operands.k,
+                .n = operands.n,
+                .block_size = operands.block,
             });
         }
         const Timer = if (comptime supports_timer) std.time.Timer else void;
@@ -1105,6 +1215,16 @@ pub const Runner = struct {
         return null;
     }
 
+    fn usizeFromI64(value: i64) !usize {
+        if (value < 0) return error.ShapeMismatch;
+        return std.math.cast(usize, value) orelse error.TensorTooLarge;
+    }
+
+    fn positiveUsizeFromI64(value: i64) !usize {
+        if (value <= 0) return error.ShapeMismatch;
+        return std.math.cast(usize, value) orelse error.TensorTooLarge;
+    }
+
     /// Returns a shallow copy of the stored tensor. Copies are intentional:
     /// `makeOutput` may grow the store's ArrayList and invalidate pointers
     /// into it, while the heap-owned data/dims slices remain valid.
@@ -1113,6 +1233,7 @@ pub const Runner = struct {
         const name = node.inputs.items[index];
         if (name.len == 0) return error.MissingTensor;
         const tensor = self.store.getTensor(name) orelse return error.MissingTensor;
+        try tensor.validate();
         return tensor.*;
     }
 
@@ -1121,6 +1242,7 @@ pub const Runner = struct {
         const name = node.inputs.items[index];
         if (name.len == 0) return error.MissingTensor;
         const blob = self.store.getBlob(name) orelse return error.MissingTensor;
+        try blob.validate();
         return blob.*;
     }
 
@@ -1128,18 +1250,19 @@ pub const Runner = struct {
         return if (index < node.inputs.items.len) node.inputs.items[index] else "";
     }
 
-    fn tensorToI64(value: fp.Q128_128) i64 {
-        return @intCast(fp.divTruncPow2I256(value.raw, fp.FRAC_BITS));
+    fn tensorToI64(value: fp.Q128_128) !i64 {
+        return std.math.cast(i64, fp.divTruncPow2I256(value.raw, fp.FRAC_BITS)) orelse error.TensorValueOutOfRange;
     }
 
     fn intTensorValues(self: *Runner, tensor: Tensor) ![]i64 {
         const values = try self.allocator.alloc(i64, tensor.data.len);
-        for (tensor.data, 0..) |value, index| values[index] = tensorToI64(value);
+        errdefer self.allocator.free(values);
+        for (tensor.data, 0..) |value, index| values[index] = try tensorToI64(value);
         return values;
     }
 
     fn makeOutput(self: *Runner, node: *const onnx.Node, index: usize, dims: []const usize) !*Tensor {
-        if (index >= node.outputs.items.len) return error.MissingTensor;
+        if (index >= node.outputs.items.len or node.outputs.items[index].len == 0) return error.MissingTensor;
         const tensor = try Tensor.init(self.allocator, dims);
         errdefer {
             var dropped = tensor;
@@ -1155,13 +1278,13 @@ pub const Runner = struct {
         return @intCast(adjusted);
     }
 
-    fn stridesOf(dims: []const usize, strides: *[MAX_RANK]usize) void {
+    fn stridesOf(dims: []const usize, strides: *[MAX_RANK]usize) !void {
         if (dims.len == 0) return;
         strides[dims.len - 1] = 1;
         var axis: usize = dims.len - 1;
         while (axis > 0) {
             axis -= 1;
-            strides[axis] = strides[axis + 1] * dims[axis + 1];
+            strides[axis] = try checkedMul(strides[axis + 1], dims[axis + 1]);
         }
     }
 
@@ -1193,7 +1316,7 @@ pub const Runner = struct {
             }
             if (dim != out_dims[offset + axis]) return null;
             suffix = true;
-            span *= dim;
+            span = std.math.mul(usize, span, dim) catch return null;
         }
         return span;
     }
@@ -1201,6 +1324,7 @@ pub const Runner = struct {
     fn broadcastDims(self: *Runner, left: []const usize, right: []const usize) ![]usize {
         const rank = @max(left.len, right.len);
         const dims = try self.allocator.alloc(usize, rank);
+        errdefer self.allocator.free(dims);
         for (dims, 0..) |*dim, axis| {
             const left_dim = if (axis + left.len >= rank) left[axis + left.len - rank] else 1;
             const right_dim = if (axis + right.len >= rank) right[axis + right.len - rank] else 1;
@@ -1218,8 +1342,8 @@ pub const Runner = struct {
         const output = try self.makeOutput(node, 0, out_dims);
         var left_strides: [MAX_RANK]usize = undefined;
         var right_strides: [MAX_RANK]usize = undefined;
-        stridesOf(left.dims, &left_strides);
-        stridesOf(right.dims, &right_strides);
+        try stridesOf(left.dims, &left_strides);
+        try stridesOf(right.dims, &right_strides);
         const left_offset = out_dims.len - left.dims.len;
         const right_offset = out_dims.len - right.dims.len;
         // Flat fast paths that skip the per-element coordinate walk: equal
@@ -1465,6 +1589,10 @@ pub const Runner = struct {
             .tensor => |*tensor| tensor.dims,
             .blob => |*blob| blob.dims,
         };
+        _ = try Tensor.elementCount(dims);
+        for (dims) |dim| {
+            _ = std.math.cast(i64, dim) orelse return error.TensorValueOutOfRange;
+        }
         const output = try self.makeOutput(node, 0, &.{dims.len});
         for (dims, 0..) |dim, index| output.data[index] = fp.Q128_128.fromInt(@intCast(dim));
     }
@@ -1473,25 +1601,25 @@ pub const Runner = struct {
         const data = try self.needTensor(node, 0);
         const indices = try self.needTensor(node, 1);
         const axis = try normalizeAxis(attrInt(node, "axis", 0), data.dims.len);
-        var inner: usize = 1;
-        for (axis + 1..data.dims.len) |dim_axis| inner *= data.dims[dim_axis];
+        const inner = try checkedProduct(data.dims[axis + 1 ..]);
         var out_dims = std.ArrayList(usize).init(self.allocator);
         defer out_dims.deinit();
         try out_dims.appendSlice(data.dims[0..axis]);
         try out_dims.appendSlice(indices.dims);
         try out_dims.appendSlice(data.dims[axis + 1 ..]);
-        const output = try self.makeOutput(node, 0, out_dims.items);
-        const outer: usize = if (axis == 0) 1 else blk: {
-            var count: usize = 1;
-            for (0..axis) |dim_axis| count *= data.dims[dim_axis];
-            break :blk count;
-        };
+        const outer = try checkedProduct(data.dims[0..axis]);
         const axis_size = data.dims[axis];
+        const axis_i64 = std.math.cast(i64, axis_size) orelse return error.TensorValueOutOfRange;
+        for (indices.data) |index_value| {
+            var index = try tensorToI64(index_value);
+            if (index < 0) index += axis_i64;
+            if (index < 0 or index >= axis_i64) return error.IndexOutOfRange;
+        }
+        const output = try self.makeOutput(node, 0, out_dims.items);
         for (0..outer) |outer_index| {
             for (indices.data, 0..) |index_value, slot| {
-                var index = tensorToI64(index_value);
-                if (index < 0) index += @intCast(axis_size);
-                if (index < 0 or index >= @as(i64, @intCast(axis_size))) return error.IndexOutOfRange;
+                var index = try tensorToI64(index_value);
+                if (index < 0) index += axis_i64;
                 const source = (outer_index * axis_size + @as(usize, @intCast(index))) * inner;
                 const destination = (outer_index * indices.data.len + slot) * inner;
                 @memcpy(output.data[destination..][0..inner], data.data[source..][0..inner]);
@@ -1504,14 +1632,16 @@ pub const Runner = struct {
         const axes_tensor = try self.needTensor(node, 1);
         const axes = try self.intTensorValues(axes_tensor);
         defer self.allocator.free(axes);
-        const out_rank = input.dims.len + axes.len;
+        const out_rank = std.math.add(usize, input.dims.len, axes.len) catch return error.UnsupportedShape;
         if (out_rank > MAX_RANK) return error.UnsupportedShape;
         var insert = [_]bool{false} ** MAX_RANK;
         for (axes) |axis| {
             var normalized = axis;
             if (normalized < 0) normalized += @intCast(out_rank);
             if (normalized < 0 or normalized >= @as(i64, @intCast(out_rank))) return error.ShapeMismatch;
-            insert[@intCast(normalized)] = true;
+            const normalized_axis: usize = @intCast(normalized);
+            if (insert[normalized_axis]) return error.ShapeMismatch;
+            insert[normalized_axis] = true;
         }
         var dims: [MAX_RANK]usize = undefined;
         var source: usize = 0;
@@ -1558,8 +1688,7 @@ pub const Runner = struct {
         var out_dims: [MAX_RANK]usize = undefined;
         const offset = target.len - input.dims.len;
         for (target, 0..) |dim_value, axis| {
-            if (dim_value < 0) return error.ShapeMismatch;
-            out_dims[axis] = @intCast(dim_value);
+            out_dims[axis] = try usizeFromI64(dim_value);
         }
         for (input.dims, 0..) |dim, axis| {
             const target_dim = out_dims[offset + axis];
@@ -1567,7 +1696,7 @@ pub const Runner = struct {
         }
         const output = try self.makeOutput(node, 0, out_dims[0..target.len]);
         var input_strides: [MAX_RANK]usize = undefined;
-        stridesOf(input.dims, &input_strides);
+        try stridesOf(input.dims, &input_strides);
         for (output.data, 0..) |*destination, flat| {
             var remaining = flat;
             var source_index: usize = 0;
@@ -1603,10 +1732,10 @@ pub const Runner = struct {
             } else if (dim_value == 0 and !allow_zero) {
                 if (axis >= input.dims.len) return error.ShapeMismatch;
                 dims[axis] = input.dims[axis];
-                known *= dims[axis];
+                known = try checkedMul(known, dims[axis]);
             } else if (dim_value >= 0) {
-                dims[axis] = @intCast(dim_value);
-                known *= dims[axis];
+                dims[axis] = try usizeFromI64(dim_value);
+                known = try checkedMul(known, dims[axis]);
             } else return error.ShapeMismatch;
         }
         if (inferred) |axis| {
@@ -1622,7 +1751,12 @@ pub const Runner = struct {
         var perm: [MAX_RANK]usize = undefined;
         if (attrInts(node, "perm")) |permutation| {
             if (permutation.len != input.dims.len) return error.ShapeMismatch;
-            for (permutation, 0..) |axis, index| perm[index] = try normalizeAxis(axis, input.dims.len);
+            var seen = [_]bool{false} ** MAX_RANK;
+            for (permutation, 0..) |axis, index| {
+                perm[index] = try normalizeAxis(axis, input.dims.len);
+                if (seen[perm[index]]) return error.ShapeMismatch;
+                seen[perm[index]] = true;
+            }
         } else {
             for (0..input.dims.len) |index| perm[index] = input.dims.len - 1 - index;
         }
@@ -1641,10 +1775,7 @@ pub const Runner = struct {
             const split_tensor = try self.needTensor(node, 1);
             const values = try self.intTensorValues(split_tensor);
             defer self.allocator.free(values);
-            for (values) |value| {
-                if (value < 0) return error.ShapeMismatch;
-                try sizes.append(@intCast(value));
-            }
+            for (values) |value| try sizes.append(try usizeFromI64(value));
         } else {
             const count = node.outputs.items.len;
             if (count == 0 or input.dims[axis] % count != 0) return error.ShapeMismatch;
@@ -1652,12 +1783,10 @@ pub const Runner = struct {
         }
         if (sizes.items.len != node.outputs.items.len) return error.ShapeMismatch;
         var total: usize = 0;
-        for (sizes.items) |size| total += size;
+        for (sizes.items) |size| total = try checkedAdd(total, size);
         if (total != input.dims[axis]) return error.ShapeMismatch;
-        var inner: usize = 1;
-        for (axis + 1..input.dims.len) |dim_axis| inner *= input.dims[dim_axis];
-        var outer: usize = 1;
-        for (0..axis) |dim_axis| outer *= input.dims[dim_axis];
+        const inner = try checkedProduct(input.dims[axis + 1 ..]);
+        const outer = try checkedProduct(input.dims[0..axis]);
         var offset: usize = 0;
         for (sizes.items, 0..) |size, output_index| {
             var out_dims = std.ArrayList(usize).init(self.allocator);
@@ -1670,7 +1799,7 @@ pub const Runner = struct {
                 const destination = outer_index * size * inner;
                 @memcpy(output.data[destination..][0 .. size * inner], input.data[source..][0 .. size * inner]);
             }
-            offset += size;
+            offset = try checkedAdd(offset, size);
         }
     }
 
@@ -1682,7 +1811,7 @@ pub const Runner = struct {
         defer self.allocator.free(starts);
         const ends = try self.intTensorValues(ends_tensor);
         defer self.allocator.free(ends);
-        if (starts.len != ends.len) return error.ShapeMismatch;
+        if (starts.len != ends.len or starts.len > input.dims.len or starts.len > MAX_RANK) return error.ShapeMismatch;
         var axes_buf: [MAX_RANK]i64 = undefined;
         const axes: []i64 = axes_buf[0..starts.len];
         if (node.inputs.items.len > 3 and inputName(node, 3).len != 0) {
@@ -1704,11 +1833,14 @@ pub const Runner = struct {
         var out_dims: [MAX_RANK]usize = undefined;
         @memcpy(out_dims[0..input.dims.len], input.dims);
         var ranges = [_]struct { start: usize, step: usize }{.{ .start = 0, .step = 1 }} ** MAX_RANK;
+        var seen_axes = [_]bool{false} ** MAX_RANK;
         for (starts, 0..) |raw_start, range_index| {
             const axis = try normalizeAxis(axes[range_index], input.dims.len);
+            if (seen_axes[axis]) return error.ShapeMismatch;
+            seen_axes[axis] = true;
             const step = steps[range_index];
             if (step <= 0) return error.UnsupportedOperator;
-            const dim: i64 = @intCast(input.dims[axis]);
+            const dim = std.math.cast(i64, input.dims[axis]) orelse return error.TensorValueOutOfRange;
             var start = raw_start;
             var end = ends[range_index];
             if (start < 0) start += dim;
@@ -1716,12 +1848,15 @@ pub const Runner = struct {
             start = std.math.clamp(start, 0, dim);
             end = std.math.clamp(end, 0, dim);
             if (end < start) end = start;
-            ranges[axis] = .{ .start = @intCast(start), .step = @intCast(step) };
-            out_dims[axis] = @intCast(@divTrunc(end - start + step - 1, step));
+            const start_usize = try usizeFromI64(start);
+            const step_usize = try positiveUsizeFromI64(step);
+            const span = try usizeFromI64(end - start);
+            ranges[axis] = .{ .start = start_usize, .step = step_usize };
+            out_dims[axis] = if (span == 0) 0 else 1 + (span - 1) / step_usize;
         }
         const output = try self.makeOutput(node, 0, out_dims[0..input.dims.len]);
         var input_strides: [MAX_RANK]usize = undefined;
-        stridesOf(input.dims, &input_strides);
+        try stridesOf(input.dims, &input_strides);
         for (output.data, 0..) |*destination, flat| {
             var remaining = flat;
             var source_index: usize = 0;
@@ -1745,22 +1880,23 @@ pub const Runner = struct {
         for (node.inputs.items) |name| {
             if (name.len == 0) continue;
             const tensor = self.store.getTensor(name) orelse return error.MissingTensor;
+            try tensor.validate();
             if (tensor.dims.len != first.dims.len) return error.ShapeMismatch;
             for (tensor.dims, 0..) |dim, dim_axis| {
                 if (dim_axis != axis and dim != first.dims[dim_axis]) return error.ShapeMismatch;
             }
-            if (input_count > 0) out_dims[axis] += tensor.dims[axis];
+            if (input_count > 0) out_dims[axis] = try checkedAdd(out_dims[axis], tensor.dims[axis]);
             input_count += 1;
         }
         const output = try self.makeOutput(node, 0, out_dims[0..first.dims.len]);
         var out_strides: [MAX_RANK]usize = undefined;
-        stridesOf(out_dims[0..first.dims.len], &out_strides);
+        try stridesOf(out_dims[0..first.dims.len], &out_strides);
         var axis_offset: usize = 0;
         for (node.inputs.items) |name| {
             if (name.len == 0) continue;
             const tensor = self.store.getTensor(name).?;
             var in_strides: [MAX_RANK]usize = undefined;
-            stridesOf(tensor.dims, &in_strides);
+            try stridesOf(tensor.dims, &in_strides);
             for (tensor.data, 0..) |value, flat| {
                 var remaining = flat;
                 var destination: usize = 0;
@@ -1774,7 +1910,7 @@ pub const Runner = struct {
                 }
                 output.data[destination] = value;
             }
-            axis_offset += tensor.dims[axis];
+            axis_offset = try checkedAdd(axis_offset, tensor.dims[axis]);
         }
     }
 
@@ -1820,11 +1956,11 @@ pub const Runner = struct {
         @memset(output.data, fp.Q128_128.zero);
         var in_strides: [MAX_RANK]usize = undefined;
         var out_strides: [MAX_RANK]usize = undefined;
-        stridesOf(input.dims, &in_strides);
-        if (out_dims.items.len > 0) stridesOf(out_dims.items, &out_strides);
+        try stridesOf(input.dims, &in_strides);
+        if (out_dims.items.len > 0) try stridesOf(out_dims.items, &out_strides);
         var counts: usize = 1;
         for (0..input.dims.len) |axis| {
-            if (reduce_axes[axis]) counts *= input.dims[axis];
+            if (reduce_axes[axis]) counts = try checkedMul(counts, input.dims[axis]);
         }
         for (input.data, 0..) |value, flat| {
             var remaining = flat;
@@ -1839,7 +1975,7 @@ pub const Runner = struct {
             output.data[out_index] = try output.data[out_index].add(value);
         }
         if (mean and counts > 1) {
-            const divisor = fp.Q128_128.fromInt(@intCast(counts));
+            const divisor = fp.Q128_128.fromInt(std.math.cast(i64, counts) orelse return error.TensorValueOutOfRange);
             for (output.data) |*value| value.* = try value.*.div(divisor);
         }
     }
@@ -1850,8 +1986,8 @@ pub const Runner = struct {
         const delta = try self.needTensor(node, 2);
         if (start.data.len != 1 or limit.data.len != 1 or delta.data.len != 1) return error.ShapeMismatch;
         const count_raw = try (try limit.data[0].sub(start.data[0])).div(delta.data[0]);
-        const count_i64 = tensorToI64(count_raw);
-        const count: usize = if (count_i64 <= 0) 0 else @intCast(count_i64);
+        const count_i64 = try tensorToI64(count_raw);
+        const count: usize = if (count_i64 <= 0) 0 else try usizeFromI64(count_i64);
         const output = try self.makeOutput(node, 0, &.{count});
         try shapes.range(output.data, start.data[0], delta.data[0]);
     }
@@ -1861,22 +1997,29 @@ pub const Runner = struct {
         const entry = (self.store.get(inputName(node, 0)) orelse return error.MissingTensor).*;
         switch (entry) {
             .tensor => |tensor| {
+                try tensor.validate();
                 const output = try self.makeOutput(node, 0, tensor.dims);
                 @memcpy(output.data, tensor.data);
             },
             .blob => |blob| {
+                try blob.validate();
+                const elements = try Tensor.elementCount(blob.dims);
+                const expected: usize = switch (blob.data_type) {
+                    7 => try checkedMul(elements, 8),
+                    1 => try checkedMul(elements, 4),
+                    else => return error.UnsupportedOperator,
+                };
+                if (blob.data.len != expected) return error.ShapeMismatch;
                 const output = try self.makeOutput(node, 0, blob.dims);
                 if (blob.data_type == 7) {
-                    if (blob.data.len != output.data.len * 8) return error.ShapeMismatch;
                     for (output.data, 0..) |*destination, index| {
                         destination.* = fp.Q128_128.fromInt(std.mem.readInt(i64, blob.data[index * 8 ..][0..8], .little));
                     }
-                } else if (blob.data_type == 1) {
-                    if (blob.data.len != output.data.len * 4) return error.ShapeMismatch;
+                } else {
                     for (output.data, 0..) |*destination, index| {
                         destination.* = try fp.Q128_128.fromF32BitsSaturating(std.mem.readInt(u32, blob.data[index * 4 ..][0..4], .little));
                     }
-                } else return error.UnsupportedOperator;
+                }
             },
         }
     }
@@ -1889,8 +2032,11 @@ pub const Runner = struct {
         const k = left.dims[left.dims.len - 1];
         const n = right.dims[right.dims.len - 1];
         if (k != right.dims[right.dims.len - 2]) return error.ShapeMismatch;
-        const left_batch = left.data.len / (m * k);
-        const right_batch = right.data.len / (right.dims[right.dims.len - 2] * n);
+        const left_matrix = try checkedMul(m, k);
+        const right_matrix = try checkedMul(right.dims[right.dims.len - 2], n);
+        if (left_matrix == 0 or right_matrix == 0) return error.ShapeMismatch;
+        const left_batch = left.data.len / left_matrix;
+        const right_batch = right.data.len / right_matrix;
         if (left_batch != right_batch and left_batch != 1 and right_batch != 1) return error.ShapeMismatch;
         const batch = @max(left_batch, right_batch);
         var out_dims = std.ArrayList(usize).init(self.allocator);
@@ -1924,6 +2070,7 @@ pub const Runner = struct {
         const input = try self.needTensor(node, 0);
         if (input.dims.len == 0) return error.ShapeMismatch;
         const hidden = input.dims[input.dims.len - 1];
+        if (hidden == 0) return error.ShapeMismatch;
         const rows = input.data.len / hidden;
         const epsilon = try fp.Q128_128.fromF32Bits(@bitCast(attrFloat(node, "epsilon", 0.0)));
         var weight_index: usize = 1;
@@ -1971,39 +2118,67 @@ pub const Runner = struct {
         }
     }
 
-    fn execMatMulNBits(self: *Runner, node: *const onnx.Node) !void {
-        const left = try self.needTensor(node, 0);
-        const quant = try self.needBlob(node, 1);
-        const scales = try self.needTensor(node, 2);
+    const MatMul4Operands = struct {
+        k: usize,
+        n: usize,
+        block: usize,
+        rows: usize,
+        zero_points_per_row: usize,
+    };
+
+    fn matMul4Operands(node: *const onnx.Node, left: Tensor, quant: Blob, scales: Tensor) !MatMul4Operands {
         const k_attr = attrInt(node, "K", -1);
         const n_attr = attrInt(node, "N", -1);
         const bits = attrInt(node, "bits", 4);
         const block_size = attrInt(node, "block_size", 32);
         if (k_attr <= 0 or n_attr <= 0 or bits != 4 or block_size <= 0) return error.UnsupportedOperator;
-        const k: usize = @intCast(k_attr);
-        const n: usize = @intCast(n_attr);
-        const block: usize = @intCast(block_size);
+        const k = std.math.cast(usize, k_attr) orelse return error.TensorTooLarge;
+        const n = std.math.cast(usize, n_attr) orelse return error.TensorTooLarge;
+        const block = std.math.cast(usize, block_size) orelse return error.TensorTooLarge;
+        if (block % 2 != 0 or k % block != 0) return error.ShapeMismatch;
         if (left.dims.len == 0 or left.dims[left.dims.len - 1] != k) return error.ShapeMismatch;
-        const rows = left.data.len / k;
+        const block_count = k / block;
+        const packed_per_row = try checkedMul(block_count, block / 2);
+        const zero_points_per_row = (block_count + 1) / 2;
+        if (quant.data.len != try checkedMul(n, packed_per_row) or
+            scales.data.len != try checkedMul(n, block_count)) return error.ShapeMismatch;
+        return .{
+            .k = k,
+            .n = n,
+            .block = block,
+            .rows = left.data.len / k,
+            .zero_points_per_row = zero_points_per_row,
+        };
+    }
+
+    fn validateMatMul4ZeroPoints(operands: MatMul4Operands, zero_points: []const u8) !void {
+        if (zero_points.len != try checkedMul(operands.n, operands.zero_points_per_row)) return error.ShapeMismatch;
+    }
+
+    fn execMatMulNBits(self: *Runner, node: *const onnx.Node) !void {
+        const left = try self.needTensor(node, 0);
+        const quant = try self.needBlob(node, 1);
+        const scales = try self.needTensor(node, 2);
+        const operands = try matMul4Operands(node, left, quant, scales);
         var out_dims: [MAX_RANK]usize = undefined;
         @memcpy(out_dims[0 .. left.dims.len - 1], left.dims[0 .. left.dims.len - 1]);
-        out_dims[left.dims.len - 1] = n;
-        const output = try self.makeOutput(node, 0, out_dims[0..left.dims.len]);
+        out_dims[left.dims.len - 1] = operands.n;
         var zp_data: []const u8 = &.{};
         var zp_storage: []u8 = &.{};
         defer self.allocator.free(zp_storage);
         if (node.inputs.items.len > 3 and inputName(node, 3).len != 0) {
             const zp = try self.needBlob(node, 3);
+            try validateMatMul4ZeroPoints(operands, zp.data);
             zp_data = zp.data;
         } else {
-            const block_count = k / block;
-            zp_storage = try self.allocator.alloc(u8, n * ((block_count + 1) / 2));
+            zp_storage = try self.allocator.alloc(u8, try checkedMul(operands.n, operands.zero_points_per_row));
             @memset(zp_storage, 0x88);
             zp_data = zp_storage;
         }
+        const output = try self.makeOutput(node, 0, out_dims[0..left.dims.len]);
         if (self.accelerator) |accelerator| {
             if (accelerator.matmul4) |matmul4| {
-                const report = matmul4(accelerator.context, self.allocator, output.data, left.data, .{ .rows = rows, .columns = k }, quant.data, scales.data, zp_data, k, n, block) catch |err| switch (err) {
+                const report = matmul4(accelerator.context, self.allocator, output.data, left.data, .{ .rows = operands.rows, .columns = operands.k }, quant.data, scales.data, zp_data, operands.k, operands.n, operands.block) catch |err| switch (err) {
                     // The tiled fast shader requires 8-element-aligned quant
                     // blocks; anything else keeps the exact CPU kernel.
                     error.UnsupportedLayout => null,
@@ -2015,8 +2190,8 @@ pub const Runner = struct {
                 }
             }
         }
-        try self.matmul4_scratch.resize(k);
-        try ops.matMul4Bit(output.data, left.data, .{ .rows = rows, .columns = k }, quant.data, scales.data, zp_data, k, n, block, self.matmul4_scratch.items);
+        try self.matmul4_scratch.resize(operands.k);
+        try ops.matMul4Bit(output.data, left.data, .{ .rows = operands.rows, .columns = operands.k }, quant.data, scales.data, zp_data, operands.k, operands.n, operands.block, self.matmul4_scratch.items);
     }
 
     fn execCausalConv(self: *Runner, node: *const onnx.Node) !void {
@@ -2028,12 +2203,14 @@ pub const Runner = struct {
             weight = try self.blobToTensor(blob);
             try self.store.putTensor(node.inputs.items[1], weight);
         } else return error.MissingTensor;
+        try weight.validate();
         if (input.dims.len != 3) return error.ShapeMismatch;
         const batch = input.dims[0];
         const channels = input.dims[1];
         const length = input.dims[2];
         if (weight.dims.len < 2 or weight.dims[0] != channels) return error.ShapeMismatch;
         const kernel = weight.dims[weight.dims.len - 1];
+        if (kernel == 0 or weight.data.len != try checkedMul(channels, kernel)) return error.ShapeMismatch;
         var bias_data: []const fp.Q128_128 = &.{};
         if (node.inputs.items.len > 2 and inputName(node, 2).len != 0) {
             const bias = try self.needTensor(node, 2);
@@ -2044,6 +2221,9 @@ pub const Runner = struct {
             const past = try self.needTensor(node, 3);
             past_data = past.data;
         }
+        const present_len = try checkedMul(try checkedMul(batch, channels), kernel - 1);
+        if ((bias_data.len != 0 and bias_data.len != channels) or
+            (past_data.len != 0 and past_data.len != present_len)) return error.ShapeMismatch;
         const activation = attrString(node, "activation");
         const silu = activation != null and std.mem.eql(u8, activation.?, "silu");
         const output = try self.makeOutput(node, 0, &.{ batch, channels, length });
@@ -2144,24 +2324,30 @@ pub const Runner = struct {
         const cos_cache = try self.needTensor(node, 2);
         const sin_cache = try self.needTensor(node, 3);
         if (input.dims.len != 4) return error.ShapeMismatch;
-        const rotary_dim: usize = @intCast(@max(0, attrInt(node, "rotary_embedding_dim", @intCast(input.dims[3]))));
-        const interleaved = attrInt(node, "interleaved", 0) != 0;
         const batch = input.dims[0];
         const heads = input.dims[1];
         const sequence = input.dims[2];
         const head_size = input.dims[3];
-        const positions_buf = try self.allocator.alloc(usize, batch * sequence);
+        const head_size_i64 = std.math.cast(i64, head_size) orelse return error.TensorValueOutOfRange;
+        const rotary_attr = attrInt(node, "rotary_embedding_dim", head_size_i64);
+        if (heads == 0 or head_size == 0 or rotary_attr <= 0 or rotary_attr > head_size_i64 or @mod(rotary_attr, 2) != 0) return error.ShapeMismatch;
+        const rotary_dim: usize = @intCast(rotary_attr);
+        const rotary_half = rotary_dim / 2;
+        if (cos_cache.data.len % rotary_half != 0 or sin_cache.data.len != cos_cache.data.len) return error.ShapeMismatch;
+        const interleaved = attrInt(node, "interleaved", 0) != 0;
+        const position_count = try checkedMul(batch, sequence);
+        const positions_buf = try self.allocator.alloc(usize, position_count);
         defer self.allocator.free(positions_buf);
         if (node.inputs.items.len > 1 and inputName(node, 1).len != 0) {
             const position_tensor = try self.needTensor(node, 1);
-            if (position_tensor.data.len != batch * sequence) return error.ShapeMismatch;
+            if (position_tensor.data.len != position_count) return error.ShapeMismatch;
             for (position_tensor.data, 0..) |value, index| {
-                const position = tensorToI64(value);
+                const position = try tensorToI64(value);
                 if (position < 0) return error.ShapeMismatch;
-                positions_buf[index] = @intCast(position);
+                positions_buf[index] = try usizeFromI64(position);
             }
         } else {
-            for (0..batch * sequence) |index| positions_buf[index] = index % sequence;
+            for (0..position_count) |index| positions_buf[index] = index % sequence;
         }
         // The kernel consumes [B,S,H,HS]; transpose in and out.
         const bshs = try self.allocator.alloc(fp.Q128_128, input.data.len);
@@ -2203,26 +2389,37 @@ pub const Runner = struct {
         const bits = attrInt(node, "bits", 4);
         const block_size = attrInt(node, "block_size", 32);
         const gather_axis = attrInt(node, "gather_axis", 0);
-        if (bits != 4 or gather_axis != 0 or data.dims.len != 2) return error.UnsupportedOperator;
+        if (bits != 4 or gather_axis != 0 or data.dims.len != 2 or block_size <= 0) return error.UnsupportedOperator;
+        const block = std.math.cast(usize, block_size) orelse return error.TensorTooLarge;
         const row_packed = data.dims[1];
-        const row_width = row_packed * 2;
-        const blocks_per_row = row_width / @as(usize, @intCast(block_size));
-        if (scales.dims.len != 2 or scales.dims[1] != blocks_per_row) return error.ShapeMismatch;
+        const row_width = try checkedMul(row_packed, 2);
+        if (block % 2 != 0 or row_width % block != 0) return error.ShapeMismatch;
+        const blocks_per_row = row_width / block;
+        const zero_points_per_row = (blocks_per_row + 1) / 2;
+        const rows = data.dims[0];
+        if (scales.dims.len != 2 or scales.dims[0] != rows or scales.dims[1] != blocks_per_row or
+            data.data.len != try checkedMul(rows, row_packed) or
+            scales.data.len != try checkedMul(rows, blocks_per_row) or
+            zp.data.len != try checkedMul(rows, zero_points_per_row)) return error.ShapeMismatch;
         var out_dims = std.ArrayList(usize).init(self.allocator);
         defer out_dims.deinit();
         try out_dims.appendSlice(indices.dims);
         try out_dims.append(row_width);
+        const rows_i64 = std.math.cast(i64, rows) orelse return error.TensorValueOutOfRange;
+        for (indices.data) |index_value| {
+            const index = try tensorToI64(index_value);
+            if (index < 0 or index >= rows_i64) return error.IndexOutOfRange;
+        }
         const output = try self.makeOutput(node, 0, out_dims.items);
         for (indices.data, 0..) |index_value, row| {
-            const index = tensorToI64(index_value);
-            if (index < 0 or index >= @as(i64, @intCast(data.dims[0]))) return error.IndexOutOfRange;
-            const row_index: usize = @intCast(index);
+            const index = try tensorToI64(index_value);
+            const row_index = try usizeFromI64(index);
             try ops.decode4BitRow(
                 output.data[row * row_width ..][0..row_width],
                 data.data[row_index * row_packed ..][0..row_packed],
                 scales.data[row_index * blocks_per_row ..][0..blocks_per_row],
-                zp.data[row_index * ((blocks_per_row + 1) / 2) ..][0 .. (blocks_per_row + 1) / 2],
-                @intCast(block_size),
+                zp.data[row_index * zero_points_per_row ..][0..zero_points_per_row],
+                block,
             );
         }
     }
@@ -2236,26 +2433,41 @@ pub const Runner = struct {
         const past = try self.needTensor(node, 3);
         const decay = try self.needTensor(node, 4);
         const beta = try self.needTensor(node, 5);
-        const query_heads: usize = @intCast(@max(1, attrInt(node, "q_num_heads", 1)));
-        const kv_heads: usize = @intCast(@max(1, attrInt(node, "kv_num_heads", 1)));
-        if (query.dims.len < 2 or past.dims.len != 4) return error.ShapeMismatch;
+        const query_heads = try positiveUsizeFromI64(attrInt(node, "q_num_heads", 1));
+        const kv_heads = try positiveUsizeFromI64(attrInt(node, "kv_num_heads", 1));
+        if (query.dims.len < 2 or key.dims.len < 2 or value.dims.len < 2 or past.dims.len != 4) return error.ShapeMismatch;
         const batch = query.dims[0];
         const length = query.dims[1];
         const key_size = past.dims[2];
         const value_size = past.dims[3];
-        if (past.dims[0] != batch or past.dims[1] != kv_heads) return error.ShapeMismatch;
-        if (query.dims[query.dims.len - 1] != query_heads * key_size or
-            key.dims[key.dims.len - 1] != kv_heads * key_size or
-            value.dims[value.dims.len - 1] != kv_heads * value_size or
-            decay.data.len != batch * length * kv_heads or
-            beta.data.len != batch * length * kv_heads) return error.ShapeMismatch;
+        if (key_size == 0 or value_size == 0 or query_heads % kv_heads != 0) return error.ShapeMismatch;
+        const token_count = try checkedMul(batch, length);
+        const time_kv_heads = try checkedMul(token_count, kv_heads);
+        const query_width = try checkedMul(query_heads, key_size);
+        const key_width = try checkedMul(kv_heads, key_size);
+        const value_width = try checkedMul(kv_heads, value_size);
+        const output_width = try checkedMul(query_heads, value_size);
+        const state_size = try checkedMul(try checkedMul(batch, kv_heads), try checkedMul(key_size, value_size));
+        if (past.data.len != state_size or
+            past.dims[0] != batch or past.dims[1] != kv_heads or
+            key.dims[0] != batch or key.dims[1] != length or
+            value.dims[0] != batch or value.dims[1] != length or
+            query.dims[query.dims.len - 1] != query_width or
+            key.dims[key.dims.len - 1] != key_width or
+            value.dims[value.dims.len - 1] != value_width or
+            query.data.len != try checkedMul(token_count, query_width) or
+            key.data.len != try checkedMul(time_kv_heads, key_size) or
+            value.data.len != try checkedMul(time_kv_heads, value_size) or
+            decay.data.len != time_kv_heads or
+            beta.data.len != time_kv_heads) return error.ShapeMismatch;
         var out_dims = std.ArrayList(usize).init(self.allocator);
         defer out_dims.deinit();
         try out_dims.appendSlice(query.dims[0 .. query.dims.len - 1]);
-        try out_dims.append(query_heads * value_size);
+        try out_dims.append(output_width);
         const output = try self.makeOutput(node, 0, out_dims.items);
         const present = try self.makeOutput(node, 1, past.dims);
-        const scale = try fp.Q128_128.one.div(try ops.sqrt(fp.Q128_128.fromInt(@intCast(key_size))));
+        const key_size_i64 = std.math.cast(i64, key_size) orelse return error.TensorValueOutOfRange;
+        const scale = try fp.Q128_128.one.div(try ops.sqrt(fp.Q128_128.fromInt(key_size_i64)));
         if (self.fast_numerics) {
             // Fast tier (ADR-0023/0025): gated delta scan in f64. The
             // recurrent state lives in a persistent f64 shadow keyed by the
@@ -2280,7 +2492,10 @@ pub const Runner = struct {
             const past_name = node.inputs.items[3];
             const shadow_key = if (std.mem.startsWith(u8, past_name, "past_")) past_name["past_".len..] else past_name;
             const key_copy = try self.allocator.dupe(u8, shadow_key);
-            const gop = try self.state_shadows.getOrPut(key_copy);
+            const gop = self.state_shadows.getOrPut(key_copy) catch |err| {
+                self.allocator.free(key_copy);
+                return err;
+            };
             if (gop.found_existing) {
                 self.allocator.free(key_copy);
             } else {
@@ -2355,29 +2570,31 @@ pub const Runner = struct {
         const value = try self.needTensor(node, 2);
         const past_key = try self.needTensor(node, 3);
         const past_value = try self.needTensor(node, 4);
-        const query_heads: usize = @intCast(@max(1, attrInt(node, "num_heads", 1)));
-        const kv_heads: usize = @intCast(@max(1, attrInt(node, "kv_num_heads", 1)));
+        const query_heads = try positiveUsizeFromI64(attrInt(node, "num_heads", 1));
+        const kv_heads = try positiveUsizeFromI64(attrInt(node, "kv_num_heads", 1));
         const scale = try fp.Q128_128.fromF32Bits(@bitCast(attrFloat(node, "scale", 1.0)));
         if (attrInt(node, "local_window_size", -1) != -1 or
             attrFloat(node, "softcap", 0) != 0 or
             attrInt(node, "do_rotary", 0) != 0) return error.UnsupportedOperator;
         if (query.dims.len != 3 or key.dims.len != 3 or value.dims.len != 3 or
-            past_key.dims.len != 4 or past_value.dims.len != 4) return error.ShapeMismatch;
+            past_key.dims.len != 4 or past_value.dims.len != 4 or query_heads % kv_heads != 0) return error.ShapeMismatch;
         const batch = query.dims[0];
         const query_length = query.dims[1];
         const head_size = query.dims[2] / query_heads;
         const past_length = past_key.dims[2];
-        if (query.dims[2] != query_heads * head_size or
-            key.dims[0] != batch or key.dims[1] != query_length or
-            key.dims[2] != kv_heads * head_size or
-            value.dims[2] != kv_heads * head_size or
+        const key_width = try checkedMul(kv_heads, head_size);
+        if (head_size == 0 or query.dims[2] != try checkedMul(query_heads, head_size) or
+            key.dims[0] != batch or key.dims[1] != query_length or key.dims[2] != key_width or
+            value.dims[0] != batch or value.dims[1] != query_length or value.dims[2] != key_width or
             past_key.dims[0] != batch or past_key.dims[1] != kv_heads or
-            past_key.dims[3] != head_size or past_value.dims[2] != past_length) return error.ShapeMismatch;
-        const total_length = past_length + query_length;
+            past_key.dims[3] != head_size or
+            past_value.dims[0] != batch or past_value.dims[1] != kv_heads or
+            past_value.dims[2] != past_length or past_value.dims[3] != head_size) return error.ShapeMismatch;
+        const total_length = try checkedAdd(past_length, query_length);
         var mask: []fp.Q128_128 = &.{};
         // The Qwen graph passes sequence-length metadata, not an additive
         // mask; causal masking is enforced from the past/query geometry.
-        const causal = try self.allocator.alloc(fp.Q128_128, batch * query_length * total_length);
+        const causal = try self.allocator.alloc(fp.Q128_128, try checkedMul(try checkedMul(batch, query_length), total_length));
         defer self.allocator.free(causal);
         for (0..batch) |b| {
             for (0..query_length) |q| {
@@ -2400,7 +2617,9 @@ pub const Runner = struct {
         const output = try self.makeOutput(node, 0, query.dims);
         const present_key = try self.makeOutput(node, 1, &.{ batch, kv_heads, total_length, head_size });
         const present_value = try self.makeOutput(node, 2, &.{ batch, kv_heads, total_length, head_size });
-        const scratch = try self.allocator.alloc(fp.Q128_128, total_length * @min(batch * query_heads * query_length, 128));
+        const work_count = try checkedMul(try checkedMul(batch, query_heads), query_length);
+        const scratch_lanes: usize = if (work_count > 1 and work_count <= 128) work_count else 1;
+        const scratch = try self.allocator.alloc(fp.Q128_128, try checkedMul(total_length, scratch_lanes));
         defer self.allocator.free(scratch);
         if (self.fast_numerics) {
             // Fast tier (ADR-0023): deterministic single-threaded f32 attention
@@ -2462,12 +2681,11 @@ pub const Runner = struct {
             const target_dim = target[offset + axis];
             if (dim != 1 and dim != target_dim) return error.ShapeMismatch;
         }
-        var count: usize = 1;
-        for (target) |dim| count *= dim;
+        const count = try checkedProduct(target);
         const output = try self.allocator.alloc(fp.Q128_128, count);
         errdefer self.allocator.free(output);
         var in_strides: [MAX_RANK]usize = undefined;
-        stridesOf(input.dims, &in_strides);
+        try stridesOf(input.dims, &in_strides);
         for (output, 0..) |*destination, flat| {
             var remaining = flat;
             var source_index: usize = 0;
@@ -2727,4 +2945,430 @@ test "native q128 graph executor runs arithmetic fixture" {
     try executor.execute();
     try std.testing.expectEqual(fp.Q128_128.fromInt(4).raw, tensors[2].data[0].raw);
     try std.testing.expectEqual(fp.Q128_128.fromInt(6).raw, tensors[2].data[1].raw);
+}
+
+fn buildGraphNode(
+    allocator: std.mem.Allocator,
+    name: []const u8,
+    domain: []const u8,
+    op_type: []const u8,
+    inputs: []const []const u8,
+    outputs: []const []const u8,
+) !onnx.Node {
+    var node = onnx.Node{
+        .allocator = allocator,
+        .name = &.{},
+        .domain = &.{},
+        .op_type = &.{},
+        .inputs = std.ArrayList([]const u8).init(allocator),
+        .outputs = std.ArrayList([]const u8).init(allocator),
+        .attributes = std.ArrayList(onnx.Attribute).init(allocator),
+    };
+    errdefer node.deinit();
+    node.name = try allocator.dupe(u8, name);
+    node.domain = try allocator.dupe(u8, domain);
+    node.op_type = try allocator.dupe(u8, op_type);
+    for (inputs) |input| {
+        const owned = try allocator.dupe(u8, input);
+        node.inputs.append(owned) catch |err| {
+            allocator.free(owned);
+            return err;
+        };
+    }
+    for (outputs) |output| {
+        const owned = try allocator.dupe(u8, output);
+        node.outputs.append(owned) catch |err| {
+            allocator.free(owned);
+            return err;
+        };
+    }
+    return node;
+}
+
+fn appendIntAttr(node: *onnx.Node, name: []const u8, value: i64) !void {
+    const owned = try node.allocator.dupe(u8, name);
+    node.attributes.append(.{
+        .allocator = node.allocator,
+        .name = owned,
+        .kind = .integer,
+        .integer = value,
+    }) catch |err| {
+        node.allocator.free(owned);
+        return err;
+    };
+}
+
+fn appendIntsAttr(node: *onnx.Node, name: []const u8, values: []const i64) !void {
+    var attribute = onnx.Attribute{
+        .allocator = node.allocator,
+        .name = try node.allocator.dupe(u8, name),
+        .kind = .integers,
+    };
+    errdefer {
+        node.allocator.free(attribute.name);
+        node.allocator.free(attribute.ints);
+    }
+    attribute.ints = try node.allocator.dupe(i64, values);
+    try node.attributes.append(attribute);
+}
+
+fn putTensorValues(
+    allocator: std.mem.Allocator,
+    store: *TensorStore,
+    name: []const u8,
+    dims: []const usize,
+    values: []const i64,
+) !void {
+    const tensor = try Tensor.init(allocator, dims);
+    errdefer {
+        var owned = tensor;
+        owned.deinit(allocator);
+    }
+    if (tensor.data.len != values.len) return error.ShapeMismatch;
+    for (tensor.data, values) |*slot, value| slot.* = fp.Q128_128.fromInt(value);
+    try store.putTensor(name, tensor);
+}
+
+fn putBlobBytes(
+    allocator: std.mem.Allocator,
+    store: *TensorStore,
+    name: []const u8,
+    dims: []const usize,
+    data_type: u64,
+    bytes: []const u8,
+) !void {
+    const data = try allocator.dupe(u8, bytes);
+    const owned_dims = allocator.dupe(usize, dims) catch |err| {
+        allocator.free(data);
+        return err;
+    };
+    try store.putBlob(name, .{
+        .data = data,
+        .dims = owned_dims,
+        .data_type = data_type,
+    });
+}
+
+test "runner rejects invalid order domains before touching node inputs" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    var first = try buildGraphNode(allocator, "first", "", "Add", &.{ "x", "x" }, &.{"mid"});
+    defer first.deinit();
+    var second = try buildGraphNode(allocator, "second", "", "Add", &.{ "mid", "x" }, &.{"y"});
+    defer second.deinit();
+    var nodes = [_]onnx.Node{ first, second };
+
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try std.testing.expectError(error.InvalidOrder, runner.run(&nodes, &.{2}, null));
+    try std.testing.expectError(error.InvalidOrder, runner.run(&nodes, &.{ 0, 0 }, null));
+    try std.testing.expectError(error.InvalidOrder, runner.run(&nodes, &.{ 1, 0 }, null));
+
+    runner.cursor = 2;
+    try std.testing.expectError(error.InvalidCursor, runner.run(&nodes, &.{0}, null));
+}
+
+test "runner fails closed on out-of-range integer tensor values" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "x", &.{1}, &.{7});
+    const indices = try Tensor.init(allocator, &.{1});
+    indices.data[0] = fp.Q128_128.fromRaw(std.math.maxInt(i256));
+    try store.putTensor("indices", indices);
+
+    var node = try buildGraphNode(allocator, "gather", "", "Gather", &.{ "x", "indices" }, &.{"y"});
+    defer node.deinit();
+    var nodes = [_]onnx.Node{node};
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try std.testing.expectError(error.TensorValueOutOfRange, runner.run(&nodes, &.{0}, null));
+    try std.testing.expect(store.getTensor("y") == null);
+    try std.testing.expectEqualStrings("gather", runner.failed_node.?);
+    try std.testing.expectEqualStrings("Gather", runner.failed_op.?);
+}
+
+test "runner rejects overflowing reshape, duplicate transpose axes, and oversized slice ranges" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "x", &.{1}, &.{7});
+    try putTensorValues(allocator, &store, "shape", &.{2}, &.{ std.math.maxInt(i64), std.math.maxInt(i64) });
+    try putTensorValues(allocator, &store, "wide", &.{ 1, 2 }, &.{ 1, 2 });
+    try putTensorValues(allocator, &store, "slice_input", &.{9}, &.{ 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+    try putTensorValues(allocator, &store, "starts", &.{9}, &.{ 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+    try putTensorValues(allocator, &store, "ends", &.{9}, &.{ 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+
+    var reshape = try buildGraphNode(allocator, "reshape", "", "Reshape", &.{ "x", "shape" }, &.{"reshaped"});
+    defer reshape.deinit();
+    var transpose = try buildGraphNode(allocator, "transpose", "", "Transpose", &.{"wide"}, &.{"transposed"});
+    defer transpose.deinit();
+    try appendIntsAttr(&transpose, "perm", &.{ 0, 0 });
+    var slice = try buildGraphNode(allocator, "slice", "", "Slice", &.{ "slice_input", "starts", "ends" }, &.{"sliced"});
+    defer slice.deinit();
+
+    var nodes = [_]onnx.Node{ reshape, transpose, slice };
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try std.testing.expectError(error.TensorTooLarge, runner.run(&nodes, &.{0}, null));
+    runner.cursor = 0;
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{1}, null));
+    runner.cursor = 0;
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{2}, null));
+}
+
+test "runner rejects degenerate matmul and layer-norm dimensions" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "left_empty", &.{ 0, 4 }, &.{});
+    try putTensorValues(allocator, &store, "right", &.{ 4, 1 }, &.{ 1, 2, 3, 4 });
+    try putTensorValues(allocator, &store, "norm_input", &.{ 2, 0 }, &.{});
+    try putTensorValues(allocator, &store, "norm_weight", &.{0}, &.{});
+    try putTensorValues(allocator, &store, "broadcast_left", &.{2}, &.{ 1, 2 });
+    try putTensorValues(allocator, &store, "broadcast_right", &.{3}, &.{ 1, 2, 3 });
+
+    var matmul = try buildGraphNode(allocator, "matmul", "", "MatMul", &.{ "left_empty", "right" }, &.{"matmul_out"});
+    defer matmul.deinit();
+    var norm = try buildGraphNode(allocator, "norm", "", "SimplifiedLayerNormalization", &.{ "norm_input", "norm_weight" }, &.{"norm_out"});
+    defer norm.deinit();
+    var broadcast = try buildGraphNode(allocator, "broadcast", "", "Add", &.{ "broadcast_left", "broadcast_right" }, &.{"broadcast_out"});
+    defer broadcast.deinit();
+    var nodes = [_]onnx.Node{ matmul, norm, broadcast };
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{0}, null));
+    runner.cursor = 0;
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{1}, null));
+    runner.cursor = 0;
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{2}, null));
+    try std.testing.expect(store.getTensor("broadcast_out") == null);
+}
+
+test "causal convolution validates recurrent operand boundaries before decode" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "input", &.{ 1, 1, 1 }, &.{2});
+    try putTensorValues(allocator, &store, "weight", &.{ 1, 0 }, &.{});
+
+    var node = try buildGraphNode(
+        allocator,
+        "conv",
+        "com.microsoft",
+        "CausalConvWithState",
+        &.{ "input", "weight" },
+        &.{ "output", "present" },
+    );
+    defer node.deinit();
+    var nodes = [_]onnx.Node{node};
+    var runner = Runner.init(allocator, &store, null);
+    runner.fast_numerics = true;
+    defer runner.deinit();
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{0}, null));
+    try std.testing.expect(store.getTensor("present") == null);
+}
+
+test "quantized graph operators reject malformed operand payloads before indexing" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "left", &.{ 1, 4 }, &.{ 1, 1, 1, 1 });
+    try putBlobBytes(allocator, &store, "quant", &.{ 2, 2 }, 4, &.{ 0x21, 0x43, 0x21 });
+    try putTensorValues(allocator, &store, "scales", &.{ 2, 1 }, &.{ 1, 1 });
+
+    var matmul = try buildGraphNode(allocator, "qmat", "com.microsoft", "MatMulNBits", &.{ "left", "quant", "scales" }, &.{"qout"});
+    defer matmul.deinit();
+    try appendIntAttr(&matmul, "K", 4);
+    try appendIntAttr(&matmul, "N", 2);
+    try appendIntAttr(&matmul, "bits", 4);
+    try appendIntAttr(&matmul, "block_size", 4);
+
+    try putBlobBytes(allocator, &store, "gather_quant", &.{ 2, 2 }, 4, &.{ 0x21, 0x43, 0x65, 0x87 });
+    try putTensorValues(allocator, &store, "gather_scales", &.{ 1, 1 }, &.{1});
+    try putBlobBytes(allocator, &store, "gather_zp", &.{ 2, 1 }, 2, &.{ 0, 0 });
+    try putTensorValues(allocator, &store, "gather_indices", &.{1}, &.{1});
+    var gather = try buildGraphNode(
+        allocator,
+        "gather_quantized",
+        "com.microsoft",
+        "GatherBlockQuantized",
+        &.{ "gather_quant", "gather_scales", "gather_zp", "gather_indices" },
+        &.{"gathered"},
+    );
+    defer gather.deinit();
+    try appendIntAttr(&gather, "bits", 4);
+    try appendIntAttr(&gather, "block_size", 4);
+    try appendIntAttr(&gather, "gather_axis", 0);
+
+    var nodes = [_]onnx.Node{ matmul, gather };
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{0}, null));
+    try std.testing.expect(store.getTensor("qout") == null);
+    runner.cursor = 0;
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{1}, null));
+    try std.testing.expect(store.getTensor("gathered") == null);
+}
+
+test "group query attention handles an empty query span without undersized scratch" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "query", &.{ 1, 0, 2 }, &.{});
+    try putTensorValues(allocator, &store, "key", &.{ 1, 0, 2 }, &.{});
+    try putTensorValues(allocator, &store, "value", &.{ 1, 0, 2 }, &.{});
+    try putTensorValues(allocator, &store, "past_key", &.{ 1, 1, 1, 2 }, &.{ 1, 0 });
+    try putTensorValues(allocator, &store, "past_value", &.{ 1, 1, 1, 2 }, &.{ 3, 4 });
+
+    var node = try buildGraphNode(
+        allocator,
+        "gqa",
+        "com.microsoft",
+        "GroupQueryAttention",
+        &.{ "query", "key", "value", "past_key", "past_value" },
+        &.{ "output", "present_key", "present_value" },
+    );
+    defer node.deinit();
+    try appendIntAttr(&node, "num_heads", 1);
+    try appendIntAttr(&node, "kv_num_heads", 1);
+    var nodes = [_]onnx.Node{node};
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try runner.run(&nodes, &.{0}, null);
+    const present_key = store.getTensor("present_key").?;
+    const present_value = store.getTensor("present_value").?;
+    try std.testing.expectEqual(@as(usize, 0), store.getTensor("output").?.data.len);
+    try std.testing.expectEqual(fp.Q128_128.fromInt(1).raw, present_key.data[0].raw);
+    try std.testing.expectEqual(fp.Q128_128.fromInt(4).raw, present_value.data[1].raw);
+}
+
+test "checkpoint row payloads clean up across allocation failures" {
+    const backing = std.testing.allocator;
+    var store = TensorStore.init(backing);
+    defer store.deinit();
+    try putTensorValues(backing, &store, "x", &.{ 1, 2 }, &.{ 1, 2 });
+    try putTensorValues(backing, &store, "y", &.{ 1, 2 }, &.{ 3, 4 });
+    var node = try buildGraphNode(backing, "add", "", "Add", &.{ "x", "y" }, &.{"z"});
+    defer node.deinit();
+    var nodes = [_]onnx.Node{node};
+
+    for (0..10) |fail_index| {
+        var failing = std.testing.FailingAllocator.init(backing, .{ .fail_index = fail_index });
+        var runner = Runner.init(failing.allocator(), &store, null);
+        runner.row_checksums = true;
+        defer runner.deinit();
+        runner.run(&nodes, &.{0}, null) catch |err| switch (err) {
+            error.OutOfMemory => continue,
+            else => return err,
+        };
+    }
+}
+
+test "profile timings own op names after the source graph is released" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "x", &.{1}, &.{1});
+    try putTensorValues(allocator, &store, "y", &.{1}, &.{2});
+    var node = try buildGraphNode(allocator, "profiled", "", "Add", &.{ "x", "y" }, &.{"z"});
+    var nodes = [_]onnx.Node{node};
+    var runner = Runner.init(allocator, &store, null);
+    runner.profile_enabled = true;
+    defer runner.deinit();
+    try runner.run(&nodes, &.{0}, null);
+    node.deinit();
+    const timing = runner.op_timings.get("Add") orelse return error.MissingTensor;
+    try std.testing.expectEqual(@as(usize, 1), timing.calls);
+}
+
+test "row checksum rejects stride overflow in zero-sized tensor domains" {
+    const allocator = std.testing.allocator;
+    const tensor = try Tensor.init(allocator, &.{ 0, std.math.maxInt(usize), std.math.maxInt(usize) });
+    defer {
+        var owned = tensor;
+        owned.deinit(allocator);
+    }
+    try std.testing.expectError(error.TensorTooLarge, tensor.rowChecksum(std.math.maxInt(usize), 0));
+}
+
+test "blob store rejects out-of-domain dims before payload aliasing" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    const dims = [_]usize{ 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    try std.testing.expectError(error.UnsupportedShape, putBlobBytes(allocator, &store, "blob", &dims, 4, &.{}));
+}
+
+test "runner resumes after a missing tensor and resolves deferred checksums" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "x", &.{1}, &.{1});
+    try putTensorValues(allocator, &store, "y", &.{1}, &.{2});
+    var first = try buildGraphNode(allocator, "first", "", "Add", &.{ "x", "y" }, &.{"mid"});
+    defer first.deinit();
+    var second = try buildGraphNode(allocator, "second", "", "Add", &.{ "mid", "z" }, &.{"out"});
+    defer second.deinit();
+    var nodes = [_]onnx.Node{ first, second };
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+
+    try std.testing.expectError(error.MissingTensor, runner.run(&nodes, &.{ 0, 1 }, null));
+    try std.testing.expectEqual(@as(usize, 1), runner.cursor);
+    try std.testing.expectEqualStrings("z", runner.missing_input.?);
+    try std.testing.expectEqual(@as(usize, 1), runner.checkpoints.items.len);
+    try std.testing.expectEqual(@as(usize, 1), runner.pending_checksums.items.len);
+    try std.testing.expectEqual(@as(u256, 0), runner.checkpoints.items[0].checksum);
+
+    try putTensorValues(allocator, &store, "z", &.{1}, &.{3});
+    try runner.run(&nodes, &.{ 0, 1 }, null);
+    try std.testing.expectEqual(@as(usize, 2), runner.cursor);
+    try std.testing.expectEqual(@as(usize, 0), runner.pending_checksums.items.len);
+    try std.testing.expect(runner.checkpoints.items[0].checksum != 0);
+    try std.testing.expect(runner.checkpoints.items[1].checksum != 0);
+    try std.testing.expectEqual(fp.Q128_128.fromInt(6).raw, store.getTensor("out").?.data[0].raw);
+}
+
+test "unsqueeze rejects duplicate axes and cast rejects malformed blobs before output" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    try putTensorValues(allocator, &store, "x", &.{2}, &.{ 1, 2 });
+    try putTensorValues(allocator, &store, "axes", &.{2}, &.{ 0, 0 });
+    const axes_overflow = try Tensor.init(allocator, &.{1});
+    axes_overflow.data[0] = fp.Q128_128.fromRaw(std.math.maxInt(i256));
+    try store.putTensor("axes_overflow", axes_overflow);
+    try putBlobBytes(allocator, &store, "blob", &.{1}, 7, &.{ 1, 2 });
+
+    var unsqueeze = try buildGraphNode(allocator, "unsqueeze", "", "Unsqueeze", &.{ "x", "axes" }, &.{"unsqueezed"});
+    defer unsqueeze.deinit();
+    var unsqueeze_range = try buildGraphNode(allocator, "unsqueeze_range", "", "Unsqueeze", &.{ "x", "axes_overflow" }, &.{"unsqueezed_range"});
+    defer unsqueeze_range.deinit();
+    var cast = try buildGraphNode(allocator, "cast", "", "Cast", &.{"blob"}, &.{"casted"});
+    defer cast.deinit();
+    var nodes = [_]onnx.Node{ unsqueeze, unsqueeze_range, cast };
+    var runner = Runner.init(allocator, &store, null);
+    defer runner.deinit();
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{0}, null));
+    try std.testing.expect(store.getTensor("unsqueezed") == null);
+    runner.cursor = 0;
+    try std.testing.expectError(error.TensorValueOutOfRange, runner.run(&nodes, &.{1}, null));
+    try std.testing.expect(store.getTensor("unsqueezed_range") == null);
+    runner.cursor = 0;
+    try std.testing.expectError(error.ShapeMismatch, runner.run(&nodes, &.{2}, null));
+    try std.testing.expect(store.getTensor("casted") == null);
+}
+
+test "tensor store validates direct entry publication" {
+    const allocator = std.testing.allocator;
+    var store = TensorStore.init(allocator);
+    defer store.deinit();
+    var malformed = Tensor{
+        .data = try allocator.alloc(fp.Q128_128, 1),
+        .dims = try allocator.dupe(usize, &.{2}),
+    };
+    defer malformed.deinit(allocator);
+    try std.testing.expectError(error.InvalidTensorShape, store.put("bad", .{ .tensor = malformed }));
 }
