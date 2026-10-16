@@ -233,6 +233,34 @@ const FULL_RETROGRADE = new Map([
     decision: "upstream-runtime-evidence-projection",
     archive: "spec007-d12-sdk-upstream-gate-20261016",
   }],
+  ["security/d12_dual_core.zig", {
+    decision: "shared-deterministic-d12-report-core",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
+  ["security/d12_native_adapter.zig", {
+    decision: "native-d12-sidecar-report-adapter",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
+  ["security/d12_wasm_adapter.zig", {
+    decision: "freestanding-wasm32-d12-report-adapter",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
+  ["security/d12-native-bridge.mjs", {
+    decision: "controlled-native-d12-process-ipc",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
+  ["tools/d12-dual-bridge-audit.mjs", {
+    decision: "native-wasm-d12-byte-parity-gate",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
+  ["site/assets/d12-wasm-runtime.js", {
+    decision: "embedded-browser-d12-experimental-adapter",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
+  ["site/assets/d12-dual-bridge-audit.json", {
+    decision: "dual-bridge-evidence-projection",
+    archive: "spec007-d12-dual-bridge-20261016",
+  }],
   ["src/spec008_medium_lattice.zig", {
     decision: "bounded-medium-lattice-domains",
     archive: "spec008-medium-lattice-boundaries-20261014",

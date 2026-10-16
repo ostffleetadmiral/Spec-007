@@ -269,7 +269,8 @@ check("FRB-00 module-boundary", !!B && !!W &&
     caps.wasm === true && caps.memory32 === true &&
     typeof caps.memory64 === "boolean" &&
     !/d12\.profile|ExperimentalRuntime|wasm128|wasm256/i.test(src) &&
-    String(d12.boundary.browser_runtime_bridge).includes("not implemented"),
+    d12.boundary.wasm128_wasm256_standard_claim === false &&
+    String(d12.boundary.browser_runtime_bridge).includes("bounded experimental adapter"),
     "capabilities are detected, not asserted; FRB1 does not claim D12 host execution or standard wasm128/wasm256");
 }
 

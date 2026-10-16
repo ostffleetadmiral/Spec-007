@@ -1,9 +1,9 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-16T17:10:41.319Z",
+    "ts": "2026-10-16T20:59:38.640Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
-    "runtime_count": 18,
+    "runtime_count": 19,
     "runtimes": {
       "spec007-native-aiwo": {
         "kind": "native-aiwo",
@@ -124,22 +124,31 @@
       "security-battery": {
         "kind": "harness",
         "path": "security/",
-        "members": 49,
-        "anchor_sha256": "sha256:dcd9e05a84804f92959c35d4438b5be4720f21c726a9af6eee1340354314961f",
+        "members": 50,
+        "anchor_sha256": "sha256:bb380272957a369588c2856b0400ed5947f4a235993171b1a8797a5eddf70ec9",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       },
       "d12-wasmrt-sdk-upstream": {
         "kind": "upstream-runtime-gate",
         "path": "site/assets/d12-sdk-audit.json",
-        "sha256": "sha256:6e50ecc10c94edbe46ece2e8eaabc247533bb9d4d606566b4957aeff43a4d29c",
+        "sha256": "sha256:e9e2934839c332de2d57d8b019bf664b892b61c614e6f7ca143992c9e4e71342",
         "evidence": "verified-here",
         "primary": false,
         "retirement": "external-sibling-not-desk-runtime",
-        "note": "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream; D12 browser execution bridge remains unimplemented"
+        "note": "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream"
+      },
+      "d12-dual-bridge": {
+        "kind": "dual-runtime-harness",
+        "path": "site/assets/d12-dual-bridge-audit.json",
+        "sha256": "sha256:708392556965b44da140b743e3ed7a63b40623a2401e04a3e77cec5b9b5aa533",
+        "evidence": "verified-here",
+        "primary": false,
+        "retirement": "experimental-adapter-not-standard-wide-wasm",
+        "note": "native sidecar and freestanding wasm32 D12 adapter emit byte-identical D12R reports on golden/refusal/hostile vectors; full sdk.Runtime browser bridge remains out of scope"
       }
     }
   },
-  "sig_ed25519": "JFrXy1PnqF1BgbiFR5dDn-FCkur6iDXoRk4fjHXd2OZlTdsXvHAX_VUyH8LEw89QGtIJ8j4vkXiXzZKB2qh3Dg",
+  "sig_ed25519": "3o14kybykrWg1jq9narG-q_a2DNMv4nyb5A67qtPRVaWLRrfQXmw2tP85e5SYpzqcFdlQ8kx1s4xsWWiSBMlDg",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

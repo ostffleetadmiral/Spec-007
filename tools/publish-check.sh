@@ -43,6 +43,7 @@ chk node tools/relay-isolation-audit.mjs "relay subscription isolation"
 chk node tools/fano-wire-audit.mjs --verify "fano-wire canonical datagram"
 chk node tools/fano-runtime-bridge-audit.mjs --verify "fano-runtime-bridge FRB1 boundary"
 chk node tools/d12-sdk-audit.mjs --verify "d12-wasmrt-sdk upstream release"
+chk node tools/d12-dual-bridge-audit.mjs --verify "d12 native/wasm bridge parity"
 chk node tools/external-review-manifest.mjs --verify "external-review pending packages"
 
 echo "== canon parity (published copies must match the signed roots)"

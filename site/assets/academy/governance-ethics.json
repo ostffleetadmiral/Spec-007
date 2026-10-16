@@ -987,7 +987,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "The sibling d12-wasmrt-sdk release is the measured upstream WASM substrate for the future dual-width work, but it is not a vendored FANO-1 runtime. Spec-007 binds it through tools/d12-sdk-audit.mjs and site/assets/d12-sdk-audit.json, not by copying source into this tree.",
+      "outcome": "The sibling d12-wasmrt-sdk release is the measured upstream WASM substrate for dual-width work, but it is not vendored into FANO-1. Spec-007 binds it through tools/d12-sdk-audit.mjs, site/assets/d12-sdk-audit.json, and the dual-lane harness in tools/d12-dual-bridge-audit.mjs; SDK source remains external.",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-integration-architecture.en.md",
       "title": "5. External Runtime Boundary (D12 SDK)",

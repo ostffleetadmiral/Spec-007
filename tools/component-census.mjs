@@ -14,7 +14,7 @@ const EMIT = process.argv.includes("--emit");
 const VERIFY = process.argv.includes("--verify");
 
 const ZONES = [
-  ["src", [".zig"]], ["deps", [".zig", ".md"]], ["security", [".mjs", ".js", ".py", ".sh"]],
+  ["src", [".zig"]], ["deps", [".zig", ".md"]], ["security", [".zig", ".mjs", ".js", ".py", ".sh"]],
   ["tools", [".mjs", ".js", ".py", ".sh"]], ["firmware", [".c", ".h"]],
   ["apps", [".html", ".wasm", ".c", ".zig"]], ["admiralty-desk", [".js", ".json", ".sh"]],
   ["site/assets", [".js", ".json", ".wasm"]],
@@ -33,6 +33,8 @@ const OWNER_BY_PATH = new Map([
   ["site/assets/curriculum-map.json", { owner: "tools/curriculum-map.mjs", basis: "curriculum coverage projection" }],
   ["site/assets/device-ledger.json", { owner: "tools/device-ledger.mjs", basis: "sanitized capability projection" }],
   ["site/assets/d12-sdk-audit.json", { owner: "tools/d12-sdk-audit.mjs", basis: "upstream SDK release-gate evidence" }],
+  ["site/assets/d12-dual-bridge-audit.json", { owner: "tools/d12-dual-bridge-audit.mjs", basis: "dual-lane D12 parity evidence" }],
+  ["site/assets/d12-wasm-runtime.js", { owner: "tools/d12-dual-bridge-audit.mjs", basis: "generated freestanding D12 WASM adapter" }],
   ["site/assets/dht-manifest.json", { owner: "tools/dht-fs.mjs", basis: "DHT ledger projection" }],
   ["site/assets/external-review.json", { owner: "tools/external-review-manifest.mjs", basis: "external-authority package projection" }],
   ["site/assets/gov-metadata.json", { owner: "tools/gov-metadata.mjs", basis: "governance adoption projection" }],

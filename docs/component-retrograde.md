@@ -1,21 +1,21 @@
 # Spec-007 component retrograde ledger
 
-- Components: 293
-- Unit-tested Zig surfaces: 105
-- Generated artifacts bound: 41
+- Components: 300
+- Unit-tested Zig surfaces: 106
+- Generated artifacts bound: 42
 - Pending component review: 0
 - Deferred-work markers: 0
-- Performance-measured components: 164
-- Workstream-measured components: 202
-- Fully retrograded/optimized: 63
+- Performance-measured components: 171
+- Workstream-measured components: 209
+- Fully retrograded/optimized: 70
 
 ## Status counts
 
-- BUILD_GRAPH_COVERED: 19
-- DOCUMENTED_COMPONENT: 25
-- GENERATED_ARTIFACT_BOUND: 41
-- SCRIPT_HARNESS_BOUND: 103
-- UNIT_TESTED: 105
+- BUILD_GRAPH_COVERED: 21
+- DOCUMENTED_COMPONENT: 26
+- GENERATED_ARTIFACT_BOUND: 42
+- SCRIPT_HARNESS_BOUND: 105
+- UNIT_TESTED: 106
 
 ## Workstreams
 
@@ -23,12 +23,12 @@
 - desk-shell: 5
 - digit-model-donor: 18
 - firmware: 1
-- governance-tools: 50
+- governance-tools: 51
 - native-aiwo-dht: 17
-- published-surface: 48
+- published-surface: 50
 - q128-arithmetic: 2
 - qstar-donor: 67
-- security-lab: 53
+- security-lab: 57
 - spec007-core: 21
 - spec008-wire: 9
 

@@ -7,16 +7,16 @@
     "standard_path": "native wasm32/wasm64 guest interpreter",
     "experimental_path": "profile -> wide_decode -> wide_module -> wide_bytecode -> wide_exec -> wide_memory",
     "wasm128_wasm256_standard_claim": false,
-    "browser_runtime_bridge": "D12 execution bridge not implemented — a static page cannot spawn the native Zig host; a future bridge requires an explicit WASM build or authenticated host bridge",
+    "browser_runtime_bridge": "bounded experimental adapter exists as a separate wasm32-freestanding lane audited by tools/d12-dual-bridge-audit.mjs; no standard wasm128/wasm256 or full sdk.Runtime browser bridge is claimed",
     "fano_wire_scope": "sealed canonical integrity datagram; not encryption and not Ed25519 authentication"
   },
   "provenance": {
     "release": "experimental-width-feasibility-2026-10-16",
-    "release_manifest_sha256": "72a286c085bc83bd0e9ee3222c712d7750b47656ce37bafef71767c988622e81",
+    "release_manifest_sha256": "27cccc9c2373c4fc259feb8b1b561d7c7cc403b4ba58c9f53935fe36eaffa515",
     "live_release_files": 39,
     "manifest_declared_files": 37,
     "archive_files": 39,
-    "archive_sha256": "7298a85a474f65074ff91d8bcd0277d7e00410b67e694b9962795defae9122b2",
+    "archive_sha256": "89b53dfec0caa84e9b4716ea7892570b08bb3877f0eb5f4a490d6440c03f5fb5",
     "wide_fixture_sha256": "d207446ed7260de487dd442d8a2c7c3ff27052d8177925ffce51389acbf84dfa",
     "spec007_fano_wasm_sha256": "86e45cbf086a019fb01f3494bc5fdc4893e8c6f3d7727cd3f9254592f6945181"
   },

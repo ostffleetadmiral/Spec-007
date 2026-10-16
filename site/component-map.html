@@ -311,9 +311,15 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>team-sweep-2.mjs</code></td>
-<td><strong>The consolidated sweep — the wave-cadence regression board.</strong> 249 probes across the full security/runtime/governance surface plus ledger-drift and external-review gates; exits 1 on any OPEN.</td>
-<td>per-wave gate; final board 236 HELD / 2 NOTED / 1 OPEN / 10 PENDING (BLACK-03 deploy parity; EXT lanes await external authority)</td>
-<td>+2 ENGINE probes: D12 upstream release gate and honest browser-bridge boundary</td>
+<td><strong>The consolidated sweep — the wave-cadence regression board.</strong> 250 probes across the full security/runtime/governance surface plus ledger-drift and external-review gates; exits 1 on any OPEN.</td>
+<td>per-wave gate; final board 237 HELD / 2 NOTED / 1 OPEN / 10 PENDING (BLACK-03 deploy parity; EXT lanes await external authority)</td>
+<td>+3 ENGINE probes: D12 upstream release gate, byte-exact dual-lane boundary, and desk wiring</td>
+</tr>
+<tr>
+<td><code>d12_dual_core.zig</code> / <code>d12_native_adapter.zig</code> / <code>d12_wasm_adapter.zig</code> / <code>d12-native-bridge.mjs</code></td>
+<td>Shared D12R report core plus native process sidecar and freestanding wasm32 adapter. Native and browser lanes execute the same upstream <code>d12.profile</code>/<code>d12.code</code> path with a 1 MiB input window and 704-byte canonical report.</td>
+<td><code>tools/d12-dual-bridge-audit.mjs</code> + ENGINE-06</td>
+<td>new — real dual-architecture harness; not a full <code>sdk.Runtime</code> browser bridge</td>
 </tr>
 <tr>
 <td><code>xploit-sweep.mjs</code></td>
@@ -708,9 +714,21 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>d12-sdk-audit.json</code></td>
-<td>Sanitized evidence projection for the external <code>d12-wasmrt-sdk</code> release: manifest/archive parity, path isolation, integer-only boundary, command outcomes, and the explicit “no D12 Quplink execution bridge yet” limitation.</td>
+<td>Sanitized evidence projection for the external <code>d12-wasmrt-sdk</code> release: manifest/archive parity, path isolation, integer-only boundary, command outcomes, and the bounded-adapter boundary.</td>
 <td>emitted/verified by <code>tools/d12-sdk-audit.mjs</code></td>
-<td>new — upstream runtime gate evidence</td>
+<td>upstream runtime gate evidence</td>
+</tr>
+<tr>
+<td><code>d12-wasm-runtime.js</code></td>
+<td>Generated browser artifact embedding the zero-import freestanding wasm32 D12 adapter plus the 110-byte upstream fixture. Executes only <code>d12.profile</code>/<code>d12.code</code> workloads and returns a copy of the canonical 704-byte <code>D12R</code> report.</td>
+<td>generated/verified by <code>tools/d12-dual-bridge-audit.mjs</code></td>
+<td>new — Track 2 browser-native experimental lane</td>
+</tr>
+<tr>
+<td><code>d12-dual-bridge-audit.json</code></td>
+<td>Sanitized dual-bridge evidence: adapter hashes, WASM import/export surface, fixture hash, command outcomes, and four byte-exact native/WASM lane vectors.</td>
+<td>emitted/verified by <code>tools/d12-dual-bridge-audit.mjs</code></td>
+<td>new — Track 1 + Track 2 parity evidence</td>
 </tr>
 <tr>
 <td><code>fano-i18n.js</code></td>
@@ -728,7 +746,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>quplink.js</code> / <code>quplink-viz.js</code></td>
 <td>Sandbox + viz deck running the real wasm.</td>
 <td>—</td>
-<td>+1 game: <strong>Coast the Slab</strong> — drive <code>slab_cool_step</code> down from burst equilibrium to ambient; the ledger runs backward; <strong>Runtime Bridge</strong> exercises FRB1 route/forge/replay boundaries live</td>
+<td>+1 game: <strong>Coast the Slab</strong> — drive <code>slab_cool_step</code> down from burst equilibrium to ambient; the ledger runs backward; <strong>Runtime Bridge</strong> exercises FRB1 route/forge/replay boundaries live; <strong>D12 WASM</strong> runs the embedded experimental adapter on the upstream fixture or a selected module</td>
 </tr>
 <tr>
 <td><code>fano-reset.js</code></td>
@@ -763,9 +781,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tbody>
 <tr>
 <td><code>publish-check.sh</code></td>
-<td>The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, FRB1 runtime-boundary evidence, JS syntax.</td>
+<td>The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, D12 dual-lane parity, FRB1 runtime-boundary evidence, JS syntax.</td>
 <td>self</td>
-<td>fixed the silent gap — <code>fixed_point_q128.zig</code> (37 tests) and <code>spec007_compute.zig</code> were glob-skipped; now explicit; <code>component-map</code> twin, <code>d12-sdk-audit --verify</code>, and <code>fano-runtime-bridge-audit --verify</code> added</td>
+<td>fixed the silent gap — <code>fixed_point_q128.zig</code> (37 tests) and <code>spec007_compute.zig</code> were glob-skipped; now explicit; <code>component-map</code> twin, <code>d12-sdk-audit --verify</code>, <code>d12-dual-bridge-audit --verify</code>, and <code>fano-runtime-bridge-audit --verify</code> added</td>
 </tr>
 <tr>
 <td><code>serve.py</code></td>
@@ -829,9 +847,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>engine-manifest.mjs</code></td>
-<td>Unified governed-runtime registry (blueprint P1 gap) — one signed document naming every runtime the desk may trust; same canon discipline as fleet-manifest (emit/verify/push). The upstream D12 lane is registered through its audit artifact, not as a desk runtime.</td>
+<td>Unified governed-runtime registry (blueprint P1 gap) — one signed document naming every runtime the desk may trust; same canon discipline as fleet-manifest (emit/verify/push). The upstream D12 lane is registered through its audit artifact, and the dual bridge through its parity evidence — never as a standard wide-WASM claim.</td>
 <td>ENGINE-01..06 probes</td>
-<td>D12 upstream gate registered with honest no-D12-browser-execution-bridge boundary</td>
+<td>D12 upstream gate + bounded dual-runtime harness registered</td>
 </tr>
 <tr>
 <td><code>emergent-sweep.mjs</code></td>
@@ -999,7 +1017,13 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>d12-sdk-audit.mjs</code></td>
 <td>Fail-closed gate for the external <code>d12-wasmrt-sdk</code> sibling: release-manifest hashes, sealed-archive byte parity, standard/experimental isolation, integer-only width sources, the 39-test aggregate, all upstream optimize gates, and the Spec-007 Fano example.</td>
 <td><code>--verify</code> + release gate + ENGINE-05/06</td>
-<td>new — upstream runtime adoption boundary</td>
+<td>upstream runtime adoption boundary</td>
+</tr>
+<tr>
+<td><code>d12-dual-bridge-audit.mjs</code></td>
+<td>Dual-track D12 execution gate: rebuilds the shared report core as a native sidecar and zero-import wasm32-freestanding adapter, validates exact export surface, generates <code>d12-wasm-runtime.js</code>, and requires byte-identical <code>D12R</code> reports across golden, fuel, profile-refusal, and mutated-module vectors.</td>
+<td><code>--verify</code> + release gate + ENGINE-06</td>
+<td>new — native/browser parity harness</td>
 </tr>
 <tr>
 <td><code>space-serve.sh</code></td>

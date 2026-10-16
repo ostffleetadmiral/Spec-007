@@ -159,7 +159,18 @@ if (exists("site/assets/d12-sdk-audit.json")) {
     evidence: "verified-here",
     primary: false,
     retirement: "external-sibling-not-desk-runtime",
-    note: "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream; D12 browser execution bridge remains unimplemented",
+    note: "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream",
+  };
+}
+if (exists("site/assets/d12-dual-bridge-audit.json")) {
+  runtimes["d12-dual-bridge"] = {
+    kind: "dual-runtime-harness",
+    path: "site/assets/d12-dual-bridge-audit.json",
+    sha256: sha("site/assets/d12-dual-bridge-audit.json"),
+    evidence: "verified-here",
+    primary: false,
+    retirement: "experimental-adapter-not-standard-wide-wasm",
+    note: "native sidecar and freestanding wasm32 D12 adapter emit byte-identical D12R reports on golden/refusal/hostile vectors; full sdk.Runtime browser bridge remains out of scope",
   };
 }
 

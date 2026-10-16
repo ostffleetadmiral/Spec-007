@@ -399,11 +399,11 @@
           "band": "green"
         },
         "neardup": {
-          "v": 0.4013,
+          "v": 0.4011,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3365,
+          "v": 0.3364,
           "band": "red"
         },
         "src_conc": {
@@ -415,7 +415,7 @@
           "band": "green"
         }
       },
-      "neardup_clusters": 1356,
+      "neardup_clusters": 1355,
       "neardup_biggest": 577,
       "top_source": [
         "three-ws",

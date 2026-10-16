@@ -62,6 +62,7 @@ const _pfJobs = new Map();
     ["fano-wire",        process.execPath, [path.join(_T, "fano-wire-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["fano-runtime",     process.execPath, [path.join(_T, "fano-runtime-bridge-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["d12-sdk",          process.execPath, [path.join(_T, "d12-sdk-audit.mjs"), "--verify"], { timeout: 420000 }],
+    ["d12-dual",         process.execPath, [path.join(_T, "d12-dual-bridge-audit.mjs"), "--verify"], { timeout: 420000 }],
     ["external-review",  process.execPath, [path.join(_T, "external-review-manifest.mjs"), "--verify"], { timeout: 120000 }],
     // heaviest next — the pool drains in launch order
     ["archive-verify",   process.execPath, [path.join(_T, "archive-verify.mjs"), "--verify"], { timeout: 600000 }],
@@ -2340,22 +2341,36 @@ console.log("\nENGINE — unified runtime registry (sentience w2)");
       : open_("ENGINE", "d12-upstream-gate",
           `rc=${r.status} schema=${a?.schema} checks=${a?.verification?.checks?.length}`);
   }
-  /* ENG-06: the browser bridge is deliberately absent until a real WASM or
-     authenticated host bridge lands — the artifact must keep saying so and
-     Quplink must not claim the native experimental facade. */
+  /* ENG-06: the browser lane is real but deliberately bounded — a
+     freestanding wasm32 adapter runs only profile-marked d12.code workloads.
+     The sweep requires the dual audit, byte-exact lane vectors, desk wiring,
+     and the standing refusal to claim a full standard wasm128/wasm256 host. */
   {
+    const r = await pf("d12-dual");
     const ap = path.join(SITE, "assets", "d12-sdk-audit.json");
-    let a = null;
+    const dp = path.join(SITE, "assets", "d12-dual-bridge-audit.json");
+    let a = null, d = null;
     try { a = JSON.parse(fs.readFileSync(ap, "utf8")); } catch {}
+    try { d = JSON.parse(fs.readFileSync(dp, "utf8")); } catch {}
     const qup = fs.readFileSync(path.join(SITE, "assets", "quplink.js"), "utf8");
-    const honest = a?.boundary?.browser_runtime_bridge?.includes("not implemented") &&
+    const desk = fs.readFileSync(path.join(SITE, "desktop.html"), "utf8");
+    const lanes = d?.verification?.lane_vectors || [];
+    const checksPass = d && Array.isArray(d.verification?.checks) &&
+      d.verification.checks.every(c => c.status === "PASS");
+    const honest = r.status === 0 &&
       a?.boundary?.wasm128_wasm256_standard_claim === false &&
+      a?.boundary?.browser_runtime_bridge?.includes("bounded experimental adapter") &&
+      d?.schema === "SPEC007-D12-DUAL-BRIDGE-AUDIT-v1" && checksPass &&
+      d?.boundary?.standard_wasm128_wasm256_claim === false &&
+      d?.boundary?.full_browser_sdk_runtime === false &&
+      lanes.length === 4 && lanes.every(v => v.byte_exact === true) &&
+      desk.includes("d12-wasm-runtime.js") && qup.includes("D12_WASM_RUNTIME") &&
       !qup.includes("ExperimentalRuntime");
     honest
       ? held("ENGINE", "d12-browser-boundary",
-          "upstream SDK verified; Quplink keeps the native/experimental bridge absent instead of simulating it")
+          `${lanes.length} native/WASM vectors byte-exact; Quplink exposes only the bounded d12.code adapter`)
       : open_("ENGINE", "d12-browser-boundary",
-          `bridge=${a?.boundary?.browser_runtime_bridge} standardWide=${a?.boundary?.wasm128_wasm256_standard_claim} quplinkClaims=${qup.includes("ExperimentalRuntime")}`);
+          `rc=${r.status} bridge=${a?.boundary?.browser_runtime_bridge} dual=${d?.schema} lanes=${lanes.length} quplink=${qup.includes("D12_WASM_RUNTIME")}`);
   }
 }
 

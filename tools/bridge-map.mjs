@@ -444,7 +444,7 @@ const ANCHORS = [
       file: "security/out/override-ledger.json" } },
   { id: "S55", root: "d12-wasmrt-sdk", artifact: "release-manifest.json + Fano example",
     kind: "release-gate", direction: "shared", claims: ["C126"],
-    label: "release-frozen Zig 0.13 runtime SDK — standard wasm32/wasm64 stays separate from the opt-in d12.profile/d12.code experimental-width path, with Spec-007 Fano verification upstream",
+    label: "release-frozen Zig 0.13 runtime SDK — standard wasm32/wasm64 stays separate from the opt-in d12.profile/d12.code path; wide_memory is usize-bounded for wasm32-freestanding adapters and Spec-007 Fano verification runs upstream",
     check: { type: "json", root: "d12-wasmrt-sdk", file: "release-manifest.json",
       assert: d => d.schema === "D12-WASMRT-SDK-RELEASE-v1" &&
         d.release === "experimental-width-feasibility-2026-10-16" &&
@@ -452,6 +452,16 @@ const ANCHORS = [
         d.wasm128_wasm256_standard_claim === false &&
         Array.isArray(d.files) && Array.isArray(d.documentation) &&
         d.files.length + d.documentation.length === 37 } },
+  { id: "S56", root: "spec-007", artifact: "d12-dual-bridge-audit.json",
+    kind: "runtime-harness", direction: "shared", claims: ["C126"],
+    label: "native sidecar + zero-import wasm32-freestanding adapter — four D12R vectors byte-exact, bounded to d12.profile/d12.code and no standard wasm128/wasm256 claim",
+    check: { type: "json", root: "spec-007", file: "site/assets/d12-dual-bridge-audit.json",
+      assert: d => d.schema === "SPEC007-D12-DUAL-BRIDGE-AUDIT-v1" &&
+        d.boundary?.standard_wasm128_wasm256_claim === false &&
+        d.boundary?.full_browser_sdk_runtime === false &&
+        Array.isArray(d.verification?.lane_vectors) &&
+        d.verification.lane_vectors.length === 4 &&
+        d.verification.lane_vectors.every(v => v.byte_exact === true) } },
 
   /* -- the archive corpus — the campaigns themselves are sealed evidence -- */
   { id: "A01", root: "@archives", artifact: "theue archive family",

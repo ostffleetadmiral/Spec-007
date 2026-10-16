@@ -519,6 +519,67 @@ window.QUPLINK = (function (FANO) {
     body.appendChild(ui);
   }
 
+  /* --- D12 WASM sandbox: freestanding experimental adapter lane --- */
+  function sandboxD12(body) {
+    var ui = document.createElement("div");
+    ui.className = "game-ui";
+    var R = window.D12_WASM_RUNTIME;
+    if (!R) {
+      ui.innerHTML = "<div class='game-info'>d12-wasm-runtime.js absent.</div>";
+      body.appendChild(ui);
+      return;
+    }
+    var selected = null;
+    var names = ["ok", "bad-profile", "malformed-module", "profile-metadata",
+      "malformed-bytecode", "execution", "resource", "out-of-memory",
+      "report-overflow"];
+    function statusName(n) { return names[n] || (n === 255 ? "input-overflow" : "status-" + n); }
+    function hex(b) {
+      return Array.prototype.map.call(b, function (v) {
+        return (v < 16 ? "0" : "") + v.toString(16);
+      }).join("");
+    }
+    ui.innerHTML =
+      "<div class='game-info'>D12-WASM-SANDBOX — the freestanding wasm32 adapter " +
+      "runs profile-marked <code>d12.code</code> modules through the upstream experimental " +
+      "path. It is not a standard wasm128/wasm256 engine or the full sdk.Runtime host.</div>" +
+      "<div class='triad-row'>profile <select id='d12-profile'>" +
+      "<option value='128'>experimental128</option><option value='256'>experimental256</option></select> " +
+      "fuel <input id='d12-fuel' value='1024' size='10'></div>";
+    var file = document.createElement("input");
+    file.type = "file"; file.accept = ".wasm,application/wasm";
+    var runFile = document.createElement("button");
+    runFile.className = "game-btn"; runFile.textContent = "RUN SELECTED";
+    var runFixture = document.createElement("button");
+    runFixture.className = "game-btn"; runFixture.textContent = "RUN UPSTREAM FIXTURE";
+    var out = document.createElement("pre");
+    out.className = "triad-out fanop-out";
+    file.addEventListener("change", function () { selected = file.files[0] || null; });
+    async function execute(source) {
+      out.textContent = "executing…";
+      try {
+        var input = source ? new Uint8Array(await source.arrayBuffer()) : R.fixture();
+        var fuel = BigInt(document.getElementById("d12-fuel").value || "1024");
+        var result = await R.execute(input, Number(document.getElementById("d12-profile").value), fuel);
+        out.textContent =
+          "module: " + (source ? source.name + " (" + input.length + " B)" : "upstream wide_sample.wasm") +
+          "\nstatus: " + result.status + " (" + statusName(result.status) + ")" +
+          "\nreport: " + result.report.length + " B D12R" +
+          "\nhead: " + hex(result.report.slice(0, 64)) + "…" +
+          "\nboundary: " + R.boundary;
+      } catch (e) {
+        out.textContent = "refused: " + (e && e.message ? e.message : e);
+      }
+    }
+    runFile.addEventListener("click", function () {
+      if (!selected) { out.textContent = "choose a .wasm module first."; return; }
+      execute(selected);
+    });
+    runFixture.addEventListener("click", function () { execute(null); });
+    ui.appendChild(file); ui.appendChild(runFile); ui.appendChild(runFixture); ui.appendChild(out);
+    body.appendChild(ui);
+  }
+
   /* --- proof console: classify the claim like the audit does --- */
   var CLAIMS = [
     ["The Fano plane has exactly 7 lines", "PROVEN", "countable — the game above proves it"],
@@ -572,6 +633,7 @@ window.QUPLINK = (function (FANO) {
     ["fanop", ".fanop Editor", "polyglot source — assemble & run", sandboxFanop],
     ["harness", "Harness Playground", "live wasm instrument", sandboxHarness],
     ["runtime-bridge", "Runtime Bridge", "sealed FRB1 envelopes + ownership", sandboxRuntimeBridge],
+    ["d12", "D12 WASM", "experimental d12.code adapter — native parity", sandboxD12],
     ["proof", "Proof Console", "grade claims like the audit", sandboxProof],
   ];
 

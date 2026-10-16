@@ -31917,7 +31917,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "兄弟倉庫 d12-wasmrt-sdk 釋出,是未來雙寬度工作之已量測上游 WASM 基底,但不是收錄於 FANO-1 桌面的執行時。Spec-007 透過 tools/d12-sdk-audit.mjs 與 site/assets/d12-sdk-audit.json 繫結之,而非將其原始碼複製入本樹。",
+      "outcome": "兄弟倉庫 d12-wasmrt-sdk 釋出,是雙寬度工作之已量測上游 WASM 基底,但不是收錄於 FANO-1 的執行時。Spec-007 透過 tools/d12-sdk-audit.mjs、site/assets/d12-sdk-audit.json 與 tools/d12-dual-bridge-audit.mjs 之雙車道框架繫結之;SDK 原始碼仍在外部。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-integration-architecture.zh-Hant.md",
       "title": "5. 外部執行時邊界(D12 SDK)",

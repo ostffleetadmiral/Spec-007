@@ -5,20 +5,20 @@
     "zones": {
       "src": 49,
       "deps": 85,
-      "security": 53,
-      "tools": 50,
+      "security": 57,
+      "tools": 51,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
-      "site/assets": 48
+      "site/assets": 50
     },
-    "total_components": 293,
-    "source_components": 252,
-    "generated_components": 41,
-    "mapped_basename": 282,
-    "mapped_contract": 293,
-    "manifest_bound": 34,
-    "owner_bound": 29,
+    "total_components": 300,
+    "source_components": 258,
+    "generated_components": 42,
+    "mapped_basename": 289,
+    "mapped_contract": 300,
+    "manifest_bound": 35,
+    "owner_bound": 31,
     "unmapped_basename": [
       "site/assets/academy/ai-literacy.json",
       "site/assets/academy/campaign-operations.json",
@@ -33,7 +33,7 @@
       "site/assets/academy/uiux-craft.json"
     ],
     "unmapped_contract": [],
-    "native_zig": 124
+    "native_zig": 127
   },
   "components": [
     {
@@ -2996,6 +2996,121 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "security/d12_dual_core.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 1,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/d12_native_adapter.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/d12_wasm_adapter.zig",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "zig",
+        "blocks": 0,
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "security/d12-native-bridge.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "security",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "security/ddns-update.mjs",
       "contract": {
         "mapped": true,
@@ -4844,6 +4959,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/d12-dual-bridge-audit.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": "tools/d12-dual-bridge-audit.mjs",
+        "owner_basis": "dual-lane D12 parity evidence",
+        "manifest_bound": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": true,
+        "owner": "tools/d12-dual-bridge-audit.mjs"
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": "tools/d12-dual-bridge-audit.mjs",
+        "owner_basis": "dual-lane D12 parity evidence"
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/d12-sdk-audit.json",
       "contract": {
         "mapped": true,
@@ -4868,6 +5011,34 @@
         "likely_projection": true,
         "owner": "tools/d12-sdk-audit.mjs",
         "owner_basis": "upstream SDK release-gate evidence"
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/d12-wasm-runtime.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": false,
+        "owner": "tools/d12-dual-bridge-audit.mjs",
+        "owner_basis": "generated freestanding D12 WASM adapter",
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": "tools/d12-dual-bridge-audit.mjs"
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": true,
+        "owner": "tools/d12-dual-bridge-audit.mjs",
+        "owner_basis": "generated freestanding D12 WASM adapter"
       },
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
@@ -7414,6 +7585,34 @@
     },
     {
       "component": "tools/curriculum-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/d12-dual-bridge-audit.mjs",
       "contract": {
         "mapped": true,
         "source_zone": "tools",

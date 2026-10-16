@@ -93,28 +93,36 @@ Architect 見約束分類。存取控制現階段屬 UI 層面;真實認證落�
 
 ## 5. 外部執行時邊界(D12 SDK)
 
-兄弟倉庫 `d12-wasmrt-sdk` 釋出,是未來雙寬度工作之已量測上游 WASM
-基底,但**不是**收錄於 FANO-1 桌面的執行時。Spec-007 透過
-`tools/d12-sdk-audit.mjs` 與 `site/assets/d12-sdk-audit.json`
-繫結之,而非將其原始碼複製入本樹。
+兄弟倉庫 `d12-wasmrt-sdk` 釋出,是雙寬度工作之已量測上游 WASM
+基底,但**不是**收錄於 FANO-1 的執行時。Spec-007 透過
+`tools/d12-sdk-audit.mjs`、`site/assets/d12-sdk-audit.json`
+與 `tools/d12-dual-bridge-audit.mjs` 之雙車道框架繫結之;SDK
+原始碼仍在外部。
 
-- **標準路徑:** `sdk.Runtime` 仍為一般 wasm32/wasm64 guest 直譯器。
+- **標準路徑:** `sdk.Runtime` 仍為一般 wasm32/wasm64 guest
+  直譯器,且於此並非瀏覽器執行時。
 - **實驗路徑:** `sdk.ExperimentalRuntime` 為選配執行,經決定性
   `d12.profile`/`d12.code` 自訂段落、純整數 u256 運算、燃料計量,
   以及有界稀疏邏輯記憶體。
-- **證明路徑:** 釋出清單雜湊、封存檔位元同位、標準／實驗引入
-  隔離、Debug/ReleaseSafe/ReleaseFast 測試矩陣、明示之 39 測試
-  聚合、格式檢查,以及 Spec-007 Fano 範例,皆列入發佈閘。
-- **桌面封包:** `site/assets/fano-runtime-bridge.js` 於正典封緘線路內
-  加入 FRB1 車道／所有權封包。它於 host/edge/heavy 車道之間路由決定性
-  位元組訊息,但不執行 D12 profile,也不宣稱原生基底存取。
-- **誠實限制:** 不宣稱標準 wasm128/wasm256,Quplink 的 D12 執行橋接
-  亦尚未存在。真正橋接須為此基底之明示 WASM 建置或已認證宿主橋接;
-  靜態頁面不能生成原生 Zig SDK 行程。
+- **原生車道:** `security/d12_native_adapter.zig` 經
+  `security/d12-native-bridge.mjs` 行程 IPC 執行共享報告核心;
+  配接器發出固定 704-byte `D12R` 報告。
+- **瀏覽器車道:** `security/d12_wasm_adapter.zig` 編譯為
+  `wasm32-freestanding`,無宿主 import,並由
+  `site/assets/d12-wasm-runtime.js` 內嵌。Quplink 可在頁內直接
+  執行上游 fixture 或呼叫者選取之 profile-marked 模組。
+- **證明路徑:** 上游釋出閘仍驗證清單雜湊、封存同位、路徑隔離、
+  全部優化模式、明示之 39 測試聚合、格式與 Spec-007 Fano 範例。
+  雙車道閘再重建兩枚配接器,並要求 golden、燃料界線、profile
+  拒絕與變異模組四組 `D12R` 位元組完全一致。
+- **桌面封包:** FRB1 仍是 `FANO_WIRE` 內之封緘路由／所有權邊界,
+  非執行機構。D12 WASM 沙盒直接於有界輸入窗內執行模組。
+- **誠實限制:** 不宣稱標準 wasm128/wasm256;瀏覽器工件亦非完整
+  `sdk.Runtime` 宿主橋接,只執行 `d12.profile`/`d12.code`
+  實驗工作負載。
 
-此邊界使 Quplink 升級具體化而不假裝已部署:SDK 今日是已治理之
-上游閘門;FRB1 是桌面本地所有權車道,D12 瀏覽器執行仍是未來之
-橋接元件。
+此邊界將先前之「未來橋接」預留位轉為真實且有界的雙架構框架,
+而不誇大瀏覽器能力。
 
 ## 6. 彩蛋(僅呈現層)
 

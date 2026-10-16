@@ -133,7 +133,7 @@
 
 ### 3k. engine.os — 已簽名冊(統一生態第二波)
 
-藍圖首個缺口已補:`tools/engine-manifest.mjs` 簽署單一 ENGINEMANIFESTv1 名冊,收錄此桌可信之每一運行時 — 治理橋接、三路 Ollama 提供者、兩枚 WASM 核心(spec007、rations — rations 之雜湊須與其公開側車一致)、五份資產登錄、以及以其掃描錨點雜湊釘定之安全電池。典律同艦隊公報:`--emit` 簽署 root+site 雙份,`--verify` 為載入閘(規格、簽名、創世系譜、金鑰指紋、時戳、雙份一致、**清點** — 每枚已簽署 sha256 須仍與盤上檔案相符),裸執行不寫檔。終端 `engine` 指令(與 engine.os 圖示)開啟窗格,依種類分組並以證據標示各運行時 — verified-here、bridge-mediated、doc-cited — 絕不擔保可達。兄弟 `d12-wasmrt-sdk` 僅以 `upstream-runtime-gate` 登錄:發佈閘放行前,`tools/d12-sdk-audit.mjs --verify` 須證明其封存釋出、標準／實驗隔離、39 測試聚合與 Fano 範例。它不登錄為桌面執行時,Quplink 瀏覽器／原生橋接亦明確未實作。ENG-01..06 為其探針。
+藍圖首個缺口已補:`tools/engine-manifest.mjs` 簽署單一 ENGINEMANIFESTv1 名冊,收錄此桌可信之每一運行時 — 治理橋接、三路 Ollama 提供者、兩枚 WASM 核心(spec007、rations — rations 之雜湊須與其公開側車一致)、五份資產登錄、以及以其掃描錨點雜湊釘定之安全電池。典律同艦隊公報:`--emit` 簽署 root+site 雙份,`--verify` 為載入閘(規格、簽名、創世系譜、金鑰指紋、時戳、雙份一致、**清點** — 每枚已簽署 sha256 須仍與盤上檔案相符),裸執行不寫檔。終端 `engine` 指令(與 engine.os 圖示)開啟窗格,依種類分組並以證據標示各運行時 — verified-here、bridge-mediated、doc-cited — 絕不擔保可達。兄弟 `d12-wasmrt-sdk` 以 `upstream-runtime-gate` 登錄:發佈閘放行前,`tools/d12-sdk-audit.mjs --verify` 須證明其封存釋出、標準／實驗隔離、39 測試聚合與 Fano 範例。第二條 `dual-runtime-harness` 記錄真實橋接邊界:`tools/d12-dual-bridge-audit.mjs --verify` 重建原生 sidecar 與 freestanding wasm32 配接器,並要求 golden/refusal/hostile 向量產生位元組一致之 `D12R` 報告。Quplink 僅暴露此有界 `d12.code` 實驗車道;完整瀏覽器 `sdk.Runtime` 與標準 wasm128/wasm256 仍不宣稱。ENG-01..06 為其探針。
 
 ### 3l. continuity.os — 永續表面(統一生態第三波)
 

@@ -271,7 +271,7 @@ function audit() {
       standard_path: "native wasm32/wasm64 guest interpreter",
       experimental_path: "profile -> wide_decode -> wide_module -> wide_bytecode -> wide_exec -> wide_memory",
       wasm128_wasm256_standard_claim: false,
-      browser_runtime_bridge: "D12 execution bridge not implemented — a static page cannot spawn the native Zig host; a future bridge requires an explicit WASM build or authenticated host bridge",
+      browser_runtime_bridge: "bounded experimental adapter exists as a separate wasm32-freestanding lane audited by tools/d12-dual-bridge-audit.mjs; no standard wasm128/wasm256 or full sdk.Runtime browser bridge is claimed",
       fano_wire_scope: "sealed canonical integrity datagram; not encryption and not Ed25519 authentication",
     },
     provenance: {

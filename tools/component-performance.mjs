@@ -39,6 +39,11 @@ const SOURCE_PINS = [
   "tools/repo-corpus.json",
   "tools/publish-check.sh",
   "tools/d12-sdk-audit.mjs",
+  "tools/d12-dual-bridge-audit.mjs",
+  "security/d12-native-bridge.mjs",
+  "security/d12_dual_core.zig",
+  "security/d12_native_adapter.zig",
+  "security/d12_wasm_adapter.zig",
   "tools/fano-runtime-bridge-audit.mjs",
   "site/assets/fano-runtime-bridge.js",
   "security/aiwo-native-parity.mjs",
@@ -140,6 +145,25 @@ const MEASUREMENTS = [
     bindings: {
       workstreams: ["governance-tools", "published-surface"],
       components: ["tools/d12-sdk-audit.mjs", "site/assets/d12-sdk-audit.json"],
+    },
+  },
+  {
+    id: "d12-dual-bridge-audit-verify",
+    argv: ["node", "tools/d12-dual-bridge-audit.mjs", "--verify"],
+    timeout_ms: 480_000,
+    bindings: {
+      workstreams: ["governance-tools", "published-surface"],
+      components: [
+        "tools/d12-dual-bridge-audit.mjs",
+        "security/d12-native-bridge.mjs",
+        "security/d12_dual_core.zig",
+        "security/d12_native_adapter.zig",
+        "security/d12_wasm_adapter.zig",
+        "site/assets/d12-wasm-runtime.js",
+        "site/assets/d12-dual-bridge-audit.json",
+        "site/assets/quplink.js",
+        "site/desktop.html",
+      ],
     },
   },
   {

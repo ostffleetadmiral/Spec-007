@@ -341,11 +341,15 @@ signed sha256 must still match the file on disk), bare run writes
 nothing. The `engine` terminal command (and the engine.os icon) opens a
 pane that groups runtimes by kind and labels each by evidence —
 verified-here, bridge-mediated, doc-cited — never promised reachable.
-The sibling `d12-wasmrt-sdk` appears only as an `upstream-runtime-gate`:
+The sibling `d12-wasmrt-sdk` appears as an `upstream-runtime-gate`:
 `tools/d12-sdk-audit.mjs --verify` proves its sealed release, standard/
 experimental isolation, 39-test aggregate, and Fano example before the
-release gate may pass. It is not registered as a desk runtime, and the
-Quplink browser/native bridge remains explicitly unimplemented.
+release gate may pass. A second `dual-runtime-harness` entry records the
+real bridge boundary: `tools/d12-dual-bridge-audit.mjs --verify` rebuilds
+the native sidecar and freestanding wasm32 adapter, then requires
+byte-identical `D12R` reports on golden/refusal/hostile vectors. Quplink
+exposes only that bounded experimental `d12.code` lane; a full browser
+`sdk.Runtime` and standard wasm128/wasm256 remain out of scope.
 ENG-01..06 probe it.
 
 ### 3l. continuity.os — the persistence surface (sentience w3)

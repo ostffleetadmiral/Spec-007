@@ -98,32 +98,37 @@ the fabric bridge, not the page.
 ## 5. External Runtime Boundary (D12 SDK)
 
 The sibling `d12-wasmrt-sdk` release is the measured upstream WASM
-substrate for the future dual-width work, but it is **not** a vendored
-FANO-1 runtime. Spec-007 binds it through `tools/d12-sdk-audit.mjs` and
-`site/assets/d12-sdk-audit.json`, not by copying source into this tree.
+substrate for dual-width work, but it is **not** vendored into FANO-1.
+Spec-007 binds it through `tools/d12-sdk-audit.mjs`,
+`site/assets/d12-sdk-audit.json`, and the dual-lane harness in
+`tools/d12-dual-bridge-audit.mjs`; SDK source remains external.
 
 - **Standard lane:** `sdk.Runtime` remains the ordinary wasm32/wasm64
-  guest interpreter.
+  guest interpreter and is not a browser runtime here.
 - **Experimental lane:** `sdk.ExperimentalRuntime` is opt-in execution
   over deterministic `d12.profile`/`d12.code` custom sections, integer-only
   u256 operations, fuel accounting, and bounded sparse logical memory.
-- **Proof lane:** the release manifest hashes, sealed archive byte parity,
-  standard/experimental import isolation, Debug/ReleaseSafe/ReleaseFast
-  test matrix, explicit 39-test aggregate, format check, and Spec-007
-  Fano example all sit in the release gate.
-- **Desk envelope:** `site/assets/fano-runtime-bridge.js` adds the FRB1
-  lane/ownership envelope inside the canonical sealed wire. It routes
-  deterministic byte bodies between host/edge/heavy lanes, but it does
-  not execute D12 profiles or claim native substrate access.
-- **Honest limit:** no standard wasm128/wasm256 claim is made, and no
-  D12 Quplink execution bridge exists yet. A real bridge requires an
-  explicit WASM build of the substrate or an authenticated host bridge;
-  a static page cannot spawn the native Zig SDK.
+- **Native track:** `security/d12_native_adapter.zig` executes the shared
+  report core behind `security/d12-native-bridge.mjs` process IPC. The
+  adapter emits a fixed 704-byte `D12R` report.
+- **Browser track:** `security/d12_wasm_adapter.zig` compiles to
+  `wasm32-freestanding`, has zero host imports, and is embedded by
+  `site/assets/d12-wasm-runtime.js`. Quplink can run the upstream fixture
+  or a caller-selected profile-marked module entirely inside the page.
+- **Proof lane:** the upstream release gate still verifies manifest
+  hashes, archive parity, path isolation, all optimize modes, the explicit
+  39-test aggregate, format, and the Spec-007 Fano example. The dual gate
+  then rebuilds both adapters and requires byte-exact `D12R` parity on
+  golden, fuel-bound, profile-refusal, and mutated-module vectors.
+- **Desk envelope:** FRB1 remains the sealed routing/ownership boundary
+  inside `FANO_WIRE`; it is not the execution mechanism. The D12 WASM
+  sandbox executes modules directly in its bounded input window.
+- **Honest limit:** no standard wasm128/wasm256 claim is made, and the
+  browser artifact is not a full `sdk.Runtime` host bridge. It runs only
+  `d12.profile`/`d12.code` experimental workloads.
 
-That boundary makes the Quplink upgrade concrete without pretending it is
-already deployed: the SDK is a governed upstream gate today; FRB1 is a
-desk-local ownership lane, and D12 browser execution remains a future
-bridge component.
+That boundary turns the prior “future bridge” placeholder into a real,
+bounded dual-architecture harness without overstating browser capability.
 
 ## 6. Easter Eggs (presentation layer only)
 
