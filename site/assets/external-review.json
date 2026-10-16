@@ -98,12 +98,12 @@
         {
           "path": "docs/en/spec-007-research-dossier.md",
           "bytes": 97473,
-          "sha256": "edf74f7bb873248b11b3dc2cf65da7790c40567af2f9728cf6c6598ac61d3721"
+          "sha256": "29086ae5c5674638da773902ddf03ac870d8235e91104cded95cbbe8a5d3f24b"
         },
         {
           "path": "docs/zh-Hant/spec-007-research-dossier.zh-Hant.md",
           "bytes": 85953,
-          "sha256": "3d7b823e6b43fdcec0db6e82a176ff2a2e95fd15cc91ea01d1498af32fd3ef89"
+          "sha256": "dfdd61926e1d8bab3c20edafe1ea7cb2d4521d0bcfae1b276b87500eb77a11fe"
         },
         {
           "path": "docs/en/spec-007-science-coverage.en.md",
