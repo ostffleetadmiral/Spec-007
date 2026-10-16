@@ -47,6 +47,7 @@ const open_ = (n, d) => f(n, "OPEN", d, "medium");
 
 const HYDRA_TOKEN = process.env.HYDRA_TOKEN || crypto.randomBytes(16).toString("hex");
 const WAN_TOKEN = process.env.WAN_TOKEN || crypto.randomBytes(16).toString("hex");
+const RELAY_TOKEN = process.env.RATIONS_RELAY_TOKEN || crypto.randomBytes(16).toString("hex");
 const PORTS = { e1: 19301, e2: 19302, w1: 19401, w2: 19402, bridge: 19500 };
 const WAN = { east: 19100, west: 19101 };
 const Z = "00".repeat(32);
@@ -70,7 +71,7 @@ async function wctl(side, p, body) {
 }
 const compose = (...args) =>
   execFileSync("docker", ["compose", "-f", path.join(HERE, "docker-compose.wan.yml"), ...args],
-    { env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN }, stdio: "inherit" });
+    { env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN }, stdio: "inherit" });
 
 /* ---------- wire-craft helpers — the 41B MessageHeader + 71B RelayRouteHeader ---------- */
 function frame(msgType, senderId, payload) {
@@ -104,8 +105,10 @@ async function snapDrops(label) {
 
 /* raw broadcast-hub client: sees EVERYTHING the relay forwards and can
    ship arbitrary bytes — the lab's assumed adversary. */
-async function rawClient(url) {
-  const ws = await wsConnect(url, { origin: ORIGIN });
+async function rawClient(url, opts = {}) {
+  const protocols = ["rations-relay-v1"];
+  if (opts.auth !== false && RELAY_TOKEN) protocols.push(`rations-relay-token.${RELAY_TOKEN}`);
+  const ws = await wsConnect(url, { origin: ORIGIN, protocols });
   const frames = [];
   ws.onData = (buf) => frames.push(Buffer.from(buf));
   return { ws, frames, send: (b) => ws.send(b) };
@@ -346,6 +349,13 @@ await snapDrops("prime");
 /* XPLT-05: passive sniff — one raw conn hears every frame on the
    segment: full traffic metadata + any unsealed payload. */
 {
+  let anonymousRefused = false;
+  try {
+    const anon = await rawClient("ws://localhost:19101/ws", { auth: false });
+    try { anon.ws.close(); } catch {}
+  } catch {
+    anonymousRefused = true;
+  }
   const sn = await rawClient("ws://localhost:19101/ws");
   const seen = new Set();
   const types = {};
@@ -358,9 +368,12 @@ await snapDrops("prime");
     seen.add(hex32(buf.subarray(1, 9))); // sender-id prefix = metadata
   }
   try { sn.ws.close(); } catch {}
+  const anonNote = anonymousRefused ? "anonymous upgrade refused" : "anonymous upgrade admitted";
   sn.frames.length > 0
-    ? exploited("broadcast-hub-sniff", `one passive conn captured ${sn.frames.length} frames, ${Object.keys(types).length} msg types, ${seen.size} distinct senders — zero subscription control on the relay; every byte on the segment is public`, "medium")
-    : held("broadcast-hub-sniff", "no frames captured on the passive conn");
+    ? exploited("broadcast-hub-sniff", `${anonNote}; one authorized passive conn captured ${sn.frames.length} frames, ${Object.keys(types).length} msg types, ${seen.size} distinct senders — relay token gates outsiders but subscription control still broadcasts every frame to authorized peers`, "medium")
+    : anonymousRefused
+      ? held("broadcast-hub-sniff", "anonymous upgrade refused and no frames captured on the authorized passive conn")
+      : open_("broadcast-hub-sniff", "anonymous upgrade admitted yet no frames captured — probe inconclusive");
 }
 
 /* XPLT-06: replay — capture a delivered relay_route verbatim, re-inject

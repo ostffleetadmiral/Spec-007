@@ -33,6 +33,7 @@ const OWNER_BY_PATH = new Map([
   ["site/assets/curriculum-map.json", { owner: "tools/curriculum-map.mjs", basis: "curriculum coverage projection" }],
   ["site/assets/device-ledger.json", { owner: "tools/device-ledger.mjs", basis: "sanitized capability projection" }],
   ["site/assets/dht-manifest.json", { owner: "tools/dht-fs.mjs", basis: "DHT ledger projection" }],
+  ["site/assets/gov-metadata.json", { owner: "tools/gov-metadata.mjs", basis: "governance adoption projection" }],
 ]);
 const OWNER_FOR = rel => {
   if (OWNER_BY_PATH.has(rel)) return OWNER_BY_PATH.get(rel);

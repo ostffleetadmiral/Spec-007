@@ -52,6 +52,8 @@ export function loadCore(wasmPath) {
       /* out-of-band relays enforce an Origin allowlist; nodes present a
          configured origin (browsers send theirs implicitly) */
       const opts = process.env.RATIONS_DIAL_ORIGIN ? { origin: process.env.RATIONS_DIAL_ORIGIN } : {};
+      opts.protocols = ["rations-relay-v1"];
+      if (process.env.RATIONS_RELAY_TOKEN) opts.protocols.push(`rations-relay-token.${process.env.RATIONS_RELAY_TOKEN}`);
       wsConnect(url, opts).then((ws) => {
         conns.set(id, ws);
         ws.onData = (buf) => {
@@ -109,6 +111,7 @@ export function wsConnect(url, opts = {}) {
         `Sec-WebSocket-Key: ${key}`, "Sec-WebSocket-Version: 13",
       ];
       if (opts.origin !== undefined) headers.push(`Origin: ${opts.origin}`);
+      if (opts.protocols && opts.protocols.length) headers.push(`Sec-WebSocket-Protocol: ${opts.protocols.join(", ")}`);
       if (opts.extraHeaders) headers.push(...opts.extraHeaders);
       sock.write(headers.join("\r\n") + "\r\n\r\n");
     });

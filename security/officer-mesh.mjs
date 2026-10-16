@@ -18,7 +18,7 @@ import crypto from "node:crypto";
 import vm from "node:vm";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { hex, unhex, enc, sleep } from "./harness.mjs";
+import { hex, unhex, enc, sleep, wsConnect } from "./harness.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.resolve(HERE, "../site");
@@ -74,18 +74,24 @@ function mkDesk() {
 /* a fleet-genesis-shaped doc binding pkHex to the flag seat — the same
    shape the real canon pair carries; the suite mints the mesh's own
    fleet board rather than borrowing the flagship's */
-function genesisDocFor(pkHex) {
+function genesisDocFor(pkHex, auth) {
   const pk = Buffer.from(pkHex, "hex");
   const spki = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"), pk]);
   const pem = "-----BEGIN PUBLIC KEY-----\n" + spki.toString("base64") + "\n-----END PUBLIC KEY-----\n";
-  return { payload: { members: [
+  const doc = { payload: { members: [
+    { name: "admiral-root", role: "genesis-root", pubkey_pem_b64: Buffer.from(pem).toString("base64") },
     { name: "admiral", role: "flag-seat", pubkey_pem_b64: Buffer.from(pem).toString("base64") } ] } };
+  const body = Buffer.from(JSON.stringify(doc.payload, null, 2), "utf8");
+  const sig = auth.sign(new Uint8Array(body), auth.session.sk);
+  doc.sigs = { "admiral-root": Buffer.from(sig).toString("base64url") };
+  return doc;
 }
 
 /* ---------- live wire: relay + two seeded hydra peers ---------- */
 const PORTS = { a: 19601, b: 19602 };
 const RELAY_PORT = 19699;
 const HYDRA_TOKEN = crypto.randomBytes(16).toString("hex");
+const RELAY_TOKEN = crypto.randomBytes(16).toString("hex");
 const procs = [];
 async function ctl(node, p, body) {
   const r = await fetch(`http://localhost:${PORTS[node]}${p}`,
@@ -103,7 +109,7 @@ async function waitUp(node, tries = 60) {
 function spawnRelay() {
   const p = spawn("node", [path.join(R, "src/relay/server.js")],
     { env: { ...process.env, RATIONS_PORT: String(RELAY_PORT), RATIONS_STATIC_ROOT: path.join(R, "src"),
-             RATIONS_ALLOWED_ORIGINS: "http://desk.local" } });
+             RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: RELAY_TOKEN } });
   procs.push(p);
   return p;
 }
@@ -152,7 +158,7 @@ dtok && di && di.ok === true && di.founded === true && a2rec && a2rec.pk === aPk
 /* second-officer commissioning: B joins A's fleet board (binds the
    flag-seat genesis), claims an unclaimed roaming grant for the
    restricted callsign — first enrollment binds it to B's own pk */
-await B.auth.bindFleetFlag(genesisDocFor(aPk));
+await B.auth.bindFleetFlag(genesisDocFor(aPk, A.auth));
 const anchored = B.auth.flagAnchored(aPk);
 const g = A.auth.grantCallsign("m", null, 90);
 const gTok = g && A.auth.exportGrant("m");
@@ -217,9 +223,25 @@ for (const n of ["a", "b"]) {
   procs.push(spawn("node", [path.join(HERE, "hydra-node.mjs")], {
     env: { ...process.env, NAME: `offr-${n}`, CONTROL_PORT: String(PORTS[n]), RELAY_PORT: "0",
            SEED_HEX: seedHex, RATIONS_DIR: R, WASM, ID_DIR: "/tmp/offr-ids",
-           PRESENCE_MS: "1500", HYDRA_TOKEN, RATIONS_DIAL_ORIGIN: "http://desk.local" } }));
+           PRESENCE_MS: "1500", HYDRA_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN, RATIONS_DIAL_ORIGIN: "http://desk.local" } }));
 }
 const relayUp = await waitRelay();
+if (relayUp) {
+  const wsUrl = `ws://localhost:${RELAY_PORT}/ws`;
+  let denied = false, authed = null;
+  try { await wsConnect(wsUrl, { origin: "http://desk.local" }); }
+  catch { denied = true; }
+  try {
+    authed = await wsConnect(wsUrl, {
+      origin: "http://desk.local",
+      protocols: ["rations-relay-v1", `rations-relay-token.${RELAY_TOKEN}`],
+    });
+    authed.close();
+  } catch { authed = null; }
+  denied && authed
+    ? ok("relay-token-gate", "unauthenticated upgrade refused · governed subprotocol admitted")
+    : bad("relay-token-gate", `denied=${denied} authed=${!!authed}`);
+}
 /* a listener without a live child means a foreign process holds the port —
    killing it later wouldn't be a partition, so refuse to probe that topology */
 if (relayUp && relayProc.exitCode !== null)

@@ -32,7 +32,7 @@ window.FANO_COMMS = (function () {
     var ok = fn(op, cap, lp);
     var n = Math.min(u32at(lp), cap);
     var out = ok && n ? dec.decode(A().mem(op, n)) : null;
-    X().rations_free(op); X().rations_free(lp);
+    X().rations_free(op, cap); X().rations_free(lp, 4);
     return out;
   }
   /* inbound hex must actually BE hex of the right shape — unhex() on
@@ -43,8 +43,8 @@ window.FANO_COMMS = (function () {
   }
   function peerCount() { return X().rations_p2p_peer_count(); }
   function peersJson() { return jread(function (o, c, l) { return X().rations_p2p_peers_json(o, c, l); }, 8192); }
-  function peerId() { var p = A().outBuf(32); X().rations_p2p_peer_id(p); var b = A().mem(p, 32).slice(); X().rations_free(p); return b; }
-  function phonePk() { var p = A().outBuf(32); X().rations_phone_pk(p); var b = A().mem(p, 32).slice(); X().rations_free(p); return b; }
+  function peerId() { var p = A().outBuf(32); X().rations_p2p_peer_id(p); var b = A().mem(p, 32).slice(); X().rations_free(p, 32); return b; }
+  function phonePk() { var p = A().outBuf(32); X().rations_phone_pk(p); var b = A().mem(p, 32).slice(); X().rations_free(p, 32); return b; }
 
   /* contained identities hold no wire privileges — a contained bot
      learns in the academy, it does not speak on the fleet's net */
@@ -58,9 +58,9 @@ window.FANO_COMMS = (function () {
     if (!RELAY_RE.test(String(url || ""))) return null;
     var pkb = pkOf(pkHex);
     if (!pkb) return null;
-    var up = A().wr(str(url)), pp = A().wr(pkb);
-    var id = X().rations_p2p_connect(up, url.length, pp, 32);
-    X().rations_free(up); X().rations_free(pp);
+    var ub = str(url), up = A().wr(ub), pp = A().wr(pkb);
+    var id = X().rations_p2p_connect(up, ub.length, pp, 32);
+    X().rations_free(up, ub.length); X().rations_free(pp, pkb.length);
     return id;
   }
   function discover(connId) { return X().rations_p2p_discover_peers(connId); }
@@ -71,7 +71,9 @@ window.FANO_COMMS = (function () {
     if (containedNow()) return false;
     var txt = str(A().session.user || "cadet");
     var p = A().wr(txt);
-    return X().rations_phone_presence_publish(status || 1, p, txt.length);
+    var ok = X().rations_phone_presence_publish(status || 1, p, txt.length);
+    X().rations_free(p, txt.length);
+    return ok;
   }
   /* presence text is unsigned wire metadata — a peer can publish any
      callsign it likes. Restricted/pinned names can't be impersonated
@@ -113,16 +115,16 @@ window.FANO_COMMS = (function () {
     if (!ib || !kb) return false;
     var ip = A().wr(ib), kp = A().wr(kb);
     X().rations_phone_add_contact(ip, kp);
-    X().rations_free(ip); X().rations_free(kp);
+    X().rations_free(ip, ib.length); X().rations_free(kp, kb.length);
     return true;
   }
   function sendMsg(pidHex, body) {
     if (containedNow()) return false;
     var tb = pkOf(pidHex);
     if (!tb || !body) return false;
-    var tp = A().wr(tb), bp = A().wr(str(body));
-    var ok = X().rations_phone_send(tp, 0, bp, body.length);
-    X().rations_free(tp); X().rations_free(bp);
+    var bb = str(body), tp = A().wr(tb), bp = A().wr(bb);
+    var ok = X().rations_phone_send(tp, 0, bp, bb.length);
+    X().rations_free(tp, tb.length); X().rations_free(bp, bb.length);
     return ok;
   }
   function inbox() { return jread(function (o, c, l) { return X().rations_phone_inbox_json(o, c, l); }, 65536); }
@@ -130,11 +132,11 @@ window.FANO_COMMS = (function () {
   function tick(dt) { X().rations_phone_tick(dt); }
 
   function qrGen(text, ecc) {
-    var dp = A().wr(str(text)), op = A().outBuf(65536), sp = A().outBuf(2);
-    var ver = X().rations_qr_generate_auto(dp, str(text).length, ecc, op, sp);
+    var db = str(text), dp = A().wr(db), op = A().outBuf(65536), sp = A().outBuf(2);
+    var ver = X().rations_qr_generate_auto(dp, db.length, ecc, op, sp);
     var size = new Uint16Array(A().memory().buffer, sp, 1)[0];
     var bmp = ver && size * size <= 65536 ? A().mem(op, size * size).slice() : null;
-    X().rations_free(dp); X().rations_free(op); X().rations_free(sp);
+    X().rations_free(dp, db.length); X().rations_free(op, 65536); X().rations_free(sp, 2);
     return bmp ? { bmp: bmp, size: size, version: ver } : null;
   }
   function qrDec(gray, w, h) {
@@ -142,26 +144,26 @@ window.FANO_COMMS = (function () {
     var r = X().rations_qr_decode(ip, w, h, op, 8192, lp, vp);
     var n = Math.min(u32at(lp), 8192);
     var out = r === 1 ? dec.decode(A().mem(op, n)) : null;
-    X().rations_free(ip); X().rations_free(op); X().rations_free(lp); X().rations_free(vp);
+    X().rations_free(ip, gray.length); X().rations_free(op, 8192); X().rations_free(lp, 4); X().rations_free(vp, 1);
     return r === 1 ? { text: out } : { err: r & 0x7f };
   }
   function stegaEmbed(png, data, pw, fname) {
-    var ip = A().wr(png), dp = A().wr(data), pp = A().wr(str(pw)), fp = A().wr(str(fname));
+    var pb = str(pw), fb = str(fname), ip = A().wr(png), dp = A().wr(data), pp = A().wr(pb), fp = A().wr(fb);
     var op = A().outBuf(png.length + data.length + 65536), lp = A().outBuf(4);
-    var ok = X().rations_stega_embed(ip, png.length, dp, data.length, pp, pw.length, fp, fname.length, op, png.length + data.length + 65536, lp);
+    var ok = X().rations_stega_embed(ip, png.length, dp, data.length, pp, pb.length, fp, fb.length, op, png.length + data.length + 65536, lp);
     var n = new Uint32Array(A().memory().buffer, lp, 1)[0];
     var out = ok ? A().mem(op, n).slice() : null;
-    [ip, dp, pp, fp, op, lp].forEach(function (p) { X().rations_free(p); });
+    [[ip, png.length], [dp, data.length], [pp, pb.length], [fp, fb.length], [op, png.length + data.length + 65536], [lp, 4]].forEach(function (p) { X().rations_free(p[0], p[1]); });
     return out;
   }
   function stegaExtract(png, pw) {
-    var ip = A().wr(png), pp = A().wr(str(pw));
+    var pb = str(pw), ip = A().wr(png), pp = A().wr(pb);
     var dp = A().outBuf(1048576), dl_ = A().outBuf(4), fp = A().outBuf(256), fl = A().outBuf(4);
-    var ok = X().rations_stega_extract(ip, png.length, pp, pw.length, dp, 1048576, dl_, fp, 256, fl);
+    var ok = X().rations_stega_extract(ip, png.length, pp, pb.length, dp, 1048576, dl_, fp, 256, fl);
     var dn = Math.min(u32at(dl_), 1048576);
     var fn2 = Math.min(u32at(fl), 256);
     var out = ok ? { data: A().mem(dp, dn).slice(), name: dec.decode(A().mem(fp, fn2)) } : null;
-    [ip, pp, dp, dl_, fp, fl].forEach(function (p) { X().rations_free(p); });
+    [[ip, png.length], [pp, pb.length], [dp, 1048576], [dl_, 4], [fp, 256], [fl, 4]].forEach(function (p) { X().rations_free(p[0], p[1]); });
     return out;
   }
   function shamirSplit(secret, k, n) {
@@ -172,7 +174,7 @@ window.FANO_COMMS = (function () {
     var sp = A().wr(sb), op = A().outBuf(n * (1 + sb.length));
     var ok = X().rations_shamir_split(sp, sb.length, k, n, op);
     var out = ok ? A().mem(op, n * (1 + sb.length)).slice() : null;
-    X().rations_free(sp); X().rations_free(op);
+    X().rations_free(sp, sb.length); X().rations_free(op, n * (1 + sb.length));
     if (!out) return null;
     var shares = [], sl = 1 + sb.length;
     for (var i = 0; i < n; i++) shares.push(out.slice(i * sl, (i + 1) * sl));
@@ -187,7 +189,7 @@ window.FANO_COMMS = (function () {
     var sp = A().wr(all), op = A().outBuf(sl - 1);
     var ok = X().rations_shamir_reconstruct(sp, sl, shares.length, op, sl - 1);
     var out = ok ? dec.decode(A().mem(op, sl - 1)) : null;
-    X().rations_free(sp); X().rations_free(op);
+    X().rations_free(sp, all.length); X().rations_free(op, sl - 1);
     return out;
   }
   function carrierEnc(data, fmt) {
@@ -195,7 +197,7 @@ window.FANO_COMMS = (function () {
     var st = X().rations_carrier_encode(dp, data.length, fmt, op, data.length + 1048576, lp);
     var n = Math.min(u32at(lp), data.length + 1048576);
     var out = st === 0 || st === 1 ? A().mem(op, n).slice() : null;
-    X().rations_free(dp); X().rations_free(op); X().rations_free(lp);
+    X().rations_free(dp, data.length); X().rations_free(op, data.length + 1048576); X().rations_free(lp, 4);
     return out === null || st & 0x80 ? { err: st & 0x7f } : { bytes: out };
   }
   function carrierDec(data, fmt) {
@@ -203,7 +205,7 @@ window.FANO_COMMS = (function () {
     var st = X().rations_carrier_decode(dp, data.length, fmt, op, data.length + 1048576, lp);
     var n = Math.min(u32at(lp), data.length + 1048576);
     var out = st === 0 || st === 1 ? A().mem(op, n).slice() : null;
-    X().rations_free(dp); X().rations_free(op); X().rations_free(lp);
+    X().rations_free(dp, data.length); X().rations_free(op, data.length + 1048576); X().rations_free(lp, 4);
     return out === null || st & 0x80 ? { err: st & 0x7f } : { bytes: out };
   }
   /* invite roles are NETWORK roles — 0=admin 1=moderator 2=user per
@@ -218,19 +220,19 @@ window.FANO_COMMS = (function () {
     if (rl === 0 && A().session.role < A().ROLES.fleet_admiral) return null;
     var nb = pkOf(netId);
     if (!nb || !endpoint || !(days > 0)) return null;
-    var np = A().wr(nb), ep = A().wr(str(endpoint)), sp = A().wr(s);
+    var eb = str(endpoint), np = A().wr(nb), ep = A().wr(eb), sp = A().wr(s);
     var op = A().outBuf(4096), lp = A().outBuf(4);
-    var ok = X().rations_invite_create(np, ep, endpoint.length, sp, 32, rl,
+    var ok = X().rations_invite_create(np, ep, eb.length, sp, s.length, rl,
       BigInt(Math.floor(Date.now() / 1000) + days * 86400), op, lp);
     var n = Math.min(u32at(lp), 4096);
     var out = ok ? A().mem(op, n).slice() : null;
-    [np, ep, sp, op, lp].forEach(function (p) { X().rations_free(p); });
+    [[np, nb.length], [ep, eb.length], [sp, s.length], [op, 4096], [lp, 4]].forEach(function (p) { X().rations_free(p[0], p[1]); });
     return out;
   }
   function inviteVerify(tok) {
     var tp = A().wr(tok);
     var ok = X().rations_invite_verify(tp, tok.length);
-    X().rations_free(tp);
+    X().rations_free(tp, tok.length);
     return !!ok;
   }
 
@@ -512,7 +514,7 @@ window.FANO_COMMS = (function () {
         var xb = el('<button class="btn">EXTRACT</button>');
         var out = el('<pre></pre>');
         var png = null;
-        fi.onchange = function () { fi.files[0].arrayBuffer().then(function (ab2) { png = new Uint8Array(ab2); var cp = A().wr(png); var cap = X().rations_stega_capacity(cp, png.length, 1); X().rations_free(cp); out.textContent = "carrier: " + fi.files[0].name + " · " + png.length + " B · capacity ~" + cap + " B @1bpp"; }); };
+        fi.onchange = function () { fi.files[0].arrayBuffer().then(function (ab2) { png = new Uint8Array(ab2); var cp = A().wr(png); var cap = X().rations_stega_capacity(cp, png.length, 1); X().rations_free(cp, png.length); out.textContent = "carrier: " + fi.files[0].name + " · " + png.length + " B · capacity ~" + cap + " B @1bpp"; }); };
         eb.onclick = function () {
           if (!png) { out.textContent = "pick a PNG carrier first"; return; }
           var r = stegaEmbed(png, str(tin.value), pw.value || "fano", "payload.txt");

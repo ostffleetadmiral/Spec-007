@@ -21,6 +21,15 @@ const TransportBridge = (function () {
   let nextConnId = 1;
   let listeners = [];
 
+  const RELAY_TOKEN_KEY = "rations.relay.token.v1";
+  function relayProtocols() {
+    const protos = ["rations-relay-v1"];
+    let token = "";
+    try { token = globalThis.RATIONS_RELAY_TOKEN || localStorage.getItem(RELAY_TOKEN_KEY) || ""; } catch (_) {}
+    if (token) protos.push(`rations-relay-token.${token}`);
+    return protos;
+  }
+
   const RECONNECT = {
     maxAttempts: 10,
     baseDelayMs: 500,
@@ -100,7 +109,7 @@ const TransportBridge = (function () {
     entry.timer = setTimeout(() => {
       entry.timer = null;
       try {
-        const ws = new WebSocket(entry.url);
+        const ws = new WebSocket(entry.url, relayProtocols());
         entry.ws = ws;
         wireSocket(connId, entry, ws);
       } catch {
@@ -115,7 +124,7 @@ const TransportBridge = (function () {
     const connId = nextConnId++;
 
     try {
-      const ws = new WebSocket(url);
+      const ws = new WebSocket(url, relayProtocols());
       const entry = { ws, url, attempts: 0, manualClose: false, timer: null };
       connections.set(connId, entry);
       wireSocket(connId, entry, ws);

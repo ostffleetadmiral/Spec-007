@@ -43,6 +43,7 @@ const names = Object.keys(PORTS);
    compose and local spawns both receive them through env */
 const HYDRA_TOKEN = process.env.HYDRA_TOKEN || crypto.randomBytes(16).toString("hex");
 const WAN_TOKEN = process.env.WAN_TOKEN || crypto.randomBytes(16).toString("hex");
+const RELAY_TOKEN = process.env.RATIONS_RELAY_TOKEN || crypto.randomBytes(16).toString("hex");
 
 async function ctl(node, p, body) {
   const r = await fetch(`http://localhost:${PORTS[node]}${p}`,
@@ -58,7 +59,7 @@ async function wctl(side, p, body) {
 }
 function compose(...args) {
   return execFileSync("docker", ["compose", "-f", path.join(HERE, "docker-compose.wan.yml"), ...args],
-    { cwd: HERE, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN } }).toString();
+    { cwd: HERE, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN } }).toString();
 }
 async function waitUp(node, tries = 60) {
   for (let i = 0; i < tries; i++) {
@@ -75,13 +76,13 @@ function spawnLocal() {
   const env = (name, port) => ({
     ...process.env, NAME: name, CONTROL_PORT: String(PORTS[name]), RELAY_PORT: "0",
     RATIONS_DIR: R, WASM, ID_DIR: "/tmp/hydra-ids", PRESENCE_MS: "2000",
-    HYDRA_TOKEN, RATIONS_DIAL_ORIGIN: "http://desk.local",
+    HYDRA_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN, RATIONS_DIAL_ORIGIN: "http://desk.local",
   });
   for (const n of names) procs.push(spawn("node", [path.join(HERE, "hydra-node.mjs")], { env: env(n) }));
   /* one shared relay stands in for the LAN+WAN at min complexity */
   procs.push(spawn("node", [path.join(R, "src/relay/server.js")],
     { env: { ...process.env, RATIONS_PORT: "19499", RATIONS_STATIC_ROOT: path.join(R, "src"),
-             RATIONS_ALLOWED_ORIGINS: "http://desk.local" } }));
+             RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: RELAY_TOKEN } }));
 }
 
 if (MODE === "docker") {

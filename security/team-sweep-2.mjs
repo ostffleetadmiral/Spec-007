@@ -54,7 +54,10 @@ const _pfJobs = new Map();
   const _T = path.join(ROOT, "tools");
   const _Z = path.join(ROOT, "src");
   const jobs = [
-    // heaviest first — the pool drains in launch order
+    // early sweep gates first — pf() only resolves launched jobs
+    ["native-dialog",    process.execPath, [path.join(_T, "native-dialog-audit.mjs"), "--verify"], { timeout: 120000 }],
+    ["wasm-memory",      process.execPath, [path.join(_T, "wasm-memory-hygiene.mjs"), "--verify"], { timeout: 120000 }],
+    // heaviest next — the pool drains in launch order
     ["archive-verify",   process.execPath, [path.join(_T, "archive-verify.mjs"), "--verify"], { timeout: 600000 }],
     ["academy-harvest",  process.execPath, [path.join(_T, "academy-harvest.mjs"), "--verify"], { timeout: 120000 }],
     ["zig:parity",       "zig",            ["test", path.join(_Z, "spec008_qstar_parity.zig")], { timeout: 180000 }],
@@ -163,6 +166,25 @@ const mkKeys = () => {
   const pub = publicKey.export({ type: "spki", format: "pem" });
   return { pub, priv: privateKey.export({ type: "pkcs8", format: "pem" }) };
 };
+/* A complete signed synthetic fleet: one genesis-root signs the exact
+   payload binder hash and one flag-seat carries the live test desk's pk.
+   Mutating realGen no longer suffices — bindFleetFlag verifies signatures
+   before accepting the anchor. */
+function signedFleetGenesis(flagRawPk) {
+  const root = mkKeys();
+  const der = Buffer.concat([
+    Buffer.from("302a300506032b6570032100", "hex"), flagRawPk]);
+  const pem = "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") +
+    "\n-----END PUBLIC KEY-----\n";
+  const payload = { v: "FLEET-GENESIS-v1", members: [
+    { name: "root", role: "genesis-root",
+      pubkey_pem_b64: Buffer.from(root.pub).toString("base64") },
+    { name: "admiral", role: "flag-seat",
+      pubkey_pem_b64: Buffer.from(pem).toString("base64") },
+  ] };
+  const sig = cryptoSign(null, Buffer.from(canon(payload)), root.priv);
+  return { payload, sigs: { root: sig.toString("base64url") } };
+}
 /* real keys for the two genesis members (digit local; sheraton via ssh) */
 function realKeys() {
   const keys = {};
@@ -552,22 +574,8 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
     if (!frec || frec.error || !roaming) {
       open_("DESK", "roaming-mint", "flag desk could not mint roaming paper");
     } else {
-      /* foreign desk founded by someone else; fleet anchor = flag's pk */
-      const g2 = JSON.parse(JSON.stringify(realGen));
-      g2.payload.members = g2.payload.members
-        .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
-      g2.payload.members.push({ name: "admiral", role: "flag-seat",
-        pubkey_pem_b64: Buffer.from("-----BEGIN PUBLIC KEY-----\n" +
-          "xxx\n-----END PUBLIC KEY-----\n").toString("base64") });
-      /* the admiral member must carry the flag's REAL pubkey so
-         flagAnchored(iss) resolves — derive the pem wrapper */
-      const rawPk = Buffer.from(frec.pk, "hex");
-      const der = Buffer.concat([
-        Buffer.from("302a300506032b6570032100", "hex"), rawPk]);
-      const pem = "-----BEGIN PUBLIC KEY-----\n" +
-        der.toString("base64") + "\n-----END PUBLIC KEY-----\n";
-      g2.payload.members[g2.payload.members.length - 1].pubkey_pem_b64 =
-        Buffer.from(pem).toString("base64");
+      /* foreign desk founded by someone else; signed fleet anchor = flag's pk */
+      const g2 = signedFleetGenesis(Buffer.from(frec.pk, "hex"));
 
       const desk2 = loadAuth({ genesisDoc: g2 });
       await desk2.A.load();
@@ -811,14 +819,13 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
         : open_("DESK", "burn-confirmed", "one-click burn still live");
     }
 
-    /* DESK-15: no native dialogs anywhere on the desk — prompt/alert/
-       confirm all throw under Electron */
+    /* DESK-15: executable audit — prompt/alert/confirm all throw under
+       Electron; prose/docs may discuss the rule without becoming a hit */
     {
-      !/\b(prompt|alert|confirm)\s*\(/.test(dsrc) &&
-      !/\b(prompt|alert|confirm)\s*\(/.test(rsrc)
-        ? held("DESK", "no-native-dialogs",
-            "fano-desktop + fano-reset carry zero native dialogs — every prompt is a DOM widget")
-        : open_("DESK", "no-native-dialogs", "native dialog call present");
+      const r = await pf("native-dialog");
+      r.status === 0
+        ? held("DESK", "no-native-dialogs", r.stdout.trim())
+        : open_("DESK", "no-native-dialogs", (r.stderr || r.stdout).trim());
     }
 
     /* DESK-16: theme contrast — every ink/accent clears WCAG AA 4.5:1
@@ -1276,15 +1283,8 @@ console.log("\nBOT — containment doctrine");
     const tok = flag.A.exportPromotion(promo);
 
     /* bot desk can't use it until the flag anchor binds — mint a
-       fleet genesis carrying the flag desk's real pubkey */
-    const g3 = JSON.parse(JSON.stringify(realGen));
-    const rawPk2 = Buffer.from(frec.pk, "hex");
-    const der2 = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"), rawPk2]);
-    const pem2 = "-----BEGIN PUBLIC KEY-----\n" + der2.toString("base64") + "\n-----END PUBLIC KEY-----\n";
-    g3.payload.members = g3.payload.members
-      .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
-    g3.payload.members.push({ name: "admiral", role: "flag-seat",
-      pubkey_pem_b64: Buffer.from(pem2).toString("base64") });
+       signed fleet genesis carrying the flag desk's real pubkey */
+    const g3 = signedFleetGenesis(Buffer.from(frec.pk, "hex"));
     const bot2 = loadAuth({ genesisDoc: g3, nav: { webdriver: true } });
     await bot2.A.load();
     const br2 = bot2.A.enroll("tinman", "bot-pass-6");
@@ -1477,15 +1477,7 @@ console.log("\nAUTH — cert/trust retro-pass (wave 2)");
     const gObj = roam ? JSON.parse(Buffer.from(roam, "base64").toString()).grant : null;
     const rawTok = gObj && Buffer.from(JSON.stringify(gObj)).toString("base64");
 
-    const g3 = JSON.parse(JSON.stringify(realGen));
-    const der = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"),
-      Buffer.from(frec.pk, "hex")]);
-    const pem = "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") +
-      "\n-----END PUBLIC KEY-----\n";
-    g3.payload.members = g3.payload.members
-      .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
-    g3.payload.members.push({ name: "admiral", role: "flag-seat",
-      pubkey_pem_b64: Buffer.from(pem).toString("base64") });
+    const g3 = signedFleetGenesis(Buffer.from(frec.pk, "hex"));
 
     const d = loadAuth({ genesisDoc: g3 }); await d.A.load();
     d.A.enroll("marcus", "m-pass");
@@ -1660,6 +1652,15 @@ console.log("\nWIRE — comms retro-pass (wave 3)");
       ? held("WIRE", "no-prompt",
           "fano-comms.js is prompt()-free — MSG composes inline, Electron-compatible")
       : open_("WIRE", "no-prompt", "prompt() still present");
+  }
+
+  /* WIRE-08: WASM free ABI — rations_free is ptr,len; every JS caller
+     must carry the length or the wipe-before-free boundary is unsafe */
+  {
+    const r = await pf("wasm-memory");
+    r.status === 0
+      ? held("WIRE", "wasm-free-lengths", r.stdout.trim())
+      : open_("WIRE", "wasm-free-lengths", (r.stderr || r.stdout).trim());
   }
 }
 

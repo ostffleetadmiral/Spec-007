@@ -15,6 +15,16 @@ if (location.hostname === "localhost" || location.hostname === "[::1]") {
 <title>SPEC-007 // Instruments of Illumination</title>
 <link rel="stylesheet" href="assets/dossier.css">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+dialog.desk-dialog{max-width:38rem;padding:1.25rem 1.5rem;border:2px solid var(--stamp);background:var(--paper);color:var(--ink);box-shadow:0 1rem 3rem rgba(0,0,0,.35);}
+dialog.desk-dialog::backdrop{background:rgba(0,0,0,.55);}
+dialog.desk-dialog h2{margin-top:0;font-size:1.2rem;letter-spacing:.08em;}
+dialog.desk-dialog textarea{width:100%;box-sizing:border-box;font-family:monospace;font-size:.75rem;background:transparent;border:1px solid var(--rule);color:var(--ink);}
+dialog.desk-dialog .dialog-actions{display:flex;gap:.8rem;justify-content:flex-end;margin-top:1rem;}
+dialog.desk-dialog button{font-family:inherit;font-size:.85rem;padding:.5rem .9rem;border:1px solid var(--stamp);background:transparent;color:var(--stamp);cursor:pointer;}
+dialog.desk-dialog button.danger{background:var(--stamp);color:var(--paper);}
+dialog.desk-dialog .dialog-status{min-height:1.2em;color:var(--gold);}
+</style>
 </head>
 <body>
 <!-- The covenant runs five years. The oath does not say which five. -->
@@ -157,33 +167,102 @@ On an unfounded desk, the first signature writes the genesis record — sha256 o
 try {
   if (localStorage.getItem('fano1.lang') === 'zh') window.location.replace('index-zh.html');
 } catch (e) {}
-document.getElementById('factory-reset').addEventListener('click', function (e) {
-  e.preventDefault();
-  FANO_RESET.guard().then(function (g) {
-    if (g.mode === 'vote') {
-      /* off-cluster flag desk — the founding is a fleet object; the
-         Admiralty burns it unanimously or not at all */
-      var tok = prompt('FLAG DESK on a foreign origin.\n\nThe Fleet Admiral\'s credentials do not burn ' +
-        'without a unanimous Admiralty vote.\nPaste a FANO-RESET-v1 token signed by every genesis member:');
-      if (!tok) return;
-      FANO_RESET.verifyVote(tok).then(function (ok) {
-        if (!ok) { alert('Vote refused — the token did not carry every genesis member\'s signature.'); return; }
-        var b = FANO_RESET.execute();
-        alert('Unanimous vote verified — founding burned (' + b.length + ' records).');
-        location.reload();
+function deskDialog(opts) {
+  return new Promise(function (resolve) {
+    var invoker = document.activeElement;
+    var d = document.createElement('dialog'), n = Date.now();
+    var h = document.createElement('h2'), p = document.createElement('p');
+    var form = document.createElement('form'), actions = document.createElement('div');
+    var input = null, done = false;
+    d.className = 'desk-dialog'; h.id = 'desk-dialog-title-' + n; p.id = 'desk-dialog-body-' + n;
+    h.textContent = opts.title; p.textContent = opts.body || '';
+    d.setAttribute('aria-labelledby', h.id); d.setAttribute('aria-describedby', p.id);
+    form.method = 'dialog'; actions.className = 'dialog-actions';
+    form.appendChild(h); form.appendChild(p);
+    if (opts.input) {
+      input = document.createElement('textarea');
+      input.rows = opts.rows || 5; input.spellcheck = false;
+      input.placeholder = opts.placeholder || '';
+      input.setAttribute('aria-label', opts.label || opts.title);
+      form.appendChild(input);
+    }
+    function finish(v) {
+      if (done) return; done = true;
+      if (input) input.value = '';
+      try { d.close(); } catch (e) {}
+      d.remove();
+      if (invoker && invoker.focus) invoker.focus();
+      resolve(v);
+    }
+    function addBtn(label, value, danger) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+      if (danger) b.className = 'danger';
+      b.addEventListener('click', function () {
+        finish(value === 'input' ? (input ? input.value : null) : value);
       });
+      actions.appendChild(b); return b;
+    }
+    if (opts.mode === 'status') {
+      addBtn(opts.okText || 'OK', true, false).autofocus = true;
+    } else {
+      addBtn(opts.cancelText || 'CANCEL', null, false);
+      addBtn(opts.okText || 'CONTINUE', opts.input ? 'input' : true, !!opts.danger).autofocus = true;
+    }
+    form.appendChild(actions); d.appendChild(form); document.body.appendChild(d);
+    d.addEventListener('cancel', function (e) { e.preventDefault(); finish(null); });
+    d.addEventListener('keydown', function (e) {
+      var items, first, last;
+      if (e.key === 'Escape') { e.preventDefault(); finish(null); return; }
+      if (e.key !== 'Tab') return;
+      items = Array.prototype.filter.call(d.querySelectorAll('button,textarea,input,select,a[href],[tabindex]'),
+        function (x) { return !x.disabled && x.tabIndex !== -1; });
+      if (!items.length) return;
+      first = items[0]; last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    try { if (d.showModal) d.showModal(); else d.setAttribute('open', ''); }
+    catch (e) { d.setAttribute('open', ''); }
+    (input || d.querySelector('button')).focus();
+  });
+}
+
+document.getElementById('factory-reset').addEventListener('click', async function (e) {
+  e.preventDefault();
+  var g = await FANO_RESET.guard();
+  if (g.mode === 'vote') {
+    /* off-cluster flag desk — the founding is a fleet object; the
+       Admiralty burns it unanimously or not at all */
+    var tok = await deskDialog({
+      mode: 'token', input: true, rows: 6, danger: true,
+      title: 'FLAG DESK — unanimous reset vote',
+      body: 'This flag desk is on a foreign origin. The Fleet Admiral\'s credentials do not burn ' +
+        'without a unanimous Admiralty vote. Paste a FANO-RESET-v1 token signed by every genesis member.',
+      label: 'FANO-RESET-v1 token', placeholder: 'FANO-RESET-v1…', okText: 'VERIFY VOTE'
+    });
+    if (!tok) return;
+    var ok = await FANO_RESET.verifyVote(tok);
+    if (!ok) {
+      await deskDialog({ mode: 'status', title: 'Vote refused',
+        body: 'The token did not carry every genesis member\'s signature.' });
       return;
     }
-    var what = g.mode === 'cluster'
-      ? 'FLAG DESK on the sovereign cluster — unilateral burn authorized by origin.\nBoth loopback origins will be swept.'
-      : 'Burn this desk\'s identity, founding, roster, and state? Lab reset — irreversible.';
-    /* Electron has no confirm() — under the desk shell the reset page
-       itself displays the doctrine before and after the burn */
-    if (!window.ADMIRALTY_DESK && !confirm(what)) return;
-    /* reset.html razes this origin AND the loopback twin, then returns
-       here — a partial reset is how the split-store bug bit us */
-    location.href = 'reset.html';
-  });
+    var burned = FANO_RESET.execute();
+    await deskDialog({ mode: 'status', title: 'Unanimous vote verified',
+      body: 'Founding burned (' + burned.length + ' records).' });
+    location.reload();
+    return;
+  }
+  var what = g.mode === 'cluster'
+    ? 'FLAG DESK on the sovereign cluster — unilateral burn authorized by origin. Both loopback origins will be swept.'
+    : 'Burn this desk\'s identity, founding, roster, and state? Lab reset — irreversible.';
+  var yes = await deskDialog({ mode: 'confirm', title: 'Factory reset', body: what,
+    okText: 'BURN DESK', danger: true });
+  if (!yes) return;
+  /* reset.html razes this origin AND the loopback twin, then returns
+     here — a partial reset is how the split-store bug bit us */
+  location.href = 'reset.html';
 });
 var ib = document.getElementById('import-box'), im = document.getElementById('import-msg');
 document.getElementById('desk-import').addEventListener('click', function (e) {

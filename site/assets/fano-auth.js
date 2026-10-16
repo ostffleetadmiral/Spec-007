@@ -21,6 +21,8 @@ window.FANO_AUTH = (function () {
   var TOTP_WINDOW = 1;
   var TOTP_ISSUER = "QStar.net";
   var TOTP_ACCOUNT = "QStar.net";
+  var RELAY_TOKEN_KEY = "rations.relay.token.v1";
+  var FLEET_PIN_KEY = "fano.fleet.genesis.v1";
 
   /* canonical covenant bytes — what the signature actually covers.
      Keep byte-identical to the pledge text on index.html. */
@@ -84,17 +86,23 @@ window.FANO_AUTH = (function () {
      desk reports the link honestly. */
   var wsConns = {}, wsNext = 1, wsListeners = [];
   function wsNotify(t, p) { for (var i = 0; i < wsListeners.length; i++) try { wsListeners[i](t, p); } catch (e) {} }
+  function relayProtocols() {
+    var protos = ["rations-relay-v1"], token = "";
+    try { token = window.RATIONS_RELAY_TOKEN || localStorage.getItem(RELAY_TOKEN_KEY) || ""; } catch (e) {}
+    if (token) protos.push("rations-relay-token." + token);
+    return protos;
+  }
   function wsConnect(p, n) {
     var url = rd(p, n), id = wsNext++;
     try {
-      var s = new WebSocket(url); s.binaryType = "arraybuffer";
+      var s = new WebSocket(url, relayProtocols()); s.binaryType = "arraybuffer";
       wsConns[id] = s;
       s.onopen = function () { wsNotify("open", { id: id }); };
       s.onmessage = function (ev) {
         var d = new Uint8Array(ev.data), ptr = wasm.rations_alloc(d.length);
         mem(ptr, d.length).set(d);
         wasm.rations_ws_on_message(id, ptr, d.length);
-        wasm.rations_free(ptr);
+        wasm.rations_free(ptr, d.length);
       };
       s.onclose = function () { delete wsConns[id]; wasm.rations_ws_on_close(id); wsNotify("close", { id: id }); };
       s.onerror = function () { wsNotify("error", { id: id }); };
@@ -133,7 +141,7 @@ window.FANO_AUTH = (function () {
     var inp = wr(bytes), op = outBuf(32);
     wasm.rations_sha256(inp, bytes.length, op);
     var r = mem(op, 32).slice();
-    wasm.rations_free(inp); wasm.rations_free(op);
+    wasm.rations_free(inp, bytes.length); wasm.rations_free(op, 32);
     return r;
   }
   /* the wire API wants the 64-byte expanded key; our keystore holds the 32-byte seed */
@@ -141,7 +149,7 @@ window.FANO_AUTH = (function () {
     var sp = wr(seed), pp = outBuf(32), sp2 = outBuf(64);
     var ok = wasm.rations_ed25519_keypair_seed(sp, seed.length, pp, sp2);
     var r = ok ? { pk: mem(pp, 32).slice(), sk64: mem(sp2, 64).slice() } : null;
-    wasm.rations_free(sp); wasm.rations_free(pp); wasm.rations_free(sp2);
+    wasm.rations_free(sp, seed.length); wasm.rations_free(pp, 32); wasm.rations_free(sp2, 64);
     return r;
   }
   function sign(msgBytes, keyBytes) {
@@ -150,34 +158,34 @@ window.FANO_AUTH = (function () {
     var mp = wr(msgBytes), sp = wr(sk), op = outBuf(64);
     var ok = wasm.rations_ed25519_sign(mp, msgBytes.length, sp, 64, op);
     var sig = ok ? mem(op, 64).slice() : null;
-    wasm.rations_free(mp); wasm.rations_free(sp); wasm.rations_free(op);
+    wasm.rations_free(mp, msgBytes.length); wasm.rations_free(sp, 64); wasm.rations_free(op, 64);
     return sig;
   }
   function verify(msgBytes, sigBytes, pkBytes) {
     var mp = wr(msgBytes), sp = wr(sigBytes), pp = wr(pkBytes);
     var ok = wasm.rations_ed25519_verify(mp, msgBytes.length, sp, 64, pp, 32);
-    wasm.rations_free(mp); wasm.rations_free(sp); wasm.rations_free(pp);
+    wasm.rations_free(mp, msgBytes.length); wasm.rations_free(sp, sigBytes.length); wasm.rations_free(pp, pkBytes.length);
     return !!ok;
   }
   function pbkdf2(pass, salt) {
-    var pp = wr(enc.encode(pass)), sp = wr(salt), op = outBuf(32);
-    var ok = wasm.rations_pbkdf2(pp, enc.encode(pass).length, sp, salt.length, ITERATIONS, op, 32);
+    var passBytes = enc.encode(pass), pp = wr(passBytes), sp = wr(salt), op = outBuf(32);
+    var ok = wasm.rations_pbkdf2(pp, passBytes.length, sp, salt.length, ITERATIONS, op, 32);
     var k = ok ? mem(op, 32).slice() : null;
-    wasm.rations_free(pp); wasm.rations_free(sp); wasm.rations_free(op);
+    wasm.rations_free(pp, passBytes.length); wasm.rations_free(sp, salt.length); wasm.rations_free(op, 32);
     return k;
   }
   function aesEnc(data, key, nonce) {
     var dp = wr(data), kp = wr(key), np = wr(nonce), op = outBuf(data.length), tp = outBuf(16);
     var ok = wasm.rations_aes_encrypt(dp, data.length, kp, 32, np, nonce.length, op, tp);
     var r = ok ? { ct: mem(op, data.length).slice(), tag: mem(tp, 16).slice() } : null;
-    wasm.rations_free(dp); wasm.rations_free(kp); wasm.rations_free(np); wasm.rations_free(op); wasm.rations_free(tp);
+    wasm.rations_free(dp, data.length); wasm.rations_free(kp, key.length); wasm.rations_free(np, nonce.length); wasm.rations_free(op, data.length); wasm.rations_free(tp, 16);
     return r;
   }
   function aesDec(ct, key, nonce, tag) {
     var dp = wr(ct), kp = wr(key), np = wr(nonce), tp = wr(tag), op = outBuf(ct.length);
     var ok = wasm.rations_aes_decrypt(dp, ct.length, kp, 32, np, nonce.length, tp, 16, op);
     var r = ok ? mem(op, ct.length).slice() : null;
-    wasm.rations_free(dp); wasm.rations_free(kp); wasm.rations_free(np); wasm.rations_free(tp); wasm.rations_free(op);
+    wasm.rations_free(dp, ct.length); wasm.rations_free(kp, key.length); wasm.rations_free(np, nonce.length); wasm.rations_free(tp, tag.length); wasm.rations_free(op, ct.length);
     return r;
   }
   /* ---------- time-based authenticator (RFC 6238 / Google Authenticator) ----------
@@ -285,10 +293,10 @@ window.FANO_AUTH = (function () {
     if (!wasm) return null;
     var bytes = enc.encode(data), dp = wr(bytes), max = 57 * 57, mp = outBuf(max), sp = outBuf(2);
     var v = wasm.rations_qr_generate_auto(dp, bytes.length, 1, mp, sp);
-    if (!v) { wasm.rations_free(dp); wasm.rations_free(mp); wasm.rations_free(sp); return null; }
+    if (!v) { wasm.rations_free(dp, bytes.length); wasm.rations_free(mp, max); wasm.rations_free(sp, 2); return null; }
     var size = new Uint16Array(memory.buffer, sp, 1)[0], matrix = mem(mp, size * size), q = 4, scale = 6, total = (size + q * 2) * scale, rect = "";
     for (var y=0;y<size;y++) for (var x=0;x<size;x++) if (matrix[y*size+x]) rect += "<rect x=\""+((x+q)*scale)+"\" y=\""+((y+q)*scale)+"\" width=\""+scale+"\" height=\""+scale+"\"/>";
-    wasm.rations_free(dp); wasm.rations_free(mp); wasm.rations_free(sp);
+    wasm.rations_free(dp, bytes.length); wasm.rations_free(mp, max); wasm.rations_free(sp, 2);
     return "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 "+total+" "+total+"\" role=\"img\" aria-label=\"Authenticator QR code\"><rect width=\"100%\" height=\"100%\" fill=\"white\"/><g fill=\"black\">"+rect+"</g></svg>";
   }
 
@@ -304,7 +312,7 @@ window.FANO_AUTH = (function () {
   function setIdentity(skBytes) {
     var p = wr(skBytes);
     wasm.rations_phone_set_identity(p);
-    wasm.rations_free(p);
+    wasm.rations_free(p, skBytes.length);
   }
   function randBytes(n) { var b = new Uint8Array(n); crypto.getRandomValues(b); return b; }
 
@@ -671,35 +679,96 @@ window.FANO_AUTH = (function () {
      pubkey anchors the Admiral's paper on ANY desk, founded or not.
      bindFleetFlag() fetches and binds it; flagAnchored() is consulted
      wherever the roster is, never instead of signature checks. */
-  var fleetFlagPk = null;
+  var fleetFlagPk = null, fleetPin = null, fleetConflict = false;
+  try {
+    var p0 = JSON.parse(localStorage.getItem(FLEET_PIN_KEY) || "null");
+    if (p0 && /^[0-9a-f]{64}$/.test(p0.genesis_sha256 || "") &&
+        /^[0-9a-f]{64}$/.test(p0.flag_pk || "")) {
+      fleetPin = p0;
+      fleetFlagPk = p0.flag_pk;
+    }
+  } catch (e) { fleetPin = null; fleetFlagPk = null; }
+
+  function b64urlBytes(s) {
+    var b = String(s || "").replace(/-/g, "+").replace(/_/g, "/");
+    while (b.length % 4) b += "=";
+    return Uint8Array.from(atob(b), function (c) { return c.charCodeAt(0); });
+  }
+  function memberRawPk(m) {
+    if (!m || !m.pubkey_pem_b64) return null;
+    try {
+      /* atob unwraps b64→pem, strip armor, atob again b64→der */
+      var b64 = atob(m.pubkey_pem_b64).replace(/-----[^-]+-----|\s/g, "");
+      var der = Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); });
+      var raw = der.length === 44 ? der.slice(-32) : der;
+      return raw.length === 32 ? raw : null;
+    } catch (e) { return null; }
+  }
   function bindFleetFlag(gen) {
     var done = function (g) {
       var ms = (g && g.payload && g.payload.members) || [];
-      var seats = {}, nSeats = 0, adm = null;
-      for (var i = 0; i < ms.length; i++)
-        if (ms[i] && (ms[i].name === "admiral" || ms[i].role === "flag-seat") && ms[i].pubkey_pem_b64) {
-          var k = ms[i].pubkey_pem_b64;
-          if (!seats[k]) { seats[k] = ms[i]; nSeats++; }
-          adm = seats[k];
+      var sigs = (g && g.sigs) || {};
+      var names = {}, raws = {}, roots = [], seats = {}, nSeats = 0, adm = null, admRaw = null;
+      if (!ms.length) return null;
+      for (var i = 0; i < ms.length; i++) {
+        var m = ms[i], raw = memberRawPk(m);
+        if (!m.name || names[m.name] || !raw) return null;
+        names[m.name] = true;
+        raws[m.name] = raw;
+        if (m.role === "genesis-root") roots.push(m.name);
+        if ((m.name === "admiral" || m.role === "flag-seat")) {
+          if (!seats[m.pubkey_pem_b64]) { seats[m.pubkey_pem_b64] = m; nSeats++; }
+          adm = seats[m.pubkey_pem_b64];
+          admRaw = raw;
         }
+      }
+      var sigNames = Object.keys(sigs);
+      if (!roots.length || sigNames.length !== roots.length) return null;
+      var body = enc.encode(JSON.stringify(g.payload, null, 2));
+      for (i = 0; i < roots.length; i++) {
+        if (!sigs[roots[i]] || !verify(body, b64urlBytes(sigs[roots[i]]), raws[roots[i]])) return null;
+      }
+      for (i = 0; i < sigNames.length; i++) {
+        var signer = ms.filter(function (m) { return m.name === sigNames[i]; })[0];
+        if (!signer || signer.role !== "genesis-root") return null;
+      }
+      var ghash = hex(sha256(body));
+      if (fleetPin && fleetPin.genesis_sha256 !== ghash) {
+        fleetConflict = true;
+        fleetFlagPk = null;
+        return null;
+      }
       /* an ambiguous flag seat is hostile: two different keys claiming
          the seat means the doc was tampered — refuse to bind at all */
-      if (nSeats !== 1) { fleetFlagPk = null; return null; }
-      /* atob unwraps b64→pem, strip armor, atob again b64→der */
-      var b64 = atob(adm.pubkey_pem_b64).replace(/-----[^-]+-----|\s/g, "");
-      var der = Uint8Array.from(atob(b64),
-        function (c) { return c.charCodeAt(0); });
-      var raw = der.length === 44 ? der.slice(-32) : der;
-      fleetFlagPk = hex(raw);
+      if (nSeats !== 1 || !adm || !admRaw) { fleetFlagPk = null; return null; }
+      var flagPk = hex(admRaw);
+      if (!fleetPin) {
+        fleetPin = { genesis_sha256: ghash, flag_pk: flagPk, first_seen: new Date().toISOString() };
+        try { localStorage.setItem(FLEET_PIN_KEY, JSON.stringify(fleetPin)); } catch (e) {}
+      } else if (fleetPin.flag_pk !== flagPk) {
+        fleetConflict = true;
+        fleetFlagPk = null;
+        return null;
+      }
+      fleetFlagPk = flagPk;
       return fleetFlagPk;
     };
     return gen !== undefined
       ? Promise.resolve(done(gen))
       : fetch("fleet-genesis.json").then(function (r) {
           return r.ok ? r.json() : null;
-        }).then(done).catch(function () { fleetFlagPk = null; return null; });
+        }).then(done).catch(function () {
+          /* The first-contact pin remains usable offline; only a verified
+             conflicting document clears the in-memory anchor. */
+          fleetFlagPk = fleetPin ? fleetPin.flag_pk : null;
+          return fleetFlagPk;
+        });
   }
   function flagAnchored(issHex) { return !!fleetFlagPk && issHex === fleetFlagPk; }
+  function fleetPinState() {
+    return { pinned: !!fleetPin, conflict: fleetConflict,
+      genesis_sha256: fleetPin && fleetPin.genesis_sha256 || null };
+  }
 
   function verifyGrant(g, forPkHex) {
     if (!g || !g.callsign || !g.iss || !g.sig) return false;
@@ -1252,6 +1321,7 @@ window.FANO_AUTH = (function () {
     authenticate: authenticate, isPinned: isPinned,
     exportDesk: exportDesk, importDesk: importDesk,
     bindFleetFlag: bindFleetFlag, flagAnchored: flagAnchored,
+    fleetPinState: fleetPinState,
     setupTotp: setupTotp, verifyTotp: verifyTotp, totpRequired: totpRequired,
     totpStatus: totpStatus, totpCode: totpCode, qrSvg: qrSvg,
     TOTP_ISSUER: TOTP_ISSUER, TOTP_ACCOUNT: TOTP_ACCOUNT,

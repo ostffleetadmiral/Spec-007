@@ -61,7 +61,7 @@
 | `harness.mjs` | 無頭 WASM + 原生 WebSocket 用戶端。 | 由各套件驗證 | — |
 | `suite.mjs` | RED/BLUE/BLACK/GRAY 可執行掃描 → `findings.json`。 | 33 探針 | +2 BLUE 探針:`compute-wasm-abi` 與 `science-inventory-ladder` |
 | `comms-suite.mjs` | COMM 隊 — docker WAN 拓撲 33 探針(COMM-01..33 正典;`--local` 跑 27 項單機子集):雙宿主繞行、tc netem、分割/癒合/換手、跨網段封緘+簽章遞送。 | docker 閘控;終板 32H/1N | — |
-| `team-sweep-2.mjs` | **整合掃描 — 波段節奏回歸板。** 173 探針橫跨 RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER 加帳本漂移閘;任何 OPEN 即 exit 1。 | 每波段閘;終板 170 HELD / 3 NOTED / 0 OPEN | — |
+| `team-sweep-2.mjs` | **整合掃描 — 波段節奏回歸板。** 227 探針橫跨完整安全/執行時/治理面加帳本漂移閘;任何 OPEN 即 exit 1。 | 每波段閘;終板 223 HELD / 3 NOTED / 1 OPEN（BLACK-03 部署對帳） | — |
 | `xploit-sweep.mjs` | **XPLT 隊 — 實 WAN 實驗室上的主動漏洞獵捕。** 8 項真實攻擊:偽造未封緘 direct_msg、在場金鑰替換 MITM、收件匣洪水、逐連線→聚合限流規避、被動廣播樞紐嗅探、重放、標頭閒置位元組洩漏、偽造 relay_route。捕獲別名 `keypairFromSeed` 腐敗(線上每個 v3 簽章皆失效)並推動 v3 簽章封包 + `sealed_peers` 修復。 | `node security/xploit-sweep.mjs --docker`;終板 3 HELD / 1 BLOCKED / 3 NOTED / 1 EXPLOITED(樞紐元資料 — 架構性) | 新 — 硬化線路之波段 |
 | `encap-sweep.mjs` | ENCAP 隊 — 隧道教義字面化:封緘內層酬載巢置於外層傳輸體、多通道突發、實地損傷爬升、幹線死亡時載波切換至雙宿主繞行。 | `--docker` / `--probe` 實驗室模式 | — |
 | `pack-density.mjs` | PACK 隊 — 封包裝箱可測量化:N 個定長內層封包装入一個幹線對比 N 次單發;真實上限、全有或全無的丟棄特徵、以 rx-delta 計量之每流開銷、重發成本。 | `--docker` / `--probe` | — |

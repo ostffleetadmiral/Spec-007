@@ -15,7 +15,7 @@
  * never touch the app shell.
  */
 
-const CACHE_VERSION = "rations-r29-v1";
+const CACHE_VERSION = "rations-r31-v1";
 const RUNTIME_CACHE = CACHE_VERSION + "-runtime";
 
 const SHELL = [
@@ -27,6 +27,7 @@ const SHELL = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./js/agent.js",
+  "./js/dom-dialog.js",
   "./js/encodec-worker.js",
   "./js/llm-manager.js",
   "./js/llm-worker.js",

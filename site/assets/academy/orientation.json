@@ -42712,6 +42712,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-898cc43b0cb67755",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "zig build -Doptimize=ReleaseSafe -Dstrip",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:family/Rations/README.md",
+      "title": "Build WASM binary (2.7MB, 2,720,180 bytes)",
+      "topic": "orientation"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-899401c922581ce4",
       "language": [
         "en"
@@ -70531,21 +70546,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:packages/readme-3d/docs/index.md",
       "title": "3D in markdown, the easy way",
-      "topic": "orientation"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e4843f9df9df6ad5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "zig build -Doptimize=ReleaseSafe -Dstrip",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:family/Rations/README.md",
-      "title": "Build WASM binary (2.6MB, 2,704,628 bytes)",
       "topic": "orientation"
     },
     {

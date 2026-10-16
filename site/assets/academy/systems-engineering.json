@@ -9927,7 +9927,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Rations uses std.heap.wasmallocator for all WASM export allocations. The allocator wraps the imported memory's heap. Two helper exports manage memory lifecycle:",
+      "outcome": "Rations uses std.heap.wasmallocator for all WASM export allocations. The allocator wraps the imported memory's heap. Three helper exports manage memory lifecycle:",
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/docs/ARCHITECTURE.md",
       "title": "Memory Management",
@@ -14452,6 +14452,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-5ccb483197c8a171",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "node tools/wasmsmoke.mjs # 116 checks node tools/fuzzparsers.mjs src/rations.wasm --iters 3000 --seed 1 # 0 traps ./tools/verifymodelbundle.sh # pinned offline model sidecar",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:family/Rations/docs/BUILD.md",
+      "title": "Should emit: 2,720,180 bytes + rations.wasm.sha256",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-5cecc3ad7bbf80d1",
       "language": [
         "en"
@@ -16152,7 +16167,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "The WASM module exports 67 functions covering all phases. All exports follow a consistent pattern for data marshaling:",
+      "outcome": "The WASM module exports 176 functions covering all phases. All exports follow a consistent pattern for data marshaling:",
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/docs/ARCHITECTURE.md",
       "title": "WASM Export Pattern",
@@ -20821,21 +20836,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:ARCHITECTURE.md",
       "title": "Bazaar Marketplace",
-      "topic": "systems"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-88d86ea1f9fa6202",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "node tools/wasmsmoke.mjs # 112 checks node tools/fuzzparsers.mjs src/rations.wasm --iters 3000 --seed 1 # 0 traps ./tools/verifymodelbundle.sh # pinned offline model sidecar",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:family/Rations/docs/BUILD.md",
-      "title": "Should emit: 2,704,688 bytes + rations.wasm.sha256",
       "topic": "systems"
     },
     {
@@ -36882,7 +36882,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- Dockerfile — Multi-stage build: Zig 0.13.0 WASM compilation + Node.js slim runtime - Dockerfile.test — Playwright test runner with Chromium dependencies - docker-compose.yml — Segmented dual-subnet firewall network (rations-net-a, rations-net-b) - src/relay/server.js — WebSocket relay server with static file serving & /api/probe diagnostic endpoint - tests/e2e/multi-peer-test.js — 23-test Playwr",
+      "outcome": "- Dockerfile — Multi-stage build: Zig 0.13.0 WASM compilation + Node.js slim runtime - Dockerfile.test — Playwright test runner with Chromium dependencies - docker-compose.yml — Segmented dual-subnet firewall network (rations-net-a, rations-net-b) - src/relay/server.js — WebSocket relay server with static file serving & /api/probe diagnostic endpoint. Set RATIONSRELAYTOKEN to require a shared rela",
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/docs/BUILD.md",
       "title": "Files",

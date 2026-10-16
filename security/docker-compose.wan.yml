@@ -31,20 +31,21 @@ x-node-env: &node-env
   HYDRA_TOKEN: ${HYDRA_TOKEN:?export HYDRA_TOKEN or run via comms-suite.mjs}
   RATIONS_ALLOWED_ORIGINS: "http://desk.local"
   RATIONS_DIAL_ORIGIN: "http://desk.local"
+  RATIONS_RELAY_TOKEN: ${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}
 
 services:
   # ---------- segment relays (clean LAN legs) ----------
   relay-east:
     image: node:22-alpine
     command: node /rations/src/relay/server.js
-    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local" }
+    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: "${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}" }
     volumes: [ "../../../family/Rations:/rations:ro" ]
     networks: [ east ]
 
   relay-west:
     image: node:22-alpine
     command: node /rations/src/relay/server.js
-    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local" }
+    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: "${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}" }
     volumes: [ "../../../family/Rations:/rations:ro" ]
     networks: [ west ]
 
@@ -65,6 +66,7 @@ services:
       UPSTREAM: ws://relay-east:8080
       RATIONS_DIR: /rations
       WAN_TOKEN: ${WAN_TOKEN:?export WAN_TOKEN or run via comms-suite.mjs}
+      RATIONS_RELAY_TOKEN: ${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}
       RATIONS_DIAL_ORIGIN: "http://desk.local"
       DELAY_MS: "80"
       JITTER_MS: "40"
@@ -88,6 +90,7 @@ services:
       UPSTREAM: ws://relay-west:8080
       RATIONS_DIR: /rations
       WAN_TOKEN: ${WAN_TOKEN:?export WAN_TOKEN or run via comms-suite.mjs}
+      RATIONS_RELAY_TOKEN: ${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}
       RATIONS_DIAL_ORIGIN: "http://desk.local"
       DELAY_MS: "120"
       JITTER_MS: "60"

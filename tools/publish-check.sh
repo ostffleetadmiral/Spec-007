@@ -36,6 +36,10 @@ echo "== wasm continuity"
 ( cd site/apps/rations && sha256sum -c rations.wasm.sha256 >/dev/null 2>&1 ) \
   && say " PASS" "rations.wasm sha256" || { say " FAIL" "rations.wasm sha256"; FAIL=1; }
 
+echo "== executable regression scanners"
+chk node tools/native-dialog-audit.mjs --verify "native-dialog audit"
+chk node tools/wasm-memory-hygiene.mjs --verify "wasm-memory-hygiene"
+
 echo "== canon parity (published copies must match the signed roots)"
 for c in fleet-genesis.json fleet-manifest.json engine-manifest.json; do
   cmp -s "$c" "site/$c" \

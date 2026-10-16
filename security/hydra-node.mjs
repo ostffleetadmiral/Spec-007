@@ -44,19 +44,19 @@ const { ex, wr, outBuf, mem, u32, setConnCloseHook } = c;
 
 /* ---------- identity + ledger ---------- */
 const sp = wr(seed), pkp = outBuf(32), skp = outBuf(64);
-ex.rations_ed25519_keypair_seed(sp, 32, pkp, skp);
+ex.rations_ed25519_keypair_seed(sp, seed.length, pkp, skp);
 const pk = mem(pkp, 32).slice();
-ex.rations_free(sp); ex.rations_free(pkp); ex.rations_free(skp);
-const sidp = wr(seed); ex.rations_phone_set_identity(sidp); ex.rations_free(sidp);
+ex.rations_free(sp, seed.length); ex.rations_free(pkp, 32); ex.rations_free(skp, 64);
+const sidp = wr(seed); ex.rations_phone_set_identity(sidp); ex.rations_free(sidp, seed.length);
 const peerBuf = outBuf(32); ex.rations_p2p_peer_id(peerBuf);
-const peerId = mem(peerBuf, 32).slice(); ex.rations_free(peerBuf);
-ex.rations_chain_init(wr(seed), 32);
+const peerId = mem(peerBuf, 32).slice(); ex.rations_free(peerBuf, 32);
+const chainSeedPtr = wr(seed); ex.rations_chain_init(chainSeedPtr, seed.length); ex.rations_free(chainSeedPtr, seed.length);
 const ledgerPtr = wr(pk), lidPtr = outBuf(32);
-ex.rations_sha256(ledgerPtr, 32, lidPtr);
+ex.rations_sha256(ledgerPtr, pk.length, lidPtr);
 const ledgerId = mem(lidPtr, 32).slice();
-ex.rations_free(ledgerPtr); ex.rations_free(lidPtr);
+ex.rations_free(ledgerPtr, pk.length); ex.rations_free(lidPtr, 32);
 const phonePkBuf = outBuf(32); ex.rations_phone_pk(phonePkBuf);
-const phonePk = mem(phonePkBuf, 32).slice(); ex.rations_free(phonePkBuf);
+const phonePk = mem(phonePkBuf, 32).slice(); ex.rations_free(phonePkBuf, 32);
 
 const info = { name: NAME, peer_id: hex(peerId), phone_pk: hex(phonePk), pk: hex(pk), ledger_id: hex(ledgerId) };
 
@@ -66,7 +66,7 @@ function jread(fn, cap) {
   const ok = fn(op, cap, lp);
   const n = u32(lp);
   const out = ok && n ? dec.decode(mem(op, n)) : null;
-  ex.rations_free(op); ex.rations_free(lp);
+  ex.rations_free(op, cap); ex.rations_free(lp, 4);
   return out;
 }
 const peersJson = () => jread((o, cp, l) => ex.rations_p2p_peers_json(o, cp, l), 16384);
@@ -82,20 +82,22 @@ function presenceWire(status, text) {
 function publishPresence(status, text) {
   const t = enc.encode(text || NAME);
   const p = wr(t);
-  return ex.rations_phone_presence_publish(status, p, t.length);
+  const ok = ex.rations_phone_presence_publish(status, p, t.length);
+  ex.rations_free(p, t.length);
+  return ok;
 }
 /* directed presence — crosses segments via relay_route */
 function sendPresenceTo(targetHex, status, text) {
   const wire = presenceWire(status, text || NAME);
   const tp = wr(unhex(targetHex)), pp = wr(wire);
   const ok = ex.rations_p2p_relay_send(tp, 32, 17, pp, wire.length);
-  ex.rations_free(tp); ex.rations_free(pp);
+  ex.rations_free(tp, 32); ex.rations_free(pp, wire.length);
   return !!ok;
 }
 function lastErr() {
   const code = ex.rations_last_error ? ex.rations_last_error() : 0;
   let msg = "";
-  if (ex.rations_last_error_msg) { const p = outBuf(256); const n = ex.rations_last_error_msg(p, 256); msg = dec.decode(mem(p, n).slice()); ex.rations_free(p); }
+  if (ex.rations_last_error_msg) { const p = outBuf(256); const n = ex.rations_last_error_msg(p, 256); msg = dec.decode(mem(p, n).slice()); ex.rations_free(p, 256); }
   return { code, msg };
 }
 function phoneSend(targetHex, body) {
@@ -106,7 +108,7 @@ function phoneSend(targetHex, body) {
   const ok = ex.rations_phone_send2(tp, 0, bp, eb.length, mp);
   const err = ok ? null : lastErr();
   const msgId = ok ? hex(mem(mp, 32)) : null;
-  ex.rations_free(tp); ex.rations_free(bp); ex.rations_free(mp);
+  ex.rations_free(tp, 32); ex.rations_free(bp, eb.length); ex.rations_free(mp, 32);
   return { ok: !!ok, err, msg_id: msgId };
 }
 /* identity announce: a .connect frame (msg_type 0) carrying our 16-byte
@@ -116,16 +118,16 @@ function phoneSend(targetHex, body) {
 function announce() {
   const lp = wr(peerId.slice(0, 16));
   const ok = ex.rations_p2p_broadcast(0, lp, 16);
-  ex.rations_free(lp);
+  ex.rations_free(lp, 16);
   return !!ok;
 }
 /* persistent dials: a Hydra node re-dials lost links — relay heartbeat
    kills and impairment drops must not strand the node. Backoff 1s→15s. */
 const dials = new Map(); /* conn_id → {url, remote, tries} */
 function dial(url, remoteHex) {
-  const up = wr(enc.encode(url)), rp = wr(unhex(remoteHex || "00".repeat(32)));
-  const id = ex.rations_p2p_connect(up, url.length, rp, 32);
-  ex.rations_free(up); ex.rations_free(rp);
+  const ub = enc.encode(url), up = wr(ub), rp = wr(unhex(remoteHex || "00".repeat(32)));
+  const id = ex.rations_p2p_connect(up, ub.length, rp, 32);
+  ex.rations_free(up, ub.length); ex.rations_free(rp, 32);
   if (id) dials.set(id, { url, remote: remoteHex || "00".repeat(32), tries: 0 });
   /* the ws connect is async — announce once open-ish, again later to
      cover slow WAN edges */
@@ -140,31 +142,31 @@ setConnCloseHook((id) => {
   const wait = Math.min(1000 * 2 ** d.tries, 15000);
   setTimeout(() => { try { dial(d.url, d.remote); } catch {} }, wait).unref();
 });
-function chainTip() { const p = outBuf(32); ex.rations_chain_tip_hash(p); const h = mem(p, 32).slice(); ex.rations_free(p); return hex(h); }
+function chainTip() { const p = outBuf(32); ex.rations_chain_tip_hash(p); const h = mem(p, 32).slice(); ex.rations_free(p, 32); return hex(h); }
 function addTx(action, payload, ts, nonce) {
   const pp = wr(payload), ss = wr(seed);
-  const ok = ex.rations_chain_add_tx(action, pp, payload.length, ss, 32, BigInt(ts || Date.now()), BigInt(nonce || 0));
-  ex.rations_free(pp); ex.rations_free(ss);
+  const ok = ex.rations_chain_add_tx(action, pp, payload.length, ss, seed.length, BigInt(ts || Date.now()), BigInt(nonce || 0));
+  ex.rations_free(pp, payload.length); ex.rations_free(ss, seed.length);
   return !!ok;
 }
 function proposalHash(type, payload, ts) {
   const pp = wr(payload), pr = wr(pk), op = outBuf(32);
   const ok = ex.rations_consensus_proposal_hash(type, pp, payload.length, pr, BigInt(ts || Date.now()), op);
   const h = ok ? mem(op, 32).slice() : null;
-  ex.rations_free(pp); ex.rations_free(pr); ex.rations_free(op);
+  ex.rations_free(pp, payload.length); ex.rations_free(pr, pk.length); ex.rations_free(op, 32);
   return h ? hex(h) : null;
 }
 function createVote(propHex, approve) {
   const ph = wr(unhex(propHex)), ss = wr(seed), vo = outBuf(32), so = outBuf(64);
   const ok = ex.rations_consensus_create_vote(ph, approve ? 1 : 0, ss, vo, so);
   const r = ok ? { voter: hex(mem(vo, 32).slice()), sig: hex(mem(so, 64).slice()) } : null;
-  [ph, ss, vo, so].forEach((p) => ex.rations_free(p));
+  [[ph, 32], [ss, seed.length], [vo, 32], [so, 64]].forEach((p) => ex.rations_free(p[0], p[1]));
   return r;
 }
 function verifyVote(propHex, voterHex, approve, sigHex) {
   const ph = wr(unhex(propHex)), vp = wr(unhex(voterHex)), sp2 = wr(unhex(sigHex));
   const ok = ex.rations_consensus_verify_vote(ph, vp, approve ? 1 : 0, sp2);
-  [ph, vp, sp2].forEach((p) => ex.rations_free(p));
+  [[ph, 32], [vp, 32], [sp2, 32]].forEach((p) => ex.rations_free(p[0], p[1]));
   return !!ok;
 }
 

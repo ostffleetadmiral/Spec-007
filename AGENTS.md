@@ -40,8 +40,10 @@ by editing this file, never by weakening the drawer boundary.
 ```bash
 tools/publish-check.sh          # the release gate — ALL of it, every time
 zig build test                  # deps + spec008 harnesses (integer-only)
-node security/team-sweep-2.mjs  # consolidated sweep — 188 probes, exits 1 on any OPEN
+node security/team-sweep-2.mjs  # consolidated sweep — 227 probes, exits 1 on any OPEN
 node security/officer-mesh.mjs  # OFFR — token-founded second desk + live sealed wire over shared relay
+node tools/native-dialog-audit.mjs --verify      # executable prompt/alert/confirm gate
+node tools/wasm-memory-hygiene.mjs --verify      # rations_free(ptr,len) ABI gate
 node tools/academy-grade.mjs --verify   # pedagogy ledger byte-exact (see --selfcheck instrument ratchet)
 node security/comms-suite.mjs --docker   # Hydra WAN lab — REAL signaling (up → probe → down)
 node security/comms-suite.mjs --local    # same suite on localhost hydra nodes
@@ -78,7 +80,8 @@ sh tools/deploy-pages.sh        # atomic gh-pages deploy via detached worktree
   EMERGENT/PROVEN/ABSENT/PENDING × info/low/medium/high/critical.
   Absent lab services → NOTED (deferred), never ERROR or EXPLOITED.
 - **No native dialogs.** `prompt()`/`alert()`/`confirm()` throw under
-  Electron — the desk is a self-contained DOM application (DESK-15).
+  Electron — the desk is a self-contained DOM application (DESK-15);
+  `native-dialog-audit.mjs` scans executable script bodies, not prose.
 - **Bot containment.** Automation flags pin to CADET and seal every
   privilege gate; release only via signed `FANO-CONTAIN-v1` paper
   (human adjudication — never auto-burn).

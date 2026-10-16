@@ -104,7 +104,10 @@ server.on("upgrade", (req, sock, head) => {
      WS client like any node and must present a configured origin */
   const upOpts = { maxPayload: 8 * 1024 * 1024 };
   if (process.env.RATIONS_DIAL_ORIGIN) upOpts.headers = { origin: process.env.RATIONS_DIAL_ORIGIN };
-  const up = new WebSocket(UPSTREAM + req.url, upOpts);
+  const offered = String(req.headers["sec-websocket-protocol"] || "")
+    .split(",").map((p) => p.trim()).filter(Boolean);
+  const protocols = offered.length ? offered : ["rations-relay-v1"];
+  const up = new WebSocket(UPSTREAM + req.url, protocols, upOpts);
   up.on("error", () => { try { sock.destroy(); } catch {} });
   up.on("open", () => {
     wss.handleUpgrade(req, sock, head, (client) => {

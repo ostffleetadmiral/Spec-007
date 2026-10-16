@@ -311,7 +311,7 @@
         {
           "id": "audit-procedures",
           "mandate": "Audit Procedures Manual — independent audit of operations",
-          "real": "the audit suite is the audit — 225-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
+          "real": "the audit suite is the audit — 227-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
           "mode": "structural",
           "verdict": "realized",
           "passed": 3,
@@ -413,7 +413,7 @@
         {
           "id": "risk-framework",
           "mandate": "Risk Management Framework — identify, assess, mitigate",
-          "real": "the sweep IS the risk surface — 197 probes over offense/defense/insider/supply/desk, open items named not hidden",
+          "real": "the sweep IS the risk surface — 227 probes over offense/defense/insider/supply/desk, open items named not hidden",
           "mode": "structural",
           "verdict": "realized",
           "passed": 2,

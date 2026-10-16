@@ -6,19 +6,19 @@
       "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 43,
+      "tools": 45,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
       "site/assets": 44
     },
-    "total_components": 282,
-    "source_components": 243,
+    "total_components": 284,
+    "source_components": 245,
     "generated_components": 39,
-    "mapped_basename": 271,
-    "mapped_contract": 282,
+    "mapped_basename": 273,
+    "mapped_contract": 284,
     "manifest_bound": 33,
-    "owner_bound": 26,
+    "owner_bound": 27,
     "unmapped_basename": [
       "site/assets/academy/ai-literacy.json",
       "site/assets/academy/campaign-operations.json",
@@ -5101,8 +5101,8 @@
         "mapped": true,
         "source_zone": "site",
         "generated": true,
-        "owner": null,
-        "owner_basis": null,
+        "owner": "tools/gov-metadata.mjs",
+        "owner_basis": "governance adoption projection",
         "manifest_bound": false
       },
       "tests": {
@@ -5113,13 +5113,13 @@
         "basename_mapped": true,
         "component_map_mapped": false,
         "manifest_bound": false,
-        "owner": null
+        "owner": "tools/gov-metadata.mjs"
       },
       "artifacts": {
         "generated": true,
         "likely_projection": true,
-        "owner": null,
-        "owner_basis": null
+        "owner": "tools/gov-metadata.mjs",
+        "owner_basis": "governance adoption projection"
       },
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
@@ -7805,6 +7805,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "tools/native-dialog-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "tools/override-audit.mjs",
       "contract": {
         "mapped": true,
@@ -8045,6 +8073,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/wasm-memory-hygiene.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
         "manifest_bound": false,
         "owner": null
       },

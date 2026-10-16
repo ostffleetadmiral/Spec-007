@@ -469,7 +469,10 @@
 
   function renderCardQr() {
     const canvas = document.getElementById("phone-contact-qr");
-    if (!canvas || !global.QrRender || !global.QrRender.generateAndRender || !phonePk) return;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!global.QrRender || !global.QrRender.generateAndRender || !phonePk) return;
     let peerHex = "";
     try { peerHex = toHex(Rations.p2pPeerId()); } catch (_) { return; }
     const card = JSON.stringify({ v: 1, peer_id: peerHex, phone_pk: toHex(phonePk) });
@@ -478,7 +481,11 @@
 
   function renderIdentity() {
     const el = document.getElementById("phone-my-id");
-    if (!el || !phonePk) return;
+    if (!el) return;
+    if (!phonePk) {
+      el.innerHTML = '<p class="empty-state">Phone identity cleared. Rotate identity to issue a new phone key.</p>';
+      return;
+    }
     el.innerHTML = `<div class="row"><span class="label">Phone key</span><code class="hex">${toHex(phonePk)}</code></div>
       <div class="row"><span class="label">Peer id</span><code class="hex" id="phone-peer-id">…</code></div>`;
     try {
@@ -561,6 +568,34 @@
         parts.push(rtcAvailable() ? "webrtc ✓" : "webrtc ✗");
         caps.textContent = parts.join(" · ") + " — calls degrade to signaling when media is unavailable";
       }
+    },
+
+    /** Remove the persisted phone key and wipe the in-memory/core identity. */
+    clearIdentity() {
+      localStorage.removeItem(LS_SK);
+      try { Rations.phoneClearIdentity(); } catch (_) {}
+      phonePk = null;
+      renderIdentity();
+      renderCardQr();
+    },
+
+    /** Rotate the phone identity after an explicit destructive confirmation. */
+    async resetIdentity() {
+      const ok = await RationsDialog.confirm({
+        title: "Rotate phone identity",
+        message: "This removes the saved phone key from this browser and wipes the key held by the WASM node. Existing direct-message history remains, but new sealed messages will use the replacement key.",
+        confirmText: "Rotate identity",
+        cancelText: "Keep identity",
+        danger: true,
+      });
+      if (!ok) return;
+      PhoneUI.clearIdentity();
+      const id = Rations.phoneGenIdentity();
+      localStorage.setItem(LS_SK, b64encode(id.secretKey));
+      phonePk = id.publicKey;
+      renderIdentity();
+      renderCardQr();
+      toast("Phone identity rotated — share the new card with contacts", "success");
     },
 
     selectPeer(peerHex) {
@@ -649,7 +684,12 @@
         await navigator.clipboard.writeText(card);
         toast("Contact card copied — share it out-of-band or via QR", "success");
       } catch (_) {
-        prompt("Contact card:", card);
+        RationsDialog.card({
+          title: "Contact card",
+          message: "Clipboard access is unavailable. Copy the selected card text manually or share the QR below.",
+          value: card,
+          confirmText: "Close",
+        });
       }
       renderCardQr();
     },

@@ -65,6 +65,8 @@ const RULES = [
   [/^AdmPaul\/corpus\/(concepts|Reality)\//, "research:evidence"],
   [/^AdmPaul\/corpus\/Governance\//, "mythos:star-command"],
   [/^AdmPaul\/corpus\//, "mythos:star-command"],
+  /* private working set — sealed technical-seed / gap-closure evidence */
+  [/^\.0\//, "research:evidence"],
   /* sources — transcripts and drawer plans (cited, not authority) */
   [/^AdmPaul\/convos\/plan-/, "plan:drawer"],
   [/^AdmPaul\/convos\//, "source:transcript"],

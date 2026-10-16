@@ -472,6 +472,11 @@ const RationsBridge = (function () {
       wasm.rations_free(skPtr, secretKey.length);
     },
 
+    /** Wipe the node's in-memory X25519 phone identity. */
+    phoneClearIdentity() {
+      wasm.rations_phone_clear_identity();
+    },
+
     /** This node's X25519 phone public key. */
     phonePublicKey() {
       const outPtr = wasm.rations_alloc(32);
