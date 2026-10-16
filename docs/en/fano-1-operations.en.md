@@ -377,8 +377,8 @@ belongs: comms.os (LIB-03).
 
 The blueprint's film and immersive phases land as honest bounded ports.
 `tools/slate-ledger.mjs` cuts `site/assets/production-ledger.json` —
-the desk's real canon inventory (91 claims, 139 codex entries, 32
-pages, 8 family, 8 viz — 278 assets), regenerated per wave so the slate
+the desk's real canon inventory (127 claims, 139 codex entries, 35
+pages, 8 family, 9 viz — 318 assets), regenerated per wave so the slate
 never drifts from the dossier (PROD-01). `director.os` is the
 storyboard surface: canon assets drop onto a desk-local shot list
 (`fano1.slate`, swept by the reset census — PROD-02) annotated with

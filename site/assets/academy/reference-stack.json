@@ -4362,7 +4362,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 擴充 | |---|---| | quplink.js | +1 遊戲:Coast the Slab — 以 slabcoolstep 自爆發平衡冷卻至環境;帳本反向運行 | | fano-i18n.js | term.codex 雙語;codex 指令現已在地化 | | serve.py | .wasm/.json/.html 加 Cache-Control: no-store — 即時成品不取舊 | | philotic-probe.mjs | 相關性優於位移範式之實線實驗 — 具儀錶之 TCP 管道:4096 輪相關於零位元組線上達成;竄改不傳任何位元;真送「HELLO」實費 5 位元組。findings.json 新增 PHILOTIC 隊;追加 qet-mandatory-classical-leg 探針 — 量子能量傳送之 α 位元必經實線,免費相關通道載不動能量",
+      "outcome": "| 元件 | 擴充 | |---|---| | quplink.js | +1 遊戲:Coast the Slab — 以 slabcoolstep 自爆發平衡冷卻至環境;帳本反向運行;Runtime Bridge 即時演練 FRB1 路由／偽造／重放邊界 | | fano-i18n.js | term.codex 雙語;codex 指令現已在地化 | | serve.py | .wasm/.json/.html 加 Cache-Control: no-store — 即時成品不取舊 | | philotic-probe.mjs | 相關性優於位移範式之實線實驗 — 具儀錶之 TCP 管道:4096 輪相關於零位元組線上達成;竄改不傳任何位元;真送「HELLO」實費 5 位元組。findings.json 新增 PHILOTIC 隊;追加 qet-mandatory-classical-l",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "第二輪擴充補遺",
@@ -141177,7 +141177,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | publish-check.sh | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、JS 語法。 | 自檢 | 修復靜默缺口 — fixedpointq128.zig 與 spec007compute.zig 原被 glob 略過;現明確執行;新增 component-map 雙語檢查與 d12-sdk-audit --verify | | serve.py | 硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。 | — | .wasm/.json/.html 加 Cache-Control: no-store | | deploy-pages.sh | 經分離 worktree 之原子化 gh-pages 部署",
+      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | publish-check.sh | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、FRB1 執行邊界證據、JS 語法。 | 自檢 | 修復靜默缺口 — fixedpointq128.zig 與 spec007compute.zig 原被 glob 略過;現明確執行;新增 component-map 雙語、d12-sdk-audit --verify 與 fano-runtime-bridge-audit --verify | | serve.py | 硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。 | — | .wasm/.json/.html 加 Cache-Control: no-store | | d",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "工具(tools/)",
@@ -144777,7 +144777,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Component | Contract | Verification | Expansion | |---|---|---|---| | publish-check.sh | The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, JS syntax. | self | fixed the silent gap — fixedpointq128.zig (37 tests) and spec007compute.zig were glob-skipped; now explicit; component-map",
+      "outcome": "| Component | Contract | Verification | Expansion | |---|---|---|---| | publish-check.sh | The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, FRB1 runtime-boundary evidence, JS syntax. | self | fixed the silent gap — fixedpointq128.zig (37 tests) and spec007compute.zig were glob-skip",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-component-map.en.md",
       "title": "Tools (tools/)",
@@ -157902,7 +157902,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | build.py | 將文件與頁面渲染為雙語權限標示 HTML。 | publish-check 雙語閘 | 新增 component-map 頁面對 | | desktop.html + fano-desktop.js | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 ANOMALYLORE、anomalySeen 追蹤、codex 指令、3 彩蛋 + 3 成就 | | fano-auth.js | 真實誓約:Ed25519、契約簽章、PBKDF2+AES-GCM、RBAC、創世記錄。 | 安全套件 | — | | fano-wire.js | 正典",
+      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | build.py | 將文件與頁面渲染為雙語權限標示 HTML。 | publish-check 雙語閘 | 新增 component-map 頁面對 | | desktop.html + fano-desktop.js | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 ANOMALYLORE、anomalySeen 追蹤、codex 指令、3 彩蛋 + 3 成就;Quplink 現載 FRB1 runtime-bridge 沙盒 | | fano-auth.js | 真實誓約:Ed25519、契約簽章、PBKDF2+AES-GCM、RBAC、創世記錄",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "站點(site/)",

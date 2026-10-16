@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-16T16:20:08.079Z",
+    "ts": "2026-10-16T17:10:41.319Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 18,
     "runtimes": {
@@ -125,21 +125,21 @@
         "kind": "harness",
         "path": "security/",
         "members": 49,
-        "anchor_sha256": "sha256:fbd3be5c97208f35e772e1a2a6597706ba558ce119bef85d33dea6a8cd94f583",
+        "anchor_sha256": "sha256:dcd9e05a84804f92959c35d4438b5be4720f21c726a9af6eee1340354314961f",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       },
       "d12-wasmrt-sdk-upstream": {
         "kind": "upstream-runtime-gate",
         "path": "site/assets/d12-sdk-audit.json",
-        "sha256": "sha256:fcc15bd1ebfcfaad4c261bd73fa78f601ef9ae89794b6d03102ed9634d823547",
+        "sha256": "sha256:6e50ecc10c94edbe46ece2e8eaabc247533bb9d4d606566b4957aeff43a4d29c",
         "evidence": "verified-here",
         "primary": false,
         "retirement": "external-sibling-not-desk-runtime",
-        "note": "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream; browser bridge remains unimplemented"
+        "note": "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream; D12 browser execution bridge remains unimplemented"
       }
     }
   },
-  "sig_ed25519": "iwmH8_QIrvb4VN-fEK6I3PHClX26gmFAjRv8sd3k2gUMothi_kJhGBEsHM8GeB0PFoYy242dB7woDjSEBC0oBA",
+  "sig_ed25519": "JFrXy1PnqF1BgbiFR5dDn-FCkur6iDXoRk4fjHXd2OZlTdsXvHAX_VUyH8LEw89QGtIJ8j4vkXiXzZKB2qh3Dg",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

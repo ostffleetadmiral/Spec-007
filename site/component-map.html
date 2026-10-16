@@ -701,8 +701,14 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>new — mesh dialect extracted from the Node bridge into a publishable desk primitive</td>
 </tr>
 <tr>
+<td><code>fano-runtime-bridge.js</code></td>
+<td>FRB1 lane/ownership envelope inside FANO-WIRE: 16-byte header + ≤48-byte fragment bodies, host/edge/heavy lanes, request/response/event kinds, monotonic per-flow sequence with replay/gap/duplicate refusal, out-of-order reassembly, transferable wire posting, and a <code>ptr+len</code> WASM memory port with copy-in/copy-out and wipe-before-free.</td>
+<td><code>tools/fano-runtime-bridge-audit.mjs</code> + WIRE-11</td>
+<td>new — deterministic execution-boundary plumbing; not a D12 execution bridge</td>
+</tr>
+<tr>
 <td><code>d12-sdk-audit.json</code></td>
-<td>Sanitized evidence projection for the external <code>d12-wasmrt-sdk</code> release: manifest/archive parity, path isolation, integer-only boundary, command outcomes, and the explicit “no Quplink bridge yet” limitation.</td>
+<td>Sanitized evidence projection for the external <code>d12-wasmrt-sdk</code> release: manifest/archive parity, path isolation, integer-only boundary, command outcomes, and the explicit “no D12 Quplink execution bridge yet” limitation.</td>
 <td>emitted/verified by <code>tools/d12-sdk-audit.mjs</code></td>
 <td>new — upstream runtime gate evidence</td>
 </tr>
@@ -722,7 +728,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>quplink.js</code> / <code>quplink-viz.js</code></td>
 <td>Sandbox + viz deck running the real wasm.</td>
 <td>—</td>
-<td>+1 game: <strong>Coast the Slab</strong> — drive <code>slab_cool_step</code> down from burst equilibrium to ambient; the ledger runs backward</td>
+<td>+1 game: <strong>Coast the Slab</strong> — drive <code>slab_cool_step</code> down from burst equilibrium to ambient; the ledger runs backward; <strong>Runtime Bridge</strong> exercises FRB1 route/forge/replay boundaries live</td>
 </tr>
 <tr>
 <td><code>fano-reset.js</code></td>
@@ -757,9 +763,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tbody>
 <tr>
 <td><code>publish-check.sh</code></td>
-<td>The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, JS syntax.</td>
+<td>The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, FRB1 runtime-boundary evidence, JS syntax.</td>
 <td>self</td>
-<td>fixed the silent gap — <code>fixed_point_q128.zig</code> (37 tests) and <code>spec007_compute.zig</code> were glob-skipped; now explicit; <code>component-map</code> twin and <code>d12-sdk-audit --verify</code> added</td>
+<td>fixed the silent gap — <code>fixed_point_q128.zig</code> (37 tests) and <code>spec007_compute.zig</code> were glob-skipped; now explicit; <code>component-map</code> twin, <code>d12-sdk-audit --verify</code>, and <code>fano-runtime-bridge-audit --verify</code> added</td>
 </tr>
 <tr>
 <td><code>serve.py</code></td>
@@ -825,7 +831,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>engine-manifest.mjs</code></td>
 <td>Unified governed-runtime registry (blueprint P1 gap) — one signed document naming every runtime the desk may trust; same canon discipline as fleet-manifest (emit/verify/push). The upstream D12 lane is registered through its audit artifact, not as a desk runtime.</td>
 <td>ENGINE-01..06 probes</td>
-<td>D12 upstream gate registered with honest no-browser-bridge boundary</td>
+<td>D12 upstream gate registered with honest no-D12-browser-execution-bridge boundary</td>
 </tr>
 <tr>
 <td><code>emergent-sweep.mjs</code></td>
@@ -982,6 +988,12 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>Executable gate for the extracted <code>FANO_WIRE</code> module: firmware goldens, bridge/WASM/Zig differential checks, malformed lengths, canonical tails, payload caps, typed arguments, hostile coordinates, dependency boundaries, and the integrity-not-encryption claim boundary.</td>
 <td><code>--verify</code> + release gate</td>
 <td>new — WIRE-10 canonical datagram gate</td>
+</tr>
+<tr>
+<td><code>fano-runtime-bridge-audit.mjs</code></td>
+<td>Executable FRB1 gate: canonical envelope bytes, outer-seal precedence, fragmentation/reassembly, typed malformed inputs, lane/mesh routing, sequence/replay/gap/duplicate/overlap refusal, real MessageChannel transfer, copy isolation, the live <code>rations.wasm</code> memory port, fail-closed spans, capability honesty, and desk integration.</td>
+<td><code>--verify</code> + release gate</td>
+<td>new — WIRE-11 runtime-boundary gate</td>
 </tr>
 <tr>
 <td><code>d12-sdk-audit.mjs</code></td>

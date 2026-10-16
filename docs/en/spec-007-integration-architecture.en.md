@@ -111,14 +111,19 @@ FANO-1 runtime. Spec-007 binds it through `tools/d12-sdk-audit.mjs` and
   standard/experimental import isolation, Debug/ReleaseSafe/ReleaseFast
   test matrix, explicit 39-test aggregate, format check, and Spec-007
   Fano example all sit in the release gate.
+- **Desk envelope:** `site/assets/fano-runtime-bridge.js` adds the FRB1
+  lane/ownership envelope inside the canonical sealed wire. It routes
+  deterministic byte bodies between host/edge/heavy lanes, but it does
+  not execute D12 profiles or claim native substrate access.
 - **Honest limit:** no standard wasm128/wasm256 claim is made, and no
-  Quplink browser/native bridge exists yet. A real bridge requires an
+  D12 Quplink execution bridge exists yet. A real bridge requires an
   explicit WASM build of the substrate or an authenticated host bridge;
   a static page cannot spawn the native Zig SDK.
 
 That boundary makes the Quplink upgrade concrete without pretending it is
-already deployed: the SDK is a governed upstream gate today; browser
-execution remains a future bridge component.
+already deployed: the SDK is a governed upstream gate today; FRB1 is a
+desk-local ownership lane, and D12 browser execution remains a future
+bridge component.
 
 ## 6. Easter Eggs (presentation layer only)
 

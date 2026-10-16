@@ -643,7 +643,7 @@
 <td><code>desktop.html</code> + <code>fano-desktop.js</code></td>
 <td>FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。</td>
 <td>JS 語法閘 + 安全套件</td>
-<td>ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 <code>ANOMALY_LORE</code>、<code>anomalySeen</code> 追蹤、<code>codex</code> 指令、3 彩蛋 + 3 成就</td>
+<td>ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 <code>ANOMALY_LORE</code>、<code>anomalySeen</code> 追蹤、<code>codex</code> 指令、3 彩蛋 + 3 成就;Quplink 現載 FRB1 runtime-bridge 沙盒</td>
 </tr>
 <tr>
 <td><code>fano-auth.js</code></td>
@@ -658,8 +658,14 @@
 <td>新增 — 將 mesh 方言自 Node 橋接器抽取為可發佈桌面原語</td>
 </tr>
 <tr>
+<td><code>fano-runtime-bridge.js</code></td>
+<td>置於 FANO-WIRE 內的 FRB1 車道／所有權封包：16-byte 標頭加 ≤48-byte 片段本體、host/edge/heavy 車道、request/response/event 類型、逐流單調序號並拒絕重放／缺口／重複、亂序重組、可轉移線路投遞，以及具 copy-in/copy-out 與 wipe-before-free 的 <code>ptr+len</code> WASM 記憶體埠。</td>
+<td><code>tools/fano-runtime-bridge-audit.mjs</code> + WIRE-11</td>
+<td>新增 — 決定性執行邊界管線；非 D12 執行橋接</td>
+</tr>
+<tr>
 <td><code>d12-sdk-audit.json</code></td>
-<td>外部 <code>d12-wasmrt-sdk</code> 釋出之淨化證據投影：清單／封存同位、路徑隔離、純整數邊界、指令結果，以及「Quplink 橋接尚未存在」之明示限制。</td>
+<td>外部 <code>d12-wasmrt-sdk</code> 釋出之淨化證據投影：清單／封存同位、路徑隔離、純整數邊界、指令結果，以及「Quplink 的 D12 執行橋接尚未存在」之明示限制。</td>
 <td>由 <code>tools/d12-sdk-audit.mjs</code> 發射／驗證</td>
 <td>新增 — 上游執行時閘門證據</td>
 </tr>
@@ -702,9 +708,9 @@
 <tbody>
 <tr>
 <td><code>publish-check.sh</code></td>
-<td>發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、JS 語法。</td>
+<td>發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、FRB1 執行邊界證據、JS 語法。</td>
 <td>自檢</td>
-<td>修復靜默缺口 — <code>fixed_point_q128.zig</code> 與 <code>spec007_compute.zig</code> 原被 glob 略過;現明確執行;新增 <code>component-map</code> 雙語檢查與 <code>d12-sdk-audit --verify</code></td>
+<td>修復靜默缺口 — <code>fixed_point_q128.zig</code> 與 <code>spec007_compute.zig</code> 原被 glob 略過;現明確執行;新增 <code>component-map</code> 雙語、<code>d12-sdk-audit --verify</code> 與 <code>fano-runtime-bridge-audit --verify</code></td>
 </tr>
 <tr>
 <td><code>serve.py</code></td>
@@ -770,7 +776,7 @@
 <td><code>engine-manifest.mjs</code></td>
 <td>統一受治理運行時註冊表(藍圖 P1 缺口)— 一份簽章文件列明桌面可信任之每個運行時;與 fleet-manifest 同正典紀律(emit/verify/push)。上游 D12 車道經其稽核工件註冊,而非宣稱為桌面執行時。</td>
 <td>ENGINE-01..06 探針</td>
-<td>D12 上游閘門已註冊,並誠實標示瀏覽器橋接缺席</td>
+<td>D12 上游閘門已註冊,並誠實標示 D12 瀏覽器執行橋接缺席</td>
 </tr>
 <tr>
 <td><code>emergent-sweep.mjs</code></td>
@@ -927,6 +933,12 @@
 <td>已抽取 <code>FANO_WIRE</code> 模組之可執行閘門:韌體黃金向量、橋接/WASM/Zig 差分、畸形長度、正典尾端、酬載容量、型別參數、敵意座標、相依邊界,以及完整性而非加密之主張邊界。</td>
 <td><code>--verify</code> + 發佈閘</td>
 <td>新增 — WIRE-10 正典資料包閘門</td>
+</tr>
+<tr>
+<td><code>fano-runtime-bridge-audit.mjs</code></td>
+<td>FRB1 可執行閘門：正典封包位元組、外層封緘優先、片段化／重組、型別化畸形輸入、車道／網格路由、序號／重放／缺口／重複／交疊拒絕、真實 MessageChannel 轉移、複製隔離、活體 <code>rations.wasm</code> 記憶體埠、失敗即封閉區段、能力誠實標示與桌面整合。</td>
+<td><code>--verify</code> + 發佈閘</td>
+<td>新增 — WIRE-11 執行邊界閘門</td>
 </tr>
 <tr>
 <td><code>d12-sdk-audit.mjs</code></td>
@@ -1119,7 +1131,7 @@
 <tbody>
 <tr>
 <td><code>quplink.js</code></td>
-<td>+1 遊戲:<strong>Coast the Slab</strong> — 以 <code>slab_cool_step</code> 自爆發平衡冷卻至環境;帳本反向運行</td>
+<td>+1 遊戲:<strong>Coast the Slab</strong> — 以 <code>slab_cool_step</code> 自爆發平衡冷卻至環境;帳本反向運行;<strong>Runtime Bridge</strong> 即時演練 FRB1 路由／偽造／重放邊界</td>
 </tr>
 <tr>
 <td><code>fano-i18n.js</code></td>

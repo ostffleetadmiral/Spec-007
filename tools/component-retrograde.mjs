@@ -217,6 +217,14 @@ const FULL_RETROGRADE = new Map([
     decision: "canonical-wire-hostile-boundary-audit",
     archive: "spec007-fano-wire-extraction-20261016",
   }],
+  ["site/assets/fano-runtime-bridge.js", {
+    decision: "sealed-runtime-envelope-and-memory-ownership",
+    archive: "spec007-fano-runtime-bridge-20261016",
+  }],
+  ["tools/fano-runtime-bridge-audit.mjs", {
+    decision: "runtime-envelope-hostile-boundary-audit",
+    archive: "spec007-fano-runtime-bridge-20261016",
+  }],
   ["tools/d12-sdk-audit.mjs", {
     decision: "upstream-runtime-release-gate",
     archive: "spec007-d12-sdk-upstream-gate-20261016",

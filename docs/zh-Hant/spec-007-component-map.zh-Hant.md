@@ -119,10 +119,11 @@
 | 元件 | 契約 | 驗證 | 擴充 |
 |---|---|---|---|
 | `build.py` | 將文件與頁面渲染為雙語權限標示 HTML。 | publish-check 雙語閘 | 新增 `component-map` 頁面對 |
-| `desktop.html` + `fano-desktop.js` | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 `ANOMALY_LORE`、`anomalySeen` 追蹤、`codex` 指令、3 彩蛋 + 3 成就 |
+| `desktop.html` + `fano-desktop.js` | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 `ANOMALY_LORE`、`anomalySeen` 追蹤、`codex` 指令、3 彩蛋 + 3 成就;Quplink 現載 FRB1 runtime-bridge 沙盒 |
 | `fano-auth.js` | 真實誓約:Ed25519、契約簽章、PBKDF2+AES-GCM、RBAC、創世記錄。 | 安全套件 | — |
 | `fano-wire.js` | 正典瀏覽器安全型 136-byte FANO 封緘完整性資料包:typed-array parse/build/seal/verify、正典尾端強制、受限路由診斷與明確網格外證據。僅為封緘完整性 — 非加密或簽章認證。 | `tools/fano-wire-audit.mjs` + WIRE-10 | 新增 — 將 mesh 方言自 Node 橋接器抽取為可發佈桌面原語 |
-| `d12-sdk-audit.json` | 外部 `d12-wasmrt-sdk` 釋出之淨化證據投影：清單／封存同位、路徑隔離、純整數邊界、指令結果，以及「Quplink 橋接尚未存在」之明示限制。 | 由 `tools/d12-sdk-audit.mjs` 發射／驗證 | 新增 — 上游執行時閘門證據 |
+| `fano-runtime-bridge.js` | 置於 FANO-WIRE 內的 FRB1 車道／所有權封包：16-byte 標頭加 ≤48-byte 片段本體、host/edge/heavy 車道、request/response/event 類型、逐流單調序號並拒絕重放／缺口／重複、亂序重組、可轉移線路投遞，以及具 copy-in/copy-out 與 wipe-before-free 的 `ptr+len` WASM 記憶體埠。 | `tools/fano-runtime-bridge-audit.mjs` + WIRE-11 | 新增 — 決定性執行邊界管線；非 D12 執行橋接 |
+| `d12-sdk-audit.json` | 外部 `d12-wasmrt-sdk` 釋出之淨化證據投影：清單／封存同位、路徑隔離、純整數邊界、指令結果，以及「Quplink 的 D12 執行橋接尚未存在」之明示限制。 | 由 `tools/d12-sdk-audit.mjs` 發射／驗證 | 新增 — 上游執行時閘門證據 |
 | `fano-comms.js` | comms.os:封緘/開啟、QR、Shamir、隱寫、WS 中繼。 | comms-suite | — |
 | `fano-reset.js` | 海軍部重置教義 — 創世 pk 與創世「admiral」成員相符之桌即旗桌:叢集來源之重置為單方;其他來源僅在全體 `FANO-RESET-v1` 一致投票下焚毀。普通桌可自由重置。 | 桌面/sentinel 探針 | — |
 | `spec007.wasm` | 檔案算術於瀏覽器即時運行。 | ABI 探針 | 以 residue/air/cool 匯出重建 |
@@ -132,7 +133,7 @@
 
 | 元件 | 契約 | 驗證 | 擴充 |
 |---|---|---|---|
-| `publish-check.sh` | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、JS 語法。 | 自檢 | 修復靜默缺口 — `fixed_point_q128.zig` 與 `spec007_compute.zig` 原被 glob 略過;現明確執行;新增 `component-map` 雙語檢查與 `d12-sdk-audit --verify` |
+| `publish-check.sh` | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、FRB1 執行邊界證據、JS 語法。 | 自檢 | 修復靜默缺口 — `fixed_point_q128.zig` 與 `spec007_compute.zig` 原被 glob 略過;現明確執行;新增 `component-map` 雙語、`d12-sdk-audit --verify` 與 `fano-runtime-bridge-audit --verify` |
 | `serve.py` | 硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。 | — | `.wasm`/`.json`/`.html` 加 `Cache-Control: no-store` |
 | `deploy-pages.sh` | 經分離 worktree 之原子化 gh-pages 部署 — 絕不觸動現行檢出(舊 checkout+rm 模式曾兩度致害)。 | BLACK-03 同位複驗 | — |
 | `golden-master.mjs` | 正典向量同位(D11/P2,Ark 移植):`golden_emit.zig` 輸出對 `golden/vectors.txt`;`--emit` 為正典行為,`--mutate` 自檢偵測。 | GLD 探針 | — |
@@ -143,7 +144,7 @@
 | `device-ledger.mjs` | D11/P5 工作站能力清冊 — `security/out/` 存完整帳本 + `site/assets/` 存消毒後布林/計數投影。 | — | — |
 | `dox-audit.mjs` | D11/P4 文件繫結棘輪 — 每個受治理檔案必須鏈至治理 AGENTS.md;每條具名探針之規則必須解析至存活探針。 | 稽核規則之規則 | — |
 | `evidence-manifest.mjs` | D11/P6 — 每條 `sibling:root:path` 引用之 sha256 清單;兄弟檔案靜默變更即證據漂移。 | EVID 探針 | — |
-| `engine-manifest.mjs` | 統一受治理運行時註冊表(藍圖 P1 缺口)— 一份簽章文件列明桌面可信任之每個運行時;與 fleet-manifest 同正典紀律(emit/verify/push)。上游 D12 車道經其稽核工件註冊,而非宣稱為桌面執行時。 | ENGINE-01..06 探針 | D12 上游閘門已註冊,並誠實標示瀏覽器橋接缺席 |
+| `engine-manifest.mjs` | 統一受治理運行時註冊表(藍圖 P1 缺口)— 一份簽章文件列明桌面可信任之每個運行時;與 fleet-manifest 同正典紀律(emit/verify/push)。上游 D12 車道經其稽核工件註冊,而非宣稱為桌面執行時。 | ENGINE-01..06 探針 | D12 上游閘門已註冊,並誠實標示 D12 瀏覽器執行橋接缺席 |
 | `emergent-sweep.mjs` | 湧現發現掃描 — 具名常數重現於 ≥2 獨立根目錄立案為湧現;裸字面量 ≥3 根收斂立案為 convergent;`--emit`/`--verify` 總帳。 | 248 候選、0 未立案 | — |
 | `archive-projection.mjs` / `archive-verify.mjs` | 連續性對 — 將 `~/.archives/` 投影為消毒後公開清單(僅基名;已封/未封誠實列出);verify 重算每個 dir+SHA256SUMS 與 tarball+sidecar 封存。 | `--emit`/`--verify`;CONT 探針 | — |
 | `course-gen.mjs` | 藍圖 P7 課程生成器 — 由波段報告決定性產生課程;每課攜帶 `deterministic_review_required`。 | `--emit` → academy 清單 | — |
@@ -170,6 +171,7 @@
 | `receipt-bridge.mjs` | 將 k3/k3serve `--sched-emit` JSONL 回執摺疊入帳本 — 引擎排程回執化為艦隊證據。 | 回執摺疊探針 | — |
 | `film-render.mjs` | 生成式電影管線,框架內建 — 將影片清單渲染為產製帳本下之 roll 成品。 | `--emit` → film-manifest.json | — |
 | `fano-wire-audit.mjs` | 已抽取 `FANO_WIRE` 模組之可執行閘門:韌體黃金向量、橋接/WASM/Zig 差分、畸形長度、正典尾端、酬載容量、型別參數、敵意座標、相依邊界,以及完整性而非加密之主張邊界。 | `--verify` + 發佈閘 | 新增 — WIRE-10 正典資料包閘門 |
+| `fano-runtime-bridge-audit.mjs` | FRB1 可執行閘門：正典封包位元組、外層封緘優先、片段化／重組、型別化畸形輸入、車道／網格路由、序號／重放／缺口／重複／交疊拒絕、真實 MessageChannel 轉移、複製隔離、活體 `rations.wasm` 記憶體埠、失敗即封閉區段、能力誠實標示與桌面整合。 | `--verify` + 發佈閘 | 新增 — WIRE-11 執行邊界閘門 |
 | `d12-sdk-audit.mjs` | 外部 `d12-wasmrt-sdk` 兄弟元件之失敗即封閉閘門：釋出清單雜湊、封存檔位元同位、標準／實驗路徑隔離、寬度模組純整數、39 測試聚合、全部上游優化閘，以及 Spec-007 Fano 範例。 | `--verify` + 發佈閘 + ENGINE-05/06 | 新增 — 上游執行時採用邊界 |
 | `space-serve.sh` | 啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。 | 經由 desk iframe 驗證 | — |
 | `aiwo_types.zig` | 原生 AIWO schema/version、rank、lifecycle、decision、event、officer、action、decision-record 與 SHA-256/hex digest 契約。 | golden SHA-256 vector 測試 + 全部原生相依項 | — |
@@ -215,7 +217,7 @@
 
 | 元件 | 擴充 |
 |---|---|
-| `quplink.js` | +1 遊戲:**Coast the Slab** — 以 `slab_cool_step` 自爆發平衡冷卻至環境;帳本反向運行 |
+| `quplink.js` | +1 遊戲:**Coast the Slab** — 以 `slab_cool_step` 自爆發平衡冷卻至環境;帳本反向運行;**Runtime Bridge** 即時演練 FRB1 路由／偽造／重放邊界 |
 | `fano-i18n.js` | `term.codex` 雙語;codex 指令現已在地化 |
 | `serve.py` | `.wasm`/`.json`/`.html` 加 `Cache-Control: no-store` — 即時成品不取舊 |
 | `philotic-probe.mjs` | **相關性優於位移範式之實線實驗** — 具儀錶之 TCP 管道:4096 輪相關於零位元組線上達成;竄改不傳任何位元;真送「HELLO」實費 5 位元組。findings.json 新增 PHILOTIC 隊;追加 `qet-mandatory-classical-leg` 探針 — 量子能量傳送之 α 位元必經實線,免費相關通道載不動能量;+NOTED `hydrogen-clock-baseline` — 21 公分線供無握手時隙排程;+NOTED `cmb-noise-floor` — 普朗克佔據數於熱噪底上衰減 QET;+3 NOTED:聲子屏蔽相干預算、波函數相位圖、校驗對合(E=mc^2<->i<->E=mc^-2 自逆結構) |

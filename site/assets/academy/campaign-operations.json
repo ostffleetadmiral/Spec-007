@@ -11487,7 +11487,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "藍圖之影片與沉浸階段以誠實之界內移植落地。tools/slate-ledger.mjs 裁出 site/assets/production-ledger.json — 桌面之真實正典清冊 (91 項主張、139 條密典、32 頁面、8 家族、8 視圖 — 共 278 項資產), 每波重製,俾分鏡表永不偏移檔案(PROD-01)。director.os 即分鏡 表面:正典資產落於桌本分鏡清單(fano1.slate,由重置普查清掃 — PROD-02),附鏡次計數與判決註記,絕無渲染、上傳或 XR 之虛稱。 nebula 視圖為藍圖沉浸表面之誠實實現:真實能力域與家族名冊之 2D 投影,依視圖甲板真理標籤之律標為示意性 — 佈局為示意,資料為 真實(PROD-03)。director 與 nebula 指令開啟兩者;兩表面皆披 雙語制服。",
+      "outcome": "藍圖之影片與沉浸階段以誠實之界內移植落地。tools/slate-ledger.mjs 裁出 site/assets/production-ledger.json — 桌面之真實正典清冊 (127 項主張、139 條密典、35 頁面、8 家族、9 視圖 — 共 318 項資產), 每波重製,俾分鏡表永不偏移檔案(PROD-01)。director.os 即分鏡 表面:正典資產落於桌本分鏡清單(fano1.slate,由重置普查清掃 — PROD-02),附鏡次計數與判決註記,絕無渲染、上傳或 XR 之虛稱。 nebula 視圖為藍圖沉浸表面之誠實實現:真實能力域與家族名冊之 2D 投影,依視圖甲板真理標籤之律標為示意性 — 佈局為示意,資料為 真實(PROD-03)。director 與 nebula 指令開啟兩者;兩表面皆披 雙語制服。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/fano-1-operations.zh-Hant.md",
       "title": "3n. director.os 與星雲 — 製作與投影(統一生態第五波)",
@@ -11682,7 +11682,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "The blueprint's film and immersive phases land as honest bounded ports. tools/slate-ledger.mjs cuts site/assets/production-ledger.json — the desk's real canon inventory (91 claims, 139 codex entries, 32 pages, 8 family, 8 viz — 278 assets), regenerated per wave so the slate never drifts from the dossier (PROD-01). director.os is the storyboard surface: canon assets drop onto a desk-local shot list",
+      "outcome": "The blueprint's film and immersive phases land as honest bounded ports. tools/slate-ledger.mjs cuts site/assets/production-ledger.json — the desk's real canon inventory (127 claims, 139 codex entries, 35 pages, 8 family, 9 viz — 318 assets), regenerated per wave so the slate never drifts from the dossier (PROD-01). director.os is the storyboard surface: canon assets drop onto a desk-local shot lis",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/fano-1-operations.en.md",
       "title": "3n. director.os + the nebula — production and projection (sentience w5)",

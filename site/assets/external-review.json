@@ -59,8 +59,8 @@
         },
         {
           "path": "security/team-sweep-2.mjs",
-          "bytes": 216872,
-          "sha256": "fbd3be5c97208f35e772e1a2a6597706ba558ce119bef85d33dea6a8cd94f583"
+          "bytes": 217350,
+          "sha256": "dcd9e05a84804f92959c35d4438b5be4720f21c726a9af6eee1340354314961f"
         },
         {
           "path": "security/xploit-sweep.mjs",
@@ -97,13 +97,13 @@
         },
         {
           "path": "docs/en/spec-007-research-dossier.md",
-          "bytes": 98265,
-          "sha256": "4ac33f18b780b36de0072cdc81288ba59c7709d555b3233e108c5c49a93601d4"
+          "bytes": 99141,
+          "sha256": "8d820418be84e89f6a78c335c28ca297843d568092a9f7025b6d525f6703569d"
         },
         {
           "path": "docs/zh-Hant/spec-007-research-dossier.zh-Hant.md",
-          "bytes": 86672,
-          "sha256": "2dc4bbe2152415fe1229f7327fed6fdb030faba547173a9626c2a41c38141f35"
+          "bytes": 87460,
+          "sha256": "396515c16cdeaaf915e5dfea6e61cd4175aff1b3c67fb02f119aa497ecd9e055"
         },
         {
           "path": "docs/en/spec-007-science-coverage.en.md",
@@ -224,8 +224,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5032,
-          "sha256": "c9f000e6bd6042adfd0ec368e19a9223cbf8ce5818bb405fa89aad787f5aff8d"
+          "bytes": 5122,
+          "sha256": "98dbc82d0dc8cedc5746c85b9a69ead1334d78cb1966131845510a66873a38ce"
         },
         {
           "path": "site/apps/rations/rations.wasm.sha256",
@@ -234,13 +234,13 @@
         },
         {
           "path": "docs/en/spec-007-component-map.en.md",
-          "bytes": 71514,
-          "sha256": "c3c2442528543be38459e89e868e30b44868c851d972b817c0d0014560b9f3cc"
+          "bytes": 72618,
+          "sha256": "0bdbab771cd7535f355cf4ee21779ab0b16f2f4fc8280c452cf8578a05d7b41f"
         },
         {
           "path": "docs/zh-Hant/spec-007-component-map.zh-Hant.md",
-          "bytes": 62267,
-          "sha256": "b73500abc0473e80efba84b056d605898132dc42893aceecffbdcb759666d479"
+          "bytes": 63375,
+          "sha256": "92e602a154d8fcb5a651f40561f122f238e4ba04d91b7e84ea810d18c99d9db0"
         }
       ]
     },
@@ -318,8 +318,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5032,
-          "sha256": "c9f000e6bd6042adfd0ec368e19a9223cbf8ce5818bb405fa89aad787f5aff8d"
+          "bytes": 5122,
+          "sha256": "98dbc82d0dc8cedc5746c85b9a69ead1334d78cb1966131845510a66873a38ce"
         },
         {
           "path": "site/apps/rations/js/dom-dialog.js",

@@ -39,6 +39,8 @@ const SOURCE_PINS = [
   "tools/repo-corpus.json",
   "tools/publish-check.sh",
   "tools/d12-sdk-audit.mjs",
+  "tools/fano-runtime-bridge-audit.mjs",
+  "site/assets/fano-runtime-bridge.js",
   "security/aiwo-native-parity.mjs",
   "security/aiwo-digit-model-parity.mjs",
   "site/build.py",
@@ -138,6 +140,20 @@ const MEASUREMENTS = [
     bindings: {
       workstreams: ["governance-tools", "published-surface"],
       components: ["tools/d12-sdk-audit.mjs", "site/assets/d12-sdk-audit.json"],
+    },
+  },
+  {
+    id: "fano-runtime-bridge-audit-verify",
+    argv: ["node", "tools/fano-runtime-bridge-audit.mjs", "--verify"],
+    timeout_ms: 180_000,
+    bindings: {
+      workstreams: ["spec008-wire", "published-surface"],
+      components: [
+        "site/assets/fano-runtime-bridge.js",
+        "tools/fano-runtime-bridge-audit.mjs",
+        "site/assets/quplink.js",
+        "site/desktop.html",
+      ],
     },
   },
   {

@@ -434,6 +434,91 @@ window.QUPLINK = (function (FANO) {
     });
   }
 
+  /* --- runtime bridge: FRB1 envelopes over the sealed FANO wire --- */
+  function sandboxRuntimeBridge(body) {
+    var ui = document.createElement("div");
+    ui.className = "game-ui";
+    var B = window.FANO_RUNTIME_BRIDGE;
+    if (!B) {
+      ui.innerHTML = "<div class='game-info'>fano-runtime-bridge.js absent.</div>";
+      body.appendChild(ui);
+      return;
+    }
+    var enc = new TextEncoder(), dec = new TextDecoder();
+    var last = { wire: null, dst: null };
+    var endpoints = {};
+    function makeLane(name, coord) {
+      var received = "";
+      endpoints[name] = B.endpoint({
+        lane: name,
+        mesh: [coord, coord, coord],
+        autoRelease: false,
+        onMessage: function (m) {
+          received = dec.decode(m.body);
+          m.release();
+        },
+      });
+      endpoints[name]._received = function () { return received; };
+    }
+    makeLane("host", 6); makeLane("edge", 7); makeLane("heavy", 8);
+    ui.innerHTML =
+      "<div class='game-info'>FANO-RUNTIME-BRIDGE — FRB1 envelope inside the canonical " +
+      "136-byte sealed wire. It routes byte bodies between host/edge/heavy lanes with " +
+      "explicit ownership; it is not a D12 execution bridge.</div>" +
+      "<div class='triad-row'>from <select id='rb-src'></select> to <select id='rb-dst'></select> " +
+      "kind <select id='rb-kind'><option>request</option><option>response</option><option>event</option></select></div>";
+    ["host", "edge", "heavy"].forEach(function (n) {
+      document.getElementById("rb-src").appendChild(new Option(n, n));
+      document.getElementById("rb-dst").appendChild(new Option(n, n));
+    });
+    document.getElementById("rb-dst").value = "heavy";
+    var ta = document.createElement("textarea");
+    ta.className = "fanop-edit";
+    ta.value = "runtime bridge payload — fragments at 48 bytes";
+    var send = document.createElement("button");
+    send.className = "game-btn"; send.textContent = "ROUTE SEALED";
+    var forge = document.createElement("button");
+    forge.className = "game-btn"; forge.textContent = "FORGE ONE BYTE";
+    var replay = document.createElement("button");
+    replay.className = "game-btn"; replay.textContent = "REPLAY LAST";
+    var out = document.createElement("pre");
+    out.className = "triad-out fanop-out";
+    function route() {
+      var src = endpoints[document.getElementById("rb-src").value];
+      var dst = endpoints[document.getElementById("rb-dst").value];
+      var kind = document.getElementById("rb-kind").value;
+      try {
+        var payload = enc.encode(ta.value);
+        var wires = src.pack(dst, kind, payload, { transfer: true, wipe: true });
+        last.wire = wires[0].slice(); last.dst = dst;
+        var results = wires.map(function (w) { return dst.deliver(w); });
+        wires.forEach(function (w) { B.wipe(w); });
+        var final = results[results.length - 1];
+        out.textContent =
+          "packed: " + wires.length + " × 136B sealed wire · FRB1 " + kind +
+          " " + B.laneName(src.lane) + "→" + B.laneName(dst.lane) +
+          "\nreceived: «" + dst._received() + "»" +
+          "\naccepted: " + results.filter(function (r) { return r.accepted; }).length + "/" + results.length +
+          " · fragments " + (final.fragments || 1) + " · body " + (final.body_len || payload.length) + " B" +
+          "\nseal: verified · ownership: body released after decode";
+      } catch (e) { out.textContent = "refused: " + (e && e.message ? e.message : e); }
+    }
+    send.addEventListener("click", route);
+    forge.addEventListener("click", function () {
+      if (!last.wire || !last.dst) { out.textContent = "route a wire first."; return; }
+      var bad = last.wire.slice(); bad[40] ^= 0x80;
+      var r = last.dst.deliver(bad);
+      out.textContent = "forged byte → " + (r.accepted ? "ACCEPTED (bad)" : "refused: " + r.reason);
+    });
+    replay.addEventListener("click", function () {
+      if (!last.wire || !last.dst) { out.textContent = "route a wire first."; return; }
+      var r = last.dst.deliver(last.wire);
+      out.textContent = "replayed wire → " + (r.accepted ? "ACCEPTED (bad)" : "refused: " + r.reason);
+    });
+    ui.appendChild(ta); ui.appendChild(send); ui.appendChild(forge); ui.appendChild(replay); ui.appendChild(out);
+    body.appendChild(ui);
+  }
+
   /* --- proof console: classify the claim like the audit does --- */
   var CLAIMS = [
     ["The Fano plane has exactly 7 lines", "PROVEN", "countable — the game above proves it"],
@@ -486,6 +571,7 @@ window.QUPLINK = (function (FANO) {
   var SANDBOX = [
     ["fanop", ".fanop Editor", "polyglot source — assemble & run", sandboxFanop],
     ["harness", "Harness Playground", "live wasm instrument", sandboxHarness],
+    ["runtime-bridge", "Runtime Bridge", "sealed FRB1 envelopes + ownership", sandboxRuntimeBridge],
     ["proof", "Proof Console", "grade claims like the audit", sandboxProof],
   ];
 

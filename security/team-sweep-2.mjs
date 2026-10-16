@@ -60,6 +60,7 @@ const _pfJobs = new Map();
     ["wasm-memory",      process.execPath, [path.join(_T, "wasm-memory-hygiene.mjs"), "--verify"], { timeout: 120000 }],
     ["relay-isolation",  process.execPath, [path.join(_T, "relay-isolation-audit.mjs")], { timeout: 120000 }],
     ["fano-wire",        process.execPath, [path.join(_T, "fano-wire-audit.mjs"), "--verify"], { timeout: 120000 }],
+    ["fano-runtime",     process.execPath, [path.join(_T, "fano-runtime-bridge-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["d12-sdk",          process.execPath, [path.join(_T, "d12-sdk-audit.mjs"), "--verify"], { timeout: 420000 }],
     ["external-review",  process.execPath, [path.join(_T, "external-review-manifest.mjs"), "--verify"], { timeout: 120000 }],
     // heaviest next — the pool drains in launch order
@@ -1906,6 +1907,15 @@ console.log("\nWIRE — comms retro-pass (wave 3)");
     r.status === 0
       ? held("WIRE", "fano-wire-canonical", r.stdout.trim())
       : open_("WIRE", "fano-wire-canonical", (r.stderr || r.stdout).trim());
+  }
+
+  /* WIRE-11: FRB1 runtime envelope — deterministic lane/message/memory
+     ownership over the sealed wire; D12 execution remains outside. */
+  {
+    const r = await pf("fano-runtime");
+    r.status === 0
+      ? held("WIRE", "fano-runtime-bridge", r.stdout.trim())
+      : open_("WIRE", "fano-runtime-bridge", (r.stderr || r.stdout).trim());
   }
 }
 

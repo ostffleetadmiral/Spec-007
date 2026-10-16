@@ -41,6 +41,7 @@ chk node tools/native-dialog-audit.mjs --verify "native-dialog audit"
 chk node tools/wasm-memory-hygiene.mjs --verify "wasm-memory-hygiene"
 chk node tools/relay-isolation-audit.mjs "relay subscription isolation"
 chk node tools/fano-wire-audit.mjs --verify "fano-wire canonical datagram"
+chk node tools/fano-runtime-bridge-audit.mjs --verify "fano-runtime-bridge FRB1 boundary"
 chk node tools/d12-sdk-audit.mjs --verify "d12-wasmrt-sdk upstream release"
 chk node tools/external-review-manifest.mjs --verify "external-review pending packages"
 

@@ -6,17 +6,17 @@
       "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 49,
+      "tools": 50,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
-      "site/assets": 47
+      "site/assets": 48
     },
-    "total_components": 291,
-    "source_components": 250,
+    "total_components": 293,
+    "source_components": 252,
     "generated_components": 41,
-    "mapped_basename": 280,
-    "mapped_contract": 291,
+    "mapped_basename": 282,
+    "mapped_contract": 293,
     "manifest_bound": 34,
     "owner_bound": 29,
     "unmapped_basename": [
@@ -5096,6 +5096,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/fano-runtime-bridge.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": true,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/fano-wire.js",
       "contract": {
         "mapped": true,
@@ -7737,6 +7765,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/fano-runtime-bridge-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
         "manifest_bound": false,
         "owner": null
       },
