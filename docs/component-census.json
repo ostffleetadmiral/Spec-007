@@ -6,17 +6,17 @@
       "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 47,
+      "tools": 48,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
-      "site/assets": 45
+      "site/assets": 46
     },
-    "total_components": 287,
-    "source_components": 247,
+    "total_components": 289,
+    "source_components": 249,
     "generated_components": 40,
-    "mapped_basename": 276,
-    "mapped_contract": 287,
+    "mapped_basename": 278,
+    "mapped_contract": 289,
     "manifest_bound": 33,
     "owner_bound": 28,
     "unmapped_basename": [
@@ -5068,6 +5068,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/fano-wire.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": true,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/film-manifest.json",
       "contract": {
         "mapped": true,
@@ -7653,6 +7681,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/fano-wire-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
         "manifest_bound": false,
         "owner": null
       },

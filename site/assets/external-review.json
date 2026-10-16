@@ -55,12 +55,12 @@
         {
           "path": "security/README.md",
           "bytes": 12720,
-          "sha256": "0024a10dc6666ab882210bcc743e18a685d6bf13141fc88ed412bf0957ef1325"
+          "sha256": "1ad8148472c4a7ee22b4f5221ceb43bd7728f5e894716e28dbacbe4c564d311f"
         },
         {
           "path": "security/team-sweep-2.mjs",
-          "bytes": 214206,
-          "sha256": "f44f4afe0f7dc6577c5c3a63c017e3b80c8f1023f871a36dadb827d099607055"
+          "bytes": 214675,
+          "sha256": "5e3c7d9e810990ecd211fea5221310a0c000febaa9ad4d091bb23688157a38dd"
         },
         {
           "path": "security/xploit-sweep.mjs",
@@ -224,8 +224,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 4881,
-          "sha256": "a559286be3ab6fed83b030c57eb4165130e05e740f85e9aca7a68efbde824390"
+          "bytes": 4956,
+          "sha256": "eacc468365592536b4df13bb9204d068e02502a941a419bec05d7f2ea5962513"
         },
         {
           "path": "site/apps/rations/rations.wasm.sha256",
@@ -234,13 +234,13 @@
         },
         {
           "path": "docs/en/spec-007-component-map.en.md",
-          "bytes": 69643,
-          "sha256": "d3edc1b3d4c3ade9874334781f269b3e4cf3db434c22ab75c38a729c59ad6269"
+          "bytes": 70479,
+          "sha256": "abf0840c858166a00544cd56d2a31d73b42e26fa6a46d39621b37c0e2e8472b3"
         },
         {
           "path": "docs/zh-Hant/spec-007-component-map.zh-Hant.md",
-          "bytes": 60592,
-          "sha256": "1338afd8a103e730c4899125e6f8bdd19f50ce2a767a148415ba96362c1ae080"
+          "bytes": 61328,
+          "sha256": "bd3fc75ee922315db6da18026bff1bebd1858ccfbfdf7f1584e9c5425be26be0"
         }
       ]
     },
@@ -318,8 +318,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 4881,
-          "sha256": "a559286be3ab6fed83b030c57eb4165130e05e740f85e9aca7a68efbde824390"
+          "bytes": 4956,
+          "sha256": "eacc468365592536b4df13bb9204d068e02502a941a419bec05d7f2ea5962513"
         },
         {
           "path": "site/apps/rations/js/dom-dialog.js",

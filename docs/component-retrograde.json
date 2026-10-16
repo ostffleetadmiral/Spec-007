@@ -2,13 +2,13 @@
   "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
   "summary": {
     "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
-    "census_components": 287,
-    "components": 287,
+    "census_components": 289,
+    "components": 289,
     "status_counts": {
       "BUILD_GRAPH_COVERED": 19,
-      "DOCUMENTED_COMPONENT": 23,
+      "DOCUMENTED_COMPONENT": 24,
       "GENERATED_ARTIFACT_BOUND": 40,
-      "SCRIPT_HARNESS_BOUND": 100,
+      "SCRIPT_HARNESS_BOUND": 101,
       "UNIT_TESTED": 105
     },
     "workstreams": {
@@ -16,9 +16,9 @@
       "desk-shell": 5,
       "digit-model-donor": 18,
       "firmware": 1,
-      "governance-tools": 47,
+      "governance-tools": 48,
       "native-aiwo-dht": 17,
-      "published-surface": 45,
+      "published-surface": 46,
       "q128-arithmetic": 2,
       "qstar-donor": 67,
       "security-lab": 53,
@@ -93,6 +93,7 @@
       "site/assets/fano-desktop.js",
       "site/assets/fano-i18n.js",
       "site/assets/fano-reset.js",
+      "site/assets/fano-wire.js",
       "site/assets/film-manifest.json",
       "site/assets/persona-manifest.json",
       "src/aiwo_chunk_checkpoint.zig",
@@ -125,10 +126,11 @@
       "tools/engine-manifest.mjs",
       "tools/evidence-manifest.mjs",
       "tools/external-review-manifest.mjs",
+      "tools/fano-wire-audit.mjs",
       "tools/publish-check.sh"
     ],
     "measured_components": 160,
-    "workstream_measured_components": 196,
+    "workstream_measured_components": 198,
     "performance_baseline": {
       "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
       "measurements": 10,
@@ -139,7 +141,7 @@
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 57
+    "completed_full_retrograde": 59
   },
   "components": [
     {
@@ -5661,12 +5663,14 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "b8273fbbac887e337dc6c638cad4630c3cf26b5ed60846781d6d0194ae24590b",
-        "bytes": 22092,
-        "lines": 486,
+        "sha256": "7eaa607e77ae7dc8cf25e5dd97f40d9c33e5372ecaf4d3ae05d9a192df302949",
+        "bytes": 18629,
+        "lines": 400,
         "imports": [
+          "../site/assets/fano-wire.js",
           "node:dgram",
           "node:fs",
+          "node:module",
           "node:path",
           "node:url"
         ],
@@ -5679,10 +5683,11 @@
           "security/superpowers-audit.mjs",
           "security/team-sweep-2.mjs",
           "src/spec008_seal.zig",
-          "tools/dht-native.mjs"
+          "tools/dht-native.mjs",
+          "tools/fano-wire-audit.mjs"
         ],
         "todo_markers": 0,
-        "public_surface": 6
+        "public_surface": 7
       },
       "contract": {
         "mapped": true,
@@ -7073,9 +7078,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "f44f4afe0f7dc6577c5c3a63c017e3b80c8f1023f871a36dadb827d099607055",
-        "bytes": 214206,
-        "lines": 4185,
+        "sha256": "5e3c7d9e810990ecd211fea5221310a0c000febaa9ad4d091bb23688157a38dd",
+        "bytes": 214675,
+        "lines": 4195,
         "imports": [
           "../tools/dht-fs.mjs",
           "./fano-mesh-bridge.mjs",
@@ -8623,6 +8628,50 @@
         "completed": false,
         "archive": null,
         "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "site/assets/fano-wire.js",
+      "workstream": "published-surface",
+      "status": "DOCUMENTED_COMPONENT",
+      "reverse_engineering": {
+        "sha256": "34294b784067d5deae7d988ccd53cba8065d00658103f10bc1d72e1198aad521",
+        "bytes": 8362,
+        "lines": 233,
+        "imports": [],
+        "referenced_by": [
+          "security/fano-mesh-bridge.mjs",
+          "security/team-sweep-2.mjs",
+          "src/spec008_qstar_fleet.zig",
+          "tools/component-retrograde.mjs",
+          "tools/fano-wire-audit.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "site"
+      },
+      "verification": {
+        "kind": "artifact",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-fano-wire-extraction-20261016",
+        "decision": "browser-safe-canonical-wire-extraction"
       }
     },
     {
@@ -11471,7 +11520,8 @@
         ],
         "referenced_by": [
           "tools/component-performance.mjs",
-          "tools/component-retrograde.mjs"
+          "tools/component-retrograde.mjs",
+          "tools/fano-wire-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -11520,7 +11570,8 @@
           "src/dhtd.zig",
           "src/spec008_seal_cli.zig",
           "tools/component-performance.mjs",
-          "tools/component-retrograde.mjs"
+          "tools/component-retrograde.mjs",
+          "tools/fano-wire-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 14
@@ -12201,9 +12252,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "8a8b05070fe1b9a4bec4c89a276e025c1e01fe5fdcef2737e6b7747718bf1e0d",
-        "bytes": 19061,
-        "lines": 469,
+        "sha256": "25e9500babb0fe6940432718b45ba3b8dd083a09a1be8fb92d855b0887616292",
+        "bytes": 19359,
+        "lines": 477,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -12856,6 +12907,55 @@
       }
     },
     {
+      "component": "tools/fano-wire-audit.mjs",
+      "workstream": "governance-tools",
+      "status": "SCRIPT_HARNESS_BOUND",
+      "reverse_engineering": {
+        "sha256": "8c929d246d0b44b72b9a9e8cebd483dcd304f0b3c58f6e8989917daf61d15cdc",
+        "bytes": 9509,
+        "lines": 226,
+        "imports": [
+          ", ",
+          "../security/fano-mesh-bridge.mjs",
+          "node:child_process",
+          "node:fs",
+          "node:module",
+          "node:path",
+          "node:url"
+        ],
+        "referenced_by": [
+          "security/team-sweep-2.mjs",
+          "tools/component-retrograde.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "tools"
+      },
+      "verification": {
+        "kind": "script",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-fano-wire-extraction-20261016",
+        "decision": "canonical-wire-hostile-boundary-audit"
+      }
+    },
+    {
       "component": "tools/film-render.mjs",
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
@@ -12952,8 +13052,8 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "e027c21d4c3abb8adc5cd7ff1506cbd7e3a7cf47b3cf6cd688ddca9dc6554fac",
-        "bytes": 28384,
+        "sha256": "15bd00eb694b4226ab94ed4c8d701ca489f5d0e47c477e3b658c3c69ad58f21c",
+        "bytes": 28407,
         "lines": 473,
         "imports": [
           "./dht-fs.mjs",
@@ -13310,9 +13410,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "a559286be3ab6fed83b030c57eb4165130e05e740f85e9aca7a68efbde824390",
-        "bytes": 4881,
-        "lines": 96,
+        "sha256": "eacc468365592536b4df13bb9204d068e02502a941a419bec05d7f2ea5962513",
+        "bytes": 4956,
+        "lines": 97,
         "imports": [],
         "referenced_by": [
           "security/capstone-audit.mjs",

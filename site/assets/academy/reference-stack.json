@@ -157902,7 +157902,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | build.py | 將文件與頁面渲染為雙語權限標示 HTML。 | publish-check 雙語閘 | 新增 component-map 頁面對 | | desktop.html + fano-desktop.js | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 ANOMALYLORE、anomalySeen 追蹤、codex 指令、3 彩蛋 + 3 成就 | | fano-auth.js | 真實誓約:Ed25519、契約簽章、PBKDF2+AES-GCM、RBAC、創世記錄。 | 安全套件 | — | | fano-comms.js | c",
+      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | build.py | 將文件與頁面渲染為雙語權限標示 HTML。 | publish-check 雙語閘 | 新增 component-map 頁面對 | | desktop.html + fano-desktop.js | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 ANOMALYLORE、anomalySeen 追蹤、codex 指令、3 彩蛋 + 3 成就 | | fano-auth.js | 真實誓約:Ed25519、契約簽章、PBKDF2+AES-GCM、RBAC、創世記錄。 | 安全套件 | — | | fano-wire.js | 正典",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "站點(site/)",

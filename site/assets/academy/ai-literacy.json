@@ -63837,7 +63837,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "bash tools/publish-check.sh # the release gate — ALL of it, every time zig build test # deps + spec008 harnesses (integer-only) node security/team-sweep-2.mjs # consolidated sweep — 246 probes, exits 1 on any OPEN node security/officer-mesh.mjs # OFFR — token-founded second desk + live sealed wire over shared relay node tools/native-dialog-audit.mjs --verify # executable prompt/alert/confirm gate ",
+      "outcome": "bash tools/publish-check.sh # the release gate — ALL of it, every time zig build test # deps + spec008 harnesses (integer-only) node security/team-sweep-2.mjs # consolidated sweep — 247 probes, exits 1 on any OPEN node security/officer-mesh.mjs # OFFR — token-founded second desk + live sealed wire over shared relay node tools/native-dialog-audit.mjs --verify # executable prompt/alert/confirm gate ",
       "provenance": "first_party",
       "source": "repo:spec-007:AGENTS.md",
       "title": "Build & verify",

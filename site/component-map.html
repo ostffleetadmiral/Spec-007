@@ -311,8 +311,8 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>team-sweep-2.mjs</code></td>
-<td><strong>The consolidated sweep — the wave-cadence regression board.</strong> 246 probes across the full security/runtime/governance surface plus ledger-drift and external-review gates; exits 1 on any OPEN.</td>
-<td>per-wave gate; final board 233 HELD / 2 NOTED / 1 OPEN / 10 PENDING (BLACK-03 deploy parity; EXT lanes await external authority)</td>
+<td><strong>The consolidated sweep — the wave-cadence regression board.</strong> 247 probes across the full security/runtime/governance surface plus ledger-drift and external-review gates; exits 1 on any OPEN.</td>
+<td>per-wave gate; final board 234 HELD / 2 NOTED / 1 OPEN / 10 PENDING (BLACK-03 deploy parity; EXT lanes await external authority)</td>
 <td>—</td>
 </tr>
 <tr>
@@ -695,6 +695,12 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>—</td>
 </tr>
 <tr>
+<td><code>fano-wire.js</code></td>
+<td>Canonical browser-safe 136-byte FANO sealed-integrity datagram: typed-array parse/build/seal/verify, canonical tail enforcement, bounded route diagnostics, and explicit out-of-grid evidence. Sealed integrity only — not encryption or signature authentication.</td>
+<td><code>tools/fano-wire-audit.mjs</code> + WIRE-10</td>
+<td>new — mesh dialect extracted from the Node bridge into a publishable desk primitive</td>
+</tr>
+<tr>
 <td><code>fano-i18n.js</code></td>
 <td>The desk's second tongue — EN ⇄ 繁體中文 keyed dictionary.</td>
 <td>twin gates</td>
@@ -964,6 +970,12 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>The Generative Film Pipeline, in-framework — renders the film manifests into roll artifacts under the production ledger.</td>
 <td><code>--emit</code> → film-manifest.json</td>
 <td>—</td>
+</tr>
+<tr>
+<td><code>fano-wire-audit.mjs</code></td>
+<td>Executable gate for the extracted <code>FANO_WIRE</code> module: firmware goldens, bridge/WASM/Zig differential checks, malformed lengths, canonical tails, payload caps, typed arguments, hostile coordinates, dependency boundaries, and the integrity-not-encryption claim boundary.</td>
+<td><code>--verify</code> + release gate</td>
+<td>new — WIRE-10 canonical datagram gate</td>
 </tr>
 <tr>
 <td><code>space-serve.sh</code></td>

@@ -40,10 +40,11 @@ by editing this file, never by weakening the drawer boundary.
 ```bash
 tools/publish-check.sh          # the release gate — ALL of it, every time
 zig build test                  # deps + spec008 harnesses (integer-only)
-node security/team-sweep-2.mjs  # consolidated sweep — 246 probes, exits 1 on any OPEN
+node security/team-sweep-2.mjs  # consolidated sweep — 247 probes, exits 1 on any OPEN
 node security/officer-mesh.mjs  # OFFR — token-founded second desk + live sealed wire over shared relay
 node tools/native-dialog-audit.mjs --verify      # executable prompt/alert/confirm gate
 node tools/wasm-memory-hygiene.mjs --verify      # rations_free(ptr,len) ABI gate
+node tools/fano-wire-audit.mjs --verify          # canonical 136-byte FANO wire gate
 node tools/academy-grade.mjs --verify   # pedagogy ledger byte-exact (see --selfcheck instrument ratchet)
 node security/comms-suite.mjs --docker   # Hydra WAN lab — REAL signaling (up → probe → down)
 node security/comms-suite.mjs --local    # same suite on localhost hydra nodes

@@ -59,6 +59,7 @@ const _pfJobs = new Map();
     ["native-dialog",    process.execPath, [path.join(_T, "native-dialog-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["wasm-memory",      process.execPath, [path.join(_T, "wasm-memory-hygiene.mjs"), "--verify"], { timeout: 120000 }],
     ["relay-isolation",  process.execPath, [path.join(_T, "relay-isolation-audit.mjs")], { timeout: 120000 }],
+    ["fano-wire",        process.execPath, [path.join(_T, "fano-wire-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["external-review",  process.execPath, [path.join(_T, "external-review-manifest.mjs"), "--verify"], { timeout: 120000 }],
     // heaviest next — the pool drains in launch order
     ["archive-verify",   process.execPath, [path.join(_T, "archive-verify.mjs"), "--verify"], { timeout: 600000 }],
@@ -1895,6 +1896,15 @@ console.log("\nWIRE — comms retro-pass (wave 3)");
     r.status === 0
       ? held("WIRE", "relay-subscription-isolation", r.stdout.trim())
       : open_("WIRE", "relay-subscription-isolation", (r.stderr || r.stdout).trim());
+  }
+
+  /* WIRE-10: canonical FANO datagram module — browser-safe parse/build/
+     verify is byte-exact against the bridge and Zig/firmware vectors. */
+  {
+    const r = await pf("fano-wire");
+    r.status === 0
+      ? held("WIRE", "fano-wire-canonical", r.stdout.trim())
+      : open_("WIRE", "fano-wire-canonical", (r.stderr || r.stdout).trim());
   }
 }
 

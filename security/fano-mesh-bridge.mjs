@@ -55,75 +55,22 @@ import dgram from "node:dgram";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createRequire } from "node:module";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
+require("../site/assets/fano-wire.js");
+const W = globalThis.FANO_WIRE;
 const OUT = path.join(HERE, "out", "fano-mesh.json");
 const { derive, decode, format, ORGAN, stateFragment } =
   await import(pathToFileURL(path.join(HERE, "ipv6-derive.mjs")).href);
 
 /* ---------- mesh dialect (byte-exact port of fano_packet.c) ------- */
 
-export const FANO_WIRE = 136, FANO_CAP = 64, FANO_CENTER = 7;
-const MASK256 = (1n << 256n) - 1n;
-const SEAL_IV = 0xF4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0F4A0n;
-const FNV_PRIME = (1n << 168n) | (1n << 8n) | 0x63n;
-
-const d7 = v => (v > FANO_CENTER ? v - FANO_CENTER : FANO_CENTER - v);
-const basisAt = (x, y, z) => (d7(x) + d7(y) + d7(z)) & 7;
-const phaseAt = (y, z) => (((d7(y) - d7(z)) % 8) + 8) % 8;
-
-/* octonion unit product, generated from the seven Fano lines —
-   returns (sign+2)<<3 | idx */
-const MUL = (() => {
-  const m = Array.from({ length: 8 }, () => new Uint8Array(8));
-  const LINES = [[1,2,3],[1,4,5],[1,7,6],[2,4,6],[2,5,7],[3,4,7],[3,5,6]];
-  for (let i = 0; i < 8; i++) { m[0][i] = (3<<3)|i; m[i][0] = (3<<3)|i; }
-  for (let i = 1; i < 8; i++) m[i][i] = (1<<3)|0;
-  for (const [a,b,c] of LINES)
-    for (const [x,y] of [[a,b],[b,c],[c,a]]) {
-      const z = a + b + c - x - y;
-      m[x][y] = (3<<3)|z; m[y][x] = (1<<3)|z;
-    }
-  return m;
-})();
-const unitMul = (a, b) => MUL[a & 7][b & 7];
-
-export function route(sx, sy, sz, dx, dy, dz) {
-  const hops = [];
-  let x = sx, y = sy, z = sz;
-  hops.push({ x, y, z, basis: basisAt(x,y,z), phase: phaseAt(y,z) });
-  while (x !== dx || y !== dy || z !== dz) {
-    const ex = Math.abs(dx-x), ey = Math.abs(dy-y), ez = Math.abs(dz-z);
-    if (ex >= ey && ex >= ez)   x += dx > x ? 1 : -1;
-    else if (ey >= ez)          y += dy > y ? 1 : -1;
-    else                        z += dz > z ? 1 : -1;
-    hops.push({ x, y, z, basis: basisAt(x,y,z), phase: phaseAt(y,z) });
-  }
-  return hops;
-}
-
-function routeSignature(hops) {
-  let sign = 1, idx = 0;
-  for (const h of hops) {
-    const p = unitMul(idx, h.basis);
-    sign *= (p >> 3) === 3 ? 1 : -1;
-    idx = p & 7;
-  }
-  return ((sign + 2) << 3) | idx;
-}
-
-function cellWord(x, y, z) {
-  const out = Buffer.alloc(32);
-  const dist = d7(x) + d7(y) + d7(z);
-  let frac = (BigInt(dist) << 128n) / 21n;
-  if (frac >= (1n << 128n)) out.fill(0xff, 0, 16);
-  else for (let i = 0; i < 16; i++) out[i] = Number((frac >> BigInt(8*i)) & 0xffn);
-  const top = (BigInt(phaseAt(y,z)) << 15n) |
-              (1n << BigInt(18 + basisAt(x,y,z))) |
-              (BigInt(x) << 27n) | (BigInt(y) << 39n) | (BigInt(z) << 51n);
-  for (let i = 0; i < 8; i++) out[24+i] = Number((top >> BigInt(8*i)) & 0xffn);
-  return out;
-}
+export const FANO_WIRE = W.WIRE_BYTES,
+             FANO_CAP = W.PAYLOAD_CAP,
+             FANO_CENTER = W.CENTER;
+export const route = (...args) => W.route(...args);
 
 /* native twin — zig-out/bin/spec008_seal_wasm.wasm is the
    wasm32-freestanding build of src/spec008_seal.zig (u256 FNV,
@@ -155,55 +102,22 @@ const _native = (() => {
 })();
 export const nativeSeal = _native !== null;
 
-function seal_js(wire) {
-  const top = wire.readBigUInt64LE(24);
-  const sx = Number((top >> 27n) & 0xfffn), sy = Number((top >> 39n) & 0xfffn),
-        sz = Number((top >> 51n) & 0xfffn);
-  const hops = route(sx, sy, sz, wire[32], wire[33], wire[34]);
-  let h = SEAL_IV;
-  const mix = b => { h = ((h ^ BigInt(b)) * FNV_PRIME) & MASK256; };
-  for (let i = 0; i < 40; i++) mix(wire[i]);   /* cell word + dst + seq + plen */
-  const plen = Math.min(wire[39], FANO_CAP);
-  for (let i = 0; i < plen; i++) mix(wire[40+i]);
-  const rotl = n => { h = ((h << BigInt(n)) | (h >> BigInt(256-n))) & MASK256; };
-  rotl(5); h ^= BigInt(routeSignature(hops));
-  for (const hop of hops) { rotl(3); h ^= BigInt(hop.phase); }
-  const out = Buffer.alloc(32);
-  for (let i = 0; i < 32; i++) out[i] = Number((h >> BigInt(8*i)) & 0xffn);
-  return out;
-}
+const seal_js = wire => Buffer.from(W.seal(wire));
 export function seal(wire) {
   return _native ? _native.seal(wire) : seal_js(wire);
 }
-/* canonical form — bytes past plen inside [40,104) are outside the
-   seal's coverage; a nonzero byte there is refused, not tolerated as
-   scratch. Enforced on both lanes so the fallback can't differ. */
-const canonicalTail = wire => {
-  if (wire[39] > FANO_CAP) return false;
-  const plen = wire[39];
-  for (let i = 40 + plen; i < 104; i++) if (wire[i] !== 0) return false;
-  return true;
-};
+const canonicalTail = wire => W.canonicalTail(wire);
 export const verify = wire =>
   wire.length === FANO_WIRE &&
   canonicalTail(wire) &&
-  (_native ? _native.verify(wire)
-           : seal_js(wire).equals(wire.subarray(104, 136)));
+  (_native ? _native.verify(wire) : W.verify(wire));
 
 export function build(sx, sy, sz, dx, dy, dz, seq, payload) {
-  if (payload.length > FANO_CAP) throw new RangeError("payload exceeds FANO_CAP");
-  const wire = Buffer.alloc(FANO_WIRE);
-  cellWord(sx, sy, sz).copy(wire, 0);
-  wire[32] = dx; wire[33] = dy; wire[34] = dz;
-  wire.writeUInt32LE(seq >>> 0, 35);
-  wire[39] = payload.length;
-  payload.copy(wire, 40, 0, payload.length);
-  seal(wire).copy(wire, 104);
-  return wire;
+  return Buffer.from(W.build(sx, sy, sz, dx, dy, dz, seq, payload));
 }
 
 /* golden vectors — machine-extracted from firmware fano_vectors.h PACKET_VECS */
-const VECS = [
+export const VECS = [
   { wire: "b66ddbb66ddbb66ddbb66ddbb66ddbb600000000000000000080000a00011800" +
           "0d0e0e0700000006676f6c64656e000000000000000000000000000000000000" +
           "0000000000000000000000000000000000000000000000000000000000000000" +

@@ -209,6 +209,14 @@ const FULL_RETROGRADE = new Map([
     decision: "generated-evidence-boundary",
     archive: "spec007-layer-map-generated-boundary-20261014",
   }],
+  ["site/assets/fano-wire.js", {
+    decision: "browser-safe-canonical-wire-extraction",
+    archive: "spec007-fano-wire-extraction-20261016",
+  }],
+  ["tools/fano-wire-audit.mjs", {
+    decision: "canonical-wire-hostile-boundary-audit",
+    archive: "spec007-fano-wire-extraction-20261016",
+  }],
   ["src/spec008_medium_lattice.zig", {
     decision: "bounded-medium-lattice-domains",
     archive: "spec008-medium-lattice-boundaries-20261014",
