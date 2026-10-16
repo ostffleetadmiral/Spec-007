@@ -1,0 +1,179 @@
+{
+  "schema": "SPEC007-D12-SDK-AUDIT-v1",
+  "boundary": {
+    "sdk_root": "../D12/d12-wasmrt-sdk",
+    "archive": "d12-wasmrt-sdk-20261016/source.tar",
+    "integration": "upstream sibling verified by Spec-007; source is not vendored into this tree",
+    "standard_path": "native wasm32/wasm64 guest interpreter",
+    "experimental_path": "profile -> wide_decode -> wide_module -> wide_bytecode -> wide_exec -> wide_memory",
+    "wasm128_wasm256_standard_claim": false,
+    "browser_runtime_bridge": "not implemented — a static page cannot spawn the native Zig host; a future bridge requires an explicit WASM build or authenticated host bridge",
+    "fano_wire_scope": "sealed canonical integrity datagram; not encryption and not Ed25519 authentication"
+  },
+  "provenance": {
+    "release": "experimental-width-feasibility-2026-10-16",
+    "release_manifest_sha256": "72a286c085bc83bd0e9ee3222c712d7750b47656ce37bafef71767c988622e81",
+    "live_release_files": 39,
+    "manifest_declared_files": 37,
+    "archive_files": 39,
+    "archive_sha256": "7298a85a474f65074ff91d8bcd0277d7e00410b67e694b9962795defae9122b2",
+    "wide_fixture_sha256": "d207446ed7260de487dd442d8a2c7c3ff27052d8177925ffce51389acbf84dfa",
+    "spec007_fano_wasm_sha256": "86e45cbf086a019fb01f3494bc5fdc4893e8c6f3d7727cd3f9254592f6945181"
+  },
+  "verification": {
+    "checks": [
+      {
+        "id": "sdk-root",
+        "status": "PASS"
+      },
+      {
+        "id": "release-manifest-present",
+        "status": "PASS"
+      },
+      {
+        "id": "release-manifest-schema",
+        "status": "PASS"
+      },
+      {
+        "id": "release-manifest-unique-paths",
+        "status": "PASS"
+      },
+      {
+        "id": "release-manifest-hash-scope",
+        "status": "PASS"
+      },
+      {
+        "id": "release-manifest-hashes",
+        "status": "PASS"
+      },
+      {
+        "id": "required-boundary-files",
+        "status": "PASS"
+      },
+      {
+        "id": "wide-fixture-hash",
+        "status": "PASS"
+      },
+      {
+        "id": "release-archive-present",
+        "status": "PASS"
+      },
+      {
+        "id": "release-archive-sha256",
+        "status": "PASS"
+      },
+      {
+        "id": "release-archive-file-set",
+        "status": "PASS"
+      },
+      {
+        "id": "release-archive-byte-parity",
+        "status": "PASS"
+      },
+      {
+        "id": "standard-path-isolation",
+        "status": "PASS"
+      },
+      {
+        "id": "experimental-integer-only",
+        "status": "PASS"
+      },
+      {
+        "id": "aggregate-test-forcing",
+        "status": "PASS"
+      },
+      {
+        "id": "sdk-facades",
+        "status": "PASS"
+      },
+      {
+        "id": "fano-example-surface",
+        "status": "PASS"
+      },
+      {
+        "id": "spec007-fano-artifact",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-build-test",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-build-test-debug",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-build-test-releasesafe",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-build-test-releasefast",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-test-all-tests",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-build",
+        "status": "PASS"
+      },
+      {
+        "id": "command:fano-example",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-fmt-check",
+        "status": "PASS"
+      }
+    ],
+    "commands": [
+      {
+        "id": "zig-build-test",
+        "command": "zig build test",
+        "status": "PASS"
+      },
+      {
+        "id": "zig-build-test-debug",
+        "command": "zig build test -Doptimize=Debug",
+        "status": "PASS"
+      },
+      {
+        "id": "zig-build-test-releasesafe",
+        "command": "zig build test -Doptimize=ReleaseSafe",
+        "status": "PASS"
+      },
+      {
+        "id": "zig-build-test-releasefast",
+        "command": "zig build test -Doptimize=ReleaseFast",
+        "status": "PASS"
+      },
+      {
+        "id": "zig-test-all-tests",
+        "command": "zig test src/all_tests.zig",
+        "status": "PASS"
+      },
+      {
+        "id": "zig-build",
+        "command": "zig build",
+        "status": "PASS"
+      },
+      {
+        "id": "fano-example",
+        "command": "zig build run-fano-example -- <spec007>/apps/fano/fano.wasm",
+        "status": "PASS"
+      },
+      {
+        "id": "zig-fmt-check",
+        "command": "zig fmt --check (28 Zig files)",
+        "status": "PASS"
+      }
+    ],
+    "test_count": 39,
+    "aggregate_scope": "the declared 39-test battery covers modules imported by src/all_tests.zig",
+    "unaggregated_test_bearing_modules": [
+      "src/fixed_point.zig",
+      "src/qmul.zig"
+    ]
+  }
+}

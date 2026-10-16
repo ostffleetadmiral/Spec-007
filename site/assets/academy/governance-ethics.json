@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "governance-ethics",
-  "lesson_count": 216,
+  "lesson_count": 217,
   "lessons": [
     {
       "access": "public",
@@ -976,6 +976,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ops/livepeer-federation.md",
       "title": "Recommendation",
+      "topic": "ethics"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5a2855576a24ee8b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The sibling d12-wasmrt-sdk release is the measured upstream WASM substrate for the future dual-width work, but it is not a vendored FANO-1 runtime. Spec-007 binds it through tools/d12-sdk-audit.mjs and site/assets/d12-sdk-audit.json, not by copying source into this tree.",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/spec-007-integration-architecture.en.md",
+      "title": "5. External Runtime Boundary (D12 SDK)",
       "topic": "ethics"
     },
     {

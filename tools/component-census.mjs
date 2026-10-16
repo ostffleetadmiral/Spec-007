@@ -32,6 +32,7 @@ const OWNER_BY_PATH = new Map([
   ["site/assets/cluster-registry.json", { owner: "tools/cluster-census.mjs", basis: "sanitized cluster projection" }],
   ["site/assets/curriculum-map.json", { owner: "tools/curriculum-map.mjs", basis: "curriculum coverage projection" }],
   ["site/assets/device-ledger.json", { owner: "tools/device-ledger.mjs", basis: "sanitized capability projection" }],
+  ["site/assets/d12-sdk-audit.json", { owner: "tools/d12-sdk-audit.mjs", basis: "upstream SDK release-gate evidence" }],
   ["site/assets/dht-manifest.json", { owner: "tools/dht-fs.mjs", basis: "DHT ledger projection" }],
   ["site/assets/external-review.json", { owner: "tools/external-review-manifest.mjs", basis: "external-authority package projection" }],
   ["site/assets/gov-metadata.json", { owner: "tools/gov-metadata.mjs", basis: "governance adoption projection" }],

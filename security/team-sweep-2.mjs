@@ -60,6 +60,7 @@ const _pfJobs = new Map();
     ["wasm-memory",      process.execPath, [path.join(_T, "wasm-memory-hygiene.mjs"), "--verify"], { timeout: 120000 }],
     ["relay-isolation",  process.execPath, [path.join(_T, "relay-isolation-audit.mjs")], { timeout: 120000 }],
     ["fano-wire",        process.execPath, [path.join(_T, "fano-wire-audit.mjs"), "--verify"], { timeout: 120000 }],
+    ["d12-sdk",          process.execPath, [path.join(_T, "d12-sdk-audit.mjs"), "--verify"], { timeout: 420000 }],
     ["external-review",  process.execPath, [path.join(_T, "external-review-manifest.mjs"), "--verify"], { timeout: 120000 }],
     // heaviest next — the pool drains in launch order
     ["archive-verify",   process.execPath, [path.join(_T, "archive-verify.mjs"), "--verify"], { timeout: 600000 }],
@@ -2313,6 +2314,39 @@ console.log("\nENGINE — unified runtime registry (sentience w2)");
             `uncontrolled evidence labels: ${bad.join(", ")}`);
     }
   }
+  /* ENG-05: the sibling D12 runtime is an upstream gate, not a vendored
+     desk claim. --verify reruns the sealed-manifest/archive parity checks
+     and the SDK's own optimization matrix before trusting the artifact. */
+  {
+    const r = await pf("d12-sdk");
+    const ap = path.join(SITE, "assets", "d12-sdk-audit.json");
+    let a = null;
+    try { a = JSON.parse(fs.readFileSync(ap, "utf8")); } catch {}
+    const checksPass = a && Array.isArray(a.verification?.checks) &&
+      a.verification.checks.every(c => c.status === "PASS");
+    r.status === 0 && a?.schema === "SPEC007-D12-SDK-AUDIT-v1" && checksPass
+      ? held("ENGINE", "d12-upstream-gate",
+          `${a.provenance.release} — ${a.verification.checks.length} checks green, ${a.verification.test_count} aggregate tests, archive byte-parity held`)
+      : open_("ENGINE", "d12-upstream-gate",
+          `rc=${r.status} schema=${a?.schema} checks=${a?.verification?.checks?.length}`);
+  }
+  /* ENG-06: the browser bridge is deliberately absent until a real WASM or
+     authenticated host bridge lands — the artifact must keep saying so and
+     Quplink must not claim the native experimental facade. */
+  {
+    const ap = path.join(SITE, "assets", "d12-sdk-audit.json");
+    let a = null;
+    try { a = JSON.parse(fs.readFileSync(ap, "utf8")); } catch {}
+    const qup = fs.readFileSync(path.join(SITE, "assets", "quplink.js"), "utf8");
+    const honest = a?.boundary?.browser_runtime_bridge?.includes("not implemented") &&
+      a?.boundary?.wasm128_wasm256_standard_claim === false &&
+      !qup.includes("ExperimentalRuntime");
+    honest
+      ? held("ENGINE", "d12-browser-boundary",
+          "upstream SDK verified; Quplink keeps the native/experimental bridge absent instead of simulating it")
+      : open_("ENGINE", "d12-browser-boundary",
+          `bridge=${a?.boundary?.browser_runtime_bridge} standardWide=${a?.boundary?.wasm128_wasm256_standard_claim} quplinkClaims=${qup.includes("ExperimentalRuntime")}`);
+  }
 }
 
 console.log("\nCONTINUITY — persistence surface (sentience w3)");
@@ -2881,6 +2915,7 @@ console.log("\nBRIDGE — bidirectional evidence (debrief d9)");
     "theue": "CascadeProjects/hardware/experiments/TheUE",
     "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
     "bs-analysis": "CascadeProjects/hardware/experiments/BS",
+    "d12-wasmrt-sdk": "CascadeProjects/hardware/experiments/D12/d12-wasmrt-sdk",
     "spec-007": "CascadeProjects/hardware/experiments/Spec-007",
     "rations": "CascadeProjects/Rations",
     "theplatform": "CascadeProjects/ThePlatform",

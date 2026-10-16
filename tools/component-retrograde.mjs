@@ -217,6 +217,14 @@ const FULL_RETROGRADE = new Map([
     decision: "canonical-wire-hostile-boundary-audit",
     archive: "spec007-fano-wire-extraction-20261016",
   }],
+  ["tools/d12-sdk-audit.mjs", {
+    decision: "upstream-runtime-release-gate",
+    archive: "spec007-d12-sdk-upstream-gate-20261016",
+  }],
+  ["site/assets/d12-sdk-audit.json", {
+    decision: "upstream-runtime-evidence-projection",
+    archive: "spec007-d12-sdk-upstream-gate-20261016",
+  }],
   ["src/spec008_medium_lattice.zig", {
     decision: "bounded-medium-lattice-domains",
     archive: "spec008-medium-lattice-boundaries-20261014",

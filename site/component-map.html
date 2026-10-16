@@ -311,9 +311,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>team-sweep-2.mjs</code></td>
-<td><strong>The consolidated sweep — the wave-cadence regression board.</strong> 247 probes across the full security/runtime/governance surface plus ledger-drift and external-review gates; exits 1 on any OPEN.</td>
-<td>per-wave gate; final board 234 HELD / 2 NOTED / 1 OPEN / 10 PENDING (BLACK-03 deploy parity; EXT lanes await external authority)</td>
-<td>—</td>
+<td><strong>The consolidated sweep — the wave-cadence regression board.</strong> 249 probes across the full security/runtime/governance surface plus ledger-drift and external-review gates; exits 1 on any OPEN.</td>
+<td>per-wave gate; final board 236 HELD / 2 NOTED / 1 OPEN / 10 PENDING (BLACK-03 deploy parity; EXT lanes await external authority)</td>
+<td>+2 ENGINE probes: D12 upstream release gate and honest browser-bridge boundary</td>
 </tr>
 <tr>
 <td><code>xploit-sweep.mjs</code></td>
@@ -701,6 +701,12 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>new — mesh dialect extracted from the Node bridge into a publishable desk primitive</td>
 </tr>
 <tr>
+<td><code>d12-sdk-audit.json</code></td>
+<td>Sanitized evidence projection for the external <code>d12-wasmrt-sdk</code> release: manifest/archive parity, path isolation, integer-only boundary, command outcomes, and the explicit “no Quplink bridge yet” limitation.</td>
+<td>emitted/verified by <code>tools/d12-sdk-audit.mjs</code></td>
+<td>new — upstream runtime gate evidence</td>
+</tr>
+<tr>
 <td><code>fano-i18n.js</code></td>
 <td>The desk's second tongue — EN ⇄ 繁體中文 keyed dictionary.</td>
 <td>twin gates</td>
@@ -751,9 +757,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tbody>
 <tr>
 <td><code>publish-check.sh</code></td>
-<td>The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, JS syntax.</td>
+<td>The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, JS syntax.</td>
 <td>self</td>
-<td>fixed the silent gap — <code>fixed_point_q128.zig</code> (37 tests) and <code>spec007_compute.zig</code> were glob-skipped; now explicit; <code>component-map</code> twin added</td>
+<td>fixed the silent gap — <code>fixed_point_q128.zig</code> (37 tests) and <code>spec007_compute.zig</code> were glob-skipped; now explicit; <code>component-map</code> twin and <code>d12-sdk-audit --verify</code> added</td>
 </tr>
 <tr>
 <td><code>serve.py</code></td>
@@ -817,9 +823,9 @@ bottom; expansions since the map was drawn are noted per row.</p>
 </tr>
 <tr>
 <td><code>engine-manifest.mjs</code></td>
-<td>Unified governed-runtime registry (blueprint P1 gap) — one signed document naming every runtime the desk may trust; same canon discipline as fleet-manifest (emit/verify/push).</td>
-<td>ENGINE-01/02 probes</td>
-<td>—</td>
+<td>Unified governed-runtime registry (blueprint P1 gap) — one signed document naming every runtime the desk may trust; same canon discipline as fleet-manifest (emit/verify/push). The upstream D12 lane is registered through its audit artifact, not as a desk runtime.</td>
+<td>ENGINE-01..06 probes</td>
+<td>D12 upstream gate registered with honest no-browser-bridge boundary</td>
 </tr>
 <tr>
 <td><code>emergent-sweep.mjs</code></td>
@@ -854,8 +860,8 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tr>
 <td><code>doc-census.mjs</code></td>
 <td>D11/P5 cluster-wide documentation census — walks every populated sibling root, classifies each doc into the audit vocabulary, emits <code>security/out/doc-census.json</code> + the sanitized public class map.</td>
-<td><code>--verify</code> — 34,644 docs, stable map</td>
-<td>re-emit cadence folded into sweep</td>
+<td><code>--verify</code> — 34,740 docs, stable map</td>
+<td>D12 sibling root added to the governed census</td>
 </tr>
 <tr>
 <td><code>harness-binding.mjs</code></td>
@@ -872,7 +878,7 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <tr>
 <td><code>gov-map.mjs</code></td>
 <td>The governance vision, made executable — binds every mandate of the <code>gov/</code> authority corpus (constitution, SPEC series, bylaws, policy domains) to a verifiable row.</td>
-<td><code>--verify</code> — 48/48 mandates, 16 domains</td>
+<td><code>--verify</code> — 50/50 mandates, 17 domains</td>
 <td>—</td>
 </tr>
 <tr>
@@ -976,6 +982,12 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td>Executable gate for the extracted <code>FANO_WIRE</code> module: firmware goldens, bridge/WASM/Zig differential checks, malformed lengths, canonical tails, payload caps, typed arguments, hostile coordinates, dependency boundaries, and the integrity-not-encryption claim boundary.</td>
 <td><code>--verify</code> + release gate</td>
 <td>new — WIRE-10 canonical datagram gate</td>
+</tr>
+<tr>
+<td><code>d12-sdk-audit.mjs</code></td>
+<td>Fail-closed gate for the external <code>d12-wasmrt-sdk</code> sibling: release-manifest hashes, sealed-archive byte parity, standard/experimental isolation, integer-only width sources, the 39-test aggregate, all upstream optimize gates, and the Spec-007 Fano example.</td>
+<td><code>--verify</code> + release gate + ENGINE-05/06</td>
+<td>new — upstream runtime adoption boundary</td>
 </tr>
 <tr>
 <td><code>space-serve.sh</code></td>
@@ -1108,11 +1120,11 @@ bottom; expansions since the map was drawn are noted per row.</p>
 <td><code>docs/component-census.json</code> / <code>docs/component-retrograde.json</code></td>
 <td>Exhaustive component→contract→tests→docs→artifacts census plus the per-component reverse-engineering ledger (workstream, imports, references, verification class, optimization candidate, and measured baseline binding).</td>
 <td><code>node tools/component-census.mjs --verify</code> + <code>node tools/component-retrograde.mjs --verify</code></td>
-<td>280 components inventoried; full retrograde completion remains explicit</td>
+<td>291 components inventoried; full retrograde completion remains explicit</td>
 </tr>
 <tr>
 <td><code>tools/component-performance.mjs</code> / <code>security/out/component-performance.json</code></td>
-<td>Reproducible workstream baseline emitter/verifier: build graph, native microbench, scale-7 chunk+DHT, Digit model probe, census/retrograde, governance, Academy, and site build timings with explicit component bindings.</td>
+<td>Reproducible workstream baseline emitter/verifier: build graph, native microbench, scale-7 chunk+DHT, Digit model probe, census/retrograde, D12 audit gate, governance, Academy, and site build timings with explicit component bindings.</td>
 <td><code>node tools/component-performance.mjs --verify</code></td>
 <td>measured baseline bound into the retrograde ledger</td>
 </tr>

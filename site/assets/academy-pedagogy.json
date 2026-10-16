@@ -2,7 +2,7 @@
   "schema": "academy-pedagogy-v1",
   "scope": "deterministic-content-signals",
   "courses_graded": 14,
-  "lessons_graded": 55587,
+  "lessons_graded": 55589,
   "grades": {
     "STRONG": 0,
     "FAIR": 0,
@@ -63,7 +63,7 @@
           "band": "green"
         },
         "capped": {
-          "v": 0.3144,
+          "v": 0.3155,
           "band": "red"
         },
         "title_coll": {
@@ -137,31 +137,31 @@
     },
     {
       "course": "governance-ethics",
-      "lessons": 216,
+      "lessons": 217,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.037,
+          "v": 0.0369,
           "band": "green"
         },
         "capped": {
-          "v": 0.2778,
+          "v": 0.2765,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.1898,
+          "v": 0.1889,
           "band": "green"
         },
         "neardup": {
-          "v": 0.3241,
+          "v": 0.3226,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.1713,
+          "v": 0.1705,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.4815,
+          "v": 0.4793,
           "band": "green"
         },
         "ids": {
@@ -506,31 +506,31 @@
     },
     {
       "course": "systems-engineering",
-      "lessons": 2654,
+      "lessons": 2655,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.0754,
+          "v": 0.0753,
           "band": "green"
         },
         "capped": {
-          "v": 0.234,
+          "v": 0.2339,
           "band": "amber"
         },
         "title_coll": {
-          "v": 0.1775,
+          "v": 0.1774,
           "band": "green"
         },
         "neardup": {
-          "v": 0.2306,
+          "v": 0.2305,
           "band": "amber"
         },
         "term_cov": {
-          "v": 0.2803,
+          "v": 0.2806,
           "band": "red"
         },
         "src_conc": {
-          "v": 0.457,
+          "v": 0.4569,
           "band": "green"
         },
         "ids": {

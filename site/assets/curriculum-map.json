@@ -1,9 +1,9 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 56135,
+  "lesson_count": 56137,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 55587,
+  "harvested_lessons": 55589,
   "courses": [
     {
       "id": "ai-literacy",
@@ -79,7 +79,7 @@
     },
     {
       "id": "governance-ethics",
-      "lesson_count": 216,
+      "lesson_count": 217,
       "topics": [
         "ethics"
       ],
@@ -255,7 +255,7 @@
     },
     {
       "id": "systems-engineering",
-      "lesson_count": 2654,
+      "lesson_count": 2655,
       "topics": [
         "systems"
       ],

@@ -3,7 +3,7 @@
 **Status:** L2 evidence layer · **Authority:** derived from the D-series
 cluster debrief · **Pair:** `bridge-map-zh.html` · **Mechanism:**
 `tools/bridge-map.mjs` → `bridge-ledger.json`, probe-enforced (BRG-01..09)
-· **Coverage:** all 30 populated census roots + the archive corpus
+· **Coverage:** all 31 populated census roots + the archive corpus
 
 The D-series sweeps carded every cluster root. This map goes further: it
 records what the sibling projects **actually settle** — executable audits,
@@ -47,6 +47,7 @@ machine-detectable event (BRG-07). What each realm uniquely holds:
 | Anchor | Source | What it settles | Claims |
 |---|---|---|---|
 | Release discipline | the air-gap platform | The production contract pinned in its own charter: 1,548 tests, a ≥116.9% coverage ratchet, 112-check WASM smoke, 3,000-iteration fuzz, quine and docker E2E | C53 · C67 |
+| Upstream runtime gate | the D12 WASM runtime SDK | The sealed release manifest, byte-identical archive, standard/experimental path split, explicit 39-test aggregate, and Spec-007 Fano example — adopted as a governed upstream gate, not vendored into the desk | C126 |
 | Transport corpus | the air-gap platform | The physical-channel transports and identity modules the SPEC-007 compatibility suites already bridge against | C53 · C97 |
 | Semantic-layer corpus | the 8D physics sibling | The hyper-token module set plus recorded genesis-sweep results — the family branch's own experiment tree | C97 · C89 |
 | Infrastructure audit | the private-git lab | Machine-readable audit export and coverage report for the sync stack — evidence without physics claims | — |
@@ -68,7 +69,7 @@ machine-detectable event (BRG-07). What each realm uniquely holds:
 | Weights inventory | the model store | The on-desk GGUF inventory backing every live-LLM claim | C72 |
 | Donor shelves | the shelf baskets | Byte-identical clones and diverged copies recorded as what they are — donors, not mirrors | C94 |
 | Preserved snapshot | the frozen fork | The pre-audit snapshot kept by the immutable-baseline rule — evidence, never deleted | C95 |
-| The archive corpus | the sealed store | 318 sealed artifacts across seven campaign families — directory seals and tarball sidecars both verified | C93 · C97 · C98 · C67 |
+| The archive corpus | the sealed store | 367 sealed artifacts across seven campaign families — directory seals and tarball sidecars both verified | C93 · C97 · C98 · C67 |
 | The dossier itself | this tree | Self-anchored convergence surface — manifest, findings, override ledger on disk | C93 · C95 |
 
 ## Dossier → siblings (what they carry)

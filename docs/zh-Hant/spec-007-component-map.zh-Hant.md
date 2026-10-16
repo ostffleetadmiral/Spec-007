@@ -61,7 +61,7 @@
 | `harness.mjs` | 無頭 WASM + 原生 WebSocket 用戶端。 | 由各套件驗證 | — |
 | `suite.mjs` | RED/BLUE/BLACK/GRAY 可執行掃描 → `findings.json`。 | 33 探針 | +2 BLUE 探針:`compute-wasm-abi` 與 `science-inventory-ladder` |
 | `comms-suite.mjs` | COMM 隊 — docker WAN 拓撲 33 探針(COMM-01..33 正典;`--local` 跑 27 項單機子集):雙宿主繞行、tc netem、分割/癒合/換手、跨網段封緘+簽章遞送。 | docker 閘控;終板 32H/1N | — |
-| `team-sweep-2.mjs` | **整合掃描 — 波段節奏回歸板。** 247 探針橫跨完整安全/執行時/治理面,加帳本漂移與外部審查閘;任何 OPEN 即 exit 1。 | 每波段閘;終板 234 HELD / 2 NOTED / 1 OPEN / 10 PENDING（BLACK-03 部署對帳;EXT 車道待外部權柄） | — |
+| `team-sweep-2.mjs` | **整合掃描 — 波段節奏回歸板。** 249 探針橫跨完整安全/執行時/治理面,加帳本漂移與外部審查閘;任何 OPEN 即 exit 1。 | 每波段閘;終板 236 HELD / 2 NOTED / 1 OPEN / 10 PENDING（BLACK-03 部署對帳;EXT 車道待外部權柄） | +2 ENGINE 探針：D12 上游釋出閘與誠實瀏覽器橋接邊界 |
 | `xploit-sweep.mjs` | **XPLT 隊 — 實 WAN 實驗室上的主動漏洞獵捕。** 8 項真實攻擊:偽造未封緘 direct_msg、在場金鑰替換 MITM、收件匣洪水、逐連線→聚合限流規避、被動廣播樞紐嗅探、重放、標頭閒置位元組洩漏、偽造 relay_route。捕獲別名 `keypairFromSeed` 腐敗(線上每個 v3 簽章皆失效)並推動 v3 簽章封包 + `sealed_peers` 修復。 | `node security/xploit-sweep.mjs --docker`;終板 3 HELD / 1 BLOCKED / 3 NOTED / 1 EXPLOITED(樞紐元資料 — 架構性) | 新 — 硬化線路之波段 |
 | `encap-sweep.mjs` | ENCAP 隊 — 隧道教義字面化:封緘內層酬載巢置於外層傳輸體、多通道突發、實地損傷爬升、幹線死亡時載波切換至雙宿主繞行。 | `--docker` / `--probe` 實驗室模式 | — |
 | `pack-density.mjs` | PACK 隊 — 封包裝箱可測量化:N 個定長內層封包装入一個幹線對比 N 次單發;真實上限、全有或全無的丟棄特徵、以 rx-delta 計量之每流開銷、重發成本。 | `--docker` / `--probe` | — |
@@ -122,6 +122,7 @@
 | `desktop.html` + `fano-desktop.js` | FANO-1 工作站:誓約門控殼層、檔案視窗、終端機、Quplink 牌組、彩蛋/成就、雙語。 | JS 語法閘 + 安全套件 | ANOMALY CODEX:科學庫存下限化為可收集傳說 — 139 鍵 `ANOMALY_LORE`、`anomalySeen` 追蹤、`codex` 指令、3 彩蛋 + 3 成就 |
 | `fano-auth.js` | 真實誓約:Ed25519、契約簽章、PBKDF2+AES-GCM、RBAC、創世記錄。 | 安全套件 | — |
 | `fano-wire.js` | 正典瀏覽器安全型 136-byte FANO 封緘完整性資料包:typed-array parse/build/seal/verify、正典尾端強制、受限路由診斷與明確網格外證據。僅為封緘完整性 — 非加密或簽章認證。 | `tools/fano-wire-audit.mjs` + WIRE-10 | 新增 — 將 mesh 方言自 Node 橋接器抽取為可發佈桌面原語 |
+| `d12-sdk-audit.json` | 外部 `d12-wasmrt-sdk` 釋出之淨化證據投影：清單／封存同位、路徑隔離、純整數邊界、指令結果，以及「Quplink 橋接尚未存在」之明示限制。 | 由 `tools/d12-sdk-audit.mjs` 發射／驗證 | 新增 — 上游執行時閘門證據 |
 | `fano-comms.js` | comms.os:封緘/開啟、QR、Shamir、隱寫、WS 中繼。 | comms-suite | — |
 | `fano-reset.js` | 海軍部重置教義 — 創世 pk 與創世「admiral」成員相符之桌即旗桌:叢集來源之重置為單方;其他來源僅在全體 `FANO-RESET-v1` 一致投票下焚毀。普通桌可自由重置。 | 桌面/sentinel 探針 | — |
 | `spec007.wasm` | 檔案算術於瀏覽器即時運行。 | ABI 探針 | 以 residue/air/cool 匯出重建 |
@@ -131,7 +132,7 @@
 
 | 元件 | 契約 | 驗證 | 擴充 |
 |---|---|---|---|
-| `publish-check.sh` | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、JS 語法。 | 自檢 | 修復靜默缺口 — `fixed_point_q128.zig` 與 `spec007_compute.zig` 原被 glob 略過;現明確執行;新增 `component-map` 雙語檢查 |
+| `publish-check.sh` | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、JS 語法。 | 自檢 | 修復靜默缺口 — `fixed_point_q128.zig` 與 `spec007_compute.zig` 原被 glob 略過;現明確執行;新增 `component-map` 雙語檢查與 `d12-sdk-audit --verify` |
 | `serve.py` | 硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。 | — | `.wasm`/`.json`/`.html` 加 `Cache-Control: no-store` |
 | `deploy-pages.sh` | 經分離 worktree 之原子化 gh-pages 部署 — 絕不觸動現行檢出(舊 checkout+rm 模式曾兩度致害)。 | BLACK-03 同位複驗 | — |
 | `golden-master.mjs` | 正典向量同位(D11/P2,Ark 移植):`golden_emit.zig` 輸出對 `golden/vectors.txt`;`--emit` 為正典行為,`--mutate` 自檢偵測。 | GLD 探針 | — |
@@ -142,16 +143,16 @@
 | `device-ledger.mjs` | D11/P5 工作站能力清冊 — `security/out/` 存完整帳本 + `site/assets/` 存消毒後布林/計數投影。 | — | — |
 | `dox-audit.mjs` | D11/P4 文件繫結棘輪 — 每個受治理檔案必須鏈至治理 AGENTS.md;每條具名探針之規則必須解析至存活探針。 | 稽核規則之規則 | — |
 | `evidence-manifest.mjs` | D11/P6 — 每條 `sibling:root:path` 引用之 sha256 清單;兄弟檔案靜默變更即證據漂移。 | EVID 探針 | — |
-| `engine-manifest.mjs` | 統一受治理運行時註冊表(藍圖 P1 缺口)— 一份簽章文件列明桌面可信任之每個運行時;與 fleet-manifest 同正典紀律(emit/verify/push)。 | ENGINE-01/02 探針 | — |
+| `engine-manifest.mjs` | 統一受治理運行時註冊表(藍圖 P1 缺口)— 一份簽章文件列明桌面可信任之每個運行時;與 fleet-manifest 同正典紀律(emit/verify/push)。上游 D12 車道經其稽核工件註冊,而非宣稱為桌面執行時。 | ENGINE-01..06 探針 | D12 上游閘門已註冊,並誠實標示瀏覽器橋接缺席 |
 | `emergent-sweep.mjs` | 湧現發現掃描 — 具名常數重現於 ≥2 獨立根目錄立案為湧現;裸字面量 ≥3 根收斂立案為 convergent;`--emit`/`--verify` 總帳。 | 248 候選、0 未立案 | — |
 | `archive-projection.mjs` / `archive-verify.mjs` | 連續性對 — 將 `~/.archives/` 投影為消毒後公開清單(僅基名;已封/未封誠實列出);verify 重算每個 dir+SHA256SUMS 與 tarball+sidecar 封存。 | `--emit`/`--verify`;CONT 探針 | — |
 | `course-gen.mjs` | 藍圖 P7 課程生成器 — 由波段報告決定性產生課程;每課攜帶 `deterministic_review_required`。 | `--emit` → academy 清單 | — |
 | `science-verdict.mjs` | 證明或不確定通過 — 將 science-coverage 表解析為 `harness_proven`/`lit_supported`/`constrained`/`indeterminate`。 | — | — |
 | `slate-ledger.mjs` | 發射 `production-ledger.json` — 導演室分鏡所依據之正典資產清冊;每條目皆從真實來源檔案萃取。 | — | — |
-| `doc-census.mjs` | D11/P5 叢集文件普查 — 遍歷每個有內容之鄰近根,將每份文件分類至稽核詞彙,發射 `security/out/doc-census.json` + 淨化公開類別圖。 | `--verify` — 34,644 文件,圖穩定 | 重發射節奏併入掃蕩 |
+| `doc-census.mjs` | D11/P5 叢集文件普查 — 遍歷每個有內容之鄰近根,將每份文件分類至稽核詞彙,發射 `security/out/doc-census.json` + 淨化公開類別圖。 | `--verify` — 34,740 文件,圖穩定 | D12 兄弟根已納入治理普查 |
 | `harness-binding.mjs` | 主張↔框架繫結閘門 — 無可執行錨點之帳列不得宣稱 VERIFIED:引用之 `*.zig` 路徑必須存在、測試數必須對帳、被繫結之框架必須被引用。 | `--verify` — 27 繫結 | — |
 | `canon-verify.mjs` | 抽屜正典完整性 + 引用解析 — 正典文件與封存原件逐位元一致,帳列引用解析至活路徑。 | `--verify` — 封存 + 59/61 引用 | — |
-| `gov-map.mjs` | 治理願景可執行化 — 將 `gov/` 權威文集(憲章、SPEC 系列、附則、政策域)每項授命繫結至可驗證之列。 | `--verify` — 48/48 授命,16 域 | — |
+| `gov-map.mjs` | 治理願景可執行化 — 將 `gov/` 權威文集(憲章、SPEC 系列、附則、政策域)每項授命繫結至可驗證之列。 | `--verify` — 50/50 授命,17 域 | — |
 | `academy-grade.mjs` | 決定性教學訊號儀器 — 逐位元評等學院帳本;`--selfcheck` 以儀器自身運行棘輪自檢。 | `--verify` + `--selfcheck` | — |
 | `academy-harvest.mjs` | 開放文集化為課程 — 以決定性排序將抽屜鄰近文集採收為學院教材。 | `--verify` | — |
 | `academy-review.mjs` | 課程級審查儀器(SPEC-011) — 生成課程於晉升前對教學帳本審查。 | `--verify` | — |
@@ -169,6 +170,7 @@
 | `receipt-bridge.mjs` | 將 k3/k3serve `--sched-emit` JSONL 回執摺疊入帳本 — 引擎排程回執化為艦隊證據。 | 回執摺疊探針 | — |
 | `film-render.mjs` | 生成式電影管線,框架內建 — 將影片清單渲染為產製帳本下之 roll 成品。 | `--emit` → film-manifest.json | — |
 | `fano-wire-audit.mjs` | 已抽取 `FANO_WIRE` 模組之可執行閘門:韌體黃金向量、橋接/WASM/Zig 差分、畸形長度、正典尾端、酬載容量、型別參數、敵意座標、相依邊界,以及完整性而非加密之主張邊界。 | `--verify` + 發佈閘 | 新增 — WIRE-10 正典資料包閘門 |
+| `d12-sdk-audit.mjs` | 外部 `d12-wasmrt-sdk` 兄弟元件之失敗即封閉閘門：釋出清單雜湊、封存檔位元同位、標準／實驗路徑隔離、寬度模組純整數、39 測試聚合、全部上游優化閘，以及 Spec-007 Fano 範例。 | `--verify` + 發佈閘 + ENGINE-05/06 | 新增 — 上游執行時採用邊界 |
 | `space-serve.sh` | 啟動 spaces.os 內嵌之本地 Space Agent 執行環境 — 捐贈者檢出(MIT,Jan Tomasek),非供應子樹;繫結迴路單使用者於器官預期埠;clone 或 node 缺席時誠實失敗。 | 經由 desk iframe 驗證 | — |
 | `aiwo_types.zig` | 原生 AIWO schema/version、rank、lifecycle、decision、event、officer、action、decision-record 與 SHA-256/hex digest 契約。 | golden SHA-256 vector 測試 + 全部原生相依項 | — |
 | `aiwo_policy.zig` / `aiwo_manifest.zig` | 原生 AIWO 階級、clearance、職責、禁止動作與消毒 command-manifest 閘門；模型輸出僅為建議；偽造/畸形 officer identity 於評估時拒絕，policy digest 固定為原 v1 指紋，manifest JSON 對畸形型別/clearance cap 採 fail-closed。 | 原生單元測試 + manifest 檢查 + forged-identity/duty-matrix 測試 + malformed-manifest 測試 | — |
@@ -193,8 +195,8 @@
 | `deps/digit/` | 唯讀 Digit model-session donor graft：Q128 graph/session 模組與 `decoder_q4.dgqp`;`e5_state.zig` 為確定性模型狀態邊界，`model_package.zig` 為 canonical DQGP v1 package 邊界（驗證 topological order、精確耗盡、有界 count/attribute 與 transactional ownership），`model_session.zig` 為 transactional session/state 邊界（checked tensor/import shape product、精確 store entry consistency、已驗證 recurrent snapshot、具 rollback 的 zero-copy `present_*`→`past_*` 交接、已刷新 per-step scalar input、checked logits/E6 summary 運算，且 upload admission 限於已宣告 non-initializer input），`tensor_upload.zig` 為 bounded host/Wasm q128 ingress 邊界（name/rank/nonzero-extent/product/byte validation、checksum-only decode receipt、禁止 local-blob 或 parent-store shadowing，以及 transactional session accounting），`onnx_graph.zig` 為 bounded ONNX graph/protobuf parser 與 deterministic scheduler 邊界（checked varint 與 wire type、有界 node/value/input/output/attribute/dimension 定義域、唯一 produced-value identity、交易式 owned slice、unpacked/packed attribute 接受，以及具 cycle rejection 的 earliest-ready-node ordering），`tensor_ops.zig` 為 checked Q128 kernel 邊界（checked shape product 與 index 定義域、fail-closed quantized decode 維度、有界 group-attention geometry/scratch lane，以及精確 integer-core 運算並將 f64 限於明示 fast-tier sidecar），`onnx_weights.zig` 為 bounded ONNX weight-index/external-shard 邊界（wire-type 與 varint validation、有界 tensor/dim/name/external metadata 定義域、duplicate-name rejection、canonical relative shard path、checked offset/length 運算，以及 direct/cache byte parity），而 `graph_exec.zig` 為 resumable demand-pull graph 邊界：驗證 schedule/cursor/producer 定義域、checked tensor/blob/index 運算、交易式 checkpoint row 與 deferred checksum、自有 profiling key、可續行 `MissingTensor` 狀態、checked quantized/convolution/attention/rotary geometry、accelerator batch rollback，並維持精確 Q128 核心且將 f64/f32 限於明示 gated fast-tier sidecar。來源 hash 與 SFTP provenance 記於 `docs/native-donor-manifest.json`。 | Digit model-package/model-session/tensor-upload/onnx-weights/onnx-graph/tensor-ops/graph-exec 與 `e5_state` 測試根 + 750-tensor 原生探針 | q4 deployment weights 為 ignored 本地資產，不提交;graph-execution、tensor-upload、onnx-weights 與 onnx-graph 邊界已硬化 |
 | `golden/vectors.txt` | 黃金參考面 — `golden_emit.zig` 之已提交正典輸出。 | `golden-master.mjs --verify` | — |
 | `build.zig` | 框架圖 — `zig build test` 聚合所有 `src/` 套件(spec007 證明、spec008 qstar 橋接、封緘雙生、原生 DHT)並構建 `dhtd`;依 wave-5 平行化設並行測試根。 | `zig build test` | — |
-| `docs/component-census.json` / `docs/component-retrograde.json` | 全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選與量測基線繫結)。 | `node tools/component-census.mjs --verify` + `node tools/component-retrograde.mjs --verify` | 已盤點 280 components;完整 retrograde 完成度保持明示 |
-| `tools/component-performance.mjs` / `security/out/component-performance.json` | 可重現工作流量測發射/驗證器：build graph、原生 microbench、scale-7 chunk+DHT、Digit model probe、census/retrograde、治理、Academy 與 site build timing，皆具明確元件繫結。 | `node tools/component-performance.mjs --verify` | 量測基線已繫入 retrograde 帳 |
+| `docs/component-census.json` / `docs/component-retrograde.json` | 全部 Spec-007 component→contract→tests→docs→artifacts 之盤點,外加逐元件逆向工程帳(工作流、imports、references、驗證類別、最佳化候選與量測基線繫結)。 | `node tools/component-census.mjs --verify` + `node tools/component-retrograde.mjs --verify` | 已盤點 291 components;完整 retrograde 完成度保持明示 |
+| `tools/component-performance.mjs` / `security/out/component-performance.json` | 可重現工作流量測發射/驗證器：build graph、原生 microbench、scale-7 chunk+DHT、Digit model probe、census/retrograde、D12 稽核閘、治理、Academy 與 site build timing，皆具明確元件繫結。 | `node tools/component-performance.mjs --verify` | 量測基線已繫入 retrograde 帳 |
 | `admiralty-desk/` | 旗桌之 Electron 殼 — 固定埠 8901 之嵌入式 loopback 伺服器(穩定 localStorage 來源使創世金鑰跨重啟存續);與 serve.py 相同標頭;`main.js` 擁有 BrowserWindow 與 IPC 閘門;`preload.js` 為受沙箱隔離之 context bridge;`package.json`/`package-lock.json` 釘定 Electron;contextIsolation + sandbox + 無 nodeIntegration;`desk.sh` 剝除 `ELECTRON_RUN_AS_NODE`。 | 桌面探針 | — |
 | `apps/fano/` | Fano quine 方言工件(index.html + fano.wasm)— `site/apps/fano/` 存逐位元組一致之供應副本。 | wasm 身份 | — |
 | `prototypes/` | 行政覆權試驗場 — 封存路徑以隔離實驗執行;報告落於 `prototypes/out/`;生產不動。 | falsification-audit 之 OVR 列 | — |

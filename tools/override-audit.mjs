@@ -110,6 +110,7 @@ const corpus = (() => {
 
 /* ---------- cluster root mapping ---------- */
 const ROOTMAP = [
+  [/d12|wide.?width|ExperimentalRuntime/i, "D12"],
   [/rations|quine|wasm|invite|shamir|webrtc|relay/i, "Rations"],
   [/paper|qr\b|stega|lora|afsk|video.*transport|beheader|isg|polyglot/i, "Mosi"],
   [/qstar|lattice|421|e0 node|15.?³/i, "qstar-llm"],
@@ -154,6 +155,7 @@ for (const r of rows) {
     "theue": "CascadeProjects/hardware/experiments/TheUE",
     "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
     "bs-analysis": "CascadeProjects/hardware/experiments/BS",
+    "d12-wasmrt-sdk": "CascadeProjects/hardware/experiments/D12/d12-wasmrt-sdk",
     "rations": "CascadeProjects/Rations",
     "theplatform": "CascadeProjects/ThePlatform",
     "octolab": "CascadeProjects/octo",

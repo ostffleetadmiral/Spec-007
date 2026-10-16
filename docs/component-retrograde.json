@@ -2,13 +2,13 @@
   "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
   "summary": {
     "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
-    "census_components": 289,
-    "components": 289,
+    "census_components": 291,
+    "components": 291,
     "status_counts": {
       "BUILD_GRAPH_COVERED": 19,
       "DOCUMENTED_COMPONENT": 24,
-      "GENERATED_ARTIFACT_BOUND": 40,
-      "SCRIPT_HARNESS_BOUND": 101,
+      "GENERATED_ARTIFACT_BOUND": 41,
+      "SCRIPT_HARNESS_BOUND": 102,
       "UNIT_TESTED": 105
     },
     "workstreams": {
@@ -16,9 +16,9 @@
       "desk-shell": 5,
       "digit-model-donor": 18,
       "firmware": 1,
-      "governance-tools": 48,
+      "governance-tools": 49,
       "native-aiwo-dht": 17,
-      "published-surface": 46,
+      "published-surface": 47,
       "q128-arithmetic": 2,
       "qstar-donor": 67,
       "security-lab": 53,
@@ -26,7 +26,7 @@
       "spec008-wire": 9
     },
     "unit_tested": 105,
-    "generated_bound": 40,
+    "generated_bound": 41,
     "pending_review": 0,
     "todo_markers": 0,
     "hot_path_candidates": [
@@ -129,19 +129,19 @@
       "tools/fano-wire-audit.mjs",
       "tools/publish-check.sh"
     ],
-    "measured_components": 160,
-    "workstream_measured_components": 198,
+    "measured_components": 162,
+    "workstream_measured_components": 200,
     "performance_baseline": {
       "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
-      "measurements": 10,
-      "bound_components": 29,
+      "measurements": 11,
+      "bound_components": 31,
       "selectors": [
         "release-artifacts",
         "site-academy-generated",
         "unit-tested-zig"
       ]
     },
-    "completed_full_retrograde": 59
+    "completed_full_retrograde": 61
   },
   "components": [
     {
@@ -378,6 +378,7 @@
           "security/team-sweep-2.mjs",
           "security/wozam-gate.mjs",
           "tools/component-census.mjs",
+          "tools/d12-sdk-audit.mjs",
           "tools/film-render.mjs"
         ],
         "todo_markers": 0,
@@ -1405,7 +1406,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -1664,7 +1666,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -1986,7 +1989,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -2419,7 +2423,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -2526,7 +2531,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -2995,7 +3001,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -3371,7 +3378,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -3648,7 +3656,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 1
@@ -4443,7 +4452,8 @@
           "deps/qstar-quantum/build.zig",
           "deps/qstar-render/build.zig",
           "deps/qstar-transport/build.zig",
-          "deps/qstar-vfs/build.zig"
+          "deps/qstar-vfs/build.zig",
+          "tools/d12-sdk-audit.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 4
@@ -7078,9 +7088,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "5e3c7d9e810990ecd211fea5221310a0c000febaa9ad4d091bb23688157a38dd",
-        "bytes": 214675,
-        "lines": 4195,
+        "sha256": "fbd3be5c97208f35e772e1a2a6597706ba558ce119bef85d33dea6a8cd94f583",
+        "bytes": 216872,
+        "lines": 4230,
         "imports": [
           "../tools/dht-fs.mjs",
           "./fano-mesh-bridge.mjs",
@@ -8294,6 +8304,53 @@
         "completed": false,
         "archive": null,
         "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "site/assets/d12-sdk-audit.json",
+      "workstream": "published-surface",
+      "status": "GENERATED_ARTIFACT_BOUND",
+      "reverse_engineering": {
+        "sha256": null,
+        "bytes": 0,
+        "lines": null,
+        "imports": [],
+        "referenced_by": [
+          "security/team-sweep-2.mjs",
+          "tools/component-census.mjs",
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs",
+          "tools/d12-sdk-audit.mjs",
+          "tools/engine-manifest.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": true,
+        "owner": "tools/d12-sdk-audit.mjs",
+        "owner_basis": "upstream SDK release-gate evidence",
+        "manifest_bound": true,
+        "source_zone": "site"
+      },
+      "verification": {
+        "kind": "artifact",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": true,
+        "measurements": [
+          "d12-sdk-audit-verify"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-d12-sdk-upstream-gate-20261016",
+        "decision": "upstream-runtime-evidence-projection"
       }
     },
     {
@@ -11933,9 +11990,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "9404e5eb808320b13481ee90f363017842f90c686ce9e945d8e733faad51d7d1",
-        "bytes": 36635,
-        "lines": 576,
+        "sha256": "69abca7c7aa67928857308385fa3a8480c1641e8a064e07bb2dad89c33aae1ec",
+        "bytes": 37514,
+        "lines": 587,
         "imports": [
           "node:child_process",
           "node:fs",
@@ -12068,9 +12125,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "6da49cfb2998fc266171bab459e1eeb3b84ae1c67853a31a31880a4e3171ec31",
-        "bytes": 11898,
-        "lines": 164,
+        "sha256": "dc855719e97dd9c39afbd3aa9e07364ecd71903e9488d075e5b1356b9ab72949",
+        "bytes": 12136,
+        "lines": 165,
         "imports": [
           "node:child_process",
           "node:fs",
@@ -12159,9 +12216,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "d3ae036b5aefcd48c1f245699b51e8c21e75686ae5ae5d97e2f25fb90ad6a1c8",
-        "bytes": 8957,
-        "lines": 154,
+        "sha256": "6cd64c7a3ce66d8da9b6cf91ac6537d76816398780568d9dcc5e5284573597ee",
+        "bytes": 9078,
+        "lines": 155,
         "imports": [
           "node:fs",
           "node:path",
@@ -12206,9 +12263,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "9f1fe8613ac822cf60acb6ce99fc809bab773d7a8d4548bde5f379bb87d4e697",
-        "bytes": 10468,
-        "lines": 270,
+        "sha256": "4a96ab0577c7913e9a49f3b1a086bbe261eadf3bce4b79e629ba2359827871ac",
+        "bytes": 10788,
+        "lines": 280,
         "imports": [
           "node:child_process",
           "node:crypto",
@@ -12252,9 +12309,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "25e9500babb0fe6940432718b45ba3b8dd083a09a1be8fb92d855b0887616292",
-        "bytes": 19359,
-        "lines": 477,
+        "sha256": "7db90c78c1a77a2f26c7530ef924bafb4c715067f958c0d60002c7d701faa612",
+        "bytes": 19653,
+        "lines": 485,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -12384,6 +12441,59 @@
         "completed": false,
         "archive": null,
         "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "tools/d12-sdk-audit.mjs",
+      "workstream": "governance-tools",
+      "status": "SCRIPT_HARNESS_BOUND",
+      "reverse_engineering": {
+        "sha256": "411e039d71719b8cb7fa10a7b5cefb33fdddb94edf306877c3b054c3089079d2",
+        "bytes": 16132,
+        "lines": 324,
+        "imports": [
+          "node:child_process",
+          "node:crypto",
+          "node:fs",
+          "node:os",
+          "node:path",
+          "node:url"
+        ],
+        "referenced_by": [
+          "security/team-sweep-2.mjs",
+          "tools/component-census.mjs",
+          "tools/component-performance.mjs",
+          "tools/component-retrograde.mjs",
+          "tools/engine-manifest.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 2
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "tools"
+      },
+      "verification": {
+        "kind": "script",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": true,
+        "measurements": [
+          "d12-sdk-audit-verify"
+        ],
+        "workstream_measured": true,
+        "completed": true,
+        "archive": "spec007-d12-sdk-upstream-gate-20261016",
+        "decision": "upstream-runtime-release-gate"
       }
     },
     {
@@ -12638,9 +12748,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "a3dc08cbd2776897ae38cdccbb78a7278deb41c616343af5e9ff9ab0487e8f80",
-        "bytes": 9282,
-        "lines": 207,
+        "sha256": "f3e2a24403dc5e5ab3be4b8ca82b70f5218ee1e935cbff197987d77d24c7deb7",
+        "bytes": 9361,
+        "lines": 208,
         "imports": [
           "node:fs",
           "node:path"
@@ -12680,9 +12790,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "31fd442479039a6660624a743d54d9d285ae5b4d5466a296b0b5299d6150bf40",
-        "bytes": 10795,
-        "lines": 236,
+        "sha256": "c833825dcdfdf8110cce889024d2d6f246b7b02075811b00bc8ed0aee0c5762d",
+        "bytes": 10874,
+        "lines": 237,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -12768,9 +12878,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "5993c8922eb16669401cac08bdc64ee97c1088aff2e820b69fb736372a8a88b4",
-        "bytes": 9979,
-        "lines": 227,
+        "sha256": "b2bb794b8d92a6fecd222ae34679252dead59574d6b97795f47937b09d87e71d",
+        "bytes": 10453,
+        "lines": 238,
         "imports": [
           "node:child_process",
           "node:crypto",
@@ -12822,9 +12932,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "e77564c55dbc68cab87d28082291bba4d3e9abaf877a7b8dae1c6cdef3549d88",
-        "bytes": 7076,
-        "lines": 166,
+        "sha256": "5cb6588982a221d5b7064daa9c893ca024054f9f96b5f77cfad6064d48e037fc",
+        "bytes": 7155,
+        "lines": 167,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -13052,7 +13162,7 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "15bd00eb694b4226ab94ed4c8d701ca489f5d0e47c477e3b658c3c69ad58f21c",
+        "sha256": "d5585a8814aa63e78c79679023a2d7e30f7644fab2630bb38b254ab9e58c1b69",
         "bytes": 28407,
         "lines": 473,
         "imports": [
@@ -13323,9 +13433,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "52e688e24028eed3f413b44f16210a74752de7e1c16a6ac5cc994eae887dc92d",
-        "bytes": 17449,
-        "lines": 359,
+        "sha256": "d03fffd9683a6c51e37d484bebe2c450cd6bc430f03f7c575d880c2779e4d452",
+        "bytes": 17581,
+        "lines": 361,
         "imports": [
           "node:child_process",
           "node:fs",
@@ -13410,9 +13520,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "eacc468365592536b4df13bb9204d068e02502a941a419bec05d7f2ea5962513",
-        "bytes": 4956,
-        "lines": 97,
+        "sha256": "c9f000e6bd6042adfd0ec368e19a9223cbf8ce5818bb405fa89aad787f5aff8d",
+        "bytes": 5032,
+        "lines": 98,
         "imports": [],
         "referenced_by": [
           "security/capstone-audit.mjs",
@@ -13554,9 +13664,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "1b3774f9260c6dd1573fb6e3d3271fe5ab12e3c8011bf4082c03ac9b3789724e",
-        "bytes": 8512,
-        "lines": 199,
+        "sha256": "c7978510defff645ead126dacdcef7f986140d0a151fe3c7fcee2cdda3e54ba1",
+        "bytes": 8591,
+        "lines": 200,
         "imports": [
           "node:fs",
           "node:path"

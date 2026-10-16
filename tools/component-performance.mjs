@@ -38,6 +38,7 @@ const SOURCE_PINS = [
   "tools/academy-harvest.mjs",
   "tools/repo-corpus.json",
   "tools/publish-check.sh",
+  "tools/d12-sdk-audit.mjs",
   "security/aiwo-native-parity.mjs",
   "security/aiwo-digit-model-parity.mjs",
   "site/build.py",
@@ -129,6 +130,15 @@ const MEASUREMENTS = [
     argv: ["node", "tools/component-retrograde.mjs", "--verify"],
     timeout_ms: 120_000,
     bindings: { workstreams: ["governance-tools"], components: ["tools/component-retrograde.mjs"] },
+  },
+  {
+    id: "d12-sdk-audit-verify",
+    argv: ["node", "tools/d12-sdk-audit.mjs", "--verify"],
+    timeout_ms: 480_000,
+    bindings: {
+      workstreams: ["governance-tools", "published-surface"],
+      components: ["tools/d12-sdk-audit.mjs", "site/assets/d12-sdk-audit.json"],
+    },
   },
   {
     id: "gov-map-verify",

@@ -10182,7 +10182,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "狀態： L2 證據層 · 權威來源： 衍生自 D 系列叢集匯報 · 對頁： bridge-map.html · 機制： tools/bridge-map.mjs → bridge-ledger.json，由探針強制執行（BRG-01..09） · 涵蓋範圍： 全部 30 個已啟用普查根節點 + 封存語料庫",
+      "outcome": "狀態： L2 證據層 · 權威來源： 衍生自 D 系列叢集匯報 · 對頁： bridge-map.html · 機制： tools/bridge-map.mjs → bridge-ledger.json，由探針強制執行（BRG-01..09） · 涵蓋範圍： 全部 31 個已啟用普查根節點 + 封存語料庫",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-bridge-map.zh-Hant.md",
       "title": "橋接圖譜 — 雙向證據（匯報 d10）",
@@ -141177,7 +141177,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | publish-check.sh | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、JS 語法。 | 自檢 | 修復靜默缺口 — fixedpointq128.zig 與 spec007compute.zig 原被 glob 略過;現明確執行;新增 component-map 雙語檢查 | | serve.py | 硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。 | — | .wasm/.json/.html 加 Cache-Control: no-store | | deploy-pages.sh | 經分離 worktree 之原子化 gh-pages 部署 — 絕不觸動現行檢出(舊 checkout+rm 模式曾兩度致害)。 | BLACK",
+      "outcome": "| 元件 | 契約 | 驗證 | 擴充 | |---|---|---|---| | publish-check.sh | 發佈閘:不可變基線 sha256、所有整數測試框架、雙語、姓氏絆線、wasm 連續性、可執行掃描器、上游 D12 釋出證據、JS 語法。 | 自檢 | 修復靜默缺口 — fixedpointq128.zig 與 spec007compute.zig 原被 glob 略過;現明確執行;新增 component-map 雙語檢查與 d12-sdk-audit --verify | | serve.py | 硬化靜態伺服器:僅 GET/HEAD、無列表、無橫幅、完整安全標頭。 | — | .wasm/.json/.html 加 Cache-Control: no-store | | deploy-pages.sh | 經分離 worktree 之原子化 gh-pages 部署",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/spec-007-component-map.zh-Hant.md",
       "title": "工具(tools/)",
@@ -144777,7 +144777,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Component | Contract | Verification | Expansion | |---|---|---|---| | publish-check.sh | The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, JS syntax. | self | fixed the silent gap — fixedpointq128.zig (37 tests) and spec007compute.zig were glob-skipped; now explicit; component-map twin added | | serve.py | Hardened static server: G",
+      "outcome": "| Component | Contract | Verification | Expansion | |---|---|---|---| | publish-check.sh | The publish gate: immutable baseline sha256, all integer harnesses, site twins, surname tripwire, wasm continuity, executable scanners, upstream D12 release evidence, JS syntax. | self | fixed the silent gap — fixedpointq128.zig (37 tests) and spec007compute.zig were glob-skipped; now explicit; component-map",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-component-map.en.md",
       "title": "Tools (tools/)",

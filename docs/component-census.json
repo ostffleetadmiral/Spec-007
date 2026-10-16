@@ -6,19 +6,19 @@
       "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 48,
+      "tools": 49,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
-      "site/assets": 46
+      "site/assets": 47
     },
-    "total_components": 289,
-    "source_components": 249,
-    "generated_components": 40,
-    "mapped_basename": 278,
-    "mapped_contract": 289,
-    "manifest_bound": 33,
-    "owner_bound": 28,
+    "total_components": 291,
+    "source_components": 250,
+    "generated_components": 41,
+    "mapped_basename": 280,
+    "mapped_contract": 291,
+    "manifest_bound": 34,
+    "owner_bound": 29,
     "unmapped_basename": [
       "site/assets/academy/ai-literacy.json",
       "site/assets/academy/campaign-operations.json",
@@ -4844,6 +4844,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/d12-sdk-audit.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": "tools/d12-sdk-audit.mjs",
+        "owner_basis": "upstream SDK release-gate evidence",
+        "manifest_bound": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": true,
+        "owner": "tools/d12-sdk-audit.mjs"
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": "tools/d12-sdk-audit.mjs",
+        "owner_basis": "upstream SDK release-gate evidence"
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/device-ledger.json",
       "contract": {
         "mapped": true,
@@ -7358,6 +7386,34 @@
     },
     {
       "component": "tools/curriculum-map.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/d12-sdk-audit.mjs",
       "contract": {
         "mapped": true,
         "source_zone": "tools",

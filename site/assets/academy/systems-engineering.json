@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "systems-engineering",
-  "lesson_count": 2654,
+  "lesson_count": 2655,
   "lessons": [
     {
       "access": "public",
@@ -7552,6 +7552,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-321841c42b667565",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. Fabric bridge (security/fabric-bridge.mjs): file-tail + gated-command SSE/WS server. Smallest useful slice. 2. Command deck page consuming the bridge (static-first: reads committed JSON; live upgrade when bridge runs). 3. Lattice explorer fed by a cellLabel/census JSON export from theue-golden-vectors-style tooling. 4. Deferred per blueprint: full agent runtime (P1), DMS (P2), film pipeline (P4",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/spec-007-integration-architecture.en.md",
+      "title": "7. Sequencing",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-322e30982fbeb989",
       "language": [
         "en"
@@ -7756,21 +7771,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "GlobalConfig",
-      "topic": "systems"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-3499372b01711b90",
-      "language": [
-        "zh-Hant"
-      ],
-      "origin": "harvested",
-      "outcome": "1. 織體橋接(security/fabric-bridge.mjs):檔案追蹤 + 受閘指令 SSE/WS 伺服器。最小可用切片。 2. 指揮台頁面消費橋接(靜態優先:讀取已提交 JSON;橋接 運行時升級為即時)。 3. 晶格瀏覽器由 cellLabel/census JSON 匯出(沿 theue-golden-vectors 工具模式)供給。 4. 依藍圖遞延:完整代理執行時期(P1)、DMS(P2)、影視管線 (P4)、UE5 星雲(P5)、課程(P7)— 各項建成時皆經同一 一致性閘門進入。",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/zh-Hant/spec-007-integration-architecture.zh-Hant.md",
-      "title": "6. 順序",
       "topic": "systems"
     },
     {
@@ -9427,6 +9427,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-3fbb69ea48e7cb6a",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "Bond 層呈現可藏入 Codex 終端、Möbius 觸發與 Fano 鎖 — 唯一硬性 規則:彩蛋為裝飾性狀態,本地持久化,絕不觸及 findings、閘門 或核心。「God Mode」饋送僅係公開證據之無過濾視圖。若彩蛋能影響 判定,即非彩蛋 — 是漏洞,歸熔爐管轄。",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/spec-007-integration-architecture.zh-Hant.md",
+      "title": "6. 彩蛋(僅呈現層)",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-4027bee1b815f2be",
       "language": [
         "en"
@@ -10312,6 +10327,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-45bc630efc4599f0",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The Bond-layer presentation may hide the Codex Terminal, Möbius trigger, and Fano lock — with one hard rule: easter eggs are cosmetic state, persisted locally, never touching findings, gates, or the core. A \"God Mode\" feed is just an unfiltered view of public evidence. If an egg can affect a verdict, it is not an egg — it is a vulnerability and the furnace owns it.",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/en/spec-007-integration-architecture.en.md",
+      "title": "6. Easter Eggs (presentation layer only)",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-45c271a5488cc4e8",
       "language": [
         "en"
@@ -10951,21 +10981,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/ALL.md",
       "title": "Config entry fields",
-      "topic": "systems"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4a665053bc404ac1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. Fabric bridge (security/fabric-bridge.mjs): file-tail + gated-command SSE/WS server. Smallest useful slice. 2. Command deck page consuming the bridge (static-first: reads committed JSON; live upgrade when bridge runs). 3. Lattice explorer fed by a cellLabel/census JSON export from theue-golden-vectors-style tooling. 4. Deferred per blueprint: full agent runtime (P1), DMS (P2), film pipeline (P4",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-integration-architecture.en.md",
-      "title": "6. Sequencing",
       "topic": "systems"
     },
     {
@@ -18952,6 +18967,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-7cb7b2a9cb354f85",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "1. 織體橋接(security/fabric-bridge.mjs):檔案追蹤 + 受閘指令 SSE/WS 伺服器。最小可用切片。 2. 指揮台頁面消費橋接(靜態優先:讀取已提交 JSON;橋接 運行時升級為即時)。 3. 晶格瀏覽器由 cellLabel/census JSON 匯出(沿 theue-golden-vectors 工具模式)供給。 4. 依藍圖遞延:完整代理執行時期(P1)、DMS(P2)、影視管線 (P4)、UE5 星雲(P5)、課程(P7)— 各項建成時皆經同一 一致性閘門進入。",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/spec-007-integration-architecture.zh-Hant.md",
+      "title": "7. 順序",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-7cb7ca786545b0fb",
       "language": [
         "en"
@@ -21817,21 +21847,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8e6a4a02daec486d",
-      "language": [
-        "zh-Hant"
-      ],
-      "origin": "harvested",
-      "outcome": "Bond 層呈現可藏入 Codex 終端、Möbius 觸發與 Fano 鎖 — 唯一硬性 規則:彩蛋為裝飾性狀態,本地持久化,絕不觸及 findings、閘門 或核心。「God Mode」饋送僅係公開證據之無過濾視圖。若彩蛋能影響 判定,即非彩蛋 — 是漏洞,歸熔爐管轄。",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/zh-Hant/spec-007-integration-architecture.zh-Hant.md",
-      "title": "5. 彩蛋(僅呈現層)",
-      "topic": "systems"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8e7df37c743f1f9d",
       "language": [
         "en"
@@ -24676,21 +24691,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:docs/forge-pipeline.md",
       "title": "The Forge pipeline: architecture deep dive",
-      "topic": "systems"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a2895968dfd74f96",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Bond-layer presentation may hide the Codex Terminal, Möbius trigger, and Fano lock — with one hard rule: easter eggs are cosmetic state, persisted locally, never touching findings, gates, or the core. A \"God Mode\" feed is just an unfiltered view of public evidence. If an egg can affect a verdict, it is not an egg — it is a vulnerability and the furnace owns it.",
-      "provenance": "first_party",
-      "source": "repo:spec-007:docs/en/spec-007-integration-architecture.en.md",
-      "title": "5. Easter Eggs (presentation layer only)",
       "topic": "systems"
     },
     {
@@ -31906,6 +31906,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:api/avatars/REGENERATE.md",
       "title": "POST /api/avatars/regenerate",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-cbb2ea5ab125ca1d",
+      "language": [
+        "zh-Hant"
+      ],
+      "origin": "harvested",
+      "outcome": "兄弟倉庫 d12-wasmrt-sdk 釋出,是未來雙寬度工作之已量測上游 WASM 基底,但不是收錄於 FANO-1 桌面的執行時。Spec-007 透過 tools/d12-sdk-audit.mjs 與 site/assets/d12-sdk-audit.json 繫結之,而非將其原始碼複製入本樹。",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/zh-Hant/spec-007-integration-architecture.zh-Hant.md",
+      "title": "5. 外部執行時邊界(D12 SDK)",
       "topic": "systems"
     },
     {

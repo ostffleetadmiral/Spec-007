@@ -341,7 +341,12 @@ signed sha256 must still match the file on disk), bare run writes
 nothing. The `engine` terminal command (and the engine.os icon) opens a
 pane that groups runtimes by kind and labels each by evidence —
 verified-here, bridge-mediated, doc-cited — never promised reachable.
-ENG-01..04 probe it.
+The sibling `d12-wasmrt-sdk` appears only as an `upstream-runtime-gate`:
+`tools/d12-sdk-audit.mjs --verify` proves its sealed release, standard/
+experimental isolation, 39-test aggregate, and Fano example before the
+release gate may pass. It is not registered as a desk runtime, and the
+Quplink browser/native bridge remains explicitly unimplemented.
+ENG-01..06 probe it.
 
 ### 3l. continuity.os — the persistence surface (sentience w3)
 
@@ -405,7 +410,7 @@ the post-port grades, and C92 records the state.
 ### 3p. cluster-census — every root carded (debrief d0)
 
 The debrief opens with inventory: `tools/cluster-census.mjs` walks the
-canonical root list — **33 project roots**: 26 first-party, 3
+canonical root list — **34 project roots**: 27 first-party, 3
 donor-vendored shelves, 3 empty/broken slots, 1 asset store — and emits
 `site/assets/cluster-registry.json`, a sanitized projection carrying
 codenames, realms, roles, and evidence classes only. Source paths stay
@@ -493,7 +498,7 @@ the three-layer cover legend — SallirreugTech plays MI6, the Academy
 plays STAR COMMAND, OSTF is the real NGO beneath — declared
 load-bearing doctrine rather than decoration, probe-enforced by the
 SPEC004/CENS-02/PARA-02 boundary battery. **C94** records the debrief
-itself: 33 roots carded, five realm sweeps under the ten-step protocol,
+itself: 34 roots carded, five realm sweeps under the ten-step protocol,
 every disposition honest. **C95** records the self-audit: the override
 ledger covering all 95 claims and the 24-entry paradigm map. The
 campaign ledger closes at **112 probes — 109 HELD / 3 NOTED / 0 OPEN**,
@@ -509,7 +514,7 @@ implementations, the recorded data — and emits `security/out/bridge-ledger.jso
 under the same dry-run/`--emit`/`--verify` doctrine. The dossier's claims
 surface gains a `sibling:<root>:<path>` anchor class in `override-audit.mjs`,
 so every cross-repo cite in the evidence column is re-verified on every
-audit pass (35 cites resolve, BRG-05).
+audit pass (38 cites resolve, BRG-05).
 
 What the bridge proved, on all four claim surfaces: **C96** — the 36-claim
 audit re-executes live in a second codebase (`verify-claims` green, BRG-06)
@@ -534,8 +539,8 @@ could adopt. Sibling trees degrade to NOTED when absent, never OPEN.
 ### 3v. d10 cluster bridge — every root + the archives (debrief d10)
 
 D9 proved the mechanism on the hardware family; d10 spans the whole
-cluster. `tools/bridge-map.mjs` now resolves **59 anchors across all 30
-populated census roots** plus the `~/.archives` corpus (318 sealed
+cluster. `tools/bridge-map.mjs` now resolves **60 anchors across all 31
+populated census roots** plus the `~/.archives` corpus (367 sealed
 artifacts over 7 campaign families — directory seals and tarball
 `.sha256` sidecars verified as distinct forms). The ledger carries a
 `root_coverage` tally; an uncovered root is machine-detectable (BRG-07),

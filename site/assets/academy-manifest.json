@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56135,
+  "lesson_count": 56137,
   "lessons": [
     {
       "access": "public",
@@ -7680,13 +7680,13 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55587
+      "harvested": 55589
     },
     "topics": {
       "orientation": 5333,
-      "ethics": 293,
+      "ethics": 294,
       "identity": 318,
-      "systems": 2731,
+      "systems": 2732,
       "ai-literacy": 6951,
       "security": 748,
       "communications": 1507,
@@ -7699,16 +7699,16 @@
       "lore": 87
     },
     "languages": {
-      "en": 55681,
-      "zh-Hant": 984
+      "en": 55682,
+      "zh-Hant": 985
     },
     "access": {
-      "public": 56135
+      "public": 56137
     },
     "provenance": {
       "curated": 548,
       "upstream": 50865,
-      "first_party": 4722
+      "first_party": 4724
     }
   },
   "harvest_sources": [
@@ -7734,7 +7734,7 @@
       "mode": "local",
       "pin": null,
       "docs": 55,
-      "lessons": 587
+      "lessons": 589
     },
     {
       "root": "nullclaw",
@@ -8529,7 +8529,7 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55587,
+  "harvested_count": 55589,
   "courses": [
     {
       "id": "ai-literacy",
@@ -8557,7 +8557,7 @@
     },
     {
       "id": "governance-ethics",
-      "lesson_count": 216,
+      "lesson_count": 217,
       "file": "assets/academy/governance-ethics.json",
       "topics": [
         "ethics"
@@ -8629,7 +8629,7 @@
     },
     {
       "id": "systems-engineering",
-      "lesson_count": 2654,
+      "lesson_count": 2655,
       "file": "assets/academy/systems-engineering.json",
       "topics": [
         "systems"

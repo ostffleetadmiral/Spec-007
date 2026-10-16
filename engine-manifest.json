@@ -1,9 +1,9 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-16T13:27:51.274Z",
+    "ts": "2026-10-16T16:20:08.079Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
-    "runtime_count": 17,
+    "runtime_count": 18,
     "runtimes": {
       "spec007-native-aiwo": {
         "kind": "native-aiwo",
@@ -112,7 +112,7 @@
       "academy-manifest": {
         "kind": "registry",
         "path": "site/assets/academy-manifest.json",
-        "sha256": "sha256:7d25f4b17cb9d12b5ea7eb75872acec70ac9a43eaea6d2e6dcee48f188dd1dc1",
+        "sha256": "sha256:cbcc01ccc489965c68bf56a6f3c3a8a860ec008fd5fa85cc7a7e169e2de45fff",
         "evidence": "verified-here"
       },
       "science-inventory": {
@@ -125,12 +125,21 @@
         "kind": "harness",
         "path": "security/",
         "members": 49,
-        "anchor_sha256": "sha256:5e3c7d9e810990ecd211fea5221310a0c000febaa9ad4d091bb23688157a38dd",
+        "anchor_sha256": "sha256:fbd3be5c97208f35e772e1a2a6597706ba558ce119bef85d33dea6a8cd94f583",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
+      },
+      "d12-wasmrt-sdk-upstream": {
+        "kind": "upstream-runtime-gate",
+        "path": "site/assets/d12-sdk-audit.json",
+        "sha256": "sha256:fcc15bd1ebfcfaad4c261bd73fa78f601ef9ae89794b6d03102ed9634d823547",
+        "evidence": "verified-here",
+        "primary": false,
+        "retirement": "external-sibling-not-desk-runtime",
+        "note": "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream; browser bridge remains unimplemented"
       }
     }
   },
-  "sig_ed25519": "TIsPvqiPtRNIh_2_XQ9noZecjNiYx4Ky24f3A3geGNBKQI9CkDsHYtMCGzEMRf-cvDsAIm--WWqJg1Nh0PD-Dw",
+  "sig_ed25519": "iwmH8_QIrvb4VN-fEK6I3PHClX26gmFAjRv8sd3k2gUMothi_kJhGBEsHM8GeB0PFoYy242dB7woDjSEBC0oBA",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

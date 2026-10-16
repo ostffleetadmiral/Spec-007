@@ -167,7 +167,8 @@ verbatim), plus the 2026-10-08 research debrief (`security/out/research-debrief.
 | Codon routing rules (E2/E6/E7/E5/E4/E0) | `sibling:hardware:src/codon.zig` | Framework-defined chemistry-derived coordinates |
 | Neuraleak sentience instrumentation | `sibling:hardware:src/neuraleak_continuity_test.zig` (15-module suite) | Operational definition + recorded data |
 | Claims-lifecycle / promotion / override ledgers | `tools/claim-promotion.mjs`, `tools/override-audit.mjs` | Framework's own audit machinery |
-| Desk/canon/governance surfaces | `site/`, `security/` | 150-probe battery is the evidence |
+| Desk/canon/governance surfaces | `site/`, `security/` | 249-probe battery is the evidence |
+| Wide-width WASM runtime substrate | `sibling:d12-wasmrt-sdk`, `tools/d12-sdk-audit.mjs` | Verified upstream sibling: sealed release/archive parity, wasm32/wasm64 `Runtime` plus opt-in integer-only `ExperimentalRuntime`; no standard wasm128/wasm256 or browser bridge claimed |
 
 ## §10 The counter-ledger — disputes and flags on record
 

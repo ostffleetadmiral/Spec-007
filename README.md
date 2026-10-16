@@ -46,10 +46,10 @@ Everything in this directory is public-release material — **except one drawer.
 - **Integer-only core** — Q128.128 fixed-point arithmetic, round-to-nearest-even, 512-bit intermediates, half-ulp error bounds. No `f32`/`f64` in `src/` outside annotated sidecar boundaries; the ratchet is mechanical (ZIG-01).
 - **Sealed wire dialect** — canonical 136-byte datagrams, Ed25519 signatures, per-frame keyed sealing, two-gate reassembly, first-contact messages filed honestly as unsealed. Golden-vector conformance, bit-exact.
 - **FANO-1 desk** — covenant-gated workstation: Ed25519 keystore (PBKDF2+AES-256-GCM), QStar.net TOTP, roaming flag authenticator, bot containment doctrine, four workspaces, seven-zone snap ghost, window/taskbar menus, tray + notification ledger + calendar, organ applications (files, control, integer `BigInt` calculator, task manager, editor, terminal, comms, academy, persona, engine, continuity, director, nebula, science, sysmon, palette, admiralty), session persistence, and a full EN ⇄ 繁體中文 twin (exact 1:1 key parity).
-- **Evidence engine** — 120 claims, each graded proved / held-as-labeled / rejected-held / external / blocked; records conserve against dossier rows in every twin. Rejected claims stay filed with reasons. The release gate refuses a green build while any check drifts.
-- **Executable governance** — the drawer SPEC corpus (SPEC-000…SPEC-014 + Rulebook) binds to machinery: 48 mandates across 16 domains, each realized by a running counterpart with a mechanical check. `thoughts&convos/` holds the instruments; the checks run public.
-- **Academy** — 56,120 lessons (55,572 corpus-harvested + 548 curated) across 14 coverage-enforced courses, 102 declared sources, full-body dedupe, per-lesson provenance and `deterministic_review_required` labeling, structural course review graded and ratcheted, ministry material filed as theology/philosophy — never empirical.
-- **Adversarial self-audit** — 213-probe consolidated sweep (RED/BLUE/BLACK/GRAY/COMM/DESK/BOT/AUTH/WIRE/ZIG/SPEC004/HARN/FLEET/CLUSTER/ENGINE/CONTINUITY/LIBRARY/PRODUCTION/CURRICULUM/ACAD/GOVM/EMG/BRG/AIWO/DHT/SVC), Docker WAN lab under real `tc netem` impairment, 284 sealed archives, surname tripwire, canon-pair byte parity after every deploy.
+- **Evidence engine** — 126 claims, each graded proved / held-as-labeled / rejected-held / external / blocked; records conserve against dossier rows in every twin. Rejected claims stay filed with reasons. The release gate refuses a green build while any check drifts.
+- **Executable governance** — the drawer SPEC corpus (SPEC-000…SPEC-014 + Rulebook) binds to machinery: 50 mandates across 17 domains, each realized by a running counterpart with a mechanical check. `thoughts&convos/` holds the instruments; the checks run public.
+- **Academy** — 56,137 lessons (55,589 corpus-harvested + 548 curated) across 14 coverage-enforced courses, 102 declared sources, full-body dedupe, per-lesson provenance and `deterministic_review_required` labeling, structural course review graded and ratcheted, ministry material filed as theology/philosophy — never empirical.
+- **Adversarial self-audit** — 249-probe consolidated sweep (RED/BLUE/BLACK/GRAY/COMM/DESK/BOT/AUTH/WIRE/ZIG/SPEC004/HARN/FLEET/CLUSTER/ENGINE/CONTINUITY/LIBRARY/PRODUCTION/CURRICULUM/ACAD/GOVM/EMG/BRG/AIWO/DHT/SVC), Docker WAN lab under real `tc netem` impairment, 367 sealed archives, surname tripwire, canon-pair byte parity after every deploy.
 
 ## Contents of this dossier
 
@@ -67,8 +67,8 @@ Everything in this directory is public-release material — **except one drawer.
 - **`firmware/spec007_controller.c`** — ESP32-S3 controller scaffold: integer-only, the canon state machine, hardware-first quench authority. Labeled SCAFFOLD — screens aren't measurements.
 - **`site/`** — The dossier rendered as a static site + the FANO-1 desk (`desktop.html`). Dependency-free; `python3 site/build.py`; see `site/README.md`.
 - **`site/assets/fano-auth.js` / `fano-comms.js` / `fano-desktop.js`** — The real pledge (Ed25519 + PBKDF2 + TOTP + genesis + containment), the tradecraft surface, and the full window manager.
-- **`security/`** — The consolidated sweep + the Hydra WAN lab: `team-sweep-2.mjs` (246 probes), `comms-suite.mjs`, `hydra-node.mjs`, `fano-mesh-bridge.mjs` (the 136-byte dialect end-to-end). Findings → `site/security/findings.json`.
-- **`tools/`** — The emit/verify machinery: every ledger (`vision-audit`, `layer-map`, `gov-map`, `engine-manifest`, `academy-harvest`, `curriculum-map`, `academy-review`, `claim-promotion`, `override-audit`, `archive-projection`, `doc-census`, and kin) re-derives on `--verify` and exits nonzero on drift.
+- **`security/`** — The consolidated sweep + the Hydra WAN lab: `team-sweep-2.mjs` (249 probes), `comms-suite.mjs`, `hydra-node.mjs`, `fano-mesh-bridge.mjs` (the 136-byte dialect end-to-end). Findings → `site/security/findings.json`.
+- **`tools/`** — The emit/verify machinery: every ledger (`vision-audit`, `layer-map`, `gov-map`, `engine-manifest`, `academy-harvest`, `curriculum-map`, `academy-review`, `claim-promotion`, `override-audit`, `archive-projection`, `doc-census`, `d12-sdk-audit`, and kin) re-derives on `--verify` and exits nonzero on drift.
 - **`site/apps/rations/`** — The Rations air-gap platform, running in-window via bounded iframe; production WASM sha256-verified. Source tree at `../../family/Rations/` (see `family/FAMILY-MAP.md`).
 - **`site/manifesto.html` / `site/meter.html`** — Leaked-intel drawer (7q.spill). Discoverable through the desk, absent from the nav.
 - **`thoughts&convos/`** — Classified OSTF records under SPEC-004, including the SPEC corpus (SPEC-000…SPEC-014, the Governance Rulebook) that governs development conduct. Not part of the public face.
@@ -79,7 +79,8 @@ Any agent can re-run the numbers. Integer arithmetic only — no floating point 
 
 ```sh
 zig build test                                # 290 test blocks / 26 modules — all green
-node security/team-sweep-2.mjs                # 246 probes → findings ledger
+node security/team-sweep-2.mjs                # 249 probes → findings ledger
+node tools/d12-sdk-audit.mjs --verify         # upstream D12 runtime release gate
 node tools/vision-audit.mjs --verify          # 24 elements, all realized
 node tools/gov-map.mjs --verify               # 50/50 mandates realized
 node tools/academy-review.mjs --verify        # 14 courses, zero structural defects

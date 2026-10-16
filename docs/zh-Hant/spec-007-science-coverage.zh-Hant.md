@@ -166,7 +166,8 @@ ISO、教科書)、**INTERNAL**(框架自身造物 — 以驗具為證)、以及
 | 密碼路由規則(E2/E6/E7/E5/E4/E0) | `sibling:hardware:src/codon.zig` | 框架定義之化學導出座標 |
 | Neuraleak 感知儀器 | `sibling:hardware:src/neuraleak_continuity_test.zig`(15 模組套件) | 操作性定義 + 記錄數據 |
 | 主張生命週期/升級/覆審帳本 | `tools/claim-promotion.mjs`、`tools/override-audit.mjs` | 框架自身稽核機器 |
-| 桌面/典範/治理面 | `site/`、`security/` | 150 探針電池即證據 |
+| 桌面/典範/治理面 | `site/`、`security/` | 249 探針電池即證據 |
+| 寬位 WASM 執行時基底 | `sibling:d12-wasmrt-sdk`、`tools/d12-sdk-audit.mjs` | 已驗證上游兄弟元件：封存釋出／封存檔同位、wasm32/wasm64 `Runtime` 與可選純整數 `ExperimentalRuntime`；不宣稱標準 wasm128/wasm256 或瀏覽器橋接 |
 
 ## §10 反證帳 — 在案之爭議與旗標
 

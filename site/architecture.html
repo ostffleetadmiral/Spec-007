@@ -191,14 +191,37 @@ same evidence</strong> — never different data. Auditor sees raw checksums;
 Operator sees health aggregates; Architect sees constraint classification.
 Access control is a UI concern for now; when real auth lands it gates at
 the fabric bridge, not the page.</p>
-<h2>5. Easter Eggs (presentation layer only)</h2>
+<h2>5. External Runtime Boundary (D12 SDK)</h2>
+<p>The sibling <code>d12-wasmrt-sdk</code> release is the measured upstream WASM
+substrate for the future dual-width work, but it is <strong>not</strong> a vendored
+FANO-1 runtime. Spec-007 binds it through <code>tools/d12-sdk-audit.mjs</code> and
+<code>site/assets/d12-sdk-audit.json</code>, not by copying source into this tree.</p>
+<ul>
+<li><strong>Standard lane:</strong> <code>sdk.Runtime</code> remains the ordinary wasm32/wasm64
+  guest interpreter.</li>
+<li><strong>Experimental lane:</strong> <code>sdk.ExperimentalRuntime</code> is opt-in execution
+  over deterministic <code>d12.profile</code>/<code>d12.code</code> custom sections, integer-only
+  u256 operations, fuel accounting, and bounded sparse logical memory.</li>
+<li><strong>Proof lane:</strong> the release manifest hashes, sealed archive byte parity,
+  standard/experimental import isolation, Debug/ReleaseSafe/ReleaseFast
+  test matrix, explicit 39-test aggregate, format check, and Spec-007
+  Fano example all sit in the release gate.</li>
+<li><strong>Honest limit:</strong> no standard wasm128/wasm256 claim is made, and no
+  Quplink browser/native bridge exists yet. A real bridge requires an
+  explicit WASM build of the substrate or an authenticated host bridge;
+  a static page cannot spawn the native Zig SDK.</li>
+</ul>
+<p>That boundary makes the Quplink upgrade concrete without pretending it is
+already deployed: the SDK is a governed upstream gate today; browser
+execution remains a future bridge component.</p>
+<h2>6. Easter Eggs (presentation layer only)</h2>
 <p>The Bond-layer presentation may hide the Codex Terminal, Möbius trigger,
 and Fano lock — with one hard rule: <strong>easter eggs are cosmetic state</strong>,
 persisted locally, never touching findings, gates, or the core. A "God
 Mode" feed is just an unfiltered view of public evidence. If an egg can
 affect a verdict, it is not an egg — it is a vulnerability and the
 furnace owns it.</p>
-<h2>6. Sequencing</h2>
+<h2>7. Sequencing</h2>
 <ol>
 <li><strong>Fabric bridge</strong> (<code>security/fabric-bridge.mjs</code>): file-tail +
    gated-command SSE/WS server. Smallest useful slice.</li>

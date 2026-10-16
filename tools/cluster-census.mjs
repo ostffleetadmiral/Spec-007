@@ -36,6 +36,7 @@ const ROOTS = [
   { rel: "CascadeProjects/hardware/experiments/zig-k3-port-local-preserved-20261004", name: "zig-k3-port-preserved", cls: "first-party", realm: "compute", role: "preserved pre-port snapshot", evidence: "census-static" },
   { rel: "CascadeProjects/hardware/experiments/TheUE", name: "theue", cls: "first-party", realm: "render", role: "immersive engine — 50-entry capability registry, 3,472-row public projection", evidence: "doc-cited" },
   { rel: "CascadeProjects/hardware/experiments/BS", name: "bs-analysis", cls: "first-party", realm: "research", role: "sharpshooter/cathedral analysis + prototype", evidence: "doc-cited" },
+  { rel: "CascadeProjects/hardware/experiments/D12/d12-wasmrt-sdk", name: "d12-wasmrt-sdk", cls: "first-party", realm: "compute", role: "Zig WASM runtime SDK — wasm32/64 + explicit experimental-width lane", evidence: "verified-here" },
   { rel: "CascadeProjects/hardware/experiments/family", name: "family-empty", cls: "empty", realm: "n/a", role: "empty directory — reserved slot", evidence: "census-empty" },
   // — CascadeProjects —
   { rel: "CascadeProjects/Rations", name: "rations", cls: "first-party", realm: "comms", role: "browser-first offline platform — Zig→WASM, physical transports", evidence: "verified-here" },

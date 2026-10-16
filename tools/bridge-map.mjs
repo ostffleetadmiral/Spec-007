@@ -34,6 +34,7 @@ const SIB = {
   "theue": "CascadeProjects/hardware/experiments/TheUE",
   "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
   "bs-analysis": "CascadeProjects/hardware/experiments/BS",
+  "d12-wasmrt-sdk": "CascadeProjects/hardware/experiments/D12/d12-wasmrt-sdk",
   "rations": "CascadeProjects/Rations",
   "theplatform": "CascadeProjects/ThePlatform",
   "octolab": "CascadeProjects/octo",
@@ -441,6 +442,16 @@ const ANCHORS = [
     label: "self-anchored convergence surface — engine-manifest, findings, override-ledger on disk",
     check: { type: "exists", root: "spec-007",
       file: "security/out/override-ledger.json" } },
+  { id: "S55", root: "d12-wasmrt-sdk", artifact: "release-manifest.json + Fano example",
+    kind: "release-gate", direction: "shared", claims: ["C126"],
+    label: "release-frozen Zig 0.13 runtime SDK — standard wasm32/wasm64 stays separate from the opt-in d12.profile/d12.code experimental-width path, with Spec-007 Fano verification upstream",
+    check: { type: "json", root: "d12-wasmrt-sdk", file: "release-manifest.json",
+      assert: d => d.schema === "D12-WASMRT-SDK-RELEASE-v1" &&
+        d.release === "experimental-width-feasibility-2026-10-16" &&
+        d.standard_compatibility_unchanged === true &&
+        d.wasm128_wasm256_standard_claim === false &&
+        Array.isArray(d.files) && Array.isArray(d.documentation) &&
+        d.files.length + d.documentation.length === 37 } },
 
   /* -- the archive corpus — the campaigns themselves are sealed evidence -- */
   { id: "A01", root: "@archives", artifact: "theue archive family",

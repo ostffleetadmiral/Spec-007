@@ -45,6 +45,7 @@ const SIB = {
   "theue": "CascadeProjects/hardware/experiments/TheUE",
   "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
   "bs-analysis": "CascadeProjects/hardware/experiments/BS",
+  "d12-wasmrt-sdk": "CascadeProjects/hardware/experiments/D12/d12-wasmrt-sdk",
   "rations": "CascadeProjects/Rations",
   "theplatform": "CascadeProjects/ThePlatform",
   "octolab": "CascadeProjects/octo",

@@ -657,7 +657,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Three terminal claims filed on all dossier surfaces: C93 canonizes the three-layer cover legend — SallirreugTech plays MI6, the Academy plays STAR COMMAND, OSTF is the real NGO beneath — declared load-bearing doctrine rather than decoration, probe-enforced by the SPEC004/CENS-02/PARA-02 boundary battery. C94 records the debrief itself: 33 roots carded, five realm sweeps under the ten-step protocol",
+      "outcome": "Three terminal claims filed on all dossier surfaces: C93 canonizes the three-layer cover legend — SallirreugTech plays MI6, the Academy plays STAR COMMAND, OSTF is the real NGO beneath — declared load-bearing doctrine rather than decoration, probe-enforced by the SPEC004/CENS-02/PARA-02 boundary battery. C94 records the debrief itself: 34 roots carded, five realm sweeps under the ten-step protocol",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/fano-1-operations.en.md",
       "title": "3t. d8 capstone — the debrief closes (debrief d8)",
@@ -2712,7 +2712,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "D9 於硬體家族證明機制;d10 橫跨整個群集。tools/bridge-map.mjs 現於全部 30 個已啟用普查根節點解析 59 個錨點,外加 /.archives 語料庫(318 個封存工件、跨 7 個戰役家族 — 目錄封籤與 tarball .sha256 側車以不同形式驗證)。帳本攜帶 rootcoverage 計數;未涵蓋之根節點可機械偵測(BRG-07),封存家族作為錨點驗證 (BRG-08),整體群集章節維持雙語對齊(BRG-09)。",
+      "outcome": "D9 於硬體家族證明機制;d10 橫跨整個群集。tools/bridge-map.mjs 現於全部 31 個已啟用普查根節點解析 60 個錨點,外加 /.archives 語料庫(367 個封存工件、跨 7 個戰役家族 — 目錄封籤與 tarball .sha256 側車以不同形式驗證)。帳本攜帶 rootcoverage 計數;未涵蓋之根節點可機械偵測(BRG-07),封存家族作為錨點驗證 (BRG-08),整體群集章節維持雙語對齊(BRG-09)。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/fano-1-operations.zh-Hant.md",
       "title": "3v. d10 群集橋接 — 每個根節點與封存庫(簡報戰第十波)",
@@ -5472,7 +5472,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "簡報始於清點:tools/cluster-census.mjs 巡遍正典根表 — 33 個專案 根:26 第一方、3 捐贈外置架、3 空/斷位、1 資產庫 — 並產出 site/assets/cluster-registry.json,為僅攜代號、領域、職司與證據 等級之淨化投影。來源路徑於工具內保持 $HOME 相對;成品不含絕對 路徑、金鑰素材或軍官姓名(CENS-02 — 落地前即逮獲一個以主人命名之 捐贈目錄)。--verify 僅查身分層一致 — 名稱、存在、類別、證據等級; filecount 明定為快照標籤,因普查檔案自身即居於被計數之根內 (CENS-01、CENS-03)。完整檔卡 — 絕對路徑、git 頭、變更數 — 存於密 櫃側之 CLUSTER-CENSUS.md。",
+      "outcome": "簡報始於清點:tools/cluster-census.mjs 巡遍正典根表 — 34 個專案 根:27 第一方、3 捐贈外置架、3 空/斷位、1 資產庫 — 並產出 site/assets/cluster-registry.json,為僅攜代號、領域、職司與證據 等級之淨化投影。來源路徑於工具內保持 $HOME 相對;成品不含絕對 路徑、金鑰素材或軍官姓名(CENS-02 — 落地前即逮獲一個以主人命名之 捐贈目錄)。--verify 僅查身分層一致 — 名稱、存在、類別、證據等級; filecount 明定為快照標籤,因普查檔案自身即居於被計數之根內 (CENS-01、CENS-03)。完整檔卡 — 絕對路徑、git 頭、變更數 — 存於密 櫃側之 CLUSTER-CENSUS.md。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/fano-1-operations.zh-Hant.md",
       "title": "3p. cluster-census — 諸根皆立案(簡報戰第零波)",
@@ -5817,7 +5817,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "The debrief opens with inventory: tools/cluster-census.mjs walks the canonical root list — 33 project roots: 26 first-party, 3 donor-vendored shelves, 3 empty/broken slots, 1 asset store — and emits site/assets/cluster-registry.json, a sanitized projection carrying codenames, realms, roles, and evidence classes only. Source paths stay $HOME-relative inside the tool; the artifact holds no absolute ",
+      "outcome": "The debrief opens with inventory: tools/cluster-census.mjs walks the canonical root list — 34 project roots: 27 first-party, 3 donor-vendored shelves, 3 empty/broken slots, 1 asset store — and emits site/assets/cluster-registry.json, a sanitized projection carrying codenames, realms, roles, and evidence classes only. Source paths stay $HOME-relative inside the tool; the artifact holds no absolute ",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/fano-1-operations.en.md",
       "title": "3p. cluster-census — every root carded (debrief d0)",
@@ -6117,7 +6117,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "D9 proved the mechanism on the hardware family; d10 spans the whole cluster. tools/bridge-map.mjs now resolves 59 anchors across all 30 populated census roots plus the /.archives corpus (318 sealed artifacts over 7 campaign families — directory seals and tarball .sha256 sidecars verified as distinct forms). The ledger carries a rootcoverage tally; an uncovered root is machine-detectable (BRG-07), ",
+      "outcome": "D9 proved the mechanism on the hardware family; d10 spans the whole cluster. tools/bridge-map.mjs now resolves 60 anchors across all 31 populated census roots plus the /.archives corpus (367 sealed artifacts over 7 campaign families — directory seals and tarball .sha256 sidecars verified as distinct forms). The ledger carries a rootcoverage tally; an uncovered root is machine-detectable (BRG-07), ",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/fano-1-operations.en.md",
       "title": "3v. d10 cluster bridge — every root + the archives (debrief d10)",
@@ -8037,7 +8037,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Status: L2 evidence layer · Authority: derived from the D-series cluster debrief · Pair: bridge-map-zh.html · Mechanism: tools/bridge-map.mjs → bridge-ledger.json, probe-enforced (BRG-01..09) · Coverage: all 30 populated census roots + the archive corpus",
+      "outcome": "Status: L2 evidence layer · Authority: derived from the D-series cluster debrief · Pair: bridge-map-zh.html · Mechanism: tools/bridge-map.mjs → bridge-ledger.json, probe-enforced (BRG-01..09) · Coverage: all 31 populated census roots + the archive corpus",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/en/spec-007-bridge-map.en.md",
       "title": "The Bridge Map — bidirectional evidence (debrief d10)",
@@ -8427,7 +8427,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "藍圖首個缺口已補:tools/engine-manifest.mjs 簽署單一 ENGINEMANIFESTv1 名冊,收錄此桌可信之每一運行時 — 治理橋接、三路 Ollama 提供者、兩枚 WASM 核心(spec007、rations — rations 之雜湊須與其公開側車一致)、五份資產登錄、以及以其掃描錨點雜湊釘定之安全電池。典律同艦隊公報:--emit 簽署 root+site 雙份,--verify 為載入閘(規格、簽名、創世系譜、金鑰指紋、時戳、雙份一致、清點 — 每枚已簽署 sha256 須仍與盤上檔案相符),裸執行不寫檔。終端 engine 指令(與 engine.os 圖示)開啟窗格,依種類分組並以證據標示各運行時 — verified-here、bridge-mediated、doc-cited — 絕不擔保可達。ENG-01..04 為其探針。",
+      "outcome": "藍圖首個缺口已補:tools/engine-manifest.mjs 簽署單一 ENGINEMANIFESTv1 名冊,收錄此桌可信之每一運行時 — 治理橋接、三路 Ollama 提供者、兩枚 WASM 核心(spec007、rations — rations 之雜湊須與其公開側車一致)、五份資產登錄、以及以其掃描錨點雜湊釘定之安全電池。典律同艦隊公報:--emit 簽署 root+site 雙份,--verify 為載入閘(規格、簽名、創世系譜、金鑰指紋、時戳、雙份一致、清點 — 每枚已簽署 sha256 須仍與盤上檔案相符),裸執行不寫檔。終端 engine 指令(與 engine.os 圖示)開啟窗格,依種類分組並以證據標示各運行時 — verified-here、bridge-mediated、doc-cited — 絕不擔保可達。兄弟 d12-wasmrt-sdk 僅以 upst",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/fano-1-operations.zh-Hant.md",
       "title": "3k. engine.os — 已簽名冊(統一生態第二波)",
@@ -8862,7 +8862,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "三則終局聲明入諸檔案冊面:C93 將三層掩護傳說入典 — SallirreugTech 扮演 MI6,學院扮演 STAR COMMAND,OSTF 為其下之真 實 NGO — 宣為承載結構之教義而非裝飾,由 SPEC004/CENS-02/PARA-02 邊界電池以探針執行。C94 錄簡報本身:33 根立案、五境依十步規 程掃畢,諸結案誠實。C95 錄自審:覆審帳涵蓋全部 95 則聲明暨 24 項典範對映。戰役帳收束於 112 探針 — 109 HELD / 3 NOTED / 0 OPEN,既定誠實限制(桌面局部信任、TOFU 冷啟、文據群集態)依 設計不變。",
+      "outcome": "三則終局聲明入諸檔案冊面:C93 將三層掩護傳說入典 — SallirreugTech 扮演 MI6,學院扮演 STAR COMMAND,OSTF 為其下之真 實 NGO — 宣為承載結構之教義而非裝飾,由 SPEC004/CENS-02/PARA-02 邊界電池以探針執行。C94 錄簡報本身:34 根立案、五境依十步規 程掃畢,諸結案誠實。C95 錄自審:覆審帳涵蓋全部 95 則聲明暨 24 項典範對映。戰役帳收束於 112 探針 — 109 HELD / 3 NOTED / 0 OPEN,既定誠實限制(桌面局部信任、TOFU 冷啟、文據群集態)依 設計不變。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/fano-1-operations.zh-Hant.md",
       "title": "3t. d8 壓軸 — 簡報收束(簡報戰第八波)",
@@ -9402,7 +9402,7 @@
         "zh-Hant"
       ],
       "origin": "harvested",
-      "outcome": "卡片級掃描僅描述兄弟根;本波將其證據灌注而入。 tools/bridge-map.mjs 於群集中解析 26 個機械錨點 — 判決表、 可執行稽核、第二實作、記錄數據 — 並循同一試跑/--emit/--verify 紀律輸出 security/out/bridge-ledger.json。檔案冊主張面於 override-audit.mjs 新增 sibling:: 錨點類別,證據欄中 每則跨庫引證於每次稽核皆重新驗證(35 則引證解析,BRG-05)。",
+      "outcome": "卡片級掃描僅描述兄弟根;本波將其證據灌注而入。 tools/bridge-map.mjs 於群集中解析 26 個機械錨點 — 判決表、 可執行稽核、第二實作、記錄數據 — 並循同一試跑/--emit/--verify 紀律輸出 security/out/bridge-ledger.json。檔案冊主張面於 override-audit.mjs 新增 sibling:: 錨點類別,證據欄中 每則跨庫引證於每次稽核皆重新驗證(38 則引證解析,BRG-05)。",
       "provenance": "first_party",
       "source": "repo:spec-007:docs/zh-Hant/fano-1-operations.zh-Hant.md",
       "title": "3u. d9 橋接 — 灌注之舉(簡報戰第九波)",

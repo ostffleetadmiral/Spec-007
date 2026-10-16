@@ -151,6 +151,17 @@ runtimes["security-battery"] = {
   evidence: "verified-here",
   note: "team-sweep-2 is the load gate — anchor hash pins the sweep",
 };
+if (exists("site/assets/d12-sdk-audit.json")) {
+  runtimes["d12-wasmrt-sdk-upstream"] = {
+    kind: "upstream-runtime-gate",
+    path: "site/assets/d12-sdk-audit.json",
+    sha256: sha("site/assets/d12-sdk-audit.json"),
+    evidence: "verified-here",
+    primary: false,
+    retirement: "external-sibling-not-desk-runtime",
+    note: "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream; browser bridge remains unimplemented",
+  };
+}
 
 const payload = {
   spec: "ENGINEMANIFESTv1",

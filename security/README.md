@@ -16,7 +16,7 @@ routing identity is the node's `peer_id`; ledger identity is
 | `comms-suite.mjs` | COMM team — 33 probes in canonical docker mode (COMM-01..33; `--local` runs the 27 single-host subset), emits `out/findings.json` |
 | `suite.mjs` | RED/BLUE/BLACK/GRAY — ~30 probes against WASM + relay + auth (relay-touching probes honor `RELAY_URL`/`RELAY_HTTP`); absent lab services classify NOTED, never ERROR |
 | `kali-sweep.mjs` | KALI team — replays the Kali-tooling assertions (token gates, origin policy, header/method/traversal surface, wire-ciphertext record); absent services → NOTED, not crash |
-| `team-sweep-2.mjs` | Consolidated sweep — 247 probes across RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER plus the generated-ledger, external-review, runtime, continuity, curriculum, bridge, lawbound, AIWO/DHT/service, governance, film, and nebula teams; exits 1 on any OPEN |
+| `team-sweep-2.mjs` | Consolidated sweep — 249 probes across RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER plus the generated-ledger, external-review, runtime, continuity, curriculum, bridge, lawbound, AIWO/DHT/service, governance, film, and nebula teams; exits 1 on any OPEN |
 | `sentinel-sweep.mjs` | 14 probes — auth surface + containment trust chain (promotion release/refusal, flag-seat ambiguity) |
 | `superpowers-audit.mjs` | 34-entry capability ledger + 9 honest limits — live-verifies every claim incl. genesis Ed25519 sigs on the wire |
 | `capstone-audit.mjs` | 25 checks — envelope forgery battery, canon parity, manifest lineage |

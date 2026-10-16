@@ -2,8 +2,8 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55587,
-  "zh_lessons": 454,
+  "lessons_reviewed": 55589,
+  "zh_lessons": 455,
   "defects": [],
   "courses": [
     {
@@ -68,7 +68,7 @@
     },
     {
       "course": "governance-ethics",
-      "lessons": 216,
+      "lessons": 217,
       "zh_lessons": 0,
       "declassified_lessons": 0,
       "topics": 1,
@@ -81,7 +81,7 @@
         "ukama:11"
       ],
       "top_topics": [
-        "ethics:216"
+        "ethics:217"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -248,8 +248,8 @@
     },
     {
       "course": "systems-engineering",
-      "lessons": 2654,
-      "zh_lessons": 79,
+      "lessons": 2655,
+      "zh_lessons": 80,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 80,
@@ -258,10 +258,10 @@
         "freenet-core:505",
         "e-mc-2:434",
         "paperless-ngx:186",
-        "spec-007:109"
+        "spec-007:110"
       ],
       "top_topics": [
-        "systems:2654"
+        "systems:2655"
       ],
       "defects": 0,
       "verdict": "HELD"

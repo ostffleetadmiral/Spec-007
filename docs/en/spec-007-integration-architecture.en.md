@@ -95,7 +95,32 @@ Operator sees health aggregates; Architect sees constraint classification.
 Access control is a UI concern for now; when real auth lands it gates at
 the fabric bridge, not the page.
 
-## 5. Easter Eggs (presentation layer only)
+## 5. External Runtime Boundary (D12 SDK)
+
+The sibling `d12-wasmrt-sdk` release is the measured upstream WASM
+substrate for the future dual-width work, but it is **not** a vendored
+FANO-1 runtime. Spec-007 binds it through `tools/d12-sdk-audit.mjs` and
+`site/assets/d12-sdk-audit.json`, not by copying source into this tree.
+
+- **Standard lane:** `sdk.Runtime` remains the ordinary wasm32/wasm64
+  guest interpreter.
+- **Experimental lane:** `sdk.ExperimentalRuntime` is opt-in execution
+  over deterministic `d12.profile`/`d12.code` custom sections, integer-only
+  u256 operations, fuel accounting, and bounded sparse logical memory.
+- **Proof lane:** the release manifest hashes, sealed archive byte parity,
+  standard/experimental import isolation, Debug/ReleaseSafe/ReleaseFast
+  test matrix, explicit 39-test aggregate, format check, and Spec-007
+  Fano example all sit in the release gate.
+- **Honest limit:** no standard wasm128/wasm256 claim is made, and no
+  Quplink browser/native bridge exists yet. A real bridge requires an
+  explicit WASM build of the substrate or an authenticated host bridge;
+  a static page cannot spawn the native Zig SDK.
+
+That boundary makes the Quplink upgrade concrete without pretending it is
+already deployed: the SDK is a governed upstream gate today; browser
+execution remains a future bridge component.
+
+## 6. Easter Eggs (presentation layer only)
 
 The Bond-layer presentation may hide the Codex Terminal, Möbius trigger,
 and Fano lock — with one hard rule: **easter eggs are cosmetic state**,
@@ -104,7 +129,7 @@ Mode" feed is just an unfiltered view of public evidence. If an egg can
 affect a verdict, it is not an egg — it is a vulnerability and the
 furnace owns it.
 
-## 6. Sequencing
+## 7. Sequencing
 
 1. **Fabric bridge** (`security/fabric-bridge.mjs`): file-tail +
    gated-command SSE/WS server. Smallest useful slice.

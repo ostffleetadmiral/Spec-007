@@ -324,7 +324,7 @@ const MANDATES = [
         mode: "direct",
         checks: [C.held("DHT-01"), C.svc("SVC-03")] },
       { id: "risk-framework", mandate: "Risk Management Framework — identify, assess, mitigate",
-        real: "the sweep IS the risk surface — 247 probes over offense/defense/insider/supply/desk, open items named not hidden",
+        real: "the sweep IS the risk surface — 249 probes over offense/defense/insider/supply/desk, open items named not hidden",
         mode: "structural",
         checks: [C.held("HARN-01"), C.held("EMG-02")] },
       { id: "strategic-plan", mandate: "5-Year Strategic Plan — the vision made roadmap",

@@ -1,10 +1,10 @@
 {
   "schema": "CLUSTER-CENSUS-v1",
-  "generated": "2026-10-12T11:10:21.166Z",
+  "generated": "2026-10-16T15:28:12.587Z",
   "note": "sanitized projection — codenames + roles + evidence classes; source paths are $HOME-relative inside tools/, never absolute in the artifact",
-  "root_count": 33,
+  "root_count": 34,
   "by_class": {
-    "first-party": 26,
+    "first-party": 27,
     "empty": 3,
     "donor-vendored": 3,
     "asset-store": 1
@@ -17,7 +17,7 @@
       "role": "the desk — dossier, governance, security battery",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 33965
+      "file_count": 39392
     },
     {
       "name": "hardware-monorepo",
@@ -26,7 +26,7 @@
       "role": "E=mc² proof workspace — 713 ops, Lean 4 formalization",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 58372
+      "file_count": 66483
     },
     {
       "name": "qstar-llm",
@@ -44,7 +44,7 @@
       "role": "2.78T-param MoE in GBs RAM — token-identical Zig port",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 3203
+      "file_count": 5123
     },
     {
       "name": "zig-k3-port-preserved",
@@ -74,6 +74,15 @@
       "file_count": 93
     },
     {
+      "name": "d12-wasmrt-sdk",
+      "class": "first-party",
+      "realm": "compute",
+      "role": "Zig WASM runtime SDK — wasm32/64 + explicit experimental-width lane",
+      "evidence": "verified-here",
+      "present": true,
+      "file_count": 189
+    },
+    {
       "name": "family-empty",
       "class": "empty",
       "realm": "n/a",
@@ -89,7 +98,7 @@
       "role": "browser-first offline platform — Zig→WASM, physical transports",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 25440
+      "file_count": 25617
     },
     {
       "name": "theplatform",
@@ -107,7 +116,7 @@
       "role": "Octolab — dockerized AI lab stack",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 2003
+      "file_count": 2005
     },
     {
       "name": "falsifible",
