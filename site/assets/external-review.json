@@ -1,0 +1,342 @@
+{
+  "schema": "external-review-v1",
+  "purpose": "bounded evidence packages for authorities outside executable verification",
+  "status_rule": "a lane is closed only by the acceptance evidence named in that lane; package generation never promotes the lane",
+  "lanes": [
+    {
+      "id": "cryptographic-review",
+      "status": "pending_external_evidence",
+      "authority": "independent cryptographic reviewer",
+      "acceptance": "signed report covering Ed25519/X25519/AES-GCM use, v3 envelopes, relay authentication, downgrade gates, and memory wiping",
+      "evidence": [
+        {
+          "path": "site/apps/rations/rations.wasm",
+          "bytes": 2721241,
+          "sha256": "643a3912c5aba90a5691b51f51e649eb04a3401ee6266bb2512b2ac3ea814963"
+        },
+        {
+          "path": "site/apps/rations/rations.wasm.sha256",
+          "bytes": 79,
+          "sha256": "775912f4fa699a3b93e9fb90df8a5cdbe5a3324368fed6480fd6c6403dcbe0df"
+        },
+        {
+          "path": "site/apps/rations/js/transport.js",
+          "bytes": 8827,
+          "sha256": "111488964178b80059ef6e3c09edf1ae0fb75bc45a41c4b132ac9407c1ef207e"
+        },
+        {
+          "path": "site/assets/fano-auth.js",
+          "bytes": 73511,
+          "sha256": "e76977718e4526df89f36ca41f3c88f4217851320f8450604b7025f891852744"
+        },
+        {
+          "path": "security/harness.mjs",
+          "bytes": 9445,
+          "sha256": "f0775f80017cff77f6288b5947c96c646ba08ac58778bab493eafcf45008dab9"
+        },
+        {
+          "path": "security/hydra-node.mjs",
+          "bytes": 13690,
+          "sha256": "57436af918bdbd8fa29f85738b59ec97fb034b0d1e8772af9c152656ec5fd441"
+        },
+        {
+          "path": "tools/wasm-memory-hygiene.mjs",
+          "bytes": 4779,
+          "sha256": "b73c9e5b9cbacca70a6f8ad6f329391f862a9f5cf367480ee37a529fc77c0274"
+        }
+      ]
+    },
+    {
+      "id": "security-review",
+      "status": "pending_external_evidence",
+      "authority": "independent application-security reviewer",
+      "acceptance": "signed penetration-review report covering desk trust, relay isolation, downgrade resistance, containment, and residual session exposure",
+      "evidence": [
+        {
+          "path": "security/README.md",
+          "bytes": 12720,
+          "sha256": "0024a10dc6666ab882210bcc743e18a685d6bf13141fc88ed412bf0957ef1325"
+        },
+        {
+          "path": "security/team-sweep-2.mjs",
+          "bytes": 214206,
+          "sha256": "f44f4afe0f7dc6577c5c3a63c017e3b80c8f1023f871a36dadb827d099607055"
+        },
+        {
+          "path": "security/xploit-sweep.mjs",
+          "bytes": 26191,
+          "sha256": "f9b87b838dbab2dc5b209a6d4992db90200e88f0f9015265b173c5cb923f42df"
+        },
+        {
+          "path": "security/officer-mesh.mjs",
+          "bytes": 20448,
+          "sha256": "5e0cad8e99e699f2b4bce68cef6643440a3f85fcdb988787700af9df11ffb21f"
+        },
+        {
+          "path": "tools/relay-isolation-audit.mjs",
+          "bytes": 4746,
+          "sha256": "89a5a76e1d39d5628c31f13276743a3d827c8ade517cb0a9077e770a723f1e8e"
+        },
+        {
+          "path": "tools/native-dialog-audit.mjs",
+          "bytes": 4063,
+          "sha256": "8b767b0a573eb9acf2b68a6d4a8ec0ba4ba9cd8dfff4688d857a053f6f09acd6"
+        }
+      ]
+    },
+    {
+      "id": "scientific-review",
+      "status": "pending_external_evidence",
+      "authority": "independent scientific reviewer",
+      "acceptance": "signed assessment separating verified arithmetic, simulation output, interpretation, and unverified physical claims",
+      "evidence": [
+        {
+          "path": "spec-007.md",
+          "bytes": 6943,
+          "sha256": "bcb81b78ebeab9e3762a806788a0c4c1bd3bbd1e8a7b9339030037efab6367b4"
+        },
+        {
+          "path": "docs/en/spec-007-research-dossier.md",
+          "bytes": 97473,
+          "sha256": "edf74f7bb873248b11b3dc2cf65da7790c40567af2f9728cf6c6598ac61d3721"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-research-dossier.zh-Hant.md",
+          "bytes": 85953,
+          "sha256": "3d7b823e6b43fdcec0db6e82a176ff2a2e95fd15cc91ea01d1498af32fd3ef89"
+        },
+        {
+          "path": "docs/en/spec-007-science-coverage.en.md",
+          "bytes": 27828,
+          "sha256": "724ac16cdb89b416b5bf57e969be247b998e4770c08fff47be3c10ff0b6df86b"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-science-coverage.zh-Hant.md",
+          "bytes": 24479,
+          "sha256": "1ac33d33cbe4c70a6dac4da1bb19078032d9265092d089831cd272aa296c5d73"
+        }
+      ]
+    },
+    {
+      "id": "legal-review",
+      "status": "pending_external_evidence",
+      "authority": "qualified counsel",
+      "acceptance": "written legal opinion covering license posture, publication boundaries, export/regulatory exposure, and operational disclaimers",
+      "evidence": [
+        {
+          "path": "LICENSE",
+          "bytes": 7048,
+          "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+        },
+        {
+          "path": "SECURITY.md",
+          "bytes": 2389,
+          "sha256": "940309a3c2ce975ab77f2eac55ee0a91be5ccde5625effa11e2496540c77be7d"
+        },
+        {
+          "path": "docs/en/spec-007-public.en.md",
+          "bytes": 21066,
+          "sha256": "0f79f945fb79d4a26650762cbed198956b705751ecd91f96fe5f5bf30a113059"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-public.zh-Hant.md",
+          "bytes": 18532,
+          "sha256": "3039f30b397bc05a4077dba1ba71fcb234f9593f10160df26ef1af8789f67028"
+        },
+        {
+          "path": "docs/en/spec-007-protocol.en.md",
+          "bytes": 6481,
+          "sha256": "08940bf96e90c405cba368f16164ee229dd40bd57ace24b2e5bf24c61eb7286a"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-protocol.zh-Hant.md",
+          "bytes": 5596,
+          "sha256": "d3d8084594bac31d82ea335adfa826e17ade1205560982597e666822a9e35ea4"
+        }
+      ]
+    },
+    {
+      "id": "human-signature",
+      "status": "pending_external_evidence",
+      "authority": "authorized human signatory",
+      "acceptance": "detached signature or witnessed approval bound to the reviewed artifact digest",
+      "evidence": [
+        {
+          "path": "fleet-genesis.json",
+          "bytes": 1516,
+          "sha256": "12375b51451040b638984fb67e7099c023b76cf5729790586066b8af5f980629"
+        },
+        {
+          "path": "site/fleet-genesis.json",
+          "bytes": 1516,
+          "sha256": "12375b51451040b638984fb67e7099c023b76cf5729790586066b8af5f980629"
+        },
+        {
+          "path": "fleet-manifest.json",
+          "bytes": 1295,
+          "sha256": "26a8b48366cfef097f5ae4789953133f953a944afd40dc9db0f16d64b73ed0b2"
+        },
+        {
+          "path": "site/fleet-manifest.json",
+          "bytes": 1295,
+          "sha256": "26a8b48366cfef097f5ae4789953133f953a944afd40dc9db0f16d64b73ed0b2"
+        }
+      ]
+    },
+    {
+      "id": "admiralty-ratification",
+      "status": "pending_external_evidence",
+      "authority": "fleet governance authority",
+      "acceptance": "ratification record citing the governed manifest, scope, effective date, and dissent/reservation evidence",
+      "evidence": [
+        {
+          "path": "fleet-manifest.json",
+          "bytes": 1295,
+          "sha256": "26a8b48366cfef097f5ae4789953133f953a944afd40dc9db0f16d64b73ed0b2"
+        },
+        {
+          "path": "site/fleet-manifest.json",
+          "bytes": 1295,
+          "sha256": "26a8b48366cfef097f5ae4789953133f953a944afd40dc9db0f16d64b73ed0b2"
+        },
+        {
+          "path": "docs/en/spec-007-governance-gap-analysis.en.md",
+          "bytes": 8796,
+          "sha256": "2fbf82706491b9e039237f39e6c1217d5da37b803d3f150049e3a471e0dcd4c4"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-governance-gap-analysis.zh-Hant.md",
+          "bytes": 7857,
+          "sha256": "cec8e852a53af001358d8faac3e65905226c1028fac05cb82e0898e4288ed92e"
+        }
+      ]
+    },
+    {
+      "id": "clean-room-rebuild",
+      "status": "pending_external_evidence",
+      "authority": "independent clean-room team",
+      "acceptance": "from-source rebuild log proving byte-reproducible artifacts or documenting every accepted divergence",
+      "evidence": [
+        {
+          "path": "build.zig",
+          "bytes": 26845,
+          "sha256": "0e37b9383a5a8dfd08f525cd6eaaa4396cee33aa150349ad4a804b7ce5334d70"
+        },
+        {
+          "path": "tools/publish-check.sh",
+          "bytes": 4881,
+          "sha256": "a559286be3ab6fed83b030c57eb4165130e05e740f85e9aca7a68efbde824390"
+        },
+        {
+          "path": "site/apps/rations/rations.wasm.sha256",
+          "bytes": 79,
+          "sha256": "775912f4fa699a3b93e9fb90df8a5cdbe5a3324368fed6480fd6c6403dcbe0df"
+        },
+        {
+          "path": "docs/en/spec-007-component-map.en.md",
+          "bytes": 69643,
+          "sha256": "d3edc1b3d4c3ade9874334781f269b3e4cf3db434c22ab75c38a729c59ad6269"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-component-map.zh-Hant.md",
+          "bytes": 60592,
+          "sha256": "1338afd8a103e730c4899125e6f8bdd19f50ce2a767a148415ba96362c1ae080"
+        }
+      ]
+    },
+    {
+      "id": "physical-bench-validation",
+      "status": "pending_external_evidence",
+      "authority": "hardware bench operator",
+      "acceptance": "signed bench report on real hardware, radio paths, power/thermal limits, and physical backup media",
+      "evidence": [
+        {
+          "path": "security/rf-field-probe.mjs",
+          "bytes": 14894,
+          "sha256": "60fde714186185e43b4f3972a2831be7fef5b29c5bf2a90e46bdd6faf2f4dd2a"
+        },
+        {
+          "path": "security/philotic-cluster.mjs",
+          "bytes": 13091,
+          "sha256": "faecec111bd3c9e6dce16eafb520b3543da36ba0c1ccbb2e8153d9e9962abc10"
+        },
+        {
+          "path": "security/pack-density.mjs",
+          "bytes": 15950,
+          "sha256": "22dc9c31780b3ea5e5a21ba19b18b526bda052dacd70f47f6679fbf1d39e1027"
+        },
+        {
+          "path": "docs/en/spec-008-ipv6-tensor.en.md",
+          "bytes": 22509,
+          "sha256": "3aca2b9b082d3e7b64d2e1f7668fe79d3d6855936a1f734342b377a016821c52"
+        },
+        {
+          "path": "docs/zh-Hant/spec-008-ipv6-tensor.zh-Hant.md",
+          "bytes": 20281,
+          "sha256": "4405f4d8b6a3dd3abe3a22c4ce3de6a225b2aab4870325ae5d248b81453d3a12"
+        }
+      ]
+    },
+    {
+      "id": "customer-pilot",
+      "status": "pending_external_evidence",
+      "authority": "pilot operator and named acceptance owner",
+      "acceptance": "pilot report with enrollment, failure modes, support burden, data handling, and go/no-go criteria",
+      "evidence": [
+        {
+          "path": "site/index.html",
+          "bytes": 28250,
+          "sha256": "c73188eb56b8b9375aee238725ea6339a1d7849eb55ad4c5b597326ce5d2bd8c"
+        },
+        {
+          "path": "site/assets/fano-auth.js",
+          "bytes": 73511,
+          "sha256": "e76977718e4526df89f36ca41f3c88f4217851320f8450604b7025f891852744"
+        },
+        {
+          "path": "docs/en/spec-007-economic-assessment.en.md",
+          "bytes": 29445,
+          "sha256": "606eb2c3061eeec1ec1e2379ee44f59971e47051084244b5824ac02dea2b0881"
+        },
+        {
+          "path": "docs/zh-Hant/spec-007-economic-assessment.zh-Hant.md",
+          "bytes": 24069,
+          "sha256": "1d5be108bdc3f0a4025153cb3260fb9042230a8a1e2a4b552ae51bafebd5f0eb"
+        }
+      ]
+    },
+    {
+      "id": "production-deployment",
+      "status": "pending_external_evidence",
+      "authority": "release authority with live-environment access",
+      "acceptance": "post-deploy live HTTP, rollback, monitoring, incident, and provenance evidence for the exact published digest",
+      "evidence": [
+        {
+          "path": "tools/deploy-pages.sh",
+          "bytes": 1371,
+          "sha256": "aa9052ecad5f12263f381959df460aebbcd81d2a82aa6eb8ecc515e8c10dd2a0"
+        },
+        {
+          "path": "tools/publish-check.sh",
+          "bytes": 4881,
+          "sha256": "a559286be3ab6fed83b030c57eb4165130e05e740f85e9aca7a68efbde824390"
+        },
+        {
+          "path": "site/apps/rations/js/dom-dialog.js",
+          "bytes": 5414,
+          "sha256": "3409970e112db8333823307f7dae72c54e5e410975e32e36232edee60598a3a5"
+        },
+        {
+          "path": "site/apps/rations/js/transport.js",
+          "bytes": 8827,
+          "sha256": "111488964178b80059ef6e3c09edf1ae0fb75bc45a41c4b132ac9407c1ef207e"
+        },
+        {
+          "path": "site/apps/rations/rations.wasm.sha256",
+          "bytes": 79,
+          "sha256": "775912f4fa699a3b93e9fb90df8a5cdbe5a3324368fed6480fd6c6403dcbe0df"
+        }
+      ]
+    }
+  ]
+}

@@ -3342,7 +3342,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "bash zig build test # native suite — expect 1542 tests zig build coverage # density ratchet — must be ≥ 116.9% zig build -Doptimize=ReleaseSafe -Dstrip # production WASM (2.7MB, 2,720,180 bytes) ./tools/release.sh # → src/rations.wasm + .sha256 node tools/wasmsmoke.mjs # 116-check WASM harness node tools/fuzzparsers.mjs src/rations.wasm --iters 3000 --seed 1 node tests/e2e/quine-smoke-test.js # 21",
+      "outcome": "bash zig build test # native suite — expect 1543 tests zig build coverage # density ratchet — must be ≥ 116.9% zig build -Doptimize=ReleaseSafe -Dstrip # production WASM (2.7MB, 2,721,241 bytes) ./tools/release.sh # → src/rations.wasm + .sha256 node tools/wasmsmoke.mjs # 117-check WASM harness node tools/fuzzparsers.mjs src/rations.wasm --iters 3000 --seed 1 node tests/e2e/quine-smoke-test.js # 21",
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/AGENTS.md",
       "title": "Build & Test",
@@ -63837,7 +63837,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "bash tools/publish-check.sh # the release gate — ALL of it, every time zig build test # deps + spec008 harnesses (integer-only) node security/team-sweep-2.mjs # consolidated sweep — 227 probes, exits 1 on any OPEN node security/officer-mesh.mjs # OFFR — token-founded second desk + live sealed wire over shared relay node tools/native-dialog-audit.mjs --verify # executable prompt/alert/confirm gate ",
+      "outcome": "bash tools/publish-check.sh # the release gate — ALL of it, every time zig build test # deps + spec008 harnesses (integer-only) node security/team-sweep-2.mjs # consolidated sweep — 246 probes, exits 1 on any OPEN node security/officer-mesh.mjs # OFFR — token-founded second desk + live sealed wire over shared relay node tools/native-dialog-audit.mjs --verify # executable prompt/alert/confirm gate ",
       "provenance": "first_party",
       "source": "repo:spec-007:AGENTS.md",
       "title": "Build & verify",

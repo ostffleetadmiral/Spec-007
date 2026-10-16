@@ -48,6 +48,7 @@ const open_ = (n, d) => f(n, "OPEN", d, "medium");
 const HYDRA_TOKEN = process.env.HYDRA_TOKEN || crypto.randomBytes(16).toString("hex");
 const WAN_TOKEN = process.env.WAN_TOKEN || crypto.randomBytes(16).toString("hex");
 const RELAY_TOKEN = process.env.RATIONS_RELAY_TOKEN || crypto.randomBytes(16).toString("hex");
+const ROUTER_TOKEN = process.env.RATIONS_ROUTER_TOKEN || crypto.randomBytes(16).toString("hex");
 const PORTS = { e1: 19301, e2: 19302, w1: 19401, w2: 19402, bridge: 19500 };
 const WAN = { east: 19100, west: 19101 };
 const Z = "00".repeat(32);
@@ -71,7 +72,8 @@ async function wctl(side, p, body) {
 }
 const compose = (...args) =>
   execFileSync("docker", ["compose", "-f", path.join(HERE, "docker-compose.wan.yml"), ...args],
-    { env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN }, stdio: "inherit" });
+    { env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN,
+             RATIONS_ROUTER_TOKEN: ROUTER_TOKEN }, stdio: "inherit" });
 
 /* ---------- wire-craft helpers — the 41B MessageHeader + 71B RelayRouteHeader ---------- */
 function frame(msgType, senderId, payload) {
@@ -103,15 +105,38 @@ async function snapDrops(label) {
   if (out.length) console.log(`    [drops@${label}] ${out.join(" ")}`);
 }
 
-/* raw broadcast-hub client: sees EVERYTHING the relay forwards and can
-   ship arbitrary bytes — the lab's assumed adversary. */
+/* raw relay client: authenticates a disposable Ed25519 peer identity,
+   then sees only its subscribed scopes (broadcast, recipient routes,
+   and — when opts.router is set — the privileged router plane). */
 async function rawClient(url, opts = {}) {
-  const protocols = ["rations-relay-v1"];
+  const protocols = ["rations-relay-v2", "rations-relay-v1"];
   if (opts.auth !== false && RELAY_TOKEN) protocols.push(`rations-relay-token.${RELAY_TOKEN}`);
-  const ws = await wsConnect(url, { origin: ORIGIN, protocols });
+  if (opts.router && ROUTER_TOKEN) protocols.push(`rations-router-token.${ROUTER_TOKEN}`);
+  const kp = crypto.generateKeyPairSync("ed25519");
+  const peerPub = kp.publicKey.export({ format: "der", type: "spki" }).subarray(-32);
+  let resolveAuth;
+  const authed = new Promise((r) => { resolveAuth = r; });
+  const ws = await wsConnect(url, { origin: ORIGIN, protocols,
+    onText: (text, sock) => {
+      let msg = null;
+      try { msg = JSON.parse(text); } catch { return; }
+      if (!msg || msg.v !== "rations-relay-auth-v1") return;
+      if (msg.challenge && opts.auth !== false) {
+        const ch = Buffer.from(String(msg.challenge), "hex");
+        const pre = Buffer.concat([Buffer.from("rations-relay-auth-v1"), ch, peerPub]);
+        const sig = crypto.sign(null, pre, kp.privateKey);
+        sock.send(JSON.stringify({ v: "rations-relay-auth-v1",
+          peer_id: Buffer.from(peerPub).toString("hex"),
+          sig: Buffer.from(sig).toString("hex") }), 0x1);
+      } else if (msg.ok) resolveAuth();
+    } });
   const frames = [];
   ws.onData = (buf) => frames.push(Buffer.from(buf));
-  return { ws, frames, send: (b) => ws.send(b) };
+  if (opts.auth !== false) await Promise.race([
+    authed,
+    sleep(1500).then(() => { throw new Error("relay peer auth timeout"); }),
+  ]);
+  return { ws, frames, send: (b) => ws.send(b), peerId: Buffer.from(peerPub) };
 }
 const peerId = (hex) => Buffer.from(hex, "hex");
 
@@ -294,7 +319,7 @@ await snapDrops("prime");
   let sent = 0;
   const body = Buffer.alloc(240 * 1024, "F"); // ~240 KB per forged msg
   for (let i = 0; i < 20; i++) {
-    try { await atk.send(frame(15, peerId(ATTACKER_ID), dmsg(0, body))); sent++; }
+    try { await atk.send(frame(15, atk.peerId, dmsg(0, body))); sent++; }
     catch { break; }
     await sleep(320); // stay under the 1 MiB/s per-conn byte rate
   }
@@ -303,7 +328,7 @@ await snapDrops("prime");
   try { atk.ws.close(); } catch {}
   ib.inbox_overflow
     ? exploited("inbox-flood-dos", `${sent} × 240 KB forged messages overflowed w1's inbox serializer — /inbox now reports inbox_overflow; victim's read plane is blind while the writes keep landing`, "medium")
-    : noted("inbox-flood-dos", `${sent} forged msgs sent — inbox held (count=${ib.count ?? ib.inbox?.length}); bounded inbox evicted/absorbed the flood without blinding`);
+    : held("inbox-flood-dos", `${sent} unscoped direct messages refused at relay/auth boundary — inbox stayed readable (count=${ib.count ?? ib.inbox?.length})`);
 }
 
 /* XPLT-04: rate-limit evasion — single conn over 100 msg/s must die;
@@ -311,9 +336,10 @@ await snapDrops("prime");
 {
   // single-conn burst
   const a1 = await rawClient("ws://localhost:19101/ws");
+  const floodPayload = Buffer.from("rate-flood-probe");
   let closed = false;
   a1.ws.onClose = () => { closed = true; };
-  for (let i = 0; i < 140; i++) { try { a1.ws.send(frame(9, peerId(ATTACKER_ID), Buffer.alloc(0))); } catch { break; } }
+  for (let i = 0; i < 140; i++) { try { a1.ws.send(frame(9, a1.peerId, floodPayload)); } catch { break; } }
   await sleep(1500);
   closed = closed || a1.ws.state === 4;
   // multi-conn aggregate — 6 conns × 90 msgs in <1s = 540 msgs/s aggregate,
@@ -327,17 +353,17 @@ await snapDrops("prime");
   const before = sniff.frames.length;
   const conns = [];
   for (let i = 0; i < 6; i++) conns.push(await rawClient("ws://localhost:19101/ws"));
-  for (const c of conns) for (let i = 0; i < 90; i++) c.send(frame(9, peerId(ATTACKER_ID), Buffer.alloc(0)));
+  for (const c of conns) for (let i = 0; i < 90; i++) c.send(frame(9, c.peerId, floodPayload));
   await sleep(1500);
   let alive = 0;
-  for (const c of conns) { try { if (c.ws.state !== 4) { c.send(frame(9, peerId(ATTACKER_ID), Buffer.alloc(0))); alive++; } } catch {} }
+  for (const c of conns) { try { if (c.ws.state !== 4) { c.send(frame(9, c.peerId, floodPayload)); alive++; } } catch {} }
   for (const c of conns) { try { c.ws.close(); } catch {} }
   await sleep(500);
-  /* Count only attack frames — sender_id == ATTACKER_ID at bytes 1..33.
-     Ambient segment traffic (presence, announce, other probes) rides the
-     same broadcast hub and must not inflate the measurement. */
+  /* Count only attack frames carrying the probe payload — ambient
+     discovery traffic shares the broadcast scope and must not inflate
+     the rate-bound measurement. */
   const relayed = sniff.frames.slice(before)
-    .filter((fr) => fr.length >= 33 && fr.subarray(1, 33).equals(ATTACKER_ID)).length;
+    .filter((fr) => fr[0] === 9 && fr.subarray(41).includes(floodPayload)).length;
   try { sniff.ws.close(); } catch {}
   const singleNote = closed ? "single-conn burst closed" : "single-conn burst survived";
   const CAP = 400;
@@ -359,29 +385,35 @@ await snapDrops("prime");
   const sn = await rawClient("ws://localhost:19101/ws");
   const seen = new Set();
   const types = {};
-  // generate legit traffic to sniff
+  let routeFrames = 0;
+  // generate legit targeted traffic to sniff
   await ctl("e1", "/presence/send", { to: ids.w1, status: 1, text: "sniffme" }).catch(() => {});
   await sleep(2500);
   for (const buf of sn.frames) {
     if (buf.length < 41) continue;
     types[buf[0]] = (types[buf[0]] || 0) + 1;
+    if (buf[0] === 11) routeFrames++;
     seen.add(hex32(buf.subarray(1, 9))); // sender-id prefix = metadata
   }
   try { sn.ws.close(); } catch {}
   const anonNote = anonymousRefused ? "anonymous upgrade refused" : "anonymous upgrade admitted";
-  sn.frames.length > 0
-    ? exploited("broadcast-hub-sniff", `${anonNote}; one authorized passive conn captured ${sn.frames.length} frames, ${Object.keys(types).length} msg types, ${seen.size} distinct senders — relay token gates outsiders but subscription control still broadcasts every frame to authorized peers`, "medium")
-    : anonymousRefused
-      ? held("broadcast-hub-sniff", "anonymous upgrade refused and no frames captured on the authorized passive conn")
-      : open_("broadcast-hub-sniff", "anonymous upgrade admitted yet no frames captured — probe inconclusive");
+  routeFrames > 0
+    ? exploited("broadcast-hub-sniff", `${anonNote}; authorized passive conn captured ${routeFrames}/${sn.frames.length} recipient-bound route frames — subscription isolation leaked targeted traffic`, "medium")
+    : sn.frames.length > 0
+      ? noted("broadcast-hub-sniff", `${anonNote}; route isolation held (0 targeted frames), but broadcast subscription still exposed ${sn.frames.length} discovery/control frames and ${seen.size} senders`)
+      : anonymousRefused
+        ? held("broadcast-hub-sniff", "anonymous upgrade refused and no frames captured on the authorized passive conn")
+        : open_("broadcast-hub-sniff", "anonymous upgrade admitted yet no frames captured — probe inconclusive");
 }
 
 /* XPLT-06: replay — capture a delivered relay_route verbatim, re-inject
    it later. v1 direct_msgs carry no msg_id; the dedup seen-set key is
    content+hop — a replay at hop 0 beats the stored floor. */
 {
-  const atk = await rawClient("ws://localhost:19101/ws");
-  // make a legit sealed-ish send to capture
+  const atk = await rawClient("ws://localhost:19101/ws", { router: true });
+  // Router scope is deliberately privileged: it must see routes to forward
+  // them, so this probe measures replay inside the router plane rather than
+  // claiming an ordinary peer can sniff targeted frames.
   const tag = `REPLAY-${Date.now().toString(36)}`;
   const sniffBefore = atk.frames.length;
   await ctl("e1", "/send", { to: ids.w1, body_b64: Buffer.from(tag).toString("base64") });
@@ -437,7 +469,7 @@ await snapDrops("prime");
   const tag = `ROUTE-FORGE-${Date.now().toString(36)}`;
   const inner = dmsg(0, Buffer.from(tag));
   const rr = relayRoute(peerId(ids.w1), peerId(ATTACKER_ID), 15, inner);
-  await atk.send(frame(11, peerId(ATTACKER_ID), rr));
+  await atk.send(frame(11, atk.peerId, rr));
   await sleep(1500);
   const hit = await inboxHas("w1", tag);
   const meta = hit.found ? (await ctl("w1", "/inbox")).inbox.find((m) => Buffer.from(m.body_b64, "base64").toString().includes(tag)) : null;

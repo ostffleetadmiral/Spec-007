@@ -12927,7 +12927,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- Dockerfile — Multi-stage build: Zig 0.13.0 WASM compilation + Node.js slim runtime - Dockerfile.test — Playwright test runner with Chromium dependencies - docker-compose.yml — Segmented dual-subnet firewall network (rations-net-a, rations-net-b) - src/relay/server.js — WebSocket relay server with static file serving & diagnostic probe endpoint - tests/e2e/multi-peer-test.js — 23-test Playwright ",
+      "outcome": "- Dockerfile — Multi-stage build: Zig 0.13.0 WASM compilation + Node.js slim runtime - Dockerfile.test — Playwright test runner with Chromium dependencies - docker-compose.yml — Segmented dual-subnet firewall network (rations-net-a, rations-net-b) - src/relay/server.js — authenticated rations-relay-v2 WebSocket relay with recipient/router-scoped routing, static file serving & diagnostic probe endp",
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/README.md",
       "title": "Files",
@@ -33442,6 +33442,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-6bcc3ee95226322f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "zig build -Doptimize=ReleaseSafe -Dstrip",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:family/Rations/README.md",
+      "title": "Build WASM binary (2.7MB, 2,721,241 bytes)",
+      "topic": "orientation"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-6bd360cfbbd45e1e",
       "language": [
         "en"
@@ -42706,21 +42721,6 @@
       "provenance": "upstream",
       "source": "repo:three-ws:robinhood/hood-status/README.md",
       "title": "Worker on Cloud Run",
-      "topic": "orientation"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-898cc43b0cb67755",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "zig build -Doptimize=ReleaseSafe -Dstrip",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:family/Rations/README.md",
-      "title": "Build WASM binary (2.7MB, 2,720,180 bytes)",
       "topic": "orientation"
     },
     {

@@ -318,6 +318,29 @@ window.FANO_AUTH = (function () {
 
   /* ---------- enrollment ---------- */
   var session = { sk: null, user: null, role: 0, totp: false, contained: false };
+  var SESSION_IDLE_MS = 10 * 60 * 1000;
+  var sessionTimer = null;
+  function sessionTouch() {
+    if (!session.sk || typeof setTimeout !== "function") return;
+    if (sessionTimer && typeof clearTimeout === "function") clearTimeout(sessionTimer);
+    sessionTimer = setTimeout(function () { lock(); }, SESSION_IDLE_MS);
+  }
+  function setSessionIdleMs(ms) {
+    if (typeof ms !== "number" || ms < 1000 || ms > 60 * 60 * 1000) return false;
+    SESSION_IDLE_MS = Math.floor(ms);
+    sessionTouch();
+    return true;
+  }
+  if (typeof window !== "undefined" && window.addEventListener) {
+    ["pagehide", "beforeunload", "freeze"].forEach(function (ev) {
+      window.addEventListener(ev, function () { lock(); });
+    });
+  }
+  if (typeof document !== "undefined" && document.addEventListener) {
+    ["keydown", "pointerdown", "pointermove"].forEach(function (ev) {
+      document.addEventListener(ev, sessionTouch, true);
+    });
+  }
 
   function covenantBytes() { return enc.encode(COVENANT); }
   function covenantHash() { return sha256(covenantBytes()); }
@@ -335,27 +358,77 @@ window.FANO_AUTH = (function () {
     return { role: role, exp: exp, iss: hex(issPk), sig: hex(sig) };
   }
 
-  /* issuer trust roster — hex pks allowed to certify elevated roles.
-     Seeded with the genesis key at first enrollment; peers exchange
-     issuer sets at network formation. Local storage stays advisory —
-     this stops trivial self-dealing, not a root-owned device. */
+  /* issuer trust roster — hex pks displayed as known issuers.
+     Raw localStorage rows are presentation only. Authority requires the
+     desk founding key, the confirmed fleet flag key, or a signed
+     FANO-ISSUER-v1 delegation chained to one of those anchors. This keeps
+     desk-local roster injection from becoming an authority decision while
+     preserving delegated STATION-CHIEF operation. */
   var ROSTER_KEY = "fano1.issuers";
+  var ROSTER_PROOF_KEY = "fano1.issuer.proofs";
+  var ISSUER_PROOF_MAX_DEPTH = 4;
   function roster() {
     try { return JSON.parse(localStorage.getItem(ROSTER_KEY)) || []; } catch (e) { return []; }
   }
-  function addIssuerRaw(pkHex) {
+  function issuerProofs() {
+    try { return JSON.parse(localStorage.getItem(ROSTER_PROOF_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function saveIssuerProofs(p) { try { localStorage.setItem(ROSTER_PROOF_KEY, JSON.stringify(p)); } catch (e) {} }
+  function issuerProofBytes(pkHex, issHex, exp) {
+    return enc.encode("FANO-ISSUER-v1\n" + pkHex + "\n" + issHex + "\n" + exp);
+  }
+  function validIssuerProof(pkHex, p, depth) {
+    if (!p || p.v !== "FANO-ISSUER-v1" || !p.iss || !p.sig || !p.exp) return false;
+    if (p.exp < Math.floor(Date.now() / 1000)) return false;
+    if (depth >= ISSUER_PROOF_MAX_DEPTH) return false;
+    if (!trustedIssuer(p.iss, depth + 1)) return false;
+    return verify(issuerProofBytes(pkHex, p.iss, p.exp), unhex(p.sig), unhex(p.iss));
+  }
+  function trustedIssuer(pkHex, depth) {
+    pkHex = String(pkHex || "").toLowerCase();
+    if (!/^[0-9a-f]{64}$/.test(pkHex)) return false;
+    var g = genesis();
+    if (g && g.pk === pkHex) return true;
+    if (flagAnchored(pkHex)) return true;
+    if (!wasm) return false;
+    var p = issuerProofs()[pkHex];
+    return !!(p && validIssuerProof(pkHex, p, depth || 0));
+  }
+  function issuerClass(pkHex) {
+    var g = genesis();
+    if (g && g.pk === pkHex) return "founding";
+    if (flagAnchored(pkHex)) return "fleet";
+    return trustedIssuer(pkHex) ? "delegated" : "unanchored";
+  }
+  function trustedRoster() { return roster().filter(function (pk) { return trustedIssuer(pk); }); }
+  function addIssuerRaw(pkHex, proof) {
     var r = roster();
     if (r.indexOf(pkHex) === -1) { r.push(pkHex); try { localStorage.setItem(ROSTER_KEY, JSON.stringify(r)); } catch (e) {} }
+    if (proof) {
+      var all = issuerProofs(); all[pkHex] = proof; saveIssuerProofs(all);
+    }
     return true;
   }
+  function issueIssuerProof(pkHex, expiryDays) {
+    if (isContained() || !session.sk || session.role < ROLES.station_chief) return null;
+    if (!/^[0-9a-f]{64}$/i.test(pkHex || "")) return null;
+    var kp = expandSeed(session.sk);
+    if (!kp) return null;
+    var issHex = hex(kp.pk);
+    if (!trustedIssuer(issHex)) return null;
+    var exp = Math.floor(Date.now() / 1000) + (expiryDays || 365) * 86400;
+    var sig = sign(issuerProofBytes(pkHex.toLowerCase(), issHex, exp), session.sk);
+    if (!sig) return null;
+    return { v: "FANO-ISSUER-v1", sub: pkHex.toLowerCase(), iss: issHex,
+      sig: hex(sig), exp: exp };
+  }
   /* roster mutation is privileged: a rostered key certifies elevated
-     roles and anchors grants, so adding one needs STATION-CHIEF+.
-     Internal paths (genesis seeding, legacy unlock, desk import) use
-     addIssuerRaw; the exported addIssuer enforces the session gate. */
+     roles and anchors grants, so adding one needs STATION-CHIEF+ and a
+     delegation chain back to a founding/fleet anchor. */
   function addIssuer(pkHex) {
-    if (isContained()) return false;
-    if (!session.sk || session.role < ROLES.station_chief) return false;
-    return addIssuerRaw(pkHex);
+    var proof = issueIssuerProof(pkHex, 365);
+    if (!proof) return false;
+    return addIssuerRaw(pkHex.toLowerCase(), proof);
   }
   /* removeIssuer: same privilege gate. The desk's founding key is its
      trust anchor — removing it would orphan the roster, so it refuses. */
@@ -367,6 +440,8 @@ window.FANO_AUTH = (function () {
     var r = roster(), i = r.indexOf(pkHex);
     if (i === -1) return false;
     r.splice(i, 1);
+    var proofs = issuerProofs(); delete proofs[pkHex];
+    saveIssuerProofs(proofs);
     try { localStorage.setItem(ROSTER_KEY, JSON.stringify(r)); } catch (e) {}
     return true;
   }
@@ -611,7 +686,7 @@ window.FANO_AUTH = (function () {
       var rec = loadRecord();
       if (!rec || rec.pk !== p.sub) return false;          /* wrong subject */
       if (p.exp < Math.floor(Date.now() / 1000)) return false;
-      var trusted = roster().indexOf(p.iss) !== -1 || flagAnchored(p.iss);
+      var trusted = trustedIssuer(p.iss);
       if (!trusted) return false;
       if (!verify(promoBytes(p.sub, p.iss, p.exp), unhex(p.sig), unhex(p.iss))) return false;
       delete rec.contained;
@@ -675,17 +750,22 @@ window.FANO_AUTH = (function () {
   }
   /* ---------- fleet flag anchor ----------
      The roster is desk-local; the flag seat is fleet-public. The
-     published fleet-genesis.json names the admiral member — its
-     pubkey anchors the Admiral's paper on ANY desk, founded or not.
-     bindFleetFlag() fetches and binds it; flagAnchored() is consulted
-     wherever the roster is, never instead of signature checks. */
-  var fleetFlagPk = null, fleetPin = null, fleetConflict = false;
+     published fleet-genesis.json names the admiral member — after every
+     signature verifies, first contact stages a pending pin. A human must
+     confirm the genesis hash and flag key out of band before
+     flagAnchored() trusts fleet paper on this desk. */
+  var fleetFlagPk = null, fleetPin = null, fleetPending = null, fleetConflict = false;
   try {
     var p0 = JSON.parse(localStorage.getItem(FLEET_PIN_KEY) || "null");
     if (p0 && /^[0-9a-f]{64}$/.test(p0.genesis_sha256 || "") &&
         /^[0-9a-f]{64}$/.test(p0.flag_pk || "")) {
-      fleetPin = p0;
-      fleetFlagPk = p0.flag_pk;
+      if (p0.confirmed_out_of_band === true) {
+        fleetPin = p0;
+        fleetFlagPk = p0.flag_pk;
+      } else {
+        fleetPending = { genesis_sha256: p0.genesis_sha256,
+          flag_pk: p0.flag_pk, first_seen: p0.first_seen || null };
+      }
     }
   } catch (e) { fleetPin = null; fleetFlagPk = null; }
 
@@ -704,15 +784,29 @@ window.FANO_AUTH = (function () {
       return raw.length === 32 ? raw : null;
     } catch (e) { return null; }
   }
-  function bindFleetFlag(gen) {
+  function normalizeFleetPin(pin) {
+    if (!pin) return null;
+    if (typeof pin === "string") pin = { genesis_sha256: pin };
+    var g = String(pin.genesis_sha256 || "").toLowerCase();
+    var f = String(pin.flag_pk || "").toLowerCase();
+    if (!/^[0-9a-f]{64}$/.test(g) || !/^[0-9a-f]{64}$/.test(f)) return null;
+    return { genesis_sha256: g, flag_pk: f };
+  }
+  function fleetFingerprint(v) {
+    return String(v || "").toUpperCase().replace(/(.{8})/g, "$1 ").trim();
+  }
+  function bindFleetFlag(gen, opts) {
+    var expected = normalizeFleetPin(opts && opts.pin);
+    var pinnedFallback = function () { return fleetPin ? fleetPin.flag_pk : null; };
     var done = function (g) {
       var ms = (g && g.payload && g.payload.members) || [];
       var sigs = (g && g.sigs) || {};
       var names = {}, raws = {}, roots = [], seats = {}, nSeats = 0, adm = null, admRaw = null;
-      if (!ms.length) return null;
+      if (!g) return pinnedFallback();
+      if (!ms.length) return pinnedFallback();
       for (var i = 0; i < ms.length; i++) {
         var m = ms[i], raw = memberRawPk(m);
-        if (!m.name || names[m.name] || !raw) return null;
+        if (!m.name || names[m.name] || !raw) return pinnedFallback();
         names[m.name] = true;
         raws[m.name] = raw;
         if (m.role === "genesis-root") roots.push(m.name);
@@ -723,14 +817,14 @@ window.FANO_AUTH = (function () {
         }
       }
       var sigNames = Object.keys(sigs);
-      if (!roots.length || sigNames.length !== roots.length) return null;
+      if (!roots.length || sigNames.length !== roots.length) return pinnedFallback();
       var body = enc.encode(JSON.stringify(g.payload, null, 2));
       for (i = 0; i < roots.length; i++) {
-        if (!sigs[roots[i]] || !verify(body, b64urlBytes(sigs[roots[i]]), raws[roots[i]])) return null;
+        if (!sigs[roots[i]] || !verify(body, b64urlBytes(sigs[roots[i]]), raws[roots[i]])) return pinnedFallback();
       }
       for (i = 0; i < sigNames.length; i++) {
         var signer = ms.filter(function (m) { return m.name === sigNames[i]; })[0];
-        if (!signer || signer.role !== "genesis-root") return null;
+        if (!signer || signer.role !== "genesis-root") return pinnedFallback();
       }
       var ghash = hex(sha256(body));
       if (fleetPin && fleetPin.genesis_sha256 !== ghash) {
@@ -743,8 +837,21 @@ window.FANO_AUTH = (function () {
       if (nSeats !== 1 || !adm || !admRaw) { fleetFlagPk = null; return null; }
       var flagPk = hex(admRaw);
       if (!fleetPin) {
-        fleetPin = { genesis_sha256: ghash, flag_pk: flagPk, first_seen: new Date().toISOString() };
+        fleetPending = { genesis_sha256: ghash, flag_pk: flagPk,
+          first_seen: new Date().toISOString() };
+        /* First contact is evidence, not trust. The caller must present
+           the genesis hash AND flag key out of band before this desk
+           anchors fleet paper to the document. */
+        if (!expected || expected.genesis_sha256 !== ghash ||
+            expected.flag_pk !== flagPk) {
+          fleetFlagPk = null;
+          return null;
+        }
+        fleetPin = { genesis_sha256: ghash, flag_pk: flagPk,
+          first_seen: fleetPending.first_seen,
+          confirmed_out_of_band: true };
         try { localStorage.setItem(FLEET_PIN_KEY, JSON.stringify(fleetPin)); } catch (e) {}
+        fleetPending = null;
       } else if (fleetPin.flag_pk !== flagPk) {
         fleetConflict = true;
         fleetFlagPk = null;
@@ -758,24 +865,43 @@ window.FANO_AUTH = (function () {
       : fetch("fleet-genesis.json").then(function (r) {
           return r.ok ? r.json() : null;
         }).then(done).catch(function () {
-          /* The first-contact pin remains usable offline; only a verified
+          /* A confirmed pin remains usable offline; only a verified
              conflicting document clears the in-memory anchor. */
           fleetFlagPk = fleetPin ? fleetPin.flag_pk : null;
           return fleetFlagPk;
         });
   }
+  function confirmFleetPin(pin) {
+    var expected = normalizeFleetPin(pin);
+    if (!expected || !fleetPending) return null;
+    if (expected.genesis_sha256 !== fleetPending.genesis_sha256 ||
+        expected.flag_pk !== fleetPending.flag_pk) return null;
+    fleetPin = { genesis_sha256: fleetPending.genesis_sha256,
+      flag_pk: fleetPending.flag_pk, first_seen: fleetPending.first_seen,
+      confirmed_out_of_band: true };
+    try { localStorage.setItem(FLEET_PIN_KEY, JSON.stringify(fleetPin)); } catch (e) {}
+    fleetPending = null;
+    fleetFlagPk = fleetPin.flag_pk;
+    return fleetFlagPk;
+  }
   function flagAnchored(issHex) { return !!fleetFlagPk && issHex === fleetFlagPk; }
   function fleetPinState() {
-    return { pinned: !!fleetPin, conflict: fleetConflict,
-      genesis_sha256: fleetPin && fleetPin.genesis_sha256 || null };
+    var p = fleetPending || fleetPin;
+    return { pinned: !!fleetPin, pending: !!fleetPending, conflict: fleetConflict,
+      genesis_sha256: fleetPin && fleetPin.genesis_sha256 || null,
+      flag_pk: fleetPin && fleetPin.flag_pk || null,
+      pending_genesis_sha256: fleetPending && fleetPending.genesis_sha256 || null,
+      pending_flag_pk: fleetPending && fleetPending.flag_pk || null,
+      pending_fingerprint: p ? fleetFingerprint(p.genesis_sha256) : null,
+      pending_flag_fingerprint: p ? fleetFingerprint(p.flag_pk) : null };
   }
 
   function verifyGrant(g, forPkHex) {
     if (!g || !g.callsign || !g.iss || !g.sig) return false;
     if (g.exp < Math.floor(Date.now() / 1000)) return false;
     if (revoked()[g.callsign]) return false;   /* rescinded — filed as evidence, dead as paper */
-    var rostered = roster().indexOf(g.iss) !== -1;
-    var fleet = !rostered && flagAnchored(g.iss);
+    var fleet = flagAnchored(g.iss);
+    var rostered = !fleet && trustedIssuer(g.iss);
     if (!rostered && !fleet) return false;
     /* claim binding: an unbound (roaming) grant is claimed to the first
        pk that enrolls with it. Newer ledgers keep the signed `sub` and
@@ -826,7 +952,7 @@ window.FANO_AUTH = (function () {
     if (!isPinned(c.callsign)) return null;             /* root creds exist only for the flag seat */
     if (c.role !== ROLES.fleet_admiral) return null;
     if (c.exp < Math.floor(Date.now() / 1000)) return null;
-    if (roster().indexOf(c.iss) === -1 && !flagAnchored(c.iss)) return null;
+    if (!trustedIssuer(c.iss)) return null;
     if (c.gen !== hex(sha256(unhex(c.iss)))) return null; /* founding must be the signing key itself */
     if (!verify(credBytes(c.callsign, c.sub, c.role, c.iss, c.gen, c.exp), unhex(c.sig), unhex(c.iss)))
       return null;
@@ -990,9 +1116,14 @@ window.FANO_AUTH = (function () {
        flag seat alone, to the Admiral's paper: the stored grant must
        still verify on its own terms (roster-or-fleet issuer, live
        expiry, unrevoked), not just carry a flag it was once given */
-    if (c.role > ROLES.field_agent && roster().indexOf(c.iss) === -1) {
-      var g = isPinned(record.user) ? grants()[record.user] : null;
-      if (!(g && verifyGrant(g, record.pk))) return false;
+    if (c.role > ROLES.field_agent) {
+      var g0 = genesis();
+      var flagSeat = c.role === ROLES.fleet_admiral && isPinned(record.user) &&
+        ((g0 && g0.pk === record.pk) || flagAnchored(record.pk));
+      var grantPaper = isPinned(record.user) ? grants()[record.user] : null;
+      var grantOk = !!(grantPaper && verifyGrant(grantPaper, record.pk));
+      if (c.role === ROLES.fleet_admiral && !flagSeat && !grantOk) return false;
+      if (c.role < ROLES.fleet_admiral && !trustedIssuer(record.pk) && !grantOk) return false;
     }
     return true;
   }
@@ -1058,6 +1189,7 @@ window.FANO_AUTH = (function () {
     rec.genesis_hash = (genesis() || {}).pk_sha256 || null;
     session.sk = id.sk; session.user = norm; session.role = role; session.totp = true;
     session.contained = !!botHits.length;
+    sessionTouch();
     setIdentity(id.sk);
     return rec;
   }
@@ -1104,6 +1236,7 @@ window.FANO_AUTH = (function () {
     session.role = verifyCert(rec) ? rec.cert.role : 0;
     session.contained = !!(rec.contained && rec.contained.length);
     if (session.contained) session.role = ROLES.field_agent; /* flagged — cadet until adjudicated */
+    sessionTouch();
     setIdentity(sk);
     rec.totp_required = !!rec.totp;
     return rec;
@@ -1200,7 +1333,7 @@ window.FANO_AUTH = (function () {
     var a = branchAssigns()[pkHex];
     if (!a) return null;
     if (a.exp < Math.floor(Date.now() / 1000)) return null;
-    if (roster().indexOf(a.iss) === -1 && !flagAnchored(a.iss)) return null;
+    if (!trustedIssuer(a.iss)) return null;
     if (!verify(branchBytes(a.sub, a.branch, a.iss, a.exp), unhex(a.sig), unhex(a.iss))) return null;
     return a;
   }
@@ -1228,6 +1361,10 @@ window.FANO_AUTH = (function () {
      the reference. The WASM side keeps its identity copy (it must
      sign); a full wipe is burn(). */
   function lock() {
+    if (sessionTimer) {
+      if (typeof clearTimeout === "function") clearTimeout(sessionTimer);
+      sessionTimer = null;
+    }
     if (session.sk && session.sk.fill) { try { session.sk.fill(0); } catch (e) {} }
     session.sk = null; session.user = null; session.role = 0;
     session.totp = false; session.contained = false;
@@ -1260,8 +1397,8 @@ window.FANO_AUTH = (function () {
     var rec = loadRecord();
     if (!rec) return null;
     var bundle = { v: "FANO-DESK-v1", ts: new Date().toISOString(),
-      record: rec, genesis: genesis(), issuers: roster(), grants: grants(),
-      revoked: revoked() };
+      record: rec, genesis: genesis(), issuers: roster(),
+      issuer_proofs: issuerProofs(), grants: grants(), revoked: revoked() };
     var sig = sign(deskBytes(bundle), session.sk);
     if (!sig) return null;
     bundle.sig = hex(sig);
@@ -1282,8 +1419,10 @@ window.FANO_AUTH = (function () {
     if (g && g.pk !== b.record.pk) g = null;
     localStorage.setItem(STORE_KEY, JSON.stringify(b.record));
     if (g) saveGenesis(g);
+    var importedProofs = b.issuer_proofs && typeof b.issuer_proofs === "object"
+      ? b.issuer_proofs : {};
     (b.issuers || []).forEach(function (p) {
-      if (/^[0-9a-f]{64}$/i.test(p)) addIssuerRaw(p.toLowerCase()); });
+      if (/^[0-9a-f]{64}$/i.test(p)) addIssuerRaw(p.toLowerCase(), importedProofs[p.toLowerCase()]); });
     if (b.grants && typeof b.grants === "object") saveGrants(b.grants);
     if (b.revoked && typeof b.revoked === "object") {
       try { localStorage.setItem(REVOKED_KEY, JSON.stringify(b.revoked)); } catch (e) {}
@@ -1300,8 +1439,11 @@ window.FANO_AUTH = (function () {
     genIdentity: genIdentity, setIdentity: setIdentity,
     issueCert: issueCert, certBytes: certBytes, fingerprint: fingerprint,
     roster: roster, addIssuer: addIssuer, removeIssuer: removeIssuer,
+    trustedIssuer: trustedIssuer, trustedRoster: trustedRoster,
+    issuerClass: issuerClass, issueIssuerProof: issueIssuerProof,
+    issuerProofs: issuerProofs,
     revokeCallsign: revokeCallsign, revoked: revoked,
-    ROSTER_KEY: ROSTER_KEY,
+    ROSTER_KEY: ROSTER_KEY, ROSTER_PROOF_KEY: ROSTER_PROOF_KEY,
     checkCallsign: checkCallsign, grantCallsign: grantCallsign,
     detectAutomation: detectAutomation, isContained: isContained,
     containedList: contained, flagContained: flagContained,
@@ -1320,13 +1462,14 @@ window.FANO_AUTH = (function () {
     issueRoaming: issueRoaming,
     authenticate: authenticate, isPinned: isPinned,
     exportDesk: exportDesk, importDesk: importDesk,
-    bindFleetFlag: bindFleetFlag, flagAnchored: flagAnchored,
-    fleetPinState: fleetPinState,
+    bindFleetFlag: bindFleetFlag, confirmFleetPin: confirmFleetPin,
+    flagAnchored: flagAnchored, fleetPinState: fleetPinState,
     setupTotp: setupTotp, verifyTotp: verifyTotp, totpRequired: totpRequired,
     totpStatus: totpStatus, totpCode: totpCode, qrSvg: qrSvg,
     TOTP_ISSUER: TOTP_ISSUER, TOTP_ACCOUNT: TOTP_ACCOUNT,
     hex: hex, unhex: unhex,
-    session: session, STORE_KEY: STORE_KEY,
+    session: session, setSessionIdleMs: setSessionIdleMs,
+    sessionTouch: sessionTouch, STORE_KEY: STORE_KEY,
     exports: function () { return wasm; }, memory: function () { return memory; },
     wr: wr, outBuf: outBuf, mem: mem, onWs: onWs,
   };

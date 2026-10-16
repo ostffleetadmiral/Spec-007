@@ -38,14 +38,14 @@ services:
   relay-east:
     image: node:22-alpine
     command: node /rations/src/relay/server.js
-    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: "${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}" }
+    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_RELAY_MODE: "isolated", RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: "${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}", RATIONS_ROUTER_TOKEN: "${RATIONS_ROUTER_TOKEN:?export RATIONS_ROUTER_TOKEN or run via comms-suite.mjs}" }
     volumes: [ "../../../family/Rations:/rations:ro" ]
     networks: [ east ]
 
   relay-west:
     image: node:22-alpine
     command: node /rations/src/relay/server.js
-    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: "${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}" }
+    environment: { RATIONS_PORT: "8080", RATIONS_STATIC_ROOT: /rations/src, RATIONS_DEBUG: "1", RATIONS_RELAY_MODE: "isolated", RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: "${RATIONS_RELAY_TOKEN:?export RATIONS_RELAY_TOKEN or run via comms-suite.mjs}", RATIONS_ROUTER_TOKEN: "${RATIONS_ROUTER_TOKEN:?export RATIONS_ROUTER_TOKEN or run via comms-suite.mjs}" }
     volumes: [ "../../../family/Rations:/rations:ro" ]
     networks: [ west ]
 
@@ -139,7 +139,7 @@ services:
   node-bridge:
     image: node:22-alpine
     command: node /sec/hydra-node.mjs
-    environment: { <<: *node-env, NAME: bridge }
+    environment: { <<: *node-env, NAME: bridge, RATIONS_ROUTER_TOKEN: "${RATIONS_ROUTER_TOKEN:?export RATIONS_ROUTER_TOKEN or run via comms-suite.mjs}" }
     volumes: *rations-mount
     networks: [ east, west ]
     ports: [ "19500:9090", "18500:8080" ]

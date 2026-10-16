@@ -67,7 +67,7 @@ Everything in this directory is public-release material — **except one drawer.
 - **`firmware/spec007_controller.c`** — ESP32-S3 controller scaffold: integer-only, the canon state machine, hardware-first quench authority. Labeled SCAFFOLD — screens aren't measurements.
 - **`site/`** — The dossier rendered as a static site + the FANO-1 desk (`desktop.html`). Dependency-free; `python3 site/build.py`; see `site/README.md`.
 - **`site/assets/fano-auth.js` / `fano-comms.js` / `fano-desktop.js`** — The real pledge (Ed25519 + PBKDF2 + TOTP + genesis + containment), the tradecraft surface, and the full window manager.
-- **`security/`** — The consolidated sweep + the Hydra WAN lab: `team-sweep-2.mjs` (227 probes), `comms-suite.mjs`, `hydra-node.mjs`, `fano-mesh-bridge.mjs` (the 136-byte dialect end-to-end). Findings → `site/security/findings.json`.
+- **`security/`** — The consolidated sweep + the Hydra WAN lab: `team-sweep-2.mjs` (246 probes), `comms-suite.mjs`, `hydra-node.mjs`, `fano-mesh-bridge.mjs` (the 136-byte dialect end-to-end). Findings → `site/security/findings.json`.
 - **`tools/`** — The emit/verify machinery: every ledger (`vision-audit`, `layer-map`, `gov-map`, `engine-manifest`, `academy-harvest`, `curriculum-map`, `academy-review`, `claim-promotion`, `override-audit`, `archive-projection`, `doc-census`, and kin) re-derives on `--verify` and exits nonzero on drift.
 - **`site/apps/rations/`** — The Rations air-gap platform, running in-window via bounded iframe; production WASM sha256-verified. Source tree at `../../family/Rations/` (see `family/FAMILY-MAP.md`).
 - **`site/manifesto.html` / `site/meter.html`** — Leaked-intel drawer (7q.spill). Discoverable through the desk, absent from the nav.
@@ -79,7 +79,7 @@ Any agent can re-run the numbers. Integer arithmetic only — no floating point 
 
 ```sh
 zig build test                                # 290 test blocks / 26 modules — all green
-node security/team-sweep-2.mjs                # 227 probes → findings ledger
+node security/team-sweep-2.mjs                # 246 probes → findings ledger
 node tools/vision-audit.mjs --verify          # 24 elements, all realized
 node tools/gov-map.mjs --verify               # 50/50 mandates realized
 node tools/academy-review.mjs --verify        # 14 courses, zero structural defects

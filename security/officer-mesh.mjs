@@ -86,6 +86,15 @@ function genesisDocFor(pkHex, auth) {
   doc.sigs = { "admiral-root": Buffer.from(sig).toString("base64url") };
   return doc;
 }
+async function bindFleetConfirmed(auth, doc) {
+  const first = doc ? await auth.bindFleetFlag(doc) : await auth.bindFleetFlag();
+  if (first) return first;
+  const st = auth.fleetPinState();
+  return st.pending ? auth.confirmFleetPin({
+    genesis_sha256: st.pending_genesis_sha256,
+    flag_pk: st.pending_flag_pk,
+  }) : null;
+}
 
 /* ---------- live wire: relay + two seeded hydra peers ---------- */
 const PORTS = { a: 19601, b: 19602 };
@@ -158,7 +167,7 @@ dtok && di && di.ok === true && di.founded === true && a2rec && a2rec.pk === aPk
 /* second-officer commissioning: B joins A's fleet board (binds the
    flag-seat genesis), claims an unclaimed roaming grant for the
    restricted callsign — first enrollment binds it to B's own pk */
-await B.auth.bindFleetFlag(genesisDocFor(aPk, A.auth));
+await bindFleetConfirmed(B.auth, genesisDocFor(aPk, A.auth));
 const anchored = B.auth.flagAnchored(aPk);
 const g = A.auth.grantCallsign("m", null, 90);
 const gTok = g && A.auth.exportGrant("m");
@@ -234,7 +243,7 @@ if (relayUp) {
   try {
     authed = await wsConnect(wsUrl, {
       origin: "http://desk.local",
-      protocols: ["rations-relay-v1", `rations-relay-token.${RELAY_TOKEN}`],
+      protocols: ["rations-relay-v2", "rations-relay-v1", `rations-relay-token.${RELAY_TOKEN}`],
     });
     authed.close();
   } catch { authed = null; }

@@ -132,6 +132,7 @@ const TEAM_MAP = {
   GOVM:    { duty: "audit_integrity",        fleet: "security_infrastructure" },
   ACAD:    { duty: "curriculum_integrity",   fleet: "education" },
   A0Z:     { duty: "anomaly_watch",          fleet: "security_infrastructure" },
+  EXT:     { duty: "audit_integrity",        fleet: "security_infrastructure" },
   RCT:     { duty: "custody",                fleet: "security_infrastructure" },
 };
 

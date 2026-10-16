@@ -124,6 +124,8 @@ window.FANO_RESET = (function () {
   /* the full ledger census — every key the desk writes, swept by one
      adjudication. Legacy keys stay on the list (sweeping is cheap). */
   var KEYS = ["fano1.identity", "fano1.genesis", "fano1.issuers",
+              "fano1.issuer.proofs", "fano.fleet.genesis.v1",
+              "rations.relay.token.v1",
               "fano1.callsigns", "fano1.lives", "fano1.comms.contacts",
               "fano1.comms.relay", "fano1.desk.state", "fano1.desk.v1",
               "fano1.directives", "fano1.containment", "fano1.revoked",

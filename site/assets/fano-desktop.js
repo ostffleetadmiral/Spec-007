@@ -1280,7 +1280,11 @@
          trusted only by this desk's say-so; the fleet flag key anchors
          on the published genesis pk — a spoofed local entry cannot
          wear the fleet label. */
-      var anchor = A.flagAnchored(fp) ? t("cmd.roster.fleet") : t("cmd.roster.local");
+      var cls = A.issuerClass ? A.issuerClass(fp) : (A.flagAnchored(fp) ? "fleet" : "unanchored");
+      var anchor = cls === "fleet" ? t("cmd.roster.fleet")
+        : cls === "founding" ? t("cmd.roster.founding", "FOUNDING-ANCHORED")
+        : cls === "delegated" ? t("cmd.roster.delegated", "DELEGATED")
+        : t("cmd.roster.unanchored", "UNANCHORED");
       ir.appendChild(row(t("cmd.roster.fp", fp.slice(0, 12).toUpperCase()) + " · " + anchor));
       ir.appendChild(btn(t("flag.btn.remove"), function () {
         var rm = A.removeIssuer(fp);

@@ -6,19 +6,19 @@
       "src": 49,
       "deps": 85,
       "security": 53,
-      "tools": 45,
+      "tools": 47,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 5,
-      "site/assets": 44
+      "site/assets": 45
     },
-    "total_components": 284,
-    "source_components": 245,
-    "generated_components": 39,
-    "mapped_basename": 273,
-    "mapped_contract": 284,
+    "total_components": 287,
+    "source_components": 247,
+    "generated_components": 40,
+    "mapped_basename": 276,
+    "mapped_contract": 287,
     "manifest_bound": 33,
-    "owner_bound": 27,
+    "owner_bound": 28,
     "unmapped_basename": [
       "site/assets/academy/ai-literacy.json",
       "site/assets/academy/campaign-operations.json",
@@ -4900,6 +4900,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/external-review.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": "tools/external-review-manifest.mjs",
+        "owner_basis": "external-authority package projection",
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": "tools/external-review-manifest.mjs"
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": "tools/external-review-manifest.mjs",
+        "owner_basis": "external-authority package projection"
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/fano-auth.js",
       "contract": {
         "mapped": true,
@@ -7609,6 +7637,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "tools/external-review-manifest.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "tools/film-render.mjs",
       "contract": {
         "mapped": true,
@@ -7933,6 +7989,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/relay-isolation-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
         "manifest_bound": false,
         "owner": null
       },

@@ -404,47 +404,70 @@ document.getElementById('signbtn').addEventListener('click', function () {
   FANO_AUTH.load().then(function () {
     var grantTok = document.getElementById('grant-token').value || null;
     /* roaming flag: a FANO-ROOT-v1 authenticator verifies against the
-       fleet anchor, not this desk's roster — bind it before the call */
+       fleet anchor, not this desk's roster. First contact stages the pin;
+       the signer confirms the genesis hash + flag key out of band. */
     var anchored = grantTok ? FANO_AUTH.bindFleetFlag() : Promise.resolve(null);
-    return anchored.then(function () {
-      var rec = FANO_AUTH.enroll(name, p1, grantTok);
-    if (rec && rec.error) {
-      var msgs = { restricted: 'That callsign is reserved by the Admiralty — a signed grant token is required.',
-        claimed: 'That callsign is bound to this desk\'s founding key — it moves only by grant.',
-        empty: 'The desk requires a callsign.', too_long: 'Callsigns cap at 48 characters.' };
-      note.textContent = msgs[rec.error] || 'Enrollment refused — callsign rejected.';
-      btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return;
-    }
-    if (!rec) { note.textContent = 'Enrollment failed — the mint declined. Reload and retry.'; btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return; }
-    var roleName = FANO_AUTH.ROLE_LABEL[rec.cert.role] || 'CADET';
-    var branch = document.getElementById('branchreq').value;
-    if (branch && !rec.genesis) {
-      var rq = FANO_AUTH.requestBranch(branch);
-      if (rq && !rq.error) {
-        document.getElementById('reqtoken').value = FANO_AUTH.exportRequest(rq.pk) || '';
-        document.getElementById('reqview').style.display = 'block';
-        note.textContent = 'Branch request signed (' + branch.toUpperCase() + ') — pending Fleet Admiral approval.';
+    return anchored.then(function (anchorPk) {
+      var pinState = FANO_AUTH.fleetPinState ? FANO_AUTH.fleetPinState() : { pending: false };
+      var confirmPin = Promise.resolve(anchorPk);
+      if (grantTok && !anchorPk && pinState.pending) {
+        confirmPin = deskDialog({
+          mode: 'confirm',
+          title: 'Confirm the fleet pin out of band',
+          body: 'A signed fleet genesis was received, but this desk has no confirmed pin. Compare these fingerprints with the Admiralty-published pin before enrolling roaming paper.\n\nGENESIS\n' +
+            pinState.pending_fingerprint + '\n\nFLAG KEY\n' + pinState.pending_flag_fingerprint,
+          okText: 'PIN THIS FLEET', cancelText: 'DO NOT TRUST'
+        }).then(function (yes) {
+          return yes ? FANO_AUTH.confirmFleetPin({
+            genesis_sha256: pinState.pending_genesis_sha256,
+            flag_pk: pinState.pending_flag_pk
+          }) : null;
+        });
       }
-    }
-    document.getElementById('stamp').innerHTML =
-      '<span class="stamp">SIGNED &mdash; FILED 7q &middot; ' + roleName + '</span>' +
-      (rec.genesis ? '<br><small class="stamp" style="border-color:var(--gold);color:var(--gold)">GENESIS MINTED &mdash; sha256 ' + (rec.genesis_hash || '').slice(0, 16) + '…</small>' : '') +
-      '<br><small style="letter-spacing:.05em;color:var(--gold)">sig ' + rec.covenant_sig.slice(0, 24) + '… &middot; fp ' + rec.pk.slice(0, 8).toUpperCase() + '…</small>' +
-      '<br><small id="castline" style="letter-spacing:.05em;color:var(--gold)"></small>';
-    /* the casting office files the new signature — Layer 2 */
-    fetch('assets/persona-manifest.json').then(function (r) { return r.json(); }).then(function (m) {
-      var cs = FANO_AUTH.normalizeCallsign(rec.user), row = null;
-      (m.personas || []).forEach(function (p) { if (p.callsign === cs) row = p; });
-      if (row && row.alias_of) (m.personas || []).forEach(function (p) { if (p.callsign === row.alias_of) row = p; });
-      var el = document.getElementById('castline');
-      if (el) el.textContent = (row && row.assignable)
-        ? 'CASTING — the office reads you as ' + row.callsign.toUpperCase() +
-          ' · ' + row.cover_role + ' · track ' + row.track + ' → ' + row.branch.toUpperCase()
-        : 'CASTING — no cover on file; the office keeps a ledger regardless · persona.os on the desk';
-    }).catch(function () {});
-    var sd = document.getElementById('selfdestruct');
-    setTimeout(function () { sd.classList.add('burning'); }, 3000);
-    setTimeout(function () { window.location.href = 'desktop.html'; }, 6000);
+      return confirmPin.then(function (confirmedPk) {
+        if (grantTok && !confirmedPk) {
+          note.textContent = 'Fleet anchor not pinned — roaming paper was not enrolled.';
+          btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return;
+        }
+        var rec = FANO_AUTH.enroll(name, p1, grantTok);
+        if (rec && rec.error) {
+          var msgs = { restricted: 'That callsign is reserved by the Admiralty — a signed grant token is required.',
+            claimed: 'That callsign is bound to this desk\'s founding key — it moves only by grant.',
+            empty: 'The desk requires a callsign.', too_long: 'Callsigns cap at 48 characters.' };
+          note.textContent = msgs[rec.error] || 'Enrollment refused — callsign rejected.';
+          btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return;
+        }
+        if (!rec) { note.textContent = 'Enrollment failed — the mint declined. Reload and retry.'; btn.disabled = false; btn.textContent = 'SIGN AND ENROLL'; return; }
+        var roleName = FANO_AUTH.ROLE_LABEL[rec.cert.role] || 'CADET';
+        var branch = document.getElementById('branchreq').value;
+        if (branch && !rec.genesis) {
+          var rq = FANO_AUTH.requestBranch(branch);
+          if (rq && !rq.error) {
+            document.getElementById('reqtoken').value = FANO_AUTH.exportRequest(rq.pk) || '';
+            document.getElementById('reqview').style.display = 'block';
+            note.textContent = 'Branch request signed (' + branch.toUpperCase() + ') — pending Fleet Admiral approval.';
+          }
+        }
+        document.getElementById('stamp').innerHTML =
+          '<span class="stamp">SIGNED &mdash; FILED 7q &middot; ' + roleName + '</span>' +
+          (rec.genesis ? '<br><small class="stamp" style="border-color:var(--gold);color:var(--gold)">GENESIS MINTED &mdash; sha256 ' + (rec.genesis_hash || '').slice(0, 16) + '…</small>' : '') +
+          '<br><small style="letter-spacing:.05em;color:var(--gold)">sig ' + rec.covenant_sig.slice(0, 24) + '… &middot; fp ' + rec.pk.slice(0, 8).toUpperCase() + '…</small>' +
+          '<br><small id="castline" style="letter-spacing:.05em;color:var(--gold)"></small>';
+        /* the casting office files the new signature — Layer 2 */
+        fetch('assets/persona-manifest.json').then(function (r) { return r.json(); }).then(function (m) {
+          var cs = FANO_AUTH.normalizeCallsign(rec.user), row = null;
+          (m.personas || []).forEach(function (p) { if (p.callsign === cs) row = p; });
+          if (row && row.alias_of) (m.personas || []).forEach(function (p) { if (p.callsign === row.alias_of) row = p; });
+          var el = document.getElementById('castline');
+          if (el) el.textContent = (row && row.assignable)
+            ? 'CASTING — the office reads you as ' + row.callsign.toUpperCase() +
+              ' · ' + row.cover_role + ' · track ' + row.track + ' → ' + row.branch.toUpperCase()
+            : 'CASTING — no cover on file; the office keeps a ledger regardless · persona.os on the desk';
+        }).catch(function () {});
+        var sd = document.getElementById('selfdestruct');
+        setTimeout(function () { sd.classList.add('burning'); }, 3000);
+        setTimeout(function () { window.location.href = 'desktop.html'; }, 6000);
+      });
     });
   }).catch(function (e) {
     note.textContent = 'The mint is unreachable — ' + e;

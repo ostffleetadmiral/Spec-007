@@ -2,13 +2,13 @@
   "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
   "summary": {
     "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
-    "census_components": 284,
-    "components": 284,
+    "census_components": 287,
+    "components": 287,
     "status_counts": {
       "BUILD_GRAPH_COVERED": 19,
       "DOCUMENTED_COMPONENT": 23,
-      "GENERATED_ARTIFACT_BOUND": 39,
-      "SCRIPT_HARNESS_BOUND": 98,
+      "GENERATED_ARTIFACT_BOUND": 40,
+      "SCRIPT_HARNESS_BOUND": 100,
       "UNIT_TESTED": 105
     },
     "workstreams": {
@@ -16,9 +16,9 @@
       "desk-shell": 5,
       "digit-model-donor": 18,
       "firmware": 1,
-      "governance-tools": 45,
+      "governance-tools": 47,
       "native-aiwo-dht": 17,
-      "published-surface": 44,
+      "published-surface": 45,
       "q128-arithmetic": 2,
       "qstar-donor": 67,
       "security-lab": 53,
@@ -26,7 +26,7 @@
       "spec008-wire": 9
     },
     "unit_tested": 105,
-    "generated_bound": 39,
+    "generated_bound": 40,
     "pending_review": 0,
     "todo_markers": 0,
     "hot_path_candidates": [
@@ -124,10 +124,11 @@
       "tools/dht-native.mjs",
       "tools/engine-manifest.mjs",
       "tools/evidence-manifest.mjs",
+      "tools/external-review-manifest.mjs",
       "tools/publish-check.sh"
     ],
     "measured_components": 160,
-    "workstream_measured_components": 193,
+    "workstream_measured_components": 196,
     "performance_baseline": {
       "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
       "measurements": 10,
@@ -282,7 +283,9 @@
           "src/aiwo_digit_model_probe.zig",
           "tools/component-census.mjs",
           "tools/component-retrograde.mjs",
-          "tools/doc-census.mjs"
+          "tools/doc-census.mjs",
+          "tools/external-review-manifest.mjs",
+          "tools/publish-check.sh"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -1451,6 +1454,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -1709,6 +1713,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -2032,6 +2037,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -2570,6 +2576,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -2624,6 +2631,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -3036,6 +3044,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -3411,6 +3420,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -3689,6 +3699,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -4481,6 +4492,7 @@
           "tools/doc-census.mjs",
           "tools/dox-audit.mjs",
           "tools/emergent-sweep.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -5211,9 +5223,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "07c533bc345689b4cfc10f8391d2119dadd570570838509de971897c28d80972",
-        "bytes": 27244,
-        "lines": 505,
+        "sha256": "83fdbbb866f4e335aeec45268819e712db79c2a4cc4de667a3ece5573e5e9f75",
+        "bytes": 28936,
+        "lines": 531,
         "imports": [
           "./harness.mjs",
           "node:child_process",
@@ -5900,6 +5912,7 @@
           "security/team-sweep-2.mjs",
           "tools/command-map.mjs",
           "tools/engine-manifest.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/publish-check.sh",
           "tools/vision-audit.mjs"
         ],
@@ -6073,9 +6086,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "d605e6115f37571db9159be18748a53c7af9e90656e193bab078d7d04c916225",
-        "bytes": 8368,
-        "lines": 190,
+        "sha256": "f0775f80017cff77f6288b5947c96c646ba08ac58778bab493eafcf45008dab9",
+        "bytes": 9445,
+        "lines": 207,
         "imports": [
           "node:crypto",
           "node:fs",
@@ -6149,7 +6162,8 @@
           "security/emergence-watch.mjs",
           "security/officer-mesh.mjs",
           "security/philotic-cluster.mjs",
-          "security/xploit-sweep.mjs"
+          "security/xploit-sweep.mjs",
+          "tools/external-review-manifest.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -6447,9 +6461,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "838b5c6a12a5a406a5ca269c61acd59e926a916763419dec6d58e6669eb61773",
-        "bytes": 20091,
-        "lines": 371,
+        "sha256": "5e0cad8e99e699f2b4bce68cef6643440a3f85fcdb988787700af9df11ffb21f",
+        "bytes": 20448,
+        "lines": 380,
         "imports": [
           "./harness.mjs",
           "node:child_process",
@@ -6459,7 +6473,9 @@
           "node:url",
           "node:vm"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/external-review-manifest.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -6503,7 +6519,9 @@
           "node:path",
           "node:url"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/external-review-manifest.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -6548,7 +6566,8 @@
           "node:url"
         ],
         "referenced_by": [
-          "security/carrier-flight.mjs"
+          "security/carrier-flight.mjs",
+          "tools/external-review-manifest.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -6683,7 +6702,8 @@
         "referenced_by": [
           "security/fano-mesh-bridge.mjs",
           "security/team-sweep-2.mjs",
-          "src/spec008_medium_lattice.zig"
+          "src/spec008_medium_lattice.zig",
+          "tools/external-review-manifest.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -6807,9 +6827,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "362fe5ff4f21af35fa6bec09c41e41b51d01ffced043def7b8c8afa7d46c61ee",
-        "bytes": 21870,
-        "lines": 442,
+        "sha256": "c937569142edc5a9b9cb492fc7d6d1450d807263de571585c174f7d471abb2b8",
+        "bytes": 22326,
+        "lines": 456,
         "imports": [
           "./fano-mesh-bridge.mjs",
           "node:child_process",
@@ -7053,9 +7073,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "879b95e8dfbcad82cccfe3a58725d092b422bd9868c875363d3b8b7e341b9ae9",
-        "bytes": 202308,
-        "lines": 3951,
+        "sha256": "f44f4afe0f7dc6577c5c3a63c017e3b80c8f1023f871a36dadb827d099607055",
+        "bytes": 214206,
+        "lines": 4185,
         "imports": [
           "../tools/dht-fs.mjs",
           "./fano-mesh-bridge.mjs",
@@ -7073,6 +7093,7 @@
           "tools/command-map.mjs",
           "tools/component-census.mjs",
           "tools/engine-manifest.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/science-verdict.mjs"
         ],
         "todo_markers": 0,
@@ -7198,9 +7219,9 @@
       "workstream": "security-lab",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "0314a7689915ed588b88a5fbcb8681323237419ce1add147e8576e509e389b3b",
-        "bytes": 24471,
-        "lines": 473,
+        "sha256": "f9b87b838dbab2dc5b209a6d4992db90200e88f0f9015265b173c5cb923f42df",
+        "bytes": 26191,
+        "lines": 505,
         "imports": [
           "./harness.mjs",
           "node:child_process",
@@ -7209,7 +7230,9 @@
           "node:path",
           "node:url"
         ],
-        "referenced_by": [],
+        "referenced_by": [
+          "tools/external-review-manifest.mjs"
+        ],
         "todo_markers": 0,
         "public_surface": 0
       },
@@ -8352,13 +8375,55 @@
       }
     },
     {
+      "component": "site/assets/external-review.json",
+      "workstream": "published-surface",
+      "status": "GENERATED_ARTIFACT_BOUND",
+      "reverse_engineering": {
+        "sha256": null,
+        "bytes": 0,
+        "lines": null,
+        "imports": [],
+        "referenced_by": [
+          "security/team-sweep-2.mjs",
+          "tools/component-census.mjs",
+          "tools/external-review-manifest.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": true,
+        "owner": "tools/external-review-manifest.mjs",
+        "owner_basis": "external-authority package projection",
+        "manifest_bound": false,
+        "source_zone": "site"
+      },
+      "verification": {
+        "kind": "artifact",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
+        "completed": false,
+        "archive": null,
+        "decision": "baseline-only"
+      }
+    },
+    {
       "component": "site/assets/fano-auth.js",
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "4df352a9d45bc919770bb99afc998a0e2b14209602a8c6a369681e0a6fb54f31",
-        "bytes": 66791,
-        "lines": 1334,
+        "sha256": "e76977718e4526df89f36ca41f3c88f4217851320f8450604b7025f891852744",
+        "bytes": 73511,
+        "lines": 1477,
         "imports": [],
         "referenced_by": [
           "security/comms-suite.mjs",
@@ -8367,6 +8432,7 @@
           "security/suite.mjs",
           "security/superpowers-audit.mjs",
           "security/team-sweep-2.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs"
         ],
         "todo_markers": 0,
@@ -8442,9 +8508,9 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "84ff442b72e2fe8c990235262ec433da4e9eb0070175ed57b63d43fdf1a5def9",
-        "bytes": 248131,
-        "lines": 4665,
+        "sha256": "27000d4e6842b4eb2c04bbde2f29deead2cfaa5b33109d67b2910ba7e6b7b439",
+        "bytes": 248402,
+        "lines": 4669,
         "imports": [],
         "referenced_by": [
           "security/team-sweep-2.mjs",
@@ -8484,9 +8550,9 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "bc10422fbdcfcd91d3bd3502971e45107014c5a13412ff65f9f42554475f5058",
-        "bytes": 78797,
-        "lines": 1249,
+        "sha256": "0e0dd937330b927367100a9e16485eaba91c4e6a4ec217137ebc440488b5edb9",
+        "bytes": 79136,
+        "lines": 1255,
         "imports": [],
         "referenced_by": [
           "security/superpowers-audit.mjs",
@@ -8524,9 +8590,9 @@
       "workstream": "published-surface",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "1e0f7b0f4a6073ac7b99a29764f99baa605716ea45cc462d1c6555428e4257ad",
-        "bytes": 6339,
-        "lines": 144,
+        "sha256": "b521121db5d419766a9443de9d1685e1647f50cf343934b80d4119b0ddda4442",
+        "bytes": 6441,
+        "lines": 146,
         "imports": [],
         "referenced_by": [
           "security/superpowers-audit.mjs",
@@ -11998,9 +12064,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "eaea01042af3e5c6b739121c16f6309c6eddb28cf051cb59064555d3682e7962",
-        "bytes": 20074,
-        "lines": 360,
+        "sha256": "e437b21aca39d480541ce27c8df336325741d0c911dfba7554dd9b3342159c30",
+        "bytes": 20155,
+        "lines": 361,
         "imports": [
           "node:fs",
           "node:path",
@@ -12042,9 +12108,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "3574de3656229c2ac056f50fe1ee943896a2ea10548df5303e847a1f567fd707",
-        "bytes": 8820,
-        "lines": 153,
+        "sha256": "d3ae036b5aefcd48c1f245699b51e8c21e75686ae5ae5d97e2f25fb90ad6a1c8",
+        "bytes": 8957,
+        "lines": 154,
         "imports": [
           "node:fs",
           "node:path",
@@ -12279,7 +12345,8 @@
         "lines": 32,
         "imports": [],
         "referenced_by": [
-          "security/superpowers-audit.mjs"
+          "security/superpowers-audit.mjs",
+          "tools/external-review-manifest.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -12743,6 +12810,52 @@
       }
     },
     {
+      "component": "tools/external-review-manifest.mjs",
+      "workstream": "governance-tools",
+      "status": "SCRIPT_HARNESS_BOUND",
+      "reverse_engineering": {
+        "sha256": "934f4cfa398db22bd081bc4753bc21d81c458a8823384fd255309241e8518b05",
+        "bytes": 6823,
+        "lines": 181,
+        "imports": [
+          "node:crypto",
+          "node:fs",
+          "node:path",
+          "node:url"
+        ],
+        "referenced_by": [
+          "security/team-sweep-2.mjs",
+          "tools/component-census.mjs",
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "tools"
+      },
+      "verification": {
+        "kind": "script",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
+        "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
+        "completed": false,
+        "archive": null,
+        "decision": "baseline-only"
+      }
+    },
+    {
       "component": "tools/film-render.mjs",
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
@@ -12839,7 +12952,7 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "cdeba6d03f5e5b2fa8d97b1e0d123c6bf6504e53027d7e1d1e65ec1d9902a7c4",
+        "sha256": "e027c21d4c3abb8adc5cd7ff1506cbd7e3a7cf47b3cf6cd688ddca9dc6554fac",
         "bytes": 28384,
         "lines": 473,
         "imports": [
@@ -13075,6 +13188,7 @@
         ],
         "referenced_by": [
           "security/team-sweep-2.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/publish-check.sh"
         ],
         "todo_markers": 0,
@@ -13196,9 +13310,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "52bba2dff263b9cf0ccbd04b7337fb7ead299fcb26b79fff04bc8bb733bf2bac",
-        "bytes": 4721,
-        "lines": 94,
+        "sha256": "a559286be3ab6fed83b030c57eb4165130e05e740f85e9aca7a68efbde824390",
+        "bytes": 4881,
+        "lines": 96,
         "imports": [],
         "referenced_by": [
           "security/capstone-audit.mjs",
@@ -13209,6 +13323,7 @@
           "site/assets/fano-i18n.js",
           "tools/component-census.mjs",
           "tools/component-performance.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/persona-map.mjs",
           "tools/vision-audit.mjs"
         ],
@@ -13258,6 +13373,54 @@
         ],
         "referenced_by": [
           "security/team-sweep-2.mjs"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "tools"
+      },
+      "verification": {
+        "kind": "script",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": false,
+        "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
+        "completed": false,
+        "archive": null,
+        "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "tools/relay-isolation-audit.mjs",
+      "workstream": "governance-tools",
+      "status": "SCRIPT_HARNESS_BOUND",
+      "reverse_engineering": {
+        "sha256": "89a5a76e1d39d5628c31f13276743a3d827c8ade517cb0a9077e770a723f1e8e",
+        "bytes": 4746,
+        "lines": 133,
+        "imports": [
+          "../security/harness.mjs",
+          "node:child_process",
+          "node:crypto",
+          "node:net",
+          "node:path",
+          "node:url"
+        ],
+        "referenced_by": [
+          "security/team-sweep-2.mjs",
+          "tools/external-review-manifest.mjs",
+          "tools/publish-check.sh"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -13523,6 +13686,7 @@
         ],
         "referenced_by": [
           "security/team-sweep-2.mjs",
+          "tools/external-review-manifest.mjs",
           "tools/publish-check.sh"
         ],
         "todo_markers": 0,

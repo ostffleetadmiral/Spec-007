@@ -319,6 +319,11 @@
       "fleet": "research_ethics"
     },
     {
+      "team": "EXT",
+      "duty": "audit_integrity",
+      "fleet": "security_infrastructure"
+    },
+    {
       "team": "FILM",
       "duty": "content_integrity",
       "fleet": "education"
@@ -439,7 +444,7 @@
       "fleet": "security_infrastructure"
     }
   ],
-  "team_count": 47,
+  "team_count": 48,
   "cognition": {
     "runtime": "k3 packed trunk + k3wexec wasm64 lanes (integer-only; ONNX adapts at the registry layer)",
     "wasm_worker_module_bytes": 1366906,
@@ -469,16 +474,16 @@
     "capacity": {
       "resident_i4_models_per_node": 53,
       "plan_shared_trunk": {
-        "bytes": 1805200000,
+        "bytes": 1837200000,
         "fits": true,
         "note": "one verified trunk + per-team carried state — the doctrine form"
       },
       "plan_dedicated": {
-        "bytes": 13181200000,
+        "bytes": 13461200000,
         "fits": true,
         "note": "36 separate int4 instances — possible, wasteful"
       },
-      "teams": 47
+      "teams": 48
     }
   }
 }

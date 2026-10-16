@@ -22,12 +22,62 @@ const TransportBridge = (function () {
   let listeners = [];
 
   const RELAY_TOKEN_KEY = "rations.relay.token.v1";
+  const RELAY_ROUTER_TOKEN_KEY = "rations.relay.router.token.v1";
+  const RELAY_AUTH_DOMAIN = "rations-relay-auth-v1";
   function relayProtocols() {
-    const protos = ["rations-relay-v1"];
+    // v2 is preferred: authenticated peer subscription + scoped routing.
+    // v1 remains listed only so an explicit legacy broadcast relay can run.
+    const protos = ["rations-relay-v2", "rations-relay-v1"];
     let token = "";
-    try { token = globalThis.RATIONS_RELAY_TOKEN || localStorage.getItem(RELAY_TOKEN_KEY) || ""; } catch (_) {}
+    let routerToken = "";
+    try {
+      token = globalThis.RATIONS_RELAY_TOKEN || localStorage.getItem(RELAY_TOKEN_KEY) || "";
+      routerToken = globalThis.RATIONS_ROUTER_TOKEN || localStorage.getItem(RELAY_ROUTER_TOKEN_KEY) || "";
+    } catch (_) {}
     if (token) protos.push(`rations-relay-token.${token}`);
+    if (routerToken) protos.push(`rations-router-token.${routerToken}`);
     return protos;
+  }
+  function bytesToHex(bytes) {
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  function hexToBytes(text) {
+    if (!/^[0-9a-f]+$/i.test(text) || text.length % 2) return null;
+    const out = new Uint8Array(text.length / 2);
+    for (let i = 0; i < out.length; i++) out[i] = parseInt(text.slice(i * 2, i * 2 + 2), 16);
+    return out;
+  }
+  function relayAuthResponse(challengeHex) {
+    const challenge = hexToBytes(String(challengeHex || ""));
+    if (!challenge || challenge.length !== 32 || !wasm || !wasm.exports ||
+        !wasm.exports.rations_p2p_relay_auth_sign) return null;
+    const ex = wasm.exports;
+    const ch = ex.rations_alloc(challenge.length);
+    const sig = ex.rations_alloc(64);
+    const pk = ex.rations_alloc(32);
+    new Uint8Array(wasm.memory.buffer, ch, challenge.length).set(challenge);
+    const ok = ex.rations_p2p_relay_auth_sign(ch, challenge.length, sig);
+    ex.rations_p2p_peer_id(pk);
+    const response = ok ? {
+      v: RELAY_AUTH_DOMAIN,
+      peer_id: bytesToHex(new Uint8Array(wasm.memory.buffer, pk, 32)),
+      sig: bytesToHex(new Uint8Array(wasm.memory.buffer, sig, 64)),
+    } : null;
+    ex.rations_free(ch, challenge.length);
+    ex.rations_free(sig, 64);
+    ex.rations_free(pk, 32);
+    return response;
+  }
+  function handleRelayControl(entry, text) {
+    let msg = null;
+    try { msg = JSON.parse(text); } catch (_) {}
+    if (!msg || msg.v !== RELAY_AUTH_DOMAIN) return;
+    if (msg.challenge) {
+      const response = relayAuthResponse(msg.challenge);
+      if (response) entry.ws.send(JSON.stringify(response));
+      return;
+    }
+    if (msg.ok === true) entry.relayAuthed = true;
   }
 
   const RECONNECT = {
@@ -62,6 +112,10 @@ const TransportBridge = (function () {
     };
 
     ws.onmessage = function (event) {
+      if (typeof event.data === "string") {
+        handleRelayControl(entry, event.data);
+        return;
+      }
       const data = new Uint8Array(event.data);
       // Call back into Zig: rations_ws_on_message(conn_id, data_ptr, data_len)
       if (wasm && wasm.exports && wasm.exports.rations_ws_on_message) {
@@ -111,6 +165,7 @@ const TransportBridge = (function () {
       try {
         const ws = new WebSocket(entry.url, relayProtocols());
         entry.ws = ws;
+        entry.relayAuthed = false;
         wireSocket(connId, entry, ws);
       } catch {
         scheduleReconnect(connId, entry);
@@ -125,7 +180,7 @@ const TransportBridge = (function () {
 
     try {
       const ws = new WebSocket(url, relayProtocols());
-      const entry = { ws, url, attempts: 0, manualClose: false, timer: null };
+      const entry = { ws, url, attempts: 0, manualClose: false, timer: null, relayAuthed: false };
       connections.set(connId, entry);
       wireSocket(connId, entry, ws);
       return connId;

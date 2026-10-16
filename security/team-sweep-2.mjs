@@ -37,6 +37,7 @@ const f = (team, name, verdict, detail, severity) => {
 };
 const held  = (t, n2, d) => f(t, n2, "HELD", d, "info");
 const noted = (t, n2, d) => f(t, n2, "NOTED", d, "info");
+const pending = (t, n2, d) => f(t, n2, "PENDING", d, "medium");
 const open_ = (t, n2, d) => f(t, n2, "OPEN", d, "high");
 const canon = o => JSON.stringify(o, null, 2);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -57,6 +58,8 @@ const _pfJobs = new Map();
     // early sweep gates first — pf() only resolves launched jobs
     ["native-dialog",    process.execPath, [path.join(_T, "native-dialog-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["wasm-memory",      process.execPath, [path.join(_T, "wasm-memory-hygiene.mjs"), "--verify"], { timeout: 120000 }],
+    ["relay-isolation",  process.execPath, [path.join(_T, "relay-isolation-audit.mjs")], { timeout: 120000 }],
+    ["external-review",  process.execPath, [path.join(_T, "external-review-manifest.mjs"), "--verify"], { timeout: 120000 }],
     // heaviest next — the pool drains in launch order
     ["archive-verify",   process.execPath, [path.join(_T, "archive-verify.mjs"), "--verify"], { timeout: 600000 }],
     ["academy-harvest",  process.execPath, [path.join(_T, "academy-harvest.mjs"), "--verify"], { timeout: 120000 }],
@@ -388,20 +391,71 @@ console.log("\nBLACK — supply chain");
     /* generated sweep reports mutate every run — parity on them is
        undefined by design; they are evidence output, not content */
     const VOLATILE = new Set(["security/findings.json"]);
-    let bad = null, checked = 0;
+    const branchBad = [], httpBad = [];
+    let checked = 0;
     for (const f2 of local) {
       if (VOLATILE.has(f2)) continue;
-      if (!remoteSet.has(f2)) { bad = `undeployed ${f2}`; break; }
+      if (!remoteSet.has(f2)) { branchBad.push(`undeployed ${f2}`); break; }
       const r = spawnSync("git", ["show", `gh-pages:${f2}`],
         { cwd: ROOT, encoding: "buffer", maxBuffer: 30_000_000 });
       if (r.status !== 0 || !Buffer.from(r.stdout).equals(fs.readFileSync(path.join(SITE, f2)))) {
-        bad = `differs ${f2}`; break; }
+        branchBad.push(`differs ${f2}`); break; }
       checked++;
     }
     const stray = remote.filter(f2 => !local.includes(f2) && !ALLOWED_EXTRA.has(f2));
-    if (!bad && stray.length) bad = `stray on gh-pages: ${stray.slice(0, 3)}`;
+    if (stray.length) branchBad.push(`stray on gh-pages: ${stray.slice(0, 3)}`);
+
+    /* Live-HTTP measurement: the Pages origin, not merely the branch. The
+       base is derived from git remote (or PAGES_BASE for custom domains);
+       every publishable site file must return byte-identical content. */
+    let originUrl = "";
+    try { originUrl = execSync("git remote get-url origin", { cwd: ROOT, encoding: "utf8" }).trim(); }
+    catch (e) { httpBad.push(`git remote: ${e.message}`); }
+    const gh = originUrl.match(/github\.com[:/]([^/:]+)\/([^/]+?)(?:\.git)?$/);
+    const base = (process.env.PAGES_BASE || (gh && `https://${gh[1].toLowerCase()}.github.io/${gh[2]}/`) || "")
+      .replace(/\/+$/, "") + "/";
+    let remoteHead = "", localHead = "";
+    try { remoteHead = execSync("git ls-remote origin refs/heads/gh-pages",
+      { cwd: ROOT, encoding: "utf8" }).trim().split(/\s+/)[0]; }
+    catch (e) { httpBad.push(`git ls-remote: ${e.message}`); }
+    try { localHead = execSync("git rev-parse gh-pages",
+      { cwd: ROOT, encoding: "utf8" }).trim(); }
+    catch (e) { httpBad.push(`git rev-parse gh-pages: ${e.message}`); }
+    if (!gh && !process.env.PAGES_BASE) httpBad.push(`no Pages base from ${originUrl || "missing remote"}`);
+    if (remoteHead && localHead && remoteHead !== localHead)
+      httpBad.push(`remote gh-pages ${remoteHead.slice(0, 7)} != local ${localHead.slice(0, 7)}`);
+    let liveChecked = 0;
+    if (base !== "/") {
+      const files = local.filter((f2) => !VOLATILE.has(f2));
+      for (let i = 0; i < files.length; i += 8) {
+        await Promise.all(files.slice(i, i + 8).map(async (f2) => {
+          const url = base + f2.split("/").map(encodeURIComponent).join("/") +
+            `?black03=${localHead.slice(0, 12)}`;
+          try {
+            const r = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(15000) });
+            if (!r.ok) { httpBad.push(`live ${r.status} ${f2}`); return; }
+            const bytes = Buffer.from(await r.arrayBuffer());
+            if (!bytes.equals(fs.readFileSync(path.join(SITE, f2)))) {
+              httpBad.push(`live differs ${f2}`); return;
+            }
+            liveChecked++;
+          } catch (e) {
+            httpBad.push(`live fetch ${f2}: ${e && e.message || e}`);
+          }
+        }));
+      }
+    }
+    const bad = branchBad.concat(httpBad)[0] || null;
+    fs.mkdirSync(path.join(HERE, "out"), { recursive: true });
+    fs.writeFileSync(path.join(HERE, "out", "black03-live-parity.json"), JSON.stringify({
+      generated: new Date().toISOString(), base,
+      remote_head: remoteHead, local_head: localHead,
+      branch_checked: checked, live_checked: liveChecked,
+      site_files: local.length, stray,
+      errors: branchBad.concat(httpBad),
+    }, null, 2));
     !bad ? held("BLACK", "ghpages-parity",
-           `${checked}/${local.length} site files bit-identical; ${stray.length} stray`)
+           `${checked}/${local.length} branch files + ${liveChecked} live files bit-identical; ${stray.length} stray`)
          : open_("BLACK", "ghpages-parity", bad);
   }
   /* BLK-04: git-history secret scan across ALL commits */
@@ -442,12 +496,10 @@ console.log("\nGRAY — insider");
 {
   /* GRY-01: self-issued fleet_admiral cert — desk-local theater only */
   noted("GRAY", "self-issued-flag-cert",
-    "verifyCert only requires iss==pk — a devtools insider CAN mint a " +
-    "desk-local fleet_admiral record. It buys UI chrome, not fleet " +
-    "authority: branch assignments die at branchOf's roster check, " +
-    "grants die at verifyGrant's roster check, and genesis sigs die at " +
-    "the published member keys. Fleet trust is unaffected — recorded " +
-    "as desk-local theater, not a fleet escalation.");
+    "a devtools insider can still write a desk-local fleet_admiral-looking " +
+    "record, but verifyCert now refuses it: role 5 needs the pinned seat, " +
+    "confirmed fleet anchor, or verifiable flag paper. Any residual is UI " +
+    "chrome under an already-compromised origin, not fleet authority.");
 
   /* GRY-02: forged flag-founding appearance — self-DoS only */
   {
@@ -462,19 +514,48 @@ console.log("\nGRAY — insider");
       : open_("GRAY", "flag-lookalike", `mode=${g.mode}`);
   }
 
-  /* GRY-03: forged roster injection — documented boundary */
-  noted("GRAY", "roster-injection",
-    "roster is localStorage — an insider on their own desk can roster " +
-    "their own pk and pass verifyGrant/branchOf locally. Boundary: it " +
-    "changes nothing outside that desk; fleet manifests and genesis " +
-    "sigs are verified against published keys, not desk rosters.");
+  /* GRY-03: forged roster injection — raw rows are now display-only.
+     Authority requires founding/fleet anchoring or signed delegation;
+     AUTH/roster-injection-unanchored executes the refusal. */
+  held("GRAY", "roster-injection",
+    "localStorage roster rows no longer confer authority: verifyGrant/branchOf " +
+    "consult trustedIssuer, which requires founding, confirmed fleet, or " +
+    "signed FANO-ISSUER-v1 delegation. Raw insider writes remain visible " +
+    "as unanchored display state only.");
 
-  /* GRY-04: keystore export surface */
+  /* GRY-04: keystore export surface — residual bounded by zero-on-lock
+     plus idle/pagehide wipe; same-origin code can still inspect a warm page. */
   noted("GRAY", "sk-in-session",
     "session.sk lives in page memory while unlocked — devtools or a " +
     "same-origin script can read it (standard for client-side crypto). " +
-    "TOTP wrap + PBKDF2 keystore protect at rest; unlocked-session " +
-    "exposure is the documented residual.");
+    "TOTP wrap + PBKDF2 keystore protect at rest; lock, idle timeout, " +
+    "and unload hooks wipe the warm seed, but a compromised active " +
+    "origin remains the documented residual.");
+}
+
+console.log("\nEXTERNAL — bounded authority lanes");
+{
+  /* EXT: code can package evidence, not produce independent judgment.
+     The manifest is deterministic and every lane must remain pending
+     until the named outside authority supplies acceptance evidence. */
+  const r = await pf("external-review");
+  if (r.status !== 0) {
+    open_("EXT", "review-package", (r.stderr || r.stdout).trim());
+  } else {
+    held("EXT", "review-package", r.stdout.trim());
+    try {
+      const m = JSON.parse(fs.readFileSync(
+        path.join(SITE, "assets", "external-review.json"), "utf8"));
+      for (const lane of m.lanes || []) {
+        lane.status === "pending_external_evidence"
+          ? pending("EXT", `lane-${lane.id}`,
+              `${lane.authority}: ${lane.acceptance}`)
+          : open_("EXT", `lane-${lane.id}`, `unexpected status ${lane.status}`);
+      }
+    } catch (e) {
+      open_("EXT", "lane-census", String(e));
+    }
+  }
 }
 
 console.log("\nCOMM — communications");
@@ -524,8 +605,8 @@ console.log("\nDESK — identity, transfer, roaming");
 /* sandboxed fano-auth: real WASM, real signing, mocked storage+fetch —
    hoisted so DESK and BOT sections share the loader */
 const _wasmBuf = fs.readFileSync(path.join(SITE, "apps/rations/rations.wasm"));
-function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
-    const store = new Map();
+function loadAuth({ genesisDoc = null, nav = null, winExtras = null, store = null } = {}) {
+    store = store || new Map();
     const sandbox = {
       console, TextEncoder, TextDecoder, WebAssembly, JSON, Math, Date,
       Promise, Uint8Array, Uint32Array, ArrayBuffer, BigInt, setTimeout,
@@ -552,6 +633,85 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
       sandbox);
     return { A: sandbox.FANO_AUTH, store, ctx: sandbox };
   }
+  async function bindConfirmed(A, doc) {
+    const first = doc ? await A.bindFleetFlag(doc) : await A.bindFleetFlag();
+    if (first) return first;
+    const st = A.fleetPinState();
+    return st.pending ? A.confirmFleetPin({
+      genesis_sha256: st.pending_genesis_sha256,
+      flag_pk: st.pending_flag_pk,
+    }) : null;
+  }
+
+  /* FLEET-PIN: first contact is evidence, not trust. The desk stages a
+     signed candidate, refuses a wrong human confirmation, anchors only
+     after the out-of-band hash+key match, keeps the confirmed pin when
+     the board is unavailable, and drops the live anchor on a verified
+     conflicting genesis. */
+  {
+    const pinKp = generateKeyPairSync("ed25519");
+    const pinRaw = Buffer.from(pinKp.publicKey
+      .export({ type: "spki", format: "der" }).slice(-32));
+    const pinHex = pinRaw.toString("hex");
+    const pinDoc = signedFleetGenesis(pinRaw);
+    const shared = new Map();
+    const d = loadAuth({ genesisDoc: pinDoc, store: shared });
+    await d.A.load();
+    const first = await d.A.bindFleetFlag();
+    const st = d.A.fleetPinState();
+    const exp = Math.floor(Date.now() / 1000) + 86400;
+    const grantBody = new TextEncoder().encode(
+      "FANO-CALLSIGN-v1\nobserver\n-\n" + pinHex + "\n" + exp);
+    const grant = { callsign: "observer", sub: null, iss: pinHex,
+      sig: cryptoSign(null, grantBody, pinKp.privateKey).toString("hex"), exp };
+    const before = d.A.verifyGrant(grant, "ab".repeat(32));
+    const wrong = d.A.confirmFleetPin({
+      genesis_sha256: "00".repeat(32), flag_pk: st.pending_flag_pk });
+    const good = d.A.confirmFleetPin({
+      genesis_sha256: st.pending_genesis_sha256, flag_pk: st.pending_flag_pk });
+    const after = d.A.verifyGrant(grant, "ab".repeat(32));
+    first === null && st.pending && before === false && wrong === null &&
+    good === pinHex && d.A.flagAnchored(pinHex) && after === true
+      ? held("DESK", "fleet-pin-oob-confirm",
+          "signed genesis stages pending → wrong pin refuses → out-of-band hash+key confirmation anchors fleet paper")
+      : open_("DESK", "fleet-pin-oob-confirm",
+          `first=${first} pending=${st.pending} before=${before} wrong=${wrong} good=${good} anchored=${d.A.flagAnchored(pinHex)} after=${after}`);
+
+    const offline = loadAuth({ genesisDoc: null, store: shared });
+    await offline.A.load();
+    const offPk = await offline.A.bindFleetFlag();
+    offPk === pinHex && offline.A.flagAnchored(pinHex)
+      ? held("DESK", "fleet-pin-offline-use",
+          "confirmed pin remains the trust anchor when fleet-genesis.json is unavailable")
+      : open_("DESK", "fleet-pin-offline-use", `offPk=${offPk}`);
+
+    const otherKp = generateKeyPairSync("ed25519");
+    const otherRaw = Buffer.from(otherKp.publicKey
+      .export({ type: "spki", format: "der" }).slice(-32));
+    const conflictDesk = loadAuth({
+      genesisDoc: signedFleetGenesis(otherRaw), store: shared });
+    await conflictDesk.A.load();
+    const conflictPk = await conflictDesk.A.bindFleetFlag();
+    const cst = conflictDesk.A.fleetPinState();
+    conflictPk === null && cst.conflict && !conflictDesk.A.flagAnchored(pinHex)
+      ? held("DESK", "fleet-pin-conflict-refused",
+          "verified genesis with a different hash conflicts instead of silently rotating the pin")
+      : open_("DESK", "fleet-pin-conflict-refused",
+          `pk=${conflictPk} conflict=${cst.conflict} anchored=${conflictDesk.A.flagAnchored(pinHex)}`);
+
+    const rawPinStore = new Map([["fano.fleet.genesis.v1", JSON.stringify({
+      genesis_sha256: st.pending_genesis_sha256 || "aa".repeat(32),
+      flag_pk: pinHex, confirmed_out_of_band: false })]]);
+    const rawPinDesk = loadAuth({ store: rawPinStore });
+    await rawPinDesk.A.load();
+    const rawState = rawPinDesk.A.fleetPinState();
+    rawState.pending && !rawPinDesk.A.flagAnchored(pinHex)
+      ? held("DESK", "fleet-pin-storage-gate",
+          "unconfirmed localStorage pin stages as pending — it cannot mint fleet trust")
+      : open_("DESK", "fleet-pin-storage-gate",
+          `pending=${rawState.pending} pinned=${rawState.pinned} anchored=${rawPinDesk.A.flagAnchored(pinHex)}`);
+  }
+
   /* comms module rides the same sandbox — FANO_AUTH resolves through
      window (= the sandbox itself) */
   function loadComms(opts = {}) {
@@ -580,7 +740,7 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
       const desk2 = loadAuth({ genesisDoc: g2 });
       await desk2.A.load();
       desk2.A.enroll("wanderer", "other-credential-1");   /* desk founded by another */
-      await desk2.A.bindFleetFlag();
+      await bindConfirmed(desk2.A);
       /* sign out — roaming enrolls a NEW record; burn the wanderer first
          (import/enroll refuse onto founded+recorded desks) */
       const r2 = desk2.A.enroll("ramsey 006", "roam-pass-1234", roaming);
@@ -613,7 +773,7 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null } = {}) {
       const desk3 = loadAuth({ genesisDoc: g2 });
       await desk3.A.load();
       desk3.A.enroll("wanderer", "other-credential-1");
-      await desk3.A.bindFleetFlag();
+      await bindConfirmed(desk3.A);
       const r3 = desk3.A.enroll("ramsey 006", "x-pass-1234", forgedFixed);
       (!r3 || r3.error || (r3.cert && r3.cert.role !== 5))
         ? held("DESK", "roaming-forgery",
@@ -1288,7 +1448,7 @@ console.log("\nBOT — containment doctrine");
     const bot2 = loadAuth({ genesisDoc: g3, nav: { webdriver: true } });
     await bot2.A.load();
     const br2 = bot2.A.enroll("tinman", "bot-pass-6");
-    await bot2.A.bindFleetFlag();
+    await bindConfirmed(bot2.A);
     const promo2 = flag.A.issuePromotion(br2 && br2.pk, 30);
     const tok2 = flag.A.exportPromotion(promo2);
     const freed = bot2.A.importPromotion(tok2);
@@ -1303,7 +1463,7 @@ console.log("\nBOT — containment doctrine");
     const d4 = loadAuth({ genesisDoc: g3, nav: { webdriver: true } });
     await d4.A.load();
     const r4 = d4.A.enroll("tinman", "bot-pass-7");
-    await d4.A.bindFleetFlag();
+    await bindConfirmed(d4.A);
     const wrongSub = flag.A.issuePromotion("ff".repeat(32), 30);
     const w1 = d4.A.importPromotion(flag.A.exportPromotion(wrongSub));
     const atk = generateKeyPairSync("ed25519");
@@ -1347,6 +1507,70 @@ console.log("\nAUTH — cert/trust retro-pass (wave 2)");
           "cadet addIssuer refused (STATION-CHIEF+ gate); flag session rosters fine — the GRAY-01 side-door closed")
       : open_("AUTH", "roster-gated",
           `refused=${refused} added=${added}`);
+  }
+
+  /* AUTH-02a: raw roster injection is display-only — an insider can
+     write fano1.issuers, but authority now requires founding/fleet
+     anchoring or signed FANO-ISSUER-v1 delegation. */
+  {
+    const atk = generateKeyPairSync("ed25519");
+    const atkRaw = Buffer.from(atk.publicKey
+      .export({ type: "spki", format: "der" }).slice(-32));
+    const atkHex = atkRaw.toString("hex");
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    d.store.set(d.A.ROSTER_KEY, JSON.stringify([atkHex]));
+    const exp = Math.floor(Date.now() / 1000) + 86400;
+    const body = new TextEncoder().encode(
+      "FANO-CALLSIGN-v1\nforged\n-\n" + atkHex + "\n" + exp);
+    const g = { callsign: "forged", sub: null, iss: atkHex,
+      sig: cryptoSign(null, body, atk.privateKey).toString("hex"), exp };
+    const rawRejected = !d.A.trustedIssuer(atkHex) &&
+      !d.A.verifyGrant(g, "ab".repeat(32));
+
+    const flag = loadAuth(); await flag.A.load();
+    flag.A.enroll("ramsey 006", "f-pass");
+    const delegated = flag.A.addIssuer(atkHex) === true &&
+      !!flag.A.issuerProofs()[atkHex] && flag.A.trustedIssuer(atkHex);
+    rawRejected && delegated
+      ? held("AUTH", "roster-injection-unanchored",
+          "hand-written roster row rejects signed grant; privileged addIssuer mints verifiable delegation paper")
+      : open_("AUTH", "roster-injection-unanchored",
+          `rawRejected=${rawRejected} delegated=${delegated}`);
+  }
+
+  /* AUTH-02b: a self-issued FLEET-ADMIRAL record cannot elevate on an
+     ordinary desk — role 5 requires the pinned seat, fleet anchor, or
+     verifiable flag paper, not just a valid self-signature. */
+  {
+    const d = loadAuth(); await d.A.load();
+    const rec = d.A.enroll("marcus", "m-pass");
+    const c5 = d.A.issueCert(d.A.unhex(rec.pk), "marcus", 5,
+      d.A.unhex(rec.covenant_sha256), d.A.unhex(rec.pk), d.A.session.sk, 90);
+    const tam = JSON.parse(d.store.get(d.A.STORE_KEY));
+    tam.cert = c5;
+    d.store.set(d.A.STORE_KEY, JSON.stringify(tam));
+    d.A.unlock("m-pass");
+    c5 && !d.A.verifyCert(tam) && d.A.session.role === 0
+      ? held("AUTH", "self-flag-cert-refused",
+          "valid self-signed role-5 cert refuses — desk-local theater no longer enters session authority")
+      : open_("AUTH", "self-flag-cert-refused",
+          `c5=${!!c5} verify=${d.A.verifyCert(tam)} role=${d.A.session.role}`);
+  }
+
+  /* AUTH-02c: warm secrets age out — idle timeout locks and zeroes the
+     seed copy without waiting for a manual lock. */
+  {
+    const d = loadAuth(); await d.A.load();
+    d.A.enroll("marcus", "m-pass");
+    const ref = d.A.session.sk;
+    d.A.setSessionIdleMs(1000);
+    await new Promise(r => setTimeout(r, 1150));
+    ref && ref.every(b => b === 0) && d.A.session.sk === null
+      ? held("AUTH", "idle-lock-zeroes-sk",
+          "idle session timer locks the desk and wipes the warm seed after 1s")
+      : open_("AUTH", "idle-lock-zeroes-sk",
+          `ref=${ref && ref.slice(0, 4)} sk=${d.A.session.sk}`);
   }
 
   /* AUTH-02: a perfectly signed role-99 cert still fails — the role
@@ -1481,7 +1705,7 @@ console.log("\nAUTH — cert/trust retro-pass (wave 2)");
 
     const d = loadAuth({ genesisDoc: g3 }); await d.A.load();
     d.A.enroll("marcus", "m-pass");
-    await d.A.bindFleetFlag();
+    await bindConfirmed(d.A);
     d.A.importGrant(rawTok);
     /* prove the fragile input: the stored grant carries NO _fleet flag */
     const st = JSON.parse(d.store.get(d.A.GRANTS_KEY));
@@ -1661,6 +1885,16 @@ console.log("\nWIRE — comms retro-pass (wave 3)");
     r.status === 0
       ? held("WIRE", "wasm-free-lengths", r.stdout.trim())
       : open_("WIRE", "wasm-free-lengths", (r.stderr || r.stdout).trim());
+  }
+
+  /* WIRE-09: relay subscription isolation — v2 peers prove possession of
+     the Ed25519 key behind peer_id; recipient routes are target/router
+     scoped, while discovery/control stays bounded broadcast. */
+  {
+    const r = await pf("relay-isolation");
+    r.status === 0
+      ? held("WIRE", "relay-subscription-isolation", r.stdout.trim())
+      : open_("WIRE", "relay-subscription-isolation", (r.stderr || r.stdout).trim());
   }
 }
 

@@ -44,6 +44,7 @@ const names = Object.keys(PORTS);
 const HYDRA_TOKEN = process.env.HYDRA_TOKEN || crypto.randomBytes(16).toString("hex");
 const WAN_TOKEN = process.env.WAN_TOKEN || crypto.randomBytes(16).toString("hex");
 const RELAY_TOKEN = process.env.RATIONS_RELAY_TOKEN || crypto.randomBytes(16).toString("hex");
+const ROUTER_TOKEN = process.env.RATIONS_ROUTER_TOKEN || crypto.randomBytes(16).toString("hex");
 
 async function ctl(node, p, body) {
   const r = await fetch(`http://localhost:${PORTS[node]}${p}`,
@@ -59,7 +60,22 @@ async function wctl(side, p, body) {
 }
 function compose(...args) {
   return execFileSync("docker", ["compose", "-f", path.join(HERE, "docker-compose.wan.yml"), ...args],
-    { cwd: HERE, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN } }).toString();
+    { cwd: HERE, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, HYDRA_TOKEN, WAN_TOKEN,
+      RATIONS_RELAY_TOKEN: RELAY_TOKEN, RATIONS_ROUTER_TOKEN: ROUTER_TOKEN } }).toString();
+}
+function pemFromRawEd25519(raw) {
+  const der = Buffer.concat([Buffer.from("302a300506032b6570032100", "hex"), Buffer.from(raw)]);
+  return "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") + "\n-----END PUBLIC KEY-----\n";
+}
+function signedFleetGenesis(flagHex) {
+  const root = crypto.generateKeyPairSync("ed25519");
+  const rootPem = root.publicKey.export({ type: "spki", format: "pem" });
+  const payload = { v: "FLEET-GENESIS-v1", members: [
+    { name: "root", role: "genesis-root", pubkey_pem_b64: Buffer.from(rootPem).toString("base64") },
+    { name: "admiral", role: "flag-seat", pubkey_pem_b64: Buffer.from(pemFromRawEd25519(unhex(flagHex))).toString("base64") },
+  ] };
+  const sig = crypto.sign(null, Buffer.from(JSON.stringify(payload, null, 2)), root.privateKey);
+  return { payload, sigs: { root: sig.toString("base64url") } };
 }
 async function waitUp(node, tries = 60) {
   for (let i = 0; i < tries; i++) {
@@ -77,12 +93,14 @@ function spawnLocal() {
     ...process.env, NAME: name, CONTROL_PORT: String(PORTS[name]), RELAY_PORT: "0",
     RATIONS_DIR: R, WASM, ID_DIR: "/tmp/hydra-ids", PRESENCE_MS: "2000",
     HYDRA_TOKEN, RATIONS_RELAY_TOKEN: RELAY_TOKEN, RATIONS_DIAL_ORIGIN: "http://desk.local",
+    ...(name === "bridge" ? { RATIONS_ROUTER_TOKEN: ROUTER_TOKEN } : { RATIONS_ROUTER_TOKEN: "" }),
   });
   for (const n of names) procs.push(spawn("node", [path.join(HERE, "hydra-node.mjs")], { env: env(n) }));
   /* one shared relay stands in for the LAN+WAN at min complexity */
   procs.push(spawn("node", [path.join(R, "src/relay/server.js")],
     { env: { ...process.env, RATIONS_PORT: "19499", RATIONS_STATIC_ROOT: path.join(R, "src"),
-             RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: RELAY_TOKEN } }));
+             RATIONS_ALLOWED_ORIGINS: "http://desk.local", RATIONS_RELAY_TOKEN: RELAY_TOKEN,
+             RATIONS_ROUTER_TOKEN: ROUTER_TOKEN, RATIONS_RELAY_MODE: "isolated" } }));
 }
 
 if (MODE === "docker") {
@@ -407,10 +425,11 @@ if (MODE !== "local") {
   auth.session.role = 5; /* forged rank still can't mint a verifiable cert — issuer must be rostered */
   const forged = auth.assignBranch(brq.pk, "research_ip");
   const forgedBad = forged && !forged.error && auth.branchOf(brq.pk) === null;
-  const rostered = forgedBad && (auth.addIssuer(forged.iss), auth.branchOf(brq.pk));
-  forgedBad && rostered && rostered.branch === "research_ip"
-    ? ok("branch-roster-enforced", "non-rostered signature fails verification; rostered issuer's verifies")
-    : bad("branch-roster-enforced", `forged=${!!forged} forgedBad=${forgedBad} rostered=${!!rostered}`);
+  const rosterRefused = forgedBad && auth.addIssuer(forged.iss) === false;
+  const stillUnrostered = rosterRefused && auth.branchOf(brq.pk) === null;
+  forgedBad && rosterRefused && stillUnrostered
+    ? ok("branch-roster-enforced", "non-rostered signature fails verification; unsigned roster injection refused")
+    : bad("branch-roster-enforced", `forged=${!!forged} forgedBad=${forgedBad} rosterRefused=${rosterRefused} stillUnrostered=${stillUnrostered}`);
 
   /* flag authenticator: the pinned callsign's grant mints a FANO-ROOT-v1
      credential — self-rooted (gen = sha256(iss)), portable, roster-gated.
@@ -451,13 +470,20 @@ if (MODE !== "local") {
     ? ok("flag-credential-mint", "FANO-ROOT-v1 issued — self-rooted, sub-bound, grant embedded, verifies")
     : bad("flag-credential-mint", JSON.stringify(cred && (cred.error || cred.v)));
 
-  /* cross-desk authentication: desk A rosters the flag issuer and
-     verifies the presented paper — no shared storage needed */
-  auth.addIssuer(credObj.iss);
-  const presented = auth.authenticate(credTok);
+  /* cross-desk authentication: desk A anchors the flag issuer through a
+     confirmed signed fleet pin, then verifies the presented paper — no
+     shared storage and no unsigned roster authority. */
+  const fleet = signedFleetGenesis(credObj.iss);
+  await auth.bindFleetFlag(fleet);
+  const fleetPin = auth.fleetPinState();
+  const anchored = fleetPin.pending && auth.confirmFleetPin({
+    genesis_sha256: fleetPin.pending_genesis_sha256,
+    flag_pk: fleetPin.pending_flag_pk,
+  }) === credObj.iss;
+  const presented = anchored ? auth.authenticate(credTok) : null;
   presented && presented.ok && !presented.same_founding
-    ? ok("flag-credential-wire", "foreign desk verifies the flag's paper — signature + roster, not local state")
-    : bad("flag-credential-wire", JSON.stringify(presented));
+    ? ok("flag-credential-wire", "foreign desk verifies the flag's paper — signature + confirmed fleet anchor, not local roster state")
+    : bad("flag-credential-wire", `anchored=${anchored} presented=${JSON.stringify(presented)}`);
 
   const cTam = credObj ? JSON.parse(JSON.stringify(credObj)) : null;
   if (cTam) { cTam.role = 0; cTam.sig = "00"; }

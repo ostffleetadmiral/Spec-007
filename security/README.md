@@ -16,7 +16,7 @@ routing identity is the node's `peer_id`; ledger identity is
 | `comms-suite.mjs` | COMM team — 33 probes in canonical docker mode (COMM-01..33; `--local` runs the 27 single-host subset), emits `out/findings.json` |
 | `suite.mjs` | RED/BLUE/BLACK/GRAY — ~30 probes against WASM + relay + auth (relay-touching probes honor `RELAY_URL`/`RELAY_HTTP`); absent lab services classify NOTED, never ERROR |
 | `kali-sweep.mjs` | KALI team — replays the Kali-tooling assertions (token gates, origin policy, header/method/traversal surface, wire-ciphertext record); absent services → NOTED, not crash |
-| `team-sweep-2.mjs` | Consolidated sweep — 227 probes across RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER plus the generated-ledger, runtime, continuity, curriculum, bridge, lawbound, AIWO/DHT/service, governance, film, and nebula teams; exits 1 on any OPEN |
+| `team-sweep-2.mjs` | Consolidated sweep — 246 probes across RED/BLUE/BLACK/GRAY/COMM/DESK/SPEC004/BOT/AUTH/WIRE/ZIG/HARN/FLEET/CLUSTER plus the generated-ledger, external-review, runtime, continuity, curriculum, bridge, lawbound, AIWO/DHT/service, governance, film, and nebula teams; exits 1 on any OPEN |
 | `sentinel-sweep.mjs` | 14 probes — auth surface + containment trust chain (promotion release/refusal, flag-seat ambiguity) |
 | `superpowers-audit.mjs` | 34-entry capability ledger + 9 honest limits — live-verifies every claim incl. genesis Ed25519 sigs on the wire |
 | `capstone-audit.mjs` | 25 checks — envelope forgery battery, canon parity, manifest lineage |
@@ -69,15 +69,20 @@ The lab publishes real ports — the control planes are token-gated:
 - `wan-bridge.mjs` — `WAN_TOKEN`; all HTTP control (`/stats`, `/impair`,
   `/kill`, `/heal`) requires `x-wan-token`. The WS data plane is a wire,
   not a control surface — ungated by design.
-- Relays run production posture in the lab: `RATIONS_ALLOWED_ORIGINS`
-  is set; every WS client leg (hydra dials, wan-bridge upstream) presents
-  `RATIONS_DIAL_ORIGIN=http://desk.local` plus the governed
-  `rations-relay-token.<token>` subprotocol. Headerless dialers are
-  refused with close `4403`; anonymous upgrades are refused when
-  `RATIONS_RELAY_TOKEN` is configured. The WAN bridge forwards offered
-  protocols and never injects the token for an unauthenticated caller.
-  Relay authorization is admission control only — authorized peers still
-  see broadcast-segment frames, which is the recorded XPLT-05 residual.
+- Relays run the `rations-relay-v2` isolated posture in the lab:
+  `RATIONS_ALLOWED_ORIGINS` is set; every WS client leg (hydra dials,
+  wan-bridge upstream) presents `RATIONS_DIAL_ORIGIN=http://desk.local`
+  plus the governed `rations-relay-token.<token>` subprotocol.
+  Headerless dialers are refused with close `4403`; anonymous upgrades
+  are refused when `RATIONS_RELAY_TOKEN` is configured. After upgrade,
+  each peer signs a relay challenge with its Ed25519 peer key; the
+  socket's authenticated `peer_id` is bound to the outer sender field.
+  `relay_route` frames go only to their recipient or a socket holding the
+  separate `rations-router-token.<token>` router scope; discovery/control
+  frames remain broadcast-scoped. The WAN bridge forwards offered
+  protocols and never injects either token for an unauthenticated caller.
+  `RATIONS_RELAY_MODE=broadcast` remains an explicit legacy lab escape
+  hatch, not the production posture.
 - `tools/serve.py` — hardened static server for the desk: no `Server`
   banner, no directory listing, GET/HEAD only, full security headers
   incl. CSP. Replaces `python -m http.server` for non-throwaway serving.

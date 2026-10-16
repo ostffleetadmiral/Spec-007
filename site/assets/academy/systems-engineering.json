@@ -14452,21 +14452,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5ccb483197c8a171",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "node tools/wasmsmoke.mjs # 116 checks node tools/fuzzparsers.mjs src/rations.wasm --iters 3000 --seed 1 # 0 traps ./tools/verifymodelbundle.sh # pinned offline model sidecar",
-      "provenance": "first_party",
-      "source": "repo:e-mc-2:family/Rations/docs/BUILD.md",
-      "title": "Should emit: 2,720,180 bytes + rations.wasm.sha256",
-      "topic": "systems"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5cecc3ad7bbf80d1",
       "language": [
         "en"
@@ -36882,7 +36867,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- Dockerfile — Multi-stage build: Zig 0.13.0 WASM compilation + Node.js slim runtime - Dockerfile.test — Playwright test runner with Chromium dependencies - docker-compose.yml — Segmented dual-subnet firewall network (rations-net-a, rations-net-b) - src/relay/server.js — WebSocket relay server with static file serving & /api/probe diagnostic endpoint. Set RATIONSRELAYTOKEN to require a shared rela",
+      "outcome": "- Dockerfile — Multi-stage build: Zig 0.13.0 WASM compilation + Node.js slim runtime - Dockerfile.test — Playwright test runner with Chromium dependencies - docker-compose.yml — Segmented dual-subnet firewall network (rations-net-a, rations-net-b) - src/relay/server.js — WebSocket relay server with static file serving & /api/probe diagnostic endpoint. rations-relay-v2 is the default isolated proto",
       "provenance": "first_party",
       "source": "repo:e-mc-2:family/Rations/docs/BUILD.md",
       "title": "Files",
@@ -39316,6 +39301,21 @@
       "provenance": "upstream",
       "source": "repo:three-ws:ARCHITECTURE.md",
       "title": "Repository Directory Atlas",
+      "topic": "systems"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-fc8e9288ab1e2459",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "node tools/wasmsmoke.mjs # 117 checks node tools/fuzzparsers.mjs src/rations.wasm --iters 3000 --seed 1 # 0 traps ./tools/verifymodelbundle.sh # pinned offline model sidecar",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:family/Rations/docs/BUILD.md",
+      "title": "Should emit: 2,721,241 bytes + rations.wasm.sha256",
       "topic": "systems"
     },
     {

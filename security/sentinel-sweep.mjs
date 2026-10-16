@@ -352,6 +352,25 @@ const signDoc = (payload, k) => ({
     const pem = "-----BEGIN PUBLIC KEY-----\n" + der.toString("base64") + "\n-----END PUBLIC KEY-----\n";
     return { name, role, pubkey_pem_b64: Buffer.from(pem).toString("base64") };
   };
+  const pemRawHex = pem => Buffer.from(createPublicKey(pem)
+    .export({ format: "der", type: "spki" }).subarray(-32)).toString("hex");
+  const signedGenesisDoc = seats => {
+    const root = mkKeys();
+    const payload = { ...realGen.payload, members: [
+      memberWithPk(pemRawHex(root.pub), "admiral-root", "genesis-root"),
+      ...seats ] };
+    return { payload, sigs: { "admiral-root":
+      cryptoSign(null, Buffer.from(canon(payload)), root.priv).toString("base64url") } };
+  };
+  const bindConfirmed = async A => {
+    const first = await A.bindFleetFlag();
+    if (first) return first;
+    const st = A.fleetPinState();
+    return st.pending ? A.confirmFleetPin({
+      genesis_sha256: st.pending_genesis_sha256,
+      flag_pk: st.pending_flag_pk,
+    }) : null;
+  };
 
   /* flag desk mints paper; contained desk anchored to the flag seat
      presents it. First a positive control so the refusals mean the
@@ -359,14 +378,11 @@ const signDoc = (payload, k) => ({
   const flag = loadAuth(); await flag.A.load();
   const frec = flag.A.enroll("ramsey 006", "sentinel-flag-1");
   const fPk = frec.pk;
-  const g1 = JSON.parse(JSON.stringify(realGen));
-  g1.payload.members = g1.payload.members
-    .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
-  g1.payload.members.push(memberWithPk(fPk, "admiral", "flag-seat"));
+  const g1 = signedGenesisDoc([memberWithPk(fPk, "admiral", "flag-seat")]);
   const bot = loadAuth({ genesisDoc: g1, nav: { webdriver: true } });
   await bot.A.load();
   const br = bot.A.enroll("sentinel-bot", "sentinel-bot-1");
-  await bot.A.bindFleetFlag();
+  await bindConfirmed(bot.A);
   const goodTok = flag.A.exportPromotion(flag.A.issuePromotion(br.pk, 30));
   const freed = bot.A.importPromotion(goodTok);
   freed && !bot.A.isContained()
@@ -380,7 +396,7 @@ const signDoc = (payload, k) => ({
   const bot2 = loadAuth({ genesisDoc: g1, nav: { webdriver: true } });
   await bot2.A.load();
   const br2 = bot2.A.enroll("sentinel-bot2", "sentinel-bot-2");
-  await bot2.A.bindFleetFlag();
+  await bindConfirmed(bot2.A);
   const deadTok = flag.A.exportPromotion(flag.A.issuePromotion(br2.pk, -1));
   const freed2 = bot2.A.importPromotion(deadTok);
   !freed2 && bot2.A.isContained()
@@ -392,7 +408,7 @@ const signDoc = (payload, k) => ({
   const bot3 = loadAuth({ genesisDoc: g1, nav: { webdriver: true } });
   await bot3.A.load();
   const br3 = bot3.A.enroll("sentinel-bot3", "sentinel-bot-3");
-  await bot3.A.bindFleetFlag();
+  await bindConfirmed(bot3.A);
   const promo3 = flag.A.issuePromotion(br3.pk, 30);
   promo3.sig = (promo3.sig[0] === "0" ? "1" : "0") + promo3.sig.slice(1);
   const freed3 = bot3.A.importPromotion(flag.A.exportPromotion(promo3));
@@ -406,11 +422,9 @@ const signDoc = (payload, k) => ({
      the last seat in the array */
   const atk = generateKeyPairSync("ed25519");
   const atkPkHex = Buffer.from(atk.publicKey.export({ type: "spki", format: "der" }).slice(-32)).toString("hex");
-  const g2 = JSON.parse(JSON.stringify(realGen));
-  g2.payload.members = g2.payload.members
-    .filter(m => m.name !== "admiral" && m.role !== "flag-seat");
-  g2.payload.members.push(memberWithPk(fPk, "admiral", "flag-seat"));
-  g2.payload.members.push(memberWithPk(atkPkHex, "vice-admiral", "flag-seat"));
+  const g2 = signedGenesisDoc([
+    memberWithPk(fPk, "admiral", "flag-seat"),
+    memberWithPk(atkPkHex, "vice-admiral", "flag-seat") ]);
   const bot4 = loadAuth({ genesisDoc: g2, nav: { webdriver: true } });
   await bot4.A.load();
   const br4 = bot4.A.enroll("sentinel-bot4", "sentinel-bot-4");

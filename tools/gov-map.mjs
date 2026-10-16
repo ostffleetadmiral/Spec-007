@@ -274,7 +274,7 @@ const MANDATES = [
   { domain: "legal_financial", source: "legal_financial/AuditProceduresManual.md",
     items: [
       { id: "audit-procedures", mandate: "Audit Procedures Manual — independent audit of operations",
-        real: "the audit suite is the audit — 227-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
+        real: "the audit suite is the audit — 246-probe sweep + override/promotion/bridge/canon ledgers, all deterministic under --verify",
         mode: "structural",
         checks: [C.held("HARN-01"), C.held("OVR-03"), C.held("BRG-01")] },
       { id: "financial-stewardship", mandate: "budgeting, investment, equity issuance, revenue distribution policies",
@@ -324,7 +324,7 @@ const MANDATES = [
         mode: "direct",
         checks: [C.held("DHT-01"), C.svc("SVC-03")] },
       { id: "risk-framework", mandate: "Risk Management Framework — identify, assess, mitigate",
-        real: "the sweep IS the risk surface — 227 probes over offense/defense/insider/supply/desk, open items named not hidden",
+        real: "the sweep IS the risk surface — 246 probes over offense/defense/insider/supply/desk, open items named not hidden",
         mode: "structural",
         checks: [C.held("HARN-01"), C.held("EMG-02")] },
       { id: "strategic-plan", mandate: "5-Year Strategic Plan — the vision made roadmap",

@@ -52,8 +52,24 @@ export function loadCore(wasmPath) {
       /* out-of-band relays enforce an Origin allowlist; nodes present a
          configured origin (browsers send theirs implicitly) */
       const opts = process.env.RATIONS_DIAL_ORIGIN ? { origin: process.env.RATIONS_DIAL_ORIGIN } : {};
-      opts.protocols = ["rations-relay-v1"];
+      opts.protocols = ["rations-relay-v2", "rations-relay-v1"];
       if (process.env.RATIONS_RELAY_TOKEN) opts.protocols.push(`rations-relay-token.${process.env.RATIONS_RELAY_TOKEN}`);
+      if (process.env.RATIONS_ROUTER_TOKEN) opts.protocols.push(`rations-router-token.${process.env.RATIONS_ROUTER_TOKEN}`);
+      opts.onText = (text, ws) => {
+        let msg = null;
+        try { msg = JSON.parse(text); } catch { return; }
+        if (!msg || msg.v !== "rations-relay-auth-v1" || !msg.challenge || !ex) return;
+        const ch = Buffer.from(String(msg.challenge), "hex");
+        if (ch.length !== 32) return;
+        const cp = ex.rations_alloc(32), sp = ex.rations_alloc(64), pp = ex.rations_alloc(32);
+        mem(cp, 32).set(ch);
+        const ok = ex.rations_p2p_relay_auth_sign(cp, 32, sp);
+        ex.rations_p2p_peer_id(pp);
+        if (ok) ws.send(JSON.stringify({ v: "rations-relay-auth-v1",
+          peer_id: Buffer.from(mem(pp, 32)).toString("hex"),
+          sig: Buffer.from(mem(sp, 64)).toString("hex") }), 0x1);
+        ex.rations_free(cp, 32); ex.rations_free(sp, 64); ex.rations_free(pp, 32);
+      };
       wsConnect(url, opts).then((ws) => {
         conns.set(id, ws);
         ws.onData = (buf) => {
@@ -100,7 +116,7 @@ export function wsConnect(url, opts = {}) {
     const port = u.port ? +u.port : 80;
     const key = crypto.randomBytes(16).toString("base64");
     const sock = net.connect(port, u.hostname);
-    const api = { state: 1, onData: null, onClose: null, onError: null, send, sendRaw: (b) => sock.write(b), close: () => sock.end(), socket: sock };
+    const api = { state: 1, onData: null, onText: opts.onText || null, onClose: null, onError: null, send, sendRaw: (b) => sock.write(b), close: () => sock.end(), socket: sock };
     let buf = Buffer.alloc(0), up = false;
 
     sock.on("connect", () => {
@@ -165,6 +181,7 @@ export function wsConnect(url, opts = {}) {
         buf = buf.subarray(off + len);
         if (op === 0x9) send(payload, 0xA);                       // ping→pong
         else if (op === 0x8) { api.state = 4; if (api.onClose) api.onClose(payload); sock.end(); }
+        else if (op === 0x1 && api.onText) api.onText(payload.toString("utf8"), api);
         else if ((op === 0x1 || op === 0x2 || op === 0x0) && api.onData) api.onData(payload);
         void fin;
       }
