@@ -341,6 +341,8 @@ D10 測繪持有;d11 移植之。七項機制現於框架內部執行而非引�
 
 開始選單經 `ADMIRALTY_DESK` IPC 橋提供相同殼層項目(`desk:quit` / `desk:minimize` / `desk:fullscreen`)。
 
+**可執行邊界** — `boundary.js` 是 Electron 殼與其稽核之共同契約：正典起源 `http://127.0.0.1:8901`、與 serve.py 位元一致之安全標頭（含同源及受治理 loopback frame）、服務副檔名 MIME 表、可信頂層 frame 之 IPC 判定，以及 1 MiB 剪貼簿上限。IPC handler 僅接受桌面頂層 frame；受治理 loopback 器官可於沙箱 frame 內渲染，但不得呼叫殼層控制。`tools/admiralty-desk-audit.mjs --verify` 發射 `site/assets/admiralty-desk-audit.json`，並證明啟動環境、Electron 44.7.0 package/lock/executable 一致性、靜態伺服器邊界、導航／權限政策、sender-frame 拒絕、MIME 覆蓋與渲染器權限下限 — 共 15 項檢查。
+
 **作業系統輸入層** — 桌面行為如真實作業系統表面:
 
 - **編輯快捷鍵** — 隱藏之原生編輯選單提供真實角色:Ctrl+C/X/V/A 於每頁每欄可用。

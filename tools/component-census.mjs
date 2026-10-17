@@ -22,12 +22,14 @@ const ZONES = [
 const SKIP = new Set(["node_modules", ".zig-cache", "zig-out", "out", ".git"]);
 const generated = p => p.startsWith("security/out/") || p.endsWith("/findings.json") || p.includes("/site/assets/academy/");
 const OWNER_BY_PATH = new Map([
+  ["admiralty-desk/boundary.js", { owner: "admiralty-desk/main.js", basis: "shared Electron security boundary" }],
   ["admiralty-desk/package-lock.json", { owner: "admiralty-desk/package.json", basis: "npm dependency lockfile" }],
   ["admiralty-desk/package.json", { owner: "admiralty-desk/main.js", basis: "Electron package manifest" }],
   ["admiralty-desk/preload.js", { owner: "admiralty-desk/main.js", basis: "Electron context bridge" }],
   ["apps/fano/fano.wasm", { owner: "apps/fano/index.html", basis: "vendored Fano quine artifact" }],
   ["site/assets/academy-pedagogy.json", { owner: "tools/academy-grade.mjs", basis: "deterministic pedagogy ledger" }],
   ["site/assets/academy-review.json", { owner: "tools/academy-review.mjs", basis: "deterministic review ledger" }],
+  ["site/assets/admiralty-desk-audit.json", { owner: "tools/admiralty-desk-audit.mjs", basis: "Electron workstation boundary evidence" }],
   ["site/assets/agency-map.json", { owner: "tools/agency-map.mjs", basis: "agency projection" }],
   ["site/assets/cluster-registry.json", { owner: "tools/cluster-census.mjs", basis: "sanitized cluster projection" }],
   ["site/assets/curriculum-map.json", { owner: "tools/curriculum-map.mjs", basis: "curriculum coverage projection" }],

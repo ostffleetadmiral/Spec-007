@@ -173,6 +173,17 @@ if (exists("site/assets/d12-dual-bridge-audit.json")) {
     note: "native sidecar and freestanding wasm32 D12 adapter emit byte-identical D12R reports on golden/refusal/hostile vectors; full sdk.Runtime browser bridge remains out of scope",
   };
 }
+if (exists("site/assets/admiralty-desk-audit.json")) {
+  runtimes["admiralty-desk-electron"] = {
+    kind: "desktop-shell",
+    path: "site/assets/admiralty-desk-audit.json",
+    sha256: sha("site/assets/admiralty-desk-audit.json"),
+    evidence: "verified-here",
+    primary: false,
+    retirement: "loopback-workstation-shell",
+    note: "Electron 44.7.0 desk shell — serve.py header parity, sandboxed/context-isolated renderer, exact five-channel IPC, top-frame-only sender validation, governed loopback frame policy",
+  };
+}
 
 const payload = {
   spec: "ENGINEMANIFESTv1",

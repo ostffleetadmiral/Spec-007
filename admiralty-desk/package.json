@@ -8,6 +8,6 @@
     "desk": "sh desk.sh"
   },
   "devDependencies": {
-    "electron": "44.5.1"
+    "electron": "44.7.0"
   }
 }

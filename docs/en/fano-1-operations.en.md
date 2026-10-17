@@ -646,6 +646,18 @@ touches the browser desk and vice versa.
 The Start menu carries the same shell items via the `ADMIRALTY_DESK` IPC
 bridge (`desk:quit` / `desk:minimize` / `desk:fullscreen`).
 
+**Executable boundary** — `boundary.js` is the shared contract between the
+Electron shell and its audit: canonical origin `http://127.0.0.1:8901`,
+serve.py-identical security headers (including same-origin plus governed
+loopback frames), the served-extension MIME map, trusted top-frame IPC
+predicates, and the 1 MiB clipboard cap. IPC handlers accept only the desk's
+top frame; governed loopback organs may render in sandboxed frames but cannot
+invoke shell controls. `tools/admiralty-desk-audit.mjs --verify` emits
+`site/assets/admiralty-desk-audit.json` and proves the launcher environment,
+Electron 44.7.0 package/lock/executable alignment, static-server boundary,
+navigation/permission policy, sender-frame refusals, MIME coverage, and
+renderer privilege floor — 15 checks.
+
 **OS input stack** — the desk behaves like a real OS surface:
 
 - **Edit accelerators** — a hidden native Edit menu provides real roles:

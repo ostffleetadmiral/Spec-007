@@ -261,6 +261,38 @@ const FULL_RETROGRADE = new Map([
     decision: "dual-bridge-evidence-projection",
     archive: "spec007-d12-dual-bridge-20261016",
   }],
+  ["admiralty-desk/desk.sh", {
+    decision: "electron-node-mode-launch-boundary",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["admiralty-desk/boundary.js", {
+    decision: "shared-electron-security-boundary",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["admiralty-desk/main.js", {
+    decision: "trusted-top-frame-electron-shell",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["admiralty-desk/preload.js", {
+    decision: "minimal-sandboxed-context-bridge",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["admiralty-desk/package.json", {
+    decision: "exact-electron-44-7-dependency-manifest",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["admiralty-desk/package-lock.json", {
+    decision: "electron-44-7-integrity-lockfile",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["tools/admiralty-desk-audit.mjs", {
+    decision: "electron-workstation-boundary-gate",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
+  ["site/assets/admiralty-desk-audit.json", {
+    decision: "electron-workstation-evidence-projection",
+    archive: "spec007-admiralty-desk-boundary-20261016",
+  }],
   ["src/spec008_medium_lattice.zig", {
     decision: "bounded-medium-lattice-domains",
     archive: "spec008-medium-lattice-boundaries-20261014",

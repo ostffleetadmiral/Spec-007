@@ -6,19 +6,19 @@
       "src": 49,
       "deps": 85,
       "security": 57,
-      "tools": 51,
+      "tools": 52,
       "firmware": 1,
       "apps": 2,
-      "admiralty-desk": 5,
-      "site/assets": 50
+      "admiralty-desk": 6,
+      "site/assets": 51
     },
-    "total_components": 300,
-    "source_components": 258,
-    "generated_components": 42,
-    "mapped_basename": 289,
-    "mapped_contract": 300,
-    "manifest_bound": 35,
-    "owner_bound": 31,
+    "total_components": 303,
+    "source_components": 260,
+    "generated_components": 43,
+    "mapped_basename": 292,
+    "mapped_contract": 303,
+    "manifest_bound": 36,
+    "owner_bound": 33,
     "unmapped_basename": [
       "site/assets/academy/ai-literacy.json",
       "site/assets/academy/campaign-operations.json",
@@ -36,6 +36,34 @@
     "native_zig": 127
   },
   "components": [
+    {
+      "component": "admiralty-desk/boundary.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "admiralty-desk",
+        "generated": false,
+        "owner": "admiralty-desk/main.js",
+        "owner_basis": "shared Electron security boundary",
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": "admiralty-desk/main.js"
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": "admiralty-desk/main.js",
+        "owner_basis": "shared Electron security boundary"
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
     {
       "component": "admiralty-desk/desk.sh",
       "contract": {
@@ -4791,6 +4819,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/admiralty-desk-audit.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": "tools/admiralty-desk-audit.mjs",
+        "owner_basis": "Electron workstation boundary evidence",
+        "manifest_bound": true
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": true,
+        "owner": "tools/admiralty-desk-audit.mjs"
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": "tools/admiralty-desk-audit.mjs",
+        "owner_basis": "Electron workstation boundary evidence"
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/agency-map.json",
       "contract": {
         "mapped": true,
@@ -7193,6 +7249,34 @@
     },
     {
       "component": "tools/academy-review.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/admiralty-desk-audit.mjs",
       "contract": {
         "mapped": true,
         "source_zone": "tools",

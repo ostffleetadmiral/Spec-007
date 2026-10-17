@@ -462,6 +462,17 @@ const ANCHORS = [
         Array.isArray(d.verification?.lane_vectors) &&
         d.verification.lane_vectors.length === 4 &&
         d.verification.lane_vectors.every(v => v.byte_exact === true) } },
+  { id: "S57", root: "spec-007", artifact: "admiralty-desk-audit.json",
+    kind: "desktop-shell-boundary", direction: "shared", claims: ["C77"],
+    label: "Electron 44.7.0 flag-desk shell — serve.py header parity, sandbox/context isolation, exact IPC, top-frame-only sender gate, governed loopback frames",
+    check: { type: "json", root: "spec-007", file: "site/assets/admiralty-desk-audit.json",
+      assert: d => d.schema === "ADMIRALTY-DESK-AUDIT-v1" &&
+        d.contract?.electron === "44.7.0" &&
+        d.contract?.origin === "http://127.0.0.1:8901" &&
+        d.contract?.clipboard_text_cap_bytes === 1048576 &&
+        Array.isArray(d.checks) && d.checks.length === 15 &&
+        d.checks.every(c => c.ok === true) &&
+        d.verdict === "GREEN" } },
 
   /* -- the archive corpus — the campaigns themselves are sealed evidence -- */
   { id: "A01", root: "@archives", artifact: "theue archive family",

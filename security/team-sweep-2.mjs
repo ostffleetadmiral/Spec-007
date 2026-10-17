@@ -51,12 +51,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    hazards are untouched: only --verify / zig-test / stdout-only jobs
    enter the pool, and every input is static mid-sweep. */
 const _pfJobs = new Map();
-{
-  const _T = path.join(ROOT, "tools");
-  const _Z = path.join(ROOT, "src");
-  const jobs = [
+const _T = path.join(ROOT, "tools");
+const _Z = path.join(ROOT, "src");
+const jobs = [
     // early sweep gates first — pf() only resolves launched jobs
     ["native-dialog",    process.execPath, [path.join(_T, "native-dialog-audit.mjs"), "--verify"], { timeout: 120000 }],
+    ["admiralty-desk",   process.execPath, [path.join(_T, "admiralty-desk-audit.mjs"), "--verify"], { timeout: 120000 }],
     ["wasm-memory",      process.execPath, [path.join(_T, "wasm-memory-hygiene.mjs"), "--verify"], { timeout: 120000 }],
     ["relay-isolation",  process.execPath, [path.join(_T, "relay-isolation-audit.mjs")], { timeout: 120000 }],
     ["fano-wire",        process.execPath, [path.join(_T, "fano-wire-audit.mjs"), "--verify"], { timeout: 120000 }],
@@ -98,20 +98,26 @@ const _pfJobs = new Map();
     p.on("close", status => res({ status, stdout, stderr }));
   });
   const POOLW = 4;
+  const jobDefs = new Map(jobs.map(j => [j[0], j]));
+  const launch = j => {
+    let p = _pfJobs.get(j[0]);
+    if (!p) {
+      p = runOne(j);
+      _pfJobs.set(j[0], p);
+    }
+    return p;
+  };
   let next = 0;
   const worker = async () => {
-    while (next < jobs.length) {
-      const j = jobs[next++];
-      const p = runOne(j);
-      _pfJobs.set(j[0], p);
-      await p;
-    }
+    while (next < jobs.length) await launch(jobs[next++]);
   };
   Promise.all([worker(), worker(), worker(), worker()])
     .catch(e => console.log("prefetch pool error:", e));
-}
-const pf = key => _pfJobs.get(key) ??
-  Promise.resolve({ status: 1, stdout: "", stderr: `prefetch ${key} missing` });
+const pf = key => {
+  const j = jobDefs.get(key);
+  return j ? launch(j) :
+    Promise.resolve({ status: 1, stdout: "", stderr: `prefetch ${key} missing` });
+};
 
 /* ---------- fano-reset.js in a sandboxed browser ---------- */
 function loadResetModule({ hostname = "127.0.0.1", genesisLs = null,
@@ -1283,6 +1289,17 @@ function loadAuth({ genesisDoc = null, nav = null, winExtras = null, store = nul
             `scopes.os wired — canvas + 5 ledgers + ${en.length} i18n keys ×2 tongues`)
         : open_("DESK", "scopes-organ",
             `wired=${wired} en=${en.length} zh=${zhKeys.length} keysResolve=${keysResolve}`);
+    }
+
+    /* DESK-32: the Admiralty Desk Electron boundary is executable —
+       launcher environment, serve.py header parity, BrowserWindow
+       isolation, exact IPC surface, trusted top-frame gate, clipboard cap,
+       governed loopback frames, MIME coverage, and dependency pin. */
+    {
+      const r = await pf("admiralty-desk");
+      r.status === 0
+        ? held("DESK", "electron-shell-boundary", r.stdout.trim().split("\n").pop())
+        : open_("DESK", "electron-shell-boundary", (r.stderr || r.stdout).trim());
     }
   }
 

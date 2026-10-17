@@ -22,34 +22,13 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const B = require("./boundary");
 
 const SITE = path.resolve(__dirname, "..", "site");
-const PORT = 8901;
-const HOST = "127.0.0.1";
-
-const MIME = {
-  ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
-  ".mjs": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
-  ".json": "application/json", ".wasm": "application/wasm",
-  ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
-  ".ico": "image/x-icon", ".pdf": "application/pdf", ".md": "text/plain; charset=utf-8",
-  ".txt": "text/plain; charset=utf-8", ".py": "text/x-python",
-  ".woff": "font/woff", ".woff2": "font/woff2",
-};
-
-const HEADERS = {
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "SAMEORIGIN",
-  "Referrer-Policy": "no-referrer",
-  "Cross-Origin-Opener-Policy": "same-origin",
-  "Content-Security-Policy":
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; " +
-    "style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; " +
-    "font-src 'self' data:; connect-src 'self' http://127.0.0.1:8765 http://localhost:8765 ws: wss:; " +
-    "object-src 'self'; media-src 'self' blob:; worker-src 'self' blob:; " +
-    "frame-ancestors 'self'; frame-src 'none'; form-action 'none'; " +
-    "base-uri 'none'",
-};
+const PORT = B.PORT;
+const HOST = B.HOST;
+const MIME = B.MIME;
+const HEADERS = B.HEADERS;
 
 /* hardened static handler — GET/HEAD only, no listing, no traversal */
 function serve(req, res) {
@@ -108,7 +87,7 @@ else {
     /* pointer-lock (mouse capture) — games and sandboxes may grab the
        cursor; only our own origin, everything else denied */
     session.defaultSession.setPermissionRequestHandler((wc, perm, cb) => {
-      const own = wc.getURL().startsWith(`http://${HOST}:${PORT}/`);
+      const own = B.isDeskUrl(wc.getURL());
       cb(own && (perm === "pointerLock" || perm === "clipboard-sanitized-write"));
     });
     server.listen(PORT, HOST, () => {
@@ -147,11 +126,15 @@ else {
       /* clipboard bridge — the desk UI writes tokens straight to the
          system clipboard via ADMIRALTY_DESK.clipboard */
       ipcMain.handle("desk:clip-write", (e, t) => {
-        clipboard.writeText(String(t)); return true;
+        if (!B.isDeskIpcEvent(e) || !B.isClipboardText(t)) return false;
+        clipboard.writeText(t); return true;
       });
-      ipcMain.handle("desk:clip-read", () => clipboard.readText());
+      ipcMain.handle("desk:clip-read", (e) => {
+        if (!B.isDeskIpcEvent(e)) return "";
+        return clipboard.readText();
+      });
       win.webContents.on("will-navigate", (e, url) => {
-        if (!url.startsWith(`http://${HOST}:${PORT}/`)) e.preventDefault();
+        if (!B.isDeskUrl(url)) e.preventDefault();
       });
       /* window-scoped controls — before-input-event only fires while
          the desk has focus, so we never steal keys from other apps:
@@ -173,12 +156,16 @@ else {
         }
       });
       /* start-menu bridge: the desk UI calls these via ADMIRALTY_DESK */
-      ipcMain.handle("desk:quit", () => app.quit());
-      ipcMain.handle("desk:minimize", () => win && win.minimize());
-      ipcMain.handle("desk:fullscreen", () => {
-        if (win) win.setFullScreen(!win.isFullScreen());
+      ipcMain.handle("desk:quit", (e) => {
+        if (B.isDeskIpcEvent(e)) app.quit();
       });
-      win.loadURL(`http://${HOST}:${PORT}/index.html`);
+      ipcMain.handle("desk:minimize", (e) => {
+        if (B.isDeskIpcEvent(e) && win) win.minimize();
+      });
+      ipcMain.handle("desk:fullscreen", (e) => {
+        if (B.isDeskIpcEvent(e) && win) win.setFullScreen(!win.isFullScreen());
+      });
+      win.loadURL(`${B.ORIGIN}/index.html`);
       win.on("closed", () => { win = null; });
     });
   });

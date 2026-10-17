@@ -1,6 +1,6 @@
 {
   "schema": "CLUSTER-CENSUS-v1",
-  "generated": "2026-10-16T15:28:12.587Z",
+  "generated": "2026-10-17T13:16:15.860Z",
   "note": "sanitized projection — codenames + roles + evidence classes; source paths are $HOME-relative inside tools/, never absolute in the artifact",
   "root_count": 34,
   "by_class": {
@@ -17,7 +17,7 @@
       "role": "the desk — dossier, governance, security battery",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 39392
+      "file_count": 39641
     },
     {
       "name": "hardware-monorepo",
@@ -26,7 +26,7 @@
       "role": "E=mc² proof workspace — 713 ops, Lean 4 formalization",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 66483
+      "file_count": 66741
     },
     {
       "name": "qstar-llm",
@@ -80,7 +80,7 @@
       "role": "Zig WASM runtime SDK — wasm32/64 + explicit experimental-width lane",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 189
+      "file_count": 198
     },
     {
       "name": "family-empty",

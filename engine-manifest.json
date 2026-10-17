@@ -1,9 +1,9 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-10-16T20:59:38.640Z",
+    "ts": "2026-10-17T13:35:42.386Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
-    "runtime_count": 19,
+    "runtime_count": 20,
     "runtimes": {
       "spec007-native-aiwo": {
         "kind": "native-aiwo",
@@ -125,7 +125,7 @@
         "kind": "harness",
         "path": "security/",
         "members": 50,
-        "anchor_sha256": "sha256:bb380272957a369588c2856b0400ed5947f4a235993171b1a8797a5eddf70ec9",
+        "anchor_sha256": "sha256:f41cf9337bb2965aa99816844b71500dbd246780da66697e2d18a10b0a47bef5",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       },
@@ -146,9 +146,18 @@
         "primary": false,
         "retirement": "experimental-adapter-not-standard-wide-wasm",
         "note": "native sidecar and freestanding wasm32 D12 adapter emit byte-identical D12R reports on golden/refusal/hostile vectors; full sdk.Runtime browser bridge remains out of scope"
+      },
+      "admiralty-desk-electron": {
+        "kind": "desktop-shell",
+        "path": "site/assets/admiralty-desk-audit.json",
+        "sha256": "sha256:8555e20d53f6edee6d5b0843f53c68fb2ade172ca912b1f4a613eb124028f313",
+        "evidence": "verified-here",
+        "primary": false,
+        "retirement": "loopback-workstation-shell",
+        "note": "Electron 44.7.0 desk shell — serve.py header parity, sandboxed/context-isolated renderer, exact five-channel IPC, top-frame-only sender validation, governed loopback frame policy"
       }
     }
   },
-  "sig_ed25519": "3o14kybykrWg1jq9narG-q_a2DNMv4nyb5A67qtPRVaWLRrfQXmw2tP85e5SYpzqcFdlQ8kx1s4xsWWiSBMlDg",
+  "sig_ed25519": "Wpm4-a3EAo-ggrmHwVF4-FHfa7PM4-dHaGfXQkn2FqF1rttsX90-9HnkMqGIHuV2lBqbx6a8QXFEBvGM_rQXDw",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

@@ -38,6 +38,7 @@ echo "== wasm continuity"
 
 echo "== executable regression scanners"
 chk node tools/native-dialog-audit.mjs --verify "native-dialog audit"
+chk node tools/admiralty-desk-audit.mjs --verify "admiralty-desk Electron boundary"
 chk node tools/wasm-memory-hygiene.mjs --verify "wasm-memory-hygiene"
 chk node tools/relay-isolation-audit.mjs "relay subscription isolation"
 chk node tools/fano-wire-audit.mjs --verify "fano-wire canonical datagram"
@@ -89,7 +90,7 @@ node --check site/assets/nebula-3d.js >/dev/null 2>&1 \
 
 echo "== js syntax"
 # parallel node --check — worker prints "PASS|FAIL file" per file, sorted for stable output
-JSCHK=$(ls site/assets/fano-*.js site/assets/nebula-3d.js security/*.mjs prototypes/*.mjs \
+JSCHK=$(ls site/assets/fano-*.js site/assets/nebula-3d.js admiralty-desk/*.js security/*.mjs prototypes/*.mjs \
   | xargs -P 8 -I{} sh -c 'node --check "$1" >/dev/null 2>&1 && echo "PASS $1" || echo "FAIL $1"' _ {} | sort)
 echo "$JSCHK" | sed 's/^PASS/ PASS/; s/^FAIL/ FAIL/'
 echo "$JSCHK" | grep -q '^FAIL' && FAIL=1 || true

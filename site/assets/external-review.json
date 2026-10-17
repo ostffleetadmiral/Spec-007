@@ -55,12 +55,12 @@
         {
           "path": "security/README.md",
           "bytes": 12720,
-          "sha256": "3a4aa2f8f4f10e621a0b31b10c1eac5de863d80787d0dc720743edee7bbd31aa"
+          "sha256": "df7ed3093deec07ccd8d541a4fb69c397da15963cfabfff2734e66546344ffb6"
         },
         {
           "path": "security/team-sweep-2.mjs",
-          "bytes": 218371,
-          "sha256": "bb380272957a369588c2856b0400ed5947f4a235993171b1a8797a5eddf70ec9"
+          "bytes": 219172,
+          "sha256": "f41cf9337bb2965aa99816844b71500dbd246780da66697e2d18a10b0a47bef5"
         },
         {
           "path": "security/xploit-sweep.mjs",
@@ -97,13 +97,13 @@
         },
         {
           "path": "docs/en/spec-007-research-dossier.md",
-          "bytes": 99401,
-          "sha256": "14a5f5bcfa6da2b57e1998aabc2f78e68b8727fa7348aee6847584b860866191"
+          "bytes": 99930,
+          "sha256": "9bc5d2f8a4571f951a638116c56a543c6b4754082a6c742a6f67b2481880b1c6"
         },
         {
           "path": "docs/zh-Hant/spec-007-research-dossier.zh-Hant.md",
-          "bytes": 87700,
-          "sha256": "96e6cb490e5f0be67e7a8d875d593ee57bd3ad45d71ed4b7230f835d9c20032e"
+          "bytes": 88237,
+          "sha256": "d9ba532c595743348655cc5ff325a55295eb2b9be5124b79865c65d4065905e7"
         },
         {
           "path": "docs/en/spec-007-science-coverage.en.md",
@@ -224,8 +224,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5204,
-          "sha256": "aa9f247d3f6913f6cdd6835e562c823dfffa2b07c767d86bdb8860c638a7d664"
+          "bytes": 5308,
+          "sha256": "d02851acbdc064bc43b5ed08ad2db854821f9cf7922995a5cddd38ed481ad3e3"
         },
         {
           "path": "site/apps/rations/rations.wasm.sha256",
@@ -234,13 +234,13 @@
         },
         {
           "path": "docs/en/spec-007-component-map.en.md",
-          "bytes": 74305,
-          "sha256": "9ee994c37f3c3b6eec71e31769739a8992573f55cb200dae2bf44da8698d193a"
+          "bytes": 74535,
+          "sha256": "7bcce5a31b2f00d10c4ae9cfac09f9037d555ff1787d36b167df54e43b3ec3f6"
         },
         {
           "path": "docs/zh-Hant/spec-007-component-map.zh-Hant.md",
-          "bytes": 64927,
-          "sha256": "e88f1b0356fc45f1c9db5eefb84e6a6808e899591d9feebca28778fce8ce7147"
+          "bytes": 65167,
+          "sha256": "804f4f9e766eba6f9f9adc7629dcb13e6763d15947ccf7f87460d6bb187d0ff1"
         }
       ]
     },
@@ -318,8 +318,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5204,
-          "sha256": "aa9f247d3f6913f6cdd6835e562c823dfffa2b07c767d86bdb8860c638a7d664"
+          "bytes": 5308,
+          "sha256": "d02851acbdc064bc43b5ed08ad2db854821f9cf7922995a5cddd38ed481ad3e3"
         },
         {
           "path": "site/apps/rations/js/dom-dialog.js",
