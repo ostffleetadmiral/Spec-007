@@ -681,9 +681,33 @@ async function bootFabric() {
   const init = fabric.vgpu_init();
   setInstall(80, 'Probing fabric: vgpu_caps()...');
   const caps = fabric.vgpu_caps();
+  setInstall(84, 'Fabric op: alloc+map a 4K guest frame...');
+  let ops = 2; // init + caps already measured
+  const S = Number(fabric.vgpu_scratch(1 << 16)); ops++;
+  const va = fabric.vgpu_alloc(1n, 4096); ops++;
+  if (fabric.vgpu_map(1n, 0, va, 4096, 0xEn) !== 0) throw new Error('vgpu_map refused'); ops++;
+  setInstall(88, 'Fabric op: vcpu scalar program — st64 round-trip...');
+  const enc = (op, rd, rs, arg) => { const w = new Uint8Array(8);
+    w[0] = op; w[1] = rd; w[2] = rs;
+    new DataView(w.buffer).setUint32(4, arg >>> 0, true); return w; };
+  // movi r0,0xC0FFEE ; movi r1,0x80000100 ; st64 [r1],r0 ; sysx
+  const img = [...enc(0x02,0,0,0xC0FFEE), ...enc(0x02,1,0,0x80000100),
+               ...enc(0x1b,1,0,0), ...enc(0x5f,0,0,0)];
+  new Uint8Array(fabric.memory.buffer, S, img.length).set(img);
+  if (fabric.vgpu_write(1n, 0, S, img.length) !== 0) throw new Error('vgpu_write refused'); ops++;
+  const vfab = new Uint8Array(16);
+  vfab.set([0x56,0x46,0x41,0x42]); // "VFAB"
+  const fdv = new DataView(vfab.buffer);
+  fdv.setUint16(4, 1, true); vfab[6] = 2; fdv.setBigUint64(8, va, true);
+  new Uint8Array(fabric.memory.buffer, S + 1024, 16).set(vfab);
+  if (fabric.vgpu_fabric_exec(S + 1024, 16) !== 0) throw new Error('fabric exec NAK'); ops++;
+  if (fabric.vgpu_read(1n, 0x100, S + 2048, 8) !== 0) throw new Error('vgpu_read refused'); ops++;
+  const val = new DataView(fabric.memory.buffer).getBigUint64(S + 2048, true);
+  if (val !== 0xC0FFEEn) throw new Error('round-trip mismatch: 0x' + val.toString(16)); ops++;
   setInstall(92, 'Fabric answered: init=0x' + init.toString(16) +
-    ' caps=0x' + caps.toString(16) + ' — substrate online.');
-  return { init, caps };
+    ' caps=0x' + caps.toString(16) + ' — vcpu st64 round-trip ' +
+    '0xC0FFEE byte-exact (' + ops + ' ops measured). Substrate online.');
+  return { init, caps, ops };
 }
 
 document.getElementById('btnInstall').addEventListener('click', async () => {
