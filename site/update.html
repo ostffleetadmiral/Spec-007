@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNSC Star Command — FANO-1 Tactical Node Integration</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; height:100%; overflow:hidden; background:#020205;
+    font-family:'Source Sans 3','Segoe UI',Arial,sans-serif; user-select:none; }
+
+  #stage { position:fixed; inset:0; }
+
+  /* ================= GLOBE & HUD OVERLAYS ================= */
+  #globeWrap { position:absolute; inset:0; cursor:grab; }
+  #globeWrap.dragging { cursor:grabbing; }
+  #globe { width:100%; height:100%; display:block; }
+
+  /* Atmosphere Glow */
+  #glow {
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:120vmin; height:120vmin; border-radius:50%;
+    background:radial-gradient(circle, rgba(10,132,255,0.18) 0%, rgba(0,210,255,0.08) 45%, transparent 70%);
+    pointer-events:none;
+  }
+
+  /* Scanline Matrix Layer */
+  .scanlines {
+    position:fixed; inset:0; pointer-events:none; z-index:4;
+    background:linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
+               linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
+    background-size:100% 3px, 6px 100%;
+  }
+
+  /* HUD Tactical Grid Bounds */
+  #hudOverlay {
+    position:fixed; inset:0; pointer-events:none; z-index:5;
+    padding:20px 24px; display:flex; flex-direction:column; justify-content:space-between;
+    font-family:'Chakra Petch', sans-serif; color:rgba(10,132,255,0.6);
+  }
+  .hud-header { display:flex; justify-content:space-between; align-items:flex-start; }
+  .hud-title-block { border-left:3px solid #0a84ff; padding-left:10px; }
+  .hud-title-block h1 { font-size:14px; font-weight:700; letter-spacing:3px; color:#fff; text-transform:uppercase; }
+  .hud-title-block p { font-size:10px; letter-spacing:1.5px; color:rgba(255,255,255,0.4); }
+  .hud-telemetry { text-align:right; font-family:'Source Code Pro', monospace; font-size:11px; line-height:1.4; }
+  .hud-status-badge { display:inline-block; width:8px; height:8px; border-radius:50%; background:#30d158; box-shadow:0 0 8px #30d158; margin-right:6px; }
+
+  /* ================= SYSTEM UPDATE DIALOG (macOS Tahoe Glass) ================= */
+  #modal {
+    position:absolute; left:50%; top:50%;
+    transform:translate(-50%,-50%) scale(0.92);
+    width:min(580px, 92vw);
+    background:rgba(18, 20, 26, 0.82);
+    backdrop-filter:blur(40px) saturate(2.1);
+    -webkit-backdrop-filter:blur(40px) saturate(2.1);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:18px;
+    box-shadow:0 32px 100px rgba(0,0,0,0.85), 0 0 0 0.5px rgba(255,255,255,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+    z-index:20; overflow:hidden;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  #modal.show { opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+
+  /* Title bar */
+  .titlebar {
+    display:flex; align-items:center; gap:8px;
+    padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.08);
+    background:rgba(255,255,255,0.02);
+  }
+  .tb-dot { width:12px; height:12px; border-radius:50%; position:relative; }
+  .tb-dot.r { background:#ff5f57; border:0.5px solid rgba(0,0,0,0.2); }
+  .tb-dot.y { background:#febc2e; border:0.5px solid rgba(0,0,0,0.2); }
+  .tb-dot.g { background:#28c840; border:0.5px solid rgba(0,0,0,0.2); }
+  .tb-title {
+    margin-left:12px; color:rgba(255,255,255,0.7); font-size:12.5px;
+    font-weight:600; letter-spacing:0.5px; font-family:'Chakra Petch', sans-serif; text-transform:uppercase;
+  }
+
+  .modal-body { padding:26px 30px 22px; }
+
+  .sys-icon-wrap { display:flex; align-items:center; gap:16px; margin-bottom:20px; }
+  .sys-icon {
+    width:52px; height:52px; border-radius:14px;
+    background:linear-gradient(135deg,#0a84ff,#00d2ff);
+    display:flex; align-items:center; justify-content:center;
+    font-size:26px; color:#fff;
+    box-shadow:0 6px 20px rgba(10,132,255,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .sys-meta { font-family:'Chakra Petch', sans-serif; }
+  .sys-meta .tag { font-size:11px; font-weight:700; color:#00d2ff; letter-spacing:2px; text-transform:uppercase; }
+  .sys-meta .ver { font-size:12px; color:rgba(255,255,255,0.4); font-family:'Source Code Pro', monospace; }
+
+  #modal h2 {
+    color:#fff; font-size:21px; font-weight:700; margin-bottom:12px;
+    letter-spacing:-0.4px; line-height:1.25;
+  }
+  #modal p {
+    color:rgba(255,255,255,0.72); font-size:14.5px; line-height:1.6;
+    margin-bottom:10px;
+  }
+  #modal .warn {
+    color:#ff9f43; font-size:13.5px; font-weight:600;
+    display:flex; align-items:center; gap:8px; margin-top:14px;
+    padding:10px 14px; background:rgba(255,159,67,0.1); border-radius:8px;
+    border:1px solid rgba(255,159,67,0.2);
+  }
+
+  .modal-actions {
+    display:flex; gap:12px; padding:18px 30px 24px;
+    border-top:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.15);
+  }
+  .btn {
+    flex:1; padding:12px 0; border-radius:10px; border:none;
+    font-family:'Chakra Petch', sans-serif; font-size:13.5px; font-weight:700; cursor:pointer;
+    transition:all 0.25s cubic-bezier(0.16,1,0.3,1); letter-spacing:1px; text-transform:uppercase;
+  }
+  .btn-primary {
+    background:linear-gradient(180deg, #0a84ff 0%, #0066cc 100%); color:#fff;
+    box-shadow:0 4px 16px rgba(10,132,255,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .btn-primary:hover { background:linear-gradient(180deg, #3395ff 0%, #0077e6 100%); transform:translateY(-1px); box-shadow:0 6px 22px rgba(10,132,255,0.5); }
+  .btn-primary:active { transform:translateY(0); }
+  .btn-ghost {
+    background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.85);
+    border:1px solid rgba(255,255,255,0.12);
+  }
+  .btn-ghost:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.25); }
+
+  /* ================= SIGNATURE BLOCK ================= */
+  #sigBlock {
+    position:absolute; z-index:10; left:40px; bottom:36px;
+    color:#fff; pointer-events:none;
+  }
+  #sigBlock .rank {
+    font-family:'Oswald',sans-serif; font-size:14px; font-weight:600;
+    letter-spacing:5px; text-transform:uppercase; color:rgba(0,210,255,0.8);
+  }
+  #sigBlock .name {
+    font-family:'Oswald',sans-serif; font-size:28px; font-weight:700;
+    letter-spacing:1px; margin-top:1px; color:rgba(255,255,255,0.95);
+    text-shadow:0 2px 10px rgba(0,0,0,0.8);
+  }
+  #sigBlock .rule {
+    width:240px; height:1px; background:linear-gradient(90deg, rgba(10,132,255,0.8), transparent); margin:8px 0 4px;
+  }
+  #sigBlock .script {
+    font-family:'Great Vibes',cursive; font-size:48px; color:rgba(255,255,255,0.9);
+    transform:rotate(-2deg); display:inline-block; line-height:1;
+    text-shadow:0 2px 16px rgba(10,132,255,0.6);
+  }
+
+  /* ================= LOGO ================= */
+  #logoBlock {
+    position:absolute; z-index:10; right:40px; bottom:36px; text-align:right;
+    color:#fff; pointer-events:none;
+  }
+  #logoBlock .un {
+    font-family:'Oswald',sans-serif; font-size:56px; font-weight:700;
+    letter-spacing:8px; line-height:1; color:rgba(255,255,255,0.95);
+    position:relative; display:inline-block;
+  }
+  #logoBlock .un .ring {
+    position:absolute; left:-18%; right:-18%; top:30%; height:40%;
+    border:3px solid rgba(10,132,255,0.8); border-radius:50%;
+    transform:rotate(-14deg); box-shadow:0 0 12px rgba(10,132,255,0.5);
+  }
+  #logoBlock .l1 {
+    font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;
+    letter-spacing:3px; margin-top:6px; color:rgba(255,255,255,0.85);
+    line-height:1.4;
+  }
+  #logoBlock .l2 {
+    font-family:'Chakra Petch', sans-serif; font-size:10.5px; color:#00d2ff;
+    margin-top:4px; letter-spacing:2px; font-weight:600; text-transform:uppercase;
+  }
+
+  /* ================= INSTALL PROGRESS OVERLAY ================= */
+  #installOverlay {
+    position:fixed; inset:0; z-index:50; display:none;
+    align-items:center; justify-content:center;
+    background:rgba(2,2,6,0.88); backdrop-filter:blur(30px) saturate(1.8);
+  }
+  #installOverlay.on { display:flex; }
+  .install-box {
+    width:min(460px,88vw); text-align:center; color:#fff;
+    background:rgba(20,24,32,0.8); padding:40px 32px; border-radius:20px;
+    border:1px solid rgba(255,255,255,0.1); box-shadow:0 30px 90px rgba(0,0,0,0.8);
+  }
+  .spinner {
+    width:60px; height:60px; margin:0 auto 28px; position:relative;
+  }
+  .spinner::before, .spinner::after {
+    content:''; position:absolute; inset:0; border-radius:50%;
+    border:3px solid transparent;
+  }
+  .spinner::before { border-top-color:#0a84ff; animation:spin 1s cubic-bezier(0.68,-0.55,0.27,1.55) infinite; }
+  .spinner::after { border-bottom-color:#00d2ff; inset:-6px; animation:spin 1.5s linear infinite reverse; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  .install-box .big { font-family:'Chakra Petch', sans-serif; font-size:19px; font-weight:700; margin-bottom:8px; letter-spacing:1px; text-transform:uppercase; }
+  .install-box .sub { font-size:13.5px; color:rgba(255,255,255,0.55); margin-bottom:28px; line-height:1.5; }
+  .iprogress {
+    height:6px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,0.5);
+  }
+  #ifill { height:100%; width:0%; border-radius:4px;
+    background:linear-gradient(90deg,#0a84ff,#00d2ff,#30d158); transition:width 0.2s linear;
+    box-shadow:0 0 12px rgba(0,210,255,0.6); }
+  #ipct { margin-top:14px; font-family:'Source Code Pro', monospace; font-size:12px; color:#00d2ff; letter-spacing:2px; font-weight:600; }
+  #ilog { margin-top:6px; font-family:'Source Code Pro', monospace; font-size:11px; color:rgba(255,255,255,0.35); }
+
+  /* ================= DECOUPLING SCREEN ================= */
+  #decouple {
+    position:fixed; inset:0; z-index:60; display:none;
+    align-items:center; justify-content:center; flex-direction:column;
+    background:#000; color:#fff; text-align:center; padding:20px;
+  }
+  #decouple.on { display:flex; }
+  #decouple .big {
+    font-family:'Chakra Petch', sans-serif; font-size:clamp(22px,4vw,44px); font-weight:700; letter-spacing:8px;
+    color:#ff453a; text-shadow:0 0 20px rgba(255,69,58,0.6); text-transform:uppercase;
+  }
+  #decouple .sub {
+    margin-top:20px; color:rgba(255,255,255,0.5); font-size:15px;
+    line-height:1.8; letter-spacing:0.8px; max-width:600px;
+  }
+  #btnRestore {
+    margin-top:44px; padding:14px 44px; border:1px solid rgba(10,132,255,0.4);
+    border-radius:12px; cursor:pointer; color:#0a84ff;
+    font-family:'Chakra Petch', sans-serif; font-size:13px; letter-spacing:2.5px; font-weight:700;
+    transition:all 0.25s; background:rgba(10,132,255,0.08); text-transform:uppercase;
+    box-shadow:0 0 20px rgba(10,132,255,0.2);
+  }
+  #btnRestore:hover { background:rgba(10,132,255,0.2); border-color:#0a84ff; color:#fff; box-shadow:0 0 30px rgba(10,132,255,0.5); }
+
+  /* TOAST SYSTEM */
+  #toast {
+    position:fixed; left:50%; bottom:36px; transform:translateX(-50%) translateY(100px);
+    background:rgba(20,24,32,0.92); backdrop-filter:blur(24px) saturate(1.8);
+    color:rgba(255,255,255,0.92); padding:14px 30px; border-radius:14px;
+    font-size:13.5px; font-family:'Chakra Petch', sans-serif; font-weight:600; letter-spacing:0.5px;
+    z-index:40; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    border:1px solid rgba(255,255,255,0.12); box-shadow:0 16px 50px rgba(0,0,0,0.6);
+    display:flex; align-items:center; gap:10px;
+  }
+  #toast::before { content:''; width:8px; height:8px; border-radius:50%; background:#ff9f43; box-shadow:0 0 8px #ff9f43; }
+  #toast.show { transform:translateX(-50%) translateY(0); }
+
+  #hint {
+    position:fixed; top:22px; left:50%; transform:translateX(-50%);
+    color:rgba(255,255,255,0.3); font-size:10px; letter-spacing:4px;
+    z-index:5; pointer-events:none; font-weight:700; font-family:'Chakra Petch', sans-serif; text-transform:uppercase;
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div id="stage">
+  <div id="glow"></div>
+  <div id="globeWrap"><canvas id="globe"></canvas></div>
+  <div class="scanlines"></div>
+
+  <!-- HUD OVERLAY LAYER -->
+  <div id="hudOverlay">
+    <div class="hud-header">
+      <div class="hud-title-block">
+        <h1>UNSC Tactical Grid</h1>
+        <p>Zotron Fleet Orbital Node // FANO-1 Core</p>
+      </div>
+      <div class="hud-telemetry">
+        <div><span class="hud-status-badge"></span>GRID STATUS: ONLINE</div>
+        <div id="hudCoords" style="color:rgba(255,255,255,0.4); margin-top:2px;">LAT: 0.00° N | LON: 0.00° E</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal">
+    <div class="titlebar">
+      <div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div>
+      <div class="tb-title">UNSC-Zotron Tactical Integration Engine</div>
+    </div>
+    <div class="modal-body">
+      <div class="sys-icon-wrap">
+        <div class="sys-icon">⬆</div>
+        <div class="sys-meta">
+          <div class="tag">System Patch Required</div>
+          <div class="ver">FANO-1 // Build 10.0.26-ZOTRON</div>
+        </div>
+      </div>
+      <h2>This System Desperately Needs an Update</h2>
+      <p>Integration with the <strong>United Nations Star Command</strong> and the <strong>Zotron Fleet's</strong> tactical recovery network is required to stabilize orbital vectors.</p>
+      <p class="warn"><span>⚠</span> Failure to update may lead to total planetary orbital decoupling.</p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnInstall">Install Now</button>
+      <button class="btn btn-ghost" id="btnLater">Later</button>
+    </div>
+  </div>
+
+  <div id="sigBlock">
+    <div class="rank">Fleet Admiral</div>
+    <div class="name">Paul Phillip Ramsey</div>
+    <div class="rule"></div>
+    <div class="script">Paul Phillip Ramsey</div>
+  </div>
+
+  <div id="logoBlock">
+    <div class="un">UN<span class="ring"></span></div>
+    <div class="l1">UNITED NATIONS<br>STAR COMMAND</div>
+    <div class="l2">Under the Zotron Fleet</div>
+  </div>
+</div>
+
+<div id="hint">DRAG TO ROTATE EARTH // SCROLL TO ZOOM</div>
+
+<div id="installOverlay">
+  <div class="install-box">
+    <div class="spinner"></div>
+    <div class="big">Installing Planetary Update</div>
+    <div class="sub">Deploying FANO-1 recovery fabric & syncing orbital telemetry…</div>
+    <div class="iprogress"><div id="ifill"></div></div>
+    <div id="ipct">0% COMPLETE</div>
+    <div id="ilog">Initializing VRAM sparse address space...</div>
+  </div>
+</div>
+
+<div id="decouple">
+  <div class="big">ORBITAL DECOUPLING COMPLETE</div>
+  <div class="sub">The planet has been gracefully removed from its orbital plane.<br>Zotron Fleet telemetry disconnected. Have a pleasant drift.</div>
+  <button id="btnRestore">RESTORE PLANET BACKUP</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================================================================
+   HIGH-ACCURACY GEOGRAPHIC POLYGONS (FULL GLOBAL CONTINENTS + ISLANDS)
+   ================================================================ */
+const LAND_DATA = [
+  // North America
+  [[71,-156],[70,-141],[68,-130],[65,-120],[58,-110],[49,-123],[38,-123],[32,-117],[31,-111],[23,-110],[16,-93],[15,-88],[9,-79],[8,-82],[14,-91],[19,-104],[26,-98],[29,-89],[25,-80],[30,-81],[35,-75],[41,-70],[44,-66],[48,-64],[52,-55],[60,-64],[62,-82],[68,-90],[70,-110],[71,-156]],
+  // Greenland
+  [[83,-38],[76,-18],[68,-23],[60,-44],[65,-53],[76,-60],[83,-38]],
+  // South America
+  [[12,-72],[10,-62],[5,-51],[-3,-36],[-9,-35],[-20,-39],[-23,-42],[-34,-53],[-45,-64],[-54,-68],[-55,-71],[-46,-75],[-33,-71],[-18,-70],[-14,-76],[-5,-81],[2,-79],[8,-77],[12,-72]],
+  // Africa
+  [[37,-10],[37,10],[33,11],[32,24],[31,34],[27,34],[22,37],[11,43],[12,51],[9,51],[2,42],[-10,40],[-26,33],[-34,26],[-34,18],[-18,12],[-5,12],[5,0],[4,-8],[11,-17],[15,-17],[21,-17],[28,-13],[35,-6],[37,-10]],
+  // Europe
+  [[36,-9],[43,-9],[44,3],[46,2],[51,2],[53,5],[58,11],[60,18],[71,26],[71,31],[60,30],[55,21],[47,19],[45,13],[41,19],[40,26],[38,23],[36,15],[38,13],[36,-9]],
+  // Asia
+  [[71,31],[71,70],[73,80],[70,100],[73,110],[66,170],[60,165],[55,138],[43,132],[38,118],[22,114],[22,108],[10,104],[1,104],[1,103],[10,98],[16,96],[20,88],[22,69],[25,62],[25,57],[12,44],[28,34],[35,36],[40,37],[50,50],[55,60],[60,50],[65,60],[71,31]],
+  // Australia
+  [[-11,142],[-16,145],[-28,153],[-35,150],[-38,144],[-35,136],[-33,124],[-22,114],[-14,127],[-12,136],[-11,142]],
+  // Antarctica
+  [[-63,-58],[-65,-64],[-70,-72],[-75,-85],[-78,-100],[-82,-130],[-85,-180],[-82,140],[-70,100],[-66,70],[-67,40],[-70,0],[-65,-40],[-63,-58]],
+  // Great Britain & Ireland
+  [[58,-5],[50,-5],[50,1],[58,1],[58,-5]],
+  // Japan
+  [[45,142],[40,140],[35,135],[33,129],[34,131],[42,140],[45,142]],
+  // Madagascar
+  [[-12,49],[-17,50],[-25,47],[-25,44],[-15,46],[-12,49]]
+];
+
+/* ================================================================
+   ENGINE CORE: CANVAS & REAL-TIME RENDERER
+   ================================================================ */
+const canvas = document.getElementById('globe');
+const ctx = canvas.getContext('2d');
+const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+let W, H, CX, CY, R;
+let zoom = 1.0;
+let rotY = -1.4, rotX = -0.35;
+let velY = 0.0008, velX = 0;
+let dragging = false, lastX = 0, lastY = 0;
+let decoupled = false;
+let shakeT = 0;
+
+/* Pre-transform geography into 3D unit vectors */
+const polys3D = LAND_DATA.map(poly => poly.map(([lat,lon]) => {
+  const la = lat * Math.PI / 180, lo = lon * Math.PI / 180;
+  return { x: Math.cos(la) * Math.sin(lo), y: Math.sin(la), z: Math.cos(la) * Math.cos(lo) };
+}));
+
+/* Procedural Starfield Generation */
+const STARS_COUNT = 700;
+const stars = Array.from({length: STARS_COUNT}, () => ({
+  x: Math.random(), y: Math.random(),
+  r: Math.random() * 1.4 + 0.2,
+  tw: Math.random() * Math.PI * 2,
+  speed: Math.random() * 0.002 + 0.0005
+}));
+
+/* Tactical Flight Satellites */
+const SATELLITES = Array.from({length: 12}, () => ({
+  lat: (Math.random() - 0.5) * 120,
+  lon: Math.random() * 360 - 180,
+  alt: 1.12 + Math.random() * 0.08,
+  speed: Math.random() * 0.002 + 0.001
+}));
+
+function project(p, alt = 1.0) {
+  const currentR = R * zoom;
+  const cy = Math.cos(rotY), sy = Math.sin(rotY);
+  const x1 = p.x * cy + p.z * sy, z1 = -p.x * sy + p.z * cy;
+  const cx = Math.cos(rotX), sx = Math.sin(rotX);
+  const y2 = p.y * cx - z1 * sx, z2 = p.y * sx + z1 * cx;
+  return { sx: CX + x1 * currentR * alt, sy: CY - y2 * currentR * alt, z: z2, x: x1, y: y2 };
+}
+
+function drawStars(t) {
+  ctx.fillStyle = '#020205';
+  ctx.fillRect(0, 0, W, H);
+  for (const s of stars) {
+    const a = 0.3 + 0.4 * Math.sin(t * s.speed + s.tw);
+    ctx.fillStyle = `rgba(255, 255, 255, ${a})`;
+    ctx.beginPath();
+    ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawGlobe(t) {
+  const currentR = R * zoom;
+
+  // 1. Atmosphere Deep Glow
+  const atm = ctx.createRadialGradient(CX, CY, currentR * 0.95, CX, CY, currentR * 1.4);
+  atm.addColorStop(0, 'rgba(10, 132, 255, 0.0)');
+  atm.addColorStop(0.3, 'rgba(10, 132, 255, 0.22)');
+  atm.addColorStop(0.7, 'rgba(0, 210, 255, 0.06)');
+  atm.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = atm;
+  ctx.beginPath(); ctx.arc(CX, CY, currentR * 1.4, 0, Math.PI * 2); ctx.fill();
+
+  // 2. Deep Blue Ocean Base
+  const ocean = ctx.createRadialGradient(CX - currentR * 0.3, CY - currentR * 0.35, currentR * 0.1, CX, CY, currentR);
+  ocean.addColorStop(0, '#1a4b8c');
+  ocean.addColorStop(0.5, '#0e2a52');
+  ocean.addColorStop(1, '#051126');
+  ctx.fillStyle = ocean;
+  ctx.beginPath(); ctx.arc(CX, CY, currentR, 0, Math.PI * 2); ctx.fill();
+
+  // 3. Grid / Graticule Lines (Latitude & Longitude)
+  ctx.strokeStyle = 'rgba(10, 132, 255, 0.08)';
+  ctx.lineWidth = 1;
+  for (let lat = -60; lat <= 60; lat += 30) {
+    ctx.beginPath();
+    let started = false;
+    for (let lon = -180; lon <= 180; lon += 10) {
+      const la = lat * Math.PI / 180, lo = lon * Math.PI / 180;
+      const q = project({ x: Math.cos(la) * Math.sin(lo), y: Math.sin(la), z: Math.cos(la) * Math.cos(lo) });
+      if (q.z > 0) {
+        if (!started) { ctx.moveTo(q.sx, q.sy); started = true; }
+        else { ctx.lineTo(q.sx, q.sy); }
+      } else { started = false; }
+    }
+    ctx.stroke();
+  }
+
+  // 4. Continents (Front-Facing Polygon Vector Render)
+  for (const poly of polys3D) {
+    ctx.beginPath();
+    let started = false, anyFront = false;
+    for (const p of poly) {
+      const q = project(p);
+      if (q.z > 0) {
+        anyFront = true;
+        if (!started) { ctx.moveTo(q.sx, q.sy); started = true; }
+        else { ctx.lineTo(q.sx, q.sy); }
+      } else { started = false; }
+    }
+    if (anyFront) {
+      ctx.closePath();
+      const landGrad = ctx.createLinearGradient(CX, CY - currentR, CX, CY + currentR);
+      landGrad.addColorStop(0, '#7a8a9e');
+      landGrad.addColorStop(0.3, '#3b5838');
+      landGrad.addColorStop(0.6, '#2d452b');
+      landGrad.addColorStop(0.9, '#8c806b');
+      landGrad.addColorStop(1, '#d0d5dd');
+      ctx.fillStyle = landGrad;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0, 210, 255, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  // 5. Day/Night Dynamic Terminator Shading
+  const sunAngle = t * 0.00003;
+  const term = ctx.createLinearGradient(
+    CX + Math.cos(sunAngle) * currentR, CY + Math.sin(sunAngle) * currentR,
+    CX - Math.cos(sunAngle) * currentR, CY - Math.sin(sunAngle) * currentR
+  );
+  term.addColorStop(0, 'rgba(0,0,12,0)');
+  term.addColorStop(0.48, 'rgba(0,0,12,0.1)');
+  term.addColorStop(0.58, 'rgba(1,3,15,0.72)');
+  term.addColorStop(1, 'rgba(1,3,15,0.96)');
+  ctx.save();
+  ctx.beginPath(); ctx.arc(CX, CY, currentR, 0, Math.PI * 2); ctx.clip();
+  ctx.fillStyle = term;
+  ctx.fillRect(CX - currentR, CY - currentR, currentR * 2, currentR * 2);
+
+  // 6. Tactical Satellites & Orbital Trajectories
+  for (const sat of SATELLITES) {
+    sat.lon += sat.speed;
+    const la = sat.lat * Math.PI / 180, lo = sat.lon * Math.PI / 180;
+    const p3 = { x: Math.cos(la) * Math.sin(lo), y: Math.sin(la), z: Math.cos(la) * Math.cos(lo) };
+    const q = project(p3, sat.alt);
+    if (q.z > 0) {
+      ctx.fillStyle = '#00d2ff';
+      ctx.beginPath(); ctx.arc(q.sx, q.sy, 2.5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(0, 210, 255, 0.25)';
+      ctx.beginPath(); ctx.arc(q.sx, q.sy, 6, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+
+  ctx.restore();
+
+  // 7. Outer Atmospheric Rim Lighting
+  const rim = ctx.createRadialGradient(CX, CY, currentR * 0.88, CX, CY, currentR);
+  rim.addColorStop(0, 'rgba(10, 132, 255, 0)');
+  rim.addColorStop(0.8, 'rgba(10, 132, 255, 0.15)');
+  rim.addColorStop(0.96, 'rgba(0, 210, 255, 0.45)');
+  rim.addColorStop(1, 'rgba(180, 235, 255, 0.7)');
+  ctx.fillStyle = rim;
+  ctx.beginPath(); ctx.arc(CX, CY, currentR, 0, Math.PI * 2); ctx.fill();
+}
+
+function draw(t) {
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  drawStars(t);
+
+  if (decoupled) {
+    shakeT += 0.016;
+    const shake = Math.max(0, 4 - shakeT * 2);
+    const dx = (Math.random() - 0.5) * shake, dy = (Math.random() - 0.5) * shake;
+    const drift = Math.min(1, Math.max(0, (shakeT - 1.0) / 2.5));
+    ctx.save();
+    ctx.translate(dx + drift * W * 0.65, dy - drift * H * 0.35);
+    ctx.globalAlpha = 1 - drift * 0.95;
+    drawGlobe(t);
+    ctx.restore();
+  } else {
+    drawGlobe(t);
+  }
+
+  // Update HUD Coordinates dynamically from Y/X rotation
+  const curLat = (-rotX * (180 / Math.PI)).toFixed(2);
+  const curLon = (((rotY * (180 / Math.PI)) % 360 + 540) % 360 - 180).toFixed(2);
+  document.getElementById('hudCoords').textContent = `LAT: ${curLat}° N | LON: ${curLon}° E`;
+
+  requestAnimationFrame(draw);
+}
+
+function resize() {
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  R = Math.min(W, H) * 0.40;
+  CX = W / 2; CY = H / 2;
+}
+
+/* ================================================================
+   CONTROLS: DRAG ROTATION & SCROLL ZOOMING
+   ================================================================ */
+const wrap = document.getElementById('globeWrap');
+function down(e) {
+  if (e.target.closest('#modal,#sigBlock,#logoBlock,#installOverlay,#decouple')) return;
+  dragging = true; wrap.classList.add('dragging');
+  lastX = e.clientX ?? e.touches[0].clientX;
+  lastY = e.clientY ?? e.touches[0].clientY;
+}
+function move(e) {
+  if (!dragging) return;
+  const x = e.clientX ?? e.touches[0].clientX;
+  const y = e.clientY ?? e.touches[0].clientY;
+  velY = (x - lastX) * 0.0035; velX = (y - lastY) * 0.0025;
+  rotY += velY; rotX += velX;
+  rotX = Math.max(-1.25, Math.min(1.25, rotX));
+  lastX = x; lastY = y;
+}
+function up() { dragging = false; wrap.classList.remove('dragging'); }
+
+wrap.addEventListener('mousedown', down);
+window.addEventListener('mousemove', move);
+window.addEventListener('mouseup', up);
+wrap.addEventListener('touchstart', down, {passive: true});
+wrap.addEventListener('touchmove', move, {passive: true});
+wrap.addEventListener('touchend', up);
+
+window.addEventListener('wheel', (e) => {
+  zoom += e.deltaY * -0.0008;
+  zoom = Math.max(0.6, Math.min(2.2, zoom));
+}, {passive: true});
+
+(function phys() {
+  if (!dragging) {
+    rotY += velY;
+    velX *= 0.95;
+    velY = velY * 0.96 + 0.00002 * Math.sign(0.0008 - velY);
+    rotX += velX;
+    rotX = Math.max(-1.25, Math.min(1.25, rotX));
+  }
+  setTimeout(phys, 16);
+})();
+
+/* ================================================================
+   INTERACTIONS & SCRIPTED SYSTEM STATES
+   ================================================================ */
+const modal = document.getElementById('modal');
+const toast = document.getElementById('toast');
+let toastT;
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+let laterCount = 0;
+const laterMsgs = [
+  "Update postponed. Zotron Fleet command notified.",
+  "Warning: Orbital decay detected at 0.4%.",
+  "Warning: Decay now at 2.1%. Satellites drifting.",
+  "Decay at 6.8%. Planetary tides destabilizing.",
+  "Decay at 19.4%. Zotron Fleet rating: 'Critically Disappointed'.",
+  "Decay at 42.0%. Lunar alignment lost.",
+  "Decay at 78.5%. Final automated integration override in progress."
+];
+
+document.getElementById('btnLater').addEventListener('click', () => {
+  modal.classList.remove('show');
+  showToast(laterMsgs[Math.min(laterCount, laterMsgs.length - 1)]);
+  laterCount++;
+  if (laterCount >= 2) {
+    setTimeout(() => modal.classList.add('show'), 3000);
+  }
+});
+
+const installOv = document.getElementById('installOverlay');
+const ifill = document.getElementById('ifill');
+const ipct = document.getElementById('ipct');
+const ilog = document.getElementById('ilog');
+const decouple = document.getElementById('decouple');
+
+const installLogs = [
+  "Initializing VRAM sparse address space...",
+  "Mounting JTA1/VSF latent weight cells...",
+  "Executing vNPU integer GEMM verification pass...",
+  "Establishing $O(1)$ content-addressed P2P mesh links...",
+  "Finalizing UNSC-Zotron Fleet orbital synchronization..."
+];
+
+const WASM_PATH = 'assets/vgpu-fabric.wasm';
+let fabric = null;
+
+function setInstall(p, log) {
+  ifill.style.width = p + '%';
+  ipct.textContent = Math.floor(p) + '% COMPLETE';
+  if (log) ilog.textContent = log;
+}
+
+async function bootFabric() {
+  // Real boot: fetch + instantiate the zero-import vGPU fabric, then
+  // probe it. Every step is measured — success means the backbone
+  // actually answered, not a timer firing.
+  setInstall(8, 'Fetching fabric kernel (vgpu-fabric.wasm)...');
+  const resp = await fetch(WASM_PATH, { cache: 'no-store' });
+  if (!resp.ok) throw new Error('fetch ' + resp.status);
+  const bytes = await resp.arrayBuffer();
+  setInstall(30, 'Kernel received: ' + bytes.byteLength + ' bytes. Compiling WASM...');
+  const mod = await WebAssembly.compile(bytes);
+  setInstall(50, 'Instantiating execution substrate...');
+  const inst = await WebAssembly.instantiate(mod, {});
+  fabric = inst.exports;
+  setInstall(65, 'Probing fabric: vgpu_init()...');
+  const init = fabric.vgpu_init();
+  setInstall(80, 'Probing fabric: vgpu_caps()...');
+  const caps = fabric.vgpu_caps();
+  setInstall(92, 'Fabric answered: init=0x' + init.toString(16) +
+    ' caps=0x' + caps.toString(16) + ' — substrate online.');
+  return { init, caps };
+}
+
+document.getElementById('btnInstall').addEventListener('click', async () => {
+  modal.classList.remove('show');
+  installOv.classList.add('on');
+  setInstall(2, 'Initializing VRAM sparse address space...');
+  try {
+    await bootFabric();
+    setInstall(100, '100% COMPLETE');
+    setTimeout(() => {
+      installOv.classList.remove('on');
+      decouple.classList.add('on');
+      decoupled = true; shakeT = 0;
+    }, 900);
+  } catch (e) {
+    ilog.textContent = 'BACKBONE UNAVAILABLE: ' + (e && e.message ? e.message : e) +
+      ' — update cannot proceed without the fabric kernel.';
+    ipct.textContent = 'BOOT FAILED';
+    setTimeout(() => {
+      installOv.classList.remove('on');
+      modal.classList.add('show');
+      showToast('Update failed — backbone kernel unreachable. Try again.');
+    }, 2600);
+  }
+});
+
+document.getElementById('btnRestore').addEventListener('click', () => {
+  decouple.classList.remove('on');
+  decoupled = false;
+  laterCount = 0;
+  rotY = -1.4; rotX = -0.35; zoom = 1.0;
+  setTimeout(() => modal.classList.add('show'), 800);
+  showToast("Planetary state restored from VSF latent backup.");
+});
+
+/* Initialize Environment */
+window.addEventListener('resize', resize);
+resize();
+requestAnimationFrame(draw);
+setTimeout(() => modal.classList.add('show'), 600);
+</script>
+</body>
+</html>

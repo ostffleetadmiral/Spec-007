@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "science-lattice",
-  "lesson_count": 1502,
+  "lesson_count": 1511,
   "lessons": [
     {
       "access": "public",
@@ -1912,6 +1912,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-186394f529924c4e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "[host] [host] [host] [host]",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/zig/poly/qs_guest/obj/Release/net8.0/FanoQs.csproj.FileListAbsolute.txt",
+      "title": "FanoQs.csproj.FileListAbsolute",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-18929a7c29b07fa1",
       "language": [
         "en"
@@ -3616,6 +3631,21 @@
       "provenance": "first_party",
       "source": "repo:vphone-cli:research/kernel_patch_base_11_15_validation.md",
       "title": "#12 patchapfsgraft",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-2b264a56abf5aebd",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Backported into src/chiral.zig: IVEC, fanoCell(), e0Census(), tier(). All structure is comptime-generable — no lookup tables, closed form verified against the full spec.",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/ivector.md",
+      "title": "SPEC — i-Vector (e0–e7) & 15³ Fano Qubit Lattice",
       "topic": "science"
     },
     {
@@ -9682,6 +9712,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-6fcea94716aea237",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- 5 unit tests green (coverage, hash round-trip, shell determinism, codec, 60³ full pipeline) - T-RF live: 60³ → 4 slabs OTA on wlan0 → all 4 sha256-verified, volume closed (artifacts/retrocausal-lane/lattice-rf.json)",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/lattice-pipe.md",
+      "title": "Verified",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-6fdb059a0b200036",
       "language": [
         "en"
@@ -9976,6 +10021,21 @@
       "provenance": "first_party",
       "source": "repo:vphone-cli:research/kernel_patch_jb/patch_amfi_cdhash_in_trustcache.md",
       "title": "Evidence Appendix",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7290f445ce8fd324",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "src/latticepipe.zig — slice N³ volume into 15-thick Fano slabs, emit correlation frames (id, seed, govseq, sha256), reassemble verified.",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/lattice-pipe.md",
+      "title": "SPEC — latticepipe: volumetric transport over the Fano stack",
       "topic": "science"
     },
     {
@@ -10927,6 +10987,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-7e41a1686b0c3f35",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- O(1) applies to the commit layer (seed+hash+seq), payload is O(len) - Shells regenerate, not transport — that IS the dump-lossless trick - RF lane VERIFIED; audio via calibrated seed path (V-W-C)",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/lattice-pipe.md",
+      "title": "Honest bounds",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-7e5b2aa13421929d",
       "language": [
         "en"
@@ -11161,6 +11236,21 @@
       "provenance": "first_party",
       "source": "repo:vphone-cli:research/kernel_patch_jb/patch_vm_fault_enter_prepare.md",
       "title": "XNU source correspondence",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-80a583492e82a42b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "[host] [host] [host] [host]",
+      "provenance": "first_party",
+      "source": "repo:e-mc-2:polyglot-ref/zig/poly/dotnet_guest/obj/Release/net8.0/linux-x64/FanoPolyCs.csproj.FileListAbsolute.txt",
+      "title": "FanoPolyCs.csproj.FileListAbsolute",
       "topic": "science"
     },
     {
@@ -16582,6 +16672,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-bacb529aae0cdd22",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Ansible — volumetric slabs + sha256 commit over OTA - Perception Filter — e0-center inversion + shell-padded stream; chi²-uniform noise to non-holders, intact decode to the closed-form key - Pre-Cog Engine — expectSlabHash pre-renders the chain at t+Δt; frames are validation keys only (4/4 OTA-verified) - Subspace Power — governor thermal collapse = the radiator apparatus lane",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/lattice-pipe.md",
+      "title": "Tropes implemented (all RF-verified)",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-bb63ffc5e9989431",
       "language": [
         "en"
@@ -16621,6 +16726,21 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:archives/bidirectional-integration-fano1-20260911/README.md",
       "title": "What this framework verifies",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-bbe63720db6c85ab",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- 512³ (or any N³) → ⌈N/15⌉ slabs aligned to the 15-layer Fano stack - +1 boundary shell per slab via fanoCell closed form — GOV dumps it in transit; receiver REGENERATES it (never transmitted) - Frame = {slabid:u16, seed:u16, govseq:u32, hash:[32]u8} — 40B wire - boundaryShell(slab) = sha256(slabid + 15×15 Fano center cells)",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/lattice-pipe.md",
+      "title": "Mechanism",
       "topic": "science"
     },
     {
@@ -17641,6 +17761,21 @@
       "provenance": "first_party",
       "source": "repo:e-mc-2:archives/spec-007-research-20261004/README.md",
       "title": "Verification",
+      "topic": "science"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c8998bd88301517c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "fanoCell(layer, row, col) — layer L ∈ [1,15] mirrors to min(L, 16-L); row r ∈ [0,14] has center s = |(15−L) − r| mod 8; the row is the palindrome [s−1…s−7, s, s+1…s+7] mod 8 (6-arm structure, center = the row's i-label).",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/ivector.md",
+      "title": "The 15³ Fano cube — closed form",
       "topic": "science"
     },
     {

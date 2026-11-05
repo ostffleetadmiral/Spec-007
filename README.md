@@ -91,7 +91,7 @@ node security/comms-suite.mjs --docker        # same suite, real tc netem impair
 sh tools/publish-check.sh                     # the release gate — ALL of it
 ```
 
-The sister platform runs its own suite under `family/Rations/` (`zig build test` — 1,548 tests; `node tools/wasm_smoke.mjs` — 112-check WASM harness).
+The sister platform runs its own suite under `family/Rations/` (`zig build test` — 1,557 tests; `node tools/wasm_smoke.mjs` — 112-check WASM harness).
 
 *All ordnance checked out from Q Branch — the shadow engine keeps the books the integers can't see, to within half an ulp. Do try to return it in one piece.*
 

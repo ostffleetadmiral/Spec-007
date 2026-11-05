@@ -19,9 +19,9 @@
       "security/d12_wasm_adapter.zig": "32ad7b1099b391fe6f65ac4966dbc0f08a5fe746e04e19925e959ce53b4a710c",
       "security/d12-native-bridge.mjs": "4fdfffbfc15994220de7d8bcef80c1f4b37d94624e8968ef1329234bb9638897"
     },
-    "native_adapter_sha256": "b8e157a8eaff15eab6a8adc8317ca9534cee5c14a50efba35141061666ee54c1",
-    "wasm_adapter_sha256": "e34a8229022b328a27cd4db706311412a84363ff0f6fa88acdabc83259364b07",
-    "runtime_js_sha256": "34752a8cee0cf6446153c0997c7734b64fd2972791e8f618955f40e98456c5f7",
+    "native_adapter_sha256": "b4b5f11a744d58b0f7a5666be80b0a62550f708cfb0ec4d51a23454865235131",
+    "wasm_adapter_sha256": "8704a6ef7ffc76d564250ec300abbbf8348267e4c86bd3c4e13babca9d7976a5",
+    "runtime_js_sha256": "e49c20b2bec79e28a14a8e2994319f6f0c3888ff1badb81a8341d527ab1d5f68",
     "wasm_import_count": 0,
     "wasm_exports": [
       "d12_exec",

@@ -40,6 +40,7 @@ const OWNER_BY_PATH = new Map([
   ["site/assets/dht-manifest.json", { owner: "tools/dht-fs.mjs", basis: "DHT ledger projection" }],
   ["site/assets/external-review.json", { owner: "tools/external-review-manifest.mjs", basis: "external-authority package projection" }],
   ["site/assets/gov-metadata.json", { owner: "tools/gov-metadata.mjs", basis: "governance adoption projection" }],
+  ["site/assets/vgpu-fabric.wasm", { owner: "site/update.html", basis: "vGPU fabric kernel served for update-page real-boot probe" }],
 ]);
 const OWNER_FOR = rel => {
   if (OWNER_BY_PATH.has(rel)) return OWNER_BY_PATH.get(rel);

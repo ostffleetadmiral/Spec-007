@@ -1,9 +1,9 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 56137,
+  "lesson_count": 56160,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 55589,
+  "harvested_lessons": 55612,
   "courses": [
     {
       "id": "ai-literacy",
@@ -51,7 +51,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 1503,
+      "lesson_count": 1504,
       "topics": [
         "communications"
       ],
@@ -102,7 +102,7 @@
     },
     {
       "id": "hardware-fleet",
-      "lesson_count": 598,
+      "lesson_count": 599,
       "topics": [
         "hardware"
       ],
@@ -195,7 +195,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10820,
+      "lesson_count": 10832,
       "topics": [
         "reference"
       ],
@@ -215,7 +215,7 @@
     },
     {
       "id": "science-lattice",
-      "lesson_count": 1502,
+      "lesson_count": 1511,
       "topics": [
         "science"
       ],

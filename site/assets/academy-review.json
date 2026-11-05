@@ -2,7 +2,7 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55589,
+  "lessons_reviewed": 55612,
   "zh_lessons": 455,
   "defects": [],
   "courses": [
@@ -48,7 +48,7 @@
     },
     {
       "course": "communications",
-      "lessons": 1503,
+      "lessons": 1504,
       "zh_lessons": 21,
       "declassified_lessons": 0,
       "topics": 1,
@@ -61,7 +61,7 @@
         "adk:68"
       ],
       "top_topics": [
-        "communications:1503"
+        "communications:1504"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -88,7 +88,7 @@
     },
     {
       "course": "hardware-fleet",
-      "lessons": 598,
+      "lessons": 599,
       "zh_lessons": 1,
       "declassified_lessons": 0,
       "topics": 1,
@@ -101,7 +101,7 @@
         "e-mc-2:11"
       ],
       "top_topics": [
-        "hardware:598"
+        "hardware:599"
       ],
       "defects": 0,
       "verdict": "HELD"
@@ -188,40 +188,40 @@
     },
     {
       "course": "reference-stack",
-      "lessons": 10820,
+      "lessons": 10832,
       "zh_lessons": 190,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 935,
       "top_sources": [
         "three-ws:8768",
-        "e-mc-2:639",
+        "e-mc-2:640",
         "adk:429",
         "nullclaw:227",
-        "project-nomad:205"
+        "spec-007:211"
       ],
       "top_topics": [
-        "reference:10820"
+        "reference:10832"
       ],
       "defects": 0,
       "verdict": "HELD"
     },
     {
       "course": "science-lattice",
-      "lessons": 1502,
+      "lessons": 1511,
       "zh_lessons": 31,
       "declassified_lessons": 0,
       "topics": 1,
       "lede_collisions": 23,
       "top_sources": [
         "vphone-cli:822",
-        "e-mc-2:440",
+        "e-mc-2:442",
         "three-ws:134",
-        "spec-007:53",
+        "spec-007:60",
         "fano-1:48"
       ],
       "top_topics": [
-        "science:1502"
+        "science:1511"
       ],
       "defects": 0,
       "verdict": "HELD"

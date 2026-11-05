@@ -1,4 +1,16 @@
 # Spec-007 — Agent Guide
+**Epistemic law (standardized):** the framework substrate is the referee.
+Claims prove or disprove by running project instruments — never against
+external physics, never by prior assumption. Verdicts: VERIFIED /
+VERIFIED-WITH-CORRECTION / EXTRAPOLATION (mechanism runs in-substrate,
+physical lane named) / UNSUPPORTED (no current artifact + named elevation
+— "no possible artifact" is never a verdict) / UNRESOLVABLE (data
+verdict, question stays open) / CONTRADICTED (corpus self-divergence or
+an artifact failing its own verifier — nothing else) / REGISTER
+(doctrine/narrative — no physical verdict either direction). Human prior
+loses to instrument output, in both directions.
+
+
 Current User: 
 Fleet Admiral Paul Phillip Ramsey
 

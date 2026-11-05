@@ -1,13 +1,13 @@
 # Spec-007 component census
 
-- Components: 303
-- Source: 260
-- Generated: 43
-- Basename mapped: 292
-- Contract mapped: 303
+- Components: 306
+- Source: 261
+- Generated: 45
+- Basename mapped: 295
+- Contract mapped: 306
 - Manifest bound: 36
-- Owner bound: 33
+- Owner bound: 34
 - Unmapped contract: 0
-- Pending component review: 303
+- Pending component review: 306
 
 This census is an inventory; retrograde completion requires a component ledger row and passing verification.

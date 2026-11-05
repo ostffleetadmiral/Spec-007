@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56137,
+  "lesson_count": 56160,
   "lessons": [
     {
       "access": "public",
@@ -7680,7 +7680,7 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55589
+      "harvested": 55612
     },
     "topics": {
       "orientation": 5333,
@@ -7689,26 +7689,26 @@
       "systems": 2732,
       "ai-literacy": 6951,
       "security": 748,
-      "communications": 1507,
+      "communications": 1508,
       "campaign": 861,
-      "reference": 10820,
+      "reference": 10832,
       "uiux": 24317,
-      "science": 1502,
-      "hardware": 598,
+      "science": 1511,
+      "hardware": 599,
       "ministry": 69,
       "lore": 87
     },
     "languages": {
-      "en": 55682,
+      "en": 55705,
       "zh-Hant": 985
     },
     "access": {
-      "public": 56137
+      "public": 56160
     },
     "provenance": {
       "curated": 548,
       "upstream": 50865,
-      "first_party": 4724
+      "first_party": 4747
     }
   },
   "harvest_sources": [
@@ -7717,8 +7717,8 @@
       "class": "first_party",
       "mode": "local",
       "pin": null,
-      "docs": 276,
-      "lessons": 2033
+      "docs": 280,
+      "lessons": 2036
     },
     {
       "root": "space-agent",
@@ -7733,8 +7733,8 @@
       "class": "first_party",
       "mode": "local",
       "pin": null,
-      "docs": 55,
-      "lessons": 589
+      "docs": 60,
+      "lessons": 609
     },
     {
       "root": "nullclaw",
@@ -8529,7 +8529,7 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55589,
+  "harvested_count": 55612,
   "courses": [
     {
       "id": "ai-literacy",
@@ -8549,7 +8549,7 @@
     },
     {
       "id": "communications",
-      "lesson_count": 1503,
+      "lesson_count": 1504,
       "file": "assets/academy/communications.json",
       "topics": [
         "communications"
@@ -8565,7 +8565,7 @@
     },
     {
       "id": "hardware-fleet",
-      "lesson_count": 598,
+      "lesson_count": 599,
       "file": "assets/academy/hardware-fleet.json",
       "topics": [
         "hardware"
@@ -8605,7 +8605,7 @@
     },
     {
       "id": "reference-stack",
-      "lesson_count": 10820,
+      "lesson_count": 10832,
       "file": "assets/academy/reference-stack.json",
       "topics": [
         "reference"
@@ -8613,7 +8613,7 @@
     },
     {
       "id": "science-lattice",
-      "lesson_count": 1502,
+      "lesson_count": 1511,
       "file": "assets/academy/science-lattice.json",
       "topics": [
         "science"

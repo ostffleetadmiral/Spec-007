@@ -6,19 +6,19 @@
       "src": 49,
       "deps": 85,
       "security": 57,
-      "tools": 52,
+      "tools": 53,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 6,
-      "site/assets": 51
+      "site/assets": 53
     },
-    "total_components": 303,
-    "source_components": 260,
-    "generated_components": 43,
-    "mapped_basename": 292,
-    "mapped_contract": 303,
+    "total_components": 306,
+    "source_components": 261,
+    "generated_components": 45,
+    "mapped_basename": 295,
+    "mapped_contract": 306,
     "manifest_bound": 36,
-    "owner_bound": 33,
+    "owner_bound": 34,
     "unmapped_basename": [
       "site/assets/academy/ai-literacy.json",
       "site/assets/academy/campaign-operations.json",
@@ -4931,6 +4931,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/claims-map.json",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/cluster-registry.json",
       "contract": {
         "mapped": true,
@@ -5711,6 +5739,34 @@
         "likely_projection": true,
         "owner": null,
         "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/vgpu-fabric.wasm",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": true,
+        "owner": "site/update.html",
+        "owner_basis": "vGPU fabric kernel served for update-page real-boot probe",
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": "site/update.html"
+      },
+      "artifacts": {
+        "generated": true,
+        "likely_projection": true,
+        "owner": "site/update.html",
+        "owner_basis": "vGPU fabric kernel served for update-page real-boot probe"
       },
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
@@ -7488,6 +7544,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/claims-link.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
         "manifest_bound": false,
         "owner": null
       },

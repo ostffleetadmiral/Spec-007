@@ -140,7 +140,7 @@ Each harness binds one `deps/qstar-*` vendored tree onto dossier artifacts; boun
 | `quplink.js` / `quplink-viz.js` | Sandbox + viz deck running the real wasm. | — | +1 game: **Coast the Slab** — drive `slab_cool_step` down from burst equilibrium to ambient; the ledger runs backward; **Runtime Bridge** exercises FRB1 route/forge/replay boundaries live; **D12 WASM** runs the embedded experimental adapter on the upstream fixture or a selected module |
 | `fano-reset.js` | Admiralty reset doctrine — a desk whose founding pk matches the genesis "admiral" member is THE flag desk: cluster-origin resets are unilateral; any other origin burns only under a unanimous `FANO-RESET-v1` vote. Ordinary desks reset freely. | desk/sentinel probes | — |
 | `spec007.wasm` | The dossier's arithmetic live in-browser. | compile-abi probe | rebuilt with residue/air/cool exports |
-| `apps/{fano,rations}` + `site/assets/*.json` | Vendored runnable artifacts (the Fano quine dialect page + fano.wasm; the Rations quine app) and the emitted asset projections (academy, archive, capability, cluster, device, production, science-inventory, spec, zig-capability registries) — generated artifacts, never hand-edited. | BLACK-03 parity + wasm identity probes | — |
+| `apps/{fano,rations}` + `site/assets/*.json` + `site/assets/vgpu-fabric.wasm` | Vendored runnable artifacts (the Fano quine dialect page + fano.wasm; the Rations quine app) and the emitted asset projections (academy, archive, capability, cluster, device, production, science-inventory, spec, zig-capability registries) — generated artifacts, never hand-edited. | BLACK-03 parity + wasm identity probes | — |
 
 ## Tools (`tools/`)
 

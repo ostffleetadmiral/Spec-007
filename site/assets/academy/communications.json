@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "communications",
-  "lesson_count": 1503,
+  "lesson_count": 1504,
   "lessons": [
     {
       "access": "public",
@@ -10561,6 +10561,21 @@
       "provenance": "first_party",
       "source": "repo:vphone-cli:research/kernel_patch_jb/patch_syscallmask_apply_to_proc.md",
       "title": "Alternative narrower helper target",
+      "topic": "communications"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-78ff618924705a6a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "PULSE = {seq, t1, t2} — master broadcasts seq+transmit-ts; slave stamps arrival; two-way exchange yields offset+drift. Clock sync over wlan0 segment (PTP-class, software-level; hardware PTP = elevation).",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/distributed-phase-sync.md",
+      "title": "Design — PULSE frame sync protocol",
       "topic": "communications"
     },
     {

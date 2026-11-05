@@ -12,11 +12,11 @@
   },
   "provenance": {
     "release": "experimental-width-feasibility-2026-10-16",
-    "release_manifest_sha256": "27cccc9c2373c4fc259feb8b1b561d7c7cc403b4ba58c9f53935fe36eaffa515",
-    "live_release_files": 39,
-    "manifest_declared_files": 37,
-    "archive_files": 39,
-    "archive_sha256": "89b53dfec0caa84e9b4716ea7892570b08bb3877f0eb5f4a490d6440c03f5fb5",
+    "release_manifest_sha256": "5160352ad67dad39de9f3fe1f7220a3c4e9290541626bc0c06f726126cdd01ca",
+    "live_release_files": 343,
+    "manifest_declared_files": 341,
+    "archive_files": 343,
+    "archive_sha256": "2cfe851b464c11734517c4db97d6736ffd694c0a01c252d993a3f79432ba2ad6",
     "wide_fixture_sha256": "d207446ed7260de487dd442d8a2c7c3ff27052d8177925ffce51389acbf84dfa",
     "spec007_fano_wasm_sha256": "86e45cbf086a019fb01f3494bc5fdc4893e8c6f3d7727cd3f9254592f6945181"
   },
@@ -165,13 +165,14 @@
       },
       {
         "id": "zig-fmt-check",
-        "command": "zig fmt --check (28 Zig files)",
+        "command": "zig fmt --check (29 Zig files)",
         "status": "PASS"
       }
     ],
     "test_count": 39,
     "aggregate_scope": "the declared 39-test battery covers modules imported by src/all_tests.zig",
     "unaggregated_test_bearing_modules": [
+      "src/dbg_test.zig",
       "src/fixed_point.zig",
       "src/qmul.zig"
     ]

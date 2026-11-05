@@ -224,8 +224,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5308,
-          "sha256": "d02851acbdc064bc43b5ed08ad2db854821f9cf7922995a5cddd38ed481ad3e3"
+          "bytes": 5355,
+          "sha256": "2162095618009fcc428591e8e4ad6f38671a16d6a262c84384e367c80aa27f28"
         },
         {
           "path": "site/apps/rations/rations.wasm.sha256",
@@ -234,13 +234,13 @@
         },
         {
           "path": "docs/en/spec-007-component-map.en.md",
-          "bytes": 74535,
-          "sha256": "7bcce5a31b2f00d10c4ae9cfac09f9037d555ff1787d36b167df54e43b3ec3f6"
+          "bytes": 74568,
+          "sha256": "35e4ca898cc2e99f8a13b7b3ce012fb0b9e04456fb27732fde8508f4e9d0c5be"
         },
         {
           "path": "docs/zh-Hant/spec-007-component-map.zh-Hant.md",
-          "bytes": 65167,
-          "sha256": "804f4f9e766eba6f9f9adc7629dcb13e6763d15947ccf7f87460d6bb187d0ff1"
+          "bytes": 65200,
+          "sha256": "577b1e6ecfb43a4a000bdab3e4ac6c676bd93cfdfa3fc1a71493b4951449c4db"
         }
       ]
     },
@@ -318,8 +318,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5308,
-          "sha256": "d02851acbdc064bc43b5ed08ad2db854821f9cf7922995a5cddd38ed481ad3e3"
+          "bytes": 5355,
+          "sha256": "2162095618009fcc428591e8e4ad6f38671a16d6a262c84384e367c80aa27f28"
         },
         {
           "path": "site/apps/rations/js/dom-dialog.js",

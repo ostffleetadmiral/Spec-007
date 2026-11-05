@@ -130,7 +130,7 @@
 | `fano-comms.js` | comms.os:封緘/開啟、QR、Shamir、隱寫、WS 中繼。 | comms-suite | — |
 | `fano-reset.js` | 海軍部重置教義 — 創世 pk 與創世「admiral」成員相符之桌即旗桌:叢集來源之重置為單方;其他來源僅在全體 `FANO-RESET-v1` 一致投票下焚毀。普通桌可自由重置。 | 桌面/sentinel 探針 | — |
 | `spec007.wasm` | 檔案算術於瀏覽器即時運行。 | ABI 探針 | 以 residue/air/cool 匯出重建 |
-| `apps/{fano,rations}` + `site/assets/*.json` | 供應可執行工件(Fano quine 方言頁 + fano.wasm;Rations quine 應用)與已發射資產投影(academy、archive、capability、cluster、device、production、science-inventory、spec、zig-capability 註冊表)— 生成工件,絕不手改。 | BLACK-03 同位 + wasm 身份探針 | — |
+| `apps/{fano,rations}` + `site/assets/*.json` + `site/assets/vgpu-fabric.wasm` | 供應可執行工件(Fano quine 方言頁 + fano.wasm;Rations quine 應用)與已發射資產投影(academy、archive、capability、cluster、device、production、science-inventory、spec、zig-capability 註冊表)— 生成工件,絕不手改。 | BLACK-03 同位 + wasm 身份探針 | — |
 
 ## 工具(`tools/`)
 

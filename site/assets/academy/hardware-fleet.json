@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "hardware-fleet",
-  "lesson_count": 598,
+  "lesson_count": 599,
   "lessons": [
     {
       "access": "public",
@@ -7951,6 +7951,21 @@
       "provenance": "upstream",
       "source": "repo:ukama:systems/services/initClient/README.md",
       "title": "Registration with init",
+      "topic": "hardware"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-e00dbfc241ed2a02",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Instrument: aplay/arecord on card-1 analog (SN6140), 1 kHz stereo drive. - in-phase pair: +6.4 dB vs single channel (theory +6.02 dB) - anti-phase: −4.0 dB uncalibrated / −6.98 dB amplitude-matched (EQ-calibrated via hw-map per-channel arrival ratio 1.433) Swing = 13.4 dB phase-dependent with calibration — destructive interference executes on real hardware and deepens under per-channel EQ matching",
+      "provenance": "first_party",
+      "source": "repo:spec-007:docs/specs/thermal-routing.md",
+      "title": "T1 — phase-conjugate acoustic cancellation (VERIFIED, live hardware)",
       "topic": "hardware"
     },
     {
