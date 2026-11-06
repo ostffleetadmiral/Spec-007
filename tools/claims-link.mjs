@@ -9,14 +9,35 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
-const T = {
-  jizo:   process.env.HOME + '/Music/BLUE/externals/Jizo',
-  blue:   process.env.HOME + '/Music/BLUE',
-  vgpu:   process.env.HOME + '/vGPU',
-  desk:   ROOT,
-  corpus: '/run/media/admpaul/Spec-007',
-  rations:'/home/admpaul/CascadeProjects/Rations',
-};
+// Tree paths come from the family roster (BLUE.code-workspace-derived)
+// with a hardcoded fallback so the gate never hangs on a missing file.
+function loadRoster() {
+  try {
+    const r = JSON.parse(readFileSync(process.env.HOME + '/Music/BLUE/artifacts/family-roster.json', 'utf8'));
+    const by = Object.fromEntries(r.members.map(m => [m.id, m]));
+    const pick = (id, fallback) => (by[id] && by[id].state !== 'missing') ? by[id].path : fallback;
+    return {
+      jizo:   pick('blue', process.env.HOME + '/Music/BLUE') + '/externals/Jizo',
+      blue:   pick('blue', process.env.HOME + '/Music/BLUE'),
+      vgpu:   pick('vgpu', process.env.HOME + '/vGPU'),
+      desk:   ROOT,
+      corpus: pick('spec-007', '/run/media/admpaul/Spec-007'), // dormant USB — flagged, never trusted blindly
+      rations:pick('rations', '/home/admpaul/CascadeProjects/Rations'),
+      _extra: r.members.filter(m => !['zig-k3-port','blue','vgpu','experiments-spec-007','spec-007','rations'].includes(m.id)).map(m => m.id),
+    };
+  } catch {
+    return {
+      jizo:   process.env.HOME + '/Music/BLUE/externals/Jizo',
+      blue:   process.env.HOME + '/Music/BLUE',
+      vgpu:   process.env.HOME + '/vGPU',
+      desk:   ROOT,
+      corpus: '/run/media/admpaul/Spec-007',
+      rations:'/home/admpaul/CascadeProjects/Rations',
+      _extra: [],
+    };
+  }
+}
+const T = loadRoster();
 const sha = s => createHash('sha256').update(s).digest('hex');
 
 const nodes = [], edges = [], skipped = [];
