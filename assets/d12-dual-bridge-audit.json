@@ -1,0 +1,212 @@
+{
+  "schema": "SPEC007-D12-DUAL-BRIDGE-AUDIT-v1",
+  "boundary": {
+    "sdk_root": "../D12/d12-wasmrt-sdk",
+    "integration": "upstream sibling linked at build time; source is not vendored into Spec-007",
+    "native_track": "security/d12_native_adapter.zig behind security/d12-native-bridge.mjs process IPC",
+    "wasm_track": "security/d12_wasm_adapter.zig compiled wasm32-freestanding and embedded by site/assets/d12-wasm-runtime.js",
+    "execution_scope": "experimental d12.profile/d12.code workloads only",
+    "standard_wasm128_wasm256_claim": false,
+    "full_browser_sdk_runtime": false,
+    "fano_wire_scope": "FRB1 remains an envelope/ownership lane; these vectors exercise D12 execution directly"
+  },
+  "provenance": {
+    "release": "experimental-width-feasibility-2026-10-16",
+    "wide_fixture_sha256": "d207446ed7260de487dd442d8a2c7c3ff27052d8177925ffce51389acbf84dfa",
+    "adapter_source_sha256": {
+      "security/d12_dual_core.zig": "c6974fb2b717e096134bc8503567ce04fcc3e4d04990014914b4161480ec6e93",
+      "security/d12_native_adapter.zig": "186a12549bf4ce46003a62520d6fbdd8c9ecbaa584f115690fc9125b99c1c385",
+      "security/d12_wasm_adapter.zig": "32ad7b1099b391fe6f65ac4966dbc0f08a5fe746e04e19925e959ce53b4a710c",
+      "security/d12-native-bridge.mjs": "4fdfffbfc15994220de7d8bcef80c1f4b37d94624e8968ef1329234bb9638897"
+    },
+    "native_adapter_sha256": "b4b5f11a744d58b0f7a5666be80b0a62550f708cfb0ec4d51a23454865235131",
+    "wasm_adapter_sha256": "8704a6ef7ffc76d564250ec300abbbf8348267e4c86bd3c4e13babca9d7976a5",
+    "runtime_js_sha256": "e49c20b2bec79e28a14a8e2994319f6f0c3888ff1badb81a8341d527ab1d5f68",
+    "wasm_import_count": 0,
+    "wasm_exports": [
+      "d12_exec",
+      "d12_input_capacity",
+      "d12_input_ptr",
+      "d12_report_len",
+      "d12_report_ptr",
+      "memory"
+    ],
+    "input_window_bytes": 1048576,
+    "report_bytes": 704
+  },
+  "verification": {
+    "checks": [
+      {
+        "id": "sdk-root",
+        "status": "PASS"
+      },
+      {
+        "id": "adapter-sources",
+        "status": "PASS"
+      },
+      {
+        "id": "wide-fixture-hash",
+        "status": "PASS"
+      },
+      {
+        "id": "command:zig-fmt",
+        "status": "PASS"
+      },
+      {
+        "id": "command:dual-core-test",
+        "status": "PASS"
+      },
+      {
+        "id": "command:native-build",
+        "status": "PASS"
+      },
+      {
+        "id": "command:wasm-build",
+        "status": "PASS"
+      },
+      {
+        "id": "native-artifact",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-artifact",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-binary-header",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-zero-imports",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-export-surface",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-input-window",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-report-window",
+        "status": "PASS"
+      },
+      {
+        "id": "runtime-source-boundary",
+        "status": "PASS"
+      },
+      {
+        "id": "command:runtime-js-syntax",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-parity:golden-128",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-status:golden-128",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-parity:fuel-bound",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-status:fuel-bound",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-parity:bad-profile",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-status:bad-profile",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-parity:mutated-module",
+        "status": "PASS"
+      },
+      {
+        "id": "lane-status:mutated-module",
+        "status": "PASS"
+      },
+      {
+        "id": "command:native-sidecar-cli",
+        "status": "PASS"
+      }
+    ],
+    "commands": [
+      {
+        "id": "zig-fmt",
+        "command": "zig fmt --check (3 adapter files)",
+        "status": "PASS"
+      },
+      {
+        "id": "dual-core-test",
+        "command": "zig test security/d12_dual_core.zig (module d12)",
+        "status": "PASS"
+      },
+      {
+        "id": "native-build",
+        "command": "zig build-exe d12_native_adapter.zig (native)",
+        "status": "PASS"
+      },
+      {
+        "id": "wasm-build",
+        "command": "zig build-exe d12_wasm_adapter.zig (wasm32-freestanding)",
+        "status": "PASS"
+      },
+      {
+        "id": "runtime-js-syntax",
+        "command": "node --check generated d12-wasm-runtime.js",
+        "status": "PASS"
+      },
+      {
+        "id": "native-sidecar-cli",
+        "command": "node security/d12-native-bridge.mjs --module <wide_sample> --profile 128 --fuel 1024",
+        "status": "PASS"
+      }
+    ],
+    "lane_vectors": [
+      {
+        "id": "golden-128",
+        "profile": 128,
+        "fuel": 1024,
+        "status": 0,
+        "native_report_sha256": "12a49464fae298fc369256cbbbb62e19714b87b45705096d9b5acdd31a8bc857",
+        "wasm_report_sha256": "12a49464fae298fc369256cbbbb62e19714b87b45705096d9b5acdd31a8bc857",
+        "byte_exact": true
+      },
+      {
+        "id": "fuel-bound",
+        "profile": 128,
+        "fuel": 1,
+        "status": 5,
+        "native_report_sha256": "7264c3eb4b684c46b0bbd1ca4f8d7044ffe9e8135b237a8543641f847e6b7572",
+        "wasm_report_sha256": "7264c3eb4b684c46b0bbd1ca4f8d7044ffe9e8135b237a8543641f847e6b7572",
+        "byte_exact": true
+      },
+      {
+        "id": "bad-profile",
+        "profile": 64,
+        "fuel": 1024,
+        "status": 3,
+        "native_report_sha256": "ab66ca55a98d8c6f76f08a2913c9b5cf270295002eb314a408f8afac0ed04883",
+        "wasm_report_sha256": "ab66ca55a98d8c6f76f08a2913c9b5cf270295002eb314a408f8afac0ed04883",
+        "byte_exact": true
+      },
+      {
+        "id": "mutated-module",
+        "profile": 128,
+        "fuel": 1024,
+        "status": 4,
+        "native_report_sha256": "e0b1c4bf2beb2060a5541ced6dc3a83a53141e524ca8adb9ad4768a1447f47f1",
+        "wasm_report_sha256": "e0b1c4bf2beb2060a5541ced6dc3a83a53141e524ca8adb9ad4768a1447f47f1",
+        "byte_exact": true
+      }
+    ],
+    "runtime_artifact": "site/assets/d12-wasm-runtime.js"
+  }
+}

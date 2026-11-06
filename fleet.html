@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLEET // sovereign mesh — trust chain + artifacts</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<style>
+  .fleet-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+  .card{border:1px solid #2a3a48;border-radius:8px;padding:1rem;background:#0d141b}
+  .ok{color:#5fd68a}.bad{color:#ff6b6b}.dim{color:#6b8699}.warn{color:#e8c15a}
+  code.k{color:#7fd4ff}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  td,th{padding:.3rem .5rem;border-bottom:1px solid #1d2c38;text-align:left}
+  a.dl{display:inline-block;margin:.2rem .5rem .2rem 0;padding:.35rem .7rem;
+       border:1px solid #2a3a48;border-radius:6px;color:#7fd4ff;text-decoration:none}
+  a.dl:hover{background:#152330}
+</style>
+</head>
+<body>
+<div class="dossier">
+<h1>SOVEREIGN MESH — fleet trust chain</h1>
+<p class="dim">Genesis root: <code class="k">digit</code> + <code class="k">sheraton</code> (2-of-2 ed25519).
+The bulletin board is untrusted transport — the signatures are the trust.
+This page verifies the chain in-browser; it shows the last published
+manifest state, <em>not</em> live telemetry.</p>
+
+<div class="fleet-grid">
+  <div class="card"><h3>Genesis root</h3><div id="genesis">fetching…</div></div>
+  <div class="card"><h3>Fleet manifest</h3><div id="manifest">fetching…</div></div>
+</div>
+
+<div class="card"><h3>Fleet members (from verified manifest)</h3>
+<div id="members">—</div></div>
+
+<div class="card"><h3>Downloads <span class="dim">— hashes pinned inside the signed manifest</span></h3>
+<p class="dim">The quine runs standalone — it verifies its own dialect
+against the firmware golden vectors. Each artifact's sha256 is carried
+in the signed manifest payload and checked live below: a board-served
+tamper shows <span class="bad">✗</span>, not a silent install.</p>
+<div id="downloads">checking artifact integrity…</div>
+<a class="dl" href="apps/fano/fano.wasm" download>fano.wasm — dialect quine</a>
+<a class="dl" href="apps/fano/index.html">run quine in-browser</a>
+<a class="dl" href="downloads/fano_beacon.py" download>fano_beacon.py</a>
+<a class="dl" href="downloads/fano_relay_link.py" download>fano_relay_link.py</a>
+<a class="dl" href="downloads/fano_dialect.py" download>fano_dialect.py</a>
+<a class="dl" href="downloads/fleet_bootstrap.py" download>fleet_bootstrap.py</a>
+</div>
+
+<p class="dim">Offline verification: <code>python3 fleet_bootstrap.py</code>
+fetches this same board and pins the genesis root (TOFU).</p>
+</div>
+
+<script type="module">
+const canon = o => JSON.stringify(o, null, 2);
+const b64d = s => Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")),
+  c => c.charCodeAt(0));
+const b64pem = b64 => atob(b64);
+const sha256hex = async buf => [...new Uint8Array(
+  await crypto.subtle.digest("SHA-256", buf))]
+  .map(b => b.toString(16).padStart(2,"0")).join("");
+const edOk = crypto.subtle && (() => { try {
+  crypto.subtle.importKey; return true; } catch { return false; } })();
+
+async function verifySig(pemB64, payloadObj, sigB64url) {
+  const pem = b64pem(pemB64);
+  const der = b64d(pem.replace(/-----[^-]+-----|\s/g, ""));
+  const key = await crypto.subtle.importKey("spki", der.buffer,
+    { name: "Ed25519" }, false, ["verify"]);
+  return crypto.subtle.verify("Ed25519", key,
+    b64d(sigB64url), new TextEncoder().encode(canon(payloadObj)));
+}
+const line = (ok, t) =>
+  `<div class="${ok===true?'ok':ok===false?'bad':'warn'}">${ok===true?'✓':ok===false?'✗':'?'} ${t}</div>`;
+
+try {
+  const [gen, man] = await Promise.all([
+    fetch("fleet-genesis.json").then(r => r.json()),
+    fetch("fleet-manifest.json").then(r => r.json()),
+  ]);
+
+  // genesis self-verification
+  const members = Object.fromEntries(
+    gen.payload.members.map(m => [m.name, m]));
+  let sigLines = "", allOk = true;
+  for (const [name, sig] of Object.entries(gen.sigs)) {
+    let ok = null;
+    if (members[name]) {
+      try { ok = await verifySig(members[name].pubkey_pem_b64, gen.payload, sig); }
+      catch { ok = "unsupported"; }
+    } else ok = false;
+    if (ok !== true) allOk = false;
+    sigLines += line(ok, `signature <code class="k">${name}</code>` +
+      (ok==="unsupported" ? " — browser lacks Ed25519 WebCrypto" : ""));
+  }
+  const ghash = await sha256hex(new TextEncoder().encode(canon(gen.payload)));
+  document.getElementById("genesis").innerHTML = sigLines +
+    line(true, `quorum ${gen.payload.quorum} · fleet ${gen.payload.fleet}`) +
+    line(true, `genesis sha256 <code class="k">${ghash.slice(0,16)}…</code>`) +
+    line(true, `dialect <code class="k">${gen.payload.dialect_sha256.slice(0,12)}…</code> · ` +
+      `baseline <code class="k">${gen.payload.baseline_sha256.slice(0,12)}…</code>`);
+
+  // manifest lineage + signer
+  const linOk = man.payload.genesis_sha256 === ghash;
+  const signer = gen.payload.members.find(m =>
+    m.pubkey_hint === man.pubkey_hint)?.name;
+  let manSigOk = null;
+  if (signer) {
+    try { manSigOk = await verifySig(members[signer].pubkey_pem_b64,
+      man.payload, man.sig_ed25519); }
+    catch { manSigOk = "unsupported"; }
+  }
+  document.getElementById("manifest").innerHTML =
+    line(!!signer, `signer resolves to genesis member: ` +
+      `<code class="k">${signer || "none"}</code>`) +
+    line(manSigOk, `manifest signature` +
+      (manSigOk==="unsupported" ? " — browser lacks Ed25519" : "")) +
+    line(linOk, `descends from pinned genesis ` +
+      `<code class="k">${String(man.payload.genesis_sha256).slice(0,16)}…</code>`) +
+    line(true, `issued ${man.payload.ts}`);
+
+  // artifact integrity: sha256 each download, compare to the signed
+  // manifest's pinned hashes (manifest must verify first)
+  const arts = man.payload.artifacts || {};
+  let dlHtml = "";
+  for (const [rel, pinned] of Object.entries(arts)) {
+    let ok = null;
+    try {
+      const buf = await fetch(rel).then(r => r.arrayBuffer());
+      ok = ("sha256:" + await sha256hex(buf)) === pinned;
+    } catch { ok = false; }
+    dlHtml += line(ok, `<code class="k">${rel}</code> ` +
+      `<span class="dim">${pinned.slice(7,23)}…</span>` +
+      (manSigOk !== true ? " (manifest unverified — hash informational)" : ""));
+  }
+  document.getElementById("downloads").innerHTML =
+    dlHtml || `<span class="warn">no artifact pins in manifest</span>`;
+
+  // member table — manifest members is a keyed object, heterogeneous fields
+  const rows = Object.entries(man.payload.members || {}).map(([name, m]) => {
+    const eps = [m.gateway_udp6, m.relay_ws, m.addr,
+      ...(m.v6_global || [])].filter(Boolean).join("<br>");
+    const note = [m.role, m.lastSeen ? "seen " + m.lastSeen : "", m.note]
+      .filter(Boolean).join(" · ");
+    return `<tr><td><code class="k">${name}</code></td>` +
+      `<td class="dim">${note||"—"}</td><td class="dim">${eps||"—"}</td></tr>`;
+  }).join("");
+  document.getElementById("members").innerHTML = rows
+    ? `<table><tr><th>member</th><th>role / notes</th><th>last-published bindings</th></tr>${rows}</table>`
+    : `<span class="warn">no member list in manifest</span>`;
+} catch (e) {
+  document.getElementById("genesis").innerHTML =
+    `<span class="bad">fetch failed: ${e.message}</span>`;
+}
+</script>
+</body>
+</html>

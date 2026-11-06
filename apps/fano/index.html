@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fano Quine — self-verifying dialect artifact</title>
+<style>
+  body{background:#0a0f14;color:#cfe3f4;font:14px/1.6 ui-monospace,monospace;
+       margin:0;padding:2rem;max-width:56rem}
+  h1{font-size:1.3rem;color:#7fd4ff;letter-spacing:.05em}
+  .ok{color:#5fd68a}.bad{color:#ff6b6b}.dim{color:#6b8699}
+  #out{white-space:pre-wrap;background:#0d141b;border:1px solid #1d2c38;
+       border-radius:8px;padding:1rem;min-height:12rem}
+  a{color:#7fd4ff}
+  .meta{margin:.5rem 0 1.5rem;color:#8ba9bd;font-size:.85rem}
+</style>
+</head>
+<body>
+<h1>FANO QUINE — self-verifying dialect artifact</h1>
+<div class="meta">136-B sealed wire dialect · FNV-256 · octonion route signature · Q128.128 integer-only engine<br>
+The artifact below verifies <em>itself</em> against the firmware's own golden vectors — the contract is real only if all twins agree bit-exact.</div>
+<div id="out">loading fano.wasm…</div>
+<p class="dim">dialect twins: C (firmware) · JS · Python · Zig→WASM (this) —
+<a href="../../fleet-genesis.json">fleet genesis</a> ·
+<a href="../../fleet-manifest.json">fleet manifest</a></p>
+<script type="module">
+const out = document.getElementById("out");
+const log = (ok, name, extra="") =>
+  out.innerHTML += `\n<span class="${ok?'ok':'bad'}">${ok?'PASS':'FAIL'}</span>  ${name} <span class="dim">${extra}</span>`;
+const fails = [];
+const ok = (n,c,e) => { log(c,n,e); if(!c) fails.push(n); };
+
+// golden vectors — machine-extracted from firmware fano_vectors.h PACKET_VECS
+const VECS = [
+ "b66ddbb66ddbb66ddbb66ddbb66ddbb600000000000000000080000a00011800"+
+ "0d0e0e0700000006676f6c64656e000000000000000000000000000000000000"+
+ "0000000000000000000000000000000000000000000000000000000000000000"+
+ "0000000000000000a4649b12e03ffd2ea096201660fbd5280c44d799fb143b0a"+
+ "9fe3549a9caa2975",
+ "ffffffffffffffffffffffffffffffff00000000000000000000800000000000"+
+ "0e0e0e0100000010636f726e65722d746f2d636f726e65720000000000000000"+
+ "0000000000000000000000000000000000000000000000000000000000000000"+
+ "0000000000000000898d1118492535ef2457478731b0e91e1c1a7059ac05352e"+
+ "99841ffb8445f419",
+ "0000000000000000000000000000000000000000000000000000043880033800"+
+ "0707070000000000000000000000000000000000000000000000000000000000"+
+ "0000000000000000000000000000000000000000000000000000000000000000"+
+ "0000000000000000b064aed5cda83e14d7939401ee8a9e2b155ff08dc1294afc"+
+ "f07091cdd5fed08e",
+];
+const hex2u8 = h => Uint8Array.from(h.match(/../g).map(b=>parseInt(b,16)));
+
+try {
+  const { instance } = await WebAssembly.instantiateStreaming(
+    fetch("fano.wasm"), { env: {} });
+  const X = instance.exports;
+  const H = new Uint8Array(X.memory.buffer);
+  out.textContent = `fano.wasm instantiated — ${X.memory.buffer.byteLength/65536} pages`;
+
+  // golden vectors: every firmware wire must verify under this twin
+  for (let i = 0; i < VECS.length; i++) {
+    const w = hex2u8(VECS[i]); H.set(w, 0);
+    ok(`golden vec ${i+1}/3 verifies`, X.fano_packet_verify(0) === 1);
+  }
+
+  // dialect probes: basis/phase/octonion
+  ok("basis(7,7,7)=e0 center", X.fano_basis_at(7,7,7) === 0);
+  ok("e1·e2=e3 octonion",    X.fano_unit_mul(1,2) === 27);
+
+  // build → verify → tamper → reject
+  const pl = new TextEncoder().encode("quine-self-check");
+  H.set(pl, 1024);
+  const n = X.fano_packet_build(1,2,3, 13,14,14, 0x5157, 1024, pl.length, 0);
+  ok("packet_build → 136 B", n === 136);
+  ok("fresh wire verifies",  X.fano_packet_verify(0) === 1);
+  H[45] ^= 0xFF;  // forge covered payload byte
+  ok("forged byte rejected", X.fano_packet_verify(0) === 0);
+  H[45] ^= 0xFF;
+
+  out.innerHTML += fails.length
+    ? `\n\n<span class="bad">QUINE: ${fails.length} FAILURE(S)</span>`
+    : `\n\n<span class="ok">QUINE: artifact self-verified — the contract holds in-browser</span>`;
+} catch(e) {
+  out.innerHTML += `\n<span class="bad">load error: ${e.message}</span>`;
+}
+</script>
+</body>
+</html>

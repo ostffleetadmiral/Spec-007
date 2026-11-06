@@ -1,0 +1,106 @@
+{
+  "schema": "ADMIRALTY-DESK-AUDIT-v1",
+  "component": "admiralty-desk/",
+  "generated": "2026-10-17T12:44:30.008Z",
+  "contract": {
+    "electron": "44.7.0",
+    "origin": "http://127.0.0.1:8901",
+    "clipboard_text_cap_bytes": 1048576,
+    "ipc_channels": [
+      "desk:clip-read",
+      "desk:clip-write",
+      "desk:fullscreen",
+      "desk:minimize",
+      "desk:quit"
+    ],
+    "frame_policy": "self + governed loopback organs only; IPC top-frame only",
+    "security_boundary": "Electron workstation shell — no remote execution or full-Node renderer claim"
+  },
+  "source_sha256": {
+    "admiralty-desk/desk.sh": "d5e5402bff714959b3bba304d81ebbcfe7eef4a7ab3982c952c83c10c565295c",
+    "admiralty-desk/main.js": "ec4a58fbdb55067f98fa578bce6cdf928b8a41891d359060576447239add7b40",
+    "admiralty-desk/preload.js": "c23c70e00e1e0a39ab53e45805cd520b093c3431a396526f396dda959f8265ea",
+    "admiralty-desk/boundary.js": "937069459c8f8de78997c134b1caaa7bf1fed0525d65d771fcb72d056e594652",
+    "admiralty-desk/package.json": "55c57045696de268d11abe377ab55e17a48668ab6de316771a46409c462581ff",
+    "admiralty-desk/package-lock.json": "a04c4c319f86dcbaa8f4b753753c5fd45f2425917773aab01f58c04bd1c0409a",
+    "tools/admiralty-desk-audit.mjs": "d01070b62f32133a4b540c479e5934c08da8498473dc86f2d04c0a0c2dcf9880"
+  },
+  "checks": [
+    {
+      "id": "ADESK-00 component-surface",
+      "ok": true,
+      "detail": "launcher, main process, preload, shared boundary, manifest, lockfile, and Electron binary are present; launcher is executable"
+    },
+    {
+      "id": "ADESK-01 launcher-environment",
+      "ok": true,
+      "detail": "POSIX launcher enters its own directory and execs Electron with ELECTRON_RUN_AS_NODE stripped"
+    },
+    {
+      "id": "ADESK-02 electron-runtime-floor",
+      "ok": true,
+      "detail": "44.7.0 binary launches cleanly; poisoned NODE mode reports v24.21.0 and cannot masquerade as Electron"
+    },
+    {
+      "id": "ADESK-03 package-and-lock",
+      "ok": true,
+      "detail": "package manifest, npm lockfile, registry integrity, and installed Electron all pin 44.7.0"
+    },
+    {
+      "id": "ADESK-04 module-boundary",
+      "ok": true,
+      "detail": "all three desk modules parse; the shared boundary is CommonJS, preload stays Electron-only, and main never opens external URLs"
+    },
+    {
+      "id": "ADESK-05 serve-header-parity",
+      "ok": true,
+      "detail": "embedded desk headers are byte-identical to the serve.py security posture, including governed loopback frame sources"
+    },
+    {
+      "id": "ADESK-06 static-server-boundary",
+      "ok": true,
+      "detail": "GET/HEAD only, decoded URL normalization, traversal refusal, no directory listing, and no-store live artifacts"
+    },
+    {
+      "id": "ADESK-07 browserwindow-hardening",
+      "ok": true,
+      "detail": "renderer is sandboxed, context-isolated, Node-free, and bound to the persistent admiralty partition"
+    },
+    {
+      "id": "ADESK-08 navigation-and-window-policy",
+      "ok": true,
+      "detail": "new windows deny, top-frame navigation remains desk-origin, and sensitive permissions stay scoped to the desk URL"
+    },
+    {
+      "id": "ADESK-09 ipc-channel-contract",
+      "ok": true,
+      "detail": "preload exposes exactly five one-method IPC calls, and every main handler validates the trusted sender frame"
+    },
+    {
+      "id": "ADESK-10 trusted-frame-gate",
+      "ok": true,
+      "detail": "IPC accepts only the desk top frame; subframes, loopback organs, remote origins, malformed senders, and origin-suffix tricks refuse"
+    },
+    {
+      "id": "ADESK-11 clipboard-boundary",
+      "ok": true,
+      "detail": "clipboard writes require real strings and are bounded to 1 MiB; object coercion cannot smuggle payloads"
+    },
+    {
+      "id": "ADESK-12 governed-frame-policy",
+      "ok": true,
+      "detail": "same-origin desk documents and governed loopback organs can frame; HTTPS masquerade, non-loopback localhost labels, file:, and data: refuse"
+    },
+    {
+      "id": "ADESK-13 mime-coverage",
+      "ok": true,
+      "detail": "every published extension maps to an explicit MIME type or bounded octet-stream class"
+    },
+    {
+      "id": "ADESK-14 renderer-privilege-floor",
+      "ok": true,
+      "detail": "desk shell carries no native dialogs, process spawning, eval, Function construction, or string timers"
+    }
+  ],
+  "verdict": "GREEN"
+}

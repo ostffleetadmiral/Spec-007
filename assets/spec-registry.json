@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "specs": [
+    {"id": 0, "name": "SPEC-000", "status": "active", "version": 1, "normative": true },
+    {"id": 1, "name": "SPEC-001", "status": "active", "version": 1, "normative": true },
+    {"id": 101, "name": "SPEC-001-A", "status": "active", "version": 1, "normative": true },
+    {"id": 2, "name": "SPEC-002", "status": "active", "version": 1, "normative": true },
+    {"id": 102, "name": "SPEC-002-A", "status": "active", "version": 1, "normative": true },
+    {"id": 3, "name": "SPEC-003", "status": "active", "version": 1, "normative": true },
+    {"id": 4, "name": "SPEC-004", "status": "active", "version": 1, "normative": true },
+    {"id": 5, "name": "SPEC-005", "status": "active", "version": 1, "normative": true },
+    {"id": 6, "name": "SPEC-006", "status": "active", "version": 1, "normative": true },
+    {"id": 900, "name": "SPECGovernanceRulebook", "status": "active", "version": 1, "normative": true }
+  ],
+  "spec_count": 10,
+  "audit_sequence": 20
+}

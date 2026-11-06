@@ -1,0 +1,77 @@
+{
+  "schema": "FILM-MANIFEST-v1",
+  "note": "Generative film — procedural choreography on the integer engine (fano.wasm anim_tick, i256 Q128.128), deterministic raster, ffmpeg h264 encode, DHT-ingested. Procedural generation — honestly labeled, not diffusion synthesis.",
+  "pipeline": [
+    "slate",
+    "wasm-choreography",
+    "deterministic-raster",
+    "ffmpeg-encode",
+    "dht-ingest"
+  ],
+  "films": [
+    {
+      "slug": "genesis-lattice",
+      "title": "GENESIS LATTICE",
+      "kind": "procedural-generative",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": 24,
+      "frames": 144,
+      "seconds": 6,
+      "bytes": 735608,
+      "sha256": "d280eca7832405c3f1a52e4f65f01aaee8d1c12b789ee08506c76e8591264621",
+      "provenance": "fano.wasm anim_tick (i256 Q128.128) + deterministic raster + ffmpeg h264",
+      "boundary": "procedural generation — not diffusion synthesis",
+      "dht_cid": "d33609498213e37af7eea578a12477af8b2bab41afe4ee08cca300faedf70930"
+    },
+    {
+      "slug": "wow-signal-echo",
+      "title": "WOW SIGNAL ECHO",
+      "kind": "procedural-generative",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": 24,
+      "frames": 144,
+      "seconds": 6,
+      "bytes": 739189,
+      "sha256": "8e85374b9983b7ce14503fb87adfc3c04be696cb173f38d84e7e0861e0b6920b",
+      "provenance": "fano.wasm anim_tick (i256 Q128.128) + deterministic raster + ffmpeg h264",
+      "boundary": "procedural generation — not diffusion synthesis",
+      "dht_cid": "f3ca5390c6ea762cb9766946614f0787b26b4673752bc51311f3aead6ad75f93"
+    },
+    {
+      "slug": "corps-heartbeat",
+      "title": "CORPS HEARTBEAT",
+      "kind": "procedural-generative",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": 24,
+      "frames": 144,
+      "seconds": 6,
+      "bytes": 737143,
+      "sha256": "22aad6912ed6f91e6957717ffa1ad8cbf3782110151e416865edf10015ba0b82",
+      "provenance": "fano.wasm anim_tick (i256 Q128.128) + deterministic raster + ffmpeg h264",
+      "boundary": "procedural generation — not diffusion synthesis",
+      "dht_cid": "b0953fb6610f0d36e1146508476808bf82c1721568f523ade7106bf777f45cf9"
+    },
+    {
+      "slug": "the-meter-falls",
+      "title": "THE METER FALLS",
+      "kind": "procedural-generative",
+      "codec": "h264",
+      "width": 640,
+      "height": 360,
+      "fps": 24,
+      "frames": 144,
+      "seconds": 6,
+      "bytes": 733933,
+      "sha256": "47366c742dbe627b572052ac360c4eff2efaadd3d7780ae06c12dc830789681d",
+      "provenance": "fano.wasm anim_tick (i256 Q128.128) + deterministic raster + ffmpeg h264",
+      "boundary": "procedural generation — not diffusion synthesis",
+      "dht_cid": "4d5c1b8c8dd7d6c15242c8cd58745f4f8bfd80adb9e746f1ef12c3dde1373d23"
+    }
+  ]
+}

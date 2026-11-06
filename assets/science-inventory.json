@@ -1,0 +1,5994 @@
+{
+ "schema": 1,
+ "term_count": 654,
+ "terms": [
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "0-dimensional features (\u03b2_0)",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "1-dimensional features (\u03b2_1)",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "1. **chiral information theory (cit) framework**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "1. natural language understanding",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "1. not gate (single-bit reversible)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "1. trapped ions (yao et al., zhang et al. 2017)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "128-bit address structure",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "1985 technology context",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "2-dimensional features (\u03b2_2)",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "2. **fleet structure & command hierarchy**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "2. controlled-not (cnot)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "2. long-term memory",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "2. nv centers in diamond (lukin et al., 2017)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "2016-2017 breakthroughs",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "3. **technical standards (spec documents)**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "3. real-time adaptation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "3. ultracold atoms (bloch group, 2021)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "4. **timeline consistency**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "4. fredkin gate (cswap - controlled-swap)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "4. psychological modeling",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "5. **scientific references**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "5. peres gate",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "5. procedural generation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "6. **ai character consistency**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "7. **document version control**",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "8. **duplicate content**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "9-agent swarm design",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "9. **unverified claims tracking**",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "a. directory structure",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "a. immediate actions (priority 1)",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "a. strong continuity (95-100% consistency)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "a. the unifying framework",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "a. verified claims \u2705",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "adaptive difficulty as geodesic flow",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "address as geometric object",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "address reversibility",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "address-to-embedding pipeline",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "adiabatic cmos",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "adiabatic computing",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "adiabatic hardware (near-term)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "adjacency list",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "adjacency matrix a",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/admiralty_council.md",
+   "spec007_sections": [
+    "designation"
+   ],
+   "term": "admiralty council",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "affine connection",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "after the formic wars",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "agent architectures",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "agent communication languages",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "alcubierre drive physics",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "algebraic address structures",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "algebraic number theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "algorithm overview",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "algorithmic approaches",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "ansible addressing across star systems",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "ansible and alcubierre drive physics",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "applications",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "applications in modern ai",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "applications in quantum computing",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "host_configurations"
+   ],
+   "term": "approximate conservation laws",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "approximate nearest neighbor (ann) search",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "army organization",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "army structure",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "astronomical scales",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "host_configurations"
+   ],
+   "term": "at room temperature (300 k)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "attention mechanism",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "b. document statistics",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "b. good continuity (85-94% consistency)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "b. information flow verification",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "b. medium-term actions (priority 2)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "b. research recommended \ud83d\udd0d",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "bandwidth reduction",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "bandwidth savings:**",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "bandwidth vs. latency trade-offs",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "barcode",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "barcodes for knowledge evolution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "battle room architecture and zero-g training",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "battle room network",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "battle room topology",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "battle school and the mind game's temporal structure",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "battle school computing",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "battle school fleet command",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "battle school network design",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "battle school secure communications",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "battle school training philosophy",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "battle school's computing resources",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "bell's inequality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "bell's theorem",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "bell's theorem and experimental verification",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "bell's theorem and non-locality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "bennett's reversible tm",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "bennett's reversible turing machine",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "bert",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "bert architecture",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "betti numbers in persistent homology",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "betweenness centrality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "beyondcorp (google)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "billiard ball computer (fredkin & toffoli, 1982)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/bio_regeneration.md",
+   "spec007_sections": [],
+   "term": "bio regeneration",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "biological inspiration",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "biological organization",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "biological proportions",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "blake3",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "boltzmann",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "boltzmann constant",
+   "unbuilt": false,
+   "verdict": "sheraton_modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "botanical structures",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "breaking pattern",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "bronze ratio",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/builderberg_systems.md",
+   "spec007_sections": [],
+   "term": "builderberg systems",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "byzantine fault tolerance",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "byzantine fault tolerance (bft)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "byzantine-robust aggregation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "c. areas needing attention (75-84% consistency)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "c. governance model consistency",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "c. long-term actions (priority 3)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "caching strategies",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "canonical coordinates",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "cap theorem (brewer, 2000)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "cap/pacelc theorems",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "cdn architecture",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "centrality measures and node importance",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "cheeger inequality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "chiral conjugation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "chiral consensus mechanism",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "chiral decomposition",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "chiral domain separation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "chiral domain separation via graph partitioning",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "chiral flip as time reversal",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "chiral flip operation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "chiral information implications",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "chiral instruction set",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "chiral time-crystal phase",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "chiral topological phases",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "chirality and time arrow",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "chirality in quantum mechanics",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "christoffel symbols",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "cit as model",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "cit perspective",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/civilian_integration.md",
+   "spec007_sections": [],
+   "term": "civilian integration",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "classical implementation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "clifford algebras",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "clifford algebras and chiral mathematics",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "closed-form (binet's formula)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "closeness centrality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "host_configurations"
+   ],
+   "term": "cmb temperature",
+   "unbuilt": false,
+   "verdict": "sheraton_modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "colbert",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "colbert (khattab & zaharia, 2020)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "collection design",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "collective intelligence",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/colonization_operations.md",
+   "spec007_sections": [],
+   "term": "colonization operations",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "command & control",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "communication",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "communication protocol",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "community detection in chiral corpus",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "community structure",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "comparison to artificial neural networks",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "comparison to physical dtc",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "comparison: i.f. hierarchy vs aiwo corps",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "comparison: traditional vs shadow protocol",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "completely positive trace-preserving (cptp) maps",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "complex (trouillon et al., 2016)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "compression ratio",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "computation without dissipation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "concurrence (for two qubits)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "congestion control algorithms",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "connection establishment (3-way handshake)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "connection to chiral information theory",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "connection to cit metric",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "connection to information theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "connection to multi-agent consensus",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "connection to physical reversible computing",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "connection to ramsey theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "connection to vector databases",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "connection to \u210d_\u03c6",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "consensus protocols",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "conservation as algebraic constraint",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "conservation law derivation",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "conserved quantities",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "conserved quantities in time-crystal",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "consistently marked as unverified",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "construction",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "construction (1973)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "content delivery networks (cdn)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "content-addressable storage",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "continued fraction structure",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "continued fractions",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "continuity score: 98/100",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "convergents",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "core insight",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "core principles",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "corpus synchronization",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "cptp maps",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "cross-document references",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "cross-references",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "cryptographic hashing",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "curse of dimensionality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/concepts/cybernetics.md",
+   "spec007_sections": [],
+   "term": "cybernetics",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "cypher query language",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/defense_operations.md",
+   "spec007_sections": [],
+   "term": "defense operations",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "definition and history",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "degree centrality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "density matrices",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "density matrix formalism",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "design principles",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "detection algorithms",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "dimensionality reduction",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "discrete time crystals",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "discrete time crystals: theoretical framework",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "distance calculation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "distance metrics",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "distributed ai and federated learning",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "distributed system consensus: formal models",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "dna encoding",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "dna/molecular computing",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "dragon army formations",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "dual-domain structure",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "duplicate detection",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "effective hamiltonian",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "efficiency analysis",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "eigenvector centrality",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "embedding extraction",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "embedding function",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "embedding manifold hypothesis",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "embedding models and their properties",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "end-to-end flow",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "ender's game parallel",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "ender's game: adaptive ai psychological assessment",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "ender's game: adaptive content retrieval",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "ender's game: international fleet hierarchy",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "ender's game: interstellar communication",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "ender's game: philotic parallax instantaneous communicator",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "ender's game: the ansible revisited",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "ender's game: zero-gravity training environment",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "ender's jeesh",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "ender's parallel",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "ender's tactical innovation",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "host_configurations"
+   ],
+   "term": "energy requirements",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "entanglement entropy",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "entanglement measures",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "entropy and information",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/environmental_control.md",
+   "spec007_sections": [],
+   "term": "environmental control",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "epr paradox",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "epr reality criterion",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "execution cycle",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "experimental realizations",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "facility requirements",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "fault-tolerant gate sets",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "fedavg algorithm",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "federated learning",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "federated learning (mcmahan et al. 2017)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "fibonacci sequence",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "fictional technology",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "filter functions",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "filtration",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "fipa acl",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "fipa standards",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "fisher information metric",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/fleet_admirals_roll_call.md",
+   "spec007_sections": [],
+   "term": "fleet admirals roll call",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/fleet_operations.md",
+   "spec007_sections": [],
+   "term": "fleet operations",
+   "unbuilt": false,
+   "verdict": "speculative_mapped"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "floquet hamiltonian",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "floquet prethermalization",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "floquet theorem",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "floquet theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "floquet theory and periodic driving",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "fluctuation theorems",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/food_production.md",
+   "spec007_sections": [],
+   "term": "food production",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "formal definition",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "formic collective intelligence",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "formic consciousness",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "formic hive coordination",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "formic hive mind as neural network",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "fractals",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "functional mapping to i.f. structure",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "fundamental graph theory: mathematical structure",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "fundamental reversible gates",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "game theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "game theory and mechanism design",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "gcns",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "general formula",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "geodesic equation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "geodesic execution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "geodesic execution as graph traversal",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "geometric interpretation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "gibbs' paradox",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "glove",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "glove (pennington et al., 2014)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "god innovation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "golden ratio",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "graph classification",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "graph convolution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "graph convolutional networks (gcn)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "graph database architecture (neo4j)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "graph laplacian",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "graph neural networks",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "graph neural networks for semantic reasoning",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "graph representations",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "graph traversal as geodesic",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "ground state oscillation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "handshake comparison",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "hierarchical command structure",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "hierarchical communication",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "high bits (quantized semantic)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "historical context",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "hive mind distributed processing",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "hnsw",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "hnsw (hierarchical navigable small world)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "hybrid scoring",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "icmpv6 (protocol 58)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "implementation notes",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "implementation pathways",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "implementation stack",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "implied network architecture",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "incidence matrix b",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "information as fundamental",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "information as geometry",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "information conservation in cit",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "information geometry",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "information implications",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "information-theoretic significance",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "international fleet command structure (hegemon/strategos/polemarch)",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "international fleet network",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "involution property",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "ipv4 address exhaustion",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "ipv6 architecture",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "ipv6 protocol number (next header)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "irrationality and transcendence",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "issues identified",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "key mechanisms:",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "key operations:",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "knowledge graph embeddings",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "knowledge graphs and semantic networks",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "l-bits (localized bits)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "landauer's principle",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "landauer's principle: the thermodynamics of information",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [
+    "manufacturing"
+   ],
+   "term": "latency budget",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "layer 1: link layer",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "layer 2: internet layer",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "layer 3: transport layer",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "layer 4: application layer",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "levi-civita connection",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "levi-civita connection and parallel transport",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/life_support_systems.md",
+   "spec007_sections": [],
+   "term": "life support systems",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "liouville's theorem",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/logistics_supply.md",
+   "spec007_sections": [],
+   "term": "logistics supply",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "low bits (4d coordinates)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "magnus expansion",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "manifold distance metric",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "manifold reconstruction",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "manifold theory in mathematics",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "many-body localization",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "many-body localization (mbl) and time crystals",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "mapper algorithm",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "mapper algorithm: topological data analysis",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "mathematical definition",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "matrix formulation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "maxwell's demon resolution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "mbl characteristics",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "mechanism design",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/medical_ai.md",
+   "spec007_sections": [],
+   "term": "medical ai",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "merkle trees",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "message passing architecture",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "metallic means",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "metallic means family",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "metric asymmetry",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "metric tensor structure",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "midi protocol",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "mind game's knowledge retrieval and adaptation",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "minimal polynomial",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "minor issues",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "minor variations",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "modern implementations",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "modern parallels",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "modern verification",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "multi-agent system architecture",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "multi-head attention",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/multiversal_monitoring.md",
+   "spec007_sections": [],
+   "term": "multiversal monitoring",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "nanomechanical systems",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "narrative device",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "nash equilibrium",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "negativity",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "neo4j graph databases",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "neo4j schema for chiral information",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "network growth model",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "network science: complex networks",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "network topology for aiwo corps",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "no-communication theorem",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "no-communication theorem proof",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "node classification",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "noether's theorem connection",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "non-equilibrium dynamics",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "non-local correlations",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "normal form games",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "normalized laplacian",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "occurrences in nature",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "optimal packing",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "optimality arguments",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "order parameter",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "overall continuity score: 94/100",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "owl (web ontology language)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "pacelc theorem (abadi, 2010)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "pagerank",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "pagerank (google)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "parallel transport",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "paxos (lamport, 1989)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "paxos/raft/pbft consensus",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "payload indexing",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "pbft (practical byzantine fault tolerance)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "performance characteristics",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "periodic structure",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "persistence algorithm",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "persistence diagram",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "persistent homology",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "persistent homology application",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "persistent homology: algorithmic approach",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "phase structure and phase transitions",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "phase variables in driven systems",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "philosophical implications",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "philotic connections",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "philotic physics",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "philotic physics (fictional)",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "philotic time",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "physical implementations of reversible computing",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "physical interpretation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "planck",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "planck constant",
+   "unbuilt": false,
+   "verdict": "sheraton_modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "polyglot address as semantic pointer",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "postulates of quantum mechanics",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "practical bft",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "practical implementation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "precision metrology",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "prethermalization",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "prethermalization and floquet prethermalization",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "problem complexity",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "processing characteristics",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "product quantization",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "product quantization (pq)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "proof sketch",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "properties of good embeddings",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "protocol phases",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "psychological assessment",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/psychological_support.md",
+   "spec007_sections": [],
+   "term": "psychological support",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "psychological training implications",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "pub/sub architecture",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "pure vs mixed states",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "python implementation (sklearn style)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "qdrant implementation details",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "qdrant schema for chiral addresses",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "qdrant vector search",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "qkd",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/quantum_ai_systems.md",
+   "spec007_sections": [],
+   "term": "quantum ai systems",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/concepts/quantum_anomaly_detection.md",
+   "spec007_sections": [],
+   "term": "quantum anomaly detection",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/quantum_blockchain.md",
+   "spec007_sections": [],
+   "term": "quantum blockchain",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "quantum channels and cptp maps",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "quantum chiral symmetry",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/concepts/quantum_communications.md",
+   "spec007_sections": [],
+   "term": "quantum communications",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/concepts/quantum_computing.md",
+   "spec007_sections": [],
+   "term": "quantum computing",
+   "unbuilt": false,
+   "verdict": "sheraton_modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/concepts/quantum_entanglement.md",
+   "spec007_sections": [],
+   "term": "quantum entanglement",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "quantum error correction",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "quantum error correction and reversibility",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "quantum implementation (future)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "quantum information applications",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "quantum inspiration",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "quantum key distribution (qkd)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "quantum mechanics prediction",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "quantum phase transitions",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/concepts/quantum_power_systems.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "host_configurations"
+   ],
+   "term": "quantum power systems",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/quantum_propulsion.md",
+   "spec007_sections": [],
+   "term": "quantum propulsion",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "quantum reversible computing: unitary evolution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "safety_protocol_jail"
+   ],
+   "term": "quantum simulation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "quantum teleportation",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "quantum unitary evolution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/quantum_weaponry.md",
+   "spec007_sections": [],
+   "term": "quantum weaponry",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "quantum-classical bridge",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "query processing pipeline",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "query with chiral filtering",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [
+    "mechanical_interface",
+    "host_configurations"
+   ],
+   "term": "quic (quick udp internet connections)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [
+    "mechanical_interface",
+    "host_configurations"
+   ],
+   "term": "quic and http/3: modern transport",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [
+    "mechanical_interface",
+    "host_configurations"
+   ],
+   "term": "quic/http3",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "raft (ongaro & ousterhout, 2014)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "raft/pbft consensus",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "rag patterns",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "rag systems",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "ramsey identity and reversibility",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "ramsey numbers",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "ramsey theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "ramsey theory and combinatorial order",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "ramsey's theorem",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "rdf (resource description framework)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "real-time adaptation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "real-world ai parallels",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "real-world parallels",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "reciprocal rank fusion (rrf)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "recognition vs transmission",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "recommendation systems",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "reconstruction algorithm",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "redis as zero-latency bus",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "redis cluster for scale",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "redis pub/sub",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "reduced density matrix",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "redundancies found",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "relation to cit",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "relationship types",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "relativistic time dilation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "relativistic time dilation in the series",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "requirements for real implementation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "requirements for reversibility",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "resource allocation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "retrieval-augmented generation (rag)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "reversibility verification",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "reversible computing angle",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "reversible logic gates: universal sets",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "riemannian geometry",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "riemannian geometry framework",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "ring of integers",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "rotate (sun et al., 2019)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "russian doll structure",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "scale challenges (if real)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "scale-free networks",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "scale-free networks (barab\u00e1si-albert, 1999)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "scientific accuracy",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "scientific accuracy note",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "scientific speculation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/concepts/security_clearance_system.md",
+   "spec007_sections": [
+    "designation"
+   ],
+   "term": "security clearance system",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "security considerations in the novel",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "security design",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "self-attention mechanism",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "self-similarity and fractals",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "self-similarity in nature",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "semantic curvature",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "semantic search architecture",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "semantic search with manifold distance",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "semantic trajectory",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "semantic web",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "semantic web standards",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "semantic-geometric encoding",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "sentence-bert",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "sentence-bert (reimers & gurevych, 2019)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/sentinel_operations.md",
+   "spec007_sections": [],
+   "term": "sentinel operations",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "sequential event loop (resource-constrained)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "shadow encoding",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "shadow protocol on manifolds",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "shadow protocol with semantic hash",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "shadow transmission",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "shadow voting protocol",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "shortest path on manifold",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "signatures of dtc",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "significance",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "silver ratio (\u03b4_s)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "simplicial complex",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "small-world networks",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "small-world networks (watts-strogatz, 1998)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [
+    "thermal_stack",
+    "safety_protocol_jail"
+   ],
+   "term": "software simulation (current)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "solovay-kitaev theorem",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "sparql",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "speaker for the dead",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/special_projects_classified_ops.md",
+   "spec007_sections": [],
+   "term": "special projects classified ops",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "spectral clustering",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "spectral graph theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "spectral properties",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "speculative physics",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "speech act theory",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "chiralmath_technical_documentation.md",
+   "spec007_sections": [],
+   "term": "speed of light",
+   "unbuilt": false,
+   "verdict": "sheraton_modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "splade",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "splade (formal et al., 2021)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "stabilizer codes",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "statement (landauer, 1961)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "strategic graph analysis",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/strategic_intelligence.md",
+   "spec007_sections": [],
+   "term": "strategic intelligence",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/CONTINUITY_ANALYSIS_REPORT.md",
+   "spec007_sections": [],
+   "term": "strengths",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "superconducting logic",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "surface code",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "swarm intelligence",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "symplectic geometry",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "symplectic geometry and phase space",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "symplectic manifolds",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "tcp (transmission control protocol)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "tcp congestion control",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "tcp/ip protocol stack: deep analysis",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "technical limitations",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "technical limitations vs mind game",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "temporal evolution",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "temporal phase and cyclic time in physics",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "temporal phase evolution",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "temporal resolution",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/concepts/terraforming_systems.md",
+   "spec007_sections": [],
+   "term": "terraforming systems",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "the ansible concept (ftl communication)",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "the ansible network",
+   "unbuilt": false,
+   "verdict": "speculative_mapped"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "the arrow of time",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "the battle room technical specs (inferred)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "the chiral vm as reversible computer",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "the decoding problem",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "the ender's game universe",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "the epr paradox and completeness",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "the formic hive structure",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "the giant's drink scenario",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "the giant's drink scenario analysis",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "the hive mind as neural network",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "the hive mind's processing architecture",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "the hive mind's temporal perception",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "the mind game adaptive ai",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "the mind game's ai architecture",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "the problem",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "the queen's perspective",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "the ramsey-chirality connection",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "the russian doll structure",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "the shadow protocol",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "the shadow protocol: mathematical foundation",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/chiral_symmetry_physics.md",
+   "spec007_sections": [],
+   "term": "the \u210d_\u03c6 clifford structure",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "theoretical possibilities (speculative)",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "thermalization hierarchy",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "thermalization problem",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "thermodynamic efficiency",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "thermodynamic reversibility",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "three-stage process",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "time as cyclic",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "speculative",
+   "label": "FICTION DRAWER",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "time dilation in ender's game universe",
+   "unbuilt": false,
+   "verdict": "speculative"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "time-crystal analogy",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "time-crystal execution",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "time-crystal phase diagram",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "time-crystal properties of chiral vm",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "time-crystal qubits",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "time-crystal reversibility",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "time-crystal theory: foundations",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "toffoli/fredkin/peres gates",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "topological features of knowledge graphs",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "trade-offs",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "traditional communication",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [
+    "q_branch_academy"
+   ],
+   "term": "training methodology",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "transe (bordes et al., 2013)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "transformer architecture",
+   "unbuilt": false,
+   "verdict": "mappable_verified"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "transformer architecture and attention",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "tsirelson's bound",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [
+    "designation",
+    "mechanical_interface"
+   ],
+   "term": "two-stage address construction",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "udp (user datagram protocol)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "unique properties",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "unitary operators",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/reversible_computing_conservation.md",
+   "spec007_sections": [],
+   "term": "universal quantum gate set",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "uuid v4/v5/v7",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/information_manifolds_knowledge_graphs.md",
+   "spec007_sections": [],
+   "term": "vector embeddings (qdrant)",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "vector embeddings: mathematical foundations",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "vector space analogy",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/multi_agent_consensus.md",
+   "spec007_sections": [],
+   "term": "vickrey-clarke-groves (vcg) mechanism",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "vm state evolution",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/quantum_entanglement_nonlocality.md",
+   "spec007_sections": [],
+   "term": "von neumann entropy",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/concepts/water_recycling.md",
+   "spec007_sections": [],
+   "term": "water recycling",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "why \u03c6?",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "word2vec",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "word2vec (mikolov et al., 2013)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "zero-gravity network challenges",
+   "unbuilt": true,
+   "verdict": "gap"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/vector_databases_semantic_search.md",
+   "spec007_sections": [],
+   "term": "zero-latency via embedding pre-computation",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "zero-trust security",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/network_protocols_distributed_systems.md",
+   "spec007_sections": [],
+   "term": "zero-trust security architecture",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/time_crystals_temporal_physics.md",
+   "spec007_sections": [],
+   "term": "\u03c4(t) formula with \u03c6-scaling",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "VERIFIED IN HOUSE",
+   "source": "corpus/INDEX.md",
+   "spec007_sections": [],
+   "term": "\u03c6 (golden ratio)",
+   "unbuilt": false,
+   "verdict": "modeled"
+  },
+  {
+   "grade": "scientific",
+   "label": "PATTERN ONLY",
+   "source": "corpus/graph_theory_topological_analysis.md",
+   "spec007_sections": [],
+   "term": "\u03c6-scaled edge weights",
+   "unbuilt": false,
+   "verdict": "mappable"
+  },
+  {
+   "grade": "scientific",
+   "label": "UNBUILT",
+   "source": "corpus/golden_ratio_mathematics.md",
+   "spec007_sections": [],
+   "term": "\u03c6-scaling in battle room architecture",
+   "unbuilt": true,
+   "verdict": "gap"
+  }
+ ],
+ "title": "Q Branch \u2014 science inventory",
+ "verdict_counts": {
+  "gap": 195,
+  "mappable": 41,
+  "mappable_verified": 17,
+  "modeled": 335,
+  "sheraton_modeled": 5,
+  "speculative": 59,
+  "speculative_mapped": 2
+ }
+}

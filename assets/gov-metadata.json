@@ -1,0 +1,433 @@
+{
+  "kind": "GOVMETADATAv1-PUBLIC",
+  "registry_sha256": "0f4907d0e57fd3991c7413555314c6e92af350a4ef08c911eadb7451f4d98d4a",
+  "instrument_count": 25,
+  "sealed_sources": 17,
+  "living_specs": 8,
+  "authority_model": {
+    "governing_authority": "Fleet Admiral (founding phase)",
+    "ai_authority": "advisory-only-no-approval-authority",
+    "signature_state": "unsigned-until-human-signature-filed",
+    "external_review": "pending-independent-review"
+  },
+  "instruments": [
+    {
+      "id": "SPEC-000",
+      "document_class": "canonical-spec",
+      "title": "Equity, Accessibility, and Democratization",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "a9c02fe4e62896c448f3376a7a7e3d1fac888274e1262955f8cd77e9de10fb3e",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "legal/entity/equity structure requires qualified legal review before public reliance"
+      ]
+    },
+    {
+      "id": "SPEC-001",
+      "document_class": "canonical-spec",
+      "title": "Ethical AI Governance and Rights",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "8e5efc27c04fbeff1a1caf43e5ad0face4bda4515fb93764860d9fac1b76a51d",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "HRIS scoring method and revocable-consent/archive interaction require amendment or explicit reconciliation"
+      ]
+    },
+    {
+      "id": "SPEC-001-A",
+      "document_class": "canonical-spec",
+      "title": "Classical AI Reasoning Architecture",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "9b26af839fc63fece06d31eb5d183cf3a00d61cd784fd43e4c21bdf65cec73f5",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": []
+    },
+    {
+      "id": "SPEC-002",
+      "document_class": "canonical-spec",
+      "title": "Technical Standards and Interoperability",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "97122c39f23643bd3b223e54a7cc9e8b6c03c3d4065224c609c25b2049f0f553",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "AI-authored code requires named human author/reviewer/approver records in the engineering registry"
+      ]
+    },
+    {
+      "id": "SPEC-002-A",
+      "document_class": "canonical-spec",
+      "title": "Quantum Plugin for AI Reasoning Architecture",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "48ae05bd2412e40211803f97e36f3dea20c182c68be672b6aafddc391e73d99d",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": []
+    },
+    {
+      "id": "SPEC-003",
+      "document_class": "canonical-spec",
+      "title": "Code Space and Polyglot Addressing",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "de75030f9ff7d580791ce95645d0503d43ec366a690e17f183631c457b043f33",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": []
+    },
+    {
+      "id": "SPEC-004",
+      "document_class": "canonical-spec",
+      "title": "Security Clearance and Classification System",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "94e7b4582e0b7837c49e9e33df1998a937d54a6bf1e8cecf3f3f8905fda6a759",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "clearance ladder labels and default AI level require reconciliation by amendment"
+      ]
+    },
+    {
+      "id": "SPEC-005",
+      "document_class": "canonical-spec",
+      "title": "Address-as-Ethics Convergence",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "bb58fce32f5c88a59b7c910422ac9447f6484b71e7c4b7955f041acbc836f813",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "self-evaluation language requires independent-review constraint by amendment"
+      ]
+    },
+    {
+      "id": "SPEC-006",
+      "document_class": "canonical-spec",
+      "title": "Topological Lattice and Observer Substrate",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "3f9713ab87c6d95f62ef84c8132a11313119faf934b0a9287eb630ad653e08df",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "independent review is required by text but not yet supplied",
+        "OctetTruss versus 15^3 Fano lattice relationship requires amendment"
+      ]
+    },
+    {
+      "id": "SPEC-007",
+      "document_class": "living-spec",
+      "title": "Modular Chemical Thermal-Electric Cartridge Standard",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "b83cd97d1a757812f32c4251cfd0acfe9339398a4a065a4421ed97675579b5ef",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "baseline content is historical and evidence-bound; no bench validation exists"
+      ]
+    },
+    {
+      "id": "SPEC-008",
+      "document_class": "living-spec",
+      "title": "Sealed Wire Dialect and Communications Canon",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "80c9f075a30fa0f04913f8424e62727b05301c61fbff6494626ec0f0f7e46465",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "FNV-1a seal suitability and unauthenticated tail require qualified cryptographic review"
+      ]
+    },
+    {
+      "id": "SPEC-009",
+      "document_class": "living-spec",
+      "title": "FANO-1 Workstation and Desk Environment",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "c4b6ab62240fa8a70519f4c090ac9e31d78747dc7b00aaa0b56cd74e1229dcfc",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": []
+    },
+    {
+      "id": "SPEC-010",
+      "document_class": "living-spec",
+      "title": "Evidence and Verification Governance",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "6a825a294393aab1f6f1a7a5c79267926d0b07378c103295bd6a1532611c0679",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "independent/external verification remains distinct from internal self-verification"
+      ]
+    },
+    {
+      "id": "SPEC-011",
+      "document_class": "living-spec",
+      "title": "Academy Corpus and Curriculum Governance",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "b9a24a80a9440a130513a84448543fe5573709b66dec9df9b2979983debdc590",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "declared-source license metadata remains a required follow-up"
+      ]
+    },
+    {
+      "id": "SPEC-012",
+      "document_class": "living-spec",
+      "title": "Continuity, Archives, and Persistence",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "1abaccc98a70cd1b0bfaadf9a041bffda6222e423372d36d56db9a1343669642",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "never-delete discipline requires reconciliation with revocable personal-data consent"
+      ]
+    },
+    {
+      "id": "SPEC-013",
+      "document_class": "living-spec",
+      "title": "AIWO Corps and Agent Governance",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "452c7e970706f462eb3a4367b9057e7f7f72224d1d069dbeddd39594be663b5e",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "AI systems assist and register artifacts but hold zero approval authority"
+      ]
+    },
+    {
+      "id": "SPEC-014",
+      "document_class": "living-spec",
+      "title": "Reality Conformance and Non-Toy Standard",
+      "status": "Active (Founding Phase)",
+      "version": "1.1.0",
+      "date_adopted": "2026-10-10",
+      "digest": "de164b67b3f766b2ffbefea30b2e0c8e856f06ff36b1afb16bae20c95c660b2d",
+      "digest_kind": "body_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "independent audit remains pending; internal audit is not external validation"
+      ]
+    },
+    {
+      "id": "SPECGovernanceRulebook",
+      "document_class": "canonical-spec",
+      "title": "SPEC Governance Rulebook",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "c1de040c1c8ec22a5abc31fc1d15a28a21a36a102e3d3760848ccbf52db0d4fe",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); Admiralty ratification pending",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "evidence-class requirement for SPEC claims remains a recommended amendment"
+      ]
+    },
+    {
+      "id": "OSTF-INTERIM-CHARTER",
+      "document_class": "constitutional",
+      "title": "Interim Founding Governance Charter",
+      "status": "Active (Founding Phase)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "a48a86b8c500473f7a3322a3b9908840a67e01e174bebee84431d049d8f19ef5",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive)",
+      "admiralty_ratification": "not-applicable-founding-charter",
+      "signature_status": "unsigned",
+      "external_review": "pending-independent-review",
+      "known_findings": [
+        "charter lacks an embedded date/signature; this registry supplies the pinned adoption record"
+      ]
+    },
+    {
+      "id": "OSTF-CONSTITUTION",
+      "document_class": "constitutional",
+      "title": "Constitution of the Open Sentience Technology Foundation",
+      "status": "Draft (Pending Ratification)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "67846e6e89c99d554f887b1a129fa22545c6efc3bb20a3e47296ca6dbbe8ed35",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); constitutional ratification pending",
+      "admiralty_ratification": "not-applicable-constitution-pending-ratification",
+      "signature_status": "unsigned",
+      "external_review": "pending-qualified-legal-review",
+      "known_findings": [
+        "constitutional ratification retires the interim charter and must be recorded before Admiralty authority is treated as constituted"
+      ]
+    },
+    {
+      "id": "ADMIRALTY-BYLAWS",
+      "document_class": "admiralty-instrument",
+      "title": "Admiralty Bylaws",
+      "status": "Provisional (Pending Admiralty Formation)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "df056351c2d0926d79f9ccf311840ddab02997ae4a20d1ed6ec2d28dfbfaa207",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); provisional authority only",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-qualified-legal-review",
+      "known_findings": [
+        "bylaws depend on an Admiralty body not yet formally constituted"
+      ]
+    },
+    {
+      "id": "ADMIRALTY-RULES",
+      "document_class": "admiralty-instrument",
+      "title": "Admiralty Rules of Procedure Manual",
+      "status": "Provisional (Pending Admiralty Formation)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "39eef1aaf2c956ec488c0544d1784020c434377c4af0b119e10ab327f855fb19",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); provisional authority only",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-qualified-legal-review",
+      "known_findings": [
+        "procedure becomes operative only after the Admiralty is formally constituted"
+      ]
+    },
+    {
+      "id": "ADMIRALTY-DELEGATION",
+      "document_class": "admiralty-instrument",
+      "title": "Admiralty Delegation of Authority Policy",
+      "status": "Provisional (Pending Admiralty Formation)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "299cb3860ec13f8c679e052b8ad307475fe50d1959ae5ca4ec74c11659ae4de6",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); provisional authority only",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-qualified-legal-review",
+      "known_findings": [
+        "delegated authority requires a constituted delegating body or an explicit Fleet Admiral instrument"
+      ]
+    },
+    {
+      "id": "ADMIRALTY-APPOINTMENT",
+      "document_class": "admiralty-instrument",
+      "title": "Admiralty Officer Appointment & Removal Policy",
+      "status": "Provisional (Pending Admiralty Formation)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "79a6155a2741925e95a713936f1a6f5aff8ad354dd423b227849a4961c42e7d8",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); provisional authority only",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-qualified-legal-review",
+      "known_findings": [
+        "officer records require legal and human appointment evidence before external reliance"
+      ]
+    },
+    {
+      "id": "ADMIRALTY-SUCCESSION",
+      "document_class": "admiralty-instrument",
+      "title": "Admiralty Succession Plan",
+      "status": "Provisional (Pending Admiralty Formation)",
+      "version": "1.0.0",
+      "date_adopted": "2026-10-07",
+      "digest": "0c42ebcf292f5bc705125e08719d065e26071c5c6fb6eaf3a4b033b2f866da7b",
+      "digest_kind": "canonical_sha256",
+      "approval": "Fleet Admiral (founding executive); provisional authority only",
+      "admiralty_ratification": "pending-formal-establishment",
+      "signature_status": "unsigned",
+      "external_review": "pending-qualified-legal-review",
+      "known_findings": [
+        "succession instruments require legal review and formal human appointment records"
+      ]
+    }
+  ]
+}

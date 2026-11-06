@@ -1,0 +1,292 @@
+{
+  "schema": "academy-review-v1",
+  "scope": "structural",
+  "courses_reviewed": 14,
+  "lessons_reviewed": 54674,
+  "zh_lessons": 455,
+  "defects": [],
+  "courses": [
+    {
+      "course": "ai-literacy",
+      "lessons": 5960,
+      "zh_lessons": 7,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 300,
+      "top_sources": [
+        "three-ws:5261",
+        "freenet-core:193",
+        "adk:172",
+        "e-mc-2:150",
+        "nullclaw:82"
+      ],
+      "top_topics": [
+        "ai-literacy:5960"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "campaign-operations",
+      "lessons": 840,
+      "zh_lessons": 61,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 53,
+      "top_sources": [
+        "three-ws:469",
+        "spec-007:144",
+        "e-mc-2:77",
+        "freenet-core:64",
+        "adk:52"
+      ],
+      "top_topics": [
+        "campaign:840"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "communications",
+      "lessons": 1449,
+      "zh_lessons": 21,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 56,
+      "top_sources": [
+        "three-ws:900",
+        "freenet-core:87",
+        "nullclaw:87",
+        "walter-esp-idf:72",
+        "adk:68"
+      ],
+      "top_topics": [
+        "communications:1449"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "governance-ethics",
+      "lessons": 203,
+      "zh_lessons": 0,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 19,
+      "top_sources": [
+        "three-ws:104",
+        "e-mc-2:30",
+        "project-nomad:12",
+        "ukama:11",
+        "spec-007:11"
+      ],
+      "top_topics": [
+        "ethics:203"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "hardware-fleet",
+      "lessons": 599,
+      "zh_lessons": 1,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 12,
+      "top_sources": [
+        "ukama:399",
+        "three-ws:115",
+        "ukama-nodes:21",
+        "maypole-firmware:17",
+        "e-mc-2:11"
+      ],
+      "top_topics": [
+        "hardware:599"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "identity-authority",
+      "lessons": 283,
+      "zh_lessons": 1,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 17,
+      "top_sources": [
+        "three-ws:239",
+        "paperless-ngx:20",
+        "e-mc-2:7",
+        "adk:7",
+        "nullclaw:5"
+      ],
+      "top_topics": [
+        "identity:283"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "lore-shelf",
+      "lessons": 87,
+      "zh_lessons": 0,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 5,
+      "top_sources": [
+        "three-ws:76",
+        "spec-007:4",
+        "paperless-ngx:3",
+        "freenet-core:2",
+        "nullclaw:1"
+      ],
+      "top_topics": [
+        "lore:87"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "ministry-neo-hindu",
+      "lessons": 69,
+      "zh_lessons": 9,
+      "declassified_lessons": 18,
+      "topics": 1,
+      "lede_collisions": 1,
+      "top_sources": [
+        "e-mc-2:33",
+        "gnm-ministry:18",
+        "three-ws:8",
+        "fano-1:7",
+        "paperless-ngx:2"
+      ],
+      "top_topics": [
+        "ministry:69"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "orientation",
+      "lessons": 5234,
+      "zh_lessons": 27,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 63,
+      "top_sources": [
+        "three-ws:3081",
+        "adk:684",
+        "paperless-ngx:642",
+        "freenet-core:299",
+        "nullclaw:157"
+      ],
+      "top_topics": [
+        "orientation:5234"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "reference-stack",
+      "lessons": 10832,
+      "zh_lessons": 190,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 935,
+      "top_sources": [
+        "three-ws:8768",
+        "e-mc-2:640",
+        "adk:429",
+        "nullclaw:227",
+        "spec-007:211"
+      ],
+      "top_topics": [
+        "reference:10832"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "science-lattice",
+      "lessons": 1510,
+      "zh_lessons": 31,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 23,
+      "top_sources": [
+        "vphone-cli:822",
+        "e-mc-2:442",
+        "three-ws:134",
+        "spec-007:60",
+        "fano-1:48"
+      ],
+      "top_topics": [
+        "science:1510"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "security-clearance",
+      "lessons": 636,
+      "zh_lessons": 13,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 19,
+      "top_sources": [
+        "three-ws:452",
+        "nullclaw:53",
+        "vphone-cli:49",
+        "freenet-core:38",
+        "e-mc-2:18"
+      ],
+      "top_topics": [
+        "security:636"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "systems-engineering",
+      "lessons": 2655,
+      "zh_lessons": 80,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 80,
+      "top_sources": [
+        "three-ws:1213",
+        "freenet-core:505",
+        "e-mc-2:434",
+        "paperless-ngx:186",
+        "spec-007:110"
+      ],
+      "top_topics": [
+        "systems:2655"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    },
+    {
+      "course": "uiux-craft",
+      "lessons": 24317,
+      "zh_lessons": 14,
+      "declassified_lessons": 0,
+      "topics": 1,
+      "lede_collisions": 1142,
+      "top_sources": [
+        "threejs:8192",
+        "mermaid:2188",
+        "d3:1386",
+        "highlightjs:1285",
+        "leaflet:1124"
+      ],
+      "top_topics": [
+        "uiux:24317"
+      ],
+      "defects": 0,
+      "verdict": "HELD"
+    }
+  ],
+  "residual": "structure vetted; pedagogy remains deterministic_review_required",
+  "verdict": "HELD"
+}

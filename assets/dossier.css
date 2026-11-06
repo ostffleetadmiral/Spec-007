@@ -1,0 +1,197 @@
+/* SPEC-007 dossier — serious paper, playful edges */
+
+:root {
+  --paper: #f4f1e8;
+  --ink: #1a1a1a;
+  --faded: #5a5648;
+  --rule: #b8b2a0;
+  --stamp: #8b1a1a;
+  --gold: #a8862a;
+  --dark: #14161a;
+  --dark-ink: #d8d4c8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Courier New", "IBM Plex Mono", ui-monospace, monospace;
+  background: var(--dark);
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.dossier {
+  max-width: 52rem;
+  margin: 2rem auto;
+  background: var(--paper);
+  padding: 3rem 3.5rem 2.5rem;
+  box-shadow: 0 0 0 1px #000, 0 12px 60px rgba(0,0,0,.6);
+  position: relative;
+}
+
+/* classification banner */
+.banner {
+  text-align: center;
+  letter-spacing: .35em;
+  font-weight: bold;
+  font-size: .8rem;
+  color: var(--stamp);
+  border-top: 3px double var(--stamp);
+  border-bottom: 3px double var(--stamp);
+  padding: .5rem 0;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.watermark {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(-24deg);
+  font-size: 4rem;
+  font-weight: bold;
+  color: rgba(139,26,26,.07);
+  letter-spacing: .4em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.stamp {
+  display: inline-block;
+  border: 3px solid var(--stamp);
+  color: var(--stamp);
+  padding: .2rem .8rem;
+  transform: rotate(-6deg);
+  font-weight: bold;
+  letter-spacing: .2em;
+  font-size: .85rem;
+  text-transform: uppercase;
+}
+
+h1, h2, h3, h4 {
+  font-family: inherit;
+  letter-spacing: .06em;
+}
+h1 { font-size: 1.6rem; border-bottom: 2px solid var(--ink); padding-bottom: .4rem; }
+h2 { font-size: 1.15rem; margin-top: 2rem; border-bottom: 1px solid var(--rule); padding-bottom: .2rem; }
+h3 { font-size: 1rem; }
+
+a { color: #274a6d; }
+a:hover { color: var(--stamp); }
+
+/* nav: authority levels */
+nav.file-nav {
+  border: 1px solid var(--rule);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  font-size: .85rem;
+  background: rgba(0,0,0,.02);
+}
+nav.file-nav .lvl {
+  font-weight: bold;
+  color: var(--faded);
+  letter-spacing: .15em;
+  margin-top: .6rem;
+  font-size: .7rem;
+}
+nav.file-nav a { text-decoration: none; display: inline-block; margin-right: 1rem; }
+
+/* language twin cross-link */
+.lang-twin { text-align: right; margin: -.75rem 0 1rem; font-size: .8rem; }
+.lang-twin a {
+  border: 1px solid var(--rule);
+  padding: .15rem .6rem;
+  letter-spacing: .15em;
+  text-decoration: none;
+}
+
+code, pre {
+  background: rgba(0,0,0,.06);
+  font-family: inherit;
+}
+pre { padding: .8rem 1rem; overflow-x: auto; border-left: 3px solid var(--rule); }
+code { padding: .1em .3em; }
+pre code { padding: 0; }
+
+table { border-collapse: collapse; width: 100%; font-size: .85rem; margin: 1rem 0; }
+th, td { border: 1px solid var(--rule); padding: .4rem .6rem; text-align: left; vertical-align: top; }
+th { background: rgba(0,0,0,.05); letter-spacing: .08em; }
+
+blockquote {
+  border-left: 3px solid var(--gold);
+  margin: 1rem 0;
+  padding: .2rem 1rem;
+  color: var(--faded);
+}
+
+/* playful-serious bits */
+.redacted {
+  background: var(--ink);
+  color: var(--ink);
+  cursor: help;
+  padding: 0 .3em;
+}
+.redacted:hover { background: transparent; color: inherit; }
+.redacted.sealed { cursor: not-allowed; }
+.redacted.sealed:hover { background: var(--ink); color: var(--ink); }
+
+.sig-line {
+  border-bottom: 1px solid var(--ink);
+  min-height: 2.2rem;
+  font-family: "Segoe Script", "Comic Sans MS", cursive;
+  font-size: 1.3rem;
+}
+
+.denial {
+  text-align: center;
+  margin: 3rem 0;
+}
+.denial .big {
+  font-size: 2rem;
+  letter-spacing: .3em;
+  color: var(--stamp);
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 3rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  font-size: .75rem;
+  color: var(--faded);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* self-destruct gag */
+.ember {
+  transition: opacity 2.5s ease, filter 2.5s ease, transform 2.5s ease;
+}
+.ember.burning {
+  opacity: 0;
+  filter: blur(6px) sepia(1) hue-rotate(-30deg);
+  transform: translateY(-8px);
+}
+
+@media (max-width: 40rem) {
+  .dossier { margin: 0; padding: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ember { transition: none; }
+}
+
+/* the file is already paper — print it like it means it */
+@media print {
+  body { background: #fff; }
+  .dossier { margin: 0; max-width: none; box-shadow: none; padding: 0; }
+  .watermark { display: none; }
+  nav.file-nav { display: none; }
+  .redacted { border-bottom: 1px dashed var(--ink); }
+  a { color: var(--ink); }
+  .ember, .ember.burning { opacity: 1; filter: none; transform: none; }
+  footer { page-break-inside: avoid; }
+  h1, h2, h3 { page-break-after: avoid; }
+  pre, blockquote, table { page-break-inside: avoid; }
+}

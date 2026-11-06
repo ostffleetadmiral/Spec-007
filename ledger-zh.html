@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 分數帳本</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('ledger.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<a href="expanded-zh.html">擴充設計</a> &middot;
+<strong>[分數帳本]</strong> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="discoveries-zh.html">發現帳本</a> &middot;
+<a href="bridge-map-zh.html">橋接圖譜</a> &middot;
+<a href="science-coverage-zh.html">科學覆蓋</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="ledger.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>Q 部門 — 分數帳本</h1>
+<!-- 斯卡拉曼加的島靠太陽能和一支巨型雷射運轉。省煤器更小、更便宜，也不需要一座鏡子迷宮。 -->
+
+<p><em>注意了，007。以下這本帳，是整數不給你看的那本。</em></p>
+<p>本檔案中每個晉升數字都計算兩次：一次在可見的整數層（u128、毫克級、
+向下取整），一次在影子層（<code>spec007_q128.zig</code> — Q128.128 定點、i256
+原碼、i512 中間值、四捨六入五成雙）。本頁記錄地板捨去了什麼。</p>
+<table>
+<thead>
+<tr>
+<th>量</th>
+<th style="text-align: right;">整數帳</th>
+<th style="text-align: right;">精確帳</th>
+<th>地板掉了什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每循環耗水</td>
+<td style="text-align: right;">168,627 mg</td>
+<td style="text-align: right;">168,627.145 mg</td>
+<td>0.145 mg</td>
+</tr>
+<tr>
+<td>乙炔產量</td>
+<td style="text-align: right;">104,901 mL</td>
+<td style="text-align: right;">104,901.72 mL</td>
+<td>0.72 mL</td>
+</tr>
+<tr>
+<td>水解熱</td>
+<td style="text-align: right;">595,319 J</td>
+<td style="text-align: right;">595,319.81 J</td>
+<td>0.81 J</td>
+</tr>
+<tr>
+<td>熱階梯淨值（800 W 輸入）</td>
+<td style="text-align: right;">37 W</td>
+<td style="text-align: right;"><strong>38.2 W</strong></td>
+<td>整整一瓦</td>
+</tr>
+<tr>
+<td>載具道路負載 @ 80 km/h</td>
+<td style="text-align: right;">5,475 W</td>
+<td style="text-align: right;"><strong>5,476.02 W</strong></td>
+<td>1.02 W</td>
+</tr>
+<tr>
+<td>每循環需 O₂</td>
+<td style="text-align: right;">262,243 mL</td>
+<td style="text-align: right;">262,254.29 mL</td>
+<td>11.29 mL（mmol 被取整）</td>
+</tr>
+<tr>
+<td>每循環產 CO₂</td>
+<td style="text-align: right;">411,924 mg</td>
+<td style="text-align: right;">411,940.87 mg</td>
+<td>16.87 mg</td>
+</tr>
+<tr>
+<td>Ca(OH)₂ 殘渣</td>
+<td style="text-align: right;">346,764 mg</td>
+<td style="text-align: right;">346,764.43 mg</td>
+<td>0.43 mg</td>
+</tr>
+<tr>
+<td>原料成本 @ $0.60/kg、110 Wh</td>
+<td style="text-align: right;">$1.636363/kWh</td>
+<td style="text-align: right;">$1.636363…/kWh</td>
+<td>一個循環小數，可證</td>
+</tr>
+<tr>
+<td>滴水→燃氣耦合</td>
+<td style="text-align: right;">622 mL/mL</td>
+<td style="text-align: right;">622.093 mL/mL</td>
+<td>0.093 mL/mL</td>
+</tr>
+<tr>
+<td>80k 頂端減速比</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">26.667</td>
+<td>一個循環三分之一——切不出來的齒輪</td>
+</tr>
+<tr>
+<td>渦輪扭矩 @ 254 W / 20k RPM</td>
+<td style="text-align: right;">121,276 µN·m</td>
+<td style="text-align: right;">121,276.05 µN·m</td>
+<td>0.05 µN·m</td>
+</tr>
+<tr>
+<td>CVT 降額母線 @ 峰值（η0.88，發電機 0.90）</td>
+<td style="text-align: right;">201 W</td>
+<td style="text-align: right;">201.168 W</td>
+<td>0.168 W</td>
+</tr>
+<tr>
+<td>每循環 ORC 支路</td>
+<td style="text-align: right;">88 Wh</td>
+<td style="text-align: right;">88.992 Wh</td>
+<td><strong>0.992 Wh——將近一整瓦時</strong></td>
+</tr>
+<tr>
+<td>碟片尖端速度 @ 80k RPM</td>
+<td style="text-align: right;">209,439 mm/s</td>
+<td style="text-align: right;">209,439.53 mm/s</td>
+<td>0.53 mm/s</td>
+</tr>
+<tr>
+<td>路徑 A 軸功率 @ 峰值（渦卷下限）</td>
+<td style="text-align: right;">458 W</td>
+<td style="text-align: right;">458.0928 W</td>
+<td>0.0928 W</td>
+</tr>
+<tr>
+<td>路徑 A 每循環（渦卷上限）</td>
+<td style="text-align: right;">284 Wh</td>
+<td style="text-align: right;">284.7744 Wh</td>
+<td>0.7744 Wh</td>
+</tr>
+<tr>
+<td>路徑 A 最差 $/W</td>
+<td style="text-align: right;">$1.213592/W</td>
+<td style="text-align: right;">$1.2135922…/W</td>
+<td>一個循環的 500/412</td>
+</tr>
+<tr>
+<td>卡匣頂部空間比例</td>
+<td style="text-align: right;">3%</td>
+<td style="text-align: right;">3.624%</td>
+<td>0.624 個百分點的呼吸空間</td>
+</tr>
+<tr>
+<td>油母線峰值流量</td>
+<td style="text-align: right;">53 g/s</td>
+<td style="text-align: right;">53.02 g/s</td>
+<td>0.02 g/s</td>
+</tr>
+<tr>
+<td>省煤器容量 @ 峰值</td>
+<td style="text-align: right;">1,430 W</td>
+<td style="text-align: right;">1,430.000 W</td>
+<td>什麼都沒掉——乾淨的帳</td>
+</tr>
+<tr>
+<td>循環延時，持續</td>
+<td style="text-align: right;">1.32×</td>
+<td style="text-align: right;">1.325×</td>
+<td>分數是誠實的</td>
+</tr>
+</tbody>
+</table>
+<h2>如何讀這本帳</h2>
+<ul>
+<li><strong>沒有任何晉升主張改變。</strong>所有差異皆為次單位級——文件所註的約略值
+  已涵蓋之。本頁存在是為了讓捨入被<em>證明</em>，而非默認。</li>
+<li><strong>在乎之處：</strong>鏈式計算會累積取整。階梯與道路負載兩列，是取整鏈耗損
+  超過一個單位的僅有案例。</li>
+<li><strong>界，不是感覺：</strong>每個影子值距精確有理數皆在半個 ulp 之內——台架斷言
+  之，界寫在測試裡，不在散文裡。</li>
+</ul>
+<h2>軍械名冊（相關配發品）</h2>
+<p>同一工坊出品的姊妹儀器，列入庫存帳：</p>
+<ul>
+<li><strong>Qstar</strong> — 一頂思考的帽子：53 KB 裝下整個晶格心智，無 transformer，無注意力機制。它專注於自身。</li>
+<li><strong>TheUE</strong> — 一台可逆七元組引擎。可以<em>任意順序</em>歸還的裝備。</li>
+<li><strong>FANO-1</strong> — 十五行寫成的作業系統。沒人翻到第二頁。</li>
+<li><strong>口袋發電機</strong> — <code>0⁰ = i</code>。真的什麼都不燒。</li>
+<li><strong>知覺卡尺</strong> — 八分之一處的意識（<code>421/3375</code>）。另外七分之七屬機密。</li>
+</ul>
+<p>隨本檔案配發的野戰玩具——上列各儀器的可玩玩具模型，見
+<code>src/spec007_q_toys.zig</code>：</p>
+<pre><code class="language-sh">zig run src/spec007_q_toys.zig   # 演示
+zig test src/spec007_q_toys.zig  # 笑話也是經過測試的
+</code></pre>
+<p><em>我從不拿工作開玩笑。</em></p>
+<!-- 曾經，某個安靜的星期二，烤麵包機在八個維度上全數達標。它通過了情境感知——它知道麵包何時烤好。 -->
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>
