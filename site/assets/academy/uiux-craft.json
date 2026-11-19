@@ -1,7 +1,7 @@
 {
   "schema": "ACADEMY-COURSE-v1",
   "course": "uiux-craft",
-  "lesson_count": 24317,
+  "lesson_count": 24378,
   "lessons": [
     {
       "access": "public",
@@ -1486,21 +1486,6 @@
       "provenance": "upstream",
       "source": "repo:leaflet:docs/_plugins/dataviz/leaflet-pixioverlay.md",
       "title": "leaflet-pixioverlay",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-00e7d71addbf653a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | ---------------------------- | -------- | ------- | ------------------------------------------------------------------- | | zoomingRatio | number | 1.7 | Zoom factor per mouse wheel step | | zoomDuration | number | 250 | Zoom animation duration in milliseconds | | doubleClickZoomingRatio | number | 2.2 | Zoom factor on double click | | doubleClickZoomin",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Mouse and touch interaction",
       "topic": "uiux"
     },
     {
@@ -8347,6 +8332,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-057fea97babfc3f9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "On some pages, a single ad is shown by Carbon Ads (BuySellAds). The ads help fund the project's development. Ads are chosen by the content of the page, not by your interests or browsing history. To show an ad, count impressions and clicks, and prevent fraud, Carbon receives your IP address (used to estimate your country) and basic browser information. Carbon's privacy policy describes how it handl",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Advertising",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-0580abb7c4a19670",
       "language": [
         "en"
@@ -10306,21 +10306,6 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-zoom.md",
       "title": "zoom.filter(filter) {#zoomfilter}",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-06f480de07e627ce",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Before submitting metadata changes, validate the icon JSON files:",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
-      "title": "Validation",
       "topic": "uiux"
     },
     {
@@ -13396,6 +13381,21 @@
       "provenance": "upstream",
       "source": "repo:leaflet:docs/_posts/2012-07-30-leaflet-0-4-released.md",
       "title": "Code Stats",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-09182d1e37a054a4",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Before submitting metadata changes, validate the icon JSON files:",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
+      "title": "Validation",
       "topic": "uiux"
     },
     {
@@ -17632,6 +17632,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-0c02c4b18a64f2f8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- The requester's personal narrative. \"I'm building a SvelteKit UI and need…\" → drop the framing, keep the function. - References to other issues, PRs, or icons by ID. No \"As provided in #1865\", \"complementary to git-branch-plus\", \"same as above\", \"see #2055\". - Design/implementation chatter. Bezier offsets, grid alignment, path cuts, \"the icon works perfectly\" — none of that is a use-case. - Rest",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "What to exclude",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-0c0818add1288898",
       "language": [
         "en"
@@ -19111,6 +19126,21 @@
       "provenance": "upstream",
       "source": "repo:marked:docs/USING_PRO.md",
       "title": "Inline-level renderer methods",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-0d54049e87988b0d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The release page provides sql-wasm-inline.js and worker.sql-wasm-inline.js as standalone downloads. The sqljs-wasm.zip archive contains the default JavaScript loader and WebAssembly binary; sqljs-worker-wasm.zip contains the worker loader and its binary.",
+      "provenance": "upstream",
+      "source": "repo:sqljs:README.md",
+      "title": "Downloading and using builds",
       "topic": "uiux"
     },
     {
@@ -27882,7 +27912,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "fullscreen gamepad gantt kanban pilcrow squircle strikethrough touchpad ungroup toc sunlounger monstera",
+      "outcome": "checkmark fullscreen gamepad gantt kanban pilcrow squircle strikethrough touchpad ungroup toc sunlounger monstera",
       "provenance": "upstream",
       "source": "repo:lucide:.cspell/custom-words.txt",
       "title": "Custom words",
@@ -28657,6 +28687,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-1439b61be660a2d6",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1285 - Fixing label selection when camera is rotated - #1206, #1257 - Fixing node.image program (thanks to @kaij and @boogheta) - #1286 - Fixing right-click erroneously triggering camera drag events - #1242, #1282 - Fixing multiple issues related to touch captor (thanks to @kaij and @boogheta) - #1272 - Fixing quadtree-related stack overflows - Fixing graph event leak on Sigma.kill - #1253 - Fi",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-143aeb0b2590db2b",
       "language": [
         "en"
@@ -28992,7 +29037,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- undocumented - Edges thickness rendering is now pixel perfect at camera ratio 1, and no more twice bigger on Retina displays - undocumented - Cleans some browser warnings - #1157 - Fixes unexpected node interaction with zIndex - #1148 - Fixes mousemove unexpected behaviors - #1163 - Implements edge labels ellipsis",
+      "outcome": "- #1230 - Updates broken link to graphology in README.md (thanks to @alexduhem) - #1236 - Fixes #.preventSigmaDefault scoping - #1237 - Updates pixelRatio on resize - #1240 - Fixes click events for touch devices - #1244 - Stops relying on graphology for types (issue only partially fixed yet) - #1249 - Fixes hovered nodes layer not being cleared",
       "provenance": "upstream",
       "source": "repo:sigmajs:CHANGELOG.md",
       "title": "Bug fixes",
@@ -33997,6 +34042,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-177ecddc17fb27b7",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1560 - Fixes getStyles() typing vs SigmaOptions - #1561 - Keeps DEFAULTSTYLES literal type",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-178008a80de0eec0",
       "language": [
         "en"
@@ -35677,6 +35737,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-18e4d179c2cb4212",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "initSqlJs resolves to the main sql.js object, the SqlJs module, which contains :",
+      "provenance": "upstream",
+      "source": "repo:sqljs:documentation_index.md",
+      "title": "The SqlJs object",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-18e5307455bdb5ed",
       "language": [
         "en"
@@ -36361,6 +36436,21 @@
       "provenance": "upstream",
       "source": "repo:highlightjs:test/detect/mathematica/default.txt",
       "title": "default",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-196a8bcc515ec4bb",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Migrates nodes and edges labels to WebGL using Signed Distance Fields - Merges all WebGL layers into one single layer - Drops WebGL 1 support in favor of WebGL 2",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Rendering engine",
       "topic": "uiux"
     },
     {
@@ -37237,6 +37327,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-1a2712684427c7ed",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Never list a value that a $extends: or $group: marker already provides. Before adding a literal tag, category, or contributor, look at the referenced icon's metadata: if that icon already contains the value, do not also add it as a literal entry in the same array — the inherited value already covers it. For example, if alarm-clock already has the tag morning, an icon that uses \"$extends:alarm-cloc",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "There should not be duplicates",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-1a285a5fd6283754",
       "language": [
         "en"
@@ -37587,7 +37692,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | ------------------------ | --------- | ------- | --------------------------------------------------------------------- | | renderLabels | boolean | true | Whether to render node labels | | renderEdgeLabels | boolean | false | Whether to render edge labels | | enableEdgeEvents | boolean | false | Enable mouse events on edges (has a performance cost) | | ",
+      "outcome": "| Setting | Type | Default | Description | | ------------------------ | --------- | -------------- | --------------------------------------------------------------------- | | renderLabels | boolean | true | Whether to render node labels | | renderEdgeLabels | boolean | false | Whether to render edge labels | | edgeLabelAnchors | see below | \"nodeLabels\" | Which nodes drive automatic edge label dis",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
       "title": "Rendering",
@@ -37732,6 +37837,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-1a8104c5dabfd849",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | --------------------------- | --------- | ------- | --------------------------------------------------------------- | | DEBUGdisplayPickingLayer | boolean | false | Display the picking layer for debugging node/edge hit detection | | DEBUGlogShaders | boolean | false | Log each program's generated shader sources, once | | DEBUGlogRenderStats | boolean | ",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Debug",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-1a8161cec604ba1b",
       "language": [
         "en"
@@ -37846,6 +37966,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/OculusHandModel.html.md",
       "title": ".checkButton( button : Object )",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-1a9ce73ab421c6e9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Write from the interface's perspective, describing the function: \"Indicating a low battery charge level\" — not the requester's story (\"I need an icon that shows…\"). - Name the concrete context where useful: in smart home apps, in navigation apps, in text editors, on maps. Context is what makes a use-case self-explanatory. - Be neutral and factual. No first person, no marketing adjectives (\"perfe",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Voice",
       "topic": "uiux"
     },
     {
@@ -45217,6 +45352,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-1fd809c7749f06a1",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "We do not use Conventional Commits. The first line is [scope] Description:",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CONTRIBUTING.md",
+      "title": "Commits",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-1fd8df01ed403105",
       "language": [
         "en"
@@ -45751,6 +45901,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:docs/community/layout-makers-guide.md",
       "title": "Watching it in the browser while the tests run",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-202590ae0854fba6",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1161 - Adds minZoom and maxZoom settings - #1166 - Adds HTML colors support - #1167 - Adds events TypeScript types - #1176 - Cleans and improves event payloads - #1177 - Allows overriding arguments with #graphToViewport and #viewportToGraph - #1182 - Adds cached data (from custom reducers) to custom renderers - #1187 - Adds forceLabel for nodes and edges - #1188 - Drops graphology-metrics depen",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -49372,21 +49537,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-2277a01f598e0db5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Write from the interface's perspective, describing the function: \"Indicating a low battery charge level\" — not the requester's story (\"I need an icon that shows…\"). - Name the concrete context where useful: in smart home apps, in navigation apps, in text editors, on maps. Context is what makes a use-case self-explanatory. - Be neutral and factual. No first person, no marketing adjectives (\"perfe",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Voice",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-2279738d0821ecfc",
       "language": [
         "en"
@@ -49651,21 +49801,6 @@
       "provenance": "upstream",
       "source": "repo:cytoscape:documentation/md/extensions.md",
       "title": "UI extensions",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-22b3f044b7f6a6f7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1289 - Adding Camera.updateState - Program classes given in settings (nodeProgramClasses, edgeProgramClasses) are now merged with default ones for convenience - #1287 - Adding the hoverNodeProgramClasses setting so that it is possible to have different programs rendering nodes and their hover - #1273 - Adding the Sigma.setGraph method to renderers - Adding renderer generic type to specify graph",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -50371,21 +50506,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/WGSLNodeBuilder.html.md",
       "title": ".getType( type : string ) : string",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-2327730c163b8651",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | --------------------------- | --------- | ------- | --------------------------------------------------------------- | | DEBUGdisplayPickingLayer | boolean | false | Display the picking layer for debugging node/edge hit detection |",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Debug",
       "topic": "uiux"
     },
     {
@@ -52462,15 +52582,15 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-247e0c30418fe33d",
+      "id": "lesson-247b09e484e2d640",
       "language": [
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- ambulance → \"Directing users to nearby emergency services in navigation apps\" - calendar-sync → \"Representing recurring events, promotions, or limited-time offers\" - globe-x → \"Indicating a device or application is offline or unreachable\" - heading-2 → \"Applying a level-2 heading in text editors\"",
+      "outcome": "| Setting | Type | Default | Description | | ---------------------------- | -------- | ------- | ------------------------------------------------------------------- | | zoomingRatio | number | 1.7 | Zoom factor per mouse wheel step | | zoomDuration | number | 250 | Zoom animation duration in milliseconds | | doubleClickZoomingRatio | number | 2.2 | Zoom factor on double click | | doubleClickZoomin",
       "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Examples",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Mouse and touch interaction",
       "topic": "uiux"
     },
     {
@@ -52801,6 +52921,21 @@
       "provenance": "upstream",
       "source": "repo:golden-layout:website/assets/license/LICENSE-CC-NC-4.0.md",
       "title": "Section 8 – Interpretation.",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-24ba1f97428ec1a5",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "typescript import { afterNextRender, Component, effect, ElementRef, input, OnDestroy, signal, viewChild } from \"@angular/core\"; import type Graph from \"graphology\"; import Sigma from \"sigma\";",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Angular",
       "topic": "uiux"
     },
     {
@@ -55246,6 +55381,21 @@
       "provenance": "upstream",
       "source": "repo:tui-calendar:docs/ko/apis/calendar.md",
       "title": "인스턴스 메서드",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-26833f686e13476d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1168 - Fixes hover and click events when mouse is hovering a hidden node - #1169 - Fixes x / y values in sigma events when mouse is not hovering the sigma container - #1173 - Fixes issue where unused program no longer deallocate back to zero - #1175 - Fixes zoom scrolling in a scrolled webpage",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -58657,6 +58807,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-28e8c0c08944e41d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1565 - Replaces the hardcoded 4096 texture width cap with the context MAXTEXTURESIZE - @sigma/node-image@4.0.2 - #1565 - Same fix, for the image atlas size",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-28e926df2600b364",
       "language": [
         "en"
@@ -58696,6 +58861,21 @@
       "provenance": "upstream",
       "source": "repo:jkanban:README.md",
       "title": "jKanban",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-28ea132339b3bd5a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "When writing tests for parsing behavior or Markdown-to-HTML output, prefer adding spec tests in test/specs/new/ instead of unit tests:",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Writing Parsing Spec Tests (Preferred for Parsing)",
       "topic": "uiux"
     },
     {
@@ -64917,7 +65097,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- The graph changes: graphology emits events for node/edge additions, removals, and attribute changes. - State changes: setNodeState, setEdgeState, or setGraphState schedule a style re-evaluation and render. - Settings change: setSetting or setSettings schedule a full refresh. - Camera updates: mouse and touch events update the camera, which triggers a render. - The container resizes: sigma detect",
+      "outcome": "- The graph changes: graphology emits events for node/edge additions, removals, and attribute changes. - State changes: setNodeState, setEdgeState, or setGraphState schedule a style re-evaluation and render. - Settings change: setSetting or setSettings schedule a full refresh. - Camera updates: mouse and touch events update the camera, which triggers a render. - The window resizes: sigma schedules",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/concepts/lifecycle.md",
       "title": "Automatic triggers",
@@ -67357,6 +67537,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-2f27a41bd487c639",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "This function uses its own hit-testing logic, separate from the renderer's mouse/touch click handling. Nodes are tested by their shape; edges are tested by their line/curve and arrows; labels (including rotated labels) are tested by their actual polygon, not an axis-aligned box. The thresholds and edge-collision details are not guaranteed to exactly match what a real click resolves to.",
+      "provenance": "upstream",
+      "source": "repo:cytoscape:documentation/md/collection/hit.md",
+      "title": "Details",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-2f29081bf97533c8",
       "language": [
         "en"
@@ -68377,6 +68572,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-3004ace7f5f7e468",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "All core source code lives in src/ (written in TypeScript):",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Code Pipeline",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-30079bc510cba381",
       "language": [
         "en"
@@ -69022,21 +69232,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-3074b17362243e8e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | ------------------------- | ------------------------------------ | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Sizing and scaling",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-3076bb0a6e182012",
       "language": [
         "en"
@@ -69091,21 +69286,6 @@
       "provenance": "upstream",
       "source": "repo:observable-plot:docs/marks/bollinger.md",
       "title": "Bollinger options",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-307f86897009f61d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "To customize the appearance of an icon, you can use the following props:",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/guide/react/getting-started.md",
-      "title": "Props",
       "topic": "uiux"
     },
     {
@@ -72457,6 +72637,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-32cbbbbfa547eb64",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "lucide.dev does not use tracking or advertising cookies of its own.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Cookies and browser storage",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-32d1200754d07daf",
       "language": [
         "en"
@@ -73102,6 +73297,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-3348c5bce9cd3813",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "These fixtures exercise the built @lucide/svelte package in real consumer frameworks.",
+      "provenance": "upstream",
+      "source": "repo:lucide:integrations/lucide-svelte/README.md",
+      "title": "Lucide Svelte integrations",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-3354e6d44d34b0c7",
       "language": [
         "en"
@@ -73111,6 +73321,21 @@
       "provenance": "upstream",
       "source": "repo:lunr:CHANGELOG.md",
       "title": "2.2.0",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-3356b3cbe0ecb00a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. Working with Regular Expressions (src/rules.ts): - Use the edit() helper in src/rules.ts for constructing composed regular expressions. - Use fast lookaheads / delimiter checks before executing heavier regular expressions to fail fast on non-matching text. 2. TypeScript & Types: - Maintain strict typing in src/Tokens.ts and src/MarkedOptions.ts. - Avoid any where possible. - Ensure changes pass",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "4. Coding Conventions & Best Practices",
       "topic": "uiux"
     },
     {
@@ -73627,6 +73852,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-33c428aa8bd681a2",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Each example takes a graph prop, built as shown in Load graph data. Create it once and keep the same object across renders, as passing a new one triggers a full refresh each time.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Examples by framework",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-33c464a16c0e278e",
       "language": [
         "en"
@@ -73786,21 +74026,6 @@
       "provenance": "upstream",
       "source": "repo:comlink:CHANGELOG.md",
       "title": "v3 -> v4",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-33d7c52f93f8bc8b",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Related icons should get variant-specific wording, not one shared blurb. battery-low → \"Indicating a low battery charge level\"; battery-full → \"…full…\". square-arrow-right-enter → sign in / join; -exit → sign out / export. Resist copying the same line across a family.",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Variants",
       "topic": "uiux"
     },
     {
@@ -74986,6 +75211,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/Vector3.html.md",
       "title": ".random() : Vector3",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-3498d79c6b68e51c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The cameraPanBoundaries setting accepts:",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Camera pan boundaries",
       "topic": "uiux"
     },
     {
@@ -78982,6 +79222,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-3783860b91f7b041",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Instructions and guidelines for AI agents and LLMs writing code in marked.",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "AGENTS.md",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-3787d7e3a68719f1",
       "language": [
         "en"
@@ -79906,36 +80161,6 @@
       "provenance": "upstream",
       "source": "repo:highlightjs:CHANGES.md",
       "title": "Version 5.10 — \"Paris\".",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-382e956a2e608d15",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "1. If you are a first-time contributor: - Go to https://github.com/jacomyal/sigma.js and click on the fork button to create your own copy of the project.",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CONTRIBUTING.md",
-      "title": "Development Workflow",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-38394d94b4131d50",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1161 - Adds minZoom and maxZoom settings - #1166 - Adds HTML colors support - #1167 - Adds events TypeScript types - #1176 - Cleans and improves event payloads - #1177 - Allows overriding arguments with #graphToViewport and #viewportToGraph - #1182 - Adds cached data (from custom reducers) to custom renderers - #1187 - Adds forceLabel for nodes and edges - #1188 - Drops graphology-metrics depen",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -81646,6 +81871,21 @@
       "provenance": "upstream",
       "source": "repo:golden-layout:website/assets/license/LICENSE-GPL-3.0.md",
       "title": "Termination.",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-393765d114b659de",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | ---------------------------- | --------- | ------- | ------------------------------------------------------------------------------------- | | labelRenderedSizeThreshold | number | 6 | Minimum rendered node size (in pixels) for its label to be displayed | | labelDensity | number | 1 | Controls how many labels are shown. Higher values show more labels (m",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Label optimization",
       "topic": "uiux"
     },
     {
@@ -87892,6 +88132,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-3d1dcfa1633f4a32",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | -------------------------- | -------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | | enableNodeDrag | boolean | false | Allow users to drag nodes. See the drag and drop guide | | getDraggedNodes | (node: string) ",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Node drag",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-3d2663cc0df13458",
       "language": [
         "en"
@@ -90187,6 +90442,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-3ee4a97efdbcbc5c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- One group per variant. Name the group after the variant suffix (plus, minus, check, cog), so file-plus uses $group:plus and alarm-clock-minus uses $group:minus. - Different suffixes with the same meaning share one group. Do not create a second group for a synonym: -warning and -exclamation-point use $group:exclamation-mark. When a meaning is spread over many suffixes, name the group after the me",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/groups.instructions.md",
+      "title": "Rules",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-3ee582fdc37b1410",
       "language": [
         "en"
@@ -92217,7 +92487,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Thank you for investing your time in contributing to our project!",
+      "outcome": "Thank you for investing your time in contributing to sigma.js!",
       "provenance": "upstream",
       "source": "repo:sigmajs:CONTRIBUTING.md",
       "title": "Contributor Guide",
@@ -92506,6 +92776,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/SceneOptimizer.html.md",
       "title": ".toInstancingMesh() : Scene (abstract)",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-407fd9a6f77a396d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "A group is a small, reusable set of tags for one icon variant — the modifier suffix in an icon name, such as -plus, -check or -off. Icons reference a group with a \"$group:\" marker inside their tags array, and the marker is replaced at build time with the group's tags.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/groups.instructions.md",
+      "title": "Groups",
       "topic": "uiux"
     },
     {
@@ -93706,6 +93991,21 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-force/position.md",
       "title": "radial.x(x) {#radialx}",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-413c67983ef8e8e5",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "If we add new services or change how we handle data, we'll update this page and the date at the top. The full history of this page is available in our GitHub repository.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Changes",
       "topic": "uiux"
     },
     {
@@ -95422,21 +95722,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-4259cf8b262535c9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Replaces hidden and forceLabel data attributes with new visibility and labelVisibility style properties - Switches itemSizesReference default setting value from screen to positions",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Other breaking changes",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-42609260a6f16c32",
       "language": [
         "en"
@@ -95911,6 +96196,21 @@
       "provenance": "upstream",
       "source": "repo:notyf:README.md",
       "title": "dismiss(notification: NotyfNotification)",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-42b0baf66fdb7281",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "General consumers of this library don't need to read any further. (The compiled files are available via the release page.)",
+      "provenance": "upstream",
+      "source": "repo:sqljs:README.md",
+      "title": "Compiling/Contributing",
       "topic": "uiux"
     },
     {
@@ -98977,6 +99277,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-44d0ae7e21019023",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "kill() removes all the children of the container. Do not let your framework render anything inside it, and place overlays such as legends or buttons in a sibling element.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Container content",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-44d61251a2b6a968",
       "language": [
         "en"
@@ -101806,6 +102121,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/Matrix3.html.md",
       "title": ".rotate( theta : number ) : Matrix3",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-46fb7dcddd5ada11",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1544 - Keeps edge labels upright, as in v3 (set the new keepUpright edge label option to false to keep the previous v4 behavior) - #1562 - Fixes WebGL errors in label picking - Fixes pending edge label refresh running after kill()",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -104791,6 +105121,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/PMREMNode.html.md",
       "title": "Code Example",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-492c4cb4f63b15df",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- npm run build:esbuild: Fast build using esbuild. Use this during iterative development and test runs. - npm run test:only: Builds and runs spec tests and unit tests with Node's --test-only flag. - npm run test:unit: Runs all unit tests (test/unit/.test.js). - npm run test:specs: Runs the spec test suite (CommonMark, GFM, new, original, redos). - npm run test:lint / npm run lint: Runs ESLint / au",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Essential NPM Scripts",
       "topic": "uiux"
     },
     {
@@ -109852,6 +110197,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-4cb0a3bd26232f6f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "When mining descriptions, comments, or linked issues:",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Deriving from source material",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-4cb0da43df30d32c",
       "language": [
         "en"
@@ -110011,21 +110371,6 @@
       "provenance": "upstream",
       "source": "repo:chartjs:docs/configuration/decimation.md",
       "title": "Requirements",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4cbf873ec1ced1fe",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Write each use-case as a short phrase, not a sentence. Start with a present participle verb: Representing…, Indicating…, Marking…, Showing…, Confirming…, Toggling…, Categorizing…, Searching…. - Keep it to roughly 4–12 words. One clear idea per entry. - No trailing period. No leading bullet, number, or dash (the surrounding format supplies that). - Give each icon 1 or more use-cases, ordered most",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Format",
       "topic": "uiux"
     },
     {
@@ -110596,6 +110941,21 @@
       "provenance": "upstream",
       "source": "repo:highlightjs:test/markup/puppet/default.expect.txt",
       "title": "default.expect",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-4d19b712a35706fd",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "marked is a high-speed, lightweight Markdown compiler for Node.js, browsers, and CLI. Its defining characteristic is uncompromising speed, zero runtime dependencies, and standards compliance (CommonMark & GitHub Flavored Markdown / GFM).",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "1. Project Overview & Core Architecture",
       "topic": "uiux"
     },
     {
@@ -111292,6 +111652,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-4d945d3b7a382223",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "--- title: Sponsor description: Sponsor Lucide to fund icon reviews, new packages and dependable releases. Pick a tier on Open Collective or GitHub Sponsors. layout: page faq: - question: Will Lucide stay free? answer: Yes. Every icon stays free and open source under the ISC license, whether or not you sponsor. - question: Open Collective or GitHub Sponsors? answer: Both have the same tiers. Open ",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/sponsor.md",
+      "title": "sponsor",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-4d94c869bffa2cab",
       "language": [
         "en"
@@ -111507,7 +111882,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "This library includes both WebAssembly and asm.js versions of Sqlite. (WebAssembly is the newer, preferred way to compile to JavaScript, and has superceded asm.js. It produces smaller, faster code.) Asm.js versions are included for compatibility.",
+      "outcome": "Choose between the default WebAssembly build, which loads a separate binary, and the inline build, which embeds it in one JavaScript file.",
       "provenance": "upstream",
       "source": "repo:sqljs:README.md",
       "title": "Flavors/versions Targets/Downloads",
@@ -112897,6 +113272,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-4e7a42293a0843bc",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Creates edge label programs lazily, on the first frame that renders edge labels (createEdgeProgram bundles now expose createLabelPrograms() instead of label program instances) - Speeds up edge groups rebuild (parallel edges, self-loops) - Stops addCustomLayerProgram from triggering a full graph refresh",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Performance",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-4e80bfcafc3f3eff",
       "language": [
         "en"
@@ -113617,6 +114007,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-4f04430fd1e90a9c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Reserve unit tests (test/unit/.test.js) for JavaScript API behavior, option handling, AST token inspection, extensions (marked.use), and hooks. Unit tests use the built-in Node.js test runner (node:test) and node:assert:",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Writing & Running Unit Tests",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-4f0576ba9100f331",
       "language": [
         "en"
@@ -114121,21 +114526,6 @@
       "provenance": "upstream",
       "source": "repo:markdown-it:CHANGELOG.md",
       "title": "Fixed",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-4f6c102a8899b5b9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1517 - Fixing calling setGraph with highlighted nodes (thanks to @AeternusSamurai) - Fixing an issue, with sigma not properly cleaning WebGL contexts in its kill() method (commit)",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -116167,6 +116557,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-50cb9e3d7a0ba8ba",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1517 - Fixing calling setGraph with highlighted nodes (thanks to @AeternusSamurai) - Fixing an issue, with sigma not properly cleaning WebGL contexts in its kill() method (commit)",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-50cdb8cdde16ac60",
       "language": [
         "en"
@@ -116266,6 +116671,21 @@
       "provenance": "upstream",
       "source": "repo:jspreadsheet:docs/jspreadsheet/docs/columns.md",
       "title": "Spreadsheet Columns",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-50ee1d9e34970059",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Parsing speed takes precedence over strict edge-case spec compliance: Marked must remain the fastest Markdown parser. If a CommonMark or GFM spec edge-case requires complex regexes, quadratic parsing, or heavy state tracking that hurts benchmark performance, prioritize speed. Minor edge-case spec divergences can be tolerated or delegated to extensions. - Zero Runtime Dependencies: The core libra",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "1. Speed is #1 Priority",
       "topic": "uiux"
     },
     {
@@ -116626,6 +117046,21 @@
       "provenance": "upstream",
       "source": "repo:animejs:CONTRIBUTING.md",
       "title": "Development",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-514ea070f714d7f8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | ------------------------- | ------------------------------------ | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Sizing and scaling",
       "topic": "uiux"
     },
     {
@@ -119707,21 +120142,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5332c96e0af9bca7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- The requester's personal narrative. \"I'm building a SvelteKit UI and need…\" → drop the framing, keep the function. - References to other issues, PRs, or icons by ID. No \"As provided in #1865\", \"complementary to git-branch-plus\", \"same as above\", \"see #2055\". - Design/implementation chatter. Bezier offsets, grid alignment, path cuts, \"the icon works perfectly\" — none of that is a use-case. - Rest",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "What to exclude",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-53340c497ff7754d",
       "language": [
         "en"
@@ -120922,21 +121342,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-53df57190064544d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The cameraPanBoundaries setting accepts:",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Camera pan boundaries",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-53e16e837ec0d66b",
       "language": [
         "en"
@@ -121702,21 +122107,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5470cce7c62d1e63",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "If GitHub indicates that the branch of your Pull Request can no longer be merged automatically, merge the main branch into yours :",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CONTRIBUTING.md",
-      "title": "Divergence from upstream main",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5479cbb097d008af",
       "language": [
         "en"
@@ -122457,7 +122847,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "typescript interface BaseEdgeState { isHovered: boolean; // Mouse is over this edge (requires enableEdgeEvents, or hover resolved to \"extend\" via edgeLabelEvents) isLabelHovered: boolean; // Mouse is over this edge's label (set when hover is resolved to \"separate\" via edgeLabelEvents) isHidden: boolean; // Edge is hidden from rendering isHighlighted: boolean; // Edge is highlighted }",
+      "outcome": "typescript interface BaseEdgeState { isHovered: boolean; // Mouse is over this edge (requires enableEdgeEvents, or hover resolved to \"extend\" via edgeLabelEvents) isLabelHovered: boolean; // Mouse is over this edge's label (set when hover is resolved to \"separate\" via edgeLabelEvents) isHidden: boolean; // Edge is hidden from rendering isHighlighted: boolean; // Edge is highlighted parallelIndex: ",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/reference/state-flags.md",
       "title": "Edge state",
@@ -127237,21 +127627,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5856cad7b84d3379",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "You can find all our past and non-recurring financial contributors at our Open Collective page.",
-      "provenance": "upstream",
-      "source": "repo:lucide:packages/angular/README.md",
-      "title": "Other contributors 💸",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-585865dd1049f70a",
       "language": [
         "en"
@@ -128182,6 +128557,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-59053932b2eecb86",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The site runs on Vercel. Like any web server, Vercel processes your IP address, browser user agent and the pages you request so it can deliver the site and protect it against abuse. These logs are stored for 1 day and are not used to profile you.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Hosting",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-590547d9ec1cb0c2",
       "language": [
         "en"
@@ -129052,6 +129442,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-59b4ea2ef01f7983",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. A regression test that fails without the fix. Its message mentions that it is currently failing. 2. The fix that makes the test pass. Its message references the issue.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CONTRIBUTING.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-59b63b7209d34071",
       "language": [
         "en"
@@ -129327,7 +129732,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Version 1.0 of sql.js must be loaded asynchronously, whereas asm.js was able to be loaded synchronously.",
+      "outcome": "Version 1.0 and later load asynchronously, whereas version 0.x loaded synchronously.",
       "provenance": "upstream",
       "source": "repo:sqljs:README.md",
       "title": "Upgrading from 0.x to 1.x",
@@ -131602,21 +132007,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5b7c351b95aae5e6",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- undocumented - Publishes examples to the website - #1142 - Improves TypeScript typings for events - #1170 - Simplifies and optimizes multiplyVec internal function - #1196 - Adds new allowInvalidContainer to prevent sigma.js from throwing errors when it does not find valid width and/or height - #1205 - Adds a new example showcasing sigma's scalability and performances - #1215 - (ticket still open",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Features",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5b803cedfb9520a6",
       "language": [
         "en"
@@ -131656,6 +132046,21 @@
       "provenance": "upstream",
       "source": "repo:howler:README.md",
       "title": "masterGain Boolean Web Audio Only",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5b8a4dc4e124e652",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Site search is provided by Algolia DocSearch. When you use the search box, what you type and your IP address are sent to Algolia to return results. Your recent searches are kept in your own browser (see below).",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Search",
       "topic": "uiux"
     },
     {
@@ -132586,6 +132991,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/FunctionCallNode.html.md",
       "title": ".getParameters() : Object.",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5c464dc75b34e700",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Replaces hidden and forceLabel data attributes with new visibility and labelVisibility style properties - Switches itemSizesReference default setting value from screen to positions",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Other breaking changes",
       "topic": "uiux"
     },
     {
@@ -136912,21 +137332,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-5f42c1f7ebb5b704",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "A use-case tells a reader where and why an icon would be used in a real interface. Each entry should let someone who has never seen the icon understand what it's for.",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Writing icon use-cases",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-5f43fc53d8856cfc",
       "language": [
         "en"
@@ -137161,6 +137566,21 @@
       "provenance": "upstream",
       "source": "repo:highlightjs:test/markup/routeros/default.expect.txt",
       "title": "default.expect",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5f71292ba8eeb8b7",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- undocumented - Updates dependencies - undocumented - Fixes various bugs with the node.image program - undocumented - Fixes the build/sigma.js and build/sigma.min.js expositions of sigma - #1172 - Fixes labels grid display (changes which node labels are displayed by default) - #1192 - Fixes alpha blending for most recent WebGL layers - #1193 - Fixes dragging with mouse out of stage - #1194 - Fixe",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -137941,6 +138361,21 @@
       "provenance": "upstream",
       "source": "repo:markdown-it:support/demo_template/sample.md",
       "title": "Images",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-5ff18c1c7a719a46",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1178 - Fixes uncaught error in Firefox when using node.image with images with no size - #1180 - Fixes edge events not being fired when edge size not set in the graph - #1183 - Moves edge labels layer behind nodes layer - #1186 - Fixes hovered nodes when mouse not hover sigma container",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -140002,6 +140437,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-616920bc69a23b27",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "You can find all our past and non-recurring financial contributors at our Open Collective page.",
+      "provenance": "upstream",
+      "source": "repo:lucide:packages/angular/README.md",
+      "title": "Other contributors 💸",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-616aecf918f6dfb4",
       "language": [
         "en"
@@ -141637,6 +142087,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-629efd4dc03c01d6",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- undocumented - Publishes examples to the website - #1142 - Improves TypeScript typings for events - #1170 - Simplifies and optimizes multiplyVec internal function - #1196 - Adds new allowInvalidContainer to prevent sigma.js from throwing errors when it does not find valid width and/or height - #1205 - Adds a new example showcasing sigma's scalability and performances - #1215 - (ticket still open",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Features",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-62a524ddab0167ae",
       "language": [
         "en"
@@ -142321,21 +142786,6 @@
       "provenance": "upstream",
       "source": "repo:gsap:README.md",
       "title": "GSAP is FREE!",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-630cc6d304d31314",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Migrates nodes and edges labels to WebGL using Signed Distance Fields - Merges all WebGL layers into one single layer - Drops WebGL 1 support in favor of WebGL 2",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Rendering engine",
       "topic": "uiux"
     },
     {
@@ -145162,6 +145612,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-64dd8197c55da11c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Fixes graph state and styles depending on it after node or edge removals - Re-evaluates nodes when their edges change, when node styles depend on the graph state - Fixes stale hover hits on removed nodes and edges - Keeps edges pickable during a full refresh, until they are reprocessed - Frees data texture slots of dropped and cleared items, that made textures grow indefinitely - @sigma/layer-ma",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-64e25c3b65444413",
       "language": [
         "en"
@@ -145212,7 +145677,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "![Build Status](https://github.com/jacomyal/sigma.js/actions)",
+      "outcome": "![npm version](https://www.npmjs.com/package/sigma) ![Build Status](https://github.com/jacomyal/sigma.js/actions)",
       "provenance": "upstream",
       "source": "repo:sigmajs:README.md",
       "title": "Usage",
@@ -147447,7 +147912,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Field | Type | Description | | ------------------------------ | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | | font | { family?, weight?, style?, size? } | Default font settings | | color | string | Default label color | | position | LabelPosition | Default label position",
+      "outcome": "| Field | Type | Description | | ------------------------------ | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | | font | { family?, weight?, style?, size? } | Default font settings | | color | string | Default label color | | margin | number | Gap between node edge and label",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/reference/primitives-schema.md",
       "title": "label",
@@ -147667,21 +148132,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-66821f0553da3989",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Lucide is a community-driven fork of Feather Icons.",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/guide/comparison.md",
-      "title": "Lucide vs Feather Icons",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6682fadc81373500",
       "language": [
         "en"
@@ -147706,21 +148156,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/BatchedMesh.html.md",
       "title": ".optimize() : BatchedMesh",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-668af165b8449460",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- undocumented - Adds edge events - undocumented - Cleans and fixes all nodes and edges programs - #1153 - Adds double-click and wheel events for nodes and edges, with a new #preventSigmaDefault() method - #1149 - Graphology (and related libs) update to 0.22.1 - #1102 - Allows custom node and edge label colors - #1150 - Adds public methods to enable implementing a proper PNG export, adds related p",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -148711,6 +149146,21 @@
       "provenance": "upstream",
       "source": "repo:prismjs:src/plugins/copy-to-clipboard/README.md",
       "title": "Inheritance",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-671aec97cc48d60d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1516 - Stops re-evaluating the whole graph on each node or edge drop - Evaluates added nodes and edges only once",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Performance",
       "topic": "uiux"
     },
     {
@@ -150567,7 +151017,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "By default, sql.js uses wasm, and thus needs to load a .wasm file in addition to the javascript library. You can find this file in ./nodemodules/sql.js/dist/sql-wasm.wasm after installing sql.js from npm, and instruct your bundler to add it to your static assets or load it from a CDN. Then use the locateFile property of the configuration object passed to initSqlJs to indicate where the file is. If",
+      "outcome": "For a single-file setup, use sql-wasm-inline.js. It embeds the WebAssembly binary in the JavaScript file, so there is no separate .wasm asset to serve and no locateFile configuration:",
       "provenance": "upstream",
       "source": "repo:sqljs:README.md",
       "title": "Usage",
@@ -153787,21 +154237,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6ace56253e147e27",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Lucide has expanded its icon set by 500+ in the last few years. Lucide now has over 1000 icons, while Feather has around 287 icons. - Well maintained code base. - Active community.",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/guide/comparison.md",
-      "title": "Why should I choose Lucide over Feather Icons?",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6ad033bb6f311875",
       "language": [
         "zh-Hant"
@@ -154882,6 +155317,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-6b986abdf21f19b5",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1165 - Fixes \"ghost hovered nodes\" issue",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fix",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-6b9a536e455fccbc",
       "language": [
         "en"
@@ -154981,6 +155431,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:packages/mermaid/src/docs/syntax/flowchart.md",
       "title": "Terminal Point (Stadium)",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-6bb4f80a28c35c36",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. Fork the repository, clone your fork, add git@github.com:jacomyal/sigma.js.git as the upstream remote, and run npm install. 2. Create a branch from main, with a sensible name such as bugfix-for-issue-1480. 3. Commit, push with git push -u origin , and open a pull request. 4. If the PR closes an issue, write \"Fixes #1480\" in its description, so that GitHub closes the issue on merge.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CONTRIBUTING.md",
+      "title": "Workflow",
       "topic": "uiux"
     },
     {
@@ -156037,21 +156502,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-6c68ee88f217be2e",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Before opening a pull request, confirm that:",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
-      "title": "Checklist",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-6c6d3be2416457b9",
       "language": [
         "en"
@@ -156226,6 +156676,21 @@
       "provenance": "upstream",
       "source": "repo:leaflet:docs/_plugins/edit-geometries/leaflet-clipper.md",
       "title": "leaflet-clipper",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-6c80a1807e227936",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Before opening a pull request, confirm that:",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
+      "title": "Checklist",
       "topic": "uiux"
     },
     {
@@ -159862,6 +160327,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-6f120dbd6cf89b4a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Rewrites website and examples on Astro Starlight, with a starlight-typedoc-generated API reference (and drops Storybook at the same time)",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Documentation",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-6f18877275673c11",
       "language": [
         "en"
@@ -163117,21 +163597,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7138d961cecf6863",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1239 - Adds getContainer method to public API (thanks to @stefanprobst)",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Feature",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-713a61ef29221e64",
       "language": [
         "en"
@@ -163531,21 +163996,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/Object3D.html.md",
       "title": ".getWorldPosition( target : Vector3 ) : Vector3",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7190c75653bef04a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1214 - Cleans graph lifecycle events handling - #1216 - Fixes CodeSandbox configuration for multiple examples (and the template) - #1219 - Fixes hidden / excess renderings from node.ts program - #1223 - Fixes dynamic constant color in various fragment shaders - #1226 - Fixes broken node.ts program",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -164716,6 +165166,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/module-SobelOperatorShader.html.md",
       "title": "Import",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-725a03a50106a9d0",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "nodeLabelEvents and edgeLabelEvents accept:",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Label events",
       "topic": "uiux"
     },
     {
@@ -166396,21 +166861,6 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-shape/radial-line.md",
       "title": "lineRadial(data) {#lineRadial}",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-736a007428aa4565",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- undocumented - Updates dependencies - undocumented - Fixes various bugs with the node.image program - undocumented - Fixes the build/sigma.js and build/sigma.min.js expositions of sigma - #1172 - Fixes labels grid display (changes which node labels are displayed by default) - #1192 - Fixes alpha blending for most recent WebGL layers - #1193 - Fixes dragging with mouse out of stage - #1194 - Fixe",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -170452,21 +170902,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-764b2c548de3ffab",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1500 - Fixing lag on stop dragging (thanks @ouzhou for the report and the research)",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fix",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-764c53589b60466e",
       "language": [
         "en"
@@ -172402,21 +172837,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-77d232f92b337675",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Some icons can include an optional aliases field for alternate names.",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
-      "title": "Aliases",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-77d3b557b12b91a4",
       "language": [
         "en"
@@ -173191,6 +173611,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/Quaternion.html.md",
       "title": ".conjugate() : Quaternion",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7856dffab639f5c2",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "--- title: Privacy Statement description: How lucide.dev handles your data, which services we use, and what is stored in your browser. aside: false editLink: false ---",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Privacy Statement",
       "topic": "uiux"
     },
     {
@@ -175492,6 +175927,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-7a0ada1d7f604695",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Lucide is an open-source project. We built lucide.dev to collect as little about you as possible: We aim to collect as little personal data as possible. We don't sell your personal data, and we don't require an account to browse our website. This page explains what does happen when you visit, and why.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Privacy Statement",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-7a0e7e3b94e719e2",
       "language": [
         "en"
@@ -175782,7 +176232,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Method | Returns | Description | | ------------------- | ------------- | ----------------------------------------------------------------- | | getCamera() | Camera | Get the camera instance. See Camera API | | setCamera(camera) | void | Replace the camera instance | | getMouseCaptor() | MouseCaptor | Get the mouse event captor | | getTouchCaptor() | TouchCaptor | Get the touch event captor |",
+      "outcome": "| Method | Returns | Description | | ------------------- | ------------- | ----------------------------------------------------------------- | | getCamera() | Camera | Get the camera instance. See Camera API | | setCamera(camera) | this | Replace the camera instance | | getMouseCaptor() | MouseCaptor | Get the mouse event captor | | getTouchCaptor() | TouchCaptor | Get the touch event captor |",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/reference/sigma-api.md",
       "title": "Camera and input",
@@ -177742,6 +178192,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-7b7e919f9a60fcd3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- ambulance → \"Directing users to nearby emergency services in navigation apps\" - calendar-sync → \"Representing recurring events, promotions, or limited-time offers\" - globe-x → \"Indicating a device or application is offline or unreachable\" - heading-2 → \"Applying a level-2 heading in text editors\"",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Examples",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-7b80a7f4a4dd3e00",
       "language": [
         "en"
@@ -177976,21 +178441,6 @@
       "provenance": "upstream",
       "source": "repo:html2canvas:.github/PULL_REQUEST_TEMPLATE.md",
       "title": "PULLREQUESTTEMPLATE",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-7bb397753401f4d1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "When mining descriptions, comments, or linked issues:",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Deriving from source material",
       "topic": "uiux"
     },
     {
@@ -179662,21 +180112,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-7cde36567281a59d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "--- title: Comparison description: A comparison between Lucide and Feather Icons, highlighting the differences and benefits of each. ---",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/guide/comparison.md",
-      "title": "Comparison",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-7cdfbb9bdcb5d721",
       "language": [
         "en"
@@ -179772,7 +180207,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "- nodeProgramClasses / edgeProgramClasses settings: replaced by the primitives configuration - defaultNodeType / defaultEdgeType settings: node and edge rendering is now configured through primitives and layers - Standalone node/edge program packages (like the old @sigma/node-square): shapes are now built-in; @sigma/node-border, @sigma/node-image, and @sigma/node-piechart still exist but as layer ",
+      "outcome": "- nodeProgramClasses / edgeProgramClasses settings: replaced by the primitives configuration - defaultNodeType / defaultEdgeType settings: node and edge rendering is now configured through primitives and layers - @sigma/node-square: removed, since node shapes are now primitives. Use the built-in sdfSquare() shape from sigma/rendering instead - @sigma/edge-curve: removed, since edge paths are now p",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/migration-v3-v4.md",
       "title": "What's removed",
@@ -180796,6 +181231,21 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-selection/control-flow.md",
       "title": "selection.nodes() {#selectionnodes}",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-7d9ad9bd89325a93",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Sigma throws an error if its container has no width or height, when it is created and at every later render. A container hidden with display: none, for instance in a collapsed panel, triggers this error on the next render. Either create sigma when the element becomes visible and kill it when it gets hidden, or set the allowInvalidContainer setting to true and call refresh() when the element become",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Container size",
       "topic": "uiux"
     },
     {
@@ -184692,7 +185142,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "javascript const fs = require('fs'); const initSqlJs = require('sql-wasm.js'); const filebuffer = fs.readFileSync('test.sqlite');",
+      "outcome": "javascript const fs = require('fs'); const initSqlJs = require('sql.js'); const filebuffer = fs.readFileSync('test.sqlite');",
       "provenance": "upstream",
       "source": "repo:sqljs:README.md",
       "title": "read a database from the disk:",
@@ -185907,7 +186357,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "To disable rule #3, use the autoRescale setting. Setting autoRescale as false prevents Sigma from automatically resizing the graph. Then, node positions are interpreted in pixels, for the default zoom level. The graph remains centered in the viewport, though.",
+      "outcome": "To disable rule #3, use the autoRescale setting. Setting autoRescale as false prevents Sigma from automatically resizing the graph. Then, node positions are interpreted in pixels, for the default zoom level, with the origin (0, 0) at the viewport center.",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/concepts/sizes.md",
       "title": "autoRescale setting",
@@ -186166,6 +186616,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/TSL.html.md",
       "title": ".modelDirection : ModelNode. (constant)",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-81daebd0266378c8",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Do NOT add non-spec features to core: Any feature, syntax, or option that is not part of the CommonMark or GFM specifications should NOT be merged into core or added behind new configuration options. - Direct users and enhancements to extensions: Use marked.use({ extensions, renderer, tokenizer, walkTokens, hooks }). Marked follows the Open/Closed Principle: provide extension hooks rather than b",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "2. Extension-First Architecture (Keep Core Lean)",
       "topic": "uiux"
     },
     {
@@ -188146,6 +188611,21 @@
       "provenance": "upstream",
       "source": "repo:vanjs:README.md",
       "title": "🍦 VanJS: The Smallest Reactive UI Framework in the World",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-836f6108ed52cf5a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1386 Improves Sigma.kill method - #1382 Handles click/hover nodes and edges with picking rather than with custom computations - #1372 Improves render/refresh lifecycle and APIs - #1322 Implements WebGL instancing in programs - #1346 Adds documentation in the website - #1034 Adds new Sigma.setCamera method - #1185 Adds new zoomToSizeRatioFunction and itemSizesReference setting - #1231 Adds new @",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -190402,6 +190882,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-84fe76f341a2167a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "1. L0 - Security: ReDoS vulnerabilities, prototype pollution, memory exhaustion crashes. 2. L1 - Broken / Performance: Major bugs causing crashes or severe regressions, or performance bottlenecks. 3. L2 - Annoying: Minor bugs where a workaround exists. 4. RR - Refactor & Re-engineer: Optimizing execution speed, reducing memory footprint, improving maintainability. 5. NFS - New Feature (Spec): Capa",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Priority Label Hierarchy",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-84fe9e551891d419",
       "language": [
         "en"
@@ -191392,21 +191887,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-85c8c87ea73b196f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Completely rewrites programs API - Renames all existing programs - Restructures sources as a multi-package repository (using Lerna) - Replaces the default node program by NodeCircleProgram - Moves the node.image renderer as a new package @sigma/node-image - Moves labelRenderer, hoverRenderer and edgeLabelRenderer from settings to each renderer",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Breaking changes",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-85cd5f305ff9ffd1",
       "language": [
         "en"
@@ -191521,6 +192001,21 @@
       "provenance": "upstream",
       "source": "repo:tui-calendar:docs/en/apis/calendar.md",
       "title": "getViewName",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-85d8de30af60f02e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "A use-case tells a reader where and why an icon would be used in a real interface. Each entry should let someone who has never seen the icon understand what it's for.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Writing icon use-cases",
       "topic": "uiux"
     },
     {
@@ -192211,21 +192706,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/RapierPhysics.html.md",
       "title": ".applyImpulse( mesh : Mesh, impulse : Vector3, index : number )",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-86658de04454cbff",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "That depends on whether you're satisfied with the icons from Feather Icons. If that is the case, it may not be worth the effort. However, if you find yourself struggling and feeling limited by the icons provided by Feather, you can consider migrating. When we forked, we didn't remove any icons, but some icons have been renamed.",
-      "provenance": "upstream",
-      "source": "repo:lucide:docs/guide/comparison.md",
-      "title": "Should I migrate to Lucide?",
       "topic": "uiux"
     },
     {
@@ -192976,6 +193456,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/LightProbeGridWebGL.html.md",
       "title": ".boundingBox : Box3",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-86f28cd8fc3d5178",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "For each element, the body is tested first; if it doesn't intersect, each of the element's labels is tested as a fallback (main label for nodes and edges, plus source/target labels for edges), so a rotated label is tested by its actual polygon rather than an axis-aligned box. An element matches if either its body or any of its labels intersects the given polygon.",
+      "provenance": "upstream",
+      "source": "repo:cytoscape:documentation/md/collection/polygonIntersection.md",
+      "title": "Details",
       "topic": "uiux"
     },
     {
@@ -198967,21 +199462,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8b5d4caa8d901e17",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | -------------------------------- | ------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------- | | enableCameraZooming | boolean | true | Allow zooming with the mouse wheel | | enableCameraPanning | boolean | true | Allow panning by dragging the background",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Camera",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8b630b044aeb75fc",
       "language": [
         "en"
@@ -199066,6 +199546,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:docs/config/setup/mermaid/interfaces/Mermaid.md",
       "title": "Interface: Mermaid",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-8b7447b37345ba8f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Variant icons do not have to repeat the metadata they share with other icons. Two inline markers are resolved at build time and replaced, in place, by the values they stand for.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
+      "title": "Reusing metadata: $extends: and $group:",
       "topic": "uiux"
     },
     {
@@ -201517,21 +202012,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-8d20c85cbae072c0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The root object in the API is the initSqlJs function, that takes an SqlJsConfig parameter, and returns an SqlJs object",
-      "provenance": "upstream",
-      "source": "repo:sqljs:documentation_index.md",
-      "title": "The initSqlJs function",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-8d210002e97eeca1",
       "language": [
         "en"
@@ -202441,6 +202921,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:docs/syntax/requirementDiagram.md",
       "title": "Element",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-8ddafeba00ade029",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Adds internal state for nodes, edges and graph - Adds internal logic in sigma to handle parallel edges and self-loops natively - Adds built-in node dragging support - Adds node and edge label events - Adds right-click drag camera rotation - Adds picking padding settings to increase hit box sizes (#1493) - Upgrades @sigma/layer-leaflet and @sigma/layer-maplibre, with one-way sync from sigma to th",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "New features",
       "topic": "uiux"
     },
     {
@@ -205222,6 +205717,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-8f90d730a92fb65b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "You can also import one icon at a time. This skips the icon barrel, which matters when modules are resolved at runtime (server-side rendering, for example), and only loads a small type declaration instead of the full one.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/guide/react/getting-started.md",
+      "title": "Importing a single icon",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-8f90fd62875aaa36",
       "language": [
         "en"
@@ -206686,21 +207196,6 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-format.md",
       "title": "formatPrefix(specifier, value) {#formatPrefix}",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-907f236151237201",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Although asm.js files were distributed as a single Javascript file, WebAssembly libraries are most efficiently distributed as a pair of files, the .js loader and the .wasm file, like sql-wasm.js and sql-wasm.wasm. The .js file is responsible for loading the .wasm file. You can find these files on our release page",
-      "provenance": "upstream",
-      "source": "repo:sqljs:README.md",
-      "title": "Downloading/Using:",
       "topic": "uiux"
     },
     {
@@ -211267,6 +211762,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-938a04b17a56c416",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- src/: ONLY edit TypeScript source files here. - lib/: Generated build output (marked.esm.js, marked.umd.js, marked.d.ts). NEVER manually edit files in lib/. - test/specs/: Spec fixture files organized by spec type (commonmark/, gfm/, new/, original/, redos/). - test/unit/: Node.js test runner unit test files (.test.js). - docs/: Documentation pages and doc build scripts.",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Important Directory Conventions",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-938ff5b67a9e61df",
       "language": [
         "en"
@@ -212167,21 +212677,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-94318fe974f8dbf7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1178 - Fixes uncaught error in Firefox when using node.image with images with no size - #1180 - Fixes edge events not being fired when edge size not set in the graph - #1183 - Moves edge labels layer behind nodes layer - #1186 - Fixes hovered nodes when mouse not hover sigma container",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-943c2c90c2f1fdab",
       "language": [
         "en"
@@ -212776,21 +213271,6 @@
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/migration-v3-v4.md",
       "title": "What's new",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-94aea6b03725d921",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1285 - Fixing label selection when camera is rotated - #1206, #1257 - Fixing node.image program (thanks to @kaij and @boogheta) - #1286 - Fixing right-click erroneously triggering camera drag events - #1242, #1282 - Fixing multiple issues related to touch captor (thanks to @kaij and @boogheta) - #1272 - Fixing quadtree-related stack overflows - Fixing graph event leak on Sigma.kill - #1253 - Fi",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -215992,6 +216472,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-96f9bf4e1da7924e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | -------------------------------- | ------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------- | | enableCameraZooming | boolean | true | Allow zooming with the mouse wheel | | enableCameraPanning | boolean | true | Allow panning by dragging the background",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Camera",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-96fbb4d503593251",
       "language": [
         "en"
@@ -216001,21 +216496,6 @@
       "provenance": "upstream",
       "source": "repo:echarts:CONTRIBUTING.md",
       "title": "What can you do for the ECharts community?",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-96fcfba3ca831b3d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "This new version carries a complete rewrite of the programs system, initially to address various depth or opacity related issues, but that ended up covering much more (styles and primitives APIs, better node shapes and edge paths support...). Please read the \"Migrating from v3 to v4\" guide to know more.",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "4.0.0",
       "topic": "uiux"
     },
     {
@@ -217597,21 +218077,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-98256deef96ec4a9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | ---------------------------- | --------- | ------- | ------------------------------------------------------------------------------------- | | labelRenderedSizeThreshold | number | 6 | Minimum rendered node size (in pixels) for its label to be displayed | | labelDensity | number | 1 | Controls how many labels are shown. Higher values show more labels (m",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Label optimization",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-9827bb612fd95434",
       "language": [
         "en"
@@ -218562,7 +219027,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "Since most additional packages only handle rendering, unit-testing them is too challenging. In the future, we plan to include all examples in our end-to-end tests to detect rendering regressions.",
+      "outcome": "Unit tests sit next to the code as src//.test.ts, and run with the package test script (vitest). The website examples are also covered by the end-to-end tests in packages/browser-tests.",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/contributing/new-packages.md",
       "title": "Adding tests",
@@ -221761,6 +222226,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/ReflectorForSSRPass.html.md",
       "title": ".Options",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-9b2281ea8fdc1da3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Under the GDPR you have the right to access, correct or delete your personal data, to restrict or object to its processing, and to data portability. Because we don't link analytics data to individuals, we usually can't find data that belongs to you specifically, but we're happy to help. Contact us at info@lucide.dev.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Your rights",
       "topic": "uiux"
     },
     {
@@ -228432,7 +228912,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "ageusia artboard barbeque choy ecommerce enby flexbox futbol gddr glassmorphism gltf interpoint interpunct middot mistwarp moleskine nonbinary pantone phonendoscope quadcopter reapproval rubygems showreel solera timesheets turbowarp unbook unguard unkeys unlabel unprevented unqueue unsalvageable unshield unstar vitamizer wayfinding",
+      "outcome": "checkmark activitypub ageusia artboard barbeque choy cicd ecommerce enby fediverse flexbox futbol gddr glassmorphism gltf halloumi helpdesk interpoint interpunct middot mistwarp mlops moleskine nonbinary pantone parfum phonendoscope quadcopter reapproval rubygems showreel solera timesheets turbowarp unbook unguard unkeys unlabel unprevented unqueue unsalvageable unshield unstar vitamizer wayfindin",
       "provenance": "upstream",
       "source": "repo:lucide:.cspell/custom-words.txt",
       "title": "Search tags and terms used in icon and category metadata",
@@ -229902,7 +230382,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "If you need a quick intoduction with code samples that you can copy-and-paste, head over to sql.js.org",
+      "outcome": "If you need a quick introduction with code samples that you can copy-and-paste, head over to sql.js.org",
       "provenance": "upstream",
       "source": "repo:sqljs:documentation_index.md",
       "title": "Introduction",
@@ -231091,21 +231571,6 @@
       "provenance": "upstream",
       "source": "repo:tui-calendar:docs/en/apis/options.md",
       "title": "week.showTimezoneCollapseButton",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a21410d00696d7df",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Run npm run createPackage from the project root. It will:",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CONTRIBUTING.md",
-      "title": "Starting a new package",
       "topic": "uiux"
     },
     {
@@ -233692,6 +234157,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-a420b7f76396e756",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "This function proxies to the renderer's box-selection logic, so the result matches what the user would select by dragging a selection box over the same area: it obeys each element's box-selection style ('contain' or 'overlap') and, for labels, box-select-labels.",
+      "provenance": "upstream",
+      "source": "repo:cytoscape:documentation/md/collection/withinBox.md",
+      "title": "Details",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-a4233feade42c01c",
       "language": [
         "en"
@@ -235771,21 +236251,6 @@
       "provenance": "upstream",
       "source": "repo:jspreadsheet:docs/jspreadsheet/docs/themes.md",
       "title": "Related Tools",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-a58d8618d39a331f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1168 - Fixes hover and click events when mouse is hovering a hidden node - #1169 - Fixes x / y values in sigma events when mouse is not hovering the sigma container - #1173 - Fixes issue where unused program no longer deallocate back to zero - #1175 - Fixes zoom scrolling in a scrolled webpage",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -240562,21 +241027,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-a8f7c38c86cd4813",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "You can always find the latest published artifacts on https://github.com/sql-js/sql.js/releases/latest.",
-      "provenance": "upstream",
-      "source": "repo:sqljs:README.md",
-      "title": "Versions of sql.js included in the distributed artifacts",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-a8fa66fccf20bbff",
       "language": [
         "en"
@@ -241767,7 +242217,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "typescript primitives: { depthLayers: [\"edges\", \"nodes\", \"topNodes\"], }, styles: { nodes: [ // Nodes geometry stays in \"nodes\" so other nodes can still overlap: { depth: \"nodes\", labelDepth: \"topNodes\" }, ], }",
+      "outcome": "typescript primitives: { depthLayers: [\"edges\", \"nodes\", \"topEdges\", \"topNodes\"], }, styles: { nodes: [ DEFAULTSTYLES.nodes, // Nodes geometry stays in \"nodes\" so other nodes can still overlap: { depth: \"nodes\", labelDepth: \"topNodes\" }, ], }",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/concepts/depth-and-z-order.md",
       "title": "Labels above unrelated nodes",
@@ -241861,6 +242311,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/WorkgroupInfoNode.html.md",
       "title": "new WorkgroupInfoNode( scope : string, bufferType : string, bufferCount : number )",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-aa0fad90ee9b93e7",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "When proposing changes, fixing bugs, or implementing features, strictly adhere to the following maintainer priorities:",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "2. Core Priorities & Philosophy",
       "topic": "uiux"
     },
     {
@@ -248227,6 +248692,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-ae49534007feea4a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The gestureTarget setting solves the conflict between interacting with the graph and scrolling the page:",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Gesture target",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-ae497dbd88561acf",
       "language": [
         "en"
@@ -248281,6 +248761,21 @@
       "provenance": "upstream",
       "source": "repo:highlightjs:test/markup/java/arrays.txt",
       "title": "arrays",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ae5130ab0329132e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Database is the main class, that represents an SQLite database.",
+      "provenance": "upstream",
+      "source": "repo:sqljs:documentation_index.md",
+      "title": "Database",
       "topic": "uiux"
     },
     {
@@ -250126,6 +250621,21 @@
       "provenance": "upstream",
       "source": "repo:tui-calendar:docs/ko/apis/template.md",
       "title": "comingDuration",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-afb0db14d9cbd732",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1239 - Adds getContainer method to public API (thanks to @stefanprobst)",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Feature",
       "topic": "uiux"
     },
     {
@@ -255652,6 +256162,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-b39f4c2dc3d70fb0",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "$extends: says what an icon is; $group: says what its variant suffix (-plus, -check, -off…) means. A \"$group:\" marker inside tags is replaced, in place, with the tags of groups/.json.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Groups",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-b39fb10d62d9b5aa",
       "language": [
         "en"
@@ -257752,21 +258277,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-b515beea8038a836",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Rewrites website and examples on Astro Starlight, with a starlight-typedoc-generated API reference (and drops Storybook at the same time)",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Documentation",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-b517ff6e0b046c79",
       "language": [
         "en"
@@ -257926,6 +258436,21 @@
       "provenance": "upstream",
       "source": "repo:prismjs:CHANGELOG.md",
       "title": "Updated plugins",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-b538a9f8af1a8a25",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "We process this data on the basis of our legitimate interest (Article 6(1)(f) GDPR) in running a fast, secure and sustainable website: hosting and protecting the site, understanding how it is used, and funding the project through non-tracking ads. We keep data minimal and avoid identifying individual visitors.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Legal basis",
       "topic": "uiux"
     },
     {
@@ -259141,6 +259666,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:packages/mermaid/src/docs/syntax/requirementDiagram.md",
       "title": "Larger Example",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-b61201296bc2b74b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The Statement class is used for prepared statements.",
+      "provenance": "upstream",
+      "source": "repo:sqljs:documentation_index.md",
+      "title": "Statement",
       "topic": "uiux"
     },
     {
@@ -262087,6 +262627,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-b81b17afdaad25f9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "&nbsp;&nbsp; [//]: <> (Main README only end) [//]: <> (Sponsor tiers end)",
+      "provenance": "upstream",
+      "source": "repo:lucide:README.md",
+      "title": "Supporters ☕️",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-b81c0cfc65b4b460",
       "language": [
         "en"
@@ -263956,6 +264511,21 @@
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/layer-leaflet/README.md",
       "title": "Sigma.js - Leaflet background layer",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-b92f7baf51bff7fc",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- No Sanitization in Core: Marked's single responsibility is translating Markdown into HTML. Marked deliberately does NOT sanitize HTML output. Do not attempt to add sanitization logic into core; users must use sanitizers like DOMPurify on the output. - ReDoS Awareness: Avoid nested quantifiers (a+)+ or overlapping alternations that can lead to catastrophic regex backtracking. If introducing or he",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "3. Security & Scope Boundaries",
       "topic": "uiux"
     },
     {
@@ -272212,6 +272782,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-bf4487b9f876a351",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Vercel, Algolia, Carbon Ads, GitHub and Shields.io may process data outside the European Economic Area, including in the United States. Where this happens, these providers rely on safeguards such as the EU–US Data Privacy Framework or the European Commission's Standard Contractual Clauses.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "International transfers",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-bf458bc687bafab3",
       "language": [
         "en"
@@ -272221,21 +272806,6 @@
       "provenance": "upstream",
       "source": "repo:mermaid:docs/syntax/wardley.md",
       "title": "Accelerators and Deaccelerators",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-bf469dad13f8e01f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | -------------------------- | -------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | | enableNodeDrag | boolean | false | Allow users to drag nodes. See the drag and drop guide | | getDraggedNodes | (node: string) ",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Node drag",
       "topic": "uiux"
     },
     {
@@ -272776,6 +273346,21 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-scale/band.md",
       "title": "band.paddingInner(padding) {#bandpaddingInner}",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-bfafea8a2fa3ba3d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1559 - Fixes blank frame on shader regeneration",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -274537,21 +275122,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c100b4b64c64082d",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1386 Improves Sigma.kill method - #1382 Handles click/hover nodes and edges with picking rather than with custom computations - #1372 Improves render/refresh lifecycle and APIs - #1322 Implements WebGL instancing in programs - #1346 Adds documentation in the website - #1034 Adds new Sigma.setCamera method - #1185 Adds new zoomToSizeRatioFunction and itemSizesReference setting - #1231 Adds new @",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Features",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c101ccd7394f7cc7",
       "language": [
         "en"
@@ -275176,6 +275746,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/LUT3dlLoader.html.md",
       "title": ".type : UnsignedByteType | FloatType",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c17fead196df5b7f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1500 - Fixing lag on stop dragging (thanks @ouzhou for the report and the research)",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fix",
       "topic": "uiux"
     },
     {
@@ -276592,6 +277177,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-c28c91965ee0ce2e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Some icons are variants of another icon (for example alarm-clock-minus is an alarm-clock). Instead of repeating the same values, an icon can inherit tags, categories, or contributors from its base icon using an inline \"$extends:\" marker placed directly inside the relevant array. At build time each marker is replaced, in place, with the referenced icon's fully resolved values for that same field.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Extending metadata from other icons",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-c28eb9ae98debd87",
       "language": [
         "en"
@@ -276802,6 +277402,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-c2ad65b48202e9c3",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "&nbsp;&nbsp; [//]: <> (Sponsor tiers end)",
+      "provenance": "upstream",
+      "source": "repo:lucide:packages/angular/README.md",
+      "title": "Bronze 🥉",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-c2b0378d92fcf068",
       "language": [
         "en"
@@ -276811,6 +277426,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/CSS2DObject.html.md",
       "title": "CSS2DObject",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c2bcf854eab4daeb",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "With labelVisibility: \"auto\", an edge label shows when one of its extremities is hovered or highlighted, or when both extremities are anchors. edgeLabelAnchors picks the anchors:",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Edge label anchors",
       "topic": "uiux"
     },
     {
@@ -278587,21 +279217,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c41639d0a52a45d0",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "When a request covers several icons at once, assign each use-case only to the icon it actually describes. A bullet prefixed with another icon's name belongs to that icon, not this one. Don't let briefcase-medical's meanings leak into briefcase-business.",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Cross-contamination",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c4194b50c6eea0f8",
       "language": [
         "en"
@@ -279877,21 +280492,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c4ef76247a0624b9",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | ----------------------- | --------- | ------- | -------------------------------------------------------------------------- | | allowInvalidContainer | boolean | false | Allow creating a sigma instance with an invalid (e.g. zero-size) container |",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Lifecycle",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c4f2ef1e2050dfc1",
       "language": [
         "en"
@@ -280702,21 +281302,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c583aba618ebe4a5",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "| Setting | Type | Default | Description | | ------------------ | --------- | ------- | -------------------------------------------------------- | | hideEdgesOnMove | boolean | false | Hide edges while the camera is moving (panning, zooming) | | hideLabelsOnMove | boolean | false | Hide labels while the camera is moving |",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Performance",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c585c2ef06948044",
       "language": [
         "en"
@@ -280951,6 +281536,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:packages/mermaid/src/docs/community/contributing.md",
       "title": "Formatting",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c5ad7408727c74f9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "--- renderExact: true --- an unclosed tag",
+      "provenance": "upstream",
+      "source": "repo:marked:test/specs/new/unclosed_inline_raw_tag.md",
+      "title": "does not leak into a heading: 1 2",
       "topic": "uiux"
     },
     {
@@ -282112,6 +282712,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-c6786cb1628abf6a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Write each use-case as a short phrase, not a sentence. Start with a present participle verb: Representing…, Indicating…, Marking…, Showing…, Confirming…, Toggling…, Categorizing…, Searching…. - Keep it to roughly 4–12 words. One clear idea per entry. - No trailing period. No leading bullet, number, or dash (the surrounding format supplies that). - Give each icon 1 or more use-cases, ordered most",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Format",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-c67c38c6502af4dc",
       "language": [
         "en"
@@ -282301,6 +282916,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/MorphAnimMesh.html.md",
       "title": ".setDirectionForward()",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-c69720c1b555a802",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "When a request covers several icons at once, assign each use-case only to the icon it actually describes. A bullet prefixed with another icon's name belongs to that icon, not this one. Don't let briefcase-medical's meanings leak into briefcase-business.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Cross-contamination",
       "topic": "uiux"
     },
     {
@@ -284467,21 +285097,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-c80ffb80165c12c8",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "initSqlJs returns the main sql.js object, the SqlJs module, which contains :",
-      "provenance": "upstream",
-      "source": "repo:sqljs:documentation_index.md",
-      "title": "The SqlJs object",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-c8101d55f19a4466",
       "language": [
         "en"
@@ -285496,21 +286111,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/PackFloatNode.html.md",
       "title": "PackFloatNode",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-c8dc33a84f097e12",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The use-cases property is an array of strings that describe the specific scenarios in which the icon would be used. Each use case should be concise and clearly convey the context in which the icon is applicable. Use the existing use cases in the repository as a reference for consistency and to avoid duplicates.",
-      "provenance": "upstream",
-      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
-      "title": "Use Cases",
       "topic": "uiux"
     },
     {
@@ -287266,21 +287866,6 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-time.md",
       "title": "timeYear {#timeYear}",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ca0f7aa2dfc5976f",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Replaces multi-programs support with primitives (node shapes, edge paths and extremities...) based single-program compilation - Implements declarative styles API, to link graph data and state to the primitives (should replace nodeReducer and edgeReducer in most cases) - Implements depth layers, to allow rendering any type of items at any depth - Adds various styles and primitives, to render labe",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "New programs system",
       "topic": "uiux"
     },
     {
@@ -289441,6 +290026,21 @@
       "provenance": "upstream",
       "source": "repo:highlightjs:test/detect/irpf90/default.txt",
       "title": "default",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-cbda06e2127a01ee",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "npm run build produces the default, browser-only, and inline WebAssembly builds, their debug variants, and worker bundles. The inline variants use Emscripten's -sSINGLEFILE=1 to embed the binary in JavaScript.",
+      "provenance": "upstream",
+      "source": "repo:sqljs:CONTRIBUTING.md",
+      "title": "Building and testing distribution variants",
       "topic": "uiux"
     },
     {
@@ -292036,6 +292636,21 @@
       "provenance": "upstream",
       "source": "repo:observable-plot:docs/marks/density.md",
       "title": "Density mark",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-cdb4974c32cec87f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The use-cases property is an array of strings that describe the specific scenarios in which the icon would be used. Each use case should be concise and clearly convey the context in which the icon is applicable. Use the existing use cases in the repository as a reference for consistency and to avoid duplicates.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Use Cases",
       "topic": "uiux"
     },
     {
@@ -294892,6 +295507,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-cfaa2199368e57cc",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The official way to use sigma with React is react-sigma, which provides ready-made components and hooks on top of sigma.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "React",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-cfaa258d6692f09c",
       "language": [
         "en"
@@ -296086,21 +296716,6 @@
       "provenance": "upstream",
       "source": "repo:leaflet:docs/_plugins/overlay-data-formats/leaflet-geocsv.md",
       "title": "leaflet-geocsv",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-d0a3ee237d1ff383",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- Adds internal state for nodes, edges and graph - Adds internal logic in sigma to handle parallel edges and self-loops natively - Adds built-in node dragging support - Adds node and edge label events - Adds right-click drag camera rotation - Adds picking padding settings to increase hit box sizes (#1493) - Upgrades @sigma/layer-leaflet and @sigma/layer-maplibre, with one-way sync from sigma to th",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "New features",
       "topic": "uiux"
     },
     {
@@ -297522,7 +298137,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "--- title: What is Lucide? description: An introduction to Lucide, an open-source icon library that provides 1600+ vector (svg) files for displaying icons and symbols in digital and non-digital projects. nextPage: - comparison - installation ---",
+      "outcome": "--- title: What is Lucide? description: An introduction to Lucide, an open-source icon library that provides 1600+ vector (svg) files for displaying icons and symbols in digital and non-digital projects. nextPage: - installation ---",
       "provenance": "upstream",
       "source": "repo:lucide:docs/guide/index.md",
       "title": "What is Lucide?",
@@ -299737,6 +300352,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-d371c0b94f1a74be",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Setup - Install it: npm install Then run it.",
+      "provenance": "upstream",
+      "source": "repo:marked:test/specs/new/list_lazy_after_nested_block.md",
+      "title": "listlazyafternestedblock",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-d3730541407da5e0",
       "language": [
         "en"
@@ -299821,6 +300451,21 @@
       "provenance": "upstream",
       "source": "repo:mermaid:docs/community/contributing.md",
       "title": "Contributing Code",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d37d39aeed2701ee",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Replaces multi-programs support with primitives (node shapes, edge paths and extremities...) based single-program compilation - Implements declarative styles API, to link graph data and state to the primitives (should replace nodeReducer and edgeReducer in most cases) - Implements depth layers, to allow rendering any type of items at any depth - Adds various styles and primitives, to render labe",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "New programs system",
       "topic": "uiux"
     },
     {
@@ -300001,6 +300646,21 @@
       "provenance": "upstream",
       "source": "repo:phosphor-icons:CONTRIBUTING.md",
       "title": "Attribution",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d39808454b31429e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "We use privacy-friendly analytics to see which pages and icons are popular, so we know what to improve. We run OpenPanel on our own subdomain (insights.lucide.dev), and the data it collects is stored in the EU. It counts page views and how the site is used: which icons are copied or opened in Lucide Studio, when an icon search starts, changes to the icon customiser and sorting, clicks on the home ",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Analytics",
       "topic": "uiux"
     },
     {
@@ -300277,6 +300937,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-d3c811d5bee8ce06",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Sigma needs browser APIs as soon as its module is evaluated, so even a static import Sigma from \"sigma\" fails on the server. Only load it in the browser:",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Server-side rendering",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-d3c8a15a938c4bb4",
       "language": [
         "en"
@@ -300286,6 +300961,21 @@
       "provenance": "upstream",
       "source": "repo:tui-calendar:docs/ko/apis/event-object.md",
       "title": "캘린더(calendarId)",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d3d17d8475cbae67",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1289 - Adding Camera.updateState - Program classes given in settings (nodeProgramClasses, edgeProgramClasses) are now merged with default ones for convenience - #1287 - Adding the hoverNodeProgramClasses setting so that it is possible to have different programs rendering nodes and their hover - #1273 - Adding the Sigma.setGraph method to renderers - Adding renderer generic type to specify graph",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -300901,6 +301591,21 @@
       "provenance": "upstream",
       "source": "repo:jspreadsheet:docs/jspreadsheet/docs/format.md",
       "title": "Column Level Settings",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d4409e27bc19922a",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "vue import type Graph from \"graphology\"; import Sigma from \"sigma\"; import { onBeforeUnmount, onMounted, ref, shallowRef, watch } from \"vue\";",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Vue",
       "topic": "uiux"
     },
     {
@@ -302146,6 +302851,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/SSRNode.html.md",
       "title": ".screenEdgeFadeBlack : boolean",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d519edca8c0f0d5f",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Contributor and team avatars are loaded directly from GitHub, so GitHub receives your IP address when those images load. See GitHub's privacy statement.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Third-party images",
       "topic": "uiux"
     },
     {
@@ -307612,6 +308332,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-d8c9cf3468c31fe1",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1558 - Fixes hover flicker on overlapping nodes - @sigma/node-image@4.0.1 - Keeps image crop inside the image",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-d8cb6785b00316bc",
       "language": [
         "en"
@@ -307827,7 +308562,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Method | Returns | Description | | ------------------------------- | ------------- | ----------------------------------------------------------------------- | | graphToViewport(coords) | Coordinates | Convert graph-space coordinates to screen pixels | | viewportToGraph(coords) | Coordinates | Convert screen pixels to graph-space coordinates | | framedGraphToViewport(coords) | Coordinates | Conve",
+      "outcome": "| Method | Returns | Description | | ------------------------------- | ------------- | ------------------------------------------------------------------------------ | | graphToViewport(coords) | Coordinates | Convert graph-space coordinates to screen pixels | | viewportToGraph(coords) | Coordinates | Convert screen pixels to graph-space coordinates | | framedGraphToViewport(coords) | Coordinates ",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/reference/sigma-api.md",
       "title": "Coordinate conversion",
@@ -308746,6 +309481,21 @@
       "provenance": "upstream",
       "source": "repo:d3:docs/d3-contour/density.md",
       "title": "contourDensity() {#contourDensity}",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-d9ada342c441c357",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "This new version carries a complete rewrite of the programs system, initially to address various depth or opacity related issues, but that ended up covering much more (styles and primitives APIs, better node shapes and edge paths support...). Please read the \"Migrating from v3 to v4\" guide to know more.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "4.0.0",
       "topic": "uiux"
     },
     {
@@ -313627,21 +314377,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-dd28410d4c0036c7",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "General consumers of this library don't need to read any further. (The compiled files are available via the release page.)",
-      "provenance": "upstream",
-      "source": "repo:sqljs:README.md",
-      "title": "Compiling/Contributing",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-dd2e8c04358a3da6",
       "language": [
         "en"
@@ -313696,21 +314431,6 @@
       "provenance": "upstream",
       "source": "repo:chartjs:docs/axes/cartesian/index.md",
       "title": "Grid lines",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-dd3bd41704ceafca",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The gestureTarget setting solves the conflict between interacting with the graph and scrolling the page:",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Gesture target",
       "topic": "uiux"
     },
     {
@@ -314566,21 +315286,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/Water.html.md",
       "title": "new Water( geometry : BufferGeometry, options : WaterOptions )",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ddd1fae5cf7e7b13",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1230 - Updates broken link to graphology in README.md (thanks to @alexduhem) - #1236 - Fixes #.preventSigmaDefault scoping - #1237 - Updates pixelRatio on resize - #1240 - Fixes click events for touch devices - #1244 - Stops relying on graphology for types (issue only partially fixed yet) - #1249 - Fixes hovered nodes layer not being cleared",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -315571,6 +316276,21 @@
       "provenance": "upstream",
       "source": "repo:cytoscape:documentation/md/style.md",
       "title": "Format",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-de815758b7f2d9fb",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Sigma listens to the graph, and re-renders when it changes. To reflect your application data, update the graph instead of creating a new instance. To swap the graph without losing the instance, call setGraph(). For selections and other UI states, use setNodeState, setEdgeState and setGraphState.",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Graph updates",
       "topic": "uiux"
     },
     {
@@ -320857,6 +321577,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-e221baaffa61fe8b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The root object in the API is the initSqlJs function, that takes an SqlJsConfig parameter, and returns a Promise that resolves to an SqlJs object",
+      "provenance": "upstream",
+      "source": "repo:sqljs:documentation_index.md",
+      "title": "The initSqlJs function",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-e22344695eaa4daf",
       "language": [
         "en"
@@ -324067,21 +324802,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e444124e46233051",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "nodeLabelEvents and edgeLabelEvents accept:",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
-      "title": "Label events",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e4486add688dd696",
       "language": [
         "en"
@@ -325516,21 +326236,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/GLSLNodeBuilder.html.md",
       "title": ".getSubgroupSize()",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-e51c9b932d379252",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "The Statement class is used for prepared statements.",
-      "provenance": "upstream",
-      "source": "repo:sqljs:documentation_index.md",
-      "title": "Statement",
       "topic": "uiux"
     },
     {
@@ -329617,6 +330322,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-e7b713e063147102",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "&nbsp;&nbsp; [//]: <> (Main README only start)",
+      "provenance": "upstream",
+      "source": "repo:lucide:README.md",
+      "title": "Bronze 🥉",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-e7becd8f8f41767d",
       "language": [
         "en"
@@ -331132,21 +331852,6 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
-      "id": "lesson-e8b50a60371db1b1",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "- #1165 - Fixes \"ghost hovered nodes\" issue",
-      "provenance": "upstream",
-      "source": "repo:sigmajs:CHANGELOG.md",
-      "title": "Bug fix",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
       "id": "lesson-e8b8817e82bb5300",
       "language": [
         "en"
@@ -332407,6 +333112,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-e970a1f5086348f9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Some icons can include an optional aliases field for alternate names.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/contribute/icons/metadata-conventions/index.md",
+      "title": "Aliases",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-e9716f5541e5d3c5",
       "language": [
         "en"
@@ -332911,6 +333631,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/Box2.html.md",
       "title": ".translate( offset : Vector2 ) : Box2",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-e9b6d09a0e5b9047",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Related icons should get variant-specific wording, not one shared blurb. battery-low → \"Indicating a low battery charge level\"; battery-full → \"…full…\". square-arrow-right-enter → sign in / join; -exit → sign out / export. Resist copying the same line across a family.",
+      "provenance": "upstream",
+      "source": "repo:lucide:.github/instructions/metadata.instructions.md",
+      "title": "Variants",
       "topic": "uiux"
     },
     {
@@ -336292,6 +337027,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-ec0eca1ea0f869e9",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- undocumented - Edges thickness rendering is now pixel perfect at camera ratio 1, and no more twice bigger on Retina displays - undocumented - Cleans some browser warnings - #1157 - Fixes unexpected node interaction with zIndex - #1148 - Fixes mousemove unexpected behaviors - #1163 - Implements edge labels ellipsis",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-ec107a8d8e8761d9",
       "language": [
         "en"
@@ -336541,6 +337291,21 @@
       "provenance": "upstream",
       "source": "repo:lunr:CHANGELOG.md",
       "title": "0.5.0",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ec4009c57ba8497b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- #1214 - Cleans graph lifecycle events handling - #1216 - Fixes CodeSandbox configuration for multiple examples (and the template) - #1219 - Fixes hidden / excess renderings from node.ts program - #1223 - Fixes dynamic constant color in various fragment shaders - #1226 - Fixes broken node.ts program",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Bug fixes",
       "topic": "uiux"
     },
     {
@@ -339337,6 +340102,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-ee2e3c26f2cddf80",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "Tests execute against the compiled bundle in lib/marked.esm.js. Therefore, you MUST compile after editing src/ before running tests:",
+      "provenance": "upstream",
+      "source": "repo:marked:AGENTS.md",
+      "title": "Critical: Build Before Testing",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-ee31bbef7ea95a98",
       "language": [
         "en"
@@ -339496,6 +340276,21 @@
       "provenance": "upstream",
       "source": "repo:howler:README.md",
       "title": "Format Recommendations",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-ee500d457624460c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- undocumented - Adds edge events - undocumented - Cleans and fixes all nodes and edges programs - #1153 - Adds double-click and wheel events for nodes and edges, with a new #preventSigmaDefault() method - #1149 - Graphology (and related libs) update to 0.22.1 - #1102 - Allows custom node and edge label colors - #1150 - Adds public methods to enable implementing a proper PNG export, adds related p",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Features",
       "topic": "uiux"
     },
     {
@@ -341527,6 +342322,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-efd5f9455225546c",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "within a paragraph a & b is still raw, as is a & b across a line but not after it: 1 < 2",
+      "provenance": "upstream",
+      "source": "repo:marked:test/specs/new/unclosed_inline_raw_tag.md",
+      "title": "does not leak into a heading: 1 2",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-efd71a76c77640aa",
       "language": [
         "en"
@@ -342271,6 +343081,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:tsl/content/Guide.md",
       "title": "Functions",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f067509fe406e141",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | ------------------ | --------- | ------- | -------------------------------------------------------- | | hideEdgesOnMove | boolean | false | Hide edges while the camera is moving (panning, zooming) | | hideLabelsOnMove | boolean | false | Hide labels while the camera is moving |",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Performance",
       "topic": "uiux"
     },
     {
@@ -347487,7 +348312,7 @@
         "en"
       ],
       "origin": "harvested",
-      "outcome": "| Field | Type | Description | | ------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | | color | EdgeLabelColorSpecification | Label color. Accepts a CSS string or { attribute, color? } to read from an edge attribute. | | position | \"over\" \\| \"above\" \\| \"be",
+      "outcome": "| Field | Type | Description | | ------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | | color | EdgeLabelColorSpecification | Label color. Accepts a CSS string or { attribute, color? } to read from an edge attribute. | | margin | number | Distance between ",
       "provenance": "upstream",
       "source": "repo:sigmajs:packages/website/src/content/docs/reference/primitives-schema.md",
       "title": "label",
@@ -349267,6 +350092,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-f52ab81ae579724e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "- Completely rewrites programs API - Renames all existing programs - Restructures sources as a multi-package repository (using Lerna) - Replaces the default node program by NodeCircleProgram - Moves the node.image renderer as a new package @sigma/node-image - Moves labelRenderer, hoverRenderer and edgeLabelRenderer from settings to each renderer",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:CHANGELOG.md",
+      "title": "Breaking changes",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-f52c89c1d123ad8e",
       "language": [
         "en"
@@ -350257,6 +351097,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-f5f147d97f1a566b",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "foo !img a a a) atle)) link\\:) foo link\\) [foo]: /url \"t\\\" [foo] [bar]: /url (t\\)) [bar] [baz]: /url 't\\' [baz]",
+      "provenance": "upstream",
+      "source": "repo:marked:test/specs/new/link_escaped_closer.md",
+      "title": "linkescapedcloser",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-f5f3a97b912bc9e7",
       "language": [
         "en"
@@ -350776,6 +351631,21 @@
       "provenance": "upstream",
       "source": "repo:threejs:examples/models/gltf/LeePerrySmith/LeePerrySmith_License.txt",
       "title": "LeePerrySmithLicense",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f654541a58a90f64",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "--- title: Integrate with a framework sidebar: label: \"Integrate with a framework\" description: How to use sigma.js in React, Vue, Angular, or any other component framework. ---",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/how-to/technical/framework-integration.md",
+      "title": "Examples by framework",
       "topic": "uiux"
     },
     {
@@ -352171,6 +353041,21 @@
       "provenance": "upstream",
       "source": "repo:leaflet:docs/_posts/2012-08-20-guest-post-markerclusterer-0-1-released.md",
       "title": "The Technical Bits",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f746c105d14c279d",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "lucide.dev is run by the Lucide Icons, based in the Netherlands. For questions about this statement or your data, contact us at info@lucide.dev.",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/privacy.md",
+      "title": "Who is responsible",
       "topic": "uiux"
     },
     {
@@ -354526,6 +355411,21 @@
       "provenance": "upstream",
       "source": "repo:html2canvas:README.md",
       "title": "Examples",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
+      "id": "lesson-f8bfb49a6f77a943",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "The default sql-wasm.js build loads a separate sql-wasm.wasm binary. In browsers, use the locateFile configuration to specify its location.",
+      "provenance": "upstream",
+      "source": "repo:sqljs:documentation_index.md",
+      "title": "Loading sql.js",
       "topic": "uiux"
     },
     {
@@ -359797,6 +360697,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-fc7e834355d386a0",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "| Setting | Type | Default | Description | | ----------------------- | --------- | ------- | -------------------------------------------------------------------------- | | allowInvalidContainer | boolean | false | Allow creating a sigma instance with an invalid (e.g. zero-size) container |",
+      "provenance": "upstream",
+      "source": "repo:sigmajs:packages/website/src/content/docs/reference/settings.md",
+      "title": "Lifecycle",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-fc8007fe9bc3a080",
       "language": [
         "en"
@@ -362287,6 +363202,21 @@
       "access": "public",
       "assessment": "deterministic_review_required",
       "evidence": "repo_document",
+      "id": "lesson-fe19f6a69c9c212e",
+      "language": [
+        "en"
+      ],
+      "origin": "harvested",
+      "outcome": "To customize the appearance of an icon, you can use the following props:",
+      "provenance": "upstream",
+      "source": "repo:lucide:docs/guide/react/getting-started.md",
+      "title": "Props",
+      "topic": "uiux"
+    },
+    {
+      "access": "public",
+      "assessment": "deterministic_review_required",
+      "evidence": "repo_document",
       "id": "lesson-fe1d9d3396369c42",
       "language": [
         "en"
@@ -364381,21 +365311,6 @@
       "provenance": "upstream",
       "source": "repo:threejs:docs/pages/BufferGeometry.html.md",
       "title": ".normalizeNormals()",
-      "topic": "uiux"
-    },
-    {
-      "access": "public",
-      "assessment": "deterministic_review_required",
-      "evidence": "repo_document",
-      "id": "lesson-ffbb245d727c7c8a",
-      "language": [
-        "en"
-      ],
-      "origin": "harvested",
-      "outcome": "Database is the main class, that represents an SQLite database.",
-      "provenance": "upstream",
-      "source": "repo:sqljs:documentation_index.md",
-      "title": "Database",
       "topic": "uiux"
     },
     {

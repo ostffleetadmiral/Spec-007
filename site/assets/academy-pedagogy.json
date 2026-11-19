@@ -2,7 +2,7 @@
   "schema": "academy-pedagogy-v1",
   "scope": "deterministic-content-signals",
   "courses_graded": 14,
-  "lessons_graded": 55612,
+  "lessons_graded": 55673,
   "grades": {
     "STRONG": 0,
     "FAIR": 0,
@@ -547,31 +547,31 @@
     },
     {
       "course": "uiux-craft",
-      "lessons": 24317,
+      "lessons": 24378,
       "grade": "THIN",
       "signals": {
         "thin": {
-          "v": 0.2189,
+          "v": 0.2185,
           "band": "green"
         },
         "capped": {
-          "v": 0.069,
+          "v": 0.0695,
           "band": "green"
         },
         "title_coll": {
-          "v": 0.3422,
+          "v": 0.3423,
           "band": "green"
         },
         "neardup": {
-          "v": 0.5004,
+          "v": 0.4995,
           "band": "red"
         },
         "term_cov": {
-          "v": 0.3651,
+          "v": 0.3655,
           "band": "amber"
         },
         "src_conc": {
-          "v": 0.3369,
+          "v": 0.336,
           "band": "green"
         },
         "ids": {
@@ -579,7 +579,7 @@
           "band": "green"
         }
       },
-      "neardup_clusters": 2790,
+      "neardup_clusters": 2794,
       "neardup_biggest": 614,
       "top_source": [
         "threejs",

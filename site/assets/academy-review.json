@@ -2,7 +2,7 @@
   "schema": "academy-review-v1",
   "scope": "structural",
   "courses_reviewed": 14,
-  "lessons_reviewed": 55612,
+  "lessons_reviewed": 55673,
   "zh_lessons": 455,
   "defects": [],
   "courses": [
@@ -268,7 +268,7 @@
     },
     {
       "course": "uiux-craft",
-      "lessons": 24317,
+      "lessons": 24378,
       "zh_lessons": 14,
       "declassified_lessons": 0,
       "topics": 1,
@@ -281,7 +281,7 @@
         "leaflet:1124"
       ],
       "top_topics": [
-        "uiux:24317"
+        "uiux:24378"
       ],
       "defects": 0,
       "verdict": "HELD"

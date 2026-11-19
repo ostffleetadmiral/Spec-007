@@ -1,6 +1,6 @@
 {
   "spec": "DEVICELEDGERv1",
-  "generated": "2026-10-10T16:22:03.818Z",
+  "generated": "2026-11-11T14:52:26.174Z",
   "cpu": {
     "cores": 8,
     "arch": "x86_64",
@@ -18,7 +18,7 @@
     "python": true,
     "dotnet": true,
     "go": false,
-    "cargo": true,
+    "cargo": false,
     "lean": true,
     "deno": false,
     "wasmtime": false
@@ -31,6 +31,6 @@
   },
   "ollama": {
     "resident": true,
-    "models": 4
+    "models": 5
   }
 }

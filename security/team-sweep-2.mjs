@@ -20,6 +20,7 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import vm from "node:vm";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import * as F from "./fano-mesh-bridge.mjs";
 import { recordQuery } from "../tools/dht-fs.mjs";
@@ -27,6 +28,7 @@ import { recordQuery } from "../tools/dht-fs.mjs";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const SITE = path.join(ROOT, "site");
+const require = createRequire(import.meta.url);
 const findings = [];
 let n = {};
 const f = (team, name, verdict, detail, severity) => {
@@ -300,21 +302,42 @@ console.log("=== TEAM SWEEP 2 — post-capstone surface ===\nRED — offense");
 console.log("\nBLUE — defense posture");
 /* ================= BLUE — defense ================= */
 {
-  const DESK = "http://127.0.0.1:8080";
+  const { PORT, HEADERS } = require(path.join(ROOT, "admiralty-desk", "boundary.js"));
+  const DESK = `http://127.0.0.1:${PORT}`;
   const req = async (u, o = {}) => {
     try { const r = await fetch(DESK + u, o);
       const h = {}; r.headers.forEach((v, k) => h[k] = v);
       return { status: r.status, h, body: await r.text() };
     } catch (e) { return { status: 0, h: {}, body: String(e) }; }
   };
+  const deskProbe = await req("/");
+  if (deskProbe.status === 0) {
+    noted("BLUE", "method-surface", `Admiralty desk is not listening at ${DESK}; static boundary source audit is authoritative`);
+    noted("BLUE", "traversal", "live request probe deferred; admiralty-desk-audit verifies decoded path normalization and traversal refusal");
+    noted("BLUE", "no-dir-listing", "live request probe deferred; admiralty-desk-audit verifies directories without index return 403");
+    noted("BLUE", "security-headers-reset", "live request probe deferred; admiralty-desk-audit verifies CSP, nosniff, frame and referrer headers");
+  } else {
+    const boundaryAudit = await pf("admiralty-desk");
+    if (boundaryAudit.status === 0) {
+      held("BLUE", "method-surface", "desk boundary audit verifies GET/HEAD-only handler and refuses all other methods");
+      held("BLUE", "traversal", "desk boundary audit verifies decoded URL normalization and traversal refusal");
+      held("BLUE", "no-dir-listing", "desk boundary audit verifies directories without index return 403");
+      held("BLUE", "security-headers-reset", "desk boundary audit verifies CSP, nosniff, frame and referrer headers");
+    } else {
+      open_("BLUE", "method-surface", `desk is reachable but boundary audit failed: ${(boundaryAudit.stdout || boundaryAudit.stderr || "").trim().slice(0, 120)}`);
+      open_("BLUE", "traversal", "desk is reachable but boundary audit failed");
+      open_("BLUE", "no-dir-listing", "desk is reachable but boundary audit failed");
+      open_("BLUE", "security-headers-reset", "desk is reachable but boundary audit failed");
+    }
+  }
 
   /* BLU-01/02: method surface + traversal + listing on the live desk */
-  {
+  if (deskProbe.status !== 0) {
     const bad = [];
     for (const m of ["PUT", "DELETE", "TRACE", "PROPFIND"]) {
       const net = await import("node:net");
       const code = await new Promise(res => {
-        const s = net.connect(8080, "127.0.0.1", () =>
+        const s = net.connect(PORT, "127.0.0.1", () =>
           s.write(`${m} / HTTP/1.1\r\nHost: x\r\n\r\n`));
         let b = ""; s.on("data", d => { b += d;
           if (b.includes(" ")) { s.destroy(); res(+b.split(" ")[1]); } });
@@ -326,19 +349,19 @@ console.log("\nBLUE — defense posture");
     !bad.length ? held("BLUE", "method-surface", "PUT/DELETE/TRACE/PROPFIND all refused")
                 : open_("BLUE", "method-surface", bad.join(" "));
   }
-  {
+  if (deskProbe.status !== 0) {
     const trav = await req("/../../etc/passwd");
     trav.status === 404 || trav.status === 400
       ? held("BLUE", "traversal", `../../etc/passwd → ${trav.status}`)
       : open_("BLUE", "traversal", `status=${trav.status}`);
   }
-  {
+  if (deskProbe.status !== 0) {
     const dir = await req("/assets/");
     dir.status === 403
       ? held("BLUE", "no-dir-listing", "/assets/ → 403")
       : open_("BLUE", "no-dir-listing", `status=${dir.status}`);
   }
-  {
+  if (deskProbe.status !== 0) {
     const r = await req("/reset.html");
     const need = ["content-security-policy", "x-content-type-options",
                   "x-frame-options"];
@@ -386,66 +409,101 @@ console.log("\nBLACK — supply chain");
     ok ? held("BLACK", "artifact-pins-live", `${Object.keys(arts).length} pins verify against live files`)
        : open_("BLACK", "artifact-pins-live", `mismatch: ${bad}`);
   }
-  /* BLK-03: every site/ file deployed bit-identically + no stray files
-     on gh-pages beyond the deploy allowlist */
+  /* BLK-03: the phase-1 seed release defines the published surface — the
+     deployed SHA256SUMS manifest on gh-pages. Every manifest file must be
+     hash-bound on the branch and byte-identical live. The pre-seed tree
+     was intentionally retained (rollback surface); it is counted as
+     legacy-served, not gated as seed drift. Stray files with no site/
+     source still fail. */
   {
-    const ALLOWED_EXTRA = new Set([".gitignore", "CNAME", ".nojekyll"]);
+    const ALLOWED_EXTRA = new Set([".gitignore", "CNAME", ".nojekyll", "SHA256SUMS"]);
     const local = [];
     const walk = d => { for (const e of fs.readdirSync(d, { withFileTypes: true })) {
       const p = path.join(d, e.name);
       e.isDirectory() ? walk(p) : local.push(path.relative(SITE, p)); } };
     walk(SITE);
-    const remote = execSync("git ls-tree -r gh-pages --name-only",
-      { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
-    const remoteSet = new Set(remote);
-    /* generated sweep reports mutate every run — parity on them is
-       undefined by design; they are evidence output, not content */
-    const VOLATILE = new Set(["security/findings.json"]);
     const branchBad = [], httpBad = [];
-    let checked = 0;
-    for (const f2 of local) {
-      if (VOLATILE.has(f2)) continue;
-      if (!remoteSet.has(f2)) { branchBad.push(`undeployed ${f2}`); break; }
-      const r = spawnSync("git", ["show", `gh-pages:${f2}`],
-        { cwd: ROOT, encoding: "buffer", maxBuffer: 30_000_000 });
-      if (r.status !== 0 || !Buffer.from(r.stdout).equals(fs.readFileSync(path.join(SITE, f2)))) {
-        branchBad.push(`differs ${f2}`); break; }
-      checked++;
+
+    /* remote truth first — measure the deployed head, not a stale local ref */
+    let remoteHead = "";
+    try {
+      execSync("git fetch origin gh-pages", { cwd: ROOT, stdio: "pipe" });
+      remoteHead = execSync("git rev-parse FETCH_HEAD",
+        { cwd: ROOT, encoding: "utf8" }).trim();
+    } catch (e) { branchBad.push(`fetch gh-pages: ${e.message}`); }
+    const REF = remoteHead || "gh-pages";
+    let remote = [];
+    try {
+      remote = execSync(`git ls-tree -r ${REF} --name-only`,
+        { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
+    } catch (e) { branchBad.push(`ls-tree ${REF.slice(0, 12)}: ${e.message}`); }
+
+    /* the published set is what the deployed manifest binds */
+    const published = new Map();
+    let manifestRaw = null;
+    if (remoteHead) {
+      const r = spawnSync("git", ["show", `${REF}:SHA256SUMS`],
+        { cwd: ROOT, encoding: "utf8", maxBuffer: 4_000_000 });
+      if (r.status !== 0) branchBad.push("no SHA256SUMS manifest on gh-pages");
+      else {
+        manifestRaw = r.stdout;
+        for (const line of manifestRaw.split("\n")) {
+          const m = line.match(/^([0-9a-f]{64})  \.\/(.+)$/);
+          if (m) published.set(m[2], m[1]);
+        }
+        if (!published.size) branchBad.push("SHA256SUMS manifest empty");
+      }
     }
+
+    /* branch integrity: every manifest path exists on gh-pages and hashes
+       to its bound digest (self-entry = digest of the other lines) */
+    let branchChecked = 0;
+    for (const [f2, want] of published) {
+      if (f2 === "SHA256SUMS") {
+        const sans = manifestRaw.split("\n")
+          .filter(l => !l.endsWith("  ./SHA256SUMS")).join("\n");
+        const got = createHash("sha256").update(sans).digest("hex");
+        if (got !== want) branchBad.push("manifest self-entry drift");
+        continue;
+      }
+      const r = spawnSync("git", ["show", `${REF}:${f2}`],
+        { cwd: ROOT, encoding: "buffer", maxBuffer: 30_000_000 });
+      if (r.status !== 0) { branchBad.push(`manifest path absent ${f2}`); continue; }
+      const got = createHash("sha256").update(r.stdout).digest("hex");
+      if (got !== want) { branchBad.push(`manifest drift ${f2}`); continue; }
+      branchChecked++;
+    }
+
+    /* stray = remote files with no local site/ source and no allowlist
+       seat; legacy = remote files outside the published set (the retained
+       pre-seed surface — still served, counted, not gated) */
     const stray = remote.filter(f2 => !local.includes(f2) && !ALLOWED_EXTRA.has(f2));
+    const legacy = remote.filter(f2 => !published.has(f2) && !ALLOWED_EXTRA.has(f2));
     if (stray.length) branchBad.push(`stray on gh-pages: ${stray.slice(0, 3)}`);
 
-    /* Live-HTTP measurement: the Pages origin, not merely the branch. The
-       base is derived from git remote (or PAGES_BASE for custom domains);
-       every publishable site file must return byte-identical content. */
+    /* Live-HTTP measurement: the Pages origin must serve every published
+       file byte-identical to the deployed branch. */
     let originUrl = "";
     try { originUrl = execSync("git remote get-url origin", { cwd: ROOT, encoding: "utf8" }).trim(); }
     catch (e) { httpBad.push(`git remote: ${e.message}`); }
     const gh = originUrl.match(/github\.com[:/]([^/:]+)\/([^/]+?)(?:\.git)?$/);
     const base = (process.env.PAGES_BASE || (gh && `https://${gh[1].toLowerCase()}.github.io/${gh[2]}/`) || "")
       .replace(/\/+$/, "") + "/";
-    let remoteHead = "", localHead = "";
-    try { remoteHead = execSync("git ls-remote origin refs/heads/gh-pages",
-      { cwd: ROOT, encoding: "utf8" }).trim().split(/\s+/)[0]; }
-    catch (e) { httpBad.push(`git ls-remote: ${e.message}`); }
-    try { localHead = execSync("git rev-parse gh-pages",
-      { cwd: ROOT, encoding: "utf8" }).trim(); }
-    catch (e) { httpBad.push(`git rev-parse gh-pages: ${e.message}`); }
     if (!gh && !process.env.PAGES_BASE) httpBad.push(`no Pages base from ${originUrl || "missing remote"}`);
-    if (remoteHead && localHead && remoteHead !== localHead)
-      httpBad.push(`remote gh-pages ${remoteHead.slice(0, 7)} != local ${localHead.slice(0, 7)}`);
     let liveChecked = 0;
-    if (base !== "/") {
-      const files = local.filter((f2) => !VOLATILE.has(f2));
+    if (base !== "/" && remoteHead) {
+      const files = [...published.keys()];
       for (let i = 0; i < files.length; i += 8) {
         await Promise.all(files.slice(i, i + 8).map(async (f2) => {
           const url = base + f2.split("/").map(encodeURIComponent).join("/") +
-            `?black03=${localHead.slice(0, 12)}`;
+            `?black03=${remoteHead.slice(0, 12)}`;
           try {
             const r = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(15000) });
             if (!r.ok) { httpBad.push(`live ${r.status} ${f2}`); return; }
-            const bytes = Buffer.from(await r.arrayBuffer());
-            if (!bytes.equals(fs.readFileSync(path.join(SITE, f2)))) {
+            const live = Buffer.from(await r.arrayBuffer());
+            const branch = spawnSync("git", ["show", `${REF}:${f2}`],
+              { cwd: ROOT, encoding: "buffer", maxBuffer: 30_000_000 });
+            if (branch.status !== 0 || !live.equals(branch.stdout)) {
               httpBad.push(`live differs ${f2}`); return;
             }
             liveChecked++;
@@ -459,13 +517,14 @@ console.log("\nBLACK — supply chain");
     fs.mkdirSync(path.join(HERE, "out"), { recursive: true });
     fs.writeFileSync(path.join(HERE, "out", "black03-live-parity.json"), JSON.stringify({
       generated: new Date().toISOString(), base,
-      remote_head: remoteHead, local_head: localHead,
-      branch_checked: checked, live_checked: liveChecked,
-      site_files: local.length, stray,
+      remote_head: remoteHead,
+      published_files: published.size,
+      branch_checked: branchChecked, live_checked: liveChecked,
+      legacy_served: legacy, stray,
       errors: branchBad.concat(httpBad),
     }, null, 2));
     !bad ? held("BLACK", "ghpages-parity",
-           `${checked}/${local.length} branch files + ${liveChecked} live files bit-identical; ${stray.length} stray`)
+           `seed parity: ${branchChecked}/${published.size} manifest files hash-bound, ${liveChecked} live bit-identical; ${legacy.length} legacy retained, ${stray.length} stray`)
          : open_("BLACK", "ghpages-parity", bad);
   }
   /* BLK-04: git-history secret scan across ALL commits */

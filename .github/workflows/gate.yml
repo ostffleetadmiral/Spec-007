@@ -1,0 +1,27 @@
+name: publish-gate
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# The release gate, run clean-room on every push. Mirrors
+# tools/publish-check.sh exactly — if it passes here it passes at
+# release time. Deploy stays manual (tools/deploy-pages.sh holds the
+# push credentials); this workflow only verifies.
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install zig 0.13.0 (pinned tarball + shasum, no third-party action)
+        run: |
+          curl -fsSL https://ziglang.org/download/0.13.0/zig-linux-x86_64-0.13.0.tar.xz -o /tmp/zig.tar.xz
+          echo "d45312e61ebcc48032b77bc4cf7fd6915c11fa16e4aad116b66c9468211230ea  /tmp/zig.tar.xz" | sha256sum -c -
+          sudo tar -xJf /tmp/zig.tar.xz -C /opt
+          echo "/opt/zig-linux-x86_64-0.13.0" >> "$GITHUB_PATH"
+          zig version
+
+      - name: publish-check (the full release gate)
+        run: tools/publish-check.sh

@@ -59,8 +59,8 @@
         },
         {
           "path": "security/team-sweep-2.mjs",
-          "bytes": 219172,
-          "sha256": "f41cf9337bb2965aa99816844b71500dbd246780da66697e2d18a10b0a47bef5"
+          "bytes": 222616,
+          "sha256": "4c2378411d1d157905d835a5f0057b75cf57cc34fa1879c91f11aa556b0dd2f2"
         },
         {
           "path": "security/xploit-sweep.mjs",
@@ -97,13 +97,13 @@
         },
         {
           "path": "docs/en/spec-007-research-dossier.md",
-          "bytes": 99930,
-          "sha256": "9bc5d2f8a4571f951a638116c56a543c6b4754082a6c742a6f67b2481880b1c6"
+          "bytes": 99866,
+          "sha256": "f3be478a19733653d5b88c372ae21aee92bb048de93eb2d838d80eb9ab73b65d"
         },
         {
           "path": "docs/zh-Hant/spec-007-research-dossier.zh-Hant.md",
-          "bytes": 88237,
-          "sha256": "d9ba532c595743348655cc5ff325a55295eb2b9be5124b79865c65d4065905e7"
+          "bytes": 88260,
+          "sha256": "e45c23f43cc5ddd5897cbf3f009178d21f4e7fb299c264bc46dec67c0f4191e8"
         },
         {
           "path": "docs/en/spec-007-science-coverage.en.md",
@@ -224,8 +224,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5355,
-          "sha256": "2162095618009fcc428591e8e4ad6f38671a16d6a262c84384e367c80aa27f28"
+          "bytes": 5627,
+          "sha256": "4b51c960c048faf07b6e7430ba0fd28208030ec1fb06a1d2b1e2aba6e1d91582"
         },
         {
           "path": "site/apps/rations/rations.wasm.sha256",
@@ -318,8 +318,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5355,
-          "sha256": "2162095618009fcc428591e8e4ad6f38671a16d6a262c84384e367c80aa27f28"
+          "bytes": 5627,
+          "sha256": "4b51c960c048faf07b6e7430ba0fd28208030ec1fb06a1d2b1e2aba6e1d91582"
         },
         {
           "path": "site/apps/rations/js/dom-dialog.js",

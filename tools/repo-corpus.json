@@ -50,9 +50,9 @@
     {
       "root": "space-agent",
       "class": "first_party",
-      "mode": "local",
-      "local": "Music/Paul/space-agent",
+      "mode": "pinned_clone",
       "url": "https://github.com/ostffleetadmiral/space-agent.git",
+      "pin": "10f4ffdaf50a8136cf8450d17c11286178fd58e6",
       "include": [
         "**/*.md",
         "**/*.txt"
@@ -91,7 +91,7 @@
       "class": "first_party",
       "mode": "declassified",
       "local": "CascadeProjects/hardware/experiments/Spec-007/docs/en/declassified-gnm",
-      "note": "Guerrilla National Ministries — Neo-Hindu corpus; declassified copies only, drawer originals never publish",
+      "note": "Guerrilla National Ministries \u2014 Neo-Hindu corpus; declassified copies only, drawer originals never publish",
       "include": [
         "*.md"
       ]
@@ -104,7 +104,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "c41652b72512b48275082dafcb1935f6f5d58022"
     },
     {
       "root": "project-nomad",
@@ -114,7 +115,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "85da928019c428faf43cf96785f16f7da9efb0df"
     },
     {
       "root": "quine.html",
@@ -124,7 +126,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "6e684e3dce4d8ffe5314e42ee8e6258bf2a4fcb2"
     },
     {
       "root": "cofounder",
@@ -134,7 +137,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "19ba19f61737d654493175208df468395e2193f4"
     },
     {
       "root": "vphone-cli",
@@ -144,7 +148,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "c2ae6d7c537236d3e91274162407cdb89ddfc353"
     },
     {
       "root": "agent-builder",
@@ -154,7 +159,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "136b6f96675a4f856eeb8fa8ad68c7d293a75c7e"
     },
     {
       "root": "full-stack-school",
@@ -164,7 +170,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "6b6292f3f704db767bef88ce4322ab69f6caf3e2"
     },
     {
       "root": "adk",
@@ -174,7 +181,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "038b8b2c9f30dd3d0802a14ba1767d53541345fe"
     },
     {
       "root": "paperless-ngx",
@@ -185,7 +193,8 @@
         "**/*.md",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "3eb784b34d04eebb5897f8e42384b3e7e6d6a337"
     },
     {
       "root": "freenet-core",
@@ -196,7 +205,8 @@
         "**/*.md",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "5b923edc83ca9d3d6e90bfcd2b953c754a38eef0"
     },
     {
       "root": "three-ws",
@@ -213,7 +223,8 @@
         "**/.changeset/**",
         "**/vendor/**",
         "**/test/fixtures/**"
-      ]
+      ],
+      "pin": "309cb37e870e7bba2179cc55a2ad0936ed53f2fe"
     },
     {
       "root": "ukama",
@@ -223,7 +234,8 @@
       "include": [
         "**/*.md",
         "**/*.rst"
-      ]
+      ],
+      "pin": "0da45b7a478a4df89e4e3fedc3ac0fe00490337b"
     },
     {
       "root": "ukama-nodes",
@@ -233,7 +245,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "263b0b8a7c90297ca4af0eb883982a48a0cd56c4"
     },
     {
       "root": "walter-esp-idf",
@@ -244,7 +257,8 @@
         "**/*.md",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "89f0536a10e47e4994cd9eb59e10928c48ff95fd"
     },
     {
       "root": "walter-hardware",
@@ -254,7 +268,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "670e5753e8786a9f8747bea34714e2f394939fef"
     },
     {
       "root": "walter-micropython",
@@ -264,7 +279,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "a989103e70c22c7c4b4e47c482059fdad651e7d1"
     },
     {
       "root": "walter-uc",
@@ -274,7 +290,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "ec76ff66cbf25f9adb49b517da054a2357b61e7c"
     },
     {
       "root": "woof-ce",
@@ -284,7 +301,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "8f6744545b13c3745e20dff484258023d07c59bb"
     },
     {
       "root": "maypole-firmware",
@@ -294,7 +312,8 @@
       "include": [
         "**/*.md",
         "**/*.txt"
-      ]
+      ],
+      "pin": "ae8ffc750654993aeb344599feafca716fc4d7c8"
     },
     {
       "root": "winbox",
@@ -309,7 +328,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "bbb453aca2c3c5122c06ae0c6446eea1730d9142"
     },
     {
       "root": "golden-layout",
@@ -324,7 +344,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "b053a23e2d9ea308810559370553a592a0e4bfae"
     },
     {
       "root": "xterm-js",
@@ -339,7 +360,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "c58ea3637f3968e0e6e79cd92cf9aace7ef89ee2"
     },
     {
       "root": "ace",
@@ -354,7 +376,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "62d5ffd789b4eb29ef7c1acc17554c91c745a307"
     },
     {
       "root": "quill",
@@ -369,7 +392,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "539cbffd0a13b18e9c65eb84dd35e6596e403158"
     },
     {
       "root": "codemirror",
@@ -384,7 +408,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "c010426d06689a7115aa9df08425126b6d3ead2f"
     },
     {
       "root": "flexsearch",
@@ -399,7 +424,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "f7ed963096a0792da7b2fd63bb7114b3fbac55ed"
     },
     {
       "root": "lunr",
@@ -414,7 +440,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "aa5a878f62a6bba1e8e5b95714899e17e8150b38"
     },
     {
       "root": "fuse",
@@ -429,7 +456,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "edf2fb608eca0461508d1d71317e6e58309ffada"
     },
     {
       "root": "fuzzysort",
@@ -444,7 +472,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "ac4d42ec894a2125d78802ec9b5e74e43518d0fc"
     },
     {
       "root": "ninja-keys",
@@ -459,7 +488,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "8a47b207371139dc265f781c0df308eb46c8ec94"
     },
     {
       "root": "hotkeys-js",
@@ -474,7 +504,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "8a0e151e6c46e901931be806f6e123c1e61589bb"
     },
     {
       "root": "uplot",
@@ -489,7 +520,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "a116ae6035d4af11ef2745a9e10d5f77e0217a3d"
     },
     {
       "root": "chartjs",
@@ -504,7 +536,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "7169e65147a47f3720957a6f156a33c838ab9f57"
     },
     {
       "root": "d3",
@@ -519,7 +552,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "ca958d45217b4c15332d971b935451a6d4c978f4"
     },
     {
       "root": "echarts",
@@ -534,7 +568,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "34f4d927eafe251f26f63afd3aeefa30f2feba30"
     },
     {
       "root": "observable-plot",
@@ -549,7 +584,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "535723d5e433727720d9b673c31622821bb03210"
     },
     {
       "root": "threejs",
@@ -564,7 +600,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "11738a9d55e502fb484cefffcea3a66dc44e9fe9"
     },
     {
       "root": "globe-gl",
@@ -579,7 +616,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "6820a9c794bddde8e842bb203eaa698f6ed7adfe"
     },
     {
       "root": "force-graph-3d",
@@ -594,7 +632,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "5ccd00f47d72a571319da70ccac080bb8e09709f"
     },
     {
       "root": "force-graph",
@@ -609,7 +648,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "0f059c894bf5b7504460b7028b00bc6e4d95f0d9"
     },
     {
       "root": "cytoscape",
@@ -624,7 +664,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "b82035682cab514020dcf1de04237b28a7c2196e"
     },
     {
       "root": "sigmajs",
@@ -639,7 +680,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "e7748c88c861f19cab00be80cb7f836c5fef61e8"
     },
     {
       "root": "mermaid",
@@ -654,7 +696,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "33d0a4997b742df0d04838cce3f572e674d1cf9d"
     },
     {
       "root": "dagre",
@@ -669,7 +712,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "32e7f30f97f029fbfc89ce50e072d4fc16145838"
     },
     {
       "root": "tabulator",
@@ -684,7 +728,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "f50492e5dc86460876de4f13394a341451a87c66"
     },
     {
       "root": "gridjs",
@@ -699,7 +744,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "a8e41b91cb42a96dcd96da421ff578fa572ef07f"
     },
     {
       "root": "jspreadsheet",
@@ -714,7 +760,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "d9c04e8a1acec6b87b0580b79868cd4d2f73599e"
     },
     {
       "root": "sortable",
@@ -729,7 +776,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "48b626bbc61afbb0f179730c1dd3cca3dcc8b788"
     },
     {
       "root": "interactjs",
@@ -744,7 +792,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "a993eb8cd5cbc65f3a19e45ee24b7fedc026174f"
     },
     {
       "root": "jkanban",
@@ -759,7 +808,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "963cf2031d0f2cf07e5edbe368978f59bb2e30fd"
     },
     {
       "root": "animejs",
@@ -774,7 +824,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "01b81be1df6843ccfe0a71c0699a746bf740dd77"
     },
     {
       "root": "gsap",
@@ -789,7 +840,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "13e2b790546426a1a2e0e9b409f3f8dc6d6611f2"
     },
     {
       "root": "particlesjs",
@@ -804,7 +856,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "d01286d6dcd61f497d07cc62bd48e692f6508ad5"
     },
     {
       "root": "canvas-confetti",
@@ -819,7 +872,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "20eebad51dde793070c373d594099a7ed8d96e22"
     },
     {
       "root": "marked",
@@ -834,7 +888,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "afba4543ff47620ad60e980bc2f091971ccfdd8c"
     },
     {
       "root": "markdown-it",
@@ -849,7 +904,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "3c51991c32aaa2b002a52c009334ebe5752c84b3"
     },
     {
       "root": "dompurify",
@@ -864,7 +920,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "a3a40610f6ba8e3ac348ab04340bac25b6980d32"
     },
     {
       "root": "prismjs",
@@ -879,7 +936,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "5a02da9fc590052765c740270dd5e79367df6c20"
     },
     {
       "root": "highlightjs",
@@ -894,7 +952,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "60e092057673595fa542db0bc2b13a99df5d0551"
     },
     {
       "root": "sweetalert2",
@@ -909,7 +968,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "0bdf7205a4b165f60d156cebf7a8aa304bd6d240"
     },
     {
       "root": "notyf",
@@ -924,7 +984,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "d19f0abf35d3b785e8fec6c81a08e18087feac56"
     },
     {
       "root": "driverjs",
@@ -939,7 +1000,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "cc398049bde916d7e256f72a3f84e5eb4ba14506"
     },
     {
       "root": "shepherd",
@@ -954,7 +1016,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "cf36267bd034a4a457148f91a00a13c68435aca6"
     },
     {
       "root": "tippyjs",
@@ -969,7 +1032,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "ad85f6feb79cf6c5853c43bf1b2a50c4fa98e7a1"
     },
     {
       "root": "floating-ui",
@@ -984,7 +1048,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "dc62df23d72ad96d456c007d48d4541786fcd7eb"
     },
     {
       "root": "pickr",
@@ -999,7 +1064,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "e8ff88d9161ffc6e3c46a4430be8c328c42d6415"
     },
     {
       "root": "flatpickr",
@@ -1014,7 +1080,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "548330e6e18871d6ca1ca78746c0e89cb12a0303"
     },
     {
       "root": "simple-keyboard",
@@ -1029,7 +1096,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "b6a9adad9859536d476a361b43c5a59045f69cc5"
     },
     {
       "root": "lucide",
@@ -1044,7 +1112,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "03eae6069edfc373673bd05d723491f05ba936e3"
     },
     {
       "root": "tabler-icons",
@@ -1059,7 +1128,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d"
     },
     {
       "root": "phosphor-icons",
@@ -1074,7 +1144,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "2b75f3ad12b420c9504ef05df8d2564a28f8500e"
     },
     {
       "root": "howler",
@@ -1089,7 +1160,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "1d3053576a860e9854645493ad6c4a72c6cc6e45"
     },
     {
       "root": "tonejs",
@@ -1104,7 +1176,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "de9df332ca7573b90a9aaca10c0729a3091dda0a"
     },
     {
       "root": "localforage",
@@ -1119,7 +1192,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "fb78c77ee583fb727a558c439b5174aca38c5924"
     },
     {
       "root": "comlink",
@@ -1134,7 +1208,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "114a4a6448a855a613f1cb9a7c89290606c003cf"
     },
     {
       "root": "sqljs",
@@ -1149,7 +1224,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "0568ac96ced8ad05e0e8c86f5f7c367ac02fe513"
     },
     {
       "root": "css-98",
@@ -1164,7 +1240,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "b1d7a907371bbe523d6f64e3af97f714fdbd6d6a"
     },
     {
       "root": "system-css",
@@ -1179,7 +1256,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "c95b95428021361eaa411ccb08fa3b1050cc606d"
     },
     {
       "root": "xp-css",
@@ -1194,7 +1272,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "376f42eb274361939eaad3b0943204c053ad26c4"
     },
     {
       "root": "open-props",
@@ -1209,7 +1288,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "f39ab7c377a0e047f930982e3611bbc95254a260"
     },
     {
       "root": "animate-css",
@@ -1224,7 +1304,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "3f8ab233dbbd9d2fe577528d2296382954be3d1a"
     },
     {
       "root": "pico-css",
@@ -1239,7 +1320,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "a07563ddc856e6ed31a740e33b0397814227d469"
     },
     {
       "root": "vanjs",
@@ -1254,7 +1336,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "31bc066e60aad07f87f7a70901414b6a0acf6f9c"
     },
     {
       "root": "alpinejs",
@@ -1269,7 +1352,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "8d3d9a2f98385d4c879f4b5be080a0221279ed4d"
     },
     {
       "root": "masonry",
@@ -1284,7 +1368,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "3b0883cf4a4a046896719b9cf282ea74be7ffecd"
     },
     {
       "root": "swiper",
@@ -1299,7 +1384,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "fbf9ddb555edd2e0332e813dd69972ab9ee4b8b4"
     },
     {
       "root": "tui-calendar",
@@ -1314,7 +1400,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "b53e765e8d896ab7c63d9b9b9515904119a72f46"
     },
     {
       "root": "kaplay",
@@ -1329,7 +1416,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "74c68bb1e383731d8d8093063a05750885b7e469"
     },
     {
       "root": "nipplejs",
@@ -1344,7 +1432,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "ea425b3e81deaed14e384a2edcfbbd6a9a50f45b"
     },
     {
       "root": "leaflet",
@@ -1359,7 +1448,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "125bda1e24d74d6f06f4075b0dab7ac10f3b5c10"
     },
     {
       "root": "wavesurfer",
@@ -1374,7 +1464,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "086c8ba370c2146bc4c9e566b903346d7e0384d0"
     },
     {
       "root": "html2canvas",
@@ -1389,7 +1480,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "6020386bbeed60ad68e675fdcaa6220e292fd35a"
     },
     {
       "root": "printjs",
@@ -1404,7 +1496,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "08d002d43a9c383cc26fedbae3c8a6f597666917"
     },
     {
       "root": "qrcodejs",
@@ -1419,7 +1512,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "04f46c6a0708418cb7b96fc563eacae0fbf77674"
     },
     {
       "root": "revealjs",
@@ -1434,7 +1528,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "e240e175232fa2de660a02bc0d7bf5f655b159bb"
     },
     {
       "root": "typedjs",
@@ -1449,7 +1544,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "b2d6a7d9af6d9cd39830701f6b6a7cd98a37e13f"
     },
     {
       "root": "idb",
@@ -1464,7 +1560,8 @@
         "**/*.markdown",
         "**/*.txt",
         "**/*.rst"
-      ]
+      ],
+      "pin": "654c746bef13f9fe7f5871e03ac58015cebace5a"
     }
   ]
 }

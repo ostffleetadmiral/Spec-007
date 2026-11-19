@@ -6,17 +6,17 @@
       "src": 49,
       "deps": 85,
       "security": 57,
-      "tools": 53,
+      "tools": 56,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 6,
-      "site/assets": 53
+      "site/assets": 55
     },
-    "total_components": 306,
-    "source_components": 261,
+    "total_components": 311,
+    "source_components": 266,
     "generated_components": 45,
-    "mapped_basename": 295,
-    "mapped_contract": 306,
+    "mapped_basename": 300,
+    "mapped_contract": 311,
     "manifest_bound": 36,
     "owner_bound": 34,
     "unmapped_basename": [
@@ -5491,6 +5491,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "site/assets/jzd1.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": true,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "site/assets/layer-census.json",
       "contract": {
         "mapped": true,
@@ -5520,6 +5548,34 @@
     },
     {
       "component": "site/assets/nebula-3d.js",
+      "contract": {
+        "mapped": true,
+        "source_zone": "site",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "artifact",
+        "registered": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": true,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "site/assets/ostf.js",
       "contract": {
         "mapped": true,
         "source_zone": "site",
@@ -8340,6 +8396,34 @@
       "retrograde_status": "PENDING_COMPONENT_REVIEW"
     },
     {
+      "component": "tools/jzd1-wire-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
       "component": "tools/layer-map.mjs",
       "contract": {
         "mapped": true,
@@ -8397,6 +8481,34 @@
     },
     {
       "component": "tools/native-dialog-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/ostf-wire-audit.mjs",
       "contract": {
         "mapped": true,
         "source_zone": "tools",
@@ -8496,6 +8608,34 @@
       "documentation": {
         "basename_mapped": true,
         "component_map_mapped": true,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/reboot-seed-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
         "manifest_bound": false,
         "owner": null
       },

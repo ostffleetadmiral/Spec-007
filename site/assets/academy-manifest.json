@@ -1,5 +1,5 @@
 {
-  "lesson_count": 56160,
+  "lesson_count": 56221,
   "lessons": [
     {
       "access": "public",
@@ -7680,7 +7680,7 @@
     "origins": {
       "human": 530,
       "generated": 18,
-      "harvested": 55612
+      "harvested": 55673
     },
     "topics": {
       "orientation": 5333,
@@ -7692,22 +7692,22 @@
       "communications": 1508,
       "campaign": 861,
       "reference": 10832,
-      "uiux": 24317,
+      "uiux": 24378,
       "science": 1511,
       "hardware": 599,
       "ministry": 69,
       "lore": 87
     },
     "languages": {
-      "en": 55705,
+      "en": 55766,
       "zh-Hant": 985
     },
     "access": {
-      "public": 56160
+      "public": 56221
     },
     "provenance": {
       "curated": 548,
-      "upstream": 50865,
+      "upstream": 50926,
       "first_party": 4747
     }
   },
@@ -7723,8 +7723,8 @@
     {
       "root": "space-agent",
       "class": "first_party",
-      "mode": "local",
-      "pin": null,
+      "mode": "pinned_clone",
+      "pin": "10f4ffdaf50a8136cf8450d17c11286178fd58e6",
       "docs": 339,
       "lessons": 938
     },
@@ -8076,17 +8076,17 @@
       "root": "cytoscape",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "7ba634095d8954089ee5dc09ada0030f2dca134c",
-      "docs": 219,
-      "lessons": 369
+      "pin": "b82035682cab514020dcf1de04237b28a7c2196e",
+      "docs": 222,
+      "lessons": 372
     },
     {
       "root": "sigmajs",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "a3e79f4d5103f8a56784f7d3304d3f043ce75c83",
-      "docs": 39,
-      "lessons": 267
+      "pin": "e7748c88c861f19cab00be80cb7f836c5fef61e8",
+      "docs": 40,
+      "lessons": 285
     },
     {
       "root": "mermaid",
@@ -8124,7 +8124,7 @@
       "root": "jspreadsheet",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "765ea62f83e7ce4ac843f822421a0e9d56f4cf49",
+      "pin": "d9c04e8a1acec6b87b0580b79868cd4d2f73599e",
       "docs": 183,
       "lessons": 862
     },
@@ -8188,9 +8188,9 @@
       "root": "marked",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "6a57018fc906333d358981682fd693e4bb85940f",
-      "docs": 256,
-      "lessons": 144
+      "pin": "afba4543ff47620ad60e980bc2f091971ccfdd8c",
+      "docs": 291,
+      "lessons": 162
     },
     {
       "root": "markdown-it",
@@ -8220,7 +8220,7 @@
       "root": "highlightjs",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "fc3f06392f189354eed922973635ab9e9268b983",
+      "pin": "60e092057673595fa542db0bc2b13a99df5d0551",
       "docs": 1447,
       "lessons": 1285
     },
@@ -8292,7 +8292,7 @@
       "root": "simple-keyboard",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "5aaf04c88880316cbd8db0bad33847a35c04c480",
+      "pin": "b6a9adad9859536d476a361b43c5a59045f69cc5",
       "docs": 7,
       "lessons": 17
     },
@@ -8300,9 +8300,9 @@
       "root": "lucide",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "70562c1ee1c4fdcf736fe97bc893fb8511927934",
-      "docs": 190,
-      "lessons": 869
+      "pin": "03eae6069edfc373673bd05d723491f05ba936e3",
+      "docs": 193,
+      "lessons": 890
     },
     {
       "root": "tabler-icons",
@@ -8356,9 +8356,9 @@
       "root": "sqljs",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "00787b940c6c15164ed73f8f298009dfcbb42dc9",
+      "pin": "0568ac96ced8ad05e0e8c86f5f7c367ac02fe513",
       "docs": 4,
-      "lessons": 27
+      "lessons": 28
     },
     {
       "root": "css-98",
@@ -8388,7 +8388,7 @@
       "root": "open-props",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "530682d04327f842f56bb1ec33cf84a3cadb3876",
+      "pin": "f39ab7c377a0e047f930982e3611bbc95254a260",
       "docs": 2,
       "lessons": 23
     },
@@ -8452,7 +8452,7 @@
       "root": "kaplay",
       "class": "upstream",
       "mode": "pinned_clone",
-      "pin": "e2fbeebb89e47269d14143a066ee10b909349303",
+      "pin": "74c68bb1e383731d8d8093063a05750885b7e469",
       "docs": 5,
       "lessons": 103
     },
@@ -8529,7 +8529,7 @@
       "lessons": 35
     }
   ],
-  "harvested_count": 55612,
+  "harvested_count": 55673,
   "courses": [
     {
       "id": "ai-literacy",
@@ -8637,7 +8637,7 @@
     },
     {
       "id": "uiux-craft",
-      "lesson_count": 24317,
+      "lesson_count": 24378,
       "file": "assets/academy/uiux-craft.json",
       "topics": [
         "uiux"

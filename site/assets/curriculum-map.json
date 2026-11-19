@@ -1,9 +1,9 @@
 {
   "schema": "CURRICULUM-MAP-v1",
-  "lesson_count": 56160,
+  "lesson_count": 56221,
   "course_count": 14,
   "shelf_lessons": 548,
-  "harvested_lessons": 55612,
+  "harvested_lessons": 55673,
   "courses": [
     {
       "id": "ai-literacy",
@@ -274,7 +274,7 @@
     },
     {
       "id": "uiux-craft",
-      "lesson_count": 24317,
+      "lesson_count": 24378,
       "topics": [
         "uiux"
       ],

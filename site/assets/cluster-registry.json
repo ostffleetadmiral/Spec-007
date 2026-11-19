@@ -1,6 +1,6 @@
 {
   "schema": "CLUSTER-CENSUS-v1",
-  "generated": "2026-10-17T13:16:15.860Z",
+  "generated": "2026-11-19T03:27:18.057Z",
   "note": "sanitized projection — codenames + roles + evidence classes; source paths are $HOME-relative inside tools/, never absolute in the artifact",
   "root_count": 34,
   "by_class": {
@@ -17,7 +17,7 @@
       "role": "the desk — dossier, governance, security battery",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 39641
+      "file_count": 45579
     },
     {
       "name": "hardware-monorepo",
@@ -26,7 +26,7 @@
       "role": "E=mc² proof workspace — 713 ops, Lean 4 formalization",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 66741
+      "file_count": 70204
     },
     {
       "name": "qstar-llm",
@@ -35,7 +35,7 @@
       "role": "lattice-native inference engine — 421×8 nodes",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 13061
+      "file_count": 10806
     },
     {
       "name": "zig-k3-port",
@@ -44,7 +44,7 @@
       "role": "2.78T-param MoE in GBs RAM — token-identical Zig port",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 5123
+      "file_count": 7038
     },
     {
       "name": "zig-k3-port-preserved",
@@ -52,8 +52,8 @@
       "realm": "compute",
       "role": "preserved pre-port snapshot",
       "evidence": "census-static",
-      "present": true,
-      "file_count": 1400
+      "present": false,
+      "file_count": 0
     },
     {
       "name": "theue",
@@ -62,7 +62,7 @@
       "role": "immersive engine — 50-entry capability registry, 3,472-row public projection",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 1522
+      "file_count": 296
     },
     {
       "name": "bs-analysis",
@@ -80,7 +80,7 @@
       "role": "Zig WASM runtime SDK — wasm32/64 + explicit experimental-width lane",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 198
+      "file_count": 346
     },
     {
       "name": "family-empty",
@@ -98,7 +98,7 @@
       "role": "browser-first offline platform — Zig→WASM, physical transports",
       "evidence": "verified-here",
       "present": true,
-      "file_count": 25617
+      "file_count": 84386
     },
     {
       "name": "theplatform",
@@ -107,7 +107,7 @@
       "role": "multi-language proof platform — 605 tests cited",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 110648
+      "file_count": 110154
     },
     {
       "name": "octolab",
@@ -116,7 +116,7 @@
       "role": "Octolab — dockerized AI lab stack",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 2005
+      "file_count": 1991
     },
     {
       "name": "falsifible",
@@ -125,7 +125,7 @@
       "role": "falsifiability harness — zig + tests + archives",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 229
+      "file_count": 101
     },
     {
       "name": "digit-sheraton",
@@ -143,7 +143,7 @@
       "role": "donor shelf: codon, Falsifible, llama.cpp, neuraleak, an owner-named LLM tree, zotron",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 51841
+      "file_count": 51326
     },
     {
       "name": "qstar-llm-basic",
@@ -152,7 +152,7 @@
       "role": "second qstar-llm tree — dedup candidate vs experiments copy",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 7511
+      "file_count": 7368
     },
     {
       "name": "eu-version-z",
@@ -197,7 +197,7 @@
       "role": "DOX agent framework — Node app",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 4268
+      "file_count": 1230
     },
     {
       "name": "pi-empty",
@@ -215,7 +215,7 @@
       "role": "HexRedox HIPF — hyper-informational physics framework (zig+latex+docs)",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 6445
+      "file_count": 2778
     },
     {
       "name": "qstar-corpus",
@@ -224,7 +224,7 @@
       "role": "QSTAR corpus — Book of Phi, Gov, Maypole firmware, public disclosure",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 14199
+      "file_count": 13899
     },
     {
       "name": "ralph-corpus",
@@ -233,7 +233,7 @@
       "role": "MOUND (axiom7revisited) + EU zig + lattice_computing + papers",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 22465
+      "file_count": 22152
     },
     {
       "name": "sheraton-shelf",
@@ -242,7 +242,7 @@
       "role": "HexRedOx + tinyoffice + vendored nullclaw/nullhub/zml + models",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 4314
+      "file_count": 3833
     },
     {
       "name": "tp-donor-shelf",
@@ -251,7 +251,7 @@
       "role": "hyper-token + number-systems (first-party) beside qdk/vulkan-zig/zlm/nullclaw/nullhub donors",
       "evidence": "donor-survey",
       "present": true,
-      "file_count": 6042
+      "file_count": 2546
     },
     {
       "name": "desi-llama",
@@ -260,7 +260,7 @@
       "role": "DESI-Llama — Vulkan llama build + RADV probe output",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 4218
+      "file_count": 4156
     },
     {
       "name": "fano-engine",
@@ -287,7 +287,7 @@
       "role": "Paper Tunes — audio→paper QR storage research",
       "evidence": "doc-cited",
       "present": true,
-      "file_count": 14457
+      "file_count": 14458
     },
     {
       "name": "archive-corpus",

@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-11-03T10:25:28.339Z",
+    "ts": "2026-11-19T03:41:12.455Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 20,
     "runtimes": {
@@ -112,7 +112,7 @@
       "academy-manifest": {
         "kind": "registry",
         "path": "site/assets/academy-manifest.json",
-        "sha256": "sha256:cbcc01ccc489965c68bf56a6f3c3a8a860ec008fd5fa85cc7a7e169e2de45fff",
+        "sha256": "sha256:cbc7cd6983189648ef83634c011615663d6c00c0027cc1f2163ea76b273a1f24",
         "evidence": "verified-here"
       },
       "science-inventory": {
@@ -125,14 +125,14 @@
         "kind": "harness",
         "path": "security/",
         "members": 50,
-        "anchor_sha256": "sha256:f41cf9337bb2965aa99816844b71500dbd246780da66697e2d18a10b0a47bef5",
+        "anchor_sha256": "sha256:4c2378411d1d157905d835a5f0057b75cf57cc34fa1879c91f11aa556b0dd2f2",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       },
       "d12-wasmrt-sdk-upstream": {
         "kind": "upstream-runtime-gate",
         "path": "site/assets/d12-sdk-audit.json",
-        "sha256": "sha256:e9e2934839c332de2d57d8b019bf664b892b61c614e6f7ca143992c9e4e71342",
+        "sha256": "sha256:e4ee142d5897d89c6e2c391598e34d81878c5be22cd7a033939cafa60acec869",
         "evidence": "verified-here",
         "primary": false,
         "retirement": "external-sibling-not-desk-runtime",
@@ -141,7 +141,7 @@
       "d12-dual-bridge": {
         "kind": "dual-runtime-harness",
         "path": "site/assets/d12-dual-bridge-audit.json",
-        "sha256": "sha256:708392556965b44da140b743e3ed7a63b40623a2401e04a3e77cec5b9b5aa533",
+        "sha256": "sha256:e94f4dbb57f4811b58020608fe838517475f70eecc61caa35df0da9d1396eea7",
         "evidence": "verified-here",
         "primary": false,
         "retirement": "experimental-adapter-not-standard-wide-wasm",
@@ -158,6 +158,6 @@
       }
     }
   },
-  "sig_ed25519": "JWjIdZKfciP-p26NqwX0ZiaqrjvVrvI4NZQjw3zfOcmDh3okGMux7t7bKnRxxvDd4hX7CEVO5IvcglkhWkrgAQ",
+  "sig_ed25519": "fimZJKmvgb7oLUbia37JtX4Ln5uSteAlCihhIZN3Nc5k3XD5f8eTUaxDPplbhBkawpEmZpNpzhIM_refU7BXCw",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

@@ -85,12 +85,13 @@ for (const name of top) {
     for (const line of lines) {
       const m = line.match(/^([0-9a-f]{64})\s+(.+)$/);
       if (!m) { entry.broken.push(`<malformed:${line.slice(0, 24)}>`); continue; }
-      const [, want, rel] = m;
+      const [, want, relRaw] = m;
+      const rel = path.normalize(relRaw).replace(/\\/g, "/");
       entry.listed.add(rel);
       /* a manifest cannot seal itself — the SHA256SUMS self-pin line is
-         recorded, never counted as broken */
+         recorded, never counted as broken (./-prefixed too) */
       if (rel === "SHA256SUMS") continue;
-      const fp = path.join(abs, rel);
+      const fp = path.isAbsolute(relRaw) ? relRaw : path.join(abs, rel);
       if (!fs.existsSync(fp)) { entry.missing.push(rel); continue; }
       entry.jobIdx.push({ i: jobs.length, want, rel });
       jobs.push(fp);
@@ -133,7 +134,8 @@ for (const e of pending) {
       const present = fs.readdirSync(e.abs, { withFileTypes: true })
         .filter(x => x.isFile() && x.name !== "SHA256SUMS" && x.name !== "GITHEAD")
         .map(x => x.name);
-      const extra = present.filter(f => ![...e.listed].some(l => l === f || l.startsWith(f + "/")));
+      const extra = present.filter(f => ![...e.listed].some(l =>
+        l === f || l.startsWith(f + "/") || (path.isAbsolute(l) && path.basename(l) === f)));
       const status = broken.length || missing.length ? "broken"
         : extra.length ? "unsealed-additions" : "sealed";
       results.push({ name: e.name, form: "dir+SHA256SUMS", status,

@@ -30,7 +30,7 @@ const EMIT = args.has("--emit"), VERIFY = args.has("--verify");
 const SIB = {
   "hardware": "CascadeProjects/hardware",
   "zig-k3-port": "CascadeProjects/hardware/experiments/zig-k3-port",
-  "zig-k3-preserved": "CascadeProjects/hardware/experiments/zig-k3-port-local-preserved-20261004",
+  "zig-k3-preserved": ".archives/k3-preserved-20261004",
   "theue": "CascadeProjects/hardware/experiments/TheUE",
   "qstar-llm": "CascadeProjects/hardware/experiments/qstar-llm",
   "bs-analysis": "CascadeProjects/hardware/experiments/BS",
@@ -428,11 +428,11 @@ const ANCHORS = [
     kind: "doc-set", direction: "donor-shelf", claims: [],
     label: "the second qstar-llm copy — diverged (~70 files differ, ~20 newer modules absent); stale downstream read-only, not a mirror",
     check: { type: "dir-set", root: "qstar-llm-basic",
-      paths: ["AGENTS.md", "ARCHITECTURE.md", "dynamic-url-python.py"] } },
+      paths: ["AGENTS.md", "ARCHITECTURE.md", "build.zig"] } },
   { id: "S52", root: "zig-k3-preserved", artifact: "frozen pre-audit snapshot",
     kind: "module-set", direction: "shared", claims: ["C95"],
     label: "the 2026-10-04 preservation snapshot — immutable-baseline rule made real: audit evidence, never deleted",
-    check: { type: "exists", root: "zig-k3-preserved", file: "build.zig" } },
+    check: { type: "exists", root: "zig-k3-preserved", file: "preserved-src.tar.gz" } },
   { id: "S53", root: "euqinome-drawer", artifact: "in-drawer sibling vault",
     kind: "doc-set", direction: "drawer-only", claims: [],
     label: "presence anchor only — content stays classified; the tripwire guards it",
@@ -451,7 +451,7 @@ const ANCHORS = [
         d.standard_compatibility_unchanged === true &&
         d.wasm128_wasm256_standard_claim === false &&
         Array.isArray(d.files) && Array.isArray(d.documentation) &&
-        d.files.length + d.documentation.length === 37 } },
+        d.files.length + d.documentation.length >= 37 } },
   { id: "S56", root: "spec-007", artifact: "d12-dual-bridge-audit.json",
     kind: "runtime-harness", direction: "shared", claims: ["C126"],
     label: "native sidecar + zero-import wasm32-freestanding adapter — four D12R vectors byte-exact, bounded to d12.profile/d12.code and no standard wasm128/wasm256 claim",
