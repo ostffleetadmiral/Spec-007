@@ -13288,9 +13288,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "aa9052ecad5f12263f381959df460aebbcd81d2a82aa6eb8ecc515e8c10dd2a0",
-        "bytes": 1371,
-        "lines": 32,
+        "sha256": "c94b382f2f3116ec6ef56b8243a035e0ce2071b1d6863af414a3c66420fe3007",
+        "bytes": 1865,
+        "lines": 44,
         "imports": [],
         "referenced_by": [
           "security/superpowers-audit.mjs",

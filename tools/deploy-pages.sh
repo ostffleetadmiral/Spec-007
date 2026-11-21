@@ -20,6 +20,18 @@ git rm -rf . -q 2>/dev/null || true
 cp -r "$OLDPWD/site/." .
 # deploy-side ignore file guards the copy step itself
 printf 'thoughts&convos/\n__pycache__/\n' > .gitignore
+
+# published-surface manifest — BLACK-03 binds this set on the branch and
+# live: every apps/** artifact plus the landing pages, `hash  ./path`
+# lines, self-entry last (digest of the manifest minus its own line).
+{
+  find apps -type f | LC_ALL=C sort
+  for f in index.html reboot.html recovery.html; do
+    [ -f "$f" ] && echo "$f"
+  done
+} | sed 's|^|./|' | tr '\n' '\0' | xargs -0 sha256sum > SHA256SUMS
+printf '%s  ./SHA256SUMS\n' "$(sha256sum SHA256SUMS | cut -d' ' -f1)" >> SHA256SUMS
+
 git add -A
 git commit -q -m "gh-pages: $(git -C "$OLDPWD" log -1 --format=%h\ %s)"
 git push -f origin HEAD:gh-pages
