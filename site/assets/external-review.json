@@ -224,8 +224,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5627,
-          "sha256": "4b51c960c048faf07b6e7430ba0fd28208030ec1fb06a1d2b1e2aba6e1d91582"
+          "bytes": 5704,
+          "sha256": "90e804bf96eee2672fe139c7442c316e8cd7898f76d83a97ca7d23d404174ec4"
         },
         {
           "path": "site/apps/rations/rations.wasm.sha256",
@@ -318,8 +318,8 @@
         },
         {
           "path": "tools/publish-check.sh",
-          "bytes": 5627,
-          "sha256": "4b51c960c048faf07b6e7430ba0fd28208030ec1fb06a1d2b1e2aba6e1d91582"
+          "bytes": 5704,
+          "sha256": "90e804bf96eee2672fe139c7442c316e8cd7898f76d83a97ca7d23d404174ec4"
         },
         {
           "path": "site/apps/rations/js/dom-dialog.js",

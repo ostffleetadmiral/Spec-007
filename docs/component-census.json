@@ -6,17 +6,17 @@
       "src": 49,
       "deps": 85,
       "security": 57,
-      "tools": 56,
+      "tools": 57,
       "firmware": 1,
       "apps": 2,
       "admiralty-desk": 6,
       "site/assets": 55
     },
-    "total_components": 311,
-    "source_components": 266,
+    "total_components": 312,
+    "source_components": 267,
     "generated_components": 45,
-    "mapped_basename": 300,
-    "mapped_contract": 311,
+    "mapped_basename": 301,
+    "mapped_contract": 312,
     "manifest_bound": 36,
     "owner_bound": 34,
     "unmapped_basename": [
@@ -8677,6 +8677,34 @@
     },
     {
       "component": "tools/relay-isolation-audit.mjs",
+      "contract": {
+        "mapped": true,
+        "source_zone": "tools",
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false
+      },
+      "tests": {
+        "kind": "script",
+        "referenced": true
+      },
+      "documentation": {
+        "basename_mapped": true,
+        "component_map_mapped": false,
+        "manifest_bound": false,
+        "owner": null
+      },
+      "artifacts": {
+        "generated": false,
+        "likely_projection": false,
+        "owner": null,
+        "owner_basis": null
+      },
+      "retrograde_status": "PENDING_COMPONENT_REVIEW"
+    },
+    {
+      "component": "tools/reviews-manifest.mjs",
       "contract": {
         "mapped": true,
         "source_zone": "tools",

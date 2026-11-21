@@ -49,6 +49,7 @@ chk node tools/reboot-seed-audit.mjs --verify "reboot seed landing (same-origin 
 chk node tools/d12-sdk-audit.mjs --verify "d12-wasmrt-sdk upstream release"
 chk node tools/d12-dual-bridge-audit.mjs --verify "d12 native/wasm bridge parity"
 chk node tools/external-review-manifest.mjs --verify "external-review pending packages"
+chk node tools/reviews-manifest.mjs --verify "external-review signed corpus"
 
 echo "== canon parity (published copies must match the signed roots)"
 for c in fleet-genesis.json fleet-manifest.json engine-manifest.json; do

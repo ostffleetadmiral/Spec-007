@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-11-19T03:41:12.455Z",
+    "ts": "2026-11-21T18:03:35.645Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 20,
     "runtimes": {
@@ -150,7 +150,7 @@
       "admiralty-desk-electron": {
         "kind": "desktop-shell",
         "path": "site/assets/admiralty-desk-audit.json",
-        "sha256": "sha256:8555e20d53f6edee6d5b0843f53c68fb2ade172ca912b1f4a613eb124028f313",
+        "sha256": "sha256:8ce70b404dab4a4c56385cfb59cd9cc97a122580fa96ebd16932d9e4c9fe36a5",
         "evidence": "verified-here",
         "primary": false,
         "retirement": "loopback-workstation-shell",
@@ -158,6 +158,6 @@
       }
     }
   },
-  "sig_ed25519": "fimZJKmvgb7oLUbia37JtX4Ln5uSteAlCihhIZN3Nc5k3XD5f8eTUaxDPplbhBkawpEmZpNpzhIM_refU7BXCw",
+  "sig_ed25519": "NAbWOF7HBjiPsXQ33jwye-exgXUsKddhKM80uHKvf2VAFp4gNIgZECiOYdzdKA-LFNvUo6LoEyov3RhoCbC7AQ",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

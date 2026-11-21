@@ -2,14 +2,14 @@
   "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
   "summary": {
     "schema": "SPEC007-COMPONENT-RETROGRADE-v1",
-    "census_components": 311,
-    "components": 311,
+    "census_components": 312,
+    "components": 312,
     "status_counts": {
       "BUILD_GRAPH_COVERED": 21,
       "DOCUMENTED_COMPONENT": 29,
       "GENERATED_ARTIFACT_BOUND": 44,
       "GENERATED_ARTIFACT_PENDING": 1,
-      "SCRIPT_HARNESS_BOUND": 110,
+      "SCRIPT_HARNESS_BOUND": 111,
       "UNIT_TESTED": 106
     },
     "workstreams": {
@@ -17,7 +17,7 @@
       "desk-shell": 6,
       "digit-model-donor": 18,
       "firmware": 1,
-      "governance-tools": 56,
+      "governance-tools": 57,
       "native-aiwo-dht": 17,
       "published-surface": 55,
       "q128-arithmetic": 2,
@@ -130,10 +130,11 @@
       "tools/external-review-manifest.mjs",
       "tools/fano-runtime-bridge-audit.mjs",
       "tools/fano-wire-audit.mjs",
-      "tools/publish-check.sh"
+      "tools/publish-check.sh",
+      "tools/reviews-manifest.mjs"
     ],
     "measured_components": 179,
-    "workstream_measured_components": 220,
+    "workstream_measured_components": 221,
     "performance_baseline": {
       "schema": "SPEC007-COMPONENT-PERFORMANCE-v1",
       "measurements": 14,
@@ -152,9 +153,9 @@
       "workstream": "desk-shell",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "937069459c8f8de78997c134b1caaa7bf1fed0525d65d771fcb72d056e594652",
-        "bytes": 2301,
-        "lines": 79,
+        "sha256": "69e26cc2a5ec7d3dbc57374e4e391da75db834394fa352f6e17a65704f61ed0c",
+        "bytes": 2374,
+        "lines": 80,
         "imports": [],
         "referenced_by": [
           "admiralty-desk/main.js",
@@ -8908,7 +8909,8 @@
           "security/team-sweep-2.mjs",
           "tools/component-census.mjs",
           "tools/external-review-manifest.mjs",
-          "tools/publish-check.sh"
+          "tools/publish-check.sh",
+          "tools/reviews-manifest.mjs"
         ],
         "todo_markers": 0,
         "public_surface": 0
@@ -14448,9 +14450,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "4b51c960c048faf07b6e7430ba0fd28208030ec1fb06a1d2b1e2aba6e1d91582",
-        "bytes": 5627,
-        "lines": 105,
+        "sha256": "90e804bf96eee2672fe139c7442c316e8cd7898f76d83a97ca7d23d404174ec4",
+        "bytes": 5704,
+        "lines": 106,
         "imports": [],
         "referenced_by": [
           "security/capstone-audit.mjs",
@@ -14625,6 +14627,50 @@
       },
       "optimization": {
         "hot_path": false,
+        "measured": false,
+        "measurements": [],
+        "workstream_measured": true,
+        "completed": false,
+        "archive": null,
+        "decision": "baseline-only"
+      }
+    },
+    {
+      "component": "tools/reviews-manifest.mjs",
+      "workstream": "governance-tools",
+      "status": "SCRIPT_HARNESS_BOUND",
+      "reverse_engineering": {
+        "sha256": "0317e5657824c13b5c5082363389f8f20364864e25021c6e88c7c9c0127e21dd",
+        "bytes": 5150,
+        "lines": 125,
+        "imports": [
+          "node:crypto",
+          "node:fs",
+          "node:path",
+          "node:url"
+        ],
+        "referenced_by": [
+          "tools/publish-check.sh"
+        ],
+        "todo_markers": 0,
+        "public_surface": 0
+      },
+      "contract": {
+        "mapped": true,
+        "generated": false,
+        "owner": null,
+        "owner_basis": null,
+        "manifest_bound": false,
+        "source_zone": "tools"
+      },
+      "verification": {
+        "kind": "script",
+        "test_blocks": 0,
+        "registered": true,
+        "documentation_mapped": true
+      },
+      "optimization": {
+        "hot_path": true,
         "measured": false,
         "measurements": [],
         "workstream_measured": true,

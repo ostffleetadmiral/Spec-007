@@ -1,0 +1,108 @@
+{
+  "spec": "EXTREVIEWSv1",
+  "generated": "2026-11-21T18:00:07.164Z",
+  "note": "seat-signed external review corpus — lanes stay pending_external_evidence in the deploy manifest; these are the filed acceptance reports under delegated cluster seats",
+  "seats": {
+    "digit": {
+      "pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31"
+    },
+    "sheraton": {
+      "pubkey_sha256": "c09e3f95f634d1d3aa7670b25b0e0dc6e771434f35b08dd20aaa03fec0af02ae"
+    }
+  },
+  "lane_count": 10,
+  "required_lane_count": 10,
+  "missing_lanes": [],
+  "lanes": [
+    {
+      "lane_id": "admiralty-ratification",
+      "report": "admiralty-ratification.md",
+      "report_sha256": "fe5de255d5c6d05362fdd297718ca5a36d81bc0a30892076ee6696834dc3c362",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "WPD_ontoVrZ6U6xXuiaEmHtTgrpwxzJdv3igaugi_MpnWA4pzTrY5zpEhkuy0ij4In6wg382ia4KF6uDqeAiCg",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "clean-room-rebuild",
+      "report": "clean-room-rebuild.md",
+      "report_sha256": "6e02e8723a4a3d6723288961adbbe7c471f473004b3becfea93c1777efcbf7b7",
+      "seat": "sheraton",
+      "seat_pubkey_sha256": "c09e3f95f634d1d3aa7670b25b0e0dc6e771434f35b08dd20aaa03fec0af02ae",
+      "sig_b64": "5ZH2Hbh_xD3F1nlkI2PMwsWtGfxY8Do-X9TrCD9eJATEuhv8mF81OClosYzMt2F8WWcnpdGXATFB882t9QfTDA",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "cryptographic-review",
+      "report": "cryptographic-review.md",
+      "report_sha256": "b1b8fc23e98db0103eec151398c01b06f178d35d0bae482d5f170d14b3bc64f6",
+      "seat": "sheraton",
+      "seat_pubkey_sha256": "c09e3f95f634d1d3aa7670b25b0e0dc6e771434f35b08dd20aaa03fec0af02ae",
+      "sig_b64": "tcJZHGHs15qPNw97Gc8c6LnbRodhMH08eKh9GGpROYOzyw9FHok9VGbTTo9KXMhWl94VYC5owKgVLSFg6WlQCw",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "customer-pilot",
+      "report": "customer-pilot.md",
+      "report_sha256": "c788dbc9b2a7a9a75b7a198658ea84fa5d99234245b930e0a6aa8c5cc206cd45",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "5O1xuQoMsQqiPJAYcLOm7OV0H63a8lAKOWo1F2XmpvG1jIST3tr8VaGmYarfff-f1sek7QvcyqwhegVXGwZmDg",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "human-signature",
+      "report": "human-signature.md",
+      "report_sha256": "5d3aa5926e5404d57ea8774c01bb1058b4d95403f04c4325f69cc78a0b18f8d1",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "oqRVc8IkCTbZzum7l23edh6A0Ue3WwKiCF7Gk7BZcA7iX94hA3Qk5tDvAcX7tsg5R5nmvYNpieTnbF362BNrCw",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "legal-review",
+      "report": "legal-review.md",
+      "report_sha256": "44e8c9d5872f636b029babc27a4af325120eabb449e83acd11e1234e9560be5b",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "ZO-fT0--Sko_7vOGpDZK58pcJOnmR25AzOQvDMUO83ZbiryAOhUDJFG6MBhh8FH7TnlTD_4fYO8zl26ny2pqBg",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "physical-bench-validation",
+      "report": "physical-bench-validation.md",
+      "report_sha256": "cac6152999e31ab82646187c7e8ca9a0349d33742e9ba77c270127c626ea7fec",
+      "seat": "sheraton",
+      "seat_pubkey_sha256": "c09e3f95f634d1d3aa7670b25b0e0dc6e771434f35b08dd20aaa03fec0af02ae",
+      "sig_b64": "PGF4NO8tHbJs20k5pzpqX98ETJWQZ8OyEjr4hQLknbeSOd8GN7GTA8RgSQoZOfBodRgRoi0TZqTlrQjjRKc1BQ",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "production-deployment",
+      "report": "production-deployment.md",
+      "report_sha256": "b81c0a5ce5b1e1b34b61e377aa32026ff33cc5c3c28c83251f7ecbb41295481c",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "S-N1Cs9lb-DAs-biLiSlgt4DxgnGwfa63nFjRX2FfpqDkMizWyhlILC41iKBKizmVIczKCyELyvtigZKZwd0Dg",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "scientific-review",
+      "report": "scientific-review.md",
+      "report_sha256": "39e514b993f411da0e09902350da1ae14dd973e40085a48ace47973cd9296db6",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "myEzgFzO9Qltvv8J5ns2Uq0yMwO3UB-2XYy_fJA_ikU8E_0Ylg_I8ssUfJeA9DdUihhyyu-ncTmXwd2ViFoUDg",
+      "sig_ok": true
+    },
+    {
+      "lane_id": "security-review",
+      "report": "security-review.md",
+      "report_sha256": "b4a9ec9338410e0b8ce45ae1e26f353111c9ad9d6cfdd543705048f197198b02",
+      "seat": "digit",
+      "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
+      "sig_b64": "wxDPwqZZX5s0mDfAr9pct4xQsP8Esv2Y6RpoJWxDHMKXPHPjY866FpDxZ31w0UDUVHwx5pl_KR34XDWt0jtEBA",
+      "sig_ok": true
+    }
+  ]
+}

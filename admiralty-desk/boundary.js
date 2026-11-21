@@ -13,6 +13,7 @@ const MIME = {
   ".ico": "image/x-icon", ".pdf": "application/pdf", ".md": "text/plain; charset=utf-8",
   ".txt": "text/plain; charset=utf-8", ".py": "text/x-python",
   ".mp4": "video/mp4", ".woff": "font/woff", ".woff2": "font/woff2",
+  ".sig": "text/plain; charset=utf-8", ".pem": "application/x-pem-file",
 };
 
 const HEADERS = {
