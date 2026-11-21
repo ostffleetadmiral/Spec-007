@@ -313,8 +313,8 @@
       "evidence": [
         {
           "path": "tools/deploy-pages.sh",
-          "bytes": 1865,
-          "sha256": "c94b382f2f3116ec6ef56b8243a035e0ce2071b1d6863af414a3c66420fe3007"
+          "bytes": 1968,
+          "sha256": "705f5a61f75ba2fab179ffd76561228cb36586768b87a8587a7fb92e40bc0762"
         },
         {
           "path": "tools/publish-check.sh",

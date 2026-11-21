@@ -22,10 +22,12 @@ cp -r "$OLDPWD/site/." .
 printf 'thoughts&convos/\n__pycache__/\n' > .gitignore
 
 # published-surface manifest — BLACK-03 binds this set on the branch and
-# live: every apps/** artifact plus the landing pages, `hash  ./path`
-# lines, self-entry last (digest of the manifest minus its own line).
+# live: every apps/** artifact, the published security corpus (review
+# reports, detached sigs, seat keys, sweep findings) plus the landing
+# pages, `hash  ./path` lines, self-entry last (digest of the manifest
+# minus its own line).
 {
-  find apps -type f | LC_ALL=C sort
+  find apps security -type f | LC_ALL=C sort
   for f in index.html reboot.html recovery.html; do
     [ -f "$f" ] && echo "$f"
   done
