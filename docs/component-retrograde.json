@@ -153,9 +153,9 @@
       "workstream": "desk-shell",
       "status": "DOCUMENTED_COMPONENT",
       "reverse_engineering": {
-        "sha256": "69e26cc2a5ec7d3dbc57374e4e391da75db834394fa352f6e17a65704f61ed0c",
-        "bytes": 2374,
-        "lines": 80,
+        "sha256": "516317d7d5867acba9318160de814062d0009df79f9d4b77fbfe3dbd58fd73d7",
+        "bytes": 2413,
+        "lines": 81,
         "imports": [],
         "referenced_by": [
           "admiralty-desk/main.js",
@@ -13290,9 +13290,9 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "c94b382f2f3116ec6ef56b8243a035e0ce2071b1d6863af414a3c66420fe3007",
-        "bytes": 1865,
-        "lines": 44,
+        "sha256": "705f5a61f75ba2fab179ffd76561228cb36586768b87a8587a7fb92e40bc0762",
+        "bytes": 1968,
+        "lines": 46,
         "imports": [],
         "referenced_by": [
           "security/superpowers-audit.mjs",
@@ -14640,8 +14640,8 @@
       "workstream": "governance-tools",
       "status": "SCRIPT_HARNESS_BOUND",
       "reverse_engineering": {
-        "sha256": "0317e5657824c13b5c5082363389f8f20364864e25021c6e88c7c9c0127e21dd",
-        "bytes": 5150,
+        "sha256": "552f54998daca168981d1f32d62ef9f922f7ddd8f07324e2137b494fb4d64f7d",
+        "bytes": 5149,
         "lines": 125,
         "imports": [
           "node:crypto",

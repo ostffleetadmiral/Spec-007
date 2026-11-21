@@ -1,6 +1,6 @@
 {
   "spec": "EXTREVIEWSv1",
-  "generated": "2026-11-21T18:00:07.164Z",
+  "generated": "2026-11-21T18:17:36.837Z",
   "note": "seat-signed external review corpus — lanes stay pending_external_evidence in the deploy manifest; these are the filed acceptance reports under delegated cluster seats",
   "seats": {
     "digit": {
@@ -53,10 +53,10 @@
     {
       "lane_id": "human-signature",
       "report": "human-signature.md",
-      "report_sha256": "5d3aa5926e5404d57ea8774c01bb1058b4d95403f04c4325f69cc78a0b18f8d1",
+      "report_sha256": "f68c542476436fef7efd3b62ae9ace4ec99fde4ce09daa500084964ee461256f",
       "seat": "digit",
       "seat_pubkey_sha256": "43b4429513e53ba9f8a0eff8990f8bdc371d80ddc27f6116000afa391d16fc31",
-      "sig_b64": "oqRVc8IkCTbZzum7l23edh6A0Ue3WwKiCF7Gk7BZcA7iX94hA3Qk5tDvAcX7tsg5R5nmvYNpieTnbF362BNrCw",
+      "sig_b64": "4yk2-dIyzGWmgcBe5eay2lwyMuuNUqzGo0n8pvm_ulQgF3pcoUZwq9ASJKxmgMkXadFmEdmIRzUVRF2jcGJ8BQ",
       "sig_ok": true
     },
     {

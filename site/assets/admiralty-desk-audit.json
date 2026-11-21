@@ -1,7 +1,7 @@
 {
   "schema": "ADMIRALTY-DESK-AUDIT-v1",
   "component": "admiralty-desk/",
-  "generated": "2026-11-21T18:03:21.354Z",
+  "generated": "2026-11-21T18:17:41.525Z",
   "contract": {
     "electron": "44.7.0",
     "origin": "http://127.0.0.1:8901",
@@ -20,7 +20,7 @@
     "admiralty-desk/desk.sh": "d5e5402bff714959b3bba304d81ebbcfe7eef4a7ab3982c952c83c10c565295c",
     "admiralty-desk/main.js": "ec4a58fbdb55067f98fa578bce6cdf928b8a41891d359060576447239add7b40",
     "admiralty-desk/preload.js": "c23c70e00e1e0a39ab53e45805cd520b093c3431a396526f396dda959f8265ea",
-    "admiralty-desk/boundary.js": "69e26cc2a5ec7d3dbc57374e4e391da75db834394fa352f6e17a65704f61ed0c",
+    "admiralty-desk/boundary.js": "516317d7d5867acba9318160de814062d0009df79f9d4b77fbfe3dbd58fd73d7",
     "admiralty-desk/package.json": "55c57045696de268d11abe377ab55e17a48668ab6de316771a46409c462581ff",
     "admiralty-desk/package-lock.json": "a04c4c319f86dcbaa8f4b753753c5fd45f2425917773aab01f58c04bd1c0409a",
     "tools/admiralty-desk-audit.mjs": "d01070b62f32133a4b540c479e5934c08da8498473dc86f2d04c0a0c2dcf9880"

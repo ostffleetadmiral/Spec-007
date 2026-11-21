@@ -1,7 +1,7 @@
 {
   "payload": {
     "spec": "ENGINEMANIFESTv1",
-    "ts": "2026-11-21T18:03:35.645Z",
+    "ts": "2026-11-21T18:25:55.709Z",
     "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
     "runtime_count": 20,
     "runtimes": {
@@ -125,7 +125,7 @@
         "kind": "harness",
         "path": "security/",
         "members": 50,
-        "anchor_sha256": "sha256:4c2378411d1d157905d835a5f0057b75cf57cc34fa1879c91f11aa556b0dd2f2",
+        "anchor_sha256": "sha256:65afd485975726b775eb1a96d3052ad2af7ba0aa2d29bf3093dbaa648fee3462",
         "evidence": "verified-here",
         "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
       },
@@ -150,7 +150,7 @@
       "admiralty-desk-electron": {
         "kind": "desktop-shell",
         "path": "site/assets/admiralty-desk-audit.json",
-        "sha256": "sha256:8ce70b404dab4a4c56385cfb59cd9cc97a122580fa96ebd16932d9e4c9fe36a5",
+        "sha256": "sha256:ee67455cd7c963e2a175e5a220222a6390924f96616781ceb8f781dc418d2d6c",
         "evidence": "verified-here",
         "primary": false,
         "retirement": "loopback-workstation-shell",
@@ -158,6 +158,6 @@
       }
     }
   },
-  "sig_ed25519": "NAbWOF7HBjiPsXQ33jwye-exgXUsKddhKM80uHKvf2VAFp4gNIgZECiOYdzdKA-LFNvUo6LoEyov3RhoCbC7AQ",
+  "sig_ed25519": "DryrrvzAyxy8ZC5a5GI7mrZBxJLCk32law_Lf_RzDASKH90nidi3eQw2kwFF5dfhljpyYYQTOqfd0MyLrrm4DQ",
   "pubkey_hint": "sha256:43b4429513e53ba9"
 }

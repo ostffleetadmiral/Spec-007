@@ -10,8 +10,8 @@
    --emit    recompute digests + verify sigs → REVIEWS-MANIFEST.json
    --verify  reproduce the manifest byte-for-byte and re-check every sig
 
-   Seat pubkeys live in reviews/seats/*.pub.pem so the corpus verifies
-   self-contained. A report declares its seat via the
+   Seat pubkeys live in reviews/seats/*.pub (PEM armor) so the corpus
+   verifies self-contained. A report declares its seat via the
    `- reviewing seat: `<seat>`` line; the seat must have a pubkey file. */
 
 import crypto from "node:crypto";
@@ -31,9 +31,9 @@ const sha = (b) => crypto.createHash("sha256").update(b).digest("hex");
 function seats() {
   const dir = path.join(DIR, "seats");
   const out = {};
-  for (const f of fs.readdirSync(dir).filter((f) => f.endsWith(".pub.pem"))) {
+  for (const f of fs.readdirSync(dir).filter((f) => f.endsWith(".pub"))) {
     const pem = fs.readFileSync(path.join(dir, f), "utf8");
-    out[f.replace(/-ed25519\.pub\.pem$/, "")] = { pem, sha256: sha(pem) };
+    out[f.replace(/-ed25519\.pub$/, "")] = { pem, sha256: sha(pem) };
   }
   return out;
 }

@@ -59,8 +59,8 @@
         },
         {
           "path": "security/team-sweep-2.mjs",
-          "bytes": 222616,
-          "sha256": "4c2378411d1d157905d835a5f0057b75cf57cc34fa1879c91f11aa556b0dd2f2"
+          "bytes": 222755,
+          "sha256": "65afd485975726b775eb1a96d3052ad2af7ba0aa2d29bf3093dbaa648fee3462"
         },
         {
           "path": "security/xploit-sweep.mjs",

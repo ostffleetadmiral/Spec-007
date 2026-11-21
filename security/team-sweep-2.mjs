@@ -532,7 +532,9 @@ console.log("\nBLACK — supply chain");
     const blobs = execSync("git rev-list --all --objects",
       { cwd: ROOT, encoding: "utf8" });
     const paths = blobs.split("\n").map(l => l.split(" ").slice(1).join(" "))
-      .filter(p => p && /\.(pem|key|env|secret|p12|pfx)$/i.test(p));
+      .filter(p => p && /\.(pem|key|env|secret|p12|pfx)$/i.test(p)
+        && !/\.pub\.pem$/i.test(p)); // .pub.pem is the public-half
+    // convention (ssh/openssl); its body still passes the armor needle.
     /* armor-BEGIN lines only: a committed key block always carries
        "-----BEGIN [TYPE ]PRIVATE KEY-----"; code literals that hunt it
        (this file included) can never match that pattern themselves. */

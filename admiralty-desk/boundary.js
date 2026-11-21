@@ -14,6 +14,7 @@ const MIME = {
   ".txt": "text/plain; charset=utf-8", ".py": "text/x-python",
   ".mp4": "video/mp4", ".woff": "font/woff", ".woff2": "font/woff2",
   ".sig": "text/plain; charset=utf-8", ".pem": "application/x-pem-file",
+  ".pub": "text/plain; charset=utf-8",
 };
 
 const HEADERS = {

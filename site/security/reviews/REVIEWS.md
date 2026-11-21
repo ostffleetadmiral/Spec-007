@@ -21,7 +21,7 @@ Sheraton and Digit."*
 | `digit` | fleet ed25519 `43b44295…d16fc31` | analytical review + release seat (runs the actual deploys) |
 | `sheraton` | fleet ed25519 `c09e3f95…af02ae` | independent-machine seat (clean checkout, cold cache, own genesis) |
 
-Pubkeys: `seats/<seat>-ed25519.pub.pem`. Signatures: `<report>.md.sig`
+Pubkeys: `seats/<seat>-ed25519.pub`. Signatures: `<report>.md.sig`
 (base64url ed25519 over the report bytes — `openssl pkeyutl -rawin`
 or node `crypto.sign(null, …)` interoperably).
 

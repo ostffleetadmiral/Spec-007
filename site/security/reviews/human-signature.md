@@ -48,7 +48,7 @@ ts: <signed_at recorded in REVIEWS-MANIFEST>
 ```
 
 Verification: `openssl pkeyutl -verify -pubin -inkey
-seats/digit-ed25519.pub.pem -rawin -in human-signature.md -sigfile
+seats/digit-ed25519.pub -rawin -in human-signature.md -sigfile
 human-signature.md.sig` (detached sig covers this report file; the
 statement text is in-file for provenance).
 
