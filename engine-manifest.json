@@ -1,0 +1,163 @@
+{
+  "payload": {
+    "spec": "ENGINEMANIFESTv1",
+    "ts": "2026-11-21T18:38:23.122Z",
+    "genesis_sha256": "95f5b05aaacf2d996e4bb1eba43faad1f36ad1ca38056d62cd912d4d8d8f98c5",
+    "runtime_count": 20,
+    "runtimes": {
+      "spec007-native-aiwo": {
+        "kind": "native-aiwo",
+        "path": "src/aiwo_runtime.zig",
+        "evidence": "verified-here",
+        "primary": true,
+        "retirement": "native-primary",
+        "note": "Spec-007 native policy-gated officer runtime; model output is advisory and irreversible actions require human approval"
+      },
+      "gov-bridge": {
+        "kind": "governance-gate",
+        "endpoint": "http://127.0.0.1:8765",
+        "evidence": "verified-here",
+        "note": "clearance/HRIS/evidence/audit gate — the desk never calls providers directly"
+      },
+      "ollama-local": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:11434",
+        "provider_id": "local",
+        "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "reachable only through gov-bridge"
+      },
+      "ollama-qstar": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:11435",
+        "provider_id": "qstar",
+        "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "stock Ollama sibling (qwen2.5:3b + nomic-embed) — digit-a0 chat/embed lane; schema-constrained decoding lives here"
+      },
+      "qstar-native": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:11436",
+        "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "lattice-native qstar serve — /api/* + /v1/* surfaces measured live; util-lane candidate (no json_schema, no nomic embeds)"
+      },
+      "ollama-remote": {
+        "kind": "llm-upstream",
+        "endpoint": "http://192.168.12.210:11434",
+        "provider_id": "remote",
+        "evidence": "doc-cited",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "firingline host — compatibility fallback; reachability measured by the bridge, not promised here"
+      },
+      "k3serve": {
+        "kind": "llm-upstream",
+        "endpoint": "http://127.0.0.1:8080",
+        "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "zig-k3-port OpenAI+Ollama surface — integer-exact engine; --sched-emit receipts fold into the Continuity DHT; --fast documented non-exact"
+      },
+      "space-agent": {
+        "kind": "desk-organ",
+        "endpoint": "http://127.0.0.1:3000",
+        "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "spaces.os iframe boundary — donor's dynamic-eval engine stays inside its own origin; desk side is eval-free"
+      },
+      "agent-zero": {
+        "kind": "monitored-agent",
+        "endpoint": "http://127.0.0.1:50080",
+        "evidence": "bridge-mediated",
+        "primary": false,
+        "retirement": "compatibility-fallback",
+        "note": "sheraton-a0 + digit-a0 lanes under host custody — Art. V.3 monitored assets; agentzero-watch gates + folds every action"
+      },
+      "spec007.wasm": {
+        "kind": "wasm-core",
+        "path": "site/assets/spec007.wasm",
+        "sha256": "sha256:fa61d75ff594f1f9f61ef69a0359b03a64e96099f550ab2eeef01027ca322ace",
+        "evidence": "verified-here"
+      },
+      "rations.wasm": {
+        "kind": "wasm-core",
+        "path": "site/apps/rations/rations.wasm",
+        "sha256": "sha256:643a3912c5aba90a5691b51f51e649eb04a3401ee6266bb2512b2ac3ea814963",
+        "evidence": "verified-here",
+        "sidecar_agrees": true
+      },
+      "capability-registry": {
+        "kind": "registry",
+        "path": "site/assets/capability-registry.json",
+        "sha256": "sha256:d12308dcebd00b762f903fd1ce4ac15e5eb2627fbebc937869b5570aa3d72521",
+        "evidence": "verified-here"
+      },
+      "zig-capability-registry": {
+        "kind": "registry",
+        "path": "site/assets/zig-capability-registry.json",
+        "sha256": "sha256:a40572625a6d159e89ca20cf9017e5e4a09abdeb0742194a0048a42fbadfde9f",
+        "evidence": "verified-here"
+      },
+      "spec-registry": {
+        "kind": "registry",
+        "path": "site/assets/spec-registry.json",
+        "sha256": "sha256:412a3562b0b02ee5b855b791d75311962f0d38b1c389586f720fd5e28cb331ea",
+        "evidence": "verified-here"
+      },
+      "academy-manifest": {
+        "kind": "registry",
+        "path": "site/assets/academy-manifest.json",
+        "sha256": "sha256:cbc7cd6983189648ef83634c011615663d6c00c0027cc1f2163ea76b273a1f24",
+        "evidence": "verified-here"
+      },
+      "science-inventory": {
+        "kind": "registry",
+        "path": "site/assets/science-inventory.json",
+        "sha256": "sha256:d203c6ee35cfd1ac1d014ca652c921861f2055d468b026dd5fa862f90b99dead",
+        "evidence": "verified-here"
+      },
+      "security-battery": {
+        "kind": "harness",
+        "path": "security/",
+        "members": 50,
+        "anchor_sha256": "sha256:65afd485975726b775eb1a96d3052ad2af7ba0aa2d29bf3093dbaa648fee3462",
+        "evidence": "verified-here",
+        "note": "team-sweep-2 is the load gate — anchor hash pins the sweep"
+      },
+      "d12-wasmrt-sdk-upstream": {
+        "kind": "upstream-runtime-gate",
+        "path": "site/assets/d12-sdk-audit.json",
+        "sha256": "sha256:e4ee142d5897d89c6e2c391598e34d81878c5be22cd7a033939cafa60acec869",
+        "evidence": "verified-here",
+        "primary": false,
+        "retirement": "external-sibling-not-desk-runtime",
+        "note": "sealed D12 release + standard/experimental isolation + 39-test/Fano gates verified upstream"
+      },
+      "d12-dual-bridge": {
+        "kind": "dual-runtime-harness",
+        "path": "site/assets/d12-dual-bridge-audit.json",
+        "sha256": "sha256:e94f4dbb57f4811b58020608fe838517475f70eecc61caa35df0da9d1396eea7",
+        "evidence": "verified-here",
+        "primary": false,
+        "retirement": "experimental-adapter-not-standard-wide-wasm",
+        "note": "native sidecar and freestanding wasm32 D12 adapter emit byte-identical D12R reports on golden/refusal/hostile vectors; full sdk.Runtime browser bridge remains out of scope"
+      },
+      "admiralty-desk-electron": {
+        "kind": "desktop-shell",
+        "path": "site/assets/admiralty-desk-audit.json",
+        "sha256": "sha256:ee67455cd7c963e2a175e5a220222a6390924f96616781ceb8f781dc418d2d6c",
+        "evidence": "verified-here",
+        "primary": false,
+        "retirement": "loopback-workstation-shell",
+        "note": "Electron 44.7.0 desk shell — serve.py header parity, sandboxed/context-isolated renderer, exact five-channel IPC, top-frame-only sender validation, governed loopback frame policy"
+      }
+    }
+  },
+  "sig_ed25519": "fpgQTLfqYxqzhwkyZY8rd_TiYJBio_eciQqzHQcVAv19mc2LnkK5O9NCP436TlZw-XpTAR02o49pxZ5pdL6MBA",
+  "pubkey_hint": "sha256:43b4429513e53ba9"
+}

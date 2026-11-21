@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // 擴充設計</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Q Branch issue — certified to half an ulp. Do not leave it in the field. -->
+<script>try{var _l=localStorage.getItem('fano1.lang');if(_l&&_l!=='zh')window.location.replace('expanded.html');}catch(e){}</script>
+<div class="dossier">
+<div class="watermark">公開發布</div>
+<div class="banner">OSTF 艦隊司令部 &middot; SPEC-007 &middot; 公開發布 &middot; v1.4.0</div>
+<nav class="file-nav">
+<a href="cover-zh.html">檔案索引</a> &middot;
+<a href="public-zh.html">簡報</a> &middot;
+<a href="verified-zh.html">已驗證</a> &middot;
+<a href="dossier-zh.html">證據</a> &middot;
+<a href="claims-zh.html">主張</a> &middot;
+<a href="economics-zh.html">經濟</a> &middot;
+<strong>[擴充設計]</strong> &middot;
+<a href="ledger-zh.html">分數帳本</a> &middot;
+<a href="desktop.html">FANO-1 工作站</a> &middot;
+<a href="charter-zh.html">憲章</a> &middot;
+<a href="covert-en.html">密件 EN</a> &middot;
+<a href="covert-zh.html">密件 ZH</a> &middot;
+<a href="verdict.html">安全裁決</a> &middot;
+<a href="veracity.html">真實性稽核</a> &middot;
+<a href="discoveries-zh.html">發現帳本</a> &middot;
+<a href="bridge-map-zh.html">橋接圖譜</a> &middot;
+<a href="science-coverage-zh.html">科學覆蓋</a> &middot;
+<a href="declassified-zh.html">解密件</a> &middot;
+<a href="object-006-zh.html">OSTF-006</a> &middot;
+<a href="7q.html">L5 — 7q</a>
+</nav>
+<div class="lang-twin"><a href="expanded.html" onclick="try{localStorage.setItem('fano1.lang','en')}catch(e){}">EN ⇄</a></div>
+<main>
+<h1>SPEC-007 擴充工程規格</h1>
+<p>**
+<strong>版本：</strong> 1.0.0修訂：<strong> 設計輸入整合紅隊草案
+</strong>狀態：<strong> 概念架構與驗證需求——</strong>未核准建造、運輸、車輛整合或部署<strong>
+</strong>不可變基線：<strong> <code>spec-007.md</code>
+</strong>已驗證數字：<strong> 所有晉升數值主張必須符合 <code>spec-007-verified.en.md</code>。本文件中與其不同的數字是歷史設計輸入，非晉升主張。
+</strong>設計輸入：** 機密 OSTF 記錄（依 SPEC-004），保留於本儲存庫公開面之外。</p>
+<h2>0. 範圍與證據紀律</h2>
+<p>本文件以機密設計輸入所載的額外架構擴充原 SPEC-007 概念：被動日間輻射冷卻（PDRC）、電石反應器、乙炔燃燒器、分級熱交換器、閉環有機朗肯循環（ORC）、特斯拉渦輪、TEG 陣列、拋棄式乾接觸反應卡匣、模組化機架，以及可能的超輕型電動車。</p>
+<p>它是工程假說，非已驗證產品規格。每一項指派下列狀態之一：</p>
+<ul>
+<li><strong>已計算（Calculated）：</strong> 由聲明量與可重現模型推得。</li>
+<li><strong>有來源（Sourced）：</strong> 在所述條件下獲所引標準、製造商數據表、政府來源或同儕審查著作支持。</li>
+<li><strong>目標（Target）：</strong> 需測試證據的提議需求。</li>
+<li><strong>條件（Conditional）：</strong> 僅在所述依賴滿足時可行。</li>
+<li><strong>封鎖（Blocked）：</strong> 不安全、矛盾、不可得或規格不足。</li>
+<li><strong>範圍外（Out of scope）：</strong> 不屬於首個演示器。</li>
+</ul>
+<p>原雙語規格原樣保留。本次修訂不將「全球部署」、「碳中和」或「自充電」等修辭語言轉化為工程需求。</p>
+<h2>1. 架構概覽</h2>
+<h3>1.1 提議能量路徑</h3>
+<pre><code class="language-text">Dry CaC2 cartridge
+        │ controlled internal activation
+        ▼
+CaC2 + water reactor ──► Ca(OH)2 residue + acetylene
+        │                         │
+        │ reaction heat            └─► qualified burner and exhaust path
+        ▼                                      │
+Reactor heat interface                           ▼
+        │                              Primary heat exchanger
+        ├─► reactor TEGs                         │
+        │                                        ▼
+        └──────────────────────────────► high-temperature buffer loop
+                                                 │
+                                                 ▼
+                                      Intermediate heat exchanger
+                                                 │
+                                                 ▼
+                                      ORC working-fluid loop
+                                                 │
+                                    pump → evaporator → expander
+                                                 │
+                                      generator + optional TEGs
+                                                 │
+                                                 ▼
+                                       condenser / heat rejection
+                                      PDRC + convection + radiator
+</code></pre>
+<p>各支路並非自動相加。每條支路取自同一有限化學能，並競爭同一溫差與排熱能力。「三個採收器」因此是能量分配問題，而非三個獨立能源。</p>
+<h3>1.2 產品變體</h3>
+<table>
+<thead>
+<tr>
+<th>變體</th>
+<th>目的</th>
+<th>決定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>研究熱卡匣</td>
+<td>在合格設施中量測化學、熱、殘渣與圍阻</td>
+<td>首個演示器候選</td>
+</tr>
+<tr>
+<td>獨立緊急熱電機組</td>
+<td>密封專業維修卡匣的低功率緊急電力</td>
+<td>條件性利基產品</td>
+</tr>
+<tr>
+<td>機架電站</td>
+<td>多卡匣饋入共享轉換硬體</td>
+<td>推遲至單機證據存在</td>
+</tr>
+<tr>
+<td>超輕 LEV 增程器</td>
+<td>車載整合化學電源與緩衝電池</td>
+<td>推遲；認證繁重</td>
+</tr>
+<tr>
+<td>船用發電機</td>
+<td>水冷固定式或船載電源機組</td>
+<td>獨立計畫</td>
+</tr>
+<tr>
+<td>航空／無人機系統</td>
+<td>能量密度高但氧氣、墜毀與認證受限</td>
+<td>首個計畫之外</td>
+</tr>
+<tr>
+<td>潛艇／AUV 系統</td>
+<td>需要氧氣或非燃燒熱路徑及耐壓殼整合</td>
+<td>獨立計畫</td>
+</tr>
+</tbody>
+</table>
+<h2>2. 化學與卡匣子系統</h2>
+<h3>2.1 反應</h3>
+<p><code>CaC2 + 2 H2O → C2H2 + Ca(OH)2</code></p>
+<p>反應真實且放熱。理想 300 g 基線在既有模型假設下產約 104.9 L 乙炔與 595 kJ 水解熱。商用電石產率取決於純度、粒徑、受潮與雜質含量；設計輸入的「高純度」假設不得在無分析證書下採用。</p>
+<h3>2.2 時長控制</h3>
+<p>慢速進水可延長反應時長，但無法增加總化學輸出。理想模型中：</p>
+<ul>
+<li>0.1 mL/min 水 → 約 0.062 L/min 乙炔。</li>
+<li>0.5 mL/min 水 → 約 0.311 L/min 乙炔。</li>
+<li>5 L/min 乙炔需約 8.0 mL/min 水。</li>
+<li>300 g 理想充裝在 5 L/min 下可持續約 21 分鐘。</li>
+</ul>
+<p>「數小時或數日」的主張需要更低平均功率、更大充裝、多支卡匣或額外燃料。單支 300 g 充裝在所述 5 L/min 速率下推不出這些結論。</p>
+<h3>2.3 卡匣決策</h3>
+<ul>
+<li>使用者不得接觸裸露電石、遇水反應殘渣或乙炔。</li>
+<li>首選產品架構是工廠充填、密封、維修回收式卡匣，內部激活，無使用者可及的氣體或液體快接頭。</li>
+<li>乾式熱接觸插座減少使用者側流體傳輸介面，但不消除內部壓力、氣體、燃燒、破裂、運輸或壽命終止危害。</li>
+<li>「拋棄式」不等於「安全」。卡匣仍需壓力／熱圍阻、濕氣侵入防護、起火應變、運輸核准、可追溯性與受控收集。</li>
+<li>卡匣必須具備獨立定義的安全態。渦輪消耗、單一膜片或單一撞擊感測器不能是唯一安全功能。</li>
+<li>殘渣管理是設計目標：每 300 g 充裝生成 ~347 g Ca(OH)₂（台架驗證化學計量），並結塊為低導熱固體。設計輸入提議自動清排或隔離封存室；任一機制都必須演示在不破壞圍阻下保持熱路暢通。</li>
+<li><strong>質量底線：</strong> 300 g 電石＋~169 g 攜帶水＋~483 g 示例殼體＝~951 g，未含封閉件、儲水容器、感測器、絕熱與連接器（台架測試）。採 convo3 袋裝架構（水袋＋CaO 淬火袋＋封閉件／感測器）時篩算底線落在 <strong>~1.18 kg——務實帶 ~1.1–1.3 kg，非 1.0 kg</strong>（台架測試）。</li>
+</ul>
+<!-- Q 的手提箱從外面看永遠比裡面空。這只還剩十二毫升空氣。 -->
+<ul>
+<li><strong>體積預算（約束條件）：</strong> 50×200 mm 包絡 2 mm 壁內部 ~332 mL（正典幾何）。袋裝內容物佔 ~320 mL（電石床 ~136 mL @ ~2.2 g/cm³ 堆積、水 ~169 mL、CaO ~15 mL），餘 ~12 mL——<strong>&lt;4% 頂部空間</strong>供氣體腔室、管路間隙與膜片行程（台架測試）。反應也使固體膨脹：~347 g Ca(OH)₂ 佔 ~155 mL，對被取代電石的 ~136 mL（~14% 增長，由填充床孔隙吸收）。汽水罐包絡僅在粉末床填充獲驗證或包絡放大時可行；此為條件性包裝主張，非適用性結論。</li>
+</ul>
+<h2>3. 乙炔支路</h2>
+<h3>3.1 架構選項</h3>
+<table>
+<thead>
+<tr>
+<th>選項</th>
+<th>能量結果</th>
+<th>安全結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排放乙炔</td>
+<td>無可用燃燒能</td>
+<td>不可接受的失控易燃氣體釋放</td>
+<td>駁回</td>
+</tr>
+<tr>
+<td>於獨立壓力系統儲存乙炔</td>
+<td>可能有用；小型緩衝蓄壓器解耦發生率與燃燒器需求</td>
+<td>增加壓力容器與儲存危害；緩衝容量須涵蓋節流失配與反應器冷卻餘氣</td>
+<td>不屬首個產品</td>
+</tr>
+<tr>
+<td>按燃燒率生成（首選）</td>
+<td>因滴水<em>即</em>節流（每 0.5 L/min 氣 ~0.8 mL/min 水），產氣對齊耗氣使乙炔存量趨近零——無可分解或洩漏的儲存體積</td>
+<td>需加料閥、出氣口與火焰監控緊密耦合；僅需按反應延遲與關斷餘氣定容的暫態緩衝</td>
+<td>設計目標</td>
+</tr>
+<tr>
+<td>洗滌後儲存／饋入乙炔</td>
+<td>移除毒化觸媒並產生有毒燃燒副產物的硫／磷雜質</td>
+<td>增加吸附劑匣、再生／處置流與維護負擔</td>
+<td>設計目標</td>
+</tr>
+<tr>
+<td>於合格密閉燃燒器中燃燒</td>
+<td>使化學能成為可用熱</td>
+<td>需氧／空氣控制（全 5 L/min 氣率下 ≈60 L/min 空氣，台架驗證）、點火、火焰監控、回火防護、排氣（每充裝 ~412 g CO₂＋水蒸氣）、CO/NOx 評估</td>
+<td>條件</td>
+</tr>
+<tr>
+<td>低速率廣面積燃燒（首選工作點）</td>
+<td>最大化充裝時長與熱通量均勻性：0.5 L/min 時 ~530 W 熱 ≈3.5 h，0.1 L/min 時 ~106 W ≈17.5 h；~0.2 m²（公事包級）板上 ~2.65 kW/m²，對火炬噴嘴的數 MW/m²（台架測試）</td>
+<td>乙炔必須近常壓：~1.5–2 bar 以上可在無氧下自分解爆炸，故低壓發生／燃燒是硬性安全區間而非偏好；低流速提高回火風險需阻火器；富燃料乙炔焰嚴重積碳——需稀薄預混或輻射墊配置加二次空氣方得潔淨 CO 受限燃燒</td>
+<td>設計目標</td>
+</tr>
+<tr>
+<td>乙炔直接用於渦輪</td>
+<td>不經燃燒無法回收其化學能</td>
+<td>高易燃氣體與點火風險</td>
+<td>駁回</td>
+</tr>
+</tbody>
+</table>
+<p>擴充架構僅可在合格實驗室研究密閉燃燒器。首個非危險演示器應使用惰性熱源或電加熱器，獨立驗證熱迴路與膨脹機。</p>
+<p><strong>熱上限背景：</strong> 燃燒是唯一已識別的 kW 級刀片輸出路徑。已驗證層將其界於 ≈5.3 kW 熱（純）／≈4.9 kW（商用），每充裝 ≈17–21 分鐘——爆發模式，非連續工況。燃燒器下游所有電氣主張仍受實測階梯效率與全套燃燒閘門約束。</p>
+<h3>3.2 排氣</h3>
+<p>潔淨化學計量燃燒為：</p>
+<p><code>2 C2H2 + 5 O2 → 4 CO2 + 2 H2O</code></p>
+<p>可攜機組無法無限期封閉燃燒排氣。任何燃燒器變體需要定義的排氣路徑、稀釋／通風、表面溫度控制、熄火應變、相關處的一氧化碳監控，以及安全的堵塞排氣狀態。「過濾排氣」不使密封外殼變安全，也不使製程零排放。</p>
+<h2>4. 熱架構</h2>
+<h3>4.1 迴路 0：反應器熱</h3>
+<p>反應器壁熱為低至中品位、暫態，受進水計量、顆粒幾何、殘渣結塊、濕氣傳輸與殼體熱阻影響。反應器 TEG 可提供啟動遙測或輔助電力，但不是獨立於反應器熱的備用來源。</p>
+<h3>4.2 迴路 1：主熱緩衝</h3>
+<p>主迴路可平抑燃燒器熱並保護次迴路。候選工質必須按實際溫度、壓力、燃點、黏度、氧化、密封相容性與環境要求選定。「合成油」不是充分規格。</p>
+<p>主路徑中的<strong>耐火絕熱蓄熱塊</strong>是設計輸入的設計目標：吸收燃燒尖峰並帶膨脹機渡過節流暫態的熱飛輪。其質量、充放熱溫帶與絕熱預算為待定，且必須明確進入質量模型。</p>
+<p>不得假定迴路可連續承受來源文件的 300–450 °C。設計必須識別最大液膜溫度與局部熱點，而非僅主體溫度。</p>
+<h3>4.3 迴路 2：Novec-649 ORC 候選</h3>
+<p>Novec 649／FK-5-1-12 是有技術文件支持的 ORC 候選，但來源材料高估其適用性：</p>
+<ul>
+<li>沸點：約 49 °C。</li>
+<li>臨界溫度：約 169 °C。</li>
+<li>臨界壓力：約 1.88 MPa。</li>
+<li>汽化熱：約 88 kJ/kg。</li>
+<li>製造商稱無水時於 300 °C 以上穩定，但那不是在其臨界溫度之上的常規 ORC 運行目標。</li>
+<li>製造商建議密封系統並警告與液態水的相互作用。</li>
+<li>3M 已於 2025 年底完成退出 PFAS 製造，產生供應延續、法規與壽命終止顧慮。</li>
+</ul>
+<p><strong>需求：</strong> Novec 迴路僅在取得現行供應聲明、環境／法律審查、工質物性模型、壓力設計、材料相容性審查與獨立洩漏／圍阻計畫後方可保留。它不因其介電與不燃而自動成為最佳工質。</p>
+<p><strong>整合註記：</strong> 因 Novec 是介電液，同一迴路原則上可為電子件提供直接浸沒冷卻——設計輸入中的雙用途架構元件。任何浸沒腔室共享迴路的密封、濕氣排除與壓力要求，並增加潤濕部件相容性審查。</p>
+<p><strong>工作點註記：</strong> 蒸發器壓力／溫度是設計旋鈕，上限為 169 °C 臨界點。提高它產生緻密高壓蒸氣——Novec 的高分子量（316 g/mol）使同壓蒸氣遠密於水蒸氣，適合緊湊邊界層膨脹機。然而潛熱隨溫度逼近臨界點趨零，故務實蒸發器甜區約為 <strong>90–150 °C</strong>（模型估計 ~0.4–1.2 MPa 蒸氣壓，由製造商數據推得：40 kPa @ 25 °C、沸點 49 °C、hfg 88 kJ/kg），而非近臨界運行。低端上，次大氣壓蒸發可耦合更低品位的反應器壁熱，但增加比容、膨脹機損失與密封要求。運行壓力搬移循環工作點；它不改變能量預算，且永不解除 169 °C 閘門。</p>
+<h3>4.4 膨脹機選型</h3>
+<p>在數十瓦尺度上，特斯拉渦輪並不自動優於渦卷、活塞、葉片或其他正排量膨脹機。選擇應基於扣除泵功、洩漏、摩擦、發電機損失後的實測淨輸出、啟動行為、部分負載效率與圍阻。</p>
+<p>所述 5–8% 微型 ORC 效率與 12–15% 較大渦輪效率是需要證據的目標，非商業論證的輸入。已發表微型 ORC 實驗顯示正淨輸出可行，但結果隨尺度強烈變化，且常採用特斯拉渦輪以外的膨脹機。</p>
+<!-- Q-boat 的引擎與噴射之間沒有變速箱，Bond 照樣甩掉了直升機。有時候傳動是問題戴著偽裝。 -->
+<h3>4.5 動力系統：雙膨脹機／發電機路徑</h3>
+<p>設計輸入指定軸向磁通永磁機作為發電機（已驗證機型——AFPMSG 是直驅風力／回生標準硬體）。早期整合將傳動視為強制，因為它撮合 15,000–30,000 RPM 特斯拉渦輪與篩算的 3,000–5,000 RPM 發電機窗口。convo3 文獻掃描解散了該前提：<strong>傳動的存在只為橋接兩個失配端點，而兩端都有直驅替代。</strong> 依開放硬體使命，兩者皆記錄；CVT 鏈保留為已取代的路徑 C。</p>
+<p><strong>路徑 A——渦卷膨脹機＋直驅 AFPM（旗艦）。</strong> 商用渦卷壓縮機反轉運行是此尺度上量測最多的膨脹機類：Sanden TRS090 實測 ~45% 等熵 @ ~650 W 軸功，半密閉 E15H 級機實測 ~80% 等熵 @ 120–140 °C——落在 Novec 蒸發器帶內。套用於循環的 ~24% 等熵潛力（6% 總體 ÷ 25% 特斯拉），渦卷帶將整體 ORC 效率提升至 ~10.8–19.2%：</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>路徑 A</th>
+<th>路徑 B</th>
+<th>路徑 C（已取代）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>膨脹機 → 軸（爆發）</td>
+<td><strong>~458–814 W</strong></td>
+<td>~254 W</td>
+<td>~254 W</td>
+</tr>
+<tr>
+<td>軸 → 母線</td>
+<td><strong>~412–732 W</strong></td>
+<td>~215–228 W</td>
+<td>~182–224 W</td>
+</tr>
+<tr>
+<td>每充裝電能</td>
+<td><strong>~155–266 Wh</strong></td>
+<td>~85 Wh</td>
+<td>~74–90 Wh</td>
+</tr>
+<tr>
+<td>轉子轉速</td>
+<td>2–6k RPM——無需套筒</td>
+<td>15–30k RPM——碳纖維套筒強制</td>
+<td>混合</td>
+</tr>
+<tr>
+<td>開放硬體 BOM（篩算）</td>
+<td>~$250–500</td>
+<td>~$400–900</td>
+<td>＋CVT 件</td>
+</tr>
+<tr>
+<td>每爆發瓦成本</td>
+<td><strong>~$0.34–1.21/W</strong></td>
+<td>~$1.75–4.19/W</td>
+<td>最高</td>
+</tr>
+<tr>
+<td>密封</td>
+<td>密閉渦卷殼＝<strong>零旋轉密封</strong></td>
+<td>高速軸封或密閉發電機</td>
+<td>軸封＋CVT</td>
+</tr>
+<tr>
+<td>危害級別</td>
+<td>渦卷咬死＝重建</td>
+<td>轉子爆裂＝圍阻事件</td>
+<td>轉子爆裂＋傳動</td>
+</tr>
+<tr>
+<td>製造</td>
+<td>再製 COTS 膨脹機</td>
+<td>平板碟——車庫製造</td>
+<td>精密 CVT 件</td>
+</tr>
+</tbody>
+</table>
+<p>路徑 A 在<em>兩個</em>界上贏得 $/W 指標：其最差情形（~$1.21/W）勝過路徑 B 最佳情形（~$1.75/W）（台架測試）。</p>
+<p><strong>路徑 B——特斯拉渦輪＋套筒高速永磁發電機（車庫製造）。</strong> 高速永磁機在篩算的 3–5k 窗口之外早已證明——3 cm³ 封裝中 100 W @ 500k RPM、1 kW @ 500k RPM、Capstone 商用 30 kW 微型渦輪在氣浮軸承上跑 96k RPM——且碳纖維磁體套筒是 20k+ RPM 的標準實務。緊湊 50 mm 磁體轉子在 30k RPM 保持 ρv² 環向界 ~46 MPa（在 ~800 MPa 套筒篩算內，甚至 ~150 MPa 無套筒轂界內）；150 mm 轉子在 30k 將達 ~416 MPa，強制套筒。路徑 B 保留平板特斯拉轉子——每件皆平面或圓柱——代價是發電機複雜度（套筒繞組、精密軸承、高頻整流、無感測器驅動）與強制圍阻殼體。</p>
+<p><strong>路徑 C——特斯拉＋傳動（已取代，保留）。</strong> 傳動整合的 CVT／帶／齒輪鏈保留於台架與存檔作為量化基線：~182–224 W 母線、~74–90 Wh/充裝，下列變比窗口／扭矩／損失熱分析對保留它的建造者仍然適用。</p>
+<p><strong>變比窗口。</strong> 所需減速為 <code>R = N_turbine / N_generator</code>：</p>
+<table>
+<thead>
+<tr>
+<th>渦輪帶</th>
+<th>發電機窗口</th>
+<th style="text-align: right;">所需 R</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>對話帶 15,000–30,000 RPM</td>
+<td>3,000–5,000 RPM</td>
+<td style="text-align: right;">3:1–10:1</td>
+<td>已計算</td>
+</tr>
+<tr>
+<td>L0 帶 30,000–80,000 RPM</td>
+<td>3,000–5,000 RPM</td>
+<td style="text-align: right;">6:1–26.7:1</td>
+<td>已計算——超出任何單級 CVT</td>
+</tr>
+<tr>
+<td>例算</td>
+<td>20,000 → 4,000 RPM</td>
+<td style="text-align: right;">5:1</td>
+<td>已計算</td>
+</tr>
+</tbody>
+</table>
+<p>固定 4:1–6:1 CVT 掃掠僅在 16,000–24,000 RPM 渦輪轉速內維持<em>固定</em> 4,000 RPM 發電機設定點；涵蓋全對話帶需 ~3.75–7.5 掃掠，或讓發電機用滿其 3–5k 窗口（台架測試）。</p>
+<p><strong>扭矩鏈。</strong> <code>T_out = T_in·R·η</code> 由台架強制：在已驗證 ~254 W 爆發軸功與 20k RPM 下，渦輪扭矩 ~0.121 N·m；經 5:1 @ η0.88，發電機在 4,000 RPM 收到 ~0.534 N·m（223.5 W——功率守恆減去傳動損失）。</p>
+<p><strong>轉子應力篩算（薄環界 σ ≈ ρv²）。</strong></p>
+<table>
+<thead>
+<tr>
+<th>元件</th>
+<th style="text-align: right;">轉速</th>
+<th style="text-align: right;">尖端速度</th>
+<th style="text-align: right;">應力界</th>
+<th>處置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50 mm 不鏽鋼碟盤組（304，8.0 g/cm³）</td>
+<td style="text-align: right;">30,000 RPM</td>
+<td style="text-align: right;">~78.5 m/s</td>
+<td style="text-align: right;">~49 MPa</td>
+<td>低於 ~205 MPa 退火屈服——可行</td>
+</tr>
+<tr>
+<td>同上</td>
+<td style="text-align: right;">80,000 RPM</td>
+<td style="text-align: right;">~209.4 m/s</td>
+<td style="text-align: right;">~351 MPa 環／~145 MPa 實心碟心</td>
+<td>邊際至失效；孔口環向集中（~2–3×）將碟孔推過屈服——L0 頂端維持封鎖</td>
+</tr>
+<tr>
+<td>150 mm AFPM 轉子（NdFeB，~7.5 g/cm³）</td>
+<td style="text-align: right;">5,000 RPM</td>
+<td style="text-align: right;">~39.3 m/s</td>
+<td style="text-align: right;">~12 MPa</td>
+<td>在 ~150 MPa 無套筒保持篩算內</td>
+</tr>
+<tr>
+<td>同上</td>
+<td style="text-align: right;">20,000 RPM</td>
+<td style="text-align: right;">~157.1 m/s</td>
+<td style="text-align: right;">~185 MPa</td>
+<td>超過篩算——直驅需要碳纖維套筒轉子</td>
+</tr>
+</tbody>
+</table>
+<p><strong>傳動選項。</strong></p>
+<table>
+<thead>
+<tr>
+<th>選項</th>
+<th style="text-align: right;">η（篩算）</th>
+<th>優點</th>
+<th>代價</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同步齒形帶（GT2/HTD）</td>
+<td style="text-align: right;">95–98%</td>
+<td>廉價、安靜、吸震、免潤滑</td>
+<td>製造時變比固定；20k+ 輸入下帶壽命需供應商數據</td>
+<td>條件——淨輸出首選</td>
+</tr>
+<tr>
+<td>定比行星齒輪箱</td>
+<td style="text-align: right;">96–98%</td>
+<td>緊湊、同軸、承受高輸入轉速</td>
+<td>持續 20k+ RPM 下軸承額定與潤滑</td>
+<td>條件</td>
+</tr>
+<tr>
+<td>行星牽引 CVT</td>
+<td style="text-align: right;">80–88%</td>
+<td>可變比：跨渦輪轉速／壓力擺動維持發電機設定點；緩解渦輪啟動失速</td>
+<td>軸功 −12 至 −20% 化為牽引液熱；文獻記錄蠕滑／自旋損失；昂貴精密件</td>
+<td>條件——以瓦特支付的控制的益處</td>
+</tr>
+<tr>
+<td>套筒直驅發電機</td>
+<td style="text-align: right;">~90% 僅發電機</td>
+<td>完全無傳動級</td>
+<td>轉子套筒設計、高頻整流、20k+ RPM 軸承</td>
+<td>條件——最高淨效率路徑</td>
+</tr>
+</tbody>
+</table>
+<p><strong>降額輸出。</strong> 將篩算 6% ORC 數字保守解讀為熱→軸，已驗證 ~254 W 爆發軸功經 CVT 至母線 ~182–201 W、經帶 ~217–224 W、直驅 ~228 W（僅軸＋發電機）。每充裝 ORC 支路 ~89 Wh 化為 ~63 Wh（CVT 最差）至 ~79 Wh（直驅）——含傳動篩算總計連 ~11 Wh TEG 支路為 ~74–90 Wh，對 ~90–110 Wh 僅階梯界。若 6% 數字改解讀為已是熱→母線，則僅適用傳動因子（~203–248 W）。兩種解讀皆在台架中計算；保守帶主宰經濟。</p>
+<p><strong>損失熱導流（適用強制流規則）。</strong> CVT 損失（爆發時 ~30–50 W）加熱牽引液與殼體——該熱<em>必須</em>導出，故在分散式 TEG 邊界規則下是合法採收路徑。但在務實 ~50–80 K 殼體 ΔT 下篩算僅回收 ~0.3–0.7 W（損失的 ~1–1.5%）：真實、帳本合法、經濟上可忽略。真正的益處是將損失導入共享 PDRC／輻射器預算——~5 kW 爆發排熱需求 +~1%（有利通量下 ~42.1 m² 對 ~41.7 m²）——而非專用冷卻器。同一蒙皮上的 PV／光熱表面仍是<em>來源</em>（免費熱），非回收路徑。</p>
+<p><strong>免費熱對付費熱警示。</strong> 「20% 傳動損失可接受」僅在輸入熱免費（太陽能／廢熱支路）時成立。在付費電石充裝上，損失將原料底線自 ~$1.64/kWh 提高至 ~$2.05–$2.43/kWh（台架經濟測試）。</p>
+<p><strong>機械介面需求（目標，未驗證）：</strong></p>
+<ul>
+<li>~15k RPM 以上用撓性碟片或微型波紋管聯軸器（剛性聯軸器將失準放大為破壞性振動）。</li>
+<li>額定承受徑向／推力聯合負載的陶瓷混合軸承；需 L10 壽命數據。</li>
+<li>變比致動：伺服回饋迴路或離心調速器；<em>雙軸</em>超速跳脫加獨立發電機側制動，使傳動故障無法超速任一轉子。</li>
+</ul>
+<!-- Le Chiffre 在桌上向每位客戶按各自的匯率收款。歧管向每個熱源按各自的品位收熱——沒有人付出超出其溫度所能負擔的。 -->
+<h3>4.6 三級熱歧管</h3>
+<p>convo3 設計意圖——「從幾乎任何熱源取熱的熱交換器」，含 PC 散熱等即插負載——以<strong>品位分離歧管</strong>的形式在評級中存活。熱不能上爬溫度，故熱源按自身品位進入，熱槽位於循環所需處。<code>spec007_manifold_calculations.zig</code> 強制算術。</p>
+<table>
+<thead>
+<tr>
+<th>母線</th>
+<th>溫度帶</th>
+<th>承載</th>
+<th>接受</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>熱（油迴路）</td>
+<td>~150–250 °C 主體</td>
+<td>燃燒板熱送往蒸發器；受工質額定限制（礦物／酯油 ~150–200 °C 連續；300–450 °C 仍排除）</td>
+<td>電石燃燒器、太陽能光熱、≥250 °C 工業廢熱</td>
+</tr>
+<tr>
+<td>溫（Novec 省煤器）</td>
+<td>~40–90 °C</td>
+<td>冷凝器與蒸發器之間的液態工質</td>
+<td><strong>外部低品位源（PC／電子散熱、溫廢水）</strong>——預熱工質，直接減輕燃燒器負載</td>
+</tr>
+<tr>
+<td>冷（冷凝器）</td>
+<td>~30–40 °C</td>
+<td>送往 PDRC／輻射器／強制對流的排熱流</td>
+<td>僅強制流上的回收 TEG</td>
+</tr>
+</tbody>
+</table>
+<p><strong>溫度堆疊（三層天花板，台架排序）：</strong> 燃燒板 ≤~300 °C（TEG 模組額定）→ 油母線 ≤~150–250 °C（工質額定）→ Novec 蒸發器 ≤150 °C（距 169 °C 臨界閘門 19 K 裕度）→ 冷凝器 ~40 °C。油迴路不像變速箱那樣「降溫」——它按自身額定循環熱，蒸發器抽取才是冷卻它的力量；耐火蓄熱塊（§4.2）吸收超出油主體額定的板面尖峰。</p>
+<p><strong>油母線流量篩算：</strong> cp ~2.0 kJ/kg·K 與 50 K 供回溫擺下，母線在 530 W 持續工作點承載 ~5 g/s、5.3 kW 爆發時 ~53 g/s；~0.5 L 迴路給出 ~87 s／~8 s 滯留——真正的熱緩衝，不是管子。</p>
+<p><strong>省煤器容量與抵免。</strong> 近 150 °C 帶的 Novec 由<em>顯熱</em>預熱主導——篩算 cp_l ~1.3 kJ/kg·K 跨 100 K 冷凝器→蒸發器跨度，對臨界附近已降至 ~60 kJ/kg 的 h_fg——故液體預熱是蒸發器負載中較大的一份。溫母線在爆發可吸收 ~<strong>1.43 kW</strong>（ṁ ≈ 22 g/s），但持續僅 ~<strong>0.13 kW</strong>（ṁ ≈ 2 g/s）。500 W 即插源（如滿載 PC）在爆發被完全吸收，但持續受限於 ~0.13 kW。兩個誠實後果：</p>
+<ul>
+<li><strong>抵免置換運行：</strong> 每吸收一瓦都是燃燒器不必欠的一瓦——充裝時長爆發延長 ~1.10×、持續延長 ~1.32×。<em>外部熱在低工況下最能延展充裝</em>——與直覺相反。</li>
+<li><strong>相加運行：</strong> 輸入升至 ~5.8 kW，排熱承擔差額（路徑 A 抽取下 ~5.0–5.3 kW）——插入熱<em>擴大</em>了排熱問題。歧管是共享預算，不是免費能源。</li>
+</ul>
+<p>Novec 介電特性（§4.3 整合註記）使即插最強版本成真：電子件<strong>直接浸沒</strong>於工質迴路，受同樣的密封／壓力審查。</p>
+<h2>5. 排熱與 PDRC 子系統</h2>
+<h3>5.1 正確能量平衡</h3>
+<p>PDRC 淨冷卻約為：</p>
+<p><code>P_net = P_radiated − P_atmosphere − P_solar − P_convection/conduction</code></p>
+<p>3 K 天空是輻射參考，非保證的 3 K 冷凝器。雲、濕度、視角、太陽吸收、風、塵污與來自底盤的傳導都算數。</p>
+<p>有利的 PDRC 表面在適當條件下可達數十至約 120 W/m²，而務實車輛條件可能更低或不同。200–300 cm² 板面面積 0.02–0.03 m²，故其理想化排熱是數瓦級，而非數百瓦。它不能作為 800 W 廢熱流的唯一冷凝器，也無法「瞬間」液化 ORC 蒸氣。</p>
+<h3>5.2 熱切換與太陽能輸入</h3>
+<p>車頂或底盤表面可支持受控雙模表面：</p>
+<ul>
+<li>反射太陽／輻射模式用於排熱。</li>
+<li>僅在刻意熱輸入有利且熱迴路可接受時採吸收模式。</li>
+</ul>
+<p>吸收模式下表面是真正的次級熱源：選擇性吸收器在 ~800 W/m² 淨輸入下自 200–300 cm² 板面僅得 ~16–24 W，但自 ~2 m² 車輛級車頂在正午得 ~<strong>1.6 kW 熱</strong>（台架篩算）——堪比 1–2 L/min 電石節流。這支持的架構是太陽熱承擔白天負載，電石反應器覆蓋夜間、低日或突波需求；兩源共享同一轉換階梯，且在每充裝核算中永不與充裝化學預算相加。</p>
+<p>表面必須包含旁通與常規輻射器。流體導流閥不能使同一表面同時表現為理想太陽集熱器與理想輻射冷卻器；光學與熱模式是競爭的設計狀態。</p>
+<p><strong>爆發級排熱：</strong> 在已驗證 ~5.3 kW 熱爆發下，篩算轉換回收後仍須排出 ~5.0 kW——有利 120 W/m² PDRC 通量下 ~41.7 m²（台架測試）。爆發模式因此需要按最差環境整個廢熱流定容的強制對流輻射器，而非被動板面。</p>
+<h3>5.3 車輛運行</h3>
+<p>運動增加對流傳熱，可能有助排熱，但在暖環境空氣下也可能加熱板面。行駛中的 PDRC 性能需要風洞或道路測試；不得計為 ORC 效率的固定紅利。</p>
+<h2>6. TEG 分級</h2>
+<p>TEG 可置於：</p>
+<ol>
+<li>反應器壁——啟動／低品位熱。</li>
+<li>燃燒器或排氣邊界——較高溫度，但熱應力大。</li>
+<li>冷凝器或輻射器邊界——僅在真實溫差仍存處。</li>
+</ol>
+<p>各級熱耦合。增加 TEG 改變熱流，並可減少渦輪或冷凝器可得熱。系統模型必須守恆熱並包含電氣寄生、接觸電阻、冷側溫度與模組降額。</p>
+<p><strong>分散式回收規則：</strong> TEG 僅在<em>必須</em>流動的熱路徑上是合法採收器——ORC 冷凝器排熱流與排氣邊界——其產出受放置 ΔT 界定。在已驗證爆發率下冷凝器排 ~3.99 kW；該路徑上的 TEG 在 ~3–5% 模組點僅在 ~50–90 °C 冷凝器無法提供的額定 ΔT ≈ 270 K 下回收 ≈119 W。在務實冷凝器 ΔT ~30–60 K 下，篩算縮放效率 ~0.5–1.1%，故回收 ≈<strong>20–44 W</strong>（台架測試）。高 ΔT 放置是排氣邊界；反應器壁與冷凝器級為低 ΔT，回收按比例更少。另有兩項約束：TEG 模組本身是熱導體——裝在<em>絕熱</em>面上它部分地製造了它採收的漏熱，故在該處加強絕熱勝過採收；且冷凝路徑 TEG 抬高冷凝溫度，以回收換取 ORC 循環效率。在必經路徑上回收是優化，不是免費能源。</p>
+<p><strong>寄生冷卻註記：</strong> 由採收 TEG 輸出供電的熱電冷卻器是寄生製冷迴路，不是冷卻資源。COP ~0.5–2 下，即使全部理想化冷凝回收（~120 W 電）也只泵 ~60–240 W 熱——不足 ~5 kW 爆發排熱需求的 5%——同時將其全數從電母線抽走（台架測試）。</p>
+<p>正確的輸出指標是調壓母線上的淨電能，非 TEG 銘牌功率、渦輪軸功與理論化學熱之和。</p>
+<h3>6.1 擴充篩算計算</h3>
+<p>整數縮放台架 <code>spec007_expanded_calculations.zig</code> 在不使用浮點狀態下使主要設計級矛盾可重現：</p>
+<table>
+<thead>
+<tr>
+<th>檢查</th>
+<th>標稱輸入</th>
+<th style="text-align: right;">結果</th>
+<th>詮釋</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDRC 板面排熱</td>
+<td>200–300 cm² @ 120 W/m²</td>
+<td style="text-align: right;">2–3 W</td>
+<td>太小，無法排 800 W 廢熱流。</td>
+</tr>
+<tr>
+<td>800 W 所需 PDRC 面積</td>
+<td>120 W/m² 淨冷卻</td>
+<td style="text-align: right;">~66,666 cm²／6.67 m²</td>
+<td>需車輛級輻射器加常規對流／輻射路徑。</td>
+</tr>
+<tr>
+<td>共享熱階梯</td>
+<td>800 W 輸入；80% ORC 份額 @6%；20% TEG 份額 @3%；5 W 寄生</td>
+<td style="text-align: right;">37 W 淨</td>
+<td>採收器不創造獨立能源；熱分配與寄生主導。</td>
+</tr>
+<tr>
+<td>Novec-649 亞臨界閘門</td>
+<td>169 °C 臨界溫度</td>
+<td style="text-align: right;">150 °C 通過；180/300 °C 失敗</td>
+<td>300 °C 迴路不能當作普通亞臨界 Novec ORC。</td>
+</tr>
+<tr>
+<td>乙炔化學能</td>
+<td>121.862 g @ 49.9 MJ/kg LHV</td>
+<td style="text-align: right;">~1,689 Wh</td>
+<td>與 ~165 Wh 模型水解熱分立；燃燒需獨立合格系統。</td>
+</tr>
+<tr>
+<td>指示性 CO₂ 篩算</td>
+<td>300 g CaC₂ @ 合計因子 2.9 kg CO₂/kg</td>
+<td style="text-align: right;">~870 g CO₂</td>
+<td>「碳中和」需已驗證捕集／回收抵扣與完整生命週期核算。</td>
+</tr>
+<tr>
+<td>700 kg 車輛 @ 80 km/h</td>
+<td>CdA 0.60 m²、Crr 0.010、ρ 1.2 kg/m³</td>
+<td style="text-align: right;">~3,950 W 氣動＋~1,525 W 滾阻＝~5,475 W</td>
+<td>輕量助滾阻，但全尺寸正面積仍驅動可觀巡航功率。</td>
+</tr>
+<tr>
+<td>僅原料電力</td>
+<td>300 g @ $0.60/kg 與 110 Wh 已驗證篩算輸出</td>
+<td style="text-align: right;">~$1.64/kWh</td>
+<td>排除卡匣、安全、人工、運輸、維修與回收成本；舊 158 Wh 數字是未驗證上限。</td>
+</tr>
+<tr>
+<td>真實 ΔT 下冷凝路徑 TEG</td>
+<td>~3.99 kW 排熱；ΔT ~30–60 K</td>
+<td style="text-align: right;">回收 ~20–44 W</td>
+<td>~119 W 數字假設冷凝器無法提供的額定 ΔT ≈ 270 K；排氣邊界是高 ΔT 放置。</td>
+</tr>
+<tr>
+<td>爆發模式排熱面積</td>
+<td>~5.0 kW 排熱 @ 120 W/m²</td>
+<td style="text-align: right;">~416,667 cm² ≈ 41.7 m²</td>
+<td>爆發模式需強制對流輻射器，非被動板面。</td>
+</tr>
+<tr>
+<td>TEG 輸出供電 TEC</td>
+<td>120 W 輸入 @ COP ~0.5–2</td>
+<td style="text-align: right;">泵 ~60–240 W，母線得 0 W</td>
+<td>寄生製冷迴路；&lt;5% 爆發排熱需求。</td>
+</tr>
+<tr>
+<td>太陽能光熱輸入</td>
+<td>~2 m² 車頂上 ~800 W/m² 淨</td>
+<td style="text-align: right;">~1.6 kW 峰值熱</td>
+<td>堪比 1–2 L/min 電石節流；共享同一階梯的白天來源。</td>
+</tr>
+<tr>
+<td>傳動變比窗口</td>
+<td>15–30k RPM 渦輪 → 3–5k RPM 發電機</td>
+<td style="text-align: right;">R = 3:1–10:1（L0 80k 頂需 ~26.7:1）</td>
+<td>單級 CVT 無法橋接不可變規格頂端；該處需套筒直驅或複合齒輪。</td>
+</tr>
+<tr>
+<td>爆發軸功經 CVT</td>
+<td>254 W 軸、η 0.80–0.88、發電機 η 0.90</td>
+<td style="text-align: right;">~182–201 W 母線</td>
+<td>傳動級強制；CVT 控制以瓦特支付。</td>
+</tr>
+<tr>
+<td>爆發軸功經帶／齒輪</td>
+<td>254 W 軸、η 0.95–0.98、發電機 η 0.90</td>
+<td style="text-align: right;">~217–224 W 母線（直驅 ~228）</td>
+<td>定比硬體比 CVT 帶多保留 ~8–10% 母線功率。</td>
+</tr>
+<tr>
+<td>每充裝 ORC 支路</td>
+<td>88 Wh 軸（1.854 kWh 熱 × 0.8 × 0.06）</td>
+<td style="text-align: right;">63–79 Wh 電＋11 Wh TEG</td>
+<td>含傳動篩算 ~74–90 Wh 對 ~90–110 Wh 僅階梯。</td>
+</tr>
+<tr>
+<td>轉子尖端應力篩算</td>
+<td>ρv² 薄環界</td>
+<td style="text-align: right;">49 MPa @30k／~351 MPa @80k（50 mm，304）</td>
+<td>80k 頂端超過退火屈服；低帶是可辯護運行區域。</td>
+</tr>
+<tr>
+<td>CVT 損失熱回收</td>
+<td>~30–50 W 強制流 @ ~50–80 K ΔT</td>
+<td style="text-align: right;">回收 ~0.3–0.7 W</td>
+<td>經邊界規則帳本合法；價值在共享排熱管路，非採收。</td>
+</tr>
+<tr>
+<td>路徑 A 母線（渦卷＋直驅 AFPM）</td>
+<td>45–80% 渦卷等熵 × 24% 循環潛力</td>
+<td style="text-align: right;">~412–732 W 母線</td>
+<td>換膨脹機令輸出翻三倍；已取代路徑 C 上限 ~224 W（台架）。</td>
+</tr>
+<tr>
+<td>路徑 A 每充裝能量</td>
+<td>1,854 Wh 熱 × 0.8 × 0.108–0.192</td>
+<td style="text-align: right;">~155–266 Wh 含 TEG</td>
+<td>~2–3× 路徑 C ~74–90 Wh 窗口（台架）。</td>
+</tr>
+<tr>
+<td>路徑 B 轉子應力</td>
+<td>50 mm 磁體轉子 @ 30k RPM</td>
+<td style="text-align: right;">~46 MPa 環向</td>
+<td>在套筒（~800 MPa）與轂（~150 MPa）篩算內；150 mm 轉子達 ~416 MPa——該處套筒強制。</td>
+</tr>
+<tr>
+<td>開放硬體 $/W</td>
+<td>A $250–500 BOM 攤 412–732 W；B $400–900 攤 215–228 W</td>
+<td style="text-align: right;">A ~$0.34–1.21/W；B ~$1.75–4.19/W</td>
+<td>路徑 A 最差勝過路徑 B 最佳（台架）。</td>
+</tr>
+<tr>
+<td>卡匣體積預算</td>
+<td>332 mL 內部對 ~320 mL 內容物</td>
+<td style="text-align: right;">~12 mL 頂部空間（&lt;4%）</td>
+<td>汽水罐包絡近滿——需粉末床填充或包絡放大（台架）。</td>
+</tr>
+<tr>
+<td>卡匣質量底線</td>
+<td>~951 g 基礎上加袋件＋封閉件＋感測器</td>
+<td style="text-align: right;">~1.18 kg</td>
+<td>務實帶 ~1.1–1.3 kg，非 1.0 kg（台架）。</td>
+</tr>
+<tr>
+<td>ESP32-S3 寄生</td>
+<td>工作循環 10–50 mW／全時 300 mW</td>
+<td style="text-align: right;">30 W 母線 &lt;0.2%／5.3 W 低速率 ~5.7%</td>
+<td>工作循環強制；0.5% 預算內 ≤3 台（台架）。</td>
+</tr>
+<tr>
+<td>油母線流量</td>
+<td>cp ~2.0 kJ/kg·K，ΔT 50 K</td>
+<td style="text-align: right;">~5 g/s 持續／~53 g/s 爆發</td>
+<td>~0.5 L 迴路 → ~87 s／~8 s 滯留——緩衝，非管子（台架）。</td>
+</tr>
+<tr>
+<td>省煤器容量</td>
+<td>Novec ~22 g/s 爆發／~2 g/s 持續，cp 1.3，50 K 跨度</td>
+<td style="text-align: right;">~1.43 kW 爆發／~0.13 kW 持續</td>
+<td>外部低品位熱僅自溫母線插入（台架）。</td>
+</tr>
+<tr>
+<td>省煤器充裝延時</td>
+<td>500 W 源對容量</td>
+<td style="text-align: right;">~1.10× 爆發／~1.32× 持續</td>
+<td>免費熱在低工況最能延展充裝；相加用法擴大排熱（台架）。</td>
+</tr>
+</tbody>
+</table>
+<p>以上為篩算計算，非已驗證性能預測。刻意不建模危險壓力、燃燒、一階尖端應力界以外的轉子動力學，或實體建造。</p>
+<h2>7. 機械介面與模組化對接</h2>
+<h3>7.1 乾接觸卡匣插座</h3>
+<p>首選插座無使用者可及的乙炔、水、主迴路液或 ORC 液連接。可採：</p>
+<ul>
+<li>導熱板。</li>
+<li>機械保持與對位。</li>
+<li>電氣身分與溫度感測。</li>
+<li>密封卡匣狀態互鎖。</li>
+</ul>
+<p>插座仍需插拔隔離、熱燙傷防護、濕氣排除、卡匣在位偵測，以及處理過熱或受損卡匣的手段。</p>
+<h3>7.2 共享渦輪機架</h3>
+<p>共享轉換可改善膨脹機尺度，但引入歧管與故障傳播問題。機架必須防止一支卡匣向另一支故障卡匣饋氣或饋熱。在無流量控制與隔離模型下，不能假定共享渦輪「優雅」接受任意數量活動匣。</p>
+<p>錯開運行延長日曆運時但不創造能量。它降低瞬時功率並可能改善熱管理；不改變每充裝總能量。</p>
+<h2>8. 車輛平台</h2>
+<h3>8.1 車輛目標</h3>
+<p>設計輸入描述全尺寸四座殼體於輕量管狀車架上，目標質量約 600–700 kg、3–5 kWh 緩衝電池、4–8 kW 連續巡航功率與 50 mph 運行。這些是設計假說，需要完整車輛質量、阻力、滾阻、坡度、加速、制動、熱與安全模型。</p>
+<p>80 km/h 下，氣動功率主要取決於正面積、阻力係數、空氣密度與速度三次方。減質有助滾阻與加速，但不消除氣動功率。全尺寸車輛足跡因此可抵銷部分預期質量優勢。</p>
+<h3>8.2 輪轂軸向磁通馬達</h3>
+<p>潛在優點：</p>
+<ul>
+<li>減少機械傳動部件。</li>
+<li>獨立扭矩控制。</li>
+<li>封裝空間。</li>
+<li>每輪直接回生制動。</li>
+</ul>
+<p>所需驗證：</p>
+<ul>
+<li>峰值與連續扭矩／功率。</li>
+<li>馬達／逆變器效率圖譜，非單一「95%」數字。</li>
+<li>簧下質量與懸吊響應。</li>
+<li>防水、防塵、防鹽、防撞密封。</li>
+<li>制動冗餘與失效安全行為。</li>
+<li>輪端排熱。</li>
+<li>電磁相容與高壓隔離。</li>
+</ul>
+<p>輪轂馬達可增加簧下質量與車輪振動。在整車層級並不自動更高效。</p>
+<h3>8.3 麻／石墨烯殼體</h3>
+<p>天然纖維複材對板件與吸能體有用，但來源聲稱麻／石墨烯自動媲美碳纖維或構成耐撞乘員艙的說法無據。石墨烯奈米片不能消除濕氣、樹脂老化、纖維變異、層間剝離、起火、可修性、接合與撞擊速率行為問題。</p>
+<p>初期車輛應使用認證乘員艙與撞擊結構。麻基複材可先評估於非關鍵板件、內裝件或次級吸能體。結構替換需要試片測試、環境老化、部件撞擊測試與法規核准。</p>
+<h3>8.4 車輛安全邊界</h3>
+<p>搭載遇水反應電石、乙炔發生、燃燒器、高溫迴路、壓力邊界與高速膨脹機的四座 50 mph 車輛不是簡單的 L7e 或套件車替換。分類與核准因轄區而異。在化學動力模組取得獨立安全論證且底盤具定義的撞擊能量架構前，車輛計畫封鎖。</p>
+<h2>9. 船用、航空與潛艇變體</h2>
+<ul>
+<li><strong>船：</strong> 水提供可能的熱槽，但腐蝕、浸水、排氣與海事核准仍在。此為獨立產品。</li>
+<li><strong>航空器／無人機：</strong> 燃燒需要氧氣；攜帶氧化劑或壓縮機增加質量與危害。載客或載貨航空在範圍外。</li>
+<li><strong>潛艇／AUV：</strong> 燃燒需要儲存氧化劑並產生排氣。在無完整熱／壓力模型下，純電石水合熱對所述高功率角色太有限。需獨立 AIP 分析。</li>
+</ul>
+<p>無平台專屬質量、能量、安全與認證模型，不接受這些平台間任何可移植性主張。</p>
+<h2>10. 運行狀態模型</h2>
+<!-- Red Grant 全程尾隨 Bond 坐完那趟火車——無聲、專業、永遠隔一節車廂。狀態機就是那道影子：它盯著滴水，好讓滴水安眠。 -->
+
+<p>擴充系統應定義下列狀態：</p>
+<ol>
+<li><strong>儲存（Stored）：</strong> 卡匣乾燥、未激活、隔離、可追溯。</li>
+<li><strong>插入（Inserted）：</strong> 機械／電氣身分已驗證；未激活。</li>
+<li><strong>備便（Armed）：</strong> 所有感測器與排熱路徑健康；激活仍禁止。</li>
+<li><strong>啟動（Startup）：</strong> 受控內部激活；在確認安全溫度與壓力前燃燒器／ORC 不可用。</li>
+<li><strong>熱運行（Thermal operation）：</strong> 化學熱與任何合格燃燒器在量測限值內運行。</li>
+<li><strong>功率轉換（Power conversion）：</strong> ORC 與 TEG 輸出調壓至緩衝母線。</li>
+<li><strong>降額（Reduced power）：</strong> 一或多條熱或轉換路徑降額。</li>
+<li><strong>故障隔離（Fault isolation）：</strong> 受影響卡匣與迴路隔離；不依賴渦輪消耗。</li>
+<li><strong>緊急關斷（Emergency shutdown）：</strong> 燃料／水反應、燃燒器、泵與膨脹機進入合格安全態。</li>
+<li><strong>冷卻／回收（Cool-down/return）：</strong> 卡匣保持隔離至滿足維修回收準則。</li>
+</ol>
+<!-- Kincade 用兩把散彈槍和一把刀守住了 Skyfall。ULP 用 33 微瓦守夜——而淬火要的甚至比那還少。 -->
+<h3>10.1 控制器硬體（convo3）</h3>
+<p>「內部 AI」生命維持功能落在 <strong>ESP32-S3</strong> 矽片上：雙核 240 MHz 附 ULP 協處理器、~10 µA 深睡（~33 µW）、工作循環 ~10–50 mW、全時 ~130–315 mW、WiFi 爆發 ~0.5–1.2 W。ULP 哨兵在主核睡眠時監看感測器，於異常或控制節拍喚醒之——工作循環強制，因全時運算將消耗低速率母線（~5.3 W）的 ~5.7%，而工作循環消耗為 30 W 持續母線的 &lt;0.2%（台架測試）。0.5% 寄生預算內至多容納三台用於表決／分散；第四台超出。</p>
+<p><strong>獨立性規則（正典措辭）：「CaO 淬火不在乎韌體怎麼想。」</strong> MCU 數量不改變安全拓撲——冗餘 ESP32 共享晶片、韌體與電源域失效模式。獨立關斷層仍是不同物理：類比監察器 IC、硬體看門狗、熱熔絲、機械洩壓與淬火袋。</p>
+<p>整數腦移植目標在艦隊中已存在：53,888 位元組的 Qstar 晶格（<code>spec007_q_toys.zig</code>）與 <code>qstar_llm_esp32.wasm</code> 早已瞄準此矽片級別——無浮點的候選異常評分器。採用可選；寄生界不可選。</p>
+<h2>11. 經濟與商業模式處置</h2>
+<p>設計輸入的財務假設不是證據：</p>
+<ul>
+<li>$280 匣 COGS。</li>
+<li>$1,199 零售匣。</li>
+<li>$4 密封卡匣成本。</li>
+<li>$18 卡匣價格。</li>
+<li>$6,600 車輛 COGS。</li>
+<li>$22,999 零售價。</li>
+<li>$2–4 百萬 NRE。</li>
+<li>200–250 輛損益兩平量。</li>
+</ul>
+<p>這些省略認證、撞擊測試、危險品包裝、責任保險、保固準備金、逆向物流、工質供應風險、維修人工、退匣、召回與壽命終止處理。必須以供應商報價與自下而上成本化設計取代。</p>
+<p>既有經濟評估發現，僅 CaC₂ 充裝在有利低流量 TEG 情境下即可超過每 kWh 電 $1。因此：</p>
+<ul>
+<li>產品無法作為低成本電力競爭。</li>
+<li>若有可行價值主張，是偏遠或緊急應用的可用性。</li>
+<li>拋棄式卡匣創造經常性收入，也創造經常性危險材料義務與廢棄物。</li>
+<li>密封卡匣可改善使用者安全，但增加工廠製程、包裝、檢驗、回收與責任成本。</li>
+<li>在整車通過法規與撞擊閘門前，不得宣稱車輛業務有利可圖。</li>
+</ul>
+<h2>12. 驗證計畫</h2>
+<h3>階段 A——非含能子系統驗證</h3>
+<ul>
+<li>電加熱器取代燃燒器。</li>
+<li>惰性熱卡匣取代 CaC₂。</li>
+<li>儀表化主迴路與次迴路。</li>
+<li>非危險膨脹機工質或核准實驗室迴路。</li>
+<li>受控天候下 PDRC／輻射器比較。</li>
+<li>TEG 與泵寄生量測。</li>
+</ul>
+<h3>階段 B——密封卡匣圍阻</h3>
+<p>僅由合格化學製程實驗室執行：</p>
+<ul>
+<li>材料相容性與濕氣侵入測試。</li>
+<li>壓力／熱響應與洩壓評估。</li>
+<li>殘渣處理與污染分析。</li>
+<li>獨立 HAZOP/FMEA。</li>
+</ul>
+<h3>階段 C——整合熱轉換</h3>
+<ul>
+<li>燃燒器與排氣系統分別驗證。</li>
+<li>ORC 壓力與熱循環分別驗證。</li>
+<li>膨脹機圍阻與超速分別驗證。</li>
+<li>部分負載與故障情形下在母線量測淨電輸出。</li>
+</ul>
+<h3>階段 D——模組化機架</h3>
+<ul>
+<li>卡匣隔離與歧管故障測試。</li>
+<li>僅在熱與壓力狀態證明安全後熱插拔。</li>
+<li>共享轉換效率對獨立匣量測。</li>
+</ul>
+<h3>階段 E——車輛可行性閘門</h3>
+<ul>
+<li>車輛質量／阻力／坡度模型。</li>
+<li>電池緩衝容量。</li>
+<li>懸吊與輪轂馬達測試。</li>
+<li>撞擊結構與乘員保護。</li>
+<li>危險燃料撞擊、起火、浸水與救援情境。</li>
+<li>因轄區而異的型式核准。</li>
+</ul>
+<h2>13. 通過／不通過準則</h2>
+<p><strong>僅在下列條件進入下一階段：</strong></p>
+<ul>
+<li>能量與質量平衡在聲明不確定度內閉合。</li>
+<li>排熱路徑在最差環境條件下排出全部廢熱。</li>
+<li>扣除泵、控制、發電機與冷卻負載後淨母線功率保持為正。</li>
+<li>存在獨立圍阻與關斷層。</li>
+<li>所選工質具持久供應與合法／環境路徑。</li>
+<li>系統通過成文安全審查。</li>
+</ul>
+<p><strong>不通過條件：</strong></p>
+<ul>
+<li>對外排放乙炔。</li>
+<li>依賴渦輪作為安全屏障。</li>
+<li>以 PDRC 銘牌冷卻作為完整冷凝器。</li>
+<li>將 Novec 649 在其臨界溫度以上當作普通亞臨界 ORC 運行。</li>
+<li>無套筒發電機轉子在其磁體保持篩算之上直驅，或渦輪在 L0 80k 頂端運行而無合格轉子動力學論證。</li>
+<li>路徑 B 無額定碳纖維／Inconel 套筒裕度加圍阻殼體——15–30k RPM 磁體轉子是爆裂危害，非軸承問題。</li>
+<li>頂部空間無法在合格包絡內容納氣體腔室、膜片行程與 ~14% 固體增長的卡匣。</li>
+<li>僅控制器的關斷路徑——獨立硬體（監察器、熱熔絲、洩壓、淬火）不得依賴任何 MCU 數量。</li>
+<li>無每埠隔離與品位匹配連接的外部熱埠——任何低品位迴路不得連接熱母線。</li>
+<li>乘用車中未驗證的撞擊結構或燃料保險庫。</li>
+<li>僅基於原料價格與銘牌輸出的商業論證。</li>
+</ul>
+<h2>14. 最終架構決定</h2>
+<p>設計輸入支持<strong>研究計畫</strong>，非原「全球部署」主張。建議的首個產品概念是專業維修、密封熱卡匣饋入非燃燒熱測試平台。乙炔燃燒器、Novec ORC、特斯拉渦輪、PDRC 車輛殼體、輪轂馬達與麻／石墨烯結構殼體在各自獨立證據閘門通過前維持獨立研究軌道。</p>
+<p>convo3 演練銳化了框架：底盤是<strong>三級熱歧管</strong>（熱油母線／溫 Novec 省煤器／冷冷凝器），電石卡匣是其中眾多可調度輸入之一，而非產品的身分。經濟評估早已標示廢熱平台為最可辯護後繼者；歧管架構是該結論的工程形式。其中動力系統記錄為雙路徑——路徑 A（渦卷＋直驅 AFPM，篩算 ~412–732 W 母線）為旗艦，路徑 B（特斯拉＋套筒高速發電機，~215–228 W）為車庫製造支線——因為本規格是開放硬體，建造者的工具各異。</p>
+<p>最可辯護的近期價值是受控調查化學熱能否在高價偏遠電力利基中合理化其圍阻與維修成本。設計輸入尚不支持自充電家庭車輛、消費級拋棄式卡匣生態或通用能源標準。</p>
+<h2>來源</h2>
+<ul>
+<li>3M Novec 649 技術資料：https://multimedia.3m.com/mws/media/569865O/3m-novec-engineered-fluid-649.pdf</li>
+<li>3M PFAS 製造退出：https://pfas.3m.com/exit-information</li>
+<li>NIST Novec 649 熱力性質：https://www.nist.gov/publications/thermodynamic-properties-111224555-nonafluoro-4-trifluoromethyl-3-pentanone-vapor</li>
+<li>Novec 649 ORC 實驗：https://www.mdpi.com/2076-3417/9/9/1865</li>
+<li>PDRC 回顧與冷卻功率模型：https://par.nsf.gov/servlets/purl/10334493</li>
+<li>車輛輻射冷卻研究：https://bibliotekanauki.pl/articles/1955001.pdf</li>
+<li>微型 ORC 實驗證據：https://www.sciencedirect.com/science/article/abs/pii/S0360544214012250</li>
+<li>輪轂馬達回顧：https://www.mdpi.com/1996-1073/18/6/1521</li>
+<li>天然纖維車用耐撞性回顧：https://pmc.ncbi.nlm.nih.gov/articles/PMC11123071/</li>
+<li>L7 四輪車功能安全法規：https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32014R0003</li>
+<li>L7 重型四輪車評估規程：https://cdn.euroncap.com/cars/assets/euro_ncap_heavy_quadricycles_assessment_protocol_overall_rating_v10_479dc7922b.pdf</li>
+<li>既有 SPEC-007 經濟評估：<code>spec-007-economic-assessment.en.md</code></li>
+<li>渦卷膨脹機量測：Sanden TRS090（Energy 2019）https://www.sciencedirect.com/science/article/abs/pii/S0360544219316135 · E15H 半密閉 ~80% 等熵：同回顧 · ULiège 五膨脹機 ORC 對比：https://orbi.uliege.be/handle/2268/239272</li>
+<li>特斯拉渦輪實驗回顧（SLR＋DoE，實測上限 ~14–25%）：https://pure.iiasa.ac.at/id/eprint/18201/1/Influence%20of%20Operational%20Parameters%20on%20the%20Performance%20of%20Tesla%20Turbines.pdf</li>
+<li>高速永磁機成果：1 kW @ 500k RPM（ETH）https://www.ams-publications.ee.ethz.ch/uploads/tx_ethpublications/zwyssig_PCC07.pdf · 100 W @ 500k RPM：https://iopscience.iop.org/article/10.1088/0960-1317/16/9/S18 · Capstone C30（30 kW @ 96k RPM）：http://www.advantekinc.com/downloads/spec-sheets/Capstone30SpecSheet.pdf</li>
+<li>PCB 定子軸向磁通機（實測 72–82%）：https://open.metu.edu.tr/handle/11511/97372</li>
+<li>碳纖維轉子套筒實務（ORNL 外轉子 SPM @ 20k RPM）：https://www.ornl.gov/publication/mechanical-analysis-carbon-fiber-retaining-sleeve-high-speed-outer-rotor-spm-electric</li>
+</ul>
+<h2>版本歷史</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>變更</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0.0</td>
+<td>2026-10-05</td>
+<td>依 OSTF 規則手冊第六條追溯登錄初始版本；內容自檔案接受以來未變。升版規則：主版＝晉升主張／數字變更，次版＝新增分析，修訂＝編輯／翻譯修正。</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<span>SPEC-007 &middot;「冰淇淋管」&middot; CC0</span>
+<span>請務必完整歸還。</span>
+</footer>
+</div>
+</body>
+</html>

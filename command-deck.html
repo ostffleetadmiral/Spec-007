@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEC-007 // Command Deck</title>
+<link rel="stylesheet" href="assets/dossier.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+.deck-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.75rem; margin:1rem 0; }
+.widget { border:1px solid var(--rule); background:#faf8f0; padding:.6rem .8rem; position:relative; }
+.widget h3 { margin:0 0 .4rem; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--faded); }
+.big { font-size:1.4rem; font-weight:bold; }
+.verd-CLOSED,.verd-HELD,.verd-HARDENED,.verd-BLOCKED,.verd-EMERGENT { color:#1a6b2a; }
+.verd-OPEN,.verd-FRACTURE { color:#8b1a1a; background:#f3d6d6; }
+.verd-CHANNEL,.verd-NOTED { color:#a8862a; }
+.tick { max-height:10rem; overflow-y:auto; font-size:.72rem; }
+.tick div { padding:.1rem 0; border-bottom:1px dotted var(--rule); }
+.bars { display:flex; align-items:flex-end; gap:3px; height:70px; }
+.bars div { flex:1; background:var(--gold); position:relative; min-width:0; }
+.bars div.e0 { background:var(--stamp); }
+.bars span { position:absolute; bottom:-1.1rem; left:50%; transform:translateX(-50%); font-size:.6rem; }
+.live-dot { display:inline-block; width:.5rem; height:.5rem; border-radius:50%; background:#888; margin-right:.3rem; }
+.live-dot.on { background:#1a6b2a; box-shadow:0 0 6px #1a6b2a; }
+.cmd { font:inherit; font-size:.7rem; border:1px solid var(--rule); background:var(--paper); padding:.2rem .5rem; cursor:pointer; }
+.cmd:hover { background:var(--gold); color:var(--paper); }
+.cell-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:2px; font-size:.6rem; text-align:center; }
+.cell-grid div { padding:.15rem 0; background:#efece0; }
+.cell-grid div.h { background:var(--stamp); color:var(--paper); }
+.cell-grid div.r { background:#cfe3cf; }
+</style>
+</head>
+<body>
+<div class="dossier">
+<div class="watermark">COMMAND</div>
+<div class="banner">OSTF Fleet Command &middot; SPEC-007 &middot; Operations Deck</div>
+<nav class="file-nav"><a href="index.html">Index</a> &middot; <a href="dossier.html">The File</a> &middot; <a href="component-map.html">Map</a> &middot; <a href="architecture.html">Architecture</a>
+<div class="lang-twin"><a href="command-deck-zh.html" onclick="try{localStorage.setItem('fano1.lang','zh')}catch(e){}">中文 ⇄</a></div>
+</nav>
+
+<h2>The Deck</h2>
+<p style="font-size:.8rem;color:var(--faded)"><span class="live-dot" id="live"></span><span id="live-label">static evidence — fabric bridge offline</span></p>
+
+<div class="deck-grid">
+  <div class="widget"><h3>Descent verdict</h3><div class="big" id="descent">—</div><div id="descent-detail" style="font-size:.65rem"></div></div>
+  <div class="widget"><h3>Open fractures</h3><div class="big" id="open">—</div><div style="font-size:.65rem">bits&gt;0 ∧ wire==0 → FRACTURE</div></div>
+  <div class="widget"><h3>Vector digest</h3><div style="font-size:.62rem;word-break:break-all" id="digest">—</div></div>
+  <div class="widget"><h3>Findings</h3><div class="big" id="findings-count">—</div><div id="teams" style="font-size:.65rem"></div></div>
+</div>
+
+<div class="deck-grid">
+  <div class="widget">
+    <h3>Philotic dividend — N(N−1)/2 over N wire drops</h3>
+    <input type="range" id="nrange" min="2" max="256" value="8" style="width:100%">
+    <div style="font-size:.75rem">N=<b id="nval">8</b> · wire=<b id="wire">8</b> · channels=<b id="chan">28</b> · dividend=<b id="divi">3.50×</b></div>
+  </div>
+  <div class="widget">
+    <h3>Hydrogen slot (1,420,405,751,768 µHz)</h3>
+    <div style="font-size:.75rem">slack at mid-slot: <b>500 ns</b> · jitter 500 holds, 501 desyncs — measured boundary</div>
+    <div class="bars" style="height:34px;margin-top:.4rem">
+      <div style="flex:499;background:#cfe3cf"><span>499</span></div>
+      <div class="e0" style="flex:1"><span>500</span></div>
+      <div style="flex:1;background:#f3d6d6"><span>501</span></div>
+    </div>
+  </div>
+  <div class="widget">
+    <h3>I-vector census — the 7-defect is the e0 undercount</h3>
+    <div class="bars" id="census" style="margin-bottom:1.3rem"></div>
+  </div>
+  <div class="widget">
+    <h3>Expansion horizon — shell ratio 67‰</h3>
+    <div class="cell-grid" id="horizon"></div>
+    <div style="font-size:.62rem;margin-top:.3rem">15 edges: 44 ticks — barely in. 16+ and every ladder rung: unreachable.</div>
+  </div>
+  <div class="widget">
+    <h3>Seed drops — the paper leg</h3>
+    <div class="big" id="seedcov">—</div>
+    <div id="seedlist" style="font-size:.62rem;max-height:4.5rem;overflow-y:auto"></div>
+    <div style="font-size:.6rem;margin-top:.3rem;color:var(--faded)">Rations invite tokens — seed rides the shard field. Payloads: <code>security/out/seed-payloads/</code> (0600) → QR/optar print. Raw seeds never touch the ledger.</div>
+  </div>
+</div>
+
+<h3>Governance <span style="font-size:.6rem;color:var(--faded)">— the deck follows the corpus: thoughts&amp;convos/gov</span></h3>
+<div class="deck-grid">
+  <div class="widget">
+    <h3>Admiralty — five offices (Bylaws Art. II)</h3>
+    <div style="font-size:.68rem;line-height:1.5">
+      <div><b>Fleet Admiral</b> — Chair · Strategic Authority</div>
+      <div><b>Vice Admiral</b> — STEM Initiatives · Academy</div>
+      <div><b>Rear Admiral</b> — Entrepreneurship · Innovation</div>
+      <div><b>Admiral</b> — Financial Operations · Treasury/Audit</div>
+      <div><b>Commodore</b> — Ethics &amp; Equity · Compliance</div>
+      <div style="color:var(--faded);margin-top:.2rem">Non-voting: AI Warrant Officers (SPEC-004), Research Leads, Systems Architects, Security Officers</div>
+    </div>
+  </div>
+  <div class="widget">
+    <h3>Classification ladder (SPEC-004)</h3>
+    <div class="cell-grid" id="ladder" style="grid-template-columns:repeat(9,1fr)"></div>
+    <div style="font-size:.62rem;margin-top:.3rem">L2+ bears labels · L4+ logs Alpha State · L5+ reports to Fleet Admiral · L6 AI Core (WO-gated) · L7 no delegation · L7Q synthetic-observer tier.</div>
+  </div>
+  <div class="widget">
+    <h3>Governance corpus</h3>
+    <div class="big" id="govdocs">—</div>
+    <div id="govsections" style="font-size:.65rem"></div>
+    <div style="font-size:.6rem;margin-top:.3rem;color:var(--faded)">Checksum-anchored index at <code>/gov</code>. Doc names stay bridge-side — the surname tripwire guards the public tree.</div>
+  </div>
+  <div class="widget">
+    <h3>K3 brain — integer inference</h3>
+    <div class="big" id="k3stat">—</div>
+    <div style="font-size:.62rem;word-break:break-all" id="k3digest">—</div>
+    <div style="font-size:.6rem;margin-top:.3rem;color:var(--faded)">Q128.128 argmax-deterministic decode on <code>tiny_k3</code>, prompt <code>[3,4,5,6,7]</code> — the golden-gate ids. Open inference is a host process (<code>k3serve</code>), not a gate; the fabric observes brains, it does not host them.</div>
+  </div>
+</div>
+
+<h3>Lattice explorer <span style="font-size:.6rem;color:var(--faded)">— the 15³ e-cube, replayed from the integer core</span></h3>
+<div class="widget">
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-start">
+    <div>
+      <div style="font-size:.7rem;margin-bottom:.3rem">slice k=<b id="kval">8</b> <span id="klabel"></span> · <input type="range" id="kslider" min="1" max="15" value="8" style="width:10rem"></div>
+      <div id="slice" style="display:grid;grid-template-columns:repeat(15,1rem);gap:1px;font-size:.5rem;line-height:1rem;text-align:center"></div>
+    </div>
+    <div style="font-size:.65rem;min-width:14rem">
+      <div><b>census</b> <span id="latcensus">—</span></div>
+      <div style="margin-top:.3rem"><b>dual ladder</b></div>
+      <div id="ladder" style="font-size:.6rem"></div>
+      <div style="font-size:.6rem;margin-top:.3rem">digest <span id="latdigest">—</span></div>
+      <div style="font-size:.6rem;margin-top:.2rem;color:var(--faded)">e0=heart · mirror folds at 8 · the 7-defect is the e0 undercount</div>
+    </div>
+  </div>
+</div>
+
+<h3>Finding stream</h3>
+<div class="widget"><div class="tick" id="ticker">loading…</div></div>
+
+<h3>Fabric commands <span style="font-size:.6rem;color:var(--faded)">(gated — requires bridge)</span></h3>
+<div>
+  <button class="cmd" onclick="cmd('emit-vectors')">emit-vectors</button>
+  <button class="cmd" onclick="cmd('run-audit','descent')">audit:descent</button>
+  <button class="cmd" onclick="cmd('run-audit','continuity')">audit:continuity</button>
+  <button class="cmd" onclick="cmd('run-audit','twenty-re')">audit:twenty-re</button>
+  <button class="cmd" onclick="cmd('run-audit','cross-target')">audit:cross-target</button>
+  <button class="cmd" onclick="cmd('run-probe','emergence-watch')">probe:emergence</button>
+  <button class="cmd" onclick="cmd('run-probe','chaos-hammer')">probe:chaos</button>
+  <button class="cmd" onclick="cmd('run-seed-drop')">seed:drop</button>
+  <button class="cmd" onclick="cmd('run-audit','seed-coverage')">audit:seed-coverage</button>
+  <button class="cmd" onclick="cmd('gov-index');setTimeout(paintGov,1500)">gov:index</button>
+  <button class="cmd" onclick="cmd('k3-selfcheck')">k3:selfcheck</button>
+  <button class="cmd" onclick="cmd('k3-cap')">k3:cap</button>
+  <button class="cmd" onclick="cmd('emit-lattice')">emit:lattice</button>
+</div>
+<pre id="cmdout" style="font-size:.62rem;max-height:8rem;overflow:auto;background:#14161a;color:#d8d4c8;padding:.5rem;margin-top:.5rem;display:none"></pre>
+
+<p class="foot" style="font-size:.65rem;color:var(--faded)">Evidence only. This page computes nothing physical — every number is a replay of a verified artifact. The discriminator watches everything.</p>
+</div>
+
+<script>
+const BRIDGE = "http://127.0.0.1:7741";
+const $ = id => document.getElementById(id);
+
+// dividend meter — formula rendered client-side; the *evidence* is webDividendMilli
+const nr = $("nrange");
+function dividend() {
+  const n = +nr.value;
+  $("nval").textContent = n; $("wire").textContent = n;
+  $("chan").textContent = n * (n - 1) / 2;
+  $("divi").textContent = (n - 1) / 2 + "×";
+}
+nr.oninput = dividend; dividend();
+
+// ivector census — canonical values from science_ivector.census()
+const cen = [421,422,422,422,422,422,422,422];
+const cb = $("census");
+cen.forEach((v,i) => { const d = document.createElement("div");
+  d.style.height = (v/422*100)+"%"; if (i===0) d.className="e0";
+  d.title = `e${i}: ${v}`; d.innerHTML = `<span>e${i}</span>`; cb.appendChild(d); });
+
+// expansion horizon grid — canonical expandingDeliveryTicks at h=67
+const H = [[15,44],[16,null],[32,null],[62,null],[128,null],[256,null]];
+H.forEach(([e,t]) => { const d = document.createElement("div");
+  d.textContent = t===null ? `${e}³ ∅` : `${e}³ ${t}t`;
+  d.className = t===null ? "h" : "r"; $("horizon").appendChild(d); });
+
+// classification ladder — SPEC-004 rungs, L0..L7Q
+[["L0","pub"],["L1","int"],["L2","conf"],["L3","rest"],["L4","sec"],
+ ["L5","crit"],["L6","AI"],["L7","Adm"],["7Q","syn"]]
+.forEach(([l,t]) => { const d = document.createElement("div");
+  d.innerHTML = `<b>${l}</b><br>${t}`; d.title = "SPEC-004 level " + l;
+  if (l === "7Q" || l === "L7") d.className = "h"; $("ladder").appendChild(d); });
+
+function paint(snap) {
+  if (!snap) return;
+  $("findings-count").textContent = snap.findings;
+  $("teams").textContent = Object.entries(snap.teams||{}).map(([k,v])=>`${k}:${v}`).join(" ");
+  $("open").textContent = snap.openFractures;
+  $("open").className = "big " + (snap.openFractures ? "verd-OPEN" : "verd-HELD");
+  if (snap.descent) {
+    $("descent").textContent = snap.descent.verdict;
+    $("descent").className = "big verd-" + snap.descent.verdict;
+    $("descent-detail").textContent = `${snap.descent.modules} modules · ${snap.descent.cycles} cycles`;
+  }
+  if (snap.vectorDigest) $("digest").textContent = "sha256:" + snap.vectorDigest.slice(0,20) + "…";
+  if (snap.seeds) {
+    $("seedcov").textContent = `${snap.seeds.covered}/${snap.seeds.pairs}`;
+    $("seedcov").className = "big " + (snap.seeds.covered === snap.seeds.pairs ? "verd-HARDENED" : "verd-OPEN");
+  }
+  if (snap.gov) {
+    $("govdocs").textContent = `${snap.gov.docs} docs · ${snap.gov.sections} sections`;
+  }
+  if (snap.k3) {
+    $("k3stat").textContent = `${snap.k3.layers} layers · ${snap.k3.cores ?? "?"}c/${snap.k3.ramGiB ?? "?"}GiB`;
+    $("k3digest").textContent = "brain sha256:" + snap.k3.digest.slice(0,24) + "…";
+  }
+}
+
+// lattice explorer — replays the artifact; the math never leaves the core
+const ECOL = ["#1a6b2a","#4a6b8a","#7a5a9a","#a8862a","#8a4a3a","#3a7a6b","#6b3a5a","#8b1a1a"];
+let LATTICE = null;
+function paintSlice() {
+  if (!LATTICE) { $("slice").innerHTML = "<div style='grid-column:span 15;font-size:.65rem;padding:.4rem'>lattice artifact absent — run emit-lattice</div>"; return; }
+  const k = +$("kslider").value, E = LATTICE.edge, cells = LATTICE.cells;
+  $("kval").textContent = k;
+  $("klabel").textContent = `(layer e${LATTICE.layerLabels[k-1]})`;
+  const base = (k-1)*E*E;
+  $("slice").innerHTML = Array.from({length:E*E}, (_,i) => {
+    const v = cells[base+i], r = Math.floor(i/E)+1, c = i%E+1;
+    const heart = (r===8&&c===8) ? ";outline:1px solid #000" : "";
+    return `<div style="background:${ECOL[v]};color:#faf8f0${heart}" title="k${k} r${r} c${c} → e${v}">${v}</div>`;
+  }).join("");
+}
+$("kslider").oninput = paintSlice;
+function paintLattice() {
+  fetch(BRIDGE + "/lattice").then(r => r.json()).then(l => {
+    if (!l?.cells) return;
+    LATTICE = l;
+    $("latcensus").textContent = l.census.join("/") + " (e0 undercount = the 7-defect)";
+    $("latdigest").textContent = "sha256:" + l.digest.slice(0,20) + "…";
+    $("ladder").innerHTML = l.ladder.map(r =>
+      `${r.s}: ${r.lattice_edge}³/${r.shell_edge}³ · ${r.lattice_qbits}q/${r.shell_qbits}q · ${r.dims}D · ${r.universes}U`).join("<br>");
+    paintSlice();
+  }).catch(()=>{ paintSlice(); });
+}
+paintLattice();
+
+// governance corpus index — bridge-side only (carries officer names)
+function paintGov() {
+  fetch(BRIDGE + "/gov").then(r => r.json()).then(g => {
+    if (!g?.sections) return;
+    const top = Object.entries(g.sections).filter(([k]) => !k.includes("/"))
+      .sort((a,b) => b[1].docs - a[1].docs);
+    $("govsections").innerHTML = top.map(([k,v]) => `${k}:${v.docs}`).join(" · ");
+  }).catch(()=>{ $("govdocs").textContent = "bridge offline"; });
+}
+paintGov();
+
+// seed ledger — hash-only read path
+function paintSeeds() {
+  fetch(BRIDGE + "/seed-ledger").then(r => r.json()).then(l => {
+    if (!l?.drops?.length) { $("seedlist").textContent = "no drops minted"; return; }
+    $("seedlist").innerHTML = l.drops.slice(-8).reverse().map(d =>
+      `<div>${d.pair.join("↔")} · <b>${d.dropId}</b> · exp ${new Date(d.expiry*1000).toISOString().slice(0,10)}</div>`).join("");
+  }).catch(()=>{});
+}
+paintSeeds();
+
+// ticker from the findings corpus
+fetch("security/findings.json").then(r=>r.json()).then(f=>{
+  const list = (f.findings||[]).slice(-40).reverse();
+  $("ticker").innerHTML = list.map(x =>
+    `<div><b class="verd-${x.verdict}">${x.verdict}</b> ${x.team}·${x.id} — ${x.name}</div>`).join("") || "empty";
+}).catch(()=>{ $("ticker").textContent = "findings.json not served from this root"; });
+
+// live fabric upgrade
+let es;
+try {
+  es = new EventSource(BRIDGE + "/events");
+  es.onopen = () => { $("live").className = "live-dot on"; $("live-label").textContent = "fabric bridge LIVE — evidence streaming"; };
+  es.addEventListener("hello", e => paint(JSON.parse(e.data)));
+  es.addEventListener("findings", e => paint(JSON.parse(e.data)));
+  es.addEventListener("descent", e => paint(JSON.parse(e.data)));
+  es.addEventListener("command", e => { const d = JSON.parse(e.data);
+    const el = $("cmdout"); el.style.display="block";
+    el.textContent = `▸ ${d.cmd} ${d.name||""} → ${d.ok?"ok":"FAILED"} seq=${d.seq}\n` + el.textContent;
+    if (d.cmd === "run-seed-drop") paintSeeds();
+    if (d.cmd === "emit-lattice") paintLattice(); });
+  es.onerror = () => { $("live").className = "live-dot"; $("live-label").textContent = "static evidence — fabric bridge offline"; };
+} catch {}
+
+async function cmd(c, n) {
+  const el = $("cmdout"); el.style.display = "block";
+  el.textContent = `▸ dispatching ${c} ${n||""}…\n` + el.textContent;
+  try {
+    const r = await fetch(BRIDGE + "/command", { method:"POST",
+      headers:{"content-type":"application/json"}, body: JSON.stringify({cmd:c, name:n}) });
+    const j = await r.json();
+    el.textContent = `◂ ${r.status} ok=${j.ok} seq=${j.seq??"—"}\n${(j.stdout||j.error||"").slice(-800)}\n\n` + el.textContent;
+  } catch (e) { el.textContent = `◂ bridge unreachable: ${e.message}\n\n` + el.textContent; }
+}
+</script>
+</body>
+</html>
