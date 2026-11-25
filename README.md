@@ -4,6 +4,7 @@
 **RE: "Ice Cream Tube" — Modular Chemical Thermal-Electric Cartridge + the FANO-1 Platform**  
 **Clearance:** Public release · **Version:** 2.0.0-public-platform
 
+https://ostffleetadmiral.github.io/Spec-007/
 ---
 
 *To all hands with eyes on this file,*
